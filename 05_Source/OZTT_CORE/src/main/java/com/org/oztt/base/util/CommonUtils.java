@@ -65,5 +65,7 @@ public class CommonUtils {
         } 
     }
     
-    
+    public static String objectToString(String str) {
+        return str == null ? "" : str;
+    }
 }

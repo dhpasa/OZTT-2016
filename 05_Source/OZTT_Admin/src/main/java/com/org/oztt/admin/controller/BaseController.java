@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.Random;
 
 import javax.annotation.Resource;
 
@@ -19,6 +20,8 @@ public class BaseController {
 
     @Resource
     protected CommonService       commonService;
+
+    protected Random              random = new Random();
 
     public static String getApplicationMessage(String key) {
         try {

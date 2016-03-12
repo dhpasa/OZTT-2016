@@ -1,5 +1,9 @@
 package com.org.oztt.controller;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -117,13 +121,35 @@ public class PayController extends BaseController {
             @RequestParam String orderId) {
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
-            orderService.updateRecordAfterPay(orderId, customerNo);
+            orderService.updateRecordAfterPay(orderId, customerNo, session);
             return "redirect:/OZ_TT_GB_OL/itemList?clearCont=1";
         }
         catch (Exception e) {
             e.printStackTrace();
             logger.error(e.getMessage());
             return CommonConstants.ERROR_PAGE;
+        }
+    }
+    
+    @RequestMapping(value = "TestUrl")
+    public void TestUrl(Model model, HttpServletResponse response, HttpSession session) throws Exception{
+        // 是客户操作
+        // 将文件输出
+        InputStream inStream = new FileInputStream("/Users/linliuan/ireport/INVOICE_TAX.pdf");
+        // 输出格式
+        response.reset();
+        response.setContentType("application/pdf");
+        response.addHeader("Content-Disposition", "attachment; filename=\"" + "TEST.pdf" + "\"");
+        // 循环取出流中的数据
+        byte[] b = new byte[100];
+        int len;
+        try {
+                while ((len = inStream.read(b)) > 0)
+                response.getOutputStream().write(b, 0, len);
+                inStream.close();
+        } 
+        catch (IOException e) {
+                e.printStackTrace();
         }
     }
 

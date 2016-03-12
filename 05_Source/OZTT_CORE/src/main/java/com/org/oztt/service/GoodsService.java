@@ -328,6 +328,13 @@ public interface GoodsService {
     public void updateGoodsSetGroup(TGoodsGroup tGoodsGroup) throws Exception;
     
     /**
+     * 商品团购删除
+     * @param tGoodsGroup
+     * @throws Exception
+     */
+    public void deleteGoodsSetGroup(TGoodsGroup tGoodsGroup) throws Exception;
+    
+    /**
      * 商品团购一览
      * @param pagination
      * @return

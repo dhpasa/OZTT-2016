@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import com.org.oztt.base.page.Pagination;
 import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.base.util.DateFormatUtils;
+import com.org.oztt.base.util.PasswordEncryptSalt;
+import com.org.oztt.base.util.PasswordEncryptSaltUtils;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.contants.CommonEnum;
 import com.org.oztt.dao.TCustomerBasicInfoDao;
@@ -122,8 +124,12 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
         tCustomerLoginInfo.setAdduserkey(maxCustomer);
         tCustomerLoginInfo.setCustomerno(maxCustomer);
         tCustomerLoginInfo.setDeleteflg(CommonConstants.IS_NOT_DELETE);
+        
         tCustomerLoginInfo.setLoginid(ozTtTpReDto.getEmail());
         tCustomerLoginInfo.setLoginpass(ozTtTpReDto.getPassword());
+
+        PasswordEncryptSalt returnEnti = PasswordEncryptSaltUtils.encryptPassword(ozTtTpReDto.getPassword());
+        
         tCustomerLoginInfo.setCanlogin(CommonConstants.CANNOT_LOGIN);
         tCustomerLoginInfo.setLoginstatus(CommonConstants.LOGIN_STATUS_NORMAL);
         tCustomerLoginInfoDao.insertSelective(tCustomerLoginInfo);

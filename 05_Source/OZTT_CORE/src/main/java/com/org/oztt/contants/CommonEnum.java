@@ -949,4 +949,137 @@ public final class CommonEnum {
             return String.valueOf(this.label);
         }
     }
+    
+    /**
+     * 团购开放标志
+     */
+    public enum GroupOpenFlag implements IEnum {
+        /** 未发布 */
+        NOTOPEN("未发布", "0"),
+        /** 团购中 */
+        OPENING("团购中", "1"),
+        /** 下架 */
+        CLOSED("下架", "2"),
+        /** 删除 */
+        DELETE("删除", "9");
+
+        /** 值 */
+        private String label;
+
+        /** 键 */
+        private String code;
+
+        /**
+         * 取得枚举区分
+         * 
+         * @return String
+         */
+        public String getEnumName() {
+            return "GroupOpenFlag";
+        }
+
+        /**
+         * 构造函数
+         * 
+         * @param label String
+         * @param code String
+         */
+        private GroupOpenFlag(String label, String code)
+        {
+            this.label = label;
+            this.code = code;
+        }
+
+        /**
+         * 根据键取得值
+         * 
+         * @param code String
+         * @return String
+         */
+        public static String getEnumLabel(String code) {
+            for (GroupOpenFlag c : GroupOpenFlag.values()) {
+                if (c.getCode().equals(code)) {
+                    return c.label;
+                }
+            }
+            return null;
+        }
+
+        /**
+         * 根据值取得第一个匹配的键
+         * 
+         * @param label String
+         * @return String
+         */
+        public static String getEnumCode(String label) {
+            for (GroupOpenFlag c : GroupOpenFlag.values()) {
+                if (c.getLabel().equals(label)) {
+                    return c.code;
+                }
+            }
+            return null;
+        }
+
+        /**
+         * 取得下拉框列表
+         * 
+         * @return List
+         */
+        public static List<MyMap> getList() {
+            List<MyMap> resultList = new ArrayList<MyMap>();
+            for (GroupOpenFlag c : GroupOpenFlag.values()) {
+                MyMap dto = new MyMap();
+                dto.setKey(c.getCode());
+                dto.setValue(c.getLabel());
+                resultList.add(dto);
+            }
+            return resultList;
+        }
+
+        /**
+         * get
+         * 
+         * @return String
+         */
+        public String getLabel() {
+            return label;
+        }
+
+        /**
+         * set
+         * 
+         * @return String
+         */
+        public String getCode() {
+            return code;
+        }
+
+        /**
+         * String转换，中间加横杠
+         * 
+         * @return String
+         */
+        @Override
+        public String toString() {
+            return this.label;
+        }
+
+        /**
+         * 转换成value
+         * 
+         * @return String
+         */
+        public String toValueString() {
+            return String.valueOf(this.code);
+        }
+
+        /**
+         * 转换成label
+         * 
+         * @return String
+         */
+        public String toLabelString() {
+            return String.valueOf(this.label);
+        }
+    }
 }

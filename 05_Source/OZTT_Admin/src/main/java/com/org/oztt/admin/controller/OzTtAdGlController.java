@@ -20,6 +20,7 @@ import com.org.oztt.base.page.Pagination;
 import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.contants.CommonConstants;
+import com.org.oztt.contants.CommonEnum;
 import com.org.oztt.entity.TGoodsGroup;
 import com.org.oztt.formDto.GoodItemDto;
 import com.org.oztt.formDto.OzTtAdGcDto;
@@ -230,5 +231,64 @@ public class OzTtAdGlController extends BaseController {
             return CommonConstants.ERROR_PAGE;
         }
     }
+    
+    
+    /**
+     * 商品团购删除
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/deleteGroup")
+    @ResponseBody
+    public Map<String, Object> deleteGroup(Model model, HttpServletRequest request, HttpSession session, String groupId) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            TGoodsGroup tGoodsGroup = new TGoodsGroup();
+            tGoodsGroup.setGroupno(groupId);
+            tGoodsGroup = goodsService.getGoodPrice(tGoodsGroup);
+            tGoodsGroup.setOpenflg(CommonEnum.GroupOpenFlag.DELETE.getCode());
+            goodsService.updateGoodsSetGroup(tGoodsGroup);
+            
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+    
+    /**
+     * 商品团购下架
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/cancelGroup")
+    @ResponseBody
+    public Map<String, Object> cancelGroup(Model model, HttpServletRequest request, HttpSession session, String groupId) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            TGoodsGroup tGoodsGroup = new TGoodsGroup();
+            tGoodsGroup.setGroupno(groupId);
+            tGoodsGroup = goodsService.getGoodPrice(tGoodsGroup);
+            tGoodsGroup.setOpenflg(CommonEnum.GroupOpenFlag.CLOSED.getCode());
+            goodsService.updateGoodsSetGroup(tGoodsGroup);
+
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+    
+    
 
 }

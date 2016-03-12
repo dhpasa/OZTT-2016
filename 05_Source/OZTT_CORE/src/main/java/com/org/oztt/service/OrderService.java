@@ -1,5 +1,7 @@
 package com.org.oztt.service;
 
+import javax.servlet.http.HttpSession;
+
 import com.org.oztt.base.page.Pagination;
 import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.entity.TConsOrder;
@@ -66,7 +68,7 @@ public interface OrderService {
      * @param orderId
      * @throws Exception
      */
-    public void updateRecordAfterPay(String orderId, String customerNo) throws Exception;
+    public void updateRecordAfterPay(String orderId, String customerNo, HttpSession session) throws Exception;
     
     /**
      * admin端所有订单的获取

@@ -136,7 +136,7 @@
 		window.location.reload();
   	}
   	
-  	function setGroupSave(){
+  	function setGroupSave(openFlag){
   		cleanFormError();
 		var goodsGroupPrice = $("#goodsGroupPrice").val();
 		var goodsGroupNumber = $("#goodsGroupNumber").val();
@@ -170,10 +170,6 @@
 			var message = '<fmt:message key="E0003" />';
 			showErrorSpan($("#goodsGroupPrice"), message);
 			return false;
-		}
-		var openFlag = "0";
-		if ($("#isGroupOpenFlag1").attr("checked")) {
-			openFlag = "1";
 		}
 		
 		var I0001 = '<fmt:message key="I0001" />'
@@ -209,6 +205,10 @@
 			}
 		});
 		window.location.reload();
+  	}
+  	
+  	function setGroupSubmit(){
+  		
   	}
   	
   	function toDetail(goodsId){
@@ -620,26 +620,13 @@
 							</div>
 						</div>
 						
-						<div class="form-group">
-							<label class="col-md-4 control-label"><fmt:message key="OZ_TT_AD_PL_DIALOG_isOpen" /></label>
-							<div class="radio-list col-md-8">
-								<label class="radio-inline">
-									<input type="radio" name="isOpenFlag" id="isGroupOpenFlag0" value="0"></input>
-								 	<fmt:message key="COMMON_NO" />
-								</label>
-								<label class="radio-inline">
-									<input type="radio" name="isOpenFlag" id="isGroupOpenFlag1" value="1"></input>
-								 	<fmt:message key="COMMON_YES" />
-								</label>
-							
-							</div>
-						</div>
+						<input type="hidden" id="isGroupOpenFlag"></input>
 					</form>
 					<input type="hidden" id="hiddenGroupGoodsId"/>
 				</div>
 				<div class="modal-footer">
-					<button class="btn" data-dismiss="modal" aria-hidden="true"><fmt:message key="COMMON_CLOSE" /></button>
-					<button class="btn green btn-primary" onclick="setGroupSave()"><fmt:message key="COMMON_SAVE" /></button>
+					<button class="btn btn-primary" onclick="setGroupSave('0')"><fmt:message key="COMMON_SAVE" /></button>
+					<button class="btn btn-success" onclick="setGroupSave('1')"><fmt:message key="COMMON_SUBMIT" /></button>
 				</div>
 			</div>
 		</div>

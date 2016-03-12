@@ -68,7 +68,7 @@ public class OzTtAdOdController extends BaseController {
             }
             if (CommonEnum.HandleFlag.NOT_PAY.getCode().equals(status)) {
                 // 如果是未付款的情况下
-                orderService.updateRecordAfterPay(orderNo, "ADMIN");
+                orderService.updateRecordAfterPay(orderNo, "ADMIN", session);
             }
             else {
                 // 检索当前订单，更新状态为已经付款

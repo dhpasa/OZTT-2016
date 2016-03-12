@@ -32,4 +32,12 @@ public interface TCustomerSecurityInfoDao {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(TCustomerSecurityInfo record);
+    
+    /**
+     * 根据用户号抽出数据
+     * @param customerno
+     * @return
+     */
+    TCustomerSecurityInfo selectByCustomerNo(String customerno);
+        
 }
