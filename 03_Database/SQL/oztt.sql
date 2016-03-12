@@ -294,6 +294,7 @@ CREATE TABLE `t_customer_login_info` (
   `customerNo` varchar(16) NOT NULL,
   `loginId` varchar(50) NOT NULL,
   `loginPass` varchar(255) NOT NULL,
+  `salt` varchar(48) DEFAULT NULL,
   `loginStatus` char(1) DEFAULT NULL,
   `canLogin` char(1) DEFAULT NULL,
   `deleteFlg` char(1) NOT NULL,
