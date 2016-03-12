@@ -44,4 +44,9 @@ public class TCustomerSecurityInfoDaoImpl extends BaseDao implements TCustomerSe
         return 0;
     }
 
+    @Override
+    public TCustomerSecurityInfo selectByCustomerNo(String customerno) {
+        return selectOne("com.org.oztt.dao.TCustomerSecurityInfoDao.selectByCustomerNo", customerno);
+    }
+
 }

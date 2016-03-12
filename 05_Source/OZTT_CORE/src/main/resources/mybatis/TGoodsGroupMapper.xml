@@ -314,7 +314,7 @@
 	    on A.goodsId = B.goodsId
 	    inner join t_goods_price C
 	    on A.goodsId = C.goodsId
-		WHERE 1 = 1
+		WHERE A.openFlg <![CDATA[ <> ]]> '9'
 		<if test="goodsName != null and goodsName != ''" >
 			and B.goodsName like concat('%',#{goodsName,jdbcType=VARCHAR},'%')
 		</if>
@@ -339,7 +339,7 @@
 	    on A.goodsId = B.goodsId
 	    inner join t_goods_price C
 	    on A.goodsId = C.goodsId
-		WHERE 1 = 1
+		WHERE A.openFlg <![CDATA[ <> ]]> '9'
 		<if test="goodsName != null and goodsName != ''" >
 			and B.goodsName like concat('%',#{goodsName,jdbcType=VARCHAR},'%')
 		</if>

@@ -14,8 +14,7 @@ public class TGoodsGroupDaoImpl extends BaseDao implements TGoodsGroupDao {
 
     @Override
     public int deleteByPrimaryKey(Long no) {
-        // TODO Auto-generated method stub
-        return 0;
+        return update("com.org.oztt.dao.TGoodsGroupDao.deleteByPrimaryKey", no);
     }
 
     @Override

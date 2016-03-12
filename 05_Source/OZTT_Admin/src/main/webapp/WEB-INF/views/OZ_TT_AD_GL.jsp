@@ -57,11 +57,48 @@
   						$("#groupReminder").val(data.resMap.groupReminder);
   						$("#groupRule").val(data.resMap.groupRule);
   						if (data.resMap.openflg == '0'){
-  							$("#isGroupOpenFlag0").attr("checked", true);
-  						} else {
-  							$("#isGroupOpenFlag1").attr("checked", true);
+  							$("#saveBtn").css("display","");
+  							$("#deleteBtn").css("display","");
+  							$("#submitBtn").css("display","");
+  							$("#unserBtn").css("display","none");
+  							$("#goodsGroupPrice").removeAttr("disabled");
+  	  						$("#goodsGroupNumber").removeAttr("disabled");
+  	  						$("#dataFromGroup").removeAttr("disabled");
+  	  						$("#dataToGroup").removeAttr("disabled");
+  	  						$("#groupComment").removeAttr("disabled");
+  	  						$("#groupDesc").removeAttr("disabled");
+  	  						$("#groupReminder").removeAttr("disabled");
+  	  						$("#groupRule").removeAttr("disabled");
+  						} else if (data.resMap.openflg == '1'){
+  							$("#saveBtn").css("display","none");
+  							$("#deleteBtn").css("display","none");
+  							$("#submitBtn").css("display","none");
+  							$("#unserBtn").css("display","");
+  							$("#goodsGroupPrice").attr("disabled","disabled");
+  	  						$("#goodsGroupNumber").attr("disabled","disabled");
+  	  						$("#dataFromGroup").attr("disabled","disabled");
+  	  						$("#dataToGroup").attr("disabled","disabled");
+  	  						$("#groupComment").attr("disabled","disabled");
+  	  						$("#groupDesc").attr("disabled","disabled");
+  	  						$("#groupReminder").attr("disabled","disabled");
+  	  						$("#groupRule").attr("disabled","disabled");
+  							
+  						} else if (data.resMap.openflg == '2'){
+  							$("#saveBtn").css("display","none");
+  							$("#deleteBtn").css("display","none");
+  							$("#submitBtn").css("display","none");
+  							$("#unserBtn").css("display","none");
+  							$("#goodsGroupPrice").attr("disabled","disabled");
+  	  						$("#goodsGroupNumber").attr("disabled","disabled");
+  	  						$("#dataFromGroup").attr("disabled","disabled");
+  	  						$("#dataToGroup").attr("disabled","disabled");
+  	  						$("#groupComment").attr("disabled","disabled");
+  	  						$("#groupDesc").attr("disabled","disabled");
+  	  						$("#groupReminder").attr("disabled","disabled");
+  	  						$("#groupRule").attr("disabled","disabled");
+  							
   						}
-  			  			$(":radio").uniform({radioClass: 'myRadioClass'});
+  			  			
   					}
   				},
   				error : function(data) {
@@ -72,7 +109,7 @@
 	  	}
 	  	
 	  	var E0002 = '<fmt:message key="E0002" />';
-	  	function setGroupSave(){
+	  	function setGroupSave(openFlag){
 	  		cleanFormError();
 			var goodsGroupPrice = $("#goodsGroupPrice").val();
 			var goodsGroupNumber = $("#goodsGroupNumber").val();
@@ -108,10 +145,6 @@
 				var message = '<fmt:message key="E0003" />';
 				showErrorSpan($("#goodsGroupPrice"), message);
 				return false;
-			}
-			var openFlag = "0";
-			if ($("#isGroupOpenFlag1").attr("checked")) {
-				openFlag = "1";
 			}
 			
 			var jsonMap = {
@@ -152,6 +185,44 @@
 			targetForm.action = "${pageContext.request.contextPath}/OZ_TT_AD_GL/groupPreview?groupId="+groupId+"&pageNo="+pageNo;
 			targetForm.method = "POST";
 			targetForm.submit();
+	  	}
+	  	
+	  	function cancelGroup() {
+	  		var groupId = $("#hiddenGroupId").val();
+	  		$.ajax({
+				type : "GET",
+				contentType:'application/json',
+				url : '${pageContext.request.contextPath}/OZ_TT_AD_GL/cancelGroup?groupId='+groupId,
+				dataType : "json",
+				async:false,
+				data : "", 
+				success : function(data) {
+					
+				},
+				error : function(data) {
+					
+				}
+			});
+	  		window.location.reload();
+	  	}
+	  	
+	  	function deleteGroup() {
+	  		var groupId = $("#hiddenGroupId").val();
+	  		$.ajax({
+				type : "GET",
+				contentType:'application/json',
+				url : '${pageContext.request.contextPath}/OZ_TT_AD_GL/deleteGroup?groupId='+groupId,
+				dataType : "json",
+				async:false,
+				data : "", 
+				success : function(data) {
+					
+				},
+				error : function(data) {
+					
+				}
+			});
+	  		window.location.reload();
 	  	}
   </script>
 </head>
@@ -294,12 +365,7 @@
 							 ${groupsItem.cost }
 						</td>
 						<td>
-							<c:if test="${groupsItem.isOpen == '0'}">
-								<fmt:message key="COMMON_NO" />
-							</c:if>
-							<c:if test="${groupsItem.isOpen == '1'}">
-								<fmt:message key="COMMON_YES" />
-							</c:if>
+							 ${groupsItem.isOpen }
 							 
 						</td>
 						<td>
@@ -428,28 +494,17 @@
 								<input type="text" id="groupRule" class="input-medium form-control"></input>
 							</div>
 						</div>
-						
-						<div class="form-group">
-							<label class="col-md-4 control-label"><fmt:message key="OZ_TT_AD_GL_DIALOG_isOpen" /></label>
-							<div class="radio-list col-md-8">
-								<label class="radio-inline">
-									<input type="radio" name="isOpenFlag" id="isGroupOpenFlag0" value="0"></input>
-								 	<fmt:message key="COMMON_NO" />
-								</label>
-								<label class="radio-inline">
-									<input type="radio" name="isOpenFlag" id="isGroupOpenFlag1" value="1"></input>
-								 	<fmt:message key="COMMON_YES" />
-								</label>
-							
-							</div>
-						</div>
+
 					</form>
 					<input type="hidden" id="hiddenGroupGoodsId"/>
 					<input type="hidden" id="hiddenGroupId"/>
 				</div>
 				<div class="modal-footer">
-					<button class="btn" data-dismiss="modal" aria-hidden="true"><fmt:message key="COMMON_CLOSE" /></button>
-					<button class="btn green btn-primary" onclick="setGroupSave()"><fmt:message key="COMMON_SAVE" /></button>
+					
+					<button class="btn btn-primary" onclick="setGroupSave('0')" id="saveBtn"><fmt:message key="COMMON_SAVE" /></button>
+					<button class="btn default" onclick="cancelGroup()" id="unserBtn"><fmt:message key="COMMON_UNUSE" /></button>
+					<button class="btn default" onclick="deleteGroup()" id="deleteBtn"><fmt:message key="COMMON_DELETE" /></button>
+					<button class="btn btn-success" onclick="setGroupSave('1')" id="submitBtn"><fmt:message key="COMMON_SUBMIT" /></button>
 				</div>
 			</div>
 		</div>

@@ -3,7 +3,6 @@ package com.org.oztt.admin.controller;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.formDto.GoodItemDto;
 import com.org.oztt.service.GoodsService;
@@ -101,7 +101,7 @@ public class CommonController extends BaseController {
             //获取文件到map容器中  
             String filename = file.getOriginalFilename();
             String fileType = filename.substring(filename.lastIndexOf(CommonConstants.FILE_SPLIT));
-            String uid = "OZTT" + "_" + UUID.randomUUID().toString();
+            String uid = "OZTT" + "_" + DateFormatUtils.getNowTimeFormat(DateFormatUtils.PATTEN_YMD_HH_MM_SS_SSS_SEPRATE) + random.nextInt(10);
             String tempUrl = System.getProperty("java.io.tmpdir");
             String fileFullPath = tempUrl + CommonConstants.PATH_SPLIT + CommonConstants.OZTT_ADMIN_PROJECT
                     + CommonConstants.PATH_SPLIT + uid + fileType;

@@ -18,6 +18,7 @@ import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.base.util.MessageUtils;
 import com.org.oztt.contants.CommonConstants;
+import com.org.oztt.contants.CommonEnum;
 import com.org.oztt.dao.TConsCartDao;
 import com.org.oztt.dao.TGoodsAppendItemsDao;
 import com.org.oztt.dao.TGoodsClassficationDao;
@@ -684,6 +685,7 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
             int i = 0;
             for (OzTtAdGcListDto detail : dtoList.getResultList()) {
                 detail.setDetailNo(String.valueOf((dtoList.getCurrentPage() - 1) * dtoList.getPageSize() + ++i));
+                detail.setIsOpen(CommonEnum.GroupOpenFlag.getEnumLabel(detail.getIsOpen()));
             }
         }
         return dtoList;
@@ -747,6 +749,12 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
     @Override
     public GroupItemIdDto getGroupItemId(String groupId) throws Exception {
         return tGoodsDao.getGroupItemId(groupId);
+    }
+
+    @Override
+    public void deleteGoodsSetGroup(TGoodsGroup tGoodsGroup) throws Exception {
+        tGoodsGroupDao.deleteByPrimaryKey(tGoodsGroup.getNo());
+        
     }
 
 }
