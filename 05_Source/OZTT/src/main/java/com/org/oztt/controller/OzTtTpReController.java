@@ -87,8 +87,13 @@ public class OzTtTpReController extends BaseController {
             List<String> mailTo = new ArrayList<String>();
             mailTo.add(ozTtTpReDto.getEmail());
             sendMailDto.setTo(mailTo);
-            MailUtil.sendMail(sendMailDto, null);
-            //发信
+            try {
+                //发信
+                MailUtil.sendMail(sendMailDto, null);
+            } catch (Exception e) {
+                // 发信失败的情况删除登录数据
+                customerService.deleteRegister(customerNo);
+            }
             
             return "redirect:/OZ_TT_TP_LG/init";
         }

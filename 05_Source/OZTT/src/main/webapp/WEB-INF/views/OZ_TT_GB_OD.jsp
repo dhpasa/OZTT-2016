@@ -10,7 +10,14 @@
 <meta charset="utf-8">
 <title><fmt:message key="OZ_TT_GB_OD_title" /></title>
 <%@ include file="./commoncssHead.jsp"%>
+<script type="text/javascript">
+	function payAgain() {
+		var orderId = $("#hiddenOrderId").val();
+		location.href = "${ctx}/OZ_TT_GB_OD/toPay?orderId="+orderId;
+	}
 
+
+</script>
 </head>
 <!-- Head END -->
 
@@ -189,8 +196,13 @@
 								</div>
 							<!-- END CONTENT -->
 							</fieldset>
-
+							<input type="hidden" value="${ozTtGbOdDto.orderNo }" id="hiddenOrderId"/>
 						</div>
+						<c:if test="${ozTtGbOdDto.orderStatus == '0' && ozTtGbOdDto.deliveryMethod != 3}">
+							<button class="btn btn-primary" type="button" onclick="payAgain()">
+								<fmt:message key="OZ_TT_GB_OD_gotoPay"/> <i class="fa fa-check"></i>
+							</button>
+						</c:if>
 						
 					</div>
 				</div>

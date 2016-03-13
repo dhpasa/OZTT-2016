@@ -28,6 +28,9 @@ public interface CustomerService {
 
     // 用户注册用
     public String insertRegister(OzTtTpReDto ozTtTpReDto) throws Exception;
+    
+    // 伤处用户注册信息
+    public void deleteRegister(String customerNo) throws Exception;
 
     // 取得最新的客户号
     public TNoCustomer getMaxCustomerNo() throws Exception;

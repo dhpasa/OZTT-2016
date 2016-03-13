@@ -352,6 +352,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         formDto.setOrderNo(tConsOrder.getOrderno());
         formDto.setOrderStatus(tConsOrder.getHandleflg());
         formDto.setOrderStatusView(CommonEnum.HandleFlag.getEnumLabel(tConsOrder.getHandleflg()));
+        formDto.setDeliveryMethod(tConsOrder.getDeliverymethod());
         // 取得地址信息
         if (tConsOrder.getAddressid() != 0) {
             TAddressInfo tAddressInfo = tAddressInfoDao.selectByPrimaryKey(tConsOrder.getAddressid());

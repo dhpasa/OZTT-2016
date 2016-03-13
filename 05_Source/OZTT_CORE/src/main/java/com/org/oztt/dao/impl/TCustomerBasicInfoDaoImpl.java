@@ -13,8 +13,7 @@ import com.org.oztt.formDto.OzTtAdRlListDto;
 public class TCustomerBasicInfoDaoImpl extends BaseDao implements TCustomerBasicInfoDao {
 
     public int deleteByPrimaryKey(Long no) {
-        // TODO Auto-generated method stub
-        return 0;
+        return update("com.org.oztt.dao.TCustomerBasicInfoDao.deleteByPrimaryKey", no);
     }
 
     public int insert(TCustomerBasicInfo record) {

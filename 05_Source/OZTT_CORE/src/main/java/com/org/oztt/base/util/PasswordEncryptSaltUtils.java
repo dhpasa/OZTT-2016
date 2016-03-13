@@ -25,4 +25,14 @@ public class PasswordEncryptSaltUtils {
         returnEntity.setNewPassword(newPassword);
         return returnEntity;
     }
+    
+    
+    public static boolean checkIsSame(String inputPassword, String salt, String dbPassword) {
+        String newPassword = new SimpleHash(
+                algorithmName,
+                inputPassword,
+                ByteSource.Util.bytes(inputPassword + salt),
+                hashIterations).toHex();
+        return newPassword.equals(dbPassword);
+    }
 }

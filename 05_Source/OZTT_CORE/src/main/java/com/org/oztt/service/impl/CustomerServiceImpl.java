@@ -54,9 +54,18 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
     public TCustomerLoginInfo userLogin(String loginId, String password) throws Exception {
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put("username", loginId);
-        paramMap.put("password", password);
-        return tCustomerLoginInfoDao.userLogin(paramMap);
-
+        TCustomerLoginInfo info = new TCustomerLoginInfo();
+        info.setLoginid(loginId);
+        info = tCustomerLoginInfoDao.selectByParams(info);
+        if (info != null) {
+            if (PasswordEncryptSaltUtils.checkIsSame(password, info.getSalt(), info.getLoginpass())) {
+                return info;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
     }
 
     public boolean insertLoginHisAndUpdateStatus(TCustomerLoginHis tCustomerLoginHis) throws Exception {
@@ -124,12 +133,11 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
         tCustomerLoginInfo.setAdduserkey(maxCustomer);
         tCustomerLoginInfo.setCustomerno(maxCustomer);
         tCustomerLoginInfo.setDeleteflg(CommonConstants.IS_NOT_DELETE);
-        
         tCustomerLoginInfo.setLoginid(ozTtTpReDto.getEmail());
-        tCustomerLoginInfo.setLoginpass(ozTtTpReDto.getPassword());
-
-        PasswordEncryptSalt returnEnti = PasswordEncryptSaltUtils.encryptPassword(ozTtTpReDto.getPassword());
         
+        PasswordEncryptSalt returnEnti = PasswordEncryptSaltUtils.encryptPassword(ozTtTpReDto.getPassword());
+        tCustomerLoginInfo.setLoginpass(returnEnti.getNewPassword());
+        tCustomerLoginInfo.setSalt(returnEnti.getSalt());
         tCustomerLoginInfo.setCanlogin(CommonConstants.CANNOT_LOGIN);
         tCustomerLoginInfo.setLoginstatus(CommonConstants.LOGIN_STATUS_NORMAL);
         tCustomerLoginInfoDao.insertSelective(tCustomerLoginInfo);
@@ -230,6 +238,23 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
             }
         }
         return page;
+    }
+
+    @Override
+    public void deleteRegister(String customerNo) throws Exception {
+        TCustomerLoginInfo tCustomerLoginInfo = new TCustomerLoginInfo();
+        tCustomerLoginInfo = tCustomerLoginInfoDao.selectByCustomerNo(customerNo);
+        tCustomerLoginInfoDao.deleteByPrimaryKey(tCustomerLoginInfo.getNo());
+
+        // 人员基本信息
+        TCustomerBasicInfo tCustomerBasicInfo = new TCustomerBasicInfo();
+        tCustomerBasicInfo = tCustomerBasicInfoDao.selectBaseInfoByCustomerNo(customerNo);
+        tCustomerBasicInfoDao.deleteByPrimaryKey(tCustomerBasicInfo.getNo());
+
+        // 插入用户登陆表
+        TCustomerSecurityInfo tCustomerSecurityInfo = new TCustomerSecurityInfo();
+        tCustomerSecurityInfo = tCustomerSecurityInfoDao.selectByCustomerNo(customerNo);
+        tCustomerSecurityInfoDao.deleteByPrimaryKey(tCustomerSecurityInfo.getNo());
     }
 
 }

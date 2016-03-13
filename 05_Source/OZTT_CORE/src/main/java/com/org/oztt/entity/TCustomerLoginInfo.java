@@ -15,6 +15,8 @@ public class TCustomerLoginInfo implements Serializable {
     private String loginid;
 
     private String loginpass;
+    
+    private String salt;
 
     private String loginstatus;
     
@@ -134,5 +136,13 @@ public class TCustomerLoginInfo implements Serializable {
 
     public void setCanlogin(String canlogin) {
         this.canlogin = canlogin;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 }
