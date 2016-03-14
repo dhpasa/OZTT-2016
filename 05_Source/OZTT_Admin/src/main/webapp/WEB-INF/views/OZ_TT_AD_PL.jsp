@@ -56,6 +56,7 @@
   						}
   						$("#hiddenPriceNo").val(data.resMap.no);
   			  			$(":radio").uniform({radioClass: 'myRadioClass'});
+  			  		cleanFormError();
   					}
   				},
   				error : function(data) {
@@ -75,6 +76,7 @@
   			alert('<fmt:message key="W0001" />');
   			return;
   		}
+  		cleanFormError();
   		var nametd = $(obj).parent().parent().find('td')[2];
   		$("#goodGroupName").text($(nametd).text());
   		$("#hiddenGroupGoodsId").val(goodsId);

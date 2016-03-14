@@ -12,8 +12,7 @@ import com.org.oztt.entity.TCustomerLoginInfo;
 public class TCustomerLoginInfoDaoImpl extends BaseDao implements TCustomerLoginInfoDao {
 
     public int deleteByPrimaryKey(Long no) {
-
-        return 0;
+        return update("com.org.oztt.dao.TCustomerLoginInfoDao.deleteByPrimaryKey", no);
     }
 
     public int insert(TCustomerLoginInfo record) {
@@ -48,6 +47,11 @@ public class TCustomerLoginInfoDaoImpl extends BaseDao implements TCustomerLogin
 
     public TCustomerLoginInfo selectByCustomerNo(String customerNo) {
         return selectOne("com.org.oztt.dao.TCustomerLoginInfoDao.selectByCustomerNo", customerNo);
+    }
+
+    @Override
+    public TCustomerLoginInfo selectByParams(TCustomerLoginInfo info) {
+        return selectOne("com.org.oztt.dao.TCustomerLoginInfoDao.selectByParams", info);
     }
 
 }

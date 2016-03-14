@@ -11,8 +11,7 @@ public class TCustomerSecurityInfoDaoImpl extends BaseDao implements TCustomerSe
 
     @Override
     public int deleteByPrimaryKey(Long no) {
-        // TODO Auto-generated method stub
-        return 0;
+        return update("com.org.oztt.dao.TCustomerSecurityInfoDao.deleteByPrimaryKey", no);
     }
 
     @Override

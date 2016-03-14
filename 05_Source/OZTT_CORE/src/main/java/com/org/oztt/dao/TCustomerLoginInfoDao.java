@@ -56,4 +56,11 @@ public interface TCustomerLoginInfoDao {
      * @return
      */
     TCustomerLoginInfo selectByCustomerNo(String customerNo);
+    
+    /**
+     * 检索数据
+     * @param info
+     * @return
+     */
+    TCustomerLoginInfo selectByParams(TCustomerLoginInfo info);
 }

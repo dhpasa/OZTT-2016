@@ -1,207 +1,197 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.org.oztt.dao.TCustomerLoginInfoDao">
-	<resultMap id="BaseResultMap" type="com.org.oztt.entity.TCustomerLoginInfo">
-		<id column="no" property="no" jdbcType="BIGINT" />
-		<result column="customerNo" property="customerno" jdbcType="VARCHAR" />
-		<result column="loginId" property="loginid" jdbcType="VARCHAR" />
-		<result column="loginPass" property="loginpass" jdbcType="VARCHAR" />
-		<result column="loginStatus" property="loginstatus" jdbcType="CHAR" />
-		<result column="canLogin" property="canlogin" jdbcType="CHAR" />
-		<result column="deleteFlg" property="deleteflg" jdbcType="CHAR" />
-		<result column="addTimestamp" property="addtimestamp" jdbcType="TIMESTAMP" />
-		<result column="addUserKey" property="adduserkey" jdbcType="VARCHAR" />
-		<result column="updTimestamp" property="updtimestamp" jdbcType="TIMESTAMP" />
-		<result column="updUserKey" property="upduserkey" jdbcType="VARCHAR" />
-		<result column="updPgmId" property="updpgmid" jdbcType="VARCHAR" />
-	</resultMap>
-	<sql id="Base_Column_List">
-		 no
-		,customerNo
-		,loginId
-		,loginPass
-		,loginStatus
-		,canLogin
-		,deleteFlg
-		,addTimestamp
-		,addUserKey
-		,updTimestamp
-		,updUserKey
-		,updPgmId
-	</sql>
-	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
-		parameterType="java.lang.Long">
-		<include refid="Base_Column_List" />
-		from t_customer_login_info
-		where no = #{no,jdbcType=BIGINT}
-	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-		delete from
-		t_customer_login_info
-		where no = #{no,jdbcType=BIGINT}
-	</delete>
-	<insert id="insert" parameterType="com.org.oztt.entity.TCustomerLoginInfo">
-		insert into
-		t_customer_login_info (no, customerNo, 
-		loginId, loginPass,
-		loginStatus,
-		canLogin,
-		deleteFlg, addTimestamp, addUserKey,
-		updTimestamp,
-		updUserKey, updPgmId
-		)
-		values (#{no,jdbcType=BIGINT},
-		#{customerno,jdbcType=VARCHAR},
-		#{loginid,jdbcType=VARCHAR}, #{loginpass,jdbcType=VARCHAR},
-		#{loginstatus,jdbcType=CHAR},
-		#{canlogin,jdbcType=CHAR},
-		#{deleteflg,jdbcType=CHAR},
-		#{addtimestamp,jdbcType=TIMESTAMP},
-		#{adduserkey,jdbcType=VARCHAR},
-		#{updtimestamp,jdbcType=TIMESTAMP}, #{upduserkey,jdbcType=VARCHAR},
-		#{updpgmid,jdbcType=VARCHAR}
-		)
-	</insert>
-	<insert id="insertSelective" parameterType="com.org.oztt.entity.TCustomerLoginInfo">
-		insert into t_customer_login_info
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="no != null">
-				no,
-			</if>
-			<if test="customerno != null">
-				customerNo,
-			</if>
-			<if test="loginid != null">
-				loginId,
-			</if>
-			<if test="loginpass != null">
-				loginPass,
-			</if>
-			<if test="loginstatus != null">
-				loginStatus,
-			</if>
-			<if test="canlogin != null">
-				canLogin,
-			</if>
-			<if test="deleteflg != null">
-				deleteFlg,
-			</if>
-			<if test="addtimestamp != null">
-				addTimestamp,
-			</if>
-			<if test="adduserkey != null">
-				addUserKey,
-			</if>
-			<if test="updtimestamp != null">
-				updTimestamp,
-			</if>
-			<if test="upduserkey != null">
-				updUserKey,
-			</if>
-			<if test="updpgmid != null">
-				updPgmId,
-			</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="no != null">
-				#{no,jdbcType=BIGINT},
-			</if>
-			<if test="customerno != null">
-				#{customerno,jdbcType=VARCHAR},
-			</if>
-			<if test="loginid != null">
-				#{loginid,jdbcType=VARCHAR},
-			</if>
-			<if test="loginpass != null">
-				#{loginpass,jdbcType=VARCHAR},
-			</if>
-			<if test="loginstatus != null">
-				#{loginstatus,jdbcType=CHAR},
-			</if>
-			<if test="canlogin != null">
-				#{canlogin,jdbcType=CHAR},
-			</if>
-			<if test="deleteflg != null">
-				#{deleteflg,jdbcType=CHAR},
-			</if>
-			<if test="addtimestamp != null">
-				#{addtimestamp,jdbcType=TIMESTAMP},
-			</if>
-			<if test="adduserkey != null">
-				#{adduserkey,jdbcType=VARCHAR},
-			</if>
-			<if test="updtimestamp != null">
-				#{updtimestamp,jdbcType=TIMESTAMP},
-			</if>
-			<if test="upduserkey != null">
-				#{upduserkey,jdbcType=VARCHAR},
-			</if>
-			<if test="updpgmid != null">
-				#{updpgmid,jdbcType=VARCHAR},
-			</if>
-		</trim>
-	</insert>
-	<update id="updateByPrimaryKeySelective" parameterType="com.org.oztt.entity.TCustomerLoginInfo">
-		update t_customer_login_info
-		<set>
-			<if test="customerno != null">
-				customerNo = #{customerno,jdbcType=VARCHAR},
-			</if>
-			<if test="loginid != null">
-				loginId = #{loginid,jdbcType=VARCHAR},
-			</if>
-			<if test="loginpass != null">
-				loginPass = #{loginpass,jdbcType=VARCHAR},
-			</if>
-			<if test="loginstatus != null">
-				loginStatus = #{loginstatus,jdbcType=CHAR},
-			</if>
-			<if test="canlogin != null">
-				canLogin = #{canlogin,jdbcType=CHAR},
-			</if>
-			<if test="deleteflg != null">
-				deleteFlg = #{deleteflg,jdbcType=CHAR},
-			</if>
-			<if test="addtimestamp != null">
-				addTimestamp = #{addtimestamp,jdbcType=TIMESTAMP},
-			</if>
-			<if test="adduserkey != null">
-				addUserKey = #{adduserkey,jdbcType=VARCHAR},
-			</if>
-			<if test="updtimestamp != null">
-				updTimestamp = #{updtimestamp,jdbcType=TIMESTAMP},
-			</if>
-			<if test="upduserkey != null">
-				updUserKey = #{upduserkey,jdbcType=VARCHAR},
-			</if>
-			<if test="updpgmid != null">
-				updPgmId = #{updpgmid,jdbcType=VARCHAR},
-			</if>
-		</set>
-		where no = #{no,jdbcType=BIGINT}
-	</update>
-	<update id="updateByPrimaryKey" parameterType="com.org.oztt.entity.TCustomerLoginInfo">
-		update
-		t_customer_login_info
-		set customerNo = #{customerno,jdbcType=VARCHAR},
-		loginId = #{loginid,jdbcType=VARCHAR},
-		loginPass = #{loginpass,jdbcType=VARCHAR},
-		loginPass = #{loginpass,jdbcType=VARCHAR},
-		canLogin = #{canlogin,jdbcType=CHAR},
-		deleteFlg = #{deleteflg,jdbcType=CHAR},
-		addTimestamp = #{addtimestamp,jdbcType=TIMESTAMP},
-		addUserKey = #{adduserkey,jdbcType=VARCHAR},
-		updTimestamp = #{updtimestamp,jdbcType=TIMESTAMP},
-		updUserKey = #{upduserkey,jdbcType=VARCHAR},
-		updPgmId = #{updpgmid,jdbcType=VARCHAR}
-		where no = #{no,jdbcType=BIGINT}
-	</update>
+  <resultMap id="BaseResultMap" type="com.org.oztt.entity.TCustomerLoginInfo" >
+    <id column="no" property="no" jdbcType="BIGINT" />
+    <result column="customerNo" property="customerno" jdbcType="VARCHAR" />
+    <result column="loginId" property="loginid" jdbcType="VARCHAR" />
+    <result column="loginPass" property="loginpass" jdbcType="VARCHAR" />
+    <result column="salt" property="salt" jdbcType="VARCHAR" />
+    <result column="loginStatus" property="loginstatus" jdbcType="CHAR" />
+    <result column="canLogin" property="canlogin" jdbcType="CHAR" />
+    <result column="deleteFlg" property="deleteflg" jdbcType="CHAR" />
+    <result column="addTimestamp" property="addtimestamp" jdbcType="TIMESTAMP" />
+    <result column="addUserKey" property="adduserkey" jdbcType="VARCHAR" />
+    <result column="updTimestamp" property="updtimestamp" jdbcType="TIMESTAMP" />
+    <result column="updUserKey" property="upduserkey" jdbcType="VARCHAR" />
+    <result column="updPgmId" property="updpgmid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    no, customerNo, loginId, loginPass, salt, loginStatus, canLogin, deleteFlg, addTimestamp, 
+    addUserKey, updTimestamp, updUserKey, updPgmId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_customer_login_info
+    where no = #{no,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_customer_login_info
+    where no = #{no,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.org.oztt.entity.TCustomerLoginInfo" >
+    insert into t_customer_login_info (no, customerNo, loginId, 
+      loginPass, salt, loginStatus, 
+      canLogin, deleteFlg, addTimestamp, 
+      addUserKey, updTimestamp, updUserKey, 
+      updPgmId)
+    values (#{no,jdbcType=BIGINT}, #{customerno,jdbcType=VARCHAR}, #{loginid,jdbcType=VARCHAR}, 
+      #{loginpass,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{loginstatus,jdbcType=CHAR}, 
+      #{canlogin,jdbcType=CHAR}, #{deleteflg,jdbcType=CHAR}, #{addtimestamp,jdbcType=TIMESTAMP}, 
+      #{adduserkey,jdbcType=VARCHAR}, #{updtimestamp,jdbcType=TIMESTAMP}, #{upduserkey,jdbcType=VARCHAR}, 
+      #{updpgmid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.org.oztt.entity.TCustomerLoginInfo" >
+    insert into t_customer_login_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="no != null" >
+        no,
+      </if>
+      <if test="customerno != null" >
+        customerNo,
+      </if>
+      <if test="loginid != null" >
+        loginId,
+      </if>
+      <if test="loginpass != null" >
+        loginPass,
+      </if>
+      <if test="salt != null" >
+        salt,
+      </if>
+      <if test="loginstatus != null" >
+        loginStatus,
+      </if>
+      <if test="canlogin != null" >
+        canLogin,
+      </if>
+      <if test="deleteflg != null" >
+        deleteFlg,
+      </if>
+      <if test="addtimestamp != null" >
+        addTimestamp,
+      </if>
+      <if test="adduserkey != null" >
+        addUserKey,
+      </if>
+      <if test="updtimestamp != null" >
+        updTimestamp,
+      </if>
+      <if test="upduserkey != null" >
+        updUserKey,
+      </if>
+      <if test="updpgmid != null" >
+        updPgmId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="no != null" >
+        #{no,jdbcType=BIGINT},
+      </if>
+      <if test="customerno != null" >
+        #{customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="loginid != null" >
+        #{loginid,jdbcType=VARCHAR},
+      </if>
+      <if test="loginpass != null" >
+        #{loginpass,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="loginstatus != null" >
+        #{loginstatus,jdbcType=CHAR},
+      </if>
+      <if test="canlogin != null" >
+        #{canlogin,jdbcType=CHAR},
+      </if>
+      <if test="deleteflg != null" >
+        #{deleteflg,jdbcType=CHAR},
+      </if>
+      <if test="addtimestamp != null" >
+        #{addtimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adduserkey != null" >
+        #{adduserkey,jdbcType=VARCHAR},
+      </if>
+      <if test="updtimestamp != null" >
+        #{updtimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upduserkey != null" >
+        #{upduserkey,jdbcType=VARCHAR},
+      </if>
+      <if test="updpgmid != null" >
+        #{updpgmid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.org.oztt.entity.TCustomerLoginInfo" >
+    update t_customer_login_info
+    <set >
+      <if test="customerno != null" >
+        customerNo = #{customerno,jdbcType=VARCHAR},
+      </if>
+      <if test="loginid != null" >
+        loginId = #{loginid,jdbcType=VARCHAR},
+      </if>
+      <if test="loginpass != null" >
+        loginPass = #{loginpass,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="loginstatus != null" >
+        loginStatus = #{loginstatus,jdbcType=CHAR},
+      </if>
+      <if test="canlogin != null" >
+        canLogin = #{canlogin,jdbcType=CHAR},
+      </if>
+      <if test="deleteflg != null" >
+        deleteFlg = #{deleteflg,jdbcType=CHAR},
+      </if>
+      <if test="addtimestamp != null" >
+        addTimestamp = #{addtimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adduserkey != null" >
+        addUserKey = #{adduserkey,jdbcType=VARCHAR},
+      </if>
+      <if test="updtimestamp != null" >
+        updTimestamp = #{updtimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upduserkey != null" >
+        updUserKey = #{upduserkey,jdbcType=VARCHAR},
+      </if>
+      <if test="updpgmid != null" >
+        updPgmId = #{updpgmid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where no = #{no,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.org.oztt.entity.TCustomerLoginInfo" >
+    update t_customer_login_info
+    set customerNo = #{customerno,jdbcType=VARCHAR},
+      loginId = #{loginid,jdbcType=VARCHAR},
+      loginPass = #{loginpass,jdbcType=VARCHAR},
+      salt = #{salt,jdbcType=VARCHAR},
+      loginStatus = #{loginstatus,jdbcType=CHAR},
+      canLogin = #{canlogin,jdbcType=CHAR},
+      deleteFlg = #{deleteflg,jdbcType=CHAR},
+      addTimestamp = #{addtimestamp,jdbcType=TIMESTAMP},
+      addUserKey = #{adduserkey,jdbcType=VARCHAR},
+      updTimestamp = #{updtimestamp,jdbcType=TIMESTAMP},
+      updUserKey = #{upduserkey,jdbcType=VARCHAR},
+      updPgmId = #{updpgmid,jdbcType=VARCHAR}
+    where no = #{no,jdbcType=BIGINT}
+  </update>
 
 	<select id="checkLoginSuccess" resultMap="BaseResultMap" parameterType="map">
 		select
 		a.customerNo
 		,a.loginId
 		,a.loginPass
+		,a.salt
 		,a.loginStatus
 		,a.canLogin
 		from t_customer_login_info a
@@ -227,5 +217,33 @@
 		from t_customer_login_info
 		where customerNo = #{customerNo,jdbcType=VARCHAR}
 	</select>
-
+	
+	<select id="selectByParams" resultMap="BaseResultMap" parameterType="com.org.oztt.entity.TCustomerLoginInfo">
+		select
+		<include refid="Base_Column_List" />
+		from t_customer_login_info
+		where 1=1
+		  <if test="customerno != null" >
+	        and customerNo = #{customerno,jdbcType=VARCHAR}
+	      </if>
+	      <if test="loginid != null" >
+	        and loginId = #{loginid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="loginpass != null" >
+	        and loginPass = #{loginpass,jdbcType=VARCHAR}
+	      </if>
+	      <if test="salt != null" >
+	        and salt = #{salt,jdbcType=VARCHAR}
+	      </if>
+	      <if test="loginstatus != null" >
+	        and loginStatus = #{loginstatus,jdbcType=CHAR}
+	      </if>
+	      <if test="canlogin != null" >
+	        and canLogin = #{canlogin,jdbcType=CHAR}
+	      </if>
+	      <if test="deleteflg != null" >
+	        and deleteFlg = #{deleteflg,jdbcType=CHAR}
+	      </if>
+	</select>
+	
 </mapper>

@@ -41,6 +41,8 @@ public class OzTtGbOdDto {
     
     private String heji;
     
+    private String deliveryMethod;
+    
     private List<ContCartItemDto> goodList;
 
     public String getOrderNo() {
@@ -177,6 +179,14 @@ public class OzTtGbOdDto {
 
     public void setHeji(String heji) {
         this.heji = heji;
+    }
+
+    public String getDeliveryMethod() {
+        return deliveryMethod;
+    }
+
+    public void setDeliveryMethod(String deliveryMethod) {
+        this.deliveryMethod = deliveryMethod;
     }
     
     
