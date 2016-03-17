@@ -4,6 +4,7 @@ CREATE TABLE `t_cons_order_details` (
   `orderNo` varchar(16) NOT NULL,
   `customerNo` varchar(16) NOT NULL,
   `goodsId` varchar(16) NOT NULL,
+  `deliveryTime` varchar(10) DEFAULT NULL,
   `specifications` varchar(1000) DEFAULT NULL,
   `quantity` decimal(12, 0),
   `groupNo` varchar(16) DEFAULT NULL,
