@@ -28,8 +28,7 @@ public class TNoCustomerDaoImpl extends BaseDao implements TNoCustomerDao {
     }
 
     public int updateByPrimaryKeySelective(TNoCustomer record) {
-        // TODO Auto-generated method stub
-        return 0;
+        return update("com.org.oztt.dao.TNoCustomerDao.updateByPrimaryKeySelective", record);
     }
 
     public int updateByPrimaryKey(TNoCustomer record) {
