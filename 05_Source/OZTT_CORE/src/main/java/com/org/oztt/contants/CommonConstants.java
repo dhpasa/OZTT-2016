@@ -85,5 +85,7 @@ public final class CommonConstants {
     public static final String GOODS_NO_SIGN         = "GD";
 
     public static final String FILE_SPLIT            = ".";
+    
+    public static final String PHONEUNMER_FIRST            = "+";
 
 }

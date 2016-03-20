@@ -58,7 +58,7 @@
                       <div class="form-group col-sm-12">
                         <label for="phone" class="col-lg-2 control-label"><fmt:message key="OZ_TT_TP_RE_phone"/> <span class="require">*</span></label>
                         <div class="col-lg-4">
-                          <form:input type="text" path="phone" class="form-control" id="phone" placeholder="+04XXXXXXXX"/>
+                          <form:input type="text" path="phone" class="form-control" id="phone" placeholder="04XXXXXXXX"/>
                         </div>
                         <label class="col-lg-6 control-label" style="text-align:left;padding-left:30px"><span class="require">*<fmt:message key="OZ_TT_TP_RE_phoneInfo"/></span></label>
                       </div>

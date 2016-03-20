@@ -193,3 +193,39 @@
 	display: block;
 	margin-bottom: 8px;
 }
+
+.aboutDiv{
+	font-family: monospace;
+	width:60%;
+	margin-left:auto;
+	margin-right:auto;
+}
+.aboutus{
+	color: #185E98;
+    font-size: 30px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.contanttable{
+	margin-left:10%;
+}
+
+.contanttable table td{
+	text-align:left;
+	padding: 12px 0px;
+	vertical-align: text-top;
+}
+
+.contantus{
+	color: #185E98;
+    font-size: 30px;
+    margin-top: 80px;
+    margin-bottom: 20px;
+    
+}
+
+.headview{
+	font-weight:bold;
+	font-size: 20px;
+}

@@ -891,12 +891,35 @@
       <div class="container">
         <div class="row">
           <!-- BEGIN COPYRIGHT -->
-          <div class="col-md-6 col-sm-6 padding-top-10">
+          <div class="col-md-9 col-sm-9 padding-top-10">
             <fmt:message key="mainFooter"/>
+            <ul class="list-unstyled list-inline pull-right">
+               	<li>
+               		<a href="${ctx}/main/init"><fmt:message key="FOOTER_Home"/></a>
+               	</li>
+               	<li>
+               		<a href="${ctx}/AboutUs/AU"><fmt:message key="FOOTER_aboutUs"/></a>
+               	</li>
+               	<li>
+               		<a href="${ctx}/AboutUs/AU"><fmt:message key="FOOTER_contactUs"/></a>
+               	</li>
+               	<li>
+               		<a href="${ctx}/AboutUs/RS#1f"><fmt:message key="FOOTER_termsCondtions"/></a>
+               	</li>
+               	<li>
+               		<a href="${ctx}/AboutUs/RS#2f"><fmt:message key="FOOTER_refundPolicy"/></a>
+               	</li>
+               	<li>
+               		<a href="${ctx}/AboutUs/RS#3f"><fmt:message key="FOOTER_deliveryDetails"/></a>
+               	</li>
+               	<li>
+               		<a href="${ctx}/AboutUs/RS#4f"><fmt:message key="FOOTER_privacypolicy"/></a>
+               	</li>
+            </ul>
           </div>
           <!-- END COPYRIGHT -->
           <!-- BEGIN PAYMENTS -->
-          <div class="col-md-6 col-sm-6">
+          <div class="col-md-3 col-sm-3">
             <ul class="list-unstyled list-inline pull-right margin-bottom-15">
               <li><img src="<c:url value='/assets/img/payments/PayPal.jpg' />" alt="We accept PayPal" title="We accept PayPal"></li>
             </ul>
