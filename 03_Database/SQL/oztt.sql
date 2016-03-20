@@ -101,6 +101,7 @@ CREATE TABLE `t_admin_login_info` (
 -- ----------------------------
 -- Records of t_admin_login_info
 -- ----------------------------
+INSERT INTO `t_admin_login_info` VALUES ('1', 'admin', '123456', null, '0', '0', '2016-02-22 00:00:00', 'oztt', '2016-02-22 00:00:00', 'oztt', 'oztt');
 
 -- ----------------------------
 -- Table structure for t_cons_cart
@@ -184,6 +185,7 @@ CREATE TABLE `t_cons_order_details` (
   `orderNo` varchar(16) NOT NULL,
   `customerNo` varchar(16) NOT NULL,
   `goodsId` varchar(16) NOT NULL,
+  `deliveryTime` varchar(10) DEFAULT NULL,
   `specifications` varchar(1000) DEFAULT NULL,
   `quantity` decimal(12, 0),
   `groupNo` varchar(16) DEFAULT NULL,
