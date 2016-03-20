@@ -73,27 +73,27 @@ public class OzTtTpReController extends BaseController {
             
             
             //️发信
-            SendMailDto sendMailDto = new SendMailDto();
-            sendMailDto.setTitle(MessageUtils.getMessage("REGISTER_MAIL_title"));
-            StringBuffer sb = new StringBuffer();
-            sb.append(MessageUtils.getMessage("REGISTER_MAIL_content"));
-            sb.append("</br>");
-            // 这里将客户号加密
-
-            sb.append(MessageUtils.getApplicationMessage("base_url") + "OZ_TT_TP_RE/emailRegister?customerNo="
-                    + UrlParamDecode.paramEncode(customerNo));
-            
-            sendMailDto.setContent(sb.toString());
-            List<String> mailTo = new ArrayList<String>();
-            mailTo.add(ozTtTpReDto.getEmail());
-            sendMailDto.setTo(mailTo);
-            try {
-                //发信
-                MailUtil.sendMail(sendMailDto, null);
-            } catch (Exception e) {
-                // 发信失败的情况删除登录数据
-                customerService.deleteRegister(customerNo);
-            }
+//            SendMailDto sendMailDto = new SendMailDto();
+//            sendMailDto.setTitle(MessageUtils.getMessage("REGISTER_MAIL_title"));
+//            StringBuffer sb = new StringBuffer();
+//            sb.append(MessageUtils.getMessage("REGISTER_MAIL_content"));
+//            sb.append("</br>");
+//            // 这里将客户号加密
+//
+//            sb.append(MessageUtils.getApplicationMessage("base_url") + "OZ_TT_TP_RE/emailRegister?customerNo="
+//                    + UrlParamDecode.paramEncode(customerNo));
+//            
+//            sendMailDto.setContent(sb.toString());
+//            List<String> mailTo = new ArrayList<String>();
+//            mailTo.add(ozTtTpReDto.getEmail());
+//            sendMailDto.setTo(mailTo);
+//            try {
+//                //发信
+//                MailUtil.sendMail(sendMailDto, null);
+//            } catch (Exception e) {
+//                // 发信失败的情况删除登录数据
+//                customerService.deleteRegister(customerNo);
+//            }
             
             return "redirect:/OZ_TT_TP_LG/init";
         }

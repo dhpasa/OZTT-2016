@@ -138,7 +138,7 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
         PasswordEncryptSalt returnEnti = PasswordEncryptSaltUtils.encryptPassword(ozTtTpReDto.getPassword());
         tCustomerLoginInfo.setLoginpass(returnEnti.getNewPassword());
         tCustomerLoginInfo.setSalt(returnEnti.getSalt());
-        tCustomerLoginInfo.setCanlogin(CommonConstants.CANNOT_LOGIN);
+        tCustomerLoginInfo.setCanlogin(CommonConstants.CAN_LOGIN);
         tCustomerLoginInfo.setLoginstatus(CommonConstants.LOGIN_STATUS_NORMAL);
         tCustomerLoginInfoDao.insertSelective(tCustomerLoginInfo);
 
