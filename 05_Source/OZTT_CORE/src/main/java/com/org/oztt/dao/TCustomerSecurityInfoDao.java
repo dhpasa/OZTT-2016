@@ -39,5 +39,12 @@ public interface TCustomerSecurityInfoDao {
      * @return
      */
     TCustomerSecurityInfo selectByCustomerNo(String customerno);
+    
+    /**
+     * 通过参数获取登录信息
+     * @param param 
+     * @return
+     */
+    TCustomerSecurityInfo selectByParam(TCustomerSecurityInfo param);
         
 }

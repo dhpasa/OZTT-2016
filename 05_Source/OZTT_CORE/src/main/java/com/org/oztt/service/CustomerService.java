@@ -19,6 +19,9 @@ public interface CustomerService {
 
     // 检测用户，密码是否正确
     public TCustomerLoginInfo userLogin(String loginId, String password) throws Exception;
+    
+    // 检测用户，密码是否正确
+    public TCustomerLoginInfo userLoginForPhone(String phone, String password) throws Exception;
 
     // 插入登录历史记录
     public boolean insertLoginHisAndUpdateStatus(TCustomerLoginHis tCustomerLoginHis) throws Exception;

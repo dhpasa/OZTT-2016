@@ -168,4 +168,28 @@
     from t_customer_security_info
     where customerNo = #{customerno,jdbcType=VARCHAR}
   </select>
+  
+  <select id="selectByParam" resultMap="BaseResultMap" parameterType="com.org.oztt.entity.TCustomerSecurityInfo" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_customer_security_info
+    where 1=1
+    <if test="customerno != null" >
+       and customerNo = #{customerno,jdbcType=VARCHAR}
+    </if>
+    <if test="telno != null" >
+       and telNo = #{telno,jdbcType=VARCHAR}
+    </if>
+    <if test="emailaddr != null" >
+       and emailAddr = #{emailaddr,jdbcType=VARCHAR}
+    </if>
+    <if test="wechatno != null" >
+       and wechatNo = #{wechatno,jdbcType=VARCHAR}
+    </if>
+    <if test="wechatopenid != null" >
+       and wechatOpenId = #{wechatopenid,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  
 </mapper>

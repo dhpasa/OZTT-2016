@@ -5,20 +5,11 @@
   <meta content="Metronic Shop UI keywords" name="keywords">
   <meta content="keenthemes" name="author">
 
-  <meta property="og:site_name" content="-CUSTOMER VALUE-">
-  <meta property="og:title" content="-CUSTOMER VALUE-">
-  <meta property="og:description" content="-CUSTOMER VALUE-">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="-CUSTOMER VALUE-">
-  <meta property="og:url" content="-CUSTOMER VALUE-">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="format-detection" content="telephone=no, address=no">
 
   <link rel="shortcut icon" href="${ctx}/favicon.ico"  type="image/x-icon" />
 
-  <!-- Fonts START -->
-  <link href="${ctx}/css/fontsopensans.css" rel="stylesheet" type="text/css">
-  <link href="${ctx}/css/fontsptnarrow.css" rel="stylesheet" type="text/css">
-  <link href="${ctx}/css/fontsanspro.css" rel="stylesheet" type="text/css"><!--- fonts for slider on the index page -->
-  <!-- Fonts END -->
   <!-- Global styles START -->          
   <link href="<c:url value='/assets/plugins/font-awesome/css/font-awesome.min.css' />" rel="stylesheet" type="text/css">
   <link href="<c:url value='/assets/plugins/bootstrap/css/bootstrap.css' />" rel="stylesheet" type="text/css">

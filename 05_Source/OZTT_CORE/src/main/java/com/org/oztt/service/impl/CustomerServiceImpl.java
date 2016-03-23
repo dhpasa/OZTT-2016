@@ -60,10 +60,12 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
         if (info != null) {
             if (PasswordEncryptSaltUtils.checkIsSame(password, info.getSalt(), info.getLoginpass())) {
                 return info;
-            } else {
+            }
+            else {
                 return null;
             }
-        } else {
+        }
+        else {
             return null;
         }
     }
@@ -134,7 +136,7 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
         tCustomerLoginInfo.setCustomerno(maxCustomer);
         tCustomerLoginInfo.setDeleteflg(CommonConstants.IS_NOT_DELETE);
         tCustomerLoginInfo.setLoginid(ozTtTpReDto.getEmail());
-        
+
         PasswordEncryptSalt returnEnti = PasswordEncryptSaltUtils.encryptPassword(ozTtTpReDto.getPassword());
         tCustomerLoginInfo.setLoginpass(returnEnti.getNewPassword());
         tCustomerLoginInfo.setSalt(returnEnti.getSalt());
@@ -255,6 +257,28 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
         TCustomerSecurityInfo tCustomerSecurityInfo = new TCustomerSecurityInfo();
         tCustomerSecurityInfo = tCustomerSecurityInfoDao.selectByCustomerNo(customerNo);
         tCustomerSecurityInfoDao.deleteByPrimaryKey(tCustomerSecurityInfo.getNo());
+    }
+
+    @Override
+    public TCustomerLoginInfo userLoginForPhone(String phone, String password) throws Exception {
+        TCustomerSecurityInfo param = new TCustomerSecurityInfo();
+        param.setTelno(phone);
+        param = tCustomerSecurityInfoDao.selectByParam(param);
+        if (param == null) {
+            return null;
+        }
+        else {
+            TCustomerLoginInfo info = new TCustomerLoginInfo();
+            info.setCustomerno(param.getCustomerno());
+            info = tCustomerLoginInfoDao.selectByParams(info);
+            if (PasswordEncryptSaltUtils.checkIsSame(password, info.getSalt(), info.getLoginpass())) {
+                return info;
+            }
+            else {
+                return null;
+            }
+        }
+
     }
 
 }
