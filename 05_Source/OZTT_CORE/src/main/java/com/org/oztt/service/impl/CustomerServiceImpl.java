@@ -135,7 +135,7 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
         tCustomerLoginInfo.setAdduserkey(maxCustomer);
         tCustomerLoginInfo.setCustomerno(maxCustomer);
         tCustomerLoginInfo.setDeleteflg(CommonConstants.IS_NOT_DELETE);
-        tCustomerLoginInfo.setLoginid(ozTtTpReDto.getEmail());
+        tCustomerLoginInfo.setLoginid("00000");
 
         PasswordEncryptSalt returnEnti = PasswordEncryptSaltUtils.encryptPassword(ozTtTpReDto.getPassword());
         tCustomerLoginInfo.setLoginpass(returnEnti.getNewPassword());
@@ -193,7 +193,9 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
 
     public boolean updatePassword(OzTtTpFpDto ozTtTpFpDto) throws Exception {
         TCustomerLoginInfo info = this.selectByCustomerNo(ozTtTpFpDto.getCustomerNo());
-        info.setLoginpass(ozTtTpFpDto.getNewPassword());
+        PasswordEncryptSalt returnEnti = PasswordEncryptSaltUtils.encryptPassword(ozTtTpFpDto.getNewPassword());
+        info.setLoginpass(returnEnti.getNewPassword());
+        info.setSalt(returnEnti.getSalt());        
         info.setUpdtimestamp(new Date());
         info.setUpdpgmid("OZ_TT_TP_FP");
         info.setUpduserkey(ozTtTpFpDto.getCustomerNo());
@@ -279,6 +281,13 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
             }
         }
 
+    }
+
+    @Override
+    public TCustomerSecurityInfo getCustomerByPhone(String phone) throws Exception {
+        TCustomerSecurityInfo param = new TCustomerSecurityInfo();
+        param.setTelno(phone);
+        return tCustomerSecurityInfoDao.selectByParam(param);
     }
 
 }

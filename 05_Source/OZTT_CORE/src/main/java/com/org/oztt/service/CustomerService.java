@@ -5,6 +5,7 @@ import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.entity.TCustomerBasicInfo;
 import com.org.oztt.entity.TCustomerLoginHis;
 import com.org.oztt.entity.TCustomerLoginInfo;
+import com.org.oztt.entity.TCustomerSecurityInfo;
 import com.org.oztt.entity.TNoCustomer;
 import com.org.oztt.formDto.OzTtAdRlListDto;
 import com.org.oztt.formDto.OzTtTpFpDto;
@@ -63,5 +64,8 @@ public interface CustomerService {
      * @throws Exception
      */
     public PagingResult<OzTtAdRlListDto> getAllCustomerInfoForAdmin(Pagination pagination) throws Exception;
+    
+    // 通过手机号取得客户号
+    public TCustomerSecurityInfo getCustomerByPhone(String phone) throws Exception;
 
 }

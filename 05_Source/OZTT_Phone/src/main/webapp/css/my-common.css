@@ -1,3 +1,4 @@
+
 /* ========================================首页============================================== */
 html{
 	font-family:sans-serif
@@ -247,13 +248,13 @@ html{
 .loginBtn a{
 	display: inline-block;
     width: 100%;
-    height:3rem;
-    border-radius: 8px;
+    height: 4rem;
+    border-radius: 8px !important;
     background: #f25454;
     text-decoration: none;
-    line-height: 3rem;
+    line-height: 4rem;
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 2rem;
     color: #fff;
 }
 
@@ -301,4 +302,91 @@ html{
 	background: url(../images/chat.png) center center/3rem 3rem no-repeat;
 }
 
+/* ========================================注册============================================== */
+.registercontain{
+	background-color: #fff;
+}
+.infohead{
+	width: 100%;
+    height: 4rem;
+    background-color: #F9F9F9;
+    text-align: center;
+}
+
+.infohead span{
+	color: #111;
+    font-size: 1.5rem;
+    line-height: 4rem;
+    vertical-align: middle;
+    display: block;
+}
+.required{
+	color: rgba(255, 0, 0, 0.44);
+    width: 5%;
+    display: block;
+    vertical-align: middle;
+    margin-left: 1rem;
+    float: left;
+    font-size: 2rem;
+    height: 4rem;
+    line-height: 4rem;
+    border-bottom: 0.5px solid rgba(187, 187, 187, 0.15);
+}
+
+.requiredinput{
+	width: 90%;
+    border: none;
+    padding-left: 8px;
+    height: 4rem;
+    line-height:4rem;
+    font-size: 1.7rem;
+    border-bottom: 0.5px solid rgba(187, 187, 187, 0.15);
+}
+.registercontain i{
+	height: 2rem;
+    width: 2rem;
+    font-size: 2.5rem;
+}
+
+#buttonCode active{
+	color:#fff;
+}
+.registericon{
+	position: absolute;
+    height: 4rem;
+    line-height: 5rem;
+    right: 2rem;
+}
+.verifycodeBtn{
+	position: absolute;
+	right: 3rem;
+	height: 4rem;
+    line-height: 4rem;
+}
+
+.verifycodeBtn button{
+	background: #f25454;
+	border-radius: 8px !important;
+	color: #fff;
+}
+
+.registerBtn a{
+	display: inline-block;
+    width: 100%;
+    height: 4rem;
+    border-radius: 8px !important;
+    background: #f25454;
+    text-decoration: none;
+    line-height: 4rem;
+    text-align: center;
+    font-size: 2rem;
+    color: #fff;
+}
+
+.registerBtn{
+	width:90%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 2rem;
+}
 

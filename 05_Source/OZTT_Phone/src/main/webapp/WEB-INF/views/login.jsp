@@ -56,7 +56,7 @@
 		<div class="x-header-title">
 			<span>登录</span>
 		</div>
-		<div class="x-header-btn icon-search"></div>
+		<div class="x-header-btn"></div>
 	</div>
 	
 	<div class="errormsg">
@@ -75,10 +75,10 @@
         </div>
         <div class="login_option">
             <span class="register">
-                <a href="" onclick="" class="">立即注册</a>
+                <a href="../register/init" onclick="" class="">立即注册</a>
             </span>
             <span class="find_pw">
-                <a href="" onclick="" class="">忘记登录密码</a>
+                <a href="../forgetPassword/init" onclick="" class="">忘记登录密码</a>
             </span>
         </div>
         <div class="login_other">

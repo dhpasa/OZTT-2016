@@ -22,13 +22,14 @@
 	</div>
 	
 	<div class="profile">
-		<a href="/user/login">	<div class="profile-content">
+		<a href="../login/init">	
+		<div class="profile-content">
 		<div class="avatar">
-						<div class="avatar-img" style="background-image:url(/resource/img/icon/ic_profile_user_avatar_login.png)"></div>
-					</div>
+			<div class="avatar-img" style="background-image:url(/resource/img/icon/ic_profile_user_avatar_login.png)"></div>
+		</div>
 		<div class="profile-info">
-						<span class="login">登录/注册</span>
-					</div>
+			<span class="login">登录/注册</span>
+		</div>
 		</div>
 		</a>
 	</div>
