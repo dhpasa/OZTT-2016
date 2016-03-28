@@ -8,7 +8,6 @@
 <head>
   <meta charset="utf-8">
   <title><fmt:message key="OZ_TT_AD_PL_title" /></title>
-  
   <script type="text/javascript">
   	function searchSetPrice(){
   		var targetForm = document.forms['olForm'];
@@ -558,7 +557,7 @@
 	</div>
 	
 	<div id="groupSet_modal" class="modal fade" role="dialog" aria-hidden="true">
-		<div class="modal-dialog">
+		<div class="modal-dialog" style="width:1200px;">
 			<div class="modal-content">
 				<div class="modal-header" style="text-align: center">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
@@ -567,25 +566,25 @@
 				<div class="modal-body">
 					<form action="#" class="form-horizontal">
 						<div class="form-group">
-							<label class="control-label col-md-4"><fmt:message key="OZ_TT_AD_PL_DIALOG_goodsName" /></label>
-							<div class="col-md-8">				
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_PL_DIALOG_goodsName" /></label>
+							<div class="col-md-10">				
 								<label class="control-label" id="goodGroupName"></label>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-md-4"><fmt:message key="OZ_TT_AD_PL_DIALOG_price" /></label>
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_PL_DIALOG_price" /></label>
 							<div class="col-md-3">
 								<input type="text" id="goodsGroupPrice" class="input-small form-control textright"></input>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-md-4"><fmt:message key="OZ_TT_AD_PL_DIALOG_number" /></label>
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_PL_DIALOG_number" /></label>
 							<div class="col-md-3">
 								<input type="number" id="goodsGroupNumber" class="input-small form-control textright"></input>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-md-4"><fmt:message key="OZ_TT_AD_PL_DIALOG_validDate" /></label>
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_PL_DIALOG_validDate" /></label>
 							<div class="col-md-6">
 								<div class="input-group input-large date-picker input-daterange" data-date="" data-date-format="yyyy/mm/dd">
 									<input type="text" class="form-control" id="dataFromGroup"></input>
@@ -598,27 +597,27 @@
 						</div>
 						
 						<div class="form-group">
-							<label class="control-label col-md-4"><fmt:message key="OZ_TT_AD_PL_DIALOG_comment" /></label>
-							<div class="col-md-8">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_PL_DIALOG_comment" /></label>
+							<div class="col-md-10">
 								<textarea id="groupComment" class="input-medium form-control" rows="3"></textarea>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-md-4"><fmt:message key="OZ_TT_AD_PL_DIALOG_desc" /></label>
-							<div class="col-md-8">
-								<input type="text" id="groupDesc" class="input-medium form-control"></input>
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_PL_DIALOG_desc" /></label>
+							<div class="col-md-10">
+								<textarea id="groupDesc" class="wysihtml5 form-control"></textarea>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-md-4"><fmt:message key="OZ_TT_AD_PL_DIALOG_comsumerReminder" /></label>
-							<div class="col-md-8">
-								<input type="text" id="groupReminder" class="input-medium form-control"></input>
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_PL_DIALOG_comsumerReminder" /></label>
+							<div class="col-md-10">
+								<textarea id="groupReminder" class="wysihtml5 form-control"></textarea>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-md-4"><fmt:message key="OZ_TT_AD_PL_DIALOG_rule" /></label>
-							<div class="col-md-8">
-								<input type="text" id="groupRule" class="input-medium form-control"></input>
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_PL_DIALOG_rule" /></label>
+							<div class="col-md-10">
+								<textarea id="groupRule" class="wysihtml5 form-control"></textarea>
 							</div>
 						</div>
 						
@@ -633,5 +632,8 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+		ComponentsEditors.init();
+	</script>
 </body>
 </html>

@@ -9,6 +9,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import com.org.oztt.contants.CommonConstants;
+
 public class ResponseInterceptor implements HandlerInterceptor {
 
     @Override
@@ -20,15 +22,19 @@ public class ResponseInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
             ModelAndView modelAndView) throws Exception {
-        Locale locale = (Locale) request.getSession().getAttribute(
-                SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
+        Locale locale = (Locale) request.getSession().getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
         String language = "";
         if (locale == null) {
             language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
-        } else {
+        }
+        else {
             language = locale.getLanguage() + "_" + locale.getCountry();
         }
         if (modelAndView != null) {
+            modelAndView.addObject("currentUserId",
+                    request.getSession().getAttribute(CommonConstants.SESSION_CUSTOMERNO));
+            modelAndView.addObject("currentUserName",
+                    request.getSession().getAttribute(CommonConstants.SESSION_CUSTOMERNAME));
             modelAndView.addObject("languageSelf", language);
         }
 

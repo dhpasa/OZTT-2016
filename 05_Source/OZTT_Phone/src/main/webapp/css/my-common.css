@@ -49,7 +49,7 @@ html{
 .main-nav {
     position: fixed;
     width: 100%;
-    height: 3rem;
+    height: 5rem;
     left: 0;
     bottom: 0;
     background-color: #fff;
@@ -80,18 +80,17 @@ html{
     align-items: center;
 }
 
-.main-nav-item h3 {
-    font-weight: 400;
+.main-nav-item span {
     line-height: 3rem;
     height: 3rem;
-    font-size: 1rem;
+    font-size: 1.5rem;
     color: #6f6f6f;
 }
 
-.main-nav-item i {
+.main-nav-item img{
     display: block;
-    width: 1rem;
-    height: 0.5rem;
+    width: 2.5rem;
+    height: 2rem;
     margin-top: 0.3rem;
     background-size: contain;
     background-repeat: no-repeat;
@@ -201,9 +200,21 @@ html{
     width: 100%;
 }
 
+.logodiv{
+	background-color:#FA6D72;
+	width: 100%;
+	text-align: center;
+}
+
+.logodiv img{
+	margin-top:3rem;
+	margin-bottom:3rem;
+	width:200px;
+}
+
 .errormsg{
 	width: 100%;
-	height: 3rem;
+	height: 1.5rem;
 	background-color: #F9F9F9;
 	text-align: center;
 }
@@ -211,16 +222,17 @@ html{
 .errormsg span{
 	color:red;
 	font-size: 1.5rem;
-	padding-top: 1.5rem;
+	padding-top: 0.5rem;
     display: block;
 }
 
 .txt-input{
 	width:100%;
-	height:3rem;
+	height:4rem;
+	border:none;
 	padding-left: 15px;
-	border: 1px solid #d7d7d7;
-    border-radius: 3px;
+	border-bottom: 0.5px solid rgba(187, 187, 187, 0.15);
+    border-radius: 5px !important;
     font-size: 1.5rem;
 } 
 
@@ -235,7 +247,6 @@ html{
 	width:90%;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 1rem;
 }
 
 .loginBtn{
@@ -250,7 +261,7 @@ html{
     width: 100%;
     height: 4rem;
     border-radius: 8px !important;
-    background: #f25454;
+    background: #FA6D72;
     text-decoration: none;
     line-height: 4rem;
     text-align: center;
@@ -305,18 +316,20 @@ html{
 /* ========================================注册============================================== */
 .registercontain{
 	background-color: #fff;
+	width: 90%;
+    margin: 0 auto;
 }
 .infohead{
 	width: 100%;
-    height: 4rem;
+    height: 2rem;
     background-color: #F9F9F9;
     text-align: center;
 }
 
 .infohead span{
 	color: #111;
-    font-size: 1.5rem;
-    line-height: 4rem;
+    font-size: 1rem;
+    line-height: 2rem;
     vertical-align: middle;
     display: block;
 }
@@ -339,13 +352,16 @@ html{
     padding-left: 8px;
     height: 4rem;
     line-height:4rem;
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     border-bottom: 0.5px solid rgba(187, 187, 187, 0.15);
 }
 .registercontain i{
 	height: 2rem;
     width: 2rem;
     font-size: 2.5rem;
+}
+.registerpwd{
+	margin-top: 1rem;
 }
 
 #buttonCode active{
@@ -356,6 +372,7 @@ html{
     height: 4rem;
     line-height: 5rem;
     right: 2rem;
+    color:#FA6D72;
 }
 .verifycodeBtn{
 	position: absolute;
@@ -365,7 +382,7 @@ html{
 }
 
 .verifycodeBtn button{
-	background: #f25454;
+	background: #FA6D72;
 	border-radius: 8px !important;
 	color: #fff;
 }
@@ -375,7 +392,7 @@ html{
     width: 100%;
     height: 4rem;
     border-radius: 8px !important;
-    background: #f25454;
+    background: #FA6D72;
     text-decoration: none;
     line-height: 4rem;
     text-align: center;
@@ -388,5 +405,9 @@ html{
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 2rem;
+}
+
+.registerinputarea{
+	
 }
 

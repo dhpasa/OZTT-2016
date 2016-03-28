@@ -15,6 +15,8 @@
 <link href="${ctx}/assets/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css"/>
 <link href="${ctx}/assets/plugins/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css"/>
 
+<link rel="stylesheet" type="text/css" href="${ctx}/assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css"/>
+
 <link rel="stylesheet" href="${ctx}/assets/plugins/data-tables/DT_bootstrap.css"/>
 <link rel="stylesheet" type="text/css" href="${ctx}/assets/plugins/bootstrap-datepicker/css/datepicker.css"/>
 <link rel="stylesheet" type="text/css" href="${ctx}/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css"/>

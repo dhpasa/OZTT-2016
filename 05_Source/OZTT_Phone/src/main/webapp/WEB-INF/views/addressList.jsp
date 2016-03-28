@@ -8,10 +8,10 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title><fmt:message key="LOGIN_TITLE" /></title>
+  <title></title>
   <script type="text/javascript">
-  	var W0001 = '<fmt:message key="W0001" />';
-  	var E0001 = '<fmt:message key="E0001" />';
+  	var W0001 = "请输入帐号或密码";
+  	var E0001 = "请输入正确的账号密码。";
   	function login(){
   		$("#errormsg").text("");
   		var phone = $("#phone").val();
@@ -50,8 +50,7 @@
 
 <!-- Body BEGIN -->
 <body>
-	<div>
-	<!-- <div class="x-header x-header-gray border-1px-bottom">
+	<div class="x-header x-header-gray border-1px-bottom">
 		<div class="x-header-btn ico-back">
 		</div>
 		<div class="x-header-title">
@@ -59,43 +58,40 @@
 		</div>
 		<div class="x-header-btn"></div>
 	</div>
-	 -->
-	 <div class="logodiv">
-	 	<img alt="logo" src="${ctx}/images/logo_login.png">
-	 </div>
+	
 	<div class="errormsg">
 		<span id="errormsg"></span>
 	</div>
 	
 	<div class="logincontain">
         <div class="input_username">
-            <input class="txt-input " type="text" placeholder="请输入手机号"  autofocus="" maxlength="13" id="phone">
+            <input class="txt-input " type="text" placeholder="请输入已验证手机号"  autofocus="" maxlength="13" id="phone">
         </div>
         <div class="input-password">
             <input class="txt-input" type="password" autocomplete="off" placeholder="请输入密码" maxlength="13" id="password">
         </div>
         <div class="loginBtn">
-            <a href="#" onclick="login()"><fmt:message key="LOGIN_BTN" /></a>
+            <a href="#" onclick="login()">登录</a>
         </div>
         <div class="login_option">
             <span class="register">
-                <a href="../register/init" onclick="" class=""><fmt:message key="LOGIN_TOREGISTER" /></a>
+                <a href="../register/init" onclick="" class="">立即注册</a>
             </span>
             <span class="find_pw">
-                <a href="../forgetPassword/init" onclick="" class=""><fmt:message key="LOGIN_FORGETPWD" /></a>
+                <a href="../forgetPassword/init" onclick="" class="">忘记登录密码</a>
             </span>
         </div>
         <div class="login_other">
             <dl>
-                <dt><fmt:message key="LOGIN_OTHER" /></dt>
+                <dt>其它登录方式</dt>
                 <dd>
-                    <a href="" onclick="" class="wechat"><span><fmt:message key="LOGIN_WECHAT" /></span></a>
+                    <a href="" onclick="" class="wechat"><span>微信登录</span></a>
                 </dd>
             </dl>
         </div>
 	</div>
 	
-	</div>
+
 </body>
 <!-- END BODY -->
 </html>

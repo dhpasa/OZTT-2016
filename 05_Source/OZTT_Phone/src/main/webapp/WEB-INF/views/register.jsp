@@ -8,20 +8,20 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title></title>
+  <title><fmt:message key="REGISTER_TITLE" /></title>
   <script type="text/javascript">
   var wait = 60;
   function getVerifyCode(){
-		$("#personInfo").text("个人信息");
+		$("#personInfo").text('');
 		$("#personInfo").css("color", "#111");
 		var phone = $("#phone").val();
 		if (phone == "") {
-			$("#personInfo").text("请输入手机号");
+			$("#personInfo").text('<fmt:message key="W0002" />');
 			$("#personInfo").css("color", "red");
 			return false;
 		}
 		if (!checkMobilePhoneForOztt(phone)){
-			$("#personInfo").text("请输入正确的手机号");
+			$("#personInfo").text('<fmt:message key="E0002" />');
 			$("#personInfo").css("color", "red");
 			return false;
 		}
@@ -49,11 +49,11 @@
 
 		if (wait == 0) {
 			o.removeAttribute("disabled");
-			$(o).text('获取验证码');
+			$(o).text('<fmt:message key="COMMON_GETVIERIFY" />');
 			wait = 60;
 		} else {
 			o.setAttribute("disabled", true);
-			$(o).text(wait + '秒后重发');
+			$(o).text(wait + '<fmt:message key="COMMON_VIERIFY_AGAIN" />');
 			wait--;
 			setTimeout(function() {
 				time();
@@ -75,11 +75,11 @@
 				if(!data.isException) {
 					if (data.verifyCodeError) {
 						// 验证码错误
-						$("#personInfo").text("请输入正确的验证码");
+						$("#personInfo").text('<fmt:message key="E0003" />');
 						$("#personInfo").css("color", "red");
 					} else if (data.hasbeenRegister){
 						// 手机已经注册过了
-						$("#personInfo").text("您的手机已经注册过了。");
+						$("#personInfo").text('<fmt:message key="E0004" />');
 						$("#personInfo").css("color", "red");
 					} else {
 						// 正确登录
@@ -94,36 +94,34 @@
 	}
 	
 	function validateForm(){
-		$("#personInfo").text("个人信息");
+		$("#personInfo").text('');
 		$("#personInfo").css("color", "#111");
-		$("#passwordInfo").text("密码");
-		$("#passwordInfo").css("color", "#111");
 		var nickname = $("#nickname").val();
 		if (nickname == "") {
-			$("#personInfo").text("请输入昵称");
+			$("#personInfo").text('<fmt:message key="W0003" />');
 			$("#personInfo").css("color", "red");
 			return "";
 		}
 		var phone = $("#phone").val();
 		if (phone == "") {
-			$("#personInfo").text("请输入手机号");
+			$("#personInfo").text('<fmt:message key="W0002" />');
 			$("#personInfo").css("color", "red");
 			return "";
 		}
 		var verifycode = $("#verifycode").val();
 		if (verifycode == "") {
-			$("#personInfo").text("请输入验证码");
+			$("#personInfo").text('<fmt:message key="W0004" />');
 			$("#personInfo").css("color", "red");
 			return "";
 		}
 		if (!checkMobilePhoneForOztt(phone)){
-			$("#personInfo").text("请输入正确的手机号");
+			$("#personInfo").text('<fmt:message key="E0002" />');
 			$("#personInfo").css("color", "red");
 			return "";
 		}
 		// 防止恶意攻击
 		if (checkQuote(nickname)){
-			$("#personInfo").text("昵称中不可以还有非法字符");
+			$("#personInfo").text('<fmt:message key="E0005" />');
 			$("#personInfo").css("color", "red");
 			return "";
 		}
@@ -131,18 +129,18 @@
 		var password = $("#password").val();
 		var confirmpwd = $("#confirmpwd").val();
 		if (password == "") {
-			$("#passwordInfo").text("请输入密码");
-			$("#passwordInfo").css("color", "red");
+			$("#personInfo").text('<fmt:message key="W0005" />');
+			$("#personInfo").css("color", "red");
 			return "";
 		}
 		if (confirmpwd == "") {
-			$("#passwordInfo").text("请确认密码");
-			$("#passwordInfo").css("color", "red");
+			$("#personInfo").text('<fmt:message key="W0006" />');
+			$("#personInfo").css("color", "red");
 			return "";
 		}
 		
 		if (password != confirmpwd) {
-			$("#passwordInfo").text("请输入相同的密码");
+			$("#passwordInfo").text('<fmt:message key="W0007" />');
 			$("#passwordInfo").css("color", "red");
 			return "";
 		}
@@ -163,53 +161,52 @@
 
 <!-- Body BEGIN -->
 <body>
-	<div class="x-header x-header-gray border-1px-bottom">
+	<%-- <div class="x-header x-header-gray border-1px-bottom">
 		<div class="x-header-btn ico-back">
 		</div>
 		<div class="x-header-title">
-			<span>注册</span>
+			<span><fmt:message key="REGISTER_TITLE" /></span>
 		</div>
 		<div class="x-header-btn"></div>
-	</div>
+	</div> --%>
+	<div class="logodiv">
+	 	<img alt="logo" src="${ctx}/images/logo_login.png">
+	 </div>
 	
 	<div class="infohead">
-		<span id="personInfo">个人信息</span>
+		<span id="personInfo"></span>
 	</div>
 	
 	<div class="registercontain">
-        <div class="">
-            <span class="required">*</span><input class="requiredinput " type="text" placeholder="请输入昵称"  autofocus="" maxlength="13" id="nickname">
+        <div class="registerinputarea">
+            <!-- <span class="required">*</span> --><input class="requiredinput " type="text" placeholder="请输入昵称"  autofocus="" maxlength="13" id="nickname">
             <span class="registericon"><i class="fa fa-male"></i></span>
         </div>
-       <div class="">
-            <span class="required">*</span><input class="requiredinput " type="number" placeholder="请输入您的手机号"  autofocus="" maxlength="13" id="phone">
+       <div class="registerinputarea">
+            <!-- <span class="required">*</span> --><input class="requiredinput " type="number" placeholder="请输入您的手机号"  autofocus="" maxlength="13" id="phone">
             <span class="registericon"><i class="fa fa-mobile-phone"></i></span>
         </div>
-        <div class="">
-            <span class="required">*</span><input class="requiredinput " type="number" placeholder="请输入短信验证码"  autofocus="" maxlength="6" id="verifycode">
+        <div class="registerinputarea">
+            <!-- <span class="required">*</span> --><input class="requiredinput " type="number" placeholder="请输入短信验证码"  autofocus="" maxlength="6" id="verifycode">
         	<span class="verifycodeBtn">
-        	<button type="button" class="btn btn-primary" onclick="getVerifyCode()" id="buttonCode">获取验证码</button>
+        	<button type="button" class="btn btn-primary" onclick="getVerifyCode()" id="buttonCode"><fmt:message key="COMMON_GETVIERIFY" /></button>
         	</span>
         </div>
 	</div>
 	
-	<div class="infohead">
-		<span id="passwordInfo">密码</span>
-	</div>
-	
-	<div class="registercontain">
-        <div class="">
-            <span class="required">*</span><input class="requiredinput " type="password" placeholder="请输入密码"  autofocus="" maxlength="13" id="password" required="required">
+	<div class="registercontain registerpwd">
+        <div class="registerinputarea">
+            <input class="requiredinput " type="password" placeholder="请输入密码"  autofocus="" maxlength="13" id="password" required="required">
         	<span class="registericon"><i class="fa fa-lock"></i></span>
         </div>
-        <div class="">
-            <span class="required">*</span><input class="requiredinput " type="password" placeholder="请确认密码"  autofocus="" maxlength="13" id="confirmpwd" required="true">
+        <div class="registerinputarea">
+            <!-- <span class="required">*</span> --><input class="requiredinput " type="password" placeholder="请确认密码"  autofocus="" maxlength="13" id="confirmpwd" required="true">
         	<span class="registericon"><i class="fa fa-lock"></i></span>
         </div>
 	</div>
 	
 	<div class="registerBtn">
-          <a href="#" onclick="register()">注册</a>
+          <a href="#" onclick="register()"><fmt:message key="REGISTER_SAVE" /></a>
       </div>
 	
 
