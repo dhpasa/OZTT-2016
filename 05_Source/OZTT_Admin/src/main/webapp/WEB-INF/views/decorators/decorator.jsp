@@ -238,6 +238,9 @@
 		$("#goodsClassLi").click();
 	}
 	
+	if (currentPath.indexOf("OZ_TT_AD_PL") > 0) {
+		ComponentsEditors.init();
+	}
 	
 	if (currentPath.indexOf("OZ_TT_AD_PD") > 0) {
 		var goodsId = $("#goodsId").val();

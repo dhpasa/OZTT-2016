@@ -14,34 +14,41 @@
 </head>
 <!-- Head END -->
 <script>
-	
+	function toShopCart(){
+		var currentUserId = $("#currentUserId").val();
+		if (currentUserId == null || currentUserId.length == 0) {
+			location.href = "${ctx}/login/init"
+		} else {
+			location.href = "${ctx}/shopcart/init"
+		}
+	}
 </script>
 
 <!-- Body BEGIN -->
-<body>
+<body id="container">
 	<sitemesh:write property='body' />
 
     <!-- BEGIN FOOTER -->
     <div class="main-nav">
 		<a href="${ctx}/main/init" class="main-nav-item main-nav-home main-nav-active">
-			<i class="fa fa-home"></i>
-			<h3>首页</h3>
+			<img alt="home" src="${ctx}/images/main.png">
+			<span>首页</span>
 		</a>
 		<a href="${ctx}/user/init" class="main-nav-item main-nav-cat ">
-			<i class="fa fa-list-ul"></i>
-			<h3>分类</h3>
+			<img alt="category" src="${ctx}/images/category.png">
+			<span>分类</span>
 		</a>
-		<a href="${ctx}/user/init" class="main-nav-item main-nav-cart ">
-			<i class="fa fa-shopping-cart"></i>
-			<h3>购物袋</h3>
+		<a href="#" onclick="toShopCart()" class="main-nav-item main-nav-cart ">
+			<img alt="shopcart" src="${ctx}/images/shopcart.png">
+			<span>购物袋</span>
 		</a>
 		<a href="${ctx}/user/init" class="main-nav-item main-nav-profile ">
-			<i class="fa fa-user"></i>
-			<h3>我</h3>
+			<img alt="me" src="${ctx}/images/me.png">
+			<span>我</span>
 		</a>
 	</div>
     <!-- END FOOTER -->
-    
+    <input type="hidden" value="${currentUserId}" id="currentUserId">
 </body>
 <!-- END BODY -->
 </html>

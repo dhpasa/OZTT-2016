@@ -46,10 +46,15 @@
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <script src="${ctx}/assets/scripts/core/app.js" type="text/javascript"></script>
+<script src="${ctx}/assets/scripts/custom/components-editors.js"></script>
 <script src="${ctx}/assets/scripts/custom/index.js" type="text/javascript"></script>
 <script src="${ctx}/assets/scripts/custom/tasks.js" type="text/javascript"></script>
 <script src="${ctx}/assets/scripts/core/datatable.js"></script>
 <script src="${ctx}/assets/scripts/custom/ecommerce-products-edit.js"></script>
+
+<script type="text/javascript" src="${ctx}/assets/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js"></script>
+<script type="text/javascript" src="${ctx}/assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js"></script>
+
 <script type="text/javascript" src='${ctx}/js/jquery.uploadify.min.js'></script>
 <script type="text/javascript" src='${ctx}/js/fileinput.js'></script>
 <script type="text/javascript" src="${ctx}/js/user-common.js"></script>
