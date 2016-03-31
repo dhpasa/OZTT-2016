@@ -13,10 +13,10 @@ insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('C
 insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('COM003', '70', '教育程度', '博士');
 insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('COM003', '80', '教育程度', '其他');
 insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('COM004', '0', '订单状态', '未付款');
-insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('COM004', '1', '订单状态', '已付款');
-insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('COM004', '2', '订单状态', '处理中');
-insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('COM004', '3', '订单状态', '处理完毕');
-insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('COM004', '9', '订单状态', '删除');
+insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('COM004', '1', '订单状态', '下单成功');
+insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('COM004', '2', '订单状态', '商品派送中');
+insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('COM004', '3', '订单状态', '订单已完成');
+insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('COM004', '9', '订单状态', '订单已取消');
 insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('COM005', '1', '付款方式', 'Credit Card');
 insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('COM005', '2', '付款方式', 'Paypal');
 insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('COM005', '3', '付款方式', '支付宝');
@@ -29,8 +29,6 @@ insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('C
 insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('COM008', '1', '运送方式', '来店自提');
 insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('COM008', '2', '运送方式', '普通快递');
 insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('COM008', '3', '运送方式', '货到付款');
-insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('COM009', '01', '送货上门时间段', '8:00～～10:00');
-insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('COM009', '02', '送货上门时间段', '10:00～～12:00');
-insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('COM009', '03', '送货上门时间段', '12:00～～14:00');
-insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('COM009', '04', '送货上门时间段', '14:00～～16:00');
-insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('COM009', '05', '送货上门时间段', '16:00～～18:00');
+insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('COM009', '01', '送货上门时间段', '9:00～～12:00');
+insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('COM009', '02', '送货上门时间段', '12:00～～15:00');
+insert into t_sys_code(codeId, codeDetailId, codeName, codeDetailName) values('COM009', '03', '送货上门时间段', '15:00～～18:00');

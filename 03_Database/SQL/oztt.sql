@@ -1,4 +1,4 @@
-﻿/*
+/*
 Navicat MySQL Data Transfer
 
 Source Server         : localMysql
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50710
 File Encoding         : 65001
 
-Date: 2016-03-06 21:33:40
+Date: 2016-03-31 21:26:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -96,7 +96,7 @@ CREATE TABLE `t_admin_login_info` (
   `updUserKey` varchar(40) DEFAULT NULL,
   `updPgmId` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_admin_login_info
@@ -161,7 +161,8 @@ CREATE TABLE `t_cons_order` (
   `deliveryMethod` varchar(6) DEFAULT NULL,
   `addressId` bigint(18) DEFAULT NULL,
   `homeDeliveryTime` varchar(10) DEFAULT NULL,
-  `accountNo` varchar(16) DEFAULT NULL,
+  `invoiceFlg` char(1) DEFAULT NULL,
+  `invoiceNo` varchar(16) DEFAULT NULL,
   `deliveryCost` decimal(12,2) DEFAULT NULL,
   `transactionNo` varchar(16) DEFAULT NULL,
   `addTimestamp` timestamp NULL DEFAULT NULL,
@@ -187,14 +188,14 @@ CREATE TABLE `t_cons_order_details` (
   `goodsId` varchar(16) NOT NULL,
   `deliveryTime` varchar(10) DEFAULT NULL,
   `specifications` varchar(1000) DEFAULT NULL,
-  `quantity` decimal(12, 0),
+  `quantity` decimal(12,0) DEFAULT NULL,
   `groupNo` varchar(16) DEFAULT NULL,
   `priceNo` varchar(16) DEFAULT NULL,
-  `unitPrice` decimal(12, 2),
-  `sumAmount` decimal(12, 2),
+  `unitPrice` decimal(12,2) DEFAULT NULL,
+  `sumAmount` decimal(12,2) DEFAULT NULL,
   `addTimestamp` timestamp NULL DEFAULT NULL,
   `addUserKey` varchar(40) DEFAULT NULL,
-  `updTimestamp` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updTimestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updUserKey` varchar(40) DEFAULT NULL,
   `updPgmId` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`no`)
@@ -372,7 +373,7 @@ CREATE TABLE `t_goods` (
   `goodsDesc` varchar(200) DEFAULT NULL,
   `goodsDescEn` varchar(400) DEFAULT NULL,
   `goodsComments` varchar(500) DEFAULT NULL,
-  `ifTax` char(1),
+  `ifTax` char(1) DEFAULT NULL,
   `goodsThumbnail` varchar(255) DEFAULT NULL,
   `goodsSmallPic` varchar(255) DEFAULT NULL,
   `goodsNormalPic` varchar(255) DEFAULT NULL,
@@ -699,6 +700,21 @@ CREATE TABLE `t_goods_storage` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for t_no_announcement
+-- ----------------------------
+DROP TABLE IF EXISTS `t_no_announcement`;
+CREATE TABLE `t_no_announcement` (
+  `no` bigint(12) NOT NULL AUTO_INCREMENT,
+  `date` varchar(8) NOT NULL,
+  `maxNo` varchar(16) NOT NULL,
+  PRIMARY KEY (`no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_no_announcement
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for t_no_customer
 -- ----------------------------
 DROP TABLE IF EXISTS `t_no_customer`;
@@ -929,6 +945,28 @@ CREATE TABLE `t_sys_account` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for t_sys_announcement
+-- ----------------------------
+DROP TABLE IF EXISTS `t_sys_announcement`;
+CREATE TABLE `t_sys_announcement` (
+  `no` bigint(12) NOT NULL AUTO_INCREMENT,
+  `announceNo` varchar(16) NOT NULL,
+  `announceTitle` varchar(255) NOT NULL,
+  `announceContent` varchar(1000) NOT NULL,
+  `releaseTime` timestamp NULL DEFAULT NULL,
+  `ifRevoke` char(1) DEFAULT NULL,
+  `revokeTime` timestamp NULL DEFAULT NULL,
+  `ifDelete` char(1) DEFAULT NULL,
+  `deleteTime` timestamp NULL DEFAULT NULL,
+  `priority` char(1) DEFAULT NULL,
+  PRIMARY KEY (`no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_sys_announcement
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for t_sys_code
 -- ----------------------------
 DROP TABLE IF EXISTS `t_sys_code`;
@@ -939,7 +977,7 @@ CREATE TABLE `t_sys_code` (
   `codeName` varchar(100) NOT NULL,
   `codeDetailName` varchar(100) NOT NULL,
   PRIMARY KEY (`no`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_sys_code
@@ -959,10 +997,10 @@ INSERT INTO `t_sys_code` VALUES ('12', 'COM003', '60', '教育程度', '硕士')
 INSERT INTO `t_sys_code` VALUES ('13', 'COM003', '70', '教育程度', '博士');
 INSERT INTO `t_sys_code` VALUES ('14', 'COM003', '80', '教育程度', '其他');
 INSERT INTO `t_sys_code` VALUES ('15', 'COM004', '0', '订单状态', '未付款');
-INSERT INTO `t_sys_code` VALUES ('16', 'COM004', '1', '订单状态', '已付款');
-INSERT INTO `t_sys_code` VALUES ('17', 'COM004', '2', '订单状态', '处理中');
-INSERT INTO `t_sys_code` VALUES ('18', 'COM004', '3', '订单状态', '处理完毕');
-INSERT INTO `t_sys_code` VALUES ('19', 'COM004', '9', '订单状态', '删除');
+INSERT INTO `t_sys_code` VALUES ('16', 'COM004', '1', '订单状态', '下单成功');
+INSERT INTO `t_sys_code` VALUES ('17', 'COM004', '2', '订单状态', '商品派送中');
+INSERT INTO `t_sys_code` VALUES ('18', 'COM004', '3', '订单状态', '订单已完成');
+INSERT INTO `t_sys_code` VALUES ('19', 'COM004', '9', '订单状态', '订单已取消');
 INSERT INTO `t_sys_code` VALUES ('20', 'COM005', '1', '付款方式', 'Credit Card');
 INSERT INTO `t_sys_code` VALUES ('21', 'COM005', '2', '付款方式', 'Paypal');
 INSERT INTO `t_sys_code` VALUES ('22', 'COM005', '3', '付款方式', '支付宝');
@@ -975,11 +1013,30 @@ INSERT INTO `t_sys_code` VALUES ('28', 'COM007', '9', '交易状态', '处理失
 INSERT INTO `t_sys_code` VALUES ('29', 'COM008', '1', '运送方式', '来店自提');
 INSERT INTO `t_sys_code` VALUES ('30', 'COM008', '2', '运送方式', '普通快递');
 INSERT INTO `t_sys_code` VALUES ('31', 'COM008', '3', '运送方式', '货到付款');
-INSERT INTO `t_sys_code` VALUES ('32', 'COM009', '01', '送货上门时间段', '8:00～～10:00');
-INSERT INTO `t_sys_code` VALUES ('33', 'COM009', '02', '送货上门时间段', '10:00～～12:00');
-INSERT INTO `t_sys_code` VALUES ('34', 'COM009', '03', '送货上门时间段', '12:00～～14:00');
-INSERT INTO `t_sys_code` VALUES ('35', 'COM009', '04', '送货上门时间段', '14:00～～16:00');
-INSERT INTO `t_sys_code` VALUES ('36', 'COM009', '05', '送货上门时间段', '16:00～～18:00');
+INSERT INTO `t_sys_code` VALUES ('32', 'COM009', '01', '送货上门时间段', '9:00～～12:00');
+INSERT INTO `t_sys_code` VALUES ('33', 'COM009', '02', '送货上门时间段', '12:00～～15:00');
+INSERT INTO `t_sys_code` VALUES ('34', 'COM009', '03', '送货上门时间段', '15:00～～18:00');
+
+-- ----------------------------
+-- Table structure for t_sys_config
+-- ----------------------------
+DROP TABLE IF EXISTS `t_sys_config`;
+CREATE TABLE `t_sys_config` (
+  `no` bigint(12) NOT NULL AUTO_INCREMENT,
+  `goodsSearchKey1` int(8) DEFAULT NULL,
+  `goodsSearchValue1` varchar(255) DEFAULT NULL,
+  `goodsSearchKey2` int(8) DEFAULT NULL,
+  `goodsSearchValue2` varchar(255) DEFAULT NULL,
+  `goodsSearchKey3` int(8) DEFAULT NULL,
+  `goodsSearchValue3` varchar(255) DEFAULT NULL,
+  `discountRate` decimal(12,2) NOT NULL,
+  PRIMARY KEY (`no`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_sys_config
+-- ----------------------------
+INSERT INTO `t_sys_config` VALUES ('1', '3', '3天', '5', '5天', '7', '7天', '0.95');
 
 -- ----------------------------
 -- Table structure for t_sys_module
@@ -1060,41 +1117,4 @@ CREATE TABLE `t_sys_validate_message` (
 
 -- ----------------------------
 -- Records of t_sys_validate_message
--- ----------------------------
-
--- ----------------------------
--- Table structure for t_no_announcement
--- ----------------------------
-DROP TABLE IF EXISTS `t_no_announcement`;
-CREATE TABLE `t_no_announcement` (
-  `no` bigint(12) NOT NULL AUTO_INCREMENT,
-  `date` varchar(8) NOT NULL,
-  `maxNo` varchar(16) NOT NULL,
-  PRIMARY KEY (`no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of t_no_announcement
--- ----------------------------
-
--- ----------------------------
--- Table structure for t_sys_announcement
--- ----------------------------
-DROP TABLE IF EXISTS `t_sys_announcement`;
-CREATE TABLE `t_sys_announcement` (
-  `no` bigint(12) NOT NULL AUTO_INCREMENT,
-  `announceNo` varchar(16) NOT NULL,
-  `announceTitle` varchar(255) NOT NULL,
-  `announceContent` varchar(1000) NOT NULL,
-  `releaseTime` timestamp NULL DEFAULT NULL,
-  `ifRevoke` char(1),
-  `revokeTime` timestamp NULL DEFAULT NULL,
-  `ifDelete` char(1),
-  `deleteTime` timestamp NULL DEFAULT NULL,
-  `priority` char(1),
-  PRIMARY KEY (`no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of t_sys_announcement
 -- ----------------------------
