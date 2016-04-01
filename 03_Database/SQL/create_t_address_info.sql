@@ -1,6 +1,7 @@
 ﻿DROP TABLE IF EXISTS `t_address_info`;
 CREATE TABLE `t_address_info` (
   `id` bigint(18) NOT NULL AUTO_INCREMENT,
+  `flg` char(1) NOT NULL,
   `customerNo` varchar(16) NOT NULL,
   `deliveryMethod` varchar(6) NOT NULL,
   `countryCode` varchar(20) DEFAULT NULL,
