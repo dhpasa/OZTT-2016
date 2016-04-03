@@ -3,6 +3,7 @@
 <mapper namespace="com.org.oztt.dao.TAddressInfoDao" >
   <resultMap id="BaseResultMap" type="com.org.oztt.entity.TAddressInfo" >
     <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="flg" property="flg" jdbcType="CHAR" />
     <result column="customerNo" property="customerno" jdbcType="VARCHAR" />
     <result column="deliveryMethod" property="deliverymethod" jdbcType="VARCHAR" />
     <result column="countryCode" property="countrycode" jdbcType="VARCHAR" />
@@ -14,7 +15,7 @@
     <result column="contactTel" property="contacttel" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, customerNo, deliveryMethod, countryCode, state, suburb, addressDetails, 
+    id, flg, customerNo, deliveryMethod, countryCode, state, suburb, addressDetails, 
     postCode, receiver, contactTel
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -28,12 +29,12 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.org.oztt.entity.TAddressInfo" >
-    insert into t_address_info (id, customerNo, deliveryMethod, 
-      countryCode, state,
+    insert into t_address_info (id, flg, customerNo, 
+      deliveryMethod, countryCode, state, 
       suburb, addressDetails, postCode, 
       receiver, contactTel)
-    values (#{id,jdbcType=BIGINT}, #{customerno,jdbcType=VARCHAR}, #{deliverymethod,jdbcType=VARCHAR}, 
-      #{countrycode,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR},
+    values (#{id,jdbcType=BIGINT}, #{flg,jdbcType=CHAR}, #{customerno,jdbcType=VARCHAR}, 
+      #{deliverymethod,jdbcType=VARCHAR}, #{countrycode,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
       #{suburb,jdbcType=VARCHAR}, #{addressdetails,jdbcType=VARCHAR}, #{postcode,jdbcType=VARCHAR}, 
       #{receiver,jdbcType=VARCHAR}, #{contacttel,jdbcType=VARCHAR})
   </insert>
@@ -42,6 +43,9 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
+      </if>
+      <if test="flg != null" >
+        flg,
       </if>
       <if test="customerno != null" >
         customerNo,
@@ -75,6 +79,9 @@
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
+      <if test="flg != null" >
+        #{flg,jdbcType=CHAR},
+      </if>
       <if test="customerno != null" >
         #{customerno,jdbcType=VARCHAR},
       </if>
@@ -107,6 +114,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.org.oztt.entity.TAddressInfo" >
     update t_address_info
     <set >
+      <if test="flg != null" >
+        flg = #{flg,jdbcType=CHAR},
+      </if>
       <if test="customerno != null" >
         customerNo = #{customerno,jdbcType=VARCHAR},
       </if>
@@ -139,7 +149,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.org.oztt.entity.TAddressInfo" >
     update t_address_info
-    set customerNo = #{customerno,jdbcType=VARCHAR},
+    set flg = #{flg,jdbcType=CHAR},
+      customerNo = #{customerno,jdbcType=VARCHAR},
       deliveryMethod = #{deliverymethod,jdbcType=VARCHAR},
       countryCode = #{countrycode,jdbcType=VARCHAR},
       state = #{state,jdbcType=VARCHAR},
@@ -157,5 +168,12 @@
     from t_address_info
     where customerNo = #{customerno,jdbcType=VARCHAR}
     and deliveryMethod = #{deliverymethod,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getAllAddressByCustomerNo" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_address_info
+    where customerNo = #{customerno,jdbcType=VARCHAR}
   </select>
 </mapper>

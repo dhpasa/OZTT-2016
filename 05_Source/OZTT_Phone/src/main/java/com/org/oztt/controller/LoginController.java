@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.org.oztt.contants.CommonConstants;
+import com.org.oztt.entity.TCustomerBasicInfo;
 import com.org.oztt.entity.TCustomerLoginHis;
 import com.org.oztt.entity.TCustomerLoginInfo;
 import com.org.oztt.service.CustomerService;
@@ -79,6 +80,10 @@ public class LoginController extends BaseController {
                 tCustomerLoginHis.setCustomerno(tCustomerLoginInfo.getCustomerno());
                 customerService.insertLoginHisAndUpdateStatus(tCustomerLoginHis);
             }
+            
+            session.setAttribute(CommonConstants.SESSION_CUSTOMERNO, tCustomerLoginInfo.getCustomerno());
+            TCustomerBasicInfo baseInfo = customerService.selectBaseInfoByCustomerNo(tCustomerLoginInfo.getCustomerno());
+            session.setAttribute(CommonConstants.SESSION_CUSTOMERNAME, baseInfo == null ? "" : baseInfo.getNickname());
             
             mapReturn.put("isException", false);
             mapReturn.put("isWrong", false);

@@ -34,7 +34,7 @@
 			<img alt="home" src="${ctx}/images/main.png">
 			<span>首页</span>
 		</a>
-		<a href="${ctx}/user/init" class="main-nav-item main-nav-cat ">
+		<a href="${ctx}/category/init" class="main-nav-item main-nav-cat ">
 			<img alt="category" src="${ctx}/images/category.png">
 			<span>分类</span>
 		</a>

@@ -8,39 +8,21 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title></title>
+  <title><fmt:message key="ADDRESSLIST_TITLE"/></title>
   <script type="text/javascript">
-  	var W0001 = "请输入帐号或密码";
-  	var E0001 = "请输入正确的账号密码。";
-  	function login(){
-  		$("#errormsg").text("");
-  		var phone = $("#phone").val();
-  		var password = $("#password").val();
-  		if (phone == "" || password == "") {
-  			$("#errormsg").text(W0001);
-  			return;
-  		}
-  		$.ajax({
-			type : "GET",
-			contentType:'application/json',
-			url : '${pageContext.request.contextPath}/login/login?phone='+phone+"&password="+password,
-			dataType : "json",
-			data : "", 
-			success : function(data) {
-				if(!data.isException) {
-					if (data.isWrong) {
-						// 登录错误
-						$("#errormsg").text(E0001);
-					} else {
-						// 正确登录
-						location.href = "${ctx}/main/init";
-					}
-				}
-			},
-			error : function(data) {
-				$("#errormsg").text(E0001);
-			}
+  
+  	$(function(){
+		$(".ico-back").click(function(){
+			location.href="${ctx}/user/init"
 		});
+		
+	});
+  	function newAddress() {
+  		location.href="${ctx}/addressIDUS/newAddress"
+  	}
+  	
+  	function modifyAddress(addressId){
+  		location.href="${ctx}/addressIDUS/getAddressById?addressId="+addressId;
   	}
   
   </script>
@@ -54,43 +36,41 @@
 		<div class="x-header-btn ico-back">
 		</div>
 		<div class="x-header-title">
-			<span>登录</span>
+			<span><fmt:message key="ADDRESSLIST_TITLE"/></span>
 		</div>
 		<div class="x-header-btn"></div>
 	</div>
 	
-	<div class="errormsg">
-		<span id="errormsg"></span>
-	</div>
-	
-	<div class="logincontain">
-        <div class="input_username">
-            <input class="txt-input " type="text" placeholder="请输入已验证手机号"  autofocus="" maxlength="13" id="phone">
-        </div>
-        <div class="input-password">
-            <input class="txt-input" type="password" autocomplete="off" placeholder="请输入密码" maxlength="13" id="password">
-        </div>
-        <div class="loginBtn">
-            <a href="#" onclick="login()">登录</a>
-        </div>
-        <div class="login_option">
-            <span class="register">
-                <a href="../register/init" onclick="" class="">立即注册</a>
-            </span>
-            <span class="find_pw">
-                <a href="../forgetPassword/init" onclick="" class="">忘记登录密码</a>
+	<c:forEach var="adsItem" items="${ addressList }">
+	<div class="addressList">
+		
+        <div class="addressInfo">
+            <span class="addressInfoHead">${adsItem.receiver}</span>
+            <span class="addressInfoHead">${adsItem.contacttel}</span>
+            </br>
+            <span class="addressInfoDetail">${adsItem.addressdetails}&nbsp;
+            	  ${adsItem.suburb}&nbsp;
+            	  ${adsItem.state}&nbsp;
+            	  ${adsItem.countrycode}&nbsp;
             </span>
         </div>
-        <div class="login_other">
-            <dl>
-                <dt>其它登录方式</dt>
-                <dd>
-                    <a href="" onclick="" class="wechat"><span>微信登录</span></a>
-                </dd>
-            </dl>
+        <div class="addressControl">
+            <span class="addressSetDefault">
+            	<a class="adsModify" onclick="setDefault('${adsItem.id}')"><i class="fa fa-check-square-o"></i>&nbsp;<fmt:message key="ADDRESSLIST_SET_DEFAULT"/></a><!-- fa-square-o -->
+            </span>
+            <span class="addressUD">
+            	<a class="adsModify" onclick="modifyAddress('${adsItem.id}')"><i class="fa fa-edit"></i>&nbsp;<fmt:message key="COMMON_MODIFY"/></a>
+            	&nbsp;&nbsp;
+            	<a class="adsDelete" onclick="delAddress('${adsItem.id}')"><i class="fa fa-times"></i>&nbsp;<fmt:message key="COMMON_DELETE"/></a>
+            </span>
         </div>
+        
 	</div>
+	</c:forEach>
 	
+	<div class="addressAdd">
+		<a onclick="newAddress()"><i class="fa fa-plus"></i>&nbsp;<fmt:message key="ADDRESSLIST_NEW"/></a>
+	</div>
 
 </body>
 <!-- END BODY -->

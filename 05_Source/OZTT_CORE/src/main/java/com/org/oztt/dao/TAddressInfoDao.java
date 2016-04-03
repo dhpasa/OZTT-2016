@@ -42,5 +42,12 @@ public interface TAddressInfoDao {
      */
     List<TAddressInfo> getAllAddress(String customerno, String deliveryMethod);
     
+    /**
+     * 取得当前用户所有的地址
+     * @param customerno
+     * @return
+     */
+    List<TAddressInfo> getAllAddress(String customerno);
+    
     
 }

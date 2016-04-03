@@ -26,6 +26,11 @@ public class AddressServiceImpl extends BaseService implements AddressService {
     public List<TAddressInfo> getAllAddress(String customerno, String deliveryMethod) throws Exception {
         return tAddressInfoDao.getAllAddress(customerno, deliveryMethod);
     }
+    
+    @Override
+    public List<TAddressInfo> getAllAddress(String customerno) throws Exception {
+        return tAddressInfoDao.getAllAddress(customerno);
+    }
 
     @Override
     public TAddressInfo getAddressById(Long id) throws Exception {

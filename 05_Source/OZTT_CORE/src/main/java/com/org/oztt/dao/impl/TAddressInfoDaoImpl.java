@@ -52,5 +52,12 @@ public class TAddressInfoDaoImpl extends BaseDao implements TAddressInfoDao {
         param.put("deliverymethod", deliveryMethod);
         return select("com.org.oztt.dao.TAddressInfoDao.getAllAddress", param);
     }
+    
+    @Override
+    public List<TAddressInfo> getAllAddress(String customerno) {
+        Map<String, String> param = new HashMap<String, String>();
+        param.put("customerno", customerno);
+        return select("com.org.oztt.dao.TAddressInfoDao.getAllAddressByCustomerNo", param);
+    }
 
 }
