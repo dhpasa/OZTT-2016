@@ -16,6 +16,13 @@ public interface AddressService {
     public List<TAddressInfo> getAllAddress(String customerno, String deliveryMethod) throws Exception;
     
     /**
+     * 取得当前用户所有的地址
+     * @param customerno
+     * @return
+     */
+    public List<TAddressInfo> getAllAddress(String customerno) throws Exception;
+    
+    /**
      * 获取地址
      * @param id
      * @return

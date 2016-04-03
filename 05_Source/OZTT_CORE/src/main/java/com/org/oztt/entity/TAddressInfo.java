@@ -1,7 +1,9 @@
 package com.org.oztt.entity;
 
 public class TAddressInfo {
-    private Long id;
+    private Long   id;
+
+    private String flg;
 
     private String customerno;
 
@@ -27,6 +29,14 @@ public class TAddressInfo {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getFlg() {
+        return flg;
+    }
+
+    public void setFlg(String flg) {
+        this.flg = flg;
     }
 
     public String getCustomerno() {

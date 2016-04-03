@@ -9,6 +9,7 @@ body {
 	font: 400 13px 'Open Sans', Arial, sans-serif;
 	background: #f9f9f9;
 	overflow-x: hidden;
+	padding-bottom: 5rem;
 }
 
 /*********************
@@ -1257,10 +1258,15 @@ Catalogue styles
 
 /*  */
 .carousel-indicators {
-	text-align: left;
-	margin: 0;
-	width: auto;
-	left: 33px;
+	position: absolute;
+    bottom: 10px;
+    left: 50%;
+    z-index: 15;
+    width: 60%;
+    padding-left: 0;
+    margin-left: -30%;
+    text-align: center;
+    list-style: none;
 }
 .carousel-indicators li,
 .carousel-indicators li.active {
