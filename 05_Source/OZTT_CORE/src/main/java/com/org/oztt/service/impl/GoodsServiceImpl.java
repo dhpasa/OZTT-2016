@@ -377,6 +377,11 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
     public List<GroupItemDto> getFiveHotSeller(TGoods tGoods) throws Exception {
         return tGoodsDao.getFiveHotSeller(tGoods);
     }
+    
+    @Override
+    public List<GroupItemDto> getHotSeller(TGoods tGoods) throws Exception {
+        return tGoodsDao.getHotSeller(tGoods);
+    }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override

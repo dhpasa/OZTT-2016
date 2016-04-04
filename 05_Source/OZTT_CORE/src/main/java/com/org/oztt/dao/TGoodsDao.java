@@ -83,12 +83,20 @@ public interface TGoodsDao {
     PagingResult<GroupItemDto> getGoodsByParamForPage(Pagination pagination);
 
     /**
-     * 热卖
+     * 热卖的前五个
      * 
      * @param record
      * @return
      */
     List<GroupItemDto> getFiveHotSeller(TGoods record);
+    
+    /**
+     * 热卖
+     * 
+     * @param record
+     * @return
+     */
+    List<GroupItemDto> getHotSeller(TGoods record);
 
     /**
      * 检索商品

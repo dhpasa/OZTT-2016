@@ -7,10 +7,12 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title><fmt:message key="TITLE_MAIN"/></title>
+  <title><fmt:message key="MAIN_TITLE"/></title>
   <!-- Head END -->
   <script>	
-	
+		function toItem(groupNo){
+			location.href="${ctx}/item/getGoodsItem?groupId="+groupNo;
+		}
   </script>
 </head>
 
@@ -21,30 +23,36 @@
     <div class="x-header x-header-gray border-1px-bottom">
 		<div class="x-header-btn"></div>
 		<div class="x-header-title">
-			<span>团团</span>
+			<span><fmt:message key="MAIN_TITLE" /></span>
 		</div>
 		<div class="x-header-btn icon-search"></div>
 	</div>
-	<div id="myCarousel" class="carousel slide">
-	   <!-- 轮播（Carousel）指标 -->
-	   <ol class="carousel-indicators">
-	      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-	      <li data-target="#myCarousel" data-slide-to="1"></li>
-	      <li data-target="#myCarousel" data-slide-to="2"></li>
-	   </ol>   
-	   <!-- 轮播（Carousel）项目 -->
-	   <div class="carousel-inner">
-	      <div class="item active">
-	         <img src="http://localhost:8180/wwwfile/GD20160108000001/pic_01.jpg" alt="First slide">
-	      </div>
-	      <div class="item">
-	         <img src="http://localhost:8180/wwwfile/GD20160108000001/pic_02.jpg" alt="Second slide">
-	      </div>
-	      <div class="item">
-	         <img src="http://localhost:8180/wwwfile/GD20160108000001/pic_03.jpg" alt="Third slide">
-	      </div>
-	   </div>
-	</div> 
+	<div class="flexslider border-top-show">
+  		<ul class="slides">
+  			<c:forEach var="hotGoodsList" items="${ hotGoodsList }" varStatus="status">
+    			<li onclick="toItem('${hotGoodsList.groupno }')"><img src="${hotGoodsList.goodsthumbnail }" /></li>
+    		</c:forEach>
+  		</ul>
+   </div>
+   <c:forEach var="newGoodsList" items="${ newGoodsList }">	
+	<div class="newGoods-div" onclick="toItem('${newGoodsList.groupno }')">
+		<div class="newGoods-info">
+			<span class="newGoods-info-span miaosha"><i class="glyphicon glyphicon-time"></i><fmt:message key="MAIN_MIAOSHAING" /></span>
+			<span class="newGoods-info-span">${newGoodsList.goodsname }</span>
+			<span class="newGoods-info-span time"><fmt:message key="MAIN_TIME" /><div id="cuntdown" style="float:right">asdasd</div></span>
+			<span class="newGoods-info-span">
+				<div class="group-price-div">
+					<span class="group-price">${newGoodsList.disprice }</span>
+					<span class="text-through">${newGoodsList.costprice }</span>
+				</div>
+			</span>
+		</div>
+		<div class="newGoods-img">
+			<img src="${newGoodsList.goodsthumbnail }">
+		</div>
+	</div>
+	</c:forEach>
+	<!-- 
     <div class="main">
       <div class="">
    		<div class="jshop-product-two-column">
@@ -62,7 +70,18 @@
    			</ul>
    		</div>   
       </div>
-    </div>
+    </div> -->
+    <script type="text/javascript">
+		$(function() {
+		    $(".flexslider").flexslider({
+				slideshowSpeed: 4000, //展示时间间隔ms
+				animationSpeed: 400, //滚动时间ms
+				directionNav:false,
+				touch: true //是否支持触屏滑动
+			});
+		});	
+	</script>
+    
 </body>
 <!-- END BODY -->
 </html>

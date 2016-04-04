@@ -1260,11 +1260,11 @@ Catalogue styles
 .carousel-indicators {
 	position: absolute;
     bottom: 10px;
-    left: 50%;
+    left: 0%;
     z-index: 15;
-    width: 60%;
+    width: 100%;
     padding-left: 0;
-    margin-left: -30%;
+    margin-left: 0%;
     text-align: center;
     list-style: none;
 }
@@ -2111,7 +2111,7 @@ table .product-quantity .input-group {
 	padding: 50px 13px 0;
 }
 .nav-tabs {
-	border-color: #e6400c;
+	border-color: #b8b8b8;
 	text-transform: uppercase;
 	font: 16px/1 "PT Sans Narrow", sans-serif;
 	padding-bottom: 1px;

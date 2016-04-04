@@ -75,6 +75,11 @@ public class TGoodsDaoImpl extends BaseDao implements TGoodsDao {
     public List<GroupItemDto> getFiveHotSeller(TGoods record) {
         return select("com.org.oztt.dao.TGoodsDao.getFiveHotSeller", record);
     }
+    
+    @Override
+    public List<GroupItemDto> getHotSeller(TGoods record) {
+        return select("com.org.oztt.dao.TGoodsDao.getHotSeller", record);
+    }
 
     @Override
     public List<GroupItemDto> getGoodsBySearchParam(String goodsParam) {
