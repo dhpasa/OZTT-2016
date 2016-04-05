@@ -50,6 +50,7 @@
 		<result column="onSaleFlg" property="onsaleflg" jdbcType="CHAR" />
 		<result column="hotSaleFlg" property="hotsaleflg" jdbcType="CHAR" />
 		<result column="newSaleFlg" property="newsaleflg" jdbcType="CHAR" />
+		<result column="disPrice" property="disprice" jdbcType="DECIMAL" />
 		<result column="costPrice" property="costprice" jdbcType="DECIMAL" />
 		<result column="sortOrder" property="sortorder" jdbcType="INTEGER" />
 		<result column="deleteFlg" property="deleteflg" jdbcType="CHAR" />
@@ -393,7 +394,8 @@
 		a.no, a.goodsId, a.classId, a.goodsBrand, a.goodsName, a.goodsDesc, a.goodsComments,
 		a.goodsThumbnail,
 		a.goodsSmallPic, a.goodsNormalPic, a.onSaleFlg, a.hotSaleFlg, a.newSaleFlg, 
-		c.groupPrice as  costPrice, 
+		c.groupPrice as  disPrice, 
+		a.costPrice as  costPrice, 
 		a.sortOrder,
 		a.deleteFlg,
 		c.groupNo
@@ -519,6 +521,66 @@
 			and deleteFlg = #{deleteflg,jdbcType=CHAR}
 		</if>
 		limit 5
+	</select>
+	
+	
+	<select id="getHotSeller" resultMap="GroupInfoMap" parameterType="com.org.oztt.entity.TGoods">
+		select
+		a.no, a.goodsId, a.classId, a.goodsBrand, a.goodsName, a.goodsDesc, a.goodsComments,
+		a.goodsThumbnail,
+		a.goodsSmallPic, a.goodsNormalPic, a.onSaleFlg, a.hotSaleFlg, a.newSaleFlg, 
+		c.groupPrice as  costPrice, 
+		a.sortOrder,
+		a.deleteFlg, 
+		c.groupNo
+		from t_goods_group c 
+		inner join t_goods_price b on c.goodsId = b.goodsId
+		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.goodsClassId = '0' and b.openFlg = '0')
+		inner join t_goods a on c.goodsId = a.goodsId
+		where a.onSaleFlg= '1'
+		and (current_timestamp between c.validPeriodStart and c.validPeriodEnd and c.openFlg = '1')
+		<if test="goodsid != null">
+			and goodsId = #{goodsid,jdbcType=VARCHAR}
+		</if>
+		<if test="classid != null">
+			and classId = #{classid,jdbcType=VARCHAR}
+		</if>
+		<if test="goodsname != null">
+			and goodsName = #{goodsname,jdbcType=VARCHAR}
+		</if>
+		<if test="goodsdesc != null">
+			and goodsDesc = #{goodsdesc,jdbcType=VARCHAR}
+		</if>
+		<if test="goodscomments != null">
+			and goodsComments = #{goodscomments,jdbcType=VARCHAR}
+		</if>
+		<if test="goodsthumbnail != null">
+			and goodsThumbnail = #{goodsthumbnail,jdbcType=VARCHAR}
+		</if>
+		<if test="goodssmallpic != null">
+			and goodsSmallPic = #{goodssmallpic,jdbcType=VARCHAR}
+		</if>
+		<if test="goodsnormalpic != null">
+			and goodsNormalPic = #{goodsnormalpic,jdbcType=VARCHAR}
+		</if>
+		<if test="onsaleflg != null">
+			and onSaleFlg = #{onsaleflg,jdbcType=CHAR}
+		</if>
+		<if test="hotsaleflg != null">
+			and hotSaleFlg = #{hotsaleflg,jdbcType=CHAR}
+		</if>
+		<if test="newsaleflg != null">
+			and newSaleFlg = #{newsaleflg,jdbcType=CHAR}
+		</if>
+		<if test="costprice != null">
+			and costPrice = #{costprice,jdbcType=DECIMAL}
+		</if>
+		<if test="sortorder != null">
+			and sortOrder = #{sortorder,jdbcType=INTEGER}
+		</if>
+		<if test="deleteflg != null">
+			and deleteFlg = #{deleteflg,jdbcType=CHAR}
+		</if>
 	</select>
 	
 	<select id="getGoodsBySearchParam" resultMap="GroupInfoMap" parameterType="java.lang.String">

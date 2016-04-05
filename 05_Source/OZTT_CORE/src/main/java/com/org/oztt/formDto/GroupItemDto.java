@@ -32,6 +32,8 @@ public class GroupItemDto {
     private String hotsaleflg;
 
     private String newsaleflg;
+    
+    private BigDecimal disprice;
 
     private BigDecimal costprice;
 
@@ -167,6 +169,14 @@ public class GroupItemDto {
 
     public void setGroupno(String groupno) {
         this.groupno = groupno;
+    }
+
+    public BigDecimal getDisprice() {
+        return disprice;
+    }
+
+    public void setDisprice(BigDecimal disprice) {
+        this.disprice = disprice;
     }
 
     

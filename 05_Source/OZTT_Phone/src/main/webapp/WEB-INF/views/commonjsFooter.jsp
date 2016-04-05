@@ -28,6 +28,8 @@
     <script src="${ctx}/assets/plugins/layerslider/js/layerslider.transitions.js" type="text/javascript"></script>
     <script src="${ctx}/assets/plugins/layerslider/js/layerslider.kreaturamedia.jquery.js" type="text/javascript"></script>
     <!-- END LayerSlider -->
+    <script src="${ctx}/js/jquery.flexslider-min.js" type="text/javascript"></script>
+    
 
     <script type="text/javascript" src="${ctx}/assets/scripts/app.js"></script>
     <script type="text/javascript" src="${ctx}/assets/scripts/index.js"></script>

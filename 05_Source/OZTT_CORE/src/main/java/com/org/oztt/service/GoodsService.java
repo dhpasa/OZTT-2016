@@ -53,6 +53,14 @@ public interface GoodsService {
      * @throws Exception
      */
     public List<GroupItemDto> getFiveHotSeller(TGoods tGoods) throws Exception;
+    
+    /**
+     * 获取所有热卖
+     * 
+     * @return
+     * @throws Exception
+     */
+    public List<GroupItemDto> getHotSeller(TGoods tGoods) throws Exception;
 
     /**
      * 获取新货
