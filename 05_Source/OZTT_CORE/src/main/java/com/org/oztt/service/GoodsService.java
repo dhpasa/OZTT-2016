@@ -379,4 +379,11 @@ public interface GoodsService {
      * @throws Exception
      */
     public GroupItemIdDto getGroupItemId(String groupId) throws Exception;
+    
+    /**
+     * 获取
+     * @return
+     * @throws Exception
+     */
+    public List<String> getMainSearchTab() throws Exception;
 }

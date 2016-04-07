@@ -32,6 +32,15 @@
 	text-decoration: line-through;
 }
 
+.alltime{
+	display: inline-block;
+	height: 2rem;
+	line-height: 2rem;
+	width: 90%;
+	background-color: #FFE4E8;
+	color:#FF0000;
+}
+
 
 
 /* ========================================首页============================================== */
@@ -168,8 +177,10 @@ html{
 }
 
 .newGoods-info .newGoods-info-span{
-	display: block;
+	display: inline-block;
+	float:left;
 	margin: 0.5rem 0;
+	width:100%;
 }
 
 .newGoods-div .newGoods-img{
@@ -183,6 +194,7 @@ html{
 }
 
 .newGoods-info .miaosha{
+	display: inline-block;
 	color:#FA6D72;
 	font-size: 2rem;
 }
@@ -192,6 +204,7 @@ html{
 }
 
 .group-price-div{
+	display: inline-block;
 	color:#FA6D72;
 	font-size: 2rem;
 }
@@ -199,6 +212,65 @@ html{
 .text-through{
 	color:#3e4d5c;
 	font-size: 1rem;
+}
+
+.label-search-horizon .nav-tabs > li {
+    float: left;
+    margin-bottom: -1px;
+    width:25%;
+    text-align: -webkit-center;
+}
+
+.label-search-horizon .nav-tabs > li > a{
+    background: #fff;
+    color: #3e4d5c;
+    width:90%;
+    text-align:center;
+    border-radius: 5px !important;
+    border: 1px solid #fff !important;
+}
+
+.label-search-horizon .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+	background: #fff;
+    color: #FCAEB1;
+    border-radius: 0;
+    padding: 5px 15px;
+    border: 1px solid #FA6D72 !important;
+}
+
+.label-search-horizon .nav-tabs{
+	border: none;
+	padding-bottom: 0px;
+	margin-bottom: 0px;
+}
+
+.main_goods{
+	display: inline-block;
+}
+
+.countdownDay{
+	float:left;
+	padding-right: 0.5rem;
+	font-size: 2rem;
+	color:#FA6D72
+}
+
+.jshop-item .countdown-time{
+	width : 100%
+}
+
+.jshop-item .countdown-time a{
+	display: inline-block;
+    width: 80%;
+    text-decoration: none;
+    text-align: center;
+    color: #fff;
+}
+
+.jshop-item > div, .jshop-item > span{
+	display: inline-block;
+	width: 100%;
+	text-align: center;
 }
 
 /* ========================================我============================================== */
@@ -750,19 +822,19 @@ html{
 	
 }
 
-.nav-tabs > li {
+.product-page-content .nav-tabs > li {
     float: left;
     margin-bottom: -1px;
     width:33%;
     text-align: center;
 }
 
-.nav-tabs > li > a{
+.product-page-content .nav-tabs > li > a{
     background: #fff;
     color: #3e4d5c;
 }
 
-.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+.product-page-content .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
 	background: #fff;
     color: #FCAEB1;
     border-radius: 0;
@@ -770,7 +842,7 @@ html{
     border-bottom: 1px solid #FA6D72 !important;
 }
 
-.nav-tabs{
+.product-page-content .nav-tabs{
 	border: none;
 }
 
