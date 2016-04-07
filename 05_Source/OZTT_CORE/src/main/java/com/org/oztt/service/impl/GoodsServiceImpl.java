@@ -762,4 +762,16 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
         
     }
 
+    @Override
+    public List<String> getMainSearchTab() throws Exception {
+        List<String> strList = new ArrayList<String>();
+        String a = "3";
+        strList.add(a);
+        a = "5";
+        strList.add(a);
+        a = "7";
+        strList.add(a);
+        return strList;
+    }
+
 }

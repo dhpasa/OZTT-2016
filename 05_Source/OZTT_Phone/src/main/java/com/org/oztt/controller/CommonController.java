@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import com.alibaba.fastjson.JSONObject;
+import com.org.oztt.base.page.Pagination;
+import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.entity.TAddressInfo;
@@ -31,6 +33,7 @@ import com.org.oztt.entity.TGoodsGroup;
 import com.org.oztt.formDto.ContCartItemDto;
 import com.org.oztt.formDto.ContCartProItemDto;
 import com.org.oztt.formDto.GoodItemDto;
+import com.org.oztt.formDto.GroupItemDto;
 import com.org.oztt.service.AddressService;
 import com.org.oztt.service.CommonService;
 import com.org.oztt.service.CustomerService;
@@ -695,6 +698,44 @@ public class CommonController extends BaseController {
             }
             session.setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, currentLocale);
             mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+
+    /**
+     * 首页获取所有的商品
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/getAllGoods")
+    public Map<String, Object> getAllGoods(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session, String pageNo, String daySearch) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            String imgUrl = super.getApplicationMessage("saveImgUrl");
+            Pagination pagination = new Pagination(Integer.parseInt(pageNo),
+                    Integer.parseInt(CommonConstants.MAIN_LIST_COUNT));
+            Map<Object, Object> params = new HashMap<Object, Object>();
+            params.put("daySearch", daySearch);
+            params.put("hotSaleFlg", CommonConstants.IS_NOT_HOT_SALE);
+            params.put("newSaleFlg", CommonConstants.IS_NOT_NEW_SALE);
+            pagination.setParams(params);
+            PagingResult<GroupItemDto> pageInfo = goodsService.getGoodsByParamForPage(pagination);
+            
+            if (!CollectionUtils.isEmpty(pageInfo.getResultList())) {
+                for (GroupItemDto goods : pageInfo.getResultList()) {
+                    goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT + goods.getGoodsthumbnail());
+                }
+            }
+            mapReturn.put("isException", false);
+            mapReturn.put("mainGoods", (pageInfo == null || pageInfo.getResultList() == null) ? null : pageInfo.getResultList());
             return mapReturn;
         }
         catch (Exception e) {

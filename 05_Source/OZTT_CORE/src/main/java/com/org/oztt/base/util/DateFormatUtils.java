@@ -921,4 +921,24 @@ public class DateFormatUtils {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(c.getTime());
     }
+    
+    /**
+     * 获取指定天到现在的时间
+     * @param date
+     * @return
+     */
+    public static String getBetweenSecondTime(Date date) {
+        long time = (date.getTime()-new Date().getTime()) / 1000;
+        return String.valueOf(time);
+    }
+    
+    /**
+     * 获取指定天到现在的天数
+     * @param date
+     * @return
+     */
+    public static String getBetweenDayTime(Date date) {
+        long time = (date.getTime()-new Date().getTime()) / 1000 / 60 / 60 /24;
+        return String.valueOf(time);
+    }
 }

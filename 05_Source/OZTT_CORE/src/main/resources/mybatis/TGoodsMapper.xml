@@ -55,7 +55,8 @@
 		<result column="sortOrder" property="sortorder" jdbcType="INTEGER" />
 		<result column="deleteFlg" property="deleteflg" jdbcType="CHAR" />
 		<result column="groupNo" property="groupno" jdbcType="VARCHAR" />
-
+		<result column="validEndTime" property="validEndTime" jdbcType="TIMESTAMP" />
+	
 	</resultMap>
 	<sql id="Base_Column_List">
 		no, goodsId, classId, goodsBrand, goodsName, goodsDesc, goodsComments,
@@ -398,6 +399,7 @@
 		a.costPrice as  costPrice, 
 		a.sortOrder,
 		a.deleteFlg,
+		c.validPeriodEnd as validEndTime,
 		c.groupNo
 		from t_goods_group c 
 		inner join t_goods_price b on c.goodsId = b.goodsId
@@ -435,9 +437,11 @@
 		a.no, a.goodsId, a.classId, a.goodsBrand, a.goodsName, a.goodsDesc, a.goodsComments,
 		a.goodsThumbnail,
 		a.goodsSmallPic, a.goodsNormalPic, a.onSaleFlg, a.hotSaleFlg, a.newSaleFlg, 
-		c.groupPrice as  costPrice, 
+		c.groupPrice as  disPrice, 
+		a.costPrice as  costPrice, 
 		a.sortOrder,
 		a.deleteFlg, 
+		c.validPeriodEnd as validEndTime,
 		c.groupNo
 		from t_goods_group c 
 		inner join t_goods_price b on c.goodsId = b.goodsId
@@ -448,6 +452,19 @@
 		<if test="classId != null">
 			and a.classId = #{classId,jdbcType=VARCHAR}
 		</if>
+		<if test="hotSaleFlg != null">
+			and a.hotSaleFlg = #{hotSaleFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="newSaleFlg != null">
+			and a.newSaleFlg = #{newSaleFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="goodsName != null">
+			and a.goodsName like concat('%',#{goodsName},'%')
+		</if>
+		<if test="daySearch != null and daySearch != '' ">
+			and DATEDIFF(c.validPeriodEnd,NOW()) <![CDATA[ <= ]]> #{daySearch}
+		</if>
+		order by c.validPeriodEnd
 	</select>
 	
 	<select id="getGoodsByParamForPageCount" resultType="int" >
@@ -461,6 +478,19 @@
 		<if test="classId != null">
 			and classId = #{classId,jdbcType=VARCHAR}
 		</if>
+		<if test="hotSaleFlg != null">
+			and a.hotSaleFlg = #{hotSaleFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="newSaleFlg != null">
+			and a.newSaleFlg = #{newSaleFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="goodsName != null">
+			and a.goodsName like concat('%',#{goodsName},'%')
+		</if>
+		<if test="daySearch != null and daySearch != '' ">
+			and DATEDIFF(c.validPeriodEnd,NOW()) <![CDATA[ <= ]]> #{daySearch}
+		</if>
+		
 	</select>
 	
 	<select id="getFiveHotSeller" resultMap="GroupInfoMap" parameterType="com.org.oztt.entity.TGoods">
