@@ -50,6 +50,10 @@ public class GroupItemDto {
 
     private String     countdownDay;
 
+    private String     groupMax;       //团购最大数量
+
+    private String     groupCurrent;   //团购现在数量
+
     public String getGoodsid() {
         return goodsid;
     }
@@ -208,6 +212,22 @@ public class GroupItemDto {
 
     public void setCountdownDay(String countdownDay) {
         this.countdownDay = countdownDay;
+    }
+
+    public String getGroupMax() {
+        return groupMax;
+    }
+
+    public void setGroupMax(String groupMax) {
+        this.groupMax = groupMax;
+    }
+
+    public String getGroupCurrent() {
+        return groupCurrent;
+    }
+
+    public void setGroupCurrent(String groupCurrent) {
+        this.groupCurrent = groupCurrent;
     }
 
 }

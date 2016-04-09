@@ -51,15 +51,6 @@
 <!-- Body BEGIN -->
 <body>
 	<div>
-	<!-- <div class="x-header x-header-gray border-1px-bottom">
-		<div class="x-header-btn ico-back">
-		</div>
-		<div class="x-header-title">
-			<span>登录</span>
-		</div>
-		<div class="x-header-btn"></div>
-	</div>
-	 -->
 	 <div class="logodiv">
 	 	<img alt="logo" src="${ctx}/images/logo_login.png">
 	 </div>

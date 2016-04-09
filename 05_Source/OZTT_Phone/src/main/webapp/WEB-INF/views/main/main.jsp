@@ -13,6 +13,10 @@
   
   		$(function(){
   			kTouch('main_goods', 'y');
+  			
+  			$(".icon-search").click(function(){
+  				location.href="${ctx}/search/init?mode=1";
+  			});
   		})
 		function toItem(groupNo){
 			location.href="${ctx}/item/getGoodsItem?groupId="+groupNo;
@@ -23,12 +27,22 @@
 		
 		function loadGoods(){
 			var temp1 = '<li>';
-			var temp2 = '<div>';
+			var temp2 = '<div class="jshop-item" onclick="toItem(\'{0}\')">';
 			var temp3 = '	<img src="{0}" class="img-responsive">';
-			var temp4 = '	<span><a onclick="toItem(\'{0}\')">{1}</a></span>';
-			var temp5 = '    <div class="pi-price">{0}</div>';
-			var temp6 = '</div>';
-			var temp7 = '</li>';
+			var temp4 = '	<span class="main-goodsname">{0}</span>';
+			var temp5 = '    <div class="main-group-price">';
+			var temp6 = '    	<span class="group-price">{0}</span>';
+			var temp7 = '		<span class="text-through">{0}</span>';
+			var temp8 = '    </div>';
+			var temp9 = '    <div class="main-hasbuy">';
+			var temp10 = '    	<i class="fa fa-user-md"></i>&nbsp;';
+			var temp11 = '		<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;';
+			var temp12 = '		<span class="">{0}&nbsp;/&nbsp;{1}</span>';
+			var temp13 = '    </div>';
+			var temp14 = '    <div class="countdown-time" data-seconds-left="{0}">';   	
+			var temp15 = '    </div>';
+			var temp16 = '</div>';
+			var temp17 = '</li>';
 	    	$.ajax({
 				type : "GET",
 				url : '${pageContext.request.contextPath}/COMMON/getAllGoods?pageNo='+pageNo+"&daySearch="+daySearch,
@@ -42,12 +56,22 @@
 							var tempStr = "";
 							for (var i =0; i < dataList.length; i++) {
 								tempStr += temp1;
-								tempStr += temp2;
+								tempStr += temp2.replace('{0}',dataList[i].groupno);
 								tempStr += temp3.replace('{0}',dataList[i].goodsthumbnail);
-								tempStr += temp4.replace('{0}',dataList[i].groupno).replace('{1}',dataList[i].goodsname);
-								tempStr += temp5.replace('{0}',dataList[i].disprice);;
-								tempStr += temp6;
-								tempStr += temp7;
+								tempStr += temp4.replace('{0}',dataList[i].goodsname);
+								tempStr += temp5;
+								tempStr += temp6.replace('{0}',fmoney(dataList[i].disprice,2));
+								tempStr += temp7.replace('{0}',fmoney(dataList[i].costprice,2));
+								tempStr += temp8;
+								tempStr += temp9;
+								tempStr += temp10;
+								tempStr += temp11;
+								tempStr += temp12.replace('{0}',dataList[i].groupCurrent).replace('{1}',dataList[i].groupMax);
+								tempStr += temp13;
+								tempStr += temp14.replace('{0}',dataList[i].countdownTime);
+								tempStr += temp15;
+								tempStr += temp16;
+								tempStr += temp17;
 							}
 							$("#goodItemList").append(tempStr);
 						}
@@ -59,6 +83,14 @@
 					
 				}
 			});
+	    	
+	    	$(".countdown-time").each(function(){
+	    		if ($(this).find(".alltime").length == 0) {
+	    			$(this).startTimer({
+	    	    		
+	    	    	});
+	    		}
+	    	});
 		}
 		
 		function selectMainGoods(str){
@@ -72,9 +104,16 @@
 		    var _start = 0,
 		        _end = 0,
 		        _content = document.getElementById(contentId);
-
+		    function touchStart(event){
+		        var touch = event.targetTouches[0];
+		        _start = touch.pageY;
+		    }
+		    function touchMove(event){
+		        var touch = event.targetTouches[0];
+		        _end = _start - touch.pageY;
+		    }
 		    function touchEnd(event){
-		    	if ($("#main_goods").height() <= $(window).scrollTop() + $(window).height()) {
+		    	if ($("#main_goods").height() <= $(window).scrollTop() + $(window).height() && _end > 0) {
 		    		$("#loadingDiv").css("display","");
 		    		setTimeout(function(){
 		    			pageNo += 1;
@@ -85,6 +124,8 @@
 		    	
 		    }
 		    _content.addEventListener('touchend',touchEnd,false);
+		    _content.addEventListener('touchstart',touchStart,false);
+		    _content.addEventListener('touchmove',touchMove,false);
 		}
 		
 		function closeLoadingDiv(){
@@ -211,12 +252,12 @@
 	</div>
 	</c:forEach>
 	
-	<div class="label-search-horizon">
+	<div class="label-search-horizon margin-1rem-top">
 		 <ul class="nav nav-tabs">
+		 	<li class="active"><a onclick="selectMainGoods('')" data-toggle="tab"><fmt:message key="MAIN_ALL" /></a></li>
 		 	<c:forEach var="tab" items="${ tabList }">
 	        <li><a onclick="selectMainGoods('${tab}')" data-toggle="tab">${tab}<fmt:message key="MAIN_TAB" /></a></li>
 	        </c:forEach>
-	        <li class="active"><a onclick="selectMainGoods('')" data-toggle="tab"><fmt:message key="MAIN_ALL" /></a></li>
 	      </ul>
 	</div>
 	 
@@ -228,10 +269,15 @@
    				<li>
 					<div class="jshop-item" onclick="toItem('${goodslist.groupno }')">
 						<img src="${goodslist.goodsthumbnail }" class="img-responsive">
-						<span>${goodslist.goodsname }</span>
-		                <div class="pi-price">
+						<span class="main-goodsname">${goodslist.goodsname }</span>
+		                <div class="main-group-price">
 		                	<span class="group-price">${goodslist.disprice }</span>
 							<span class="text-through">${goodslist.costprice }</span>
+		                </div>
+		                <div class="main-hasbuy">
+		                	<i class="fa fa-user-md"></i>&nbsp;
+				   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
+				   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span>
 		                </div>
 		                <div class="countdown-time" data-seconds-left="${goodslist.countdownTime}">
 		                	

@@ -40,8 +40,7 @@ public class AddressIDUSController extends BaseController {
     public String init(Model model, HttpServletResponse response, HttpSession session) {
         try {
             // 加入购物车操作，判断所有的属性是不是相同，相同在添加
-            //String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
-            String customerNo = "2016032500000001";
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
             // 获取所有的地址
             List<TAddressInfo> infoList = addressService.getAllAddress(customerNo);
             if (!CollectionUtils.isEmpty(infoList)) {
@@ -117,8 +116,7 @@ public class AddressIDUSController extends BaseController {
         Map<String, Object> mapReturn = new HashMap<String, Object>();
         try {
             // 加入购物车操作，判断所有的属性是不是相同，相同在添加
-            // String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
-            String customerNo = "2016032500000001";
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
             if (customerNo == null) {
                 return mapReturn;
             }
