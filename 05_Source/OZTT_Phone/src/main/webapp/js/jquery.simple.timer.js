@@ -169,7 +169,7 @@
       return false;
     }
     
-    element.find('.alltime').text(finalValues[0]+'天'+finalValues[1]+'时'+finalValues[2]+'分'+finalValues[3]+'秒');
+    element.find('.alltime').text('仅剩'+ finalValues[0]+'天'+finalValues[1]+':'+finalValues[2]+':'+finalValues[3]);
   };
 
 

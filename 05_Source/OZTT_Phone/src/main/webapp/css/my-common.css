@@ -36,9 +36,11 @@
 	display: inline-block;
 	height: 2rem;
 	line-height: 2rem;
-	width: 90%;
+	width: 100%;
 	background-color: #FFE4E8;
-	color:#FF0000;
+	color: #FF9298;
+    font-size: 1.3rem;
+    border-radius: 5px !important;
 }
 
 
@@ -74,7 +76,7 @@ html{
     min-width: 4rem;
     height: 3.5rem;
     line-height: 3.5rem;
-    color: #fff;
+    color: #111;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
 }
@@ -212,6 +214,7 @@ html{
 .text-through{
 	color:#3e4d5c;
 	font-size: 1rem;
+	vertical-align: middle;
 }
 
 .label-search-horizon .nav-tabs > li {
@@ -251,26 +254,43 @@ html{
 .countdownDay{
 	float:left;
 	padding-right: 0.5rem;
-	font-size: 2rem;
+	font-size: 1.7rem;
 	color:#FA6D72
 }
 
 .jshop-item .countdown-time{
-	width : 100%
+	width : 100%;
+	margin-top: 0.6rem;
 }
 
 .jshop-item .countdown-time a{
 	display: inline-block;
-    width: 80%;
+    width: 90%;
     text-decoration: none;
     text-align: center;
     color: #fff;
+    
 }
 
 .jshop-item > div, .jshop-item > span{
 	display: inline-block;
 	width: 100%;
-	text-align: center;
+	margin-bottom: 0.3rem;
+}
+
+.main-goodsname{
+	font-size: 1.3rem;
+    padding-top: 0.5rem;
+    height: 3.2rem;
+}
+
+.main-group-price{
+	color: #FA6D72;
+    font-size: 2rem;
+}
+
+.main-hasbuy{
+    font-size: 1.3rem;
 }
 
 /* ========================================我============================================== */
@@ -871,4 +891,101 @@ html{
     padding: 20px 13px 0;
     background-color: #fff;
     margin-top: 1rem;
+}
+
+/*==================================检索页=============================*/
+.x-header-title > input{
+	height: 2.5rem;
+	line-height: 2.5rem;
+	vertical-align: middle;
+	background-color: #F9F9F9;
+	border: none;
+	border-radius: 20px !important;
+}
+
+.goods-search-horizon .nav-tabs > li {
+    float: left;
+    margin-bottom: -1px;
+    width:25%;
+    text-align: -webkit-center;
+}
+
+.goods-search-horizon .nav-tabs > li > a{
+    background: #fff;
+    color: #3e4d5c;
+    width:100%;
+    text-align:center;
+    border:none !important;
+    border-bottom: 1px solid #fff !important;
+}
+
+.goods-search-horizon .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+	background: #fff;
+    color: #FCAEB1;
+    border-radius: 0;
+    padding: 5px 15px;
+    border:none !important;
+    border-bottom: 1px solid #FA6D72 !important;
+}
+
+.goods-search-horizon .nav-tabs{
+	border: none;
+	padding-bottom: 0px;
+	margin-bottom: 0px;
+}
+
+/*=====================购物车===================*/
+.shopcart-checkBlockDiv{
+	margin-top: 1rem;
+	background-color: #fff;
+}
+
+.blockcheck .radio{
+	/* left: -9999px;
+   	position: absolute; */
+}
+.check-icon{
+	float: left;
+    margin-left: 1px;
+	height: 20px;
+    width: 20px;
+    background: url("../images/check.png") no-repeat;
+    background-size: auto 20px;
+	background-position: 0 0px;
+}
+.check-icon.checked{
+	background-position: 49px 0px;
+}
+
+.shopcart-goods-quantity{
+	width: 9rem;
+    height: 3rem;
+    background-size: 100%;
+}
+
+.shopcart-goods-quantity span{
+	display: block;
+	float: left;
+	text-align: center;
+	width: 3rem;
+    height: 3rem;
+    line-height: 3rem;
+    font-size: 1.5rem;
+}
+
+.shopcart-goods-quantity .minus{
+	border:0.5px solid #F4F4F4;
+	border-radius: 5px 0px 0px 5px !important;
+	color:#FA6D72
+}
+
+.shopcart-goods-quantity .txt{
+	border-top:0.5px solid #F4F4F4;
+	border-bottom:0.5px solid #F4F4F4;
+}
+
+.shopcart-goods-quantity .add{
+	border:0.5px solid #F4F4F4;
+	border-radius: 0px 5px 5px 0px !important;
+	color:#FA6D72
 }

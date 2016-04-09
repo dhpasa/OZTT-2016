@@ -732,6 +732,7 @@ public class CommonController extends BaseController {
             if (!CollectionUtils.isEmpty(pageInfo.getResultList())) {
                 for (GroupItemDto goods : pageInfo.getResultList()) {
                     goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT + goods.getGoodsthumbnail());
+                    goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
                 }
             }
             mapReturn.put("isException", false);

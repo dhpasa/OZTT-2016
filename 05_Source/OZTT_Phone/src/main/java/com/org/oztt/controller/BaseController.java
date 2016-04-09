@@ -16,6 +16,9 @@ import com.org.oztt.service.CommonService;
 public class BaseController {
 
     protected static final Logger logger = LoggerFactory.getLogger("CONTROLLER");
+    
+    // 保存的图片地址
+    protected static final String imgUrl = getApplicationMessage("saveImgUrl");
 
     @Resource
     protected CommonService       commonService;

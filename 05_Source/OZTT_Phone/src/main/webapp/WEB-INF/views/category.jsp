@@ -9,6 +9,12 @@
 <head>
   <meta charset="utf-8">
   <title><fmt:message key="CATEGORY_title"/></title>
+  <script type="text/javascript">
+  	function toSearch(classId){
+  		location.href="${ctx}/search/init?mode=4&classId="+classId;
+  	}
+  
+  </script>
 </head>
 <!-- Head END -->
 
@@ -32,7 +38,7 @@
 		</div>
 		<div class="childrenCategory">
 			<c:forEach var="childrenListC" items="${ beanListC.childrenClass }">
-				<a href="#">${ childrenListC.fatherClass.classname }</a>
+				<a onclick="toSearch('${ childrenListC.fatherClass.classid }')">${ childrenListC.fatherClass.classname }</a>
 			</c:forEach>
 		</div>
 		

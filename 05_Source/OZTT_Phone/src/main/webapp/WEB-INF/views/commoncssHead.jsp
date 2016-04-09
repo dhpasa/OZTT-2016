@@ -24,7 +24,7 @@
   <!-- Page level plugin styles END -->
   
   <link href="${ctx}/assets/plugins/rateit/src/rateit.css" rel="stylesheet" type="text/css">
-  <link href="${ctx}/assets/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css">
+  <%-- <link href="${ctx}/assets/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"> --%>
 
   <link href="<c:url value='/css/flexslider.css' />" rel="stylesheet" type="text/css">
   <!-- Theme styles START -->
