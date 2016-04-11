@@ -43,6 +43,13 @@
     border-radius: 5px !important;
 }
 
+.redcolor{
+	color: #FA6D72
+}
+
+.graycolor{
+	color: #F4F4F4
+}
 
 
 /* ========================================首页============================================== */
@@ -939,11 +946,90 @@ html{
 	margin-top: 1rem;
 	background-color: #fff;
 }
-
-.blockcheck .radio{
-	/* left: -9999px;
-   	position: absolute; */
+.shopcart-checkBlockHead{
+	display: inline-block;
+	width: 100%;
 }
+
+.shopcart-checkBlockBody{
+	display: inline-block;
+	width: 100%;
+	height: 8rem;
+}
+
+.head-blockcheck{
+	width: 10%;
+    padding: 10px;
+    float: left;
+}
+
+.body-blockcheck{
+	width: 10%;
+    padding: 3rem 10px 10px 10px;
+    float: left;
+}
+
+.shopcart-overtime{
+	width: 85%;
+    padding: 10px;
+    font-size:1.5rem;
+    float: left;
+    border-bottom:0.5px solid #F4F4F4;
+}
+
+.shopcart-groupinfo{
+	width: 85%;
+    padding: 10px;
+    float: left;
+    display: inline-block;
+    height: 8rem;
+    border-bottom:0.5px solid #F4F4F4;
+}
+
+.shopcart-groupinfo .shopcart-group-img{
+	width:30%;
+	height:100%;
+	float: left;
+}
+
+.shopcart-groupinfo .shopcart-group-img img{
+	height: 85%;
+	margin: auto 0px;
+	border-radius: 5px !important;
+}
+
+.shopcart-group-pro{
+	width:50%;
+	float: left;
+	padding-left: 1rem;
+}
+
+.shopcart-group-pro span{
+	height: 3rem;
+	display: inline-block;
+}
+
+.shopcart-group-price{
+	width: 20%;
+    float: left;
+    text-align: right;
+    font-size: 2rem;
+}
+
+.shopcart-goods-delete i{
+	margin: 1rem 1rem 1rem 1rem;
+}
+
+.head-blockcheck input[type="checkbox"]{
+	left: -9999px;
+   	position: absolute;
+}
+
+.body-blockcheck input[type="checkbox"]{
+	left: -9999px;
+   	position: absolute;
+}
+
 .check-icon{
 	float: left;
     margin-left: 1px;
@@ -954,13 +1040,19 @@ html{
 	background-position: 0 0px;
 }
 .check-icon.checked{
-	background-position: 49px 0px;
+	background-position: -27px 0px;
 }
 
 .shopcart-goods-quantity{
 	width: 9rem;
     height: 3rem;
     background-size: 100%;
+    display: inline-block;
+    margin-top: 0.5rem;
+}
+
+.shopcart-goodname{
+	font-size:1.5rem;
 }
 
 .shopcart-goods-quantity span{
@@ -970,7 +1062,7 @@ html{
 	width: 3rem;
     height: 3rem;
     line-height: 3rem;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
 }
 
 .shopcart-goods-quantity .minus{
@@ -988,4 +1080,66 @@ html{
 	border:0.5px solid #F4F4F4;
 	border-radius: 0px 5px 5px 0px !important;
 	color:#FA6D72
+}
+
+.shopcart-buy-fix{
+	width: 100%;
+    position: fixed;
+    bottom: 5rem;
+    z-index: 999;
+    height: 5rem;
+    border-top:0.5px solid #F4F4F4;
+	border-bottom:0.5px solid #F4F4F4;
+	background-color: #FFF;
+}
+
+.buy-blockcheck{
+	width: 30%;
+    padding: 1.8rem 10px 10px 10px;
+    float: left;
+}
+
+.buy-blockcheck span{
+	display: inline-block;
+    margin-left: 5px;
+    margin-top: 2.5px;
+}
+
+.buy-blockprice{
+	width: 40%;
+    float: left;
+    height: 100%;
+    line-height: 5rem;
+    font-size: 1.6rem;
+}
+
+.buy-block-sure{
+	width: 30%;
+    float: left;
+    height: 100%;
+}
+
+.buy-check-icon{
+	float: left;
+    margin-left: 1px;
+	height: 20px;
+    width: 20px;
+    background: url("../images/check.png") no-repeat;
+    background-size: auto 20px;
+	background-position: 0 0px;
+}
+.buy-check-icon.checked{
+	background-position: -27px 0px;
+}
+
+.buy-block-sure a{
+	display: inline-block;
+    width: 100%;
+    height: 5rem;
+    background: #FA6D72;
+    text-decoration: none;
+    line-height: 5rem;
+    text-align: center;
+    font-size: 2rem;
+    color: #fff;
 }

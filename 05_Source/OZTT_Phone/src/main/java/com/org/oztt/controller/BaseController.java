@@ -133,5 +133,9 @@ public class BaseController {
             return "session超时处理";
         }
     }
+    
+    public static String[] getShopCartPro() {
+        return new String[]{"3","5","7"};
+    }
 
 }
