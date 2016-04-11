@@ -27,6 +27,8 @@ public class ContCartItemDto {
 
     private String                   groupId;
 
+    private String                   canbuyDay;
+
     public String getGoodsId() {
         return goodsId;
     }
@@ -97,6 +99,14 @@ public class ContCartItemDto {
 
     public void setGroupId(String groupId) {
         this.groupId = groupId;
+    }
+
+    public String getCanbuyDay() {
+        return canbuyDay;
+    }
+
+    public void setCanbuyDay(String canbuyDay) {
+        this.canbuyDay = canbuyDay;
     }
 
 }

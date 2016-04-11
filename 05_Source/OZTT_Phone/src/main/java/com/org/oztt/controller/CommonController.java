@@ -108,26 +108,6 @@ public class CommonController extends BaseController {
             }
             goodsService.addContCart(customerNo, list);
 
-            String imgUrl = super.getApplicationMessage("saveImgUrl");
-
-            // 登陆成功以后取得购物车中的数据然后更新Cookie
-            List<ContCartItemDto> consCarts = goodsService.getAllContCartForCookie(customerNo);
-            if (!CollectionUtils.isEmpty(consCarts)) {
-                for (ContCartItemDto dto : consCarts) {
-                    if (StringUtils.isEmpty(dto.getGoodsPropertiesDB())) {
-                        dto.setGoodsProperties(new ArrayList<ContCartProItemDto>());
-                    }
-                    else {
-                        dto.setGoodsProperties(JSONObject.parseArray(dto.getGoodsPropertiesDB(),
-                                ContCartProItemDto.class));
-                    }
-                    dto.setGoodsPropertiesDB(StringUtils.EMPTY);
-                    dto.setGoodsImage(imgUrl + dto.getGoodsId() + CommonConstants.PATH_SPLIT + dto.getGoodsImage());
-                }
-            }
-
-            mapReturn.put("conscars", JSONObject.toJSONString(consCarts));
-
             // 后台维护的时候提示让以逗号隔开
             mapReturn.put("isException", false);
             return mapReturn;
