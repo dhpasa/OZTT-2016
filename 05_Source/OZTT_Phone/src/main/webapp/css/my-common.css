@@ -7,6 +7,10 @@
 	margin-top: 1rem;
 }
 
+.margin-1px-top{
+	margin-top: 1px;
+}
+
 .padding-1rem-top{
 	padding-top: 1rem;
 }
@@ -49,6 +53,16 @@
 
 .graycolor{
 	color: #F4F4F4
+}
+
+.position{
+	float: left;
+    margin-left: 1px;
+	height: 20px;
+    width: 20px;
+    background: url("../images/position.png") no-repeat;
+    background-size: auto 20px;
+	background-position: 0 0px;
 }
 
 
@@ -413,7 +427,7 @@ html{
 .adsmana i{
 	display: block;
 	font-size: 3rem;
-	line-height: 3rem;
+	line-height: 5rem;
 	text-align: right;
 	padding-right:2rem;
 }
@@ -423,7 +437,7 @@ html{
     width: 50%;
     text-align: left;
     font-size: 2rem;
-    line-height: 3rem;
+    line-height: 5rem;
     color: #383838;
 }
 
@@ -434,7 +448,7 @@ html{
 .fangle i{
 	display: block;
 	font-size: 3rem;
-	line-height: 3rem;
+	line-height: 5rem;
 	text-align: right;
 	padding-right:2rem;
 }
@@ -444,7 +458,7 @@ html{
     width: 50%;
     text-align: left;
     font-size: 2rem;
-    line-height: 3rem;
+    line-height: 5rem;
     color: #383838;
 }
 
@@ -846,7 +860,12 @@ html{
 }
 
 .item-timeword{
-	
+	float: left;
+}
+
+.item-countdown{
+	float: left;
+	margin-left: 1rem;
 }
 
 .product-page-content .nav-tabs > li {
@@ -1143,3 +1162,292 @@ html{
     font-size: 2rem;
     color: #fff;
 }
+
+/*==========================确认订单=========================*/
+.purchase-select-horizon .nav-tabs > li {
+    float: left;
+    margin-bottom: -1px;
+    width:50%;
+    text-align: -webkit-center;
+}
+
+.purchase-select-horizon .nav-tabs > li > a{
+    background: #fff;
+    color: #3e4d5c;
+    width:100%;
+    text-align:center;
+    border:none !important;
+    border-bottom: 1px solid #fff !important;
+}
+
+.purchase-select-horizon .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+	background: #fff;
+    color: #FCAEB1;
+    border-radius: 0;
+    padding: 5px 15px;
+    border:none !important;
+    border-bottom: 1px solid #FA6D72 !important;
+}
+
+.purchase-select-horizon .nav-tabs{
+	border: none;
+	padding-bottom: 0px;
+	margin-bottom: 0px;
+}
+
+.purchase-select-address{
+	width:100%;
+}
+
+.purchase-select-address{
+	width:100%;
+	padding: 10px 15px 15px 10px;
+	background-color: #fff;
+	position: relative;
+}
+
+.purchase-self-pick{
+	width:100%;
+	padding: 20px 15px 20px 10px;
+	background-color: #fff;
+	position: relative;
+	font-size: 1.5rem;
+}
+
+.purchase-select-address a{
+	display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color:#1a1819;
+}
+
+.nameandphone{
+	width: 100%;
+	padding: 0 0 10px 0;
+    overflow: hidden;
+    color: #252525;
+    font-size: 1.5rem;
+}
+
+.nameandphone .name{
+	float: left;
+}
+
+.nameandphone .phone{
+	float: left;
+	margin-left: 1.5rem;
+}
+
+.nameandphone .default{
+	float: left;
+	margin-left: 1.5rem;
+}
+
+.purchase-select-address .detailaddress{
+	font-size: 1.5rem;
+}
+
+.purchase-select-address .point-right{
+	position: absolute;
+    right: .625em;
+    top: 50%;
+    width: .5625em;
+    height: 1em;
+    margin-top: -0.5em;
+    background: url("../images/point-left.png") no-repeat;
+    background-size: .5625em 1em;
+}
+
+.purchase-select-address .detailaddress > div{
+	margin-left: 2.5rem;
+}
+
+.purchase-select-alldelivery{
+	display: inline-block;
+	width:100%;
+	background-color:#fff;
+	padding: 10px 10px 10px 10px;
+}
+
+.purchase-unify{
+	margin-left: 3rem;
+	font-size: 1.8rem;
+    padding-top: 1px;
+}
+
+.purchase-goods-div{
+	display: inline-block;
+	width:100%;
+	background-color:#fff;
+}
+
+.purchase-checkBlockBody{
+	display: inline-block;
+    width: 100%;
+    height: 8rem;
+}
+
+.purchase-groupinfo{
+	width: 100%;
+    padding: 10px;
+    float: left;
+    display: inline-block;
+    height: 8rem;
+    border-bottom:0.5px solid #F4F4F4;
+}
+
+.purchase-groupinfo .purchase-group-img{
+	width:30%;
+	height:100%;
+	float: left;
+}
+
+.purchase-groupinfo .purchase-group-img img{
+	height: 85%;
+	margin: auto 0px;
+	border-radius: 5px !important;
+}
+
+.purchase-group-pro{
+	width:50%;
+	float: left;
+	padding-left: 1rem;
+}
+
+.purchase-item-group{
+	margin: 1rem 1rem 1rem 1rem;
+}
+
+.purchase-good－picktime{
+	padding-top: 2rem;
+	font-size: 1.5rem;
+}
+
+.purchase-goodname{
+	font-size: 2rem;
+}
+
+.purchase-group-price{
+	width: 20%;
+    float: left;
+    text-align: right;
+    font-size: 2rem;
+}
+
+.purchase-delivery-time{
+	width: 100%;
+	display: inline-block;
+	background-color: #fff;
+	padding-bottom: 1rem;
+}
+
+.purchase-hometime{
+	width: 50%;
+	float: left;
+	padding: 0 1rem;
+}
+
+.purchase-timeselect{
+	width: 50%;
+	float: left;
+	padding: 0 1rem;
+}
+
+.purchase-delivery-method{
+	width: 100%;
+	display: inline-block;
+	background-color: #fff;
+	height: 5rem;
+}
+
+.purchase-delivery-span{
+	display: inline-block;
+	float: left;
+	line-height: 5rem;
+	font-size: 1.5rem;
+	padding-left: 0.5rem;
+}
+
+.purchase-method{
+	display: inline-block;
+	float: left;
+	height: 5rem;
+    line-height: 5rem;
+}
+
+.purchase-method > a {
+    display: inline-block;
+    line-height: 3rem;
+    width: 9rem;
+    text-align: center;
+    margin-left: 1rem;
+    border-radius: 8px !important;
+    font-size: 1.5rem;
+}
+
+.purchase-method > .method-default{
+	background-color: #f9f9f9;
+	color:#111;
+	border: 1px solid #f9f9f9;
+}
+
+.purchase-method > .method-default > i{
+	color:#f9f9f9;
+}
+
+.purchase-method > .method-check{
+	background-color: #fff;
+	color:#FCAEB1;
+	border: 1px solid #FCAEB1;
+}
+
+.purchase-buy-fix{
+	width: 100%;
+    position: fixed;
+    bottom: 5rem;
+    z-index: 999;
+    height: 5rem;
+    border-top:0.5px solid #F4F4F4;
+	border-bottom:0.5px solid #F4F4F4;
+	background-color: #FFF;
+}
+
+.purchase-blockprice{
+	width: 70%;
+    float: left;
+    height: 100%;
+    font-size: 1.6rem;
+}
+
+.purchase-blockprice .purchase-freight{
+	width: 100%;
+	height: 2.5rem;
+	padding-top: 1rem;
+    padding-left: 50%;
+}
+
+.purchase-blockprice .purchase-total{
+	width: 100%;
+	height: 2.5rem;
+	padding-left: 50%;
+}
+
+.purchase-block-sure{
+	width: 30%;
+    float: left;
+    height: 100%;
+}
+
+.purchase-block-sure a{
+	display: inline-block;
+    width: 100%;
+    height: 5rem;
+    background: #FA6D72;
+    text-decoration: none;
+    line-height: 5rem;
+    text-align: center;
+    font-size: 2rem;
+    color: #fff;
+}
+

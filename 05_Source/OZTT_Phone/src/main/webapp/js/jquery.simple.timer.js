@@ -149,7 +149,7 @@
 
     var days, hours, minutes, remaining, seconds;
     remaining = new Date(timeLeft * 1000);
-    days = remaining.getUTCDay();
+    days = Math.floor(timeLeft/3600/24);
     hours = remaining.getUTCHours();
     minutes = remaining.getUTCMinutes();
     seconds = remaining.getUTCSeconds();

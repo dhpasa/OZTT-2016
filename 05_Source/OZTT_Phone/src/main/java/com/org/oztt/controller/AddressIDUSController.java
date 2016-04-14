@@ -131,6 +131,7 @@ public class AddressIDUSController extends BaseController {
             info.setDeliverymethod(CommonEnum.DeliveryMethod.NORMAL.getCode());
             info.setPostcode(reqMap.get("post"));
             info.setReceiver(reqMap.get("reveiver"));
+            info.setFlg(CommonConstants.NOT_DEFAULT_ADDRESS);
             info.setState(reqMap.get("state"));
             info.setSuburb(reqMap.get("suburb"));
             if (StringUtils.isEmpty(addressId)) {

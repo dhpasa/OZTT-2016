@@ -110,6 +110,18 @@
 	    overflow-x: hidden;
 	    padding-bottom: 10rem;
 	}
+	
+	.alltime {
+	    display: inline-block;
+	    height: 2rem;
+	    line-height: 2rem;
+	    width: 10rem;
+	    background-color: #FFE4E8;
+	    color: #FF9298;
+	    font-size: 1.3rem;
+	    border-radius: 5px !important;
+	    text-align: center;
+	}
   </style>
 </head>
 
@@ -149,7 +161,7 @@
    		
    		<div class="border-top-show height3">
    			<span class="item-timeword"><fmt:message key="ITEM_TIME" /></span>
-   			<span class=""></span>
+   			<div class="cuntdown item-countdown" data-seconds-left="${goodItemDto.countdownTime}"></div>
    		</div>
    		
    		<div class="border-top-show height3">
@@ -191,6 +203,10 @@
 				touch: true //是否支持触屏滑动
 			});
 		});	
+		
+		$('.cuntdown').startTimer({
+    		
+    	});
 	</script>
 </body>
 <!-- END BODY -->
