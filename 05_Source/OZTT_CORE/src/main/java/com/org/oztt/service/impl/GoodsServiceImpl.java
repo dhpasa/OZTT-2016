@@ -215,7 +215,7 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
             goodItemDto.setIsOverTime(CommonConstants.OVERTIME_GROUP_NO);
         }
         goodItemDto.setProperties(JSON.toJSONString(propertiesFormList));
-
+        goodItemDto.setCountdownTime(DateFormatUtils.getBetweenSecondTime(tGoodsGroup.getValidperiodend()));
         return goodItemDto;
     }
 
@@ -772,6 +772,17 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
         a = "7";
         strList.add(a);
         return strList;
+    }
+
+    @Override
+    public void updateCartCanBuy(String customerNo, List<String> str) throws Exception {
+        tConsCartDao.updateAllCartCannotBuy(customerNo);
+        for (String groupno : str) {
+            TConsCart record = new TConsCart();
+            record.setGroupno(groupno);
+            record.setCustomerno(customerNo);
+            tConsCartDao.updateCartCanBuy(record);
+        }
     }
 
 }

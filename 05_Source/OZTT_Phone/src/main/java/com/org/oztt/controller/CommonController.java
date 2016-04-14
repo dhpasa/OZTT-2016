@@ -725,5 +725,32 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
     }
+    
+    /**
+     * 更新这次要买的货物的信息
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/updateCartCanBuy")
+    @ResponseBody
+    public Map<String, Object> updateCartCanBuy(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session, @RequestBody List<String> list) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            if (list != null && list.size() > 0) {
+                String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+                goodsService.updateCartCanBuy(customerNo, list);
+            }
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
 
 }

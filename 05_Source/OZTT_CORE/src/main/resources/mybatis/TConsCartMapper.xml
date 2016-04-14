@@ -279,6 +279,7 @@
 		(case when a.ifGroup = '1' then d.groupPrice 
 		      else  c.goodsClassValue
 		      end )* a.quantity  as  goodsPrice, 
+		d.validPeriodEnd as validPeriodEnd,
 		a.goodsSpecifications as goodsPropertiesDB
 		from t_cons_cart a
 		inner join t_goods b on a.goodsId = b.goodsId
@@ -293,4 +294,16 @@
 		where customerNo = #{customerNo,jdbcType=VARCHAR} and purchaseCurrent = '1'
 	</delete>
 	
+	<update id="updateAllCartCannotBuy" parameterType="java.lang.String">
+		update t_cons_cart
+		set purchaseCurrent = '0'
+		where customerNo = #{customerNo,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateCartCanBuy" parameterType="com.org.oztt.entity.TConsCart">
+		update t_cons_cart
+		set purchaseCurrent = '1'
+		where customerNo = #{customerno,jdbcType=VARCHAR} and groupNo = #{groupno,jdbcType=VARCHAR}
+	</update>
+
 </mapper>

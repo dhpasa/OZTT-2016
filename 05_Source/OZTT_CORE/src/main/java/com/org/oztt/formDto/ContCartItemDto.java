@@ -1,5 +1,6 @@
 package com.org.oztt.formDto;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,6 +29,10 @@ public class ContCartItemDto {
     private String                   groupId;
 
     private String                   canbuyDay;
+
+    private Date                     validPeriodEnd;   // 适用期
+
+    private String                   deliveryDate;
 
     public String getGoodsId() {
         return goodsId;
@@ -107,6 +112,22 @@ public class ContCartItemDto {
 
     public void setCanbuyDay(String canbuyDay) {
         this.canbuyDay = canbuyDay;
+    }
+
+    public Date getValidPeriodEnd() {
+        return validPeriodEnd;
+    }
+
+    public void setValidPeriodEnd(Date validPeriodEnd) {
+        this.validPeriodEnd = validPeriodEnd;
+    }
+
+    public String getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(String deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
 
 }

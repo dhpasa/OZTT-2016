@@ -76,5 +76,17 @@ public interface TConsCartDao {
      */
     void deleteCurrentBuyGoods(String customerNo);
     
+    /**
+     * 更新购物车数据不可以购买
+     * @param customerNo
+     */
+    void updateAllCartCannotBuy(String customerNo);
+    
+    /**
+     * 更新购物车数据可以购买
+     * @param record
+     */
+    void updateCartCanBuy(TConsCart record);
+    
     
 }

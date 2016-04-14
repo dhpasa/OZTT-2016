@@ -72,7 +72,7 @@
 			var temp15 = '    </div>';
 			var temp16 = '</div>';
 			var temp17 = '</li>';
-			var url = '${ctx}/search/next?pageNo='+pageNo+"&mode="+$("#hiddenmode").val()+"&searchcontent=${searchcontent}"+"&classId="+$("#hiddenclassId").val();
+			var url = '${ctx}/search/next?pageNo='+pageNo+"&mode="+$("#hiddenmode").val()+"&searchcontent="+$("#searchcontent").val()+"&classId="+$("#hiddenclassId").val();
 	    	$.ajax({
 				type : "GET",
 				url : url,
@@ -127,6 +127,7 @@
 			pageNo = 1;
 			$("#hiddenmode").val(mode);
 			$("#goodItemList").empty();
+			$("#searchcontent").val('');
 			loadGoods();
 		}
 		

@@ -56,6 +56,10 @@ public class SearchController extends BaseController {
             model.addAttribute("classId", classId);
             model.addAttribute("mode", mode);
             model.addAttribute("searchcontent", searchcontent);
+            if (SearchModeFlag.CLASS.getCode().equals(mode)) {
+                model.addAttribute("searchcontent", goodsService.getGoodsClassficationByClassId(classId).getClassname());
+                
+            }
             model.addAttribute("goodsList",
                     (pageInfo == null || pageInfo.getResultList() == null) ? null : pageInfo.getResultList());
             return "search";

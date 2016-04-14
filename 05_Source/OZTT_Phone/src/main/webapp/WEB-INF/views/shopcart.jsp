@@ -131,6 +131,7 @@
 				$(".check-icon").addClass('checked');
 				$(".buy-check-icon").addClass('checked');
 			}
+			canBuyAndShowAllMoney();
 		});
 		
 		$("#candelete").click(function(){
@@ -295,6 +296,26 @@
 		for (var i = 0; i < allChecked.length; i++) {
 			data.push($(allChecked[i]).parent().find('input')[0].value);
 		}
+		$.ajax({
+			type : "POST",
+			contentType:'application/json',
+			url : '${pageContext.request.contextPath}/COMMON/updateCartCanBuy',
+			dataType : "json",
+			async : false,
+			data : JSON.stringify(data), 
+			success : function(data) {
+				if(!data.isException){
+					// 更新购物车成功
+					location.href = "${ctx}/purchase/init"
+				} else {
+					// 同步购物车失败
+				}
+			},
+			error : function(data) {
+				
+			}
+		});
+		
 		
 		
 	}
@@ -400,5 +421,6 @@ body {
 			<a id="surebuy"><fmt:message key="CARTLIST_BUY_BTN"/></a>
 		</div>
     </div>
+    
 </body>
 </html>

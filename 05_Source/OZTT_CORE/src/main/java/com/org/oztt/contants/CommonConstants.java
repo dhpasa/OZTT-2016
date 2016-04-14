@@ -94,4 +94,8 @@ public final class CommonConstants {
 
     public static final String PHONEUNMER_FIRST      = "+";
 
+    public static final String DEFAULT_ADDRESS       = "1";
+
+    public static final String NOT_DEFAULT_ADDRESS   = "0";
+
 }

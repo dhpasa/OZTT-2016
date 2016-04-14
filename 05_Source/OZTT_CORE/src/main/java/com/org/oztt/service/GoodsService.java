@@ -386,4 +386,12 @@ public interface GoodsService {
      * @throws Exception
      */
     public List<String> getMainSearchTab() throws Exception;
+    
+    /**
+     * 更新购物车作为本地购买的物品
+     * @param customerNo
+     * @param str
+     * @throws Exception
+     */
+    public void updateCartCanBuy(String customerNo, List<String> str) throws Exception;
 }
