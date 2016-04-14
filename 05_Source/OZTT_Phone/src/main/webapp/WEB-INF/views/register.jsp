@@ -183,7 +183,7 @@
             <span class="registericon"><i class="fa fa-male"></i></span>
         </div>
        <div class="registerinputarea">
-            <!-- <span class="required">*</span> --><input class="requiredinput " type="number" placeholder="请输入您的手机号"  autofocus="" maxlength="13" id="phone">
+            <!-- <span class="required">*</span> --><input class="requiredinput " type="number" placeholder="请输入您的手机号(04XXXXXXXX)"  autofocus="" maxlength="13" id="phone">
             <span class="registericon"><i class="fa fa-mobile-phone"></i></span>
         </div>
         <div class="registerinputarea">

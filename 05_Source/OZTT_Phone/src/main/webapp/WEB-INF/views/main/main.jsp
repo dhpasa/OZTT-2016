@@ -216,7 +216,9 @@
     <div class="x-header x-header-gray border-1px-bottom">
 		<div class="x-header-btn"></div>
 		<div class="x-header-title">
-			<span><fmt:message key="MAIN_TITLE" /></span>
+			<span>
+				<img alt="" src="${ctx}/images/logo.png" style="height: 2.5rem;">
+			</span>
 		</div>
 		<div class="x-header-btn icon-search"></div>
 	</div>
