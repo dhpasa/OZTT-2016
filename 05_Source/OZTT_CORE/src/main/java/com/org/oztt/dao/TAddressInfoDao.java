@@ -49,5 +49,23 @@ public interface TAddressInfoDao {
      */
     List<TAddressInfo> getAllAddress(String customerno);
     
+    /**
+     * 将全部的地址设置成非默认
+     * @param customerNo
+     */
+    void setNotDefault(String customerNo);
+    
+    /**
+     * 将当前的地址设置成默认
+     * @param id
+     */
+    void setDefault(Long id);
+    
+    /**
+     * 通过参数获取地址
+     * @param record
+     * @return
+     */
+    List<TAddressInfo> getAddressByParam(TAddressInfo record);
     
 }

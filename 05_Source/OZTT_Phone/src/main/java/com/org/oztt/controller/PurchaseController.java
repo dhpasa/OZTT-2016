@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.alibaba.fastjson.JSONObject;
 import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.contants.CommonConstants;
+import com.org.oztt.entity.TAddressInfo;
 import com.org.oztt.formDto.ContCartItemDto;
 import com.org.oztt.formDto.ContCartProItemDto;
+import com.org.oztt.service.AddressService;
 import com.org.oztt.service.GoodsService;
 
 @Controller
@@ -28,6 +30,9 @@ public class PurchaseController extends BaseController {
 
     @Resource
     private GoodsService goodsService;
+    
+    @Resource
+    private AddressService addressService;
 
     /**
      * 购买确认画面
@@ -75,6 +80,12 @@ public class PurchaseController extends BaseController {
                     DateFormatUtils.PATTEN_YMD2));
             model.addAttribute("deliverySelect", commonService.getDeliveryTime());
             model.addAttribute("cartsList", consCarts);
+            
+            TAddressInfo tAddressInfo = addressService.getDefaultAddress(customerNo);
+            model.addAttribute("adsItem", tAddressInfo);
+            
+            String freight = addressService.getFreightByNo(Long.valueOf(tAddressInfo.getSuburb()));
+            model.addAttribute("freight", freight);
             return "/purchase";
         }
         catch (Exception e) {

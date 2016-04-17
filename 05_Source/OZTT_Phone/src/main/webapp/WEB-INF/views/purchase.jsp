@@ -38,6 +38,7 @@
 				$(this).addClass("method-check");
 				$("#method_cod").removeClass("method-check");
 				$("#method_cod").addClass("method-default");
+				
 			});
 			
 			$("#method_cod").click(function(){
@@ -45,6 +46,7 @@
 				$(this).addClass("method-check");
 				$("#method_online").removeClass("method-check");
 				$("#method_online").addClass("method-default");
+				
 			});
 		})
 		
@@ -57,6 +59,9 @@
 	  			$("#current-address").css("display","");
 	  			$("#self-pick-address").css("display","none");
 	  			$("#method_cod").css("display","");
+	  			$(".purchase-select-alldelivery").css("display","")
+				$("#deliverytime").css("display","")
+				$(".purchase-good－picktime").css("display","none");
 	  		}else {
 	  			// 来店自提
 	  			$("#current-address").css("display","none");
@@ -67,8 +72,87 @@
 				$("#method_online").addClass("method-check");
 				$("#method_cod").removeClass("method-check");
 				$("#method_cod").addClass("method-default");
+				
+				$(".purchase-select-alldelivery").css("display","none")
+				$("#deliverytime").css("display","none")
+				$(".purchase-good－picktime").css("display","");
 	  			
 	  		}
+	  	}
+	  	
+	  	function selectAddress(){
+	  		location.href = "${ctx}/addressIDUS/list?fromMode=1";
+	  	}
+	  	
+	  	function judgeAll(){
+	  		var canBuy = false;
+	  		$("#freightmoney").val("0.00");
+	  		$("#countmoney").val("0.00");
+	  		$("#gotobuy").css({
+				"background" : "#D4D4D4",
+			});
+			$("#gotobuy").attr("onclick", "");
+	  		// 选择了什么送货方式
+	  		var deliveryMethod = "";
+	  		var deliveryMethodArr = $(".purchase-select-horizon").find("li");
+	  		for (var i = 0; i < deliveryMethod.length; i++) {
+	  			if ($(deliveryMethod[i]).hasClass("active") && i==0) {
+	  				deliveryMethod = "1";
+	  				break;
+	  			} else {
+	  				deliveryMethod = "2";
+	  				break;
+	  			}
+	  		}
+	  		// 是否选择了地址
+	  		var addressId = "";
+	  		var freight = 0;
+	  		if (deliveryMethod == "1") {//送货上门的情况
+	  			if (!$("#hiddenAdressId")){
+	  				return canBuy;
+	  			} else {
+	  				addressId = $("#hiddenAdressId").val();
+	  				freight = $("#hiddenFreight").val();
+	  			}
+	  		}
+	  		
+	  		// 统一送货的时间点
+	  		var isUnify = false;
+	  		if ($(".purchase-blockcheck").find(".check-icon").hasClass("checked")) {
+	  			isUnify = true;
+	  		}
+	  		
+	  		if (isUnify) {
+	  			// 统一送货的情况
+	  			if ($("#homeDeliveryTimeId").val() == "" || $("#deliveryTimeSelect").val()) {
+	  				return canBuy;
+	  			}
+	  		}
+	  		
+	  		// 支付方式的选择
+	  		var payMethod = "1";
+	  		if ($("#method_online").hasClass("method-check")) {
+	  			// 在线支付
+	  			payMethod = "1";
+	  			$("#gotobuy").text('<fmt:message key="PURCHASE_IMMEPAY"/>');
+	  		} else {
+	  			// 货到付款
+	  			payMethod = "2";
+	  			$("#gotobuy").text('<fmt:message key="PURCHASE_COMMITORDER"/>');
+	  		}
+	  		
+	  		// 开始计算运费和合计费用
+	  		var countFreight = 0;
+	  		var groupList = $(".purchase-checkBlockBody");
+	  		if (isUnify) {
+	  			// 统一送货的情况下
+	  			countFreight = freight * groupList.length;
+	  			$("#freightmoney").val(fmoney(countFreight, 2));
+	  		} else {
+	  			// 非统一送货
+	  			var dateLength = $(".purchase-groupinfo").find("input[type=hidden]");
+	  		}
+	  		
 	  	}
   </script>
   <style type="text/css">
@@ -93,37 +177,58 @@
 		 	<li class="active">
 		 		<a onclick="selectDeliveryMethod('1')" data-toggle="tab">
 		 		<i class="fa fa-truck"></i>
-		 			送货上门
+		 			<fmt:message key="PURCHASE_SONGHUOSHANGMEN"/>
 		 		</a>
 		 	</li>
 		 	<li>
 		 		<a onclick="selectDeliveryMethod('2')" data-toggle="tab">
 		 		<i class="fa fa-home"></i>
-		 			来店自提
+		 			<fmt:message key="PURCHASE_LAIDIANZITI"/>
 		 		</a>
 		 	</li>
 	      </ul>
 	</div>
 	
 	<div class="purchase-select-address margin-1px-top" id="current-address">
-		<a>
-			<div class="nameandphone">
-				<div class="name">Kevin Garnett</div>
-				<div class="phone">152****0452</div>
-				<div class="default">默认</div>
-			</div>
-			<div class="detailaddress">
-				<i class="position"></i>
-				<div>
-					江苏苏州市沧浪区友新新村11幢406室
+		<c:if test="${adsItem == null }">
+			<a onclick="selectAddress()">
+				<div class="pruchase-empty-address">
+					<fmt:message key="PURCHASE_EMPTYADDRESS"/>
 				</div>
-			</div>
-		</a>
+			</a>
+		</c:if>
+		<c:if test="${adsItem != null }">
+			<a onclick="selectAddress()">
+				<div class="nameandphone">
+					<div class="name">${adsItem.receiver }</div>
+					<div class="phone">${adsItem.contacttel }</div>
+					<div class="default">
+						<c:if test="${adsItem.flg == '1' }">
+							<fmt:message key="COMMON_DEFAULT"/>
+						</c:if>
+					</div>
+				</div>
+				<div class="detailaddress">
+					<i class="position"></i>
+					<div>
+						${adsItem.addressdetails}
+						${adsItem.suburb}
+						${adsItem.state}
+						${adsItem.countrycode}
+					</div>
+				</div>
+			</a>
+			<input type="hidden" value="${adsItem.id}" id="hiddenAdressId"/>
+			<input type="hidden" value="${freight}" id="hiddenFreight"/>
+		</c:if>
+		
 		<span class="point-right"></span>
 	</div>
 	
 	<div class="purchase-self-pick margin-1px-top" id="self-pick-address" style="display:none">
-		<span>苏州观前街8弄88号888楼8888室苏州观前街8弄88号888楼8888室</span>
+		<span>
+			<fmt:message key="COMMON_SHOPADDRESS"/>
+		</span>
 	</div>
 	
 	<div class="purchase-select-alldelivery margin-1rem-top">
@@ -131,7 +236,9 @@
 			<div class="check-icon checked"></div>
 		</div>
 		<div class="purchase-unify">
-			<span>是否统一送货</span>
+			<span>
+				<fmt:message key="PURCHASE_ALLDELIVERY"/>
+			</span>
 		</div>
 	</div>
 	
@@ -152,6 +259,7 @@
     <c:forEach var="cartsBody" items="${cartsList}" varStatus="status">
 		<div class="purchase-checkBlockBody">
 			<div class="purchase-groupinfo">
+				<input type="hidden" value="${cartsBody.deliveryDate }" />
 				<div class="purchase-group-img">
 					<img src="${cartsBody.goodsImage }" class="img-responsive">
 				</div>
@@ -159,7 +267,7 @@
 					<span class="purchase-goodname">${cartsBody.goodsName }</span>
 					
 					<div class="purchase-good－picktime" style="display: none">
-						送货时间 ${cartsBody.deliveryDate }
+						<fmt:message key="PURCHASE_DELIVERYTIME"/> ${cartsBody.deliveryDate }
 					</div>
 				</div>
 				<div class="purchase-group-price">
@@ -174,15 +282,15 @@
     </div>
     
     <div class="purchase-delivery-method margin-1rem-top">
-		<span class="purchase-delivery-span">送货方式:</span>
+		<span class="purchase-delivery-span"><fmt:message key="PURCHASE_DELIVERY"/></span>
 		<div class="purchase-method">
 			<a class="method-check" id="method_online">
 				<i class="fa fa-check"></i>
-				在线支付
+				<fmt:message key="PURCHASE_ONLINEBUY"/>
 			</a>
 			<a class="method-default" id="method_cod">
 				<i class="fa fa-check"></i>
-				货到付款
+				<fmt:message key="PURCHASE_COD"/>
 			</a>
 		</div>
 	</div>
@@ -191,16 +299,16 @@
     	
 		<div class="purchase-blockprice">
 			<div class="purchase-freight">
-				<span>运费:</span>
-				<span id="countmoney">0.00</span>
+				<span><fmt:message key="PURCHASE_FREIGHT"/></span>
+				<span id="freightmoney">0.00</span>
 			</div>
 			<div class="purchase-total">
-				<span>合计:</span>
+				<span><fmt:message key="PURCHASE_TOTAL"/></span>
 				<span id="countmoney">0.00</span>
 			</div>
 		</div>
 		<div class="purchase-block-sure">
-			<a id="gotobuy">立即付款</a>
+			<a id="gotobuy"><fmt:message key="PURCHASE_IMMEPAY"/></a>
 		</div>
     </div>
     
