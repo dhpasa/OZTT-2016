@@ -60,4 +60,20 @@ public class TAddressInfoDaoImpl extends BaseDao implements TAddressInfoDao {
         return select("com.org.oztt.dao.TAddressInfoDao.getAllAddressByCustomerNo", param);
     }
 
+    @Override
+    public void setNotDefault(String customerNo) {
+        update("com.org.oztt.dao.TAddressInfoDao.setNotDefault", customerNo);
+        
+    }
+
+    @Override
+    public void setDefault(Long id) {
+        update("com.org.oztt.dao.TAddressInfoDao.setDefault", id);
+    }
+
+    @Override
+    public List<TAddressInfo> getAddressByParam(TAddressInfo record) {
+        return select("com.org.oztt.dao.TAddressInfoDao.getAddressByParam", record);
+    }
+
 }

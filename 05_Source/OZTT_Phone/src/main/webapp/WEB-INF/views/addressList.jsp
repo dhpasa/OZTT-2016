@@ -18,12 +18,71 @@
 		
 	});
   	function newAddress() {
-  		location.href="${ctx}/addressIDUS/newAddress"
+  		location.href="${ctx}/addressIDUS/newAddress?fromMode="+$("#hiddenfromMode").val();
   	}
   	
   	function modifyAddress(addressId){
-  		location.href="${ctx}/addressIDUS/getAddressById?addressId="+addressId;
+  		location.href="${ctx}/addressIDUS/getAddressById?addressId="+addressId+"&fromMode="+$("#hiddenfromMode").val();
   	}
+  	
+  	// 删除地址
+  	function delAddress(addressId) {
+  		$.ajax({
+			type : "GET",
+			contentType:'application/json',
+			url : '${ctx}/addressIDUS/delAddress?addressId='+addressId,
+			async:false,
+			data : "", 
+			success : function(data) {
+				if(!data.isException){
+					location.href = '${ctx}/addressIDUS/list?fromMode='+$("#hiddenfromMode").val();
+				} 
+			},
+			error : function(data) {
+				
+			}
+		});
+  	}
+  	
+  	//设成默认地址
+  	function setDefault(addressId){
+  		$.ajax({
+			type : "GET",
+			contentType:'application/json',
+			url : '${ctx}/addressIDUS/setDefaultAddress?addressId='+addressId,
+			async:false,
+			data : "", 
+			success : function(data) {
+				if(!data.isException){
+					location.href = '${ctx}/addressIDUS/list';
+				} 
+			},
+			error : function(data) {
+				
+			}
+		});
+  	}
+  	
+  	// 设置默认地址并且
+  	function setDefaultToBuy(addressId) {
+  		$.ajax({
+			type : "GET",
+			contentType:'application/json',
+			url : '${ctx}/addressIDUS/setDefaultAddress?addressId='+addressId,
+			async:false,
+			data : "", 
+			success : function(data) {
+				if(!data.isException){
+					location.href = '${ctx}/purchase/init';
+				} 
+			},
+			error : function(data) {
+				
+			}
+		});
+  	}
+  	
+  	
   
   </script>
 </head>
@@ -42,8 +101,10 @@
 	</div>
 	
 	<c:forEach var="adsItem" items="${ addressList }">
+	<c:if test="${fromMode == '1' }">
+		<a onclick="setDefaultToBuy('${adsItem.id}')">
+	</c:if>
 	<div class="addressList">
-		
         <div class="addressInfo">
             <span class="addressInfoHead">${adsItem.receiver}</span>
             <span class="addressInfoHead">${adsItem.contacttel}</span>
@@ -56,7 +117,13 @@
         </div>
         <div class="addressControl">
             <span class="addressSetDefault">
-            	<a class="adsModify" onclick="setDefault('${adsItem.id}')"><i class="fa fa-check-square-o"></i>&nbsp;<fmt:message key="ADDRESSLIST_SET_DEFAULT"/></a><!-- fa-square-o -->
+            	<c:if test="${adsItem.flg == '1'}">
+            		<a class="adsModify"><i class="fa fa-check-square-o"></i>&nbsp;<fmt:message key="ADDRESSLIST_SET_DEFAULT"/></a><!-- fa-square-o -->
+            	</c:if>
+            	<c:if test="${adsItem.flg == '0'}">
+            		<a class="adsModify" onclick="setDefault('${adsItem.id}')"><i class="fa fa-square-o"></i>&nbsp;<fmt:message key="ADDRESSLIST_SET_DEFAULT"/></a><!--  -->
+            	</c:if>
+            	
             </span>
             <span class="addressUD">
             	<a class="adsModify" onclick="modifyAddress('${adsItem.id}')"><i class="fa fa-edit"></i>&nbsp;<fmt:message key="COMMON_MODIFY"/></a>
@@ -66,11 +133,16 @@
         </div>
         
 	</div>
+	<c:if test="${fromMode == '1' }">
+		</a>
+	</c:if>
 	</c:forEach>
 	
 	<div class="addressAdd">
 		<a onclick="newAddress()"><i class="fa fa-plus"></i>&nbsp;<fmt:message key="ADDRESSLIST_NEW"/></a>
 	</div>
+	
+	<input type="hidden" value="${fromMode}" id="hiddenfromMode"/>
 
 </body>
 <!-- END BODY -->

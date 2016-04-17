@@ -1228,6 +1228,7 @@ html{
     overflow: hidden;
     color: #252525;
     font-size: 1.5rem;
+    margin-left: 2.5rem;
 }
 
 .nameandphone .name{
@@ -1242,6 +1243,8 @@ html{
 .nameandphone .default{
 	float: left;
 	margin-left: 1.5rem;
+	background-color: #FA6D72;
+    color: #fff;
 }
 
 .purchase-select-address .detailaddress{
@@ -1451,3 +1454,9 @@ html{
     color: #fff;
 }
 
+.pruchase-empty-address{
+	padding: 1rem 0;
+	text-align: center;
+	font-size: 1.5rem;
+	color:#FCAEB1
+}
