@@ -5,8 +5,8 @@
 		<id column="no" property="no" jdbcType="BIGINT" />
 		<result column="priceNo" property="priceno" jdbcType="VARCHAR" />
 		<result column="goodsId" property="goodsid" jdbcType="VARCHAR" />
-		<result column="goodsClassId" property="goodsclassid" jdbcType="VARCHAR" />
-		<result column="goodsClassValue" property="goodsclassvalue"
+		<result column="pricePolicy" property="pricepolicy" jdbcType="VARCHAR" />
+		<result column="priceValue" property="pricevalue"
 			jdbcType="DECIMAL" />
 		<result column="openFlg" property="openflg" jdbcType="CHAR" />
 		<result column="validPeriodStart" property="validperiodstart"
@@ -16,7 +16,7 @@
 		<result column="defaultFlg" property="defaultflg" jdbcType="CHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		no, priceNo, goodsId, goodsClassId, goodsClassValue, openFlg,
+		no, priceNo, goodsId, pricePolicy, priceValue, openFlg,
 		validPeriodStart, validPeriodEnd,
 		defaultFlg
 	</sql>
@@ -33,12 +33,12 @@
 	</delete>
 	<insert id="insert" parameterType="com.org.oztt.entity.TGoodsPrice">
 		insert into t_goods_price (no, priceNo, goodsId,
-		goodsClassId, goodsClassValue, openFlg,
+		pricePolicy, priceValue, openFlg,
 		validPeriodStart, validPeriodEnd, defaultFlg
 		)
 		values (#{no,jdbcType=BIGINT}, #{priceno,jdbcType=VARCHAR},
 		#{goodsid,jdbcType=VARCHAR},
-		#{goodsclassid,jdbcType=VARCHAR}, #{goodsclassvalue,jdbcType=DECIMAL}, #{openflg,jdbcType=CHAR},
+		#{pricepolicy,jdbcType=VARCHAR}, #{pricevalue,jdbcType=DECIMAL}, #{openflg,jdbcType=CHAR},
 		#{validperiodstart,jdbcType=TIMESTAMP},
 		#{validperiodend,jdbcType=TIMESTAMP}, #{defaultflg,jdbcType=CHAR}
 		)
@@ -55,11 +55,11 @@
 			<if test="goodsid != null">
 				goodsId,
 			</if>
-			<if test="goodsclassid != null">
-				goodsClassId,
+			<if test="pricepolicy != null">
+				pricePolicy,
 			</if>
-			<if test="goodsclassvalue != null">
-				goodsClassValue,
+			<if test="pricevalue != null">
+				priceValue,
 			</if>
 			<if test="openflg != null">
 				openFlg,
@@ -84,11 +84,11 @@
 			<if test="goodsid != null">
 				#{goodsid,jdbcType=VARCHAR},
 			</if>
-			<if test="goodsclassid != null">
-				#{goodsclassid,jdbcType=VARCHAR},
+			<if test="pricepolicy != null">
+				#{pricepolicy,jdbcType=VARCHAR},
 			</if>
-			<if test="goodsclassvalue != null">
-				#{goodsclassvalue,jdbcType=DECIMAL},
+			<if test="pricevalue != null">
+				#{pricevalue,jdbcType=DECIMAL},
 			</if>
 			<if test="openflg != null">
 				#{openflg,jdbcType=CHAR},
@@ -113,11 +113,11 @@
 			<if test="goodsid != null">
 				goodsId = #{goodsid,jdbcType=VARCHAR},
 			</if>
-			<if test="goodsclassid != null">
-				goodsClassId = #{goodsclassid,jdbcType=VARCHAR},
+			<if test="pricepolicy != null">
+				pricePolicy = #{pricepolicy,jdbcType=VARCHAR},
 			</if>
-			<if test="goodsclassvalue != null">
-				goodsClassValue = #{goodsclassvalue,jdbcType=DECIMAL},
+			<if test="pricevalue != null">
+				priceValue = #{pricevalue,jdbcType=DECIMAL},
 			</if>
 			<if test="openflg != null">
 				openFlg = #{openflg,jdbcType=CHAR},
@@ -138,8 +138,8 @@
 		update t_goods_price
 		set priceNo = #{priceno,jdbcType=VARCHAR},
 		goodsId = #{goodsid,jdbcType=VARCHAR},
-		goodsClassId = #{goodsclassid,jdbcType=VARCHAR},
-		goodsClassValue = #{goodsclassvalue,jdbcType=DECIMAL},
+		pricePolicy = #{pricepolicy,jdbcType=VARCHAR},
+		priceValue = #{pricevalue,jdbcType=DECIMAL},
 		openFlg = #{openflg,jdbcType=CHAR},
 		validPeriodStart = #{validperiodstart,jdbcType=TIMESTAMP},
 		validPeriodEnd = #{validperiodend,jdbcType=TIMESTAMP},
@@ -155,11 +155,11 @@
 		<if test="goodsid != null">
 			and goodsId = #{goodsid,jdbcType=VARCHAR}
 		</if>
-		<if test="goodsclassid != null">
-			and goodsClassId = #{goodsclassid,jdbcType=VARCHAR}
+		<if test="pricepolicy != null">
+			and pricePolicy = #{pricepolicy,jdbcType=VARCHAR}
 		</if>
-		<if test="goodsclassvalue != null">
-			and goodsClassValue = #{goodsclassvalue,jdbcType=DECIMAL}
+		<if test="pricevalue != null">
+			and priceValue = #{pricevalue,jdbcType=DECIMAL}
 		</if>
 		<if test="openflg != null">
 			and openFlg = #{openflg,jdbcType=CHAR}

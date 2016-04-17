@@ -4,8 +4,10 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.shiro.util.CollectionUtils;
 import org.springframework.stereotype.Service;
 
+import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.dao.TAddressInfoDao;
 import com.org.oztt.dao.TSuburbDeliverFeeDao;
 import com.org.oztt.entity.TAddressInfo;
@@ -64,6 +66,25 @@ public class AddressServiceImpl extends BaseService implements AddressService {
     @Override
     public TSuburbDeliverFee getTSuburbDeliverFeeById(Long no) throws Exception {
         return tSuburbDeliverFeeDao.selectByPrimaryKey(no);
+    }
+
+    @Override
+    public void updateDefaultAddress(String customerNo, String addressNo) throws Exception {
+        tAddressInfoDao.setNotDefault(customerNo);
+        tAddressInfoDao.setDefault(Long.valueOf(addressNo));
+    }
+
+    @Override
+    public TAddressInfo getDefaultAddress(String customerNo) throws Exception {
+        TAddressInfo param = new TAddressInfo();
+        param.setFlg(CommonConstants.DEFAULT_ADDRESS);
+        param.setCustomerno(customerNo);
+        List<TAddressInfo> infoList = tAddressInfoDao.getAddressByParam(param);
+        if (CollectionUtils.isEmpty(infoList)) {
+            return null;
+        } else {
+            return infoList.get(0);
+        }
     }
 
 }

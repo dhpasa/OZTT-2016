@@ -176,4 +176,30 @@
     from t_address_info
     where customerNo = #{customerno,jdbcType=VARCHAR}
   </select>
+  
+  <update id="setNotDefault" parameterType="java.lang.String" >
+    update t_address_info
+    set flg = '0'
+    where customerNo = #{customerNo,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="setDefault" parameterType="java.lang.Long" >
+    update t_address_info
+    set flg = '1'
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  
+  <select id="getAddressByParam" resultMap="BaseResultMap" parameterType="com.org.oztt.entity.TAddressInfo" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_address_info
+    where 1=1
+	<if test="flg != null" >
+       and flg = #{flg,jdbcType=CHAR}
+     </if>
+     <if test="customerno != null" >
+       and customerNo = #{customerno,jdbcType=VARCHAR}
+     </if>
+  </select>
 </mapper>

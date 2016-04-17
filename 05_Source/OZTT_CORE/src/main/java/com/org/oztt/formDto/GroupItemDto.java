@@ -1,47 +1,58 @@
 package com.org.oztt.formDto;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 团购商品信息
+ * 
  * @author linliuan
- *
  */
 public class GroupItemDto {
-    
-    private String goodsid;
 
-    private String classid;
-    
-    private String goodsbrand;
+    private String     goodsid;
 
-    private String goodsname;
+    private String     classid;
 
-    private String goodsdesc;
+    private String     goodsbrand;
 
-    private String goodscomments;
+    private String     goodsname;
 
-    private String goodsthumbnail;
+    private String     goodsdesc;
 
-    private String goodssmallpic;
+    private String     goodscomments;
 
-    private String goodsnormalpic;
+    private String     goodsthumbnail;
 
-    private String onsaleflg;
+    private String     goodssmallpic;
 
-    private String hotsaleflg;
+    private String     goodsnormalpic;
 
-    private String newsaleflg;
-    
+    private String     onsaleflg;
+
+    private String     hotsaleflg;
+
+    private String     newsaleflg;
+
     private BigDecimal disprice;
 
     private BigDecimal costprice;
 
-    private Integer sortorder;
+    private Integer    sortorder;
 
-    private String deleteflg;
-    
-    private String groupno;
+    private String     deleteflg;
+
+    private String     groupno;
+
+    private Date       validEndTime;
+
+    private String     countdownTime;
+
+    private String     countdownDay;
+
+    private String     groupMax;       //团购最大数量
+
+    private String     groupCurrent;   //团购现在数量
 
     public String getGoodsid() {
         return goodsid;
@@ -179,5 +190,44 @@ public class GroupItemDto {
         this.disprice = disprice;
     }
 
-    
+    public String getCountdownTime() {
+        return countdownTime;
+    }
+
+    public void setCountdownTime(String countdownTime) {
+        this.countdownTime = countdownTime;
+    }
+
+    public Date getValidEndTime() {
+        return validEndTime;
+    }
+
+    public void setValidEndTime(Date validEndTime) {
+        this.validEndTime = validEndTime;
+    }
+
+    public String getCountdownDay() {
+        return countdownDay;
+    }
+
+    public void setCountdownDay(String countdownDay) {
+        this.countdownDay = countdownDay;
+    }
+
+    public String getGroupMax() {
+        return groupMax;
+    }
+
+    public void setGroupMax(String groupMax) {
+        this.groupMax = groupMax;
+    }
+
+    public String getGroupCurrent() {
+        return groupCurrent;
+    }
+
+    public void setGroupCurrent(String groupCurrent) {
+        this.groupCurrent = groupCurrent;
+    }
+
 }

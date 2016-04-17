@@ -39,7 +39,7 @@
 					data : JSON.stringify(submitData), 
 					success : function(data) {
 						if(!data.isException){
-							location.href = '${ctx}/addressIDUS/list';
+							location.href = '${ctx}/addressIDUS/list?fromMode='+$("#hiddenfromMode").val();
 						} else {
 							// 系统异常
 						}
@@ -113,6 +113,8 @@
 	</div>
 	
 	<input type="hidden" value="${item.id }" id="hiddenAddressId"/>
+	<input type="hidden" value="${fromMode}" id="hiddenfromMode"/>
+	
 	
 	<div class="addressAdd">
 		<a id="saveads" style="background-color: #B8B8B8"><i class="fa fa-save"></i>&nbsp;<fmt:message key="COMMON_SAVE"/></a>

@@ -14,8 +14,78 @@
 			if ('${currentUserId}' == '') {
 				location.href = "${ctx}/login/init";
 			} else {
-				
+				addItemToCart(groudId);
 			}
+		}
+		
+		function addItemToCart(groupId) {
+			// 取得商品的属性
+			var goodsName = $("#item-goodsname-id").text();
+			var goodsImage = $("#item-disprice-id").text();
+			var goodsPrice = $("#item-disprice-id").text();
+			var oneGoodPropertiesList = [];
+			var properties = {
+					"groupId":groupId,
+					"goodsName":goodsName,
+					"goodsQuantity":1,
+					"goodsPrice":goodsPrice,
+					"goodsProperties":JSON.stringify(oneGoodPropertiesList)
+			}
+			
+			var checkGroup = [];
+			checkGroup.push(properties);
+			var checkOver = true;
+			$.ajax({
+				type : "POST",
+				contentType:'application/json',
+				url : '${pageContext.request.contextPath}/COMMON/checkIsOverGroup',
+				dataType : "json",
+				async : false,
+				data : JSON.stringify(checkGroup), 
+				success : function(data) {
+					if(!data.isException){
+						// 同步购物车成功
+						if (data.isOver) {
+							alert(E0006);
+							checkOver = true;
+							return;
+						} else {
+							checkOver = false;
+						}
+					} else {
+						// 同步购物车失败
+						return;
+					}
+				},
+				error : function(data) {
+					
+				}
+			});
+			
+			if (checkOver) return;
+			
+			var inputList = [];
+			inputList.push(properties);
+			$.ajax({
+				type : "POST",
+				contentType:'application/json',
+				url : '${pageContext.request.contextPath}/COMMON/addConsCart',
+				dataType : "json",
+				async : false,
+				data : JSON.stringify(inputList), 
+				success : function(data) {
+					if(!data.isException){
+						// 同步购物车成功
+						
+					} else {
+						// 同步购物车失败
+					}
+				},
+				error : function(data) {
+					
+				}
+			});
+
 		}
   </script>
   <style type="text/css">
@@ -39,6 +109,18 @@
 	    background: #f9f9f9;
 	    overflow-x: hidden;
 	    padding-bottom: 10rem;
+	}
+	
+	.alltime {
+	    display: inline-block;
+	    height: 2rem;
+	    line-height: 2rem;
+	    width: 10rem;
+	    background-color: #FFE4E8;
+	    color: #FF9298;
+	    font-size: 1.3rem;
+	    border-radius: 5px !important;
+	    text-align: center;
 	}
   </style>
 </head>
@@ -65,10 +147,10 @@
    
    <div class="iteminfo">
    		<div>
-   			<span class="item-goodsname">${ goodItemDto.goods.goodsname}</span>
+   			<span class="item-goodsname" id="item-goodsname-id">${ goodItemDto.goods.goodsname}</span>
    		</div>
    		<div>
-   			<span class="item-disprice">${ goodItemDto.disPrice}</span>
+   			<span class="item-disprice" id="item-disprice-id">${ goodItemDto.disPrice}</span>
    			<span class="item-nowprice">${ goodItemDto.nowPrice}</span>
    		</div>
    		
@@ -79,7 +161,7 @@
    		
    		<div class="border-top-show height3">
    			<span class="item-timeword"><fmt:message key="ITEM_TIME" /></span>
-   			<span class=""></span>
+   			<div class="cuntdown item-countdown" data-seconds-left="${goodItemDto.countdownTime}"></div>
    		</div>
    		
    		<div class="border-top-show height3">
@@ -121,6 +203,10 @@
 				touch: true //是否支持触屏滑动
 			});
 		});	
+		
+		$('.cuntdown').startTimer({
+    		
+    	});
 	</script>
 </body>
 <!-- END BODY -->

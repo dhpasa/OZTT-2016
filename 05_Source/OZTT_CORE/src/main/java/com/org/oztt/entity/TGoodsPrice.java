@@ -13,9 +13,9 @@ public class TGoodsPrice implements Serializable {
 
     private String goodsid;
 
-    private String goodsclassid;
+    private String pricepolicy;
 
-    private BigDecimal goodsclassvalue;
+    private BigDecimal pricevalue;
 
     private String openflg;
 
@@ -49,20 +49,20 @@ public class TGoodsPrice implements Serializable {
         this.goodsid = goodsid;
     }
 
-    public String getGoodsclassid() {
-        return goodsclassid;
+    public String getPricepolicy() {
+        return pricepolicy;
     }
 
-    public void setGoodsclassid(String goodsclassid) {
-        this.goodsclassid = goodsclassid;
+    public void setPricepolicy(String pricepolicy) {
+        this.pricepolicy = pricepolicy;
     }
 
-    public BigDecimal getGoodsclassvalue() {
-        return goodsclassvalue;
+    public BigDecimal getPricevalue() {
+        return pricevalue;
     }
 
-    public void setGoodsclassvalue(BigDecimal goodsclassvalue) {
-        this.goodsclassvalue = goodsclassvalue;
+    public void setPricevalue(BigDecimal pricevalue) {
+        this.pricevalue = pricevalue;
     }
 
     public String getOpenflg() {

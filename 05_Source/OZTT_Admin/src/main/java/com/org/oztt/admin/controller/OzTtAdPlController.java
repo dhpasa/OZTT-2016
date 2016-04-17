@@ -148,7 +148,7 @@ public class OzTtAdPlController extends BaseController {
             TGoodsPrice tGoodsPrice = goodsService.getGoodsSetPriceInfo(goodsId);
             Map<String, String> res = new HashMap<String, String>();
             res.put("no", tGoodsPrice.getNo().toString());
-            res.put("goodsclassvalue", tGoodsPrice.getGoodsclassvalue().toString());
+            res.put("goodsclassvalue", tGoodsPrice.getPricevalue().toString());
             res.put("validperiodstart", DateFormatUtils.date2StringWithFormat(tGoodsPrice.getValidperiodstart(),
                     DateFormatUtils.PATTEN_YMD2));
             res.put("validperiodend",
@@ -181,8 +181,8 @@ public class OzTtAdPlController extends BaseController {
         try {
             TGoodsPrice tGoodsPrice = new TGoodsPrice();
             tGoodsPrice.setDefaultflg("1");
-            tGoodsPrice.setGoodsclassid("0");
-            tGoodsPrice.setGoodsclassvalue(new BigDecimal(map.get("goodsPrice")));
+            tGoodsPrice.setPricepolicy("0");
+            tGoodsPrice.setPricevalue(new BigDecimal(map.get("goodsPrice")));
             tGoodsPrice.setOpenflg(map.get("openFlag"));
 
             tGoodsPrice.setValidperiodend(DateFormatUtils.string2DateWithFormat(map.get("dataTo"),

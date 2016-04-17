@@ -33,7 +33,7 @@ public class ItemController extends BaseController {
         try {
 
             GoodItemDto goodItemDto = goodsService.getGoodAllItemDto(groupId);
-
+            
             // 后台维护的时候提示让以逗号隔开
             model.addAttribute("goodItemDto", goodItemDto);
             return "item";

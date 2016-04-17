@@ -6,41 +6,44 @@ import com.org.oztt.entity.TGoods;
 
 /**
  * 所有商品涵盖的信息表
+ * 
  * @author linliuan
- *
  */
 public class GoodItemDto {
-    
-    private TGoods goods; //基本属性
-    
-    private String firstImg; //默认显示的图片
-    private List<String> imgList; // 图片
-    
-    private String nowPrice;// 现价
-    
-    private String disPrice;// 折扣价格
-    
-    private String groupMax;//团购最大数量
-    
-    private String groupCurrent;//团购现在数量
-    
-    private String validPeriodStart;// 适用期开始
-    
-    private String validPeriodEnd;// 适用期
-    
-    private String isOver;//是否已经打到团购上线
-    
-    private String isOverTime;// 是否已经超过时间
-    
-    private String productInfo; // 商品详情
-    
-    private String productDesc; // 商品描述
-    
-    private String sellerRule; // 买家规则
-    
-    private String groupId; // 团购ID
-    
-    private String properties;
+
+    private TGoods       goods;           //基本属性
+
+    private String       firstImg;        //默认显示的图片
+
+    private List<String> imgList;         // 图片
+
+    private String       nowPrice;         // 现价
+
+    private String       disPrice;         // 折扣价格
+
+    private String       groupMax;         //团购最大数量
+
+    private String       groupCurrent;     //团购现在数量
+
+    private String       validPeriodStart; // 适用期开始
+
+    private String       validPeriodEnd;   // 适用期
+
+    private String       isOver;           //是否已经打到团购上线
+
+    private String       isOverTime;       // 是否已经超过时间
+
+    private String       productInfo;     // 商品详情
+
+    private String       productDesc;     // 商品描述
+
+    private String       sellerRule;      // 买家规则
+
+    private String       groupId;         // 团购ID
+
+    private String       properties;
+
+    private String       countdownTime;
 
     public TGoods getGoods() {
         return goods;
@@ -168,5 +171,13 @@ public class GoodItemDto {
 
     public void setGroupId(String groupId) {
         this.groupId = groupId;
+    }
+
+    public String getCountdownTime() {
+        return countdownTime;
+    }
+
+    public void setCountdownTime(String countdownTime) {
+        this.countdownTime = countdownTime;
     }
 }

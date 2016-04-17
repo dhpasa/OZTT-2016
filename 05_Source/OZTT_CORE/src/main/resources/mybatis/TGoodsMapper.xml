@@ -55,7 +55,11 @@
 		<result column="sortOrder" property="sortorder" jdbcType="INTEGER" />
 		<result column="deleteFlg" property="deleteflg" jdbcType="CHAR" />
 		<result column="groupNo" property="groupno" jdbcType="VARCHAR" />
-
+		<result column="validEndTime" property="validEndTime" jdbcType="TIMESTAMP" />
+		<result column="groupMax" property="groupMax" jdbcType="INTEGER" />
+		<result column="groupCurrent" property="groupCurrent" jdbcType="INTEGER" />
+		
+	
 	</resultMap>
 	<sql id="Base_Column_List">
 		no, goodsId, classId, goodsBrand, goodsName, goodsDesc, goodsComments,
@@ -398,10 +402,11 @@
 		a.costPrice as  costPrice, 
 		a.sortOrder,
 		a.deleteFlg,
+		c.validPeriodEnd as validEndTime,
 		c.groupNo
 		from t_goods_group c 
 		inner join t_goods_price b on c.goodsId = b.goodsId
-		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.goodsClassId = '0' and b.openFlg = '0') 
+		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.pricePolicy = '0' and b.openFlg = '0') 
 		inner join t_goods a on c.goodsId = a.goodsId
 		where a.newSaleFlg = '1' and a.onSaleFlg= '1'
 		and (current_timestamp between c.validPeriodStart and c.validPeriodEnd and c.openFlg = '1')
@@ -418,7 +423,7 @@
 		c.groupNo
 		from t_goods_group c 
 		inner join t_goods_price b on c.goodsId = b.goodsId
-		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.goodsClassId = '0' and b.openFlg = '0')
+		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.pricePolicy = '0' and b.openFlg = '0')
 		inner join t_goods a on c.goodsId = a.goodsId
 		where a.onSaleFlg= '1'
 		and (current_timestamp between c.validPeriodStart and c.validPeriodEnd and c.openFlg = '1')
@@ -430,37 +435,78 @@
 		</if>
 	</select>
 	
-	<select id="getGoodsByParamForPage" resultMap="GroupInfoMap">
+	<select id="getGoodsByParamForPage" resultMap="GroupInfoMap" parameterType="map">
 		select
 		a.no, a.goodsId, a.classId, a.goodsBrand, a.goodsName, a.goodsDesc, a.goodsComments,
 		a.goodsThumbnail,
 		a.goodsSmallPic, a.goodsNormalPic, a.onSaleFlg, a.hotSaleFlg, a.newSaleFlg, 
-		c.groupPrice as  costPrice, 
+		c.groupPrice as  disPrice, 
+		a.costPrice as  costPrice, 
 		a.sortOrder,
 		a.deleteFlg, 
+		c.validPeriodEnd as validEndTime,
+		c.groupMaxQuantity as groupMax,
+		IF(c.groupCurrentQuantity > c.groupMaxQuantity,c.groupMaxQuantity,c.groupCurrentQuantity) as groupCurrent,
 		c.groupNo
 		from t_goods_group c 
 		inner join t_goods_price b on c.goodsId = b.goodsId
-		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.goodsClassId = '0' and b.openFlg = '0')
+		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.pricePolicy = '0' and b.openFlg = '0')
 		inner join t_goods a on c.goodsId = a.goodsId
 		where a.onSaleFlg= '1'
 		and (current_timestamp between c.validPeriodStart and c.validPeriodEnd and c.openFlg = '1')
-		<if test="classId != null">
+		<if test="classId != null and classId != '' ">
 			and a.classId = #{classId,jdbcType=VARCHAR}
 		</if>
+		<if test="hotSaleFlg != null">
+			and a.hotSaleFlg = #{hotSaleFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="newSaleFlg != null">
+			and a.newSaleFlg = #{newSaleFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="goodsName != null and goodsName != '' ">
+			and a.goodsName like concat('%',#{goodsName},'%')
+		</if>
+		<if test="daySearch != null and daySearch != '' ">
+			and DATEDIFF(c.validPeriodEnd,NOW()) <![CDATA[ <= ]]> #{daySearch}
+		</if>
+		order by 
+		<if test="mode == 1 ">
+			c.groupCurrentQuantity desc,
+		</if>
+		<if test="mode == 3 ">
+			c.groupPrice,
+		</if>
+		<if test="mode == 4 ">
+			a.classId,
+		</if>
+		
+		c.validPeriodEnd
 	</select>
 	
-	<select id="getGoodsByParamForPageCount" resultType="int" >
+	<select id="getGoodsByParamForPageCount" resultType="int" parameterType="map">
 		SELECT count(1)
 		from t_goods_group c 
 		inner join t_goods_price b on c.goodsId = b.goodsId
-		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.goodsClassId = '0' and b.openFlg = '0')
+		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.pricePolicy = '0' and b.openFlg = '0')
 		inner join t_goods a on c.goodsId = a.goodsId
 		where a.onSaleFlg= '1'
 		and (current_timestamp between c.validPeriodStart and c.validPeriodEnd and c.openFlg = '1')
-		<if test="classId != null">
+		<if test="classId != null and classId != '' ">
 			and classId = #{classId,jdbcType=VARCHAR}
 		</if>
+		<if test="hotSaleFlg != null">
+			and a.hotSaleFlg = #{hotSaleFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="newSaleFlg != null">
+			and a.newSaleFlg = #{newSaleFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="goodsName != null and goodsName != '' ">
+			and a.goodsName like concat('%',#{goodsName},'%')
+		</if>
+		<if test="daySearch != null and daySearch != '' ">
+			and DATEDIFF(c.validPeriodEnd,NOW()) <![CDATA[ <= ]]> #{daySearch}
+		</if>
+		
 	</select>
 	
 	<select id="getFiveHotSeller" resultMap="GroupInfoMap" parameterType="com.org.oztt.entity.TGoods">
@@ -474,7 +520,7 @@
 		c.groupNo
 		from t_goods_group c 
 		inner join t_goods_price b on c.goodsId = b.goodsId
-		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.goodsClassId = '0' and b.openFlg = '0')
+		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.pricePolicy = '0' and b.openFlg = '0')
 		inner join t_goods a on c.goodsId = a.goodsId
 		where a.onSaleFlg= '1'
 		and (current_timestamp between c.validPeriodStart and c.validPeriodEnd and c.openFlg = '1')
@@ -535,7 +581,7 @@
 		c.groupNo
 		from t_goods_group c 
 		inner join t_goods_price b on c.goodsId = b.goodsId
-		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.goodsClassId = '0' and b.openFlg = '0')
+		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.pricePolicy = '0' and b.openFlg = '0')
 		inner join t_goods a on c.goodsId = a.goodsId
 		where a.onSaleFlg= '1'
 		and (current_timestamp between c.validPeriodStart and c.validPeriodEnd and c.openFlg = '1')
@@ -594,7 +640,7 @@
 		c.groupNo
 		from t_goods_group c 
 		inner join t_goods_price b on c.goodsId = b.goodsId
-		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.goodsClassId = '0' and b.openFlg = '0')
+		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.pricePolicy = '0' and b.openFlg = '0')
 		inner join t_goods a on c.goodsId = a.goodsId
 		where a.onSaleFlg= '1'
 		and (current_timestamp between c.validPeriodStart and c.validPeriodEnd and c.openFlg = '1')
@@ -611,7 +657,7 @@
 	    A.onSaleFlg as onsale,
 	    A.hotSaleFlg as hotsale,
 	    A.newSaleFlg as newsale,
-	    (case when B.goodsClassValue is null then '0' 
+	    (case when B.priceValue is null then '0' 
 	    	 else '1' end) as isSetPrice
 	    from t_goods A
 	    left join t_goods_price B
@@ -630,7 +676,7 @@
 			and A.classId = #{goodsClass,jdbcType=VARCHAR}
 		</if>
 		<if test="isSetPrice == '1'">
-			and B.goodsClassValue is not null
+			and B.priceValue is not null
 		</if>
 	</select>
 	
@@ -653,7 +699,7 @@
 			and A.classId = #{goodsClass,jdbcType=VARCHAR}
 		</if>
 		<if test="isSetPrice == '1'">
-			and B.goodsClassValue is not null
+			and B.priceValue is not null
 		</if>
 	</select>
 	

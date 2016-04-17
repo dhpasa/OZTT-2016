@@ -24,6 +24,15 @@
   			}
   		});
   	});
+  	
+  	
+  	function manageAddress(){
+  		if ('${currentUserId}' == '') {
+			location.href = "${ctx}/login/init";
+		} else {
+			location.href = "${ctx}/addressIDUS/list";
+		}
+  	}
   
   </script>
 </head>
@@ -74,21 +83,17 @@
 			</a>
 			<a href="/order/list?tab=awaitShip">
 				<i class="await-ship"></i>
-				<div>待发货</div>
+				<div>未交货</div>
 			</a>
 			<a href="/order/list?tab=awaitReceived">
 				<i class="await_received"></i>
-				<div>待收货</div>
-			</a>
-			<a href="/order/list?tab=awaitComment">
-				<i class="await_comment"></i>
-				<div>待评价</div>
+				<div>已完成</div>
 			</a>
 		</div>
 	</div>
 	
-	<div class="order p-item">
-		<a href="${ctx}/addressIDUS/list" class="adsmana padding-1rem-top">
+	<div class="order p-item user-item">
+		<a onclick="manageAddress()" class="adsmana padding-1rem-top">
 			<div class="content">收货地址管理</div>
 			<i class="fa fa-angle-right"></i>
 		</a>
@@ -101,8 +106,19 @@
 		</a>
 		
 		<div style="display:none" class="downContent">
-			asdfasdfasdfasdfasd
+			联系客服说明
 		
+		</div>
+	</div>
+	
+	<div class="order p-item">
+		<a href="#" class="fangle padding-1rem-top">
+			<div class="content">商家合作</div>
+			<i class="fa fa-angle-right"></i>
+		</a>
+		
+		<div style="display:none" class="downContent">
+			商家合作说明
 		</div>
 	</div>
 	
@@ -113,7 +129,7 @@
 		</a>
 		
 		<div style="display:none" class="downContent">
-			asdfasdfasdfasdfasd
+			关于团团说明
 		
 		</div>
 	</div>

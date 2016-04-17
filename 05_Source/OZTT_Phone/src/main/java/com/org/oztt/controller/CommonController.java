@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import com.alibaba.fastjson.JSONObject;
+import com.org.oztt.base.page.Pagination;
+import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.entity.TAddressInfo;
@@ -31,6 +33,7 @@ import com.org.oztt.entity.TGoodsGroup;
 import com.org.oztt.formDto.ContCartItemDto;
 import com.org.oztt.formDto.ContCartProItemDto;
 import com.org.oztt.formDto.GoodItemDto;
+import com.org.oztt.formDto.GroupItemDto;
 import com.org.oztt.service.AddressService;
 import com.org.oztt.service.CommonService;
 import com.org.oztt.service.CustomerService;
@@ -104,26 +107,6 @@ public class CommonController extends BaseController {
                 return mapReturn;
             }
             goodsService.addContCart(customerNo, list);
-
-            String imgUrl = super.getApplicationMessage("saveImgUrl");
-
-            // 登陆成功以后取得购物车中的数据然后更新Cookie
-            List<ContCartItemDto> consCarts = goodsService.getAllContCartForCookie(customerNo);
-            if (!CollectionUtils.isEmpty(consCarts)) {
-                for (ContCartItemDto dto : consCarts) {
-                    if (StringUtils.isEmpty(dto.getGoodsPropertiesDB())) {
-                        dto.setGoodsProperties(new ArrayList<ContCartProItemDto>());
-                    }
-                    else {
-                        dto.setGoodsProperties(JSONObject.parseArray(dto.getGoodsPropertiesDB(),
-                                ContCartProItemDto.class));
-                    }
-                    dto.setGoodsPropertiesDB(StringUtils.EMPTY);
-                    dto.setGoodsImage(imgUrl + dto.getGoodsId() + CommonConstants.PATH_SPLIT + dto.getGoodsImage());
-                }
-            }
-
-            mapReturn.put("conscars", JSONObject.toJSONString(consCarts));
 
             // 后台维护的时候提示让以逗号隔开
             mapReturn.put("isException", false);
@@ -694,6 +677,72 @@ public class CommonController extends BaseController {
                 currentLocale = new Locale("zh", "CN");
             }
             session.setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, currentLocale);
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+
+    /**
+     * 首页获取所有的商品
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/getAllGoods")
+    public Map<String, Object> getAllGoods(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session, String pageNo, String daySearch) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            String imgUrl = super.getApplicationMessage("saveImgUrl");
+            Pagination pagination = new Pagination(Integer.parseInt(pageNo),
+                    Integer.parseInt(CommonConstants.MAIN_LIST_COUNT));
+            Map<Object, Object> params = new HashMap<Object, Object>();
+            params.put("daySearch", daySearch);
+            params.put("hotSaleFlg", CommonConstants.IS_NOT_HOT_SALE);
+            params.put("newSaleFlg", CommonConstants.IS_NOT_NEW_SALE);
+            pagination.setParams(params);
+            PagingResult<GroupItemDto> pageInfo = goodsService.getGoodsByParamForPage(pagination);
+            
+            if (!CollectionUtils.isEmpty(pageInfo.getResultList())) {
+                for (GroupItemDto goods : pageInfo.getResultList()) {
+                    goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT + goods.getGoodsthumbnail());
+                    goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
+                }
+            }
+            mapReturn.put("isException", false);
+            mapReturn.put("mainGoods", (pageInfo == null || pageInfo.getResultList() == null) ? null : pageInfo.getResultList());
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+    
+    /**
+     * 更新这次要买的货物的信息
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/updateCartCanBuy")
+    @ResponseBody
+    public Map<String, Object> updateCartCanBuy(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session, @RequestBody List<String> list) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            if (list != null && list.size() > 0) {
+                String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+                goodsService.updateCartCanBuy(customerNo, list);
+            }
             mapReturn.put("isException", false);
             return mapReturn;
         }

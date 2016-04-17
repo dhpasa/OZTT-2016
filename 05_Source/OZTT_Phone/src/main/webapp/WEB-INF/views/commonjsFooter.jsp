@@ -18,7 +18,7 @@
     <script type="text/javascript" src='${ctx}/assets/plugins/zoom/jquery.zoom.min.js'></script><!-- product zoom -->
     
     <script src="${ctx}/js/jquery-ui.js"></script><!-- for slider-range -->
-    <script src="${ctx}/assets/plugins/uniform/jquery.uniform.min.js" type="text/javascript" ></script> 
+    <%-- <script src="${ctx}/assets/plugins/uniform/jquery.uniform.min.js" type="text/javascript" ></script>  --%>
     
     <script src="${ctx}/assets/plugins/bootstrap-touchspin/bootstrap.touchspin.js" type="text/javascript"></script><!-- Quantity -->
     
@@ -29,13 +29,16 @@
     <script src="${ctx}/assets/plugins/layerslider/js/layerslider.kreaturamedia.jquery.js" type="text/javascript"></script>
     <!-- END LayerSlider -->
     <script src="${ctx}/js/jquery.flexslider-min.js" type="text/javascript"></script>
-    
+    <script src="${ctx}/js/jquery.simple.timer.js" type="text/javascript"></script>
+    <script src="${ctx}/js/jquery.timer.js" type="text/javascript"></script>
 
     <script type="text/javascript" src="${ctx}/assets/scripts/app.js"></script>
     <script type="text/javascript" src="${ctx}/assets/scripts/index.js"></script>
     <script type="text/javascript" src="${ctx}/js/user-common.js"></script>
     <script type="text/javascript" src="${ctx}/js/common_validate.js"></script>
    <script src="${ctx}/js/bootstrap-datepicker.js" type="text/javascript"></script>
+   <script src="${ctx}/js/commonFunction.js" type="text/javascript"></script>
+   
     
     <script type="text/javascript">
         jQuery(document).ready(function() {

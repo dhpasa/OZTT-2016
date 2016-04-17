@@ -188,7 +188,7 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
         goodItemDto.setGroupId(groupId);
         goodItemDto.setFirstImg((goodPicList != null && goodPicList.size() > 0) ? goodPicList.get(0) : "");
         goodItemDto.setImgList(goodPicList);
-        goodItemDto.setNowPrice(tGoodsPrice.getGoodsclassvalue().toString());
+        goodItemDto.setNowPrice(tGoodsPrice.getPricevalue().toString());
         goodItemDto.setDisPrice(tGoodsGroup.getGroupprice().toString());
         goodItemDto.setProductInfo(tGoodsGroup.getGroupcomments());
         goodItemDto.setProductDesc(tGoodsGroup.getGroupdesc());
@@ -215,7 +215,7 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
             goodItemDto.setIsOverTime(CommonConstants.OVERTIME_GROUP_NO);
         }
         goodItemDto.setProperties(JSON.toJSONString(propertiesFormList));
-
+        goodItemDto.setCountdownTime(DateFormatUtils.getBetweenSecondTime(tGoodsGroup.getValidperiodend()));
         return goodItemDto;
     }
 
@@ -278,7 +278,7 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
         goodItemDto.setGoods(goods);
         goodItemDto.setFirstImg((goodPicList != null && goodPicList.size() > 0) ? goodPicList.get(0) : "");
         goodItemDto.setImgList(goodPicList);
-        goodItemDto.setNowPrice(tGoodsPrice.getGoodsclassvalue().toString());
+        goodItemDto.setNowPrice(tGoodsPrice.getPricevalue().toString());
         goodItemDto.setDisPrice(tGoodsGroup.getGroupprice().toString());
         goodItemDto.setProductInfo(tGoodsGroup.getGroupcomments());
         goodItemDto.setProductDesc(tGoodsGroup.getGroupdesc());
@@ -760,6 +760,29 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
     public void deleteGoodsSetGroup(TGoodsGroup tGoodsGroup) throws Exception {
         tGoodsGroupDao.deleteByPrimaryKey(tGoodsGroup.getNo());
         
+    }
+
+    @Override
+    public List<String> getMainSearchTab() throws Exception {
+        List<String> strList = new ArrayList<String>();
+        String a = "3";
+        strList.add(a);
+        a = "5";
+        strList.add(a);
+        a = "7";
+        strList.add(a);
+        return strList;
+    }
+
+    @Override
+    public void updateCartCanBuy(String customerNo, List<String> str) throws Exception {
+        tConsCartDao.updateAllCartCannotBuy(customerNo);
+        for (String groupno : str) {
+            TConsCart record = new TConsCart();
+            record.setGroupno(groupno);
+            record.setCustomerno(customerNo);
+            tConsCartDao.updateCartCanBuy(record);
+        }
     }
 
 }

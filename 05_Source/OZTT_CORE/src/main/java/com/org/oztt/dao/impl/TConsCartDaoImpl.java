@@ -75,4 +75,15 @@ public class TConsCartDaoImpl extends BaseDao implements TConsCartDao {
         update("com.org.oztt.dao.TConsCartDao.deleteCurrentBuyGoods", customerNo);
     }
 
+    @Override
+    public void updateAllCartCannotBuy(String customerNo) {
+        update("com.org.oztt.dao.TConsCartDao.updateAllCartCannotBuy", customerNo);
+        
+    }
+
+    @Override
+    public void updateCartCanBuy(TConsCart record) {
+        update("com.org.oztt.dao.TConsCartDao.updateCartCanBuy", record);
+    }
+
 }

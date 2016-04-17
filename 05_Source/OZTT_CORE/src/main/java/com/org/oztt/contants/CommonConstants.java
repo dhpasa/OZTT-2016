@@ -32,6 +32,12 @@ public final class CommonConstants {
 
     public static final String IS_HOT_SALE           = "1";                                    // 热卖
 
+    public static final String IS_NOT_HOT_SALE       = "0";                                    // 非热卖
+
+    public static final String IS_NOT_NEW_SALE       = "0";                                    // 非新货
+
+    public static final String IS_NEW_SALE           = "1";                                    // 非新货
+
     public static final String IS_ON_SALE            = "1";                                    // 在售
 
     public static final int    PRODUCT_INIT_COUNT    = 15;                                     // 默认显示15条数据
@@ -85,7 +91,11 @@ public final class CommonConstants {
     public static final String GOODS_NO_SIGN         = "GD";
 
     public static final String FILE_SPLIT            = ".";
-    
-    public static final String PHONEUNMER_FIRST            = "+";
+
+    public static final String PHONEUNMER_FIRST      = "+";
+
+    public static final String DEFAULT_ADDRESS       = "1";
+
+    public static final String NOT_DEFAULT_ADDRESS   = "0";
 
 }
