@@ -308,7 +308,7 @@
 			DATE_FORMAT(A.validPeriodStart,'%Y/%m/%d') as validDateFrom,
 			DATE_FORMAT(A.validPeriodEnd,'%Y/%m/%d') as validDateTo,
 			B.goodsName as goodsName,
-			C.goodsClassValue as cost
+			C.priceValue as cost
 	    from t_goods_group A
 	    inner join t_goods B
 	    on A.goodsId = B.goodsId

@@ -257,7 +257,7 @@
 		b.goodsThumbnail as goodsImage,
 		a.quantity as goodsQuantity,
 		(case when a.ifGroup = '1' then d.groupPrice
-		      else  c.goodsClassValue
+		      else  c.priceValue
 		      end )* a.quantity  as  goodsPrice, 
 		DATEDIFF(d.validPeriodEnd,NOW()) as canbuyDay,
 		a.goodsSpecifications as goodsPropertiesDB
@@ -277,7 +277,7 @@
 		b.goodsThumbnail as goodsImage,
 		a.quantity as goodsQuantity,
 		(case when a.ifGroup = '1' then d.groupPrice 
-		      else  c.goodsClassValue
+		      else  c.priceValue
 		      end )* a.quantity  as  goodsPrice, 
 		d.validPeriodEnd as validPeriodEnd,
 		a.goodsSpecifications as goodsPropertiesDB
