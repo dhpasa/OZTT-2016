@@ -406,7 +406,7 @@
 		c.groupNo
 		from t_goods_group c 
 		inner join t_goods_price b on c.goodsId = b.goodsId
-		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.goodsClassId = '0' and b.openFlg = '0') 
+		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.pricePolicy = '0' and b.openFlg = '0') 
 		inner join t_goods a on c.goodsId = a.goodsId
 		where a.newSaleFlg = '1' and a.onSaleFlg= '1'
 		and (current_timestamp between c.validPeriodStart and c.validPeriodEnd and c.openFlg = '1')
@@ -423,7 +423,7 @@
 		c.groupNo
 		from t_goods_group c 
 		inner join t_goods_price b on c.goodsId = b.goodsId
-		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.goodsClassId = '0' and b.openFlg = '0')
+		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.pricePolicy = '0' and b.openFlg = '0')
 		inner join t_goods a on c.goodsId = a.goodsId
 		where a.onSaleFlg= '1'
 		and (current_timestamp between c.validPeriodStart and c.validPeriodEnd and c.openFlg = '1')
@@ -450,7 +450,7 @@
 		c.groupNo
 		from t_goods_group c 
 		inner join t_goods_price b on c.goodsId = b.goodsId
-		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.goodsClassId = '0' and b.openFlg = '0')
+		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.pricePolicy = '0' and b.openFlg = '0')
 		inner join t_goods a on c.goodsId = a.goodsId
 		where a.onSaleFlg= '1'
 		and (current_timestamp between c.validPeriodStart and c.validPeriodEnd and c.openFlg = '1')
@@ -487,7 +487,7 @@
 		SELECT count(1)
 		from t_goods_group c 
 		inner join t_goods_price b on c.goodsId = b.goodsId
-		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.goodsClassId = '0' and b.openFlg = '0')
+		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.pricePolicy = '0' and b.openFlg = '0')
 		inner join t_goods a on c.goodsId = a.goodsId
 		where a.onSaleFlg= '1'
 		and (current_timestamp between c.validPeriodStart and c.validPeriodEnd and c.openFlg = '1')
@@ -520,7 +520,7 @@
 		c.groupNo
 		from t_goods_group c 
 		inner join t_goods_price b on c.goodsId = b.goodsId
-		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.goodsClassId = '0' and b.openFlg = '0')
+		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.pricePolicy = '0' and b.openFlg = '0')
 		inner join t_goods a on c.goodsId = a.goodsId
 		where a.onSaleFlg= '1'
 		and (current_timestamp between c.validPeriodStart and c.validPeriodEnd and c.openFlg = '1')
@@ -581,7 +581,7 @@
 		c.groupNo
 		from t_goods_group c 
 		inner join t_goods_price b on c.goodsId = b.goodsId
-		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.goodsClassId = '0' and b.openFlg = '0')
+		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.pricePolicy = '0' and b.openFlg = '0')
 		inner join t_goods a on c.goodsId = a.goodsId
 		where a.onSaleFlg= '1'
 		and (current_timestamp between c.validPeriodStart and c.validPeriodEnd and c.openFlg = '1')
@@ -640,7 +640,7 @@
 		c.groupNo
 		from t_goods_group c 
 		inner join t_goods_price b on c.goodsId = b.goodsId
-		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.goodsClassId = '0' and b.openFlg = '0')
+		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.pricePolicy = '0' and b.openFlg = '0')
 		inner join t_goods a on c.goodsId = a.goodsId
 		where a.onSaleFlg= '1'
 		and (current_timestamp between c.validPeriodStart and c.validPeriodEnd and c.openFlg = '1')
@@ -657,7 +657,7 @@
 	    A.onSaleFlg as onsale,
 	    A.hotSaleFlg as hotsale,
 	    A.newSaleFlg as newsale,
-	    (case when B.goodsClassValue is null then '0' 
+	    (case when B.priceValue is null then '0' 
 	    	 else '1' end) as isSetPrice
 	    from t_goods A
 	    left join t_goods_price B
@@ -676,7 +676,7 @@
 			and A.classId = #{goodsClass,jdbcType=VARCHAR}
 		</if>
 		<if test="isSetPrice == '1'">
-			and B.goodsClassValue is not null
+			and B.priceValue is not null
 		</if>
 	</select>
 	
@@ -699,7 +699,7 @@
 			and A.classId = #{goodsClass,jdbcType=VARCHAR}
 		</if>
 		<if test="isSetPrice == '1'">
-			and B.goodsClassValue is not null
+			and B.priceValue is not null
 		</if>
 	</select>
 	

@@ -188,7 +188,7 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
         goodItemDto.setGroupId(groupId);
         goodItemDto.setFirstImg((goodPicList != null && goodPicList.size() > 0) ? goodPicList.get(0) : "");
         goodItemDto.setImgList(goodPicList);
-        goodItemDto.setNowPrice(tGoodsPrice.getGoodsclassvalue().toString());
+        goodItemDto.setNowPrice(tGoodsPrice.getPricevalue().toString());
         goodItemDto.setDisPrice(tGoodsGroup.getGroupprice().toString());
         goodItemDto.setProductInfo(tGoodsGroup.getGroupcomments());
         goodItemDto.setProductDesc(tGoodsGroup.getGroupdesc());
@@ -278,7 +278,7 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
         goodItemDto.setGoods(goods);
         goodItemDto.setFirstImg((goodPicList != null && goodPicList.size() > 0) ? goodPicList.get(0) : "");
         goodItemDto.setImgList(goodPicList);
-        goodItemDto.setNowPrice(tGoodsPrice.getGoodsclassvalue().toString());
+        goodItemDto.setNowPrice(tGoodsPrice.getPricevalue().toString());
         goodItemDto.setDisPrice(tGoodsGroup.getGroupprice().toString());
         goodItemDto.setProductInfo(tGoodsGroup.getGroupcomments());
         goodItemDto.setProductDesc(tGoodsGroup.getGroupdesc());
