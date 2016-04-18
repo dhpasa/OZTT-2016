@@ -1,8 +1,9 @@
-DROP TABLE IF EXISTS `t_goods_group`;
+﻿DROP TABLE IF EXISTS `t_goods_group`;
 CREATE TABLE `t_goods_group` (
   `no` bigint(12) NOT NULL AUTO_INCREMENT,
   `groupNo` varchar(16) NOT NULL,
   `goodsId` varchar(16) NOT NULL,
+  `topPageUp` char(1) DEFAULT NULL,
   `groupPrice` decimal(12, 2) NOT NULL,
   `groupMaxQuantity` decimal(12, 0),
   `groupCurrentQuantity` decimal(12, 0),
