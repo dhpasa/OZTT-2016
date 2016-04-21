@@ -71,7 +71,7 @@
 	</div>
 	
 	<div class="order p-item">
-		<a href="/order?tab=awaitPay" class="p-link padding-1rem-top">
+		<a href="${ctx}/order" class="p-link padding-1rem-top">
 			<!-- <i class="fa fa-angle-right"></i> -->
 			<div class="myorder">我的订单</div>
 			<div class="viewallorder">查看全部订单&nbsp;<i class="fa fa-angle-right"></i></div>

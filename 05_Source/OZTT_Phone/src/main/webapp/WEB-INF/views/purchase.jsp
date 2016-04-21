@@ -196,7 +196,6 @@
 			});
 			$("#gotobuy").attr("onclick", "gotobuy()");
 	  	}
-	  	
 	  	function gotobuy() {
 	  		// 选择了什么送货方式
 	  		var deliveryMethod = "";
@@ -264,7 +263,7 @@
 				success : function(data) {
 					if(!data.isException){
 						// 订单保存成功
-						
+						location.href = "${ctx}/Notice/paysuccess"
 					} else {
 						
 					}
@@ -417,7 +416,6 @@
 	</div>
 	
 	<div class="purchase-buy-fix">
-    	
 		<div class="purchase-blockprice">
 			<div class="purchase-freight">
 				<span><fmt:message key="PURCHASE_FREIGHT"/></span>
