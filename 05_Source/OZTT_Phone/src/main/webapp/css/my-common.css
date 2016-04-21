@@ -1040,6 +1040,37 @@ html{
 	margin: 1rem 1rem 1rem 1rem;
 }
 
+.orderList-search-horizon .nav-tabs > li {
+    float: left;
+    margin-bottom: -1px;
+    width:33%;
+    text-align: -webkit-center;
+}
+
+.orderList-search-horizon .nav-tabs > li > a{
+    background: #fff;
+    color: #3e4d5c;
+    width:100%;
+    text-align:center;
+    border:none !important;
+    border-bottom: 1px solid #fff !important;
+}
+
+.orderList-search-horizon .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+	background: #fff;
+    color: #FCAEB1;
+    border-radius: 0;
+    padding: 5px 15px;
+    border:none !important;
+    border-bottom: 1px solid #FA6D72 !important;
+}
+
+.orderList-search-horizon .nav-tabs{
+	border: none;
+	padding-bottom: 0px;
+	margin-bottom: 0px;
+}
+
 .head-blockcheck input[type="checkbox"]{
 	left: -9999px;
    	position: absolute;
