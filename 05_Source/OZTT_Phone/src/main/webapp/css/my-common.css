@@ -97,7 +97,7 @@ html{
     min-width: 4rem;
     height: 3.5rem;
     line-height: 3.5rem;
-    color: #111;
+    color: #6f6f6f;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
 }
@@ -145,6 +145,7 @@ html{
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
+    width: 25%;
 }
 
 .main-nav-item span {
@@ -564,7 +565,7 @@ html{
 }
 
 .login_option a{
-	color:#111;
+	color:#6f6f6f;
 	font-size: 1.5rem;
 }
 
@@ -614,7 +615,7 @@ html{
 }
 
 .infohead span{
-	color: #111;
+	color: #6f6f6f;
     font-size: 1rem;
     line-height: 2rem;
     vertical-align: middle;
@@ -764,7 +765,7 @@ html{
 	right:1rem;
 }
 .addressControl a{
-	color:#111;
+	color:#6f6f6f;
 }
 .addressControl i{
 	color:#FA6D72
@@ -1249,6 +1250,7 @@ html{
 
 .purchase-select-address .detailaddress{
 	font-size: 1.5rem;
+	padding-right: 1rem;
 }
 
 .purchase-select-address .point-right{
@@ -1391,7 +1393,7 @@ html{
 
 .purchase-method > .method-default{
 	background-color: #f9f9f9;
-	color:#111;
+	color:#6f6f6f;
 	border: 1px solid #f9f9f9;
 }
 
@@ -1417,7 +1419,7 @@ html{
 }
 
 .purchase-blockprice{
-	width: 70%;
+	width: 60%;
     float: left;
     height: 100%;
     font-size: 1.6rem;
@@ -1427,17 +1429,17 @@ html{
 	width: 100%;
 	height: 2.5rem;
 	padding-top: 1rem;
-    padding-left: 50%;
+    padding-left: 40%;
 }
 
 .purchase-blockprice .purchase-total{
 	width: 100%;
 	height: 2.5rem;
-	padding-left: 50%;
+	padding-left: 40%;
 }
 
 .purchase-block-sure{
-	width: 30%;
+	width: 40%;
     float: left;
     height: 100%;
 }
@@ -1459,4 +1461,60 @@ html{
 	text-align: center;
 	font-size: 1.5rem;
 	color:#FCAEB1
+}
+
+.check-icon-invoice{
+	float: left;
+    margin-left: 1px;
+	height: 20px;
+    width: 20px;
+    background: url("../images/check.png") no-repeat;
+    background-size: auto 20px;
+	background-position: 0 0px;
+}
+.check-icon-invoice.checked{
+	background-position: -27px 0px;
+}
+
+.purchase-needmail{
+	display: inline-block;
+	width:100%;
+	background-color:#fff;
+	padding: 10px 10px 10px 10px;
+}
+
+.purchase-mailspan{
+	margin-left: 3rem;
+	font-size: 1.8rem;
+    padding-top: 1px;
+}
+
+.purchase-modal-title {
+	text-align: center;
+}
+
+.purchase-modal-body input{
+	display: block;
+    width: 70%;
+    margin: 1rem auto;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    vertical-align: middle;
+    border: none;
+    border-bottom: 1px solid #F4F4F4 !important;
+}
+
+.purchase-dialog{
+	position: fixed;
+    bottom: 0px;
+    width: 95%;
+}
+
+.purchase-modal-footer{
+	text-align: center;
+}
+
+.purchase-modal-footer button{
+	width:80%;
+	margin: 0 auto;
 }

@@ -26,7 +26,9 @@ public class TConsOrder {
     
     private String homedeliverytime;
 
-    private String accountno;
+    private String invoiceflg;
+    
+    private String invoiceno;
 
     private BigDecimal deliverycost;
 
@@ -122,14 +124,6 @@ public class TConsOrder {
         this.addressid = addressid;
     }
 
-    public String getAccountno() {
-        return accountno;
-    }
-
-    public void setAccountno(String accountno) {
-        this.accountno = accountno;
-    }
-
     public BigDecimal getDeliverycost() {
         return deliverycost;
     }
@@ -193,5 +187,22 @@ public class TConsOrder {
     public void setHomedeliverytime(String homedeliverytime) {
         this.homedeliverytime = homedeliverytime;
     }
+
+    public String getInvoiceflg() {
+        return invoiceflg;
+    }
+
+    public void setInvoiceflg(String invoiceflg) {
+        this.invoiceflg = invoiceflg;
+    }
+
+    public String getInvoiceno() {
+        return invoiceno;
+    }
+
+    public void setInvoiceno(String invoiceno) {
+        this.invoiceno = invoiceno;
+    }
+
 
 }

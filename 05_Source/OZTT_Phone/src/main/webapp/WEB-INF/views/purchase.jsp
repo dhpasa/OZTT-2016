@@ -16,12 +16,24 @@
 					$(this).removeClass('checked');
 					$("#deliverytime").css("display","none");
 					$(".purchase-good－picktime").css("display","");
+					judgeAll();
 					
 				} else {
 					$(this).addClass('checked');
 					//选中
 					$("#deliverytime").css("display","");
 					$(".purchase-good－picktime").css("display","none");
+					judgeAll();
+				}
+	  		});
+	  		
+	  		$('.check-icon-invoice').click(function(){
+	  			if ($(this).hasClass('checked')) {
+					$(this).removeClass('checked');
+				} else {
+					$(this).addClass('checked');
+					$('#purchase-mail-pop-up').modal('show');
+					
 				}
 	  		});
 			
@@ -38,6 +50,7 @@
 				$(this).addClass("method-check");
 				$("#method_cod").removeClass("method-check");
 				$("#method_cod").addClass("method-default");
+				judgeAll();
 				
 			});
 			
@@ -46,7 +59,7 @@
 				$(this).addClass("method-check");
 				$("#method_online").removeClass("method-check");
 				$("#method_online").addClass("method-default");
-				
+				judgeAll();
 			});
 		})
 		
@@ -62,6 +75,7 @@
 	  			$(".purchase-select-alldelivery").css("display","")
 				$("#deliverytime").css("display","")
 				$(".purchase-good－picktime").css("display","none");
+	  			judgeAll();
 	  		}else {
 	  			// 来店自提
 	  			$("#current-address").css("display","none");
@@ -76,6 +90,7 @@
 				$(".purchase-select-alldelivery").css("display","none")
 				$("#deliverytime").css("display","none")
 				$(".purchase-good－picktime").css("display","");
+				judgeAll();
 	  			
 	  		}
 	  	}
@@ -86,8 +101,8 @@
 	  	
 	  	function judgeAll(){
 	  		var canBuy = false;
-	  		$("#freightmoney").val("0.00");
-	  		$("#countmoney").val("0.00");
+	  		$("#freightmoney").text("0.00");
+	  		$("#countmoney").text("0.00");
 	  		$("#gotobuy").css({
 				"background" : "#D4D4D4",
 			});
@@ -95,8 +110,8 @@
 	  		// 选择了什么送货方式
 	  		var deliveryMethod = "";
 	  		var deliveryMethodArr = $(".purchase-select-horizon").find("li");
-	  		for (var i = 0; i < deliveryMethod.length; i++) {
-	  			if ($(deliveryMethod[i]).hasClass("active") && i==0) {
+	  		for (var i = 0; i < deliveryMethodArr.length; i++) {
+	  			if ($(deliveryMethodArr[i]).hasClass("active") && i==0) {
 	  				deliveryMethod = "1";
 	  				break;
 	  			} else {
@@ -108,7 +123,7 @@
 	  		var addressId = "";
 	  		var freight = 0;
 	  		if (deliveryMethod == "1") {//送货上门的情况
-	  			if (!$("#hiddenAdressId")){
+	  			if (!document.getElementById("hiddenAdressId")){
 	  				return canBuy;
 	  			} else {
 	  				addressId = $("#hiddenAdressId").val();
@@ -124,7 +139,7 @@
 	  		
 	  		if (isUnify) {
 	  			// 统一送货的情况
-	  			if ($("#homeDeliveryTimeId").val() == "" || $("#deliveryTimeSelect").val()) {
+	  			if ($("#homeDeliveryTimeId").val() == "" || $("#deliveryTimeSelect").val() == "") {
 	  				return canBuy;
 	  			}
 	  		}
@@ -144,19 +159,127 @@
 	  		// 开始计算运费和合计费用
 	  		var countFreight = 0;
 	  		var groupList = $(".purchase-checkBlockBody");
+	  		if (groupList.length == 0) {
+	  			return canBuy;
+	  		}
 	  		if (isUnify) {
 	  			// 统一送货的情况下
-	  			countFreight = freight * groupList.length;
-	  			$("#freightmoney").val(fmoney(countFreight, 2));
+	  			countFreight = freight;
+	  			$("#freightmoney").text(fmoney(countFreight, 2));
 	  		} else {
 	  			// 非统一送货
-	  			var dateLength = $(".purchase-groupinfo").find("input[type=hidden]");
+	  			var dataGroup = $(".purchase-groupinfo").find("input[type=hidden]");
+	  			var diffLength = 0;
+	  			var columnDate = "";
+	  			for (var i = 0; i < dataGroup.length; i++) {
+	  				if (columnDate != $(dataGroup[i]).val()) {
+	  					columnDate = $(dataGroup[i]).val();
+	  					diffLength = diffLength + 1;
+	  				}
+	  			}
+	  			countFreight = freight * diffLength;
+	  			$("#freightmoney").text(fmoney(countFreight, 2));
 	  		}
+	  		
+	  		//合计是多少钱
+	  		var goodMoney = 0;
+	  		for (var i = 0; i < groupList.length; i++) {
+	  			var price = $(groupList[i]).find(".purchase-group-price span").text();
+	  			var qty = $(groupList[i]).find(".purchase-group-price .purchase-item-group").text().substring(1);
+	  			goodMoney = goodMoney + parseFloat(price) * parseFloat(qty);
+	  		}
+	  		
+	  		$("#countmoney").text(fmoney(parseFloat(goodMoney) + parseFloat(countFreight), 2));
+	  		
+	  		$("#gotobuy").css({
+				"background" : "#FA6D72",
+			});
+			$("#gotobuy").attr("onclick", "gotobuy()");
+	  	}
+	  	
+	  	function gotobuy() {
+	  		// 选择了什么送货方式
+	  		var deliveryMethod = "";
+	  		var deliveryMethodArr = $(".purchase-select-horizon").find("li");
+	  		for (var i = 0; i < deliveryMethodArr.length; i++) {
+	  			if ($(deliveryMethodArr[i]).hasClass("active") && i==0) {
+	  				deliveryMethod = "1";
+	  				break;
+	  			} else {
+	  				deliveryMethod = "2";
+	  				break;
+	  			}
+	  		}
+	  		// 是否选择了地址
+	  		var addressId = "";
+	  		if (deliveryMethod == "1") {//送货上门的情况
+	  			addressId = $("#hiddenAdressId").val();
+	  		}
+	  		
+	  		// 统一送货的时间点
+	  		var isUnify = false;
+	  		if ($(".purchase-blockcheck").find(".check-icon").hasClass("checked")) {
+	  			isUnify = true;
+	  		}
+	  		
+	  		// 统一送货时间和时间点
+	  		var deliveryTime = $("#homeDeliveryTimeId").val();
+	  		var deliverySelect = $("#deliveryTimeSelect").val();
+	  		
+	  		// 支付方式的选择
+	  		var payMethod = "1";
+	  		if ($("#method_online").hasClass("method-check")) {
+	  			// 在线支付
+	  			payMethod = "1";
+	  		} else {
+	  			// 货到付款
+	  			payMethod = "2";
+	  		}
+	  		
+	  		// 是否需要发票
+	  		var needInvoice = "0";
+	  		if ($(".check-icon-invoice").hasClass("checked")) {
+	  			// 需要发票
+	  			needInvoice = "1";
+	  		}
+	  		
+	  		var paramData = {
+					"deliveryMethod":deliveryMethod,
+					"addressId":addressId,
+					"isUnify":isUnify,
+					"deliveryTime":deliveryTime,
+					"deliverySelect":deliverySelect,
+					"payMethod":payMethod,
+					"needInvoice":needInvoice,
+					"invoicemail":$("#invoicemail").val()
+			}
+	  		
+	  		$.ajax({
+				type : "POST",
+				contentType:'application/json',
+				url : '${ctx}/purchase/payment',
+				dataType : "json",
+				async : false,
+				data : JSON.stringify(paramData), 
+				success : function(data) {
+					if(!data.isException){
+						// 订单保存成功
+						
+					} else {
+						
+					}
+				},
+				error : function(data) {
+					
+				}
+			});
 	  		
 	  	}
   </script>
   <style type="text/css">
-	
+		body {
+		    padding-bottom: 9.5rem;
+		}
   </style>
 </head>
 
@@ -244,7 +367,7 @@
 	
 	<div class="purchase-delivery-time" id="deliverytime">
 		<div class="purchase-hometime">
-			<input type="text" class="form-control" id="homeDeliveryTimeId" value="${deliveryDate }"></input>
+			<input type="text" class="form-control" id="homeDeliveryTimeId" value="${deliveryDate }" onchange="judgeAll()"></input>
 		</div>
 		<div class="purchase-timeselect">
 			<select class="form-control" id="deliveryTimeSelect">
@@ -272,9 +395,7 @@
 				</div>
 				<div class="purchase-group-price">
 					<span>${cartsBody.goodsUnitPrice }</span>	
-					<div class="purchase-item-group">
-						X${cartsBody.goodsQuantity }
-					</div>		
+					<div class="purchase-item-group">X${cartsBody.goodsQuantity }</div>		
 				</div>
 			</div>
 		</div>
@@ -312,8 +433,68 @@
 		</div>
     </div>
     
+    <div class="purchase-needmail">
+    	<div class="purchase-mailcheck">
+			<div class="check-icon-invoice"></div>
+		</div>
+		<div class="purchase-mailspan">
+			<span>
+				<fmt:message key="PURCHASE_NEEDMAIL"/>
+			</span>
+		</div>
+    </div>
+    
+    <div id="purchase-mail-pop-up" class="modal fade" role="dialog" aria-hidden="true" >
+    	<div class="modal-dialog purchase-dialog">
+	      <div class="modal-content">
+	         <div class="modal-header">
+	            <button type="button" class="close" 
+	               data-dismiss="modal" aria-hidden="true">
+	                  &times;
+	            </button>
+	            <h4 class="purchase-modal-title">
+	               <fmt:message key="PURCHASE_INVOICE"/>
+	            </h4>
+	         </div>
+	         <div class="purchase-modal-body">
+	            <input type="text" id="invoicemail"/>
+	         </div>
+	         <div class="modal-footer purchase-modal-footer" >
+	            <button type="button" class="btn btn-primary" onclick="closePurchaseMail()">
+	               <fmt:message key="COMMON_CONFIRM"/>
+	            </button>
+	         </div>
+	      </div>
+    	</div>
+    </div>
+    
+    <div id="purchase-credit-pop-up" class="modal fade" role="dialog" aria-hidden="true" >
+    	<div class="modal-dialog credit-dialog">
+	      <div class="modal-content">
+	         <div class="modal-header">
+	            <button type="button" class="close"  data-dismiss="modal" aria-hidden="true">
+	                  &times;
+	            </button>
+	            <span class="purchase-modal-title">
+	               	请输入银行帐号和密码
+	            </span>
+	         </div>
+	         <div class="purchase-modal-body">
+	            <input type="text" id="creditCard" placeholder="银行卡号"/>
+	            <input type="password" id="password" placeholder="密码"/>
+	         </div>
+	         <div class="modal-footer purchase-modal-footer" >
+	            <button type="button" class="btn btn-primary" onclick="payMoney()">
+	               <fmt:message key="COMMON_CONFIRM"/>
+	            </button>
+	         </div>
+	      </div>
+    	</div>
+    </div>
+    
     
     <input type="hidden" value="${deliveryDate }" id="delieveryDate"/>
+    
     <script type="text/javascript">
     	$(function(){
     		$("#homeDeliveryTimeId").datepicker({
@@ -324,12 +505,14 @@
 		        autoclose: true,
 		        todayHighlight: true
 		    }); 
-    	})
-    
-    
+    		// 初期化的时候调用
+    	  	judgeAll();
+    	});
+    	
+    	function closePurchaseMail(){
+    		$('#purchase-mail-pop-up').modal('hide');
+    	}
     </script>
-
-
 </div>    
 </body>
 <!-- END BODY -->

@@ -13,7 +13,8 @@
     <result column="deliveryMethod" property="deliverymethod" jdbcType="VARCHAR" />
     <result column="addressId" property="addressid" jdbcType="BIGINT" />
     <result column="homeDeliveryTime" property="homedeliverytime" jdbcType="BIGINT" />
-    <result column="accountNo" property="accountno" jdbcType="VARCHAR" />
+    <result column="invoiceFlg" property="invoiceflg" jdbcType="CHAR" />
+    <result column="invoiceNo" property="invoiceno" jdbcType="VARCHAR" />
     <result column="deliveryCost" property="deliverycost" jdbcType="DECIMAL" />
     <result column="transactionNo" property="transactionno" jdbcType="VARCHAR" />
     <result column="addTimestamp" property="addtimestamp" jdbcType="TIMESTAMP" />
@@ -24,7 +25,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     no, orderNo, customerNo, orderAmount, paymentMethod, orderTimestamp, paymentTimestamp, 
-    handleFlg, deliveryMethod, addressId, accountNo, homeDeliveryTime, deliveryCost, transactionNo, addTimestamp, 
+    handleFlg, deliveryMethod, addressId, invoiceFlg, invoiceNo, homeDeliveryTime, deliveryCost, transactionNo, addTimestamp, 
     addUserKey, updTimestamp, updUserKey, updPgmId
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -41,7 +42,7 @@
     insert into t_cons_order (no, orderNo, customerNo, 
       orderAmount, paymentMethod, orderTimestamp, 
       paymentTimestamp, handleFlg, deliveryMethod, 
-      addressId, homeDeliveryTime, accountNo, deliveryCost, 
+      addressId, homeDeliveryTime, invoiceFlg, invoiceNo, deliveryCost, 
       transactionNo, addTimestamp, addUserKey, 
       updTimestamp, updUserKey, updPgmId
       )
@@ -49,7 +50,7 @@
       #{orderamount,jdbcType=DECIMAL}, #{paymentmethod,jdbcType=VARCHAR}, #{ordertimestamp,jdbcType=TIMESTAMP}, 
       #{paymenttimestamp,jdbcType=TIMESTAMP}, #{handleflg,jdbcType=VARCHAR}, #{deliverymethod,jdbcType=VARCHAR}, 
       #{addressid,jdbcType=BIGINT}, #{homedeliverytime,jdbcType=VARCHAR}, 
-      #{accountno,jdbcType=VARCHAR}, #{deliverycost,jdbcType=DECIMAL}, 
+      #{invoiceflg,jdbcType=VARCHAR}, #{invoiceno,jdbcType=VARCHAR}, #{deliverycost,jdbcType=DECIMAL}, 
       #{transactionno,jdbcType=VARCHAR}, #{addtimestamp,jdbcType=TIMESTAMP}, #{adduserkey,jdbcType=VARCHAR}, 
       #{updtimestamp,jdbcType=TIMESTAMP}, #{upduserkey,jdbcType=VARCHAR}, #{updpgmid,jdbcType=VARCHAR}
       )
@@ -90,8 +91,11 @@
       <if test="homedeliverytime != null" >
         homeDeliveryTime,
       </if>
-      <if test="accountno != null" >
-        accountNo,
+      <if test="invoiceflg != null" >
+        invoiceFlg,
+      </if>
+      <if test="invoiceno != null" >
+        invoiceNo,
       </if>
       <if test="deliverycost != null" >
         deliveryCost,
@@ -149,8 +153,11 @@
       <if test="homedeliverytime != null" >
         #{homedeliverytime,jdbcType=VARCHAR},
       </if>
-      <if test="accountno != null" >
-        #{accountno,jdbcType=VARCHAR},
+      <if test="invoiceflg != null" >
+        #{invoiceflg,jdbcType=CHAR},
+      </if>
+      <if test="invoiceno != null" >
+         #{invoiceno,jdbcType=CHAR},
       </if>
       <if test="deliverycost != null" >
         #{deliverycost,jdbcType=DECIMAL},
@@ -208,8 +215,11 @@
       <if test="homedeliverytime != null" >
         homeDeliveryTime = #{homedeliverytime,jdbcType=VARCHAR},
       </if>
-      <if test="accountno != null" >
-        accountNo = #{accountno,jdbcType=VARCHAR},
+      <if test="invoiceflg != null" >
+        invoiceFlg = #{invoiceflg,jdbcType=CHAR},
+      </if>
+      <if test="invoiceno != null" >
+        invoiceNo = #{invoiceno,jdbcType=VARCHAR},
       </if>
       <if test="deliverycost != null" >
         deliveryCost = #{deliverycost,jdbcType=DECIMAL},
@@ -247,7 +257,8 @@
       deliveryMethod = #{deliverymethod,jdbcType=VARCHAR},
       addressId = #{addressid,jdbcType=BIGINT},
       homeDeliveryTime = #{homedeliverytime,jdbcType=VARCHAR},
-      accountNo = #{accountno,jdbcType=VARCHAR},
+      invoiceFlg = #{invoiceflg,jdbcType=CHAR},
+      invoiceNo = #{invoiceno,jdbcType=VARCHAR},
       deliveryCost = #{deliverycost,jdbcType=DECIMAL},
       transactionNo = #{transactionno,jdbcType=VARCHAR},
       addTimestamp = #{addtimestamp,jdbcType=TIMESTAMP},
