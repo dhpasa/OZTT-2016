@@ -21,6 +21,15 @@ public interface OrderService {
             String hidHomeDeliveryTime) throws Exception;
 
     /**
+     * 插入订单信息
+     * 
+     * @throws Exception
+     */
+    public String insertOrderInfoForPhone(String customerNo, String payMethod, String hidDeliMethod,
+            String hidAddressId, String hidHomeDeliveryTime, String isUnify, String needInvoice, String invoicemail,
+            HttpSession session) throws Exception;
+
+    /**
      * 获取当前用户所有的订单信息
      * 
      * @return
@@ -69,21 +78,44 @@ public interface OrderService {
      * @throws Exception
      */
     public void updateRecordAfterPay(String orderId, String customerNo, HttpSession session) throws Exception;
-    
+
     /**
      * admin端所有订单的获取
+     * 
      * @param pagination
      * @return
      * @throws Exception
      */
     public PagingResult<OzTtAdOlListDto> getAllOrderInfoForAdmin(Pagination pagination) throws Exception;
-    
+
     /**
      * admin端获取订单详情
+     * 
      * @param orderNo
      * @return
      * @throws Exception
      */
     public OzTtAdOdDto getOrderDetailForAdmin(String orderNo) throws Exception;
+
+    /**
+     * 创建内容并且发信
+     * 
+     * @param orderId
+     * @param customerNo
+     * @param session
+     * @throws Exception
+     */
+    public void createTaxAndSendMail(String orderId, String customerNo, HttpSession session) throws Exception;
+
+    /**
+     * 创建内容并且发信
+     * 
+     * @param orderId
+     * @param customerNo
+     * @param session
+     * @throws Exception
+     */
+    public void createTaxAndSendMailForPhone(String orderId, String customerNo, HttpSession session, String email)
+            throws Exception;
 
 }
