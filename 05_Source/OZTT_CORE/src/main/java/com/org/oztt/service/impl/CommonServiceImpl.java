@@ -178,7 +178,8 @@ public class CommonServiceImpl extends BaseService implements CommonService {
         String random = CommonUtils.getRandomNum(6);
         logger.info(random);
         phone = phone.replaceAll(" ", "");
-        boolean sendStatus = SendSMS.SendMessages(CommonConstants.PHONEUNMER_FIRST + phone, msg.replace(CommonConstants.MESSAGE_PARAM_ONE, random));
+        String sendPhone = phone.startsWith("0") ? "61"+phone.substring(1) : phone;
+        boolean sendStatus = SendSMS.SendMessages(CommonConstants.PHONEUNMER_FIRST + sendPhone, msg.replace(CommonConstants.MESSAGE_PARAM_ONE, random));
         if (sendStatus) {
             // 发送正确则插入数据
             TSysValidateMessage tSysValidateMessage = tSysValidateMessageDao.getInfoByPhone(phone);

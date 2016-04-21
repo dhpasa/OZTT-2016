@@ -5,34 +5,42 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSONObject;
 import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.contants.CommonConstants;
+import com.org.oztt.contants.CommonEnum;
 import com.org.oztt.entity.TAddressInfo;
 import com.org.oztt.formDto.ContCartItemDto;
 import com.org.oztt.formDto.ContCartProItemDto;
 import com.org.oztt.service.AddressService;
 import com.org.oztt.service.GoodsService;
+import com.org.oztt.service.OrderService;
 
 @Controller
 @RequestMapping("/purchase")
 public class PurchaseController extends BaseController {
 
     @Resource
-    private GoodsService goodsService;
-    
+    private GoodsService   goodsService;
+
     @Resource
     private AddressService addressService;
+
+    @Resource
+    private OrderService   orderService;
 
     /**
      * 购买确认画面
@@ -80,13 +88,59 @@ public class PurchaseController extends BaseController {
                     DateFormatUtils.PATTEN_YMD2));
             model.addAttribute("deliverySelect", commonService.getDeliveryTime());
             model.addAttribute("cartsList", consCarts);
-            
+
             TAddressInfo tAddressInfo = addressService.getDefaultAddress(customerNo);
             model.addAttribute("adsItem", tAddressInfo);
-            
-            String freight = addressService.getFreightByNo(Long.valueOf(tAddressInfo.getSuburb()));
-            model.addAttribute("freight", freight);
+
+            if (tAddressInfo != null) {
+                String freight = addressService.getFreightByNo(Long.valueOf(tAddressInfo.getSuburb()));
+                model.addAttribute("freight", freight);
+                tAddressInfo.setSuburb(addressService.getTSuburbDeliverFeeById(Long.valueOf(tAddressInfo.getSuburb()))
+                        .getSuburb());
+            }
+
             return "/purchase";
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            return CommonConstants.ERROR_PAGE;
+        }
+    }
+
+    /**
+     * 直接付款
+     * 
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "payment")
+    public String payment(Model model, HttpServletResponse response, HttpSession session,
+            @RequestBody Map<String, Object> param) {
+        try {
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            String hidPayMethod = param.get("payMethod").toString();
+            String hidDeliMethod = param.get("deliveryMethod").toString();
+            String hidAddressId = param.get("addressId").toString();
+            String hidHomeDeliveryTime = param.get("deliveryTime").toString().replaceAll("/", "")
+                    + param.get("deliverySelect").toString();
+            String isUnify = param.get("isUnify").toString();
+            String invoicemail = param.get("invoicemail").toString();
+            String needInvoice = param.get("needInvoice").toString();
+            // 先判断付款方式
+            String rb = orderService.insertOrderInfoForPhone(customerNo, hidPayMethod, hidDeliMethod, hidAddressId,
+                    hidHomeDeliveryTime, isUnify, needInvoice, invoicemail, session);
+            if (!StringUtils.isEmpty(rb)) {
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(rb);
+                return null;
+            }
+            if (CommonEnum.DeliveryMethod.COD.getCode().equals(hidDeliMethod)) {
+                // 货到付款
+                return "redirect:/Notice/codNotice";
+            }
+            return null;
+
         }
         catch (Exception e) {
             e.printStackTrace();
