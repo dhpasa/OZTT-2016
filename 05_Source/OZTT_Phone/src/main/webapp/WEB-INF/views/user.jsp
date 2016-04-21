@@ -71,21 +71,21 @@
 	</div>
 	
 	<div class="order p-item">
-		<a href="/order/list" class="p-link padding-1rem-top">
+		<a href="/order?tab=awaitPay" class="p-link padding-1rem-top">
 			<!-- <i class="fa fa-angle-right"></i> -->
 			<div class="myorder">我的订单</div>
 			<div class="viewallorder">查看全部订单&nbsp;<i class="fa fa-angle-right"></i></div>
 		</a>
 		<div class="order-nav padding-1rem-top">
-			<a href="/order/list?tab=awaitPay">
+			<a href="/order?tab=awaitPay">
 				<i class="await-pays"></i>
 				<div>待付款</div>
 			</a>
-			<a href="/order/list?tab=awaitShip">
+			<a href="/order?tab=awaitShip">
 				<i class="await-ship"></i>
 				<div>未交货</div>
 			</a>
-			<a href="/order/list?tab=awaitReceived">
+			<a href="/order?tab=awaitReceived">
 				<i class="await_received"></i>
 				<div>已完成</div>
 			</a>

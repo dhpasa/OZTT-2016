@@ -487,6 +487,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                     }
                 }
                 orderDB.setItemList(detailList);
+                orderDB.setDetailCount(detailList.size());
                 orderDB.setOrderStatusFlag(orderDB.getOrderStatus());
                 orderDB.setOrderDate(DateFormatUtils.date2StringWithFormat(orderDB.getOrderDateDB(),
                         DateFormatUtils.PATTEN_HMS));
