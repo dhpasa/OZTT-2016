@@ -130,22 +130,8 @@ html{
 }
 
 .main-nav-item {
-    -webkit-box-flex: 1;
-    -webkit-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
     width: 25%;
+    text-align: center;
 }
 
 .main-nav-item span {
@@ -162,6 +148,8 @@ html{
     margin-top: 0.3rem;
     background-size: contain;
     background-repeat: no-repeat;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .jshop-product-two-column{
@@ -1548,4 +1536,57 @@ html{
 .purchase-modal-footer button{
 	width:80%;
 	margin: 0 auto;
+}
+
+.notice-div{
+	display: block;
+	width: 85%;
+	margin:0 auto;
+	border-bottom: 0.5px solid rgba(187, 187, 187, 0.5);
+}
+
+.notice-div img{
+	width: 20%;
+    margin: 3rem auto;
+    display: block;
+}
+
+.notice-div .buysuccess{
+	color: #6f6f6f;
+    text-align: center;
+    font-size: 3rem;
+    margin-bottom: 2rem;
+}
+
+.notice-buy-again{
+	display: block;
+	width: 100%;
+	margin: 2rem 0;
+}
+
+.notice-buy-again a{
+	display: block;
+    width: 30%;
+    margin: 0 auto;
+    height: 3rem;
+    background: #fff;
+    text-decoration: none;
+    line-height: 3rem;
+    text-align: center;
+    font-size: 1.5rem;
+    color: #FA6D72;
+    border: 1px solid #FA6D72;
+}
+
+.notice-backgroud{
+	background: #fff;
+}
+
+
+#ordersList .list_table img{
+	height:4rem;
+}
+
+.iteminfo .list_table img{
+	height:4rem;
 }

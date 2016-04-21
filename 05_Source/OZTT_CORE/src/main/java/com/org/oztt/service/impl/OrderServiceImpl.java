@@ -287,7 +287,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
 
         }
 
-        if ("1".equals(payMethod) || "1".equals(invoiceFlg)) {
+        if ("1".equals(payMethod) && "1".equals(invoiceFlg)) {
             // 在线支付
             this.createTaxAndSendMailForPhone(maxOrderNo, customerNo, session, invoicemail);
         }
