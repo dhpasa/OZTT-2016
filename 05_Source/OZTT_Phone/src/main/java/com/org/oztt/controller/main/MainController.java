@@ -59,14 +59,10 @@ public class MainController extends BaseController {
             }
 
             // 获取热卖的商品
-            TGoods tGoodsParam = new TGoods();
-            tGoodsParam.setDeleteflg(CommonConstants.IS_NOT_DELETE);
-            tGoodsParam.setOnsaleflg(CommonConstants.IS_ON_SALE);
-            tGoodsParam.setHotsaleflg(CommonConstants.IS_HOT_SALE);
-            List<GroupItemDto> hotGoodsList = goodsService.getHotSeller(tGoodsParam);
+            List<GroupItemDto> topPageGoodsList = goodsService.getTopPage();
 
-            if (!CollectionUtils.isEmpty(hotGoodsList)) {
-                for (GroupItemDto goods : hotGoodsList) {
+            if (!CollectionUtils.isEmpty(topPageGoodsList)) {
+                for (GroupItemDto goods : topPageGoodsList) {
                     goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT
                             + goods.getGoodsthumbnail());
                 }
@@ -76,8 +72,6 @@ public class MainController extends BaseController {
 
             Pagination pagination = new Pagination(1, Integer.parseInt(CommonConstants.MAIN_LIST_COUNT));
             Map<Object, Object> params = new HashMap<Object, Object>();
-            params.put("hotSaleFlg", CommonConstants.IS_NOT_HOT_SALE);
-            params.put("newSaleFlg", CommonConstants.IS_NOT_NEW_SALE);
             pagination.setParams(params);
             PagingResult<GroupItemDto> pageInfo = goodsService.getGoodsByParamForPage(pagination);
 
@@ -88,7 +82,7 @@ public class MainController extends BaseController {
                     goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
                 }
             }
-            model.addAttribute("hotGoodsList", hotGoodsList);
+            model.addAttribute("hotGoodsList", topPageGoodsList);
             model.addAttribute("menucategory", myCategroyList);
             model.addAttribute("newGoodsList", newGoodsList);
             model.addAttribute("tgoodList",

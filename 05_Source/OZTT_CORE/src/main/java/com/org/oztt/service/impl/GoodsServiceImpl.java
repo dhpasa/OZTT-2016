@@ -785,4 +785,9 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
         }
     }
 
+    @Override
+    public List<GroupItemDto> getTopPage() throws Exception {
+        return tGoodsDao.getTopPage();
+    }
+
 }

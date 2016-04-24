@@ -894,11 +894,11 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         params.put("complateDate", DateFormatUtils.getNowTimeFormat(DateFormatUtils.PATTEN_YMD2));
         params.put("warehouse", "Main warehouse");
         params.put("deliveryMethod", CommonEnum.DeliveryMethod.getEnumLabel(tConsOrder.getDeliverymethod()));
-        params.put("subtotal", tConsOrder.getOrderamount().toString());
+        params.put("total", tConsOrder.getOrderamount().toString());
         params.put("tax", tConsOrder.getOrderamount().multiply(new BigDecimal(super.getApplicationMessage("TAX")))
                 .setScale(2).toString());
         params.put(
-                "total",
+                "subtotal",
                 tConsOrder
                         .getOrderamount()
                         .subtract(

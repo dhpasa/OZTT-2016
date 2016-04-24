@@ -33,6 +33,23 @@
 			location.href = "${ctx}/addressIDUS/list";
 		}
   	}
+  	
+  	function changeLocale(local) {
+		$.ajax({
+			type : "GET",
+			contentType:'application/json',
+			url : '${pageContext.request.contextPath}/COMMON/changeLocale?local='+local,
+			dataType : "json",
+			async:false,
+			data : '', 
+			success : function(data) {
+			},
+			error : function(data) {
+				
+			}
+		});
+		window.location.reload();
+	}
   
   </script>
 </head>
@@ -71,67 +88,74 @@
 	</div>
 	
 	<div class="order p-item">
-		<a href="${ctx}/order" class="p-link padding-1rem-top">
-			<!-- <i class="fa fa-angle-right"></i> -->
-			<div class="myorder">我的订单</div>
-			<div class="viewallorder">查看全部订单&nbsp;<i class="fa fa-angle-right"></i></div>
+		<a href="${ctx}/order?tab=0" class="p-link padding-1rem-top">
+			<div class="myorder"><fmt:message key="USER_MYORDER"/></div>
+			<div class="viewallorder"><fmt:message key="USER_SEEALLORDER"/>&nbsp;<i class="fa fa-angle-right"></i></div>
 		</a>
 		<div class="order-nav padding-1rem-top">
-			<a href="/order?tab=awaitPay">
+			<a href="${ctx}/order?tab=0">
 				<i class="await-pays"></i>
-				<div>待付款</div>
+				<div><fmt:message key="USER_ORDER_NOTPAY"/></div>
 			</a>
-			<a href="/order?tab=awaitShip">
+			<a href="${ctx}/order?tab=1">
 				<i class="await-ship"></i>
-				<div>未交货</div>
+				<div><fmt:message key="USER_ORDER_NOTOVER"/></div>
 			</a>
-			<a href="/order?tab=awaitReceived">
+			<a href="${ctx}/order?tab=3">
 				<i class="await_received"></i>
-				<div>已完成</div>
+				<div><fmt:message key="USER_ORDER_OVER"/></div>
 			</a>
 		</div>
 	</div>
 	
 	<div class="order p-item user-item">
 		<a onclick="manageAddress()" class="adsmana padding-1rem-top">
-			<div class="content">收货地址管理</div>
+			<div class="content"><fmt:message key="USER_ADS_MANAGER"/></div>
 			<i class="fa fa-angle-right"></i>
 		</a>
 	</div>
 	
 	<div class="order p-item">
 		<a href="#" class="fangle padding-1rem-top">
-			<div class="content">联系客服</div>
+			<div class="content"><fmt:message key="USER_CONTENT"/></div>
 			<i class="fa fa-angle-right"></i>
 		</a>
 		
 		<div style="display:none" class="downContent">
-			联系客服说明
-		
+			<fmt:message key="USER_CONTENT_INFO"/>
 		</div>
 	</div>
 	
 	<div class="order p-item">
 		<a href="#" class="fangle padding-1rem-top">
-			<div class="content">商家合作</div>
+			<div class="content"><fmt:message key="USER_OTHERCOOPERATE"/></div>
 			<i class="fa fa-angle-right"></i>
 		</a>
 		
 		<div style="display:none" class="downContent">
-			商家合作说明
+			<fmt:message key="USER_OTHERCOOPERATE_INFO"/>
 		</div>
 	</div>
 	
 	<div class="order p-item">
 		<a href="#" class="fangle padding-1rem-top">
-			<div class="content">关于团团</div>
+			<div class="content"><fmt:message key="USER_ABOUT"/></div>
 			<i class="fa fa-angle-right"></i>
 		</a>
 		
 		<div style="display:none" class="downContent">
-			关于团团说明
-		
+			<fmt:message key="USER_ABOUT_INFO"/>
 		</div>
+	</div>
+	
+	<div class="order p-item">
+		<a href="#" class="fangle padding-1rem-top">
+			<div class="content"><fmt:message key="USER_LANGUAGECHANGE"/></div>
+			<div class="user-language">
+				<img alt="cn" src="${ctx}/images/cn.png" onclick="changeLocale('zh')">
+				<img alt="us" src="${ctx}/images/us.png" onclick="changeLocale('en')">
+			</div>
+		</a>
 	</div>
 </body>
 <!-- END BODY -->

@@ -243,7 +243,7 @@
 			</span>
 			<span class="newGoods-info-span">
 				<div class="group-price-div">
-					<span class="group-price">${newGoodsList.disprice }</span>
+					<span class="group-price"><fmt:message key="COMMON_DOLLAR" />${newGoodsList.disprice }</span>
 					<span class="text-through">${newGoodsList.costprice }</span>
 				</div>
 			</span>
@@ -254,7 +254,7 @@
 	</div>
 	</c:forEach>
 	
-	<div class="label-search-horizon margin-1rem-top">
+	<div class="margin-1rem-top" id="label-search-horizon">
 		 <ul class="nav nav-tabs">
 		 	<li class="active"><a onclick="selectMainGoods('')" data-toggle="tab"><fmt:message key="MAIN_ALL" /></a></li>
 		 	<c:forEach var="tab" items="${ tabList }">
@@ -268,12 +268,12 @@
    		<div class="jshop-product-two-column">
    			<ul id="goodItemList">
    				<c:forEach var="goodslist" items="${ tgoodList }">
-   				<li>
+   				<li class="main-goods-li">
 					<div class="jshop-item" onclick="toItem('${goodslist.groupno }')">
 						<img src="${goodslist.goodsthumbnail }" class="img-responsive">
 						<span class="main-goodsname">${goodslist.goodsname }</span>
 		                <div class="main-group-price">
-		                	<span class="group-price">${goodslist.disprice }</span>
+		                	<span class="group-price"><fmt:message key="COMMON_DOLLAR" />${goodslist.disprice }</span>
 							<span class="text-through">${goodslist.costprice }</span>
 		                </div>
 		                <div class="main-hasbuy">
@@ -282,8 +282,11 @@
 				   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span>
 		                </div>
 		                <div class="countdown-time" data-seconds-left="${goodslist.countdownTime}">
-		                	
 		                </div>
+		                <%-- <c:if test="${goodslist.newsaleflg == '1' }">
+		                	<div class="goods-sticker goods-sticker-new"></div>
+		                </c:if> --%>
+		                
 					</div>
    				</li>
    				</c:forEach>

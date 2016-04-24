@@ -61,6 +61,13 @@ public interface GoodsService {
      * @throws Exception
      */
     public List<GroupItemDto> getHotSeller(TGoods tGoods) throws Exception;
+    
+    /**
+     * 取得广告商品
+     * @return
+     * @throws Exception
+     */
+    public List<GroupItemDto> getTopPage() throws Exception;
 
     /**
      * 获取新货

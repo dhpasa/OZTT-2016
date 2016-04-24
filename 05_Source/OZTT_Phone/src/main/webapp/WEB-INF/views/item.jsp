@@ -150,14 +150,14 @@
    			<span class="item-goodsname" id="item-goodsname-id">${ goodItemDto.goods.goodsname}</span>
    		</div>
    		<div>
-   			<span class="item-disprice" id="item-disprice-id">${ goodItemDto.disPrice}</span>
+   			<span class="item-disprice" id="item-disprice-id"><fmt:message key="COMMON_DOLLAR" />${ goodItemDto.disPrice}</span>
    			<span class="item-nowprice">${ goodItemDto.nowPrice}</span>
    		</div>
    		
-   		<div class="border-top-show infoarea">
+   		<!-- <div class="border-top-show infoarea">
    			<span class="item-label">美容 护肤</span>
    			<span class=""></span>
-   		</div>
+   		</div> -->
    		
    		<div class="border-top-show height3">
    			<span class="item-timeword"><fmt:message key="ITEM_TIME" /></span>

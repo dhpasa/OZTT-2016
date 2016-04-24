@@ -103,4 +103,9 @@ public class TGoodsDaoImpl extends BaseDao implements TGoodsDao {
         return null;
     }
 
+    @Override
+    public List<GroupItemDto> getTopPage() {
+        return select("com.org.oztt.dao.TGoodsDao.getTopPage");
+    }
+
 }

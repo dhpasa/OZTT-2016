@@ -1,6 +1,14 @@
 /* ========================================共通式样============================================== */
+body { 
+	color: #666; 
+}
+
+a{ 
+	color: #666; 
+}
+
 .logo_min{
-	height: 3rem;
+	height: 2.5rem;
 }
 
 .margin-1rem-top{
@@ -65,6 +73,14 @@
 	background-position: 0 0px;
 }
 
+.top-padding{
+	padding:0.5rem 1rem 0rem 1rem
+}
+
+.bottom-padding{
+	padding:0.5rem 1rem 0.5rem 1rem
+}
+
 
 /* ========================================首页============================================== */
 html{
@@ -113,6 +129,10 @@ html{
     font-size:2rem;
 }
 
+.x-header-title img{
+	
+}
+
 .main-nav {
     position: fixed;
     width: 100%;
@@ -127,6 +147,7 @@ html{
 .main-nav a{
     color: #ff0000;
     text-decoration: none;
+    width: 25%;
 }
 
 .main-nav-item {
@@ -135,17 +156,16 @@ html{
 }
 
 .main-nav-item span {
-    line-height: 3rem;
-    height: 3rem;
-    font-size: 1.5rem;
-    color: #6f6f6f;
+    margin-top: 5px;
+    font-size: 1rem;
+    color: #666;
+    display: block;
 }
 
 .main-nav-item img{
     display: block;
-    width: 2.5rem;
-    height: 2rem;
-    margin-top: 0.3rem;
+    height: 2.5rem;
+    margin-top: 0.5rem;
     background-size: contain;
     background-repeat: no-repeat;
     margin-left: auto;
@@ -165,8 +185,8 @@ html{
     box-sizing: border-box;
     display: inline-block;
     float: left;
-    width: 46%;
-    margin: 2%;
+    width: 48%;
+    margin: 1%;
     padding: 2%;
     list-style: none;
     background-color: #fff;
@@ -227,14 +247,18 @@ html{
 	vertical-align: middle;
 }
 
-.label-search-horizon .nav-tabs > li {
+#label-search-horizon{
+	padding:0px 5px;
+}
+
+#label-search-horizon .nav-tabs > li {
     float: left;
     margin-bottom: -1px;
     width:25%;
     text-align: -webkit-center;
 }
 
-.label-search-horizon .nav-tabs > li > a{
+#label-search-horizon .nav-tabs > li > a{
     background: #fff;
     color: #3e4d5c;
     width:90%;
@@ -243,7 +267,7 @@ html{
     border: 1px solid #fff !important;
 }
 
-.label-search-horizon .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+#label-search-horizon .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
 	background: #fff;
     color: #FCAEB1;
     border-radius: 0;
@@ -251,7 +275,7 @@ html{
     border: 1px solid #FA6D72 !important;
 }
 
-.label-search-horizon .nav-tabs{
+#label-search-horizon .nav-tabs{
 	border: none;
 	padding-bottom: 0px;
 	margin-bottom: 0px;
@@ -301,6 +325,24 @@ html{
 
 .main-hasbuy{
     font-size: 1.3rem;
+}
+
+.goods-sticker-new {
+	background: url(../images/goodsnew.png) no-repeat;
+	left: auto;
+	right: 0;
+}
+
+.goods-sticker {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 63px;
+	height: 63px;
+}
+
+.main-goods-li{
+	position: relative;
 }
 
 /* ========================================我============================================== */
@@ -393,6 +435,18 @@ html{
     display: flex;
 }
 
+.order-nav a{
+	display: block;
+    float: left;
+    width: 33%;
+    padding: 1rem 0rem; 
+    text-align: center;
+}
+
+.order-nav a:hover,.order-nav a:focus{
+	color: #666;
+}
+
 .myorder{
 	float:left;
 	width:50%;
@@ -415,8 +469,8 @@ html{
 
 .adsmana i{
 	display: block;
-	font-size: 3rem;
-	line-height: 5rem;
+	font-size: 2rem;
+	line-height: 3rem;
 	text-align: right;
 	padding-right:2rem;
 }
@@ -425,8 +479,8 @@ html{
 	float: left;
     width: 50%;
     text-align: left;
-    font-size: 2rem;
-    line-height: 5rem;
+    font-size: 1.5rem;
+    line-height: 3rem;
     color: #383838;
 }
 
@@ -436,8 +490,8 @@ html{
 
 .fangle i{
 	display: block;
-	font-size: 3rem;
-	line-height: 5rem;
+	font-size: 2rem;
+	line-height: 3rem;
 	text-align: right;
 	padding-right:2rem;
 }
@@ -446,8 +500,8 @@ html{
 	float: left;
     width: 50%;
     text-align: left;
-    font-size: 2rem;
-    line-height: 5rem;
+    font-size: 1.5rem;
+    line-height: 3rem;
     color: #383838;
 }
 
@@ -467,6 +521,19 @@ html{
 	padding-left: 3rem;
 	color: #fff;
 	font-size: 2.5rem;
+}
+
+.user-language{
+	float: left;
+    width: 50%;
+    text-align: right;
+    padding-right: 2rem;
+}
+
+.user-language img{
+	margin-top: 0.7rem;
+    margin-right: 1rem;
+    height: 1.5rem;
 }
 
 
@@ -713,7 +780,6 @@ html{
 	text-decoration: none;
 	display: inline-block;
 	margin: 0.5rem 1.5rem;
-	color: #212121;
 	font-size: 1.3rem;
 }
 
@@ -1026,6 +1092,11 @@ html{
 
 .shopcart-goods-delete i{
 	margin: 1rem 1rem 1rem 1rem;
+}
+
+.orderList-search-horizon{
+	background-color: #fff;
+	padding-left: 1%;
 }
 
 .orderList-search-horizon .nav-tabs > li {
@@ -1589,4 +1660,214 @@ html{
 
 .iteminfo .list_table img{
 	height:4rem;
+}
+
+/*=======================订单============================*/
+.order-goods-div{
+	display: inline-block;
+	width:100%;
+	background-color:#fff;
+}
+
+.order-checkBlockBody{
+	display: inline-block;
+    width: 100%;
+    height: 8rem;
+}
+
+.order-groupinfo{
+	width: 100%;
+    padding: 10px;
+    float: left;
+    display: inline-block;
+    height: 8rem;
+    border-bottom:0.5px solid #F4F4F4;
+}
+
+.order-groupinfo .order-group-img{
+	width:30%;
+	height:100%;
+	float: left;
+}
+
+.order-groupinfo .order-group-img img{
+	height: 85%;
+	margin: auto 0px;
+	border-radius: 5px !important;
+}
+
+.order-group-pro{
+	width:50%;
+	float: left;
+	padding-left: 1rem;
+}
+
+.order-item-group{
+	margin: 1rem 1rem 1rem 1rem;
+}
+
+.order-good－picktime{
+	padding-top: 2rem;
+	font-size: 1.5rem;
+}
+
+.order-goodname{
+	font-size: 2rem;
+}
+
+.order-group-price{
+	width: 20%;
+    float: left;
+    text-align: right;
+    font-size: 2rem;
+}
+
+.order-item-group{
+	margin: 1rem 1rem 1rem 1rem;
+}
+
+.order-head{
+	width: 100%;
+	display: inline-block;
+	border-bottom:0.5px solid #F4F4F4;
+}
+
+.order-head .order-time{
+	width: 50%;
+	display: block;
+	text-align: left;
+	float: left;
+	padding: 1rem;
+}
+
+.order-head .order-status{
+	width: 50%;
+	display: block;
+	text-align: right;
+	float: left;
+	padding: 1rem;
+}
+
+.order-bottom{
+	width: 100%;
+	display: inline-block;
+}
+
+.order-bottom-freight{
+	width: 100%;
+	display: inline-block;
+}
+
+.order-bottom-freight .order-bottom-freight-info{
+	width: 70%;
+	display: inline-block;
+	float: left;
+	text-align: right;
+	padding:0.5rem 0rem 0rem 0rem;
+}
+
+.order-bottom-freight .order-bottom-freight-content{
+	width: 30%;
+	display: inline-block;
+	float: left;
+	text-align: right;
+	padding:0.5rem 1rem 0rem 0rem;
+}
+
+.order-bottom-content{
+	width: 100%;
+}
+
+.order-bottom-content .order-bottom-content-info{
+	width: 70%;
+	display: inline-block;
+	float: left;
+	text-align: right;
+	padding:0.5rem 0rem 0.5rem 0rem;
+}
+
+.order-bottom-content .order-bottom-content-content{
+	width: 30%;
+	display: inline-block;
+	float: left;
+	text-align: right;
+	padding:0.5rem 1rem 0.5rem 0rem;
+}
+
+/*=====================================订单详情==============================================*/
+.order-item-status{
+	width: 100%;
+	display: inline-block;
+	height: 4rem;
+	line-height: 4rem;
+	text-align:center;
+	color: #fff;
+	background-color: #FA6D72;
+}
+
+.order-item-head{
+	width: 100%;
+	display: inline-block;
+	border-bottom:0.5px solid #F4F4F4;
+	background-color: #fff;
+}
+
+.order-item-head .order-item-time{
+	width: 60%;
+	display: block;
+	text-align: left;
+	float: left;
+	padding: 1rem;
+}
+
+.order-item-head .order-item-headStatus{
+	width: 40%;
+	display: block;
+	text-align: right;
+	float: left;
+	padding: 1rem;
+}
+
+.order-select-address{
+	width:100%;
+	padding: 10px 15px 15px 10px;
+	background-color: #fff;
+	position: relative;
+	display: inline-block;
+}
+
+.order-item-allinfo{
+	width: 100%;
+	display: inline-block;
+}
+
+.order-item-payinfo{
+	width: 100%;
+	display: inline-flex;
+	background-color: #fff;
+}
+
+.order-item-payinfo .paytitle{
+	width: 30%;
+	float:left;
+	text-align:left;
+	display: inline-block;
+}
+
+.order-item-payinfo .paycontent{
+	width: 70%;
+	float:left;
+	text-align:right;
+	display: inline-block;
+}
+
+.order-item-money{
+	width: 100%;
+    text-align:right;
+    padding: 0.5rem 1rem;
+    background-color: #fff;
+}
+
+.order-item-money p{
+	margin: 0px;
 }

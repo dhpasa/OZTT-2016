@@ -35,4 +35,25 @@ public class NoticeController extends BaseController {
             return CommonConstants.ERROR_PAGE;
         }
     }
+    
+    /**
+     * 注册成功通知画面
+     * 
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "registersuccess")
+    public String registersuccess(Model model, HttpServletResponse response, HttpSession session) {
+        try {
+            
+            return "/notice/registerNotice";
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            return CommonConstants.ERROR_PAGE;
+        }
+    }
+    
+    
 }

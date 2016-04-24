@@ -277,14 +277,14 @@
 		}
 		var totalAmount = 0;
 		for (var i = 0; i < allChecked.length; i++) {
-			var price = $(allChecked[i]).parent().parent().find('.shopcart-group-price').find('span').text();
+			var price = $(allChecked[i]).parent().parent().find('.shopcart-group-price').find('span').text().substring(1);
 			var quantity = $(allChecked[i]).parent().parent().find('.shopcart-goods-quantity').find('.txt').text();
 			totalAmount += price * quantity;
 		}
 		if (totalAmount == 0) {
 			$("#countmoney").text("0.00");
 		} else {
-			$("#countmoney").text(fmoney(totalAmount,2));
+			$("#countmoney").text('<fmt:message key="COMMON_DOLLAR" />'+fmoney(totalAmount,2));
 		}
 		
 	}
@@ -387,7 +387,8 @@ body {
 					</div>
 				</div>
 				<div class="shopcart-group-price">
-					<span>${cartsBody.goodsUnitPrice }</span>
+					
+					<span><fmt:message key="COMMON_DOLLAR" />&nbsp;${cartsBody.goodsUnitPrice }</span>
 					
 					<div class="shopcart-goods-delete">
 						<i class="fa fa-trash-o redcolor" style="display: none"></i>
