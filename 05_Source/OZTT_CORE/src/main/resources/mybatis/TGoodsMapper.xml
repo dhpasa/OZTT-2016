@@ -410,6 +410,7 @@
 		inner join t_goods a on c.goodsId = a.goodsId
 		where a.newSaleFlg = '1' and a.onSaleFlg= '1'
 		and (current_timestamp between c.validPeriodStart and c.validPeriodEnd and c.openFlg = '1')
+		limit 2
 	</select>
 
 	<select id="getGoodsListForMain" resultMap="GroupInfoMap" parameterType="java.util.Map">
@@ -452,7 +453,7 @@
 		inner join t_goods_price b on c.goodsId = b.goodsId
 		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.pricePolicy = '0' and b.openFlg = '0')
 		inner join t_goods a on c.goodsId = a.goodsId
-		where a.onSaleFlg= '1'
+		where a.onSaleFlg= '1' and c.topPageUp = '0'
 		and (current_timestamp between c.validPeriodStart and c.validPeriodEnd and c.openFlg = '1')
 		<if test="classId != null and classId != '' ">
 			and a.classId = #{classId,jdbcType=VARCHAR}
@@ -489,7 +490,7 @@
 		inner join t_goods_price b on c.goodsId = b.goodsId
 		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.pricePolicy = '0' and b.openFlg = '0')
 		inner join t_goods a on c.goodsId = a.goodsId
-		where a.onSaleFlg= '1'
+		where a.onSaleFlg= '1' and c.topPageUp = '0'
 		and (current_timestamp between c.validPeriodStart and c.validPeriodEnd and c.openFlg = '1')
 		<if test="classId != null and classId != '' ">
 			and classId = #{classId,jdbcType=VARCHAR}
@@ -748,4 +749,21 @@
 		</if>
 	</select>
 	
+	<select id="getTopPage" resultMap="GroupInfoMap">
+		select
+		a.no, a.goodsId, a.classId, a.goodsBrand, a.goodsName, a.goodsDesc, a.goodsComments,
+		a.goodsThumbnail,
+		a.goodsSmallPic, a.goodsNormalPic, a.onSaleFlg, a.hotSaleFlg, a.newSaleFlg, 
+		c.groupPrice as  costPrice, 
+		a.sortOrder,
+		a.deleteFlg, 
+		c.groupNo
+		from t_goods_group c 
+		inner join t_goods_price b on c.goodsId = b.goodsId
+		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.pricePolicy = '0' and b.openFlg = '0')
+		inner join t_goods a on c.goodsId = a.goodsId
+		where a.onSaleFlg= '1' and c.topPageUp = '1'
+		and (current_timestamp between c.validPeriodStart and c.validPeriodEnd and c.openFlg = '1')
+		
+	</select>	
 </mapper>

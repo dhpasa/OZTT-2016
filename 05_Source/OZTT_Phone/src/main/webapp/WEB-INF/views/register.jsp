@@ -83,7 +83,7 @@
 						$("#personInfo").css("color", "red");
 					} else {
 						// 正确登录
-						location.href = "${ctx}/main/init";
+						location.href = "${ctx}/Notice/registersuccess";
 					}
 				}
 			},

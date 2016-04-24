@@ -97,6 +97,14 @@ public interface TGoodsDao {
      * @return
      */
     List<GroupItemDto> getHotSeller(TGoods record);
+    
+    /**
+     * 广告图
+     * 
+     * @param record
+     * @return
+     */
+    List<GroupItemDto> getTopPage();
 
     /**
      * 检索商品

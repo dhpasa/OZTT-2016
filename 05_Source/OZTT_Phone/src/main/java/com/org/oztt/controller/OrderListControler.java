@@ -57,7 +57,6 @@ public class OrderListControler extends BaseController {
             pagination.setSize(10);
             Map<Object, Object> paramMap = new HashMap<Object, Object>();
             paramMap.put("customerNo", customerNo);
-            //			paramMap.put("customerNo", "2016041700000001");
             paramMap.put("handleFlg", handleFlg);
             pagination.setParams(paramMap);
             PagingResult<OrderInfoDto> orderListPage = orderService.getAllOrderInfoForPage(pagination);
@@ -75,10 +74,13 @@ public class OrderListControler extends BaseController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String order(@PathVariable String id, Model model) {
+    public String order(@PathVariable String id, Model model, HttpServletRequest request) {
         try {
             OzTtGbOdDto detail = orderService.getOrderDetailInfo(id);
-
+            String tab = request.getParameter("tab");
+            if (!StringUtils.isEmpty(tab)) {
+                model.addAttribute("tab", tab);
+            }
             model.addAttribute("detailInfo", detail);
         }
         catch (Exception e) {

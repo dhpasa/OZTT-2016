@@ -104,7 +104,7 @@
 	<c:if test="${fromMode == '1' }">
 		<a onclick="setDefaultToBuy('${adsItem.id}')">
 	</c:if>
-	<div class="addressList">
+	<div class="addressList" style="color:#666">
         <div class="addressInfo">
             <span class="addressInfoHead">${adsItem.receiver}</span>
             <span class="addressInfoHead">${adsItem.contacttel}</span>

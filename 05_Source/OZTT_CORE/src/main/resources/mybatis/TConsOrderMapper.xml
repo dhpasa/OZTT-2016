@@ -290,6 +290,9 @@
 		<if test="orderNo != null" >
         	and A.orderNo = #{orderNo,jdbcType=VARCHAR}
       	</if>
+      	<if test="handleFlg != null" >
+        	and A.handleFlg = #{handleFlg,jdbcType=VARCHAR}
+      	</if>
       	order by addTimestamp desc
 	</select>
 	
@@ -300,6 +303,9 @@
 		and customerNo = #{customerNo,jdbcType=VARCHAR}
 		<if test="orderNo != null" >
         	and orderNo = #{orderNo,jdbcType=VARCHAR}
+      	</if>
+      	<if test="handleFlg != null" >
+        	and handleFlg = #{handleFlg,jdbcType=VARCHAR}
       	</if>
 	</select>
 	

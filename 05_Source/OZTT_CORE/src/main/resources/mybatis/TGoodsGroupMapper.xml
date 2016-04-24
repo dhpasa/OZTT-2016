@@ -5,6 +5,7 @@
 		<id column="no" property="no" jdbcType="BIGINT" />
 		<result column="groupNo" property="groupno" jdbcType="VARCHAR" />
 		<result column="goodsId" property="goodsid" jdbcType="VARCHAR" />
+		<result column="topPageUp" property="toppageup" jdbcType="VARCHAR" />
 		<result column="groupPrice" property="groupprice" jdbcType="DECIMAL" />
 		<result column="groupMaxQuantity" property="groupmaxquantity"
 			jdbcType="DECIMAL" />
@@ -28,7 +29,7 @@
 		<result column="updPgmId" property="updpgmid" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		no, groupNo, goodsId, groupPrice, groupMaxQuantity, groupCurrentQuantity,
+		no, groupNo, goodsId, topPageUp, groupPrice, groupMaxQuantity, groupCurrentQuantity,
 		groupComments,
 		groupDesc, comsumerReminder, shopperRules, openFlg, validPeriodStart,
 		validPeriodEnd,
@@ -46,7 +47,7 @@
 		where no = #{no,jdbcType=BIGINT}
 	</delete>
 	<insert id="insert" parameterType="com.org.oztt.entity.TGoodsGroup">
-		insert into t_goods_group (no, groupNo, goodsId,
+		insert into t_goods_group (no, groupNo, goodsId, topPageUp,
 		groupPrice, groupMaxQuantity, groupCurrentQuantity,
 		groupComments, groupDesc, comsumerReminder,
 		shopperRules, openFlg, validPeriodStart,
@@ -54,7 +55,7 @@
 		updTimestamp, updUserKey, updPgmId
 		)
 		values (#{no,jdbcType=BIGINT}, #{groupno,jdbcType=VARCHAR},
-		#{goodsid,jdbcType=VARCHAR},
+		#{goodsid,jdbcType=VARCHAR}, #{toppageup,jdbcType=VARCHAR},
 		#{groupprice,jdbcType=DECIMAL}, #{groupmaxquantity,jdbcType=DECIMAL},
 		#{groupcurrentquantity,jdbcType=DECIMAL},
 		#{groupcomments,jdbcType=VARCHAR}, #{groupdesc,jdbcType=VARCHAR},
@@ -78,6 +79,9 @@
 			</if>
 			<if test="goodsid != null">
 				goodsId,
+			</if>
+			<if test="toppageup != null">
+				topPageUp,
 			</if>
 			<if test="groupprice != null">
 				groupPrice,
@@ -135,6 +139,9 @@
 			<if test="goodsid != null">
 				#{goodsid,jdbcType=VARCHAR},
 			</if>
+			<if test="toppageup != null">
+				#{topPageUp,jdbcType=VARCHAR},
+			</if>
 			<if test="groupprice != null">
 				#{groupprice,jdbcType=DECIMAL},
 			</if>
@@ -191,6 +198,9 @@
 			<if test="goodsid != null">
 				goodsId = #{goodsid,jdbcType=VARCHAR},
 			</if>
+			<if test="toppageup != null">
+				topPageUp = #{toppageup,jdbcType=VARCHAR},
+			</if>
 			<if test="groupprice != null">
 				groupPrice = #{groupprice,jdbcType=DECIMAL},
 			</if>
@@ -243,6 +253,7 @@
 		update t_goods_group
 		set groupNo = #{groupno,jdbcType=VARCHAR},
 		goodsId = #{goodsid,jdbcType=VARCHAR},
+		topPageUp = #{toppageup,jdbcType=VARCHAR},
 		groupPrice = #{groupprice,jdbcType=DECIMAL},
 		groupMaxQuantity = #{groupmaxquantity,jdbcType=DECIMAL},
 		groupCurrentQuantity = #{groupcurrentquantity,jdbcType=DECIMAL},
@@ -356,5 +367,6 @@
         	<![CDATA[and (DATE_FORMAT(A.validPeriodEnd,'%Y/%m/%d')) <= #{dateTo,jdbcType=VARCHAR}]]>
       	</if>
 	</select>
+
 	
 </mapper>

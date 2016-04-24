@@ -12,6 +12,8 @@ public class TGoodsGroup implements Serializable {
     private String groupno;
 
     private String goodsid;
+    
+    private String toppageup;
 
     private BigDecimal groupprice;
 
@@ -185,5 +187,13 @@ public class TGoodsGroup implements Serializable {
 
     public void setUpdpgmid(String updpgmid) {
         this.updpgmid = updpgmid;
+    }
+
+    public String getToppageup() {
+        return toppageup;
+    }
+
+    public void setToppageup(String toppageup) {
+        this.toppageup = toppageup;
     }
 }
