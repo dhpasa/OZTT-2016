@@ -32,19 +32,19 @@
     <div class="main-nav">
 		<a href="${ctx}/main/init" class="main-nav-item main-nav-home main-nav-active">
 			<img alt="home" src="${ctx}/images/main.png">
-			<span>首页</span>
+			<span><fmt:message key="DECORATOR_MAIN"/></span>
 		</a>
 		<a href="${ctx}/category/init" class="main-nav-item main-nav-cat ">
 			<img alt="category" src="${ctx}/images/category.png">
-			<span>分类</span>
+			<span><fmt:message key="DECORATOR_CATEGORY"/></span>
 		</a>
 		<a href="#" onclick="toShopCart()" class="main-nav-item main-nav-cart ">
 			<img alt="shopcart" src="${ctx}/images/shopcart.png">
-			<span>购物袋</span>
+			<span><fmt:message key="DECORATOR_SHOPCART"/></span>
 		</a>
 		<a href="${ctx}/user/init" class="main-nav-item main-nav-profile ">
 			<img alt="me" src="${ctx}/images/me.png">
-			<span>我</span>
+			<span><fmt:message key="DECORATOR_ME"/></span>
 		</a>
 	</div>
     <!-- END FOOTER -->

@@ -165,7 +165,7 @@
 	  		if (isUnify) {
 	  			// 统一送货的情况下
 	  			countFreight = freight;
-	  			$("#freightmoney").text(fmoney(countFreight, 2));
+	  			$("#freightmoney").text('<fmt:message key="COMMON_DOLLAR" />' + fmoney(countFreight, 2));
 	  		} else {
 	  			// 非统一送货
 	  			var dataGroup = $(".purchase-groupinfo").find("input[type=hidden]");
@@ -178,25 +178,24 @@
 	  				}
 	  			}
 	  			countFreight = freight * diffLength;
-	  			$("#freightmoney").text(fmoney(countFreight, 2));
+	  			$("#freightmoney").text('<fmt:message key="COMMON_DOLLAR" />' + fmoney(countFreight, 2));
 	  		}
 	  		
 	  		//合计是多少钱
 	  		var goodMoney = 0;
 	  		for (var i = 0; i < groupList.length; i++) {
-	  			var price = $(groupList[i]).find(".purchase-group-price span").text();
+	  			var price = $(groupList[i]).find(".purchase-group-price span").text().substring(1);
 	  			var qty = $(groupList[i]).find(".purchase-group-price .purchase-item-group").text().substring(1);
 	  			goodMoney = goodMoney + parseFloat(price) * parseFloat(qty);
 	  		}
 	  		
-	  		$("#countmoney").text(fmoney(parseFloat(goodMoney) + parseFloat(countFreight), 2));
+	  		$("#countmoney").text('<fmt:message key="COMMON_DOLLAR" />' + (fmoney(parseFloat(goodMoney) + parseFloat(countFreight), 2)));
 	  		
 	  		$("#gotobuy").css({
 				"background" : "#FA6D72",
 			});
 			$("#gotobuy").attr("onclick", "gotobuy()");
 	  	}
-	  	
 	  	function gotobuy() {
 	  		// 选择了什么送货方式
 	  		var deliveryMethod = "";
@@ -262,12 +261,7 @@
 				async : false,
 				data : JSON.stringify(paramData), 
 				success : function(data) {
-					if(!data.isException){
-						// 订单保存成功
-						
-					} else {
-						
-					}
+					location.href = "${ctx}/Notice/paysuccess"
 				},
 				error : function(data) {
 					
@@ -394,7 +388,7 @@
 					</div>
 				</div>
 				<div class="purchase-group-price">
-					<span>${cartsBody.goodsUnitPrice }</span>	
+					<span><fmt:message key="COMMON_DOLLAR" />${cartsBody.goodsUnitPrice }</span>	
 					<div class="purchase-item-group">X${cartsBody.goodsQuantity }</div>		
 				</div>
 			</div>
@@ -417,7 +411,6 @@
 	</div>
 	
 	<div class="purchase-buy-fix">
-    	
 		<div class="purchase-blockprice">
 			<div class="purchase-freight">
 				<span><fmt:message key="PURCHASE_FREIGHT"/></span>

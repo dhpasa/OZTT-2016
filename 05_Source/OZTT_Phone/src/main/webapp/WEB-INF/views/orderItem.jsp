@@ -13,7 +13,7 @@
   
   	$(function(){
 		$(".ico-back").click(function(){
-			location.href="${ctx}/order?tab=awaitShip"
+			location.href="${ctx}/order?tab="+${tab};
 		});
 		
 	});
@@ -32,53 +32,69 @@
 		</div>
 		<div class="x-header-btn"></div>
 	</div>
-	<div class="flexslider border-top-show">
-		${detailInfo.orderStatusView}!</div>
-
-	<div class="iteminfo">
-		<div>
-			<span class="item-goodsname" id="item-goodsname-id">订单号：${detailInfo.orderNo}</span>
-		</div>
-		<div>
-			<span class="item-goodsname" id="item-disprice-id">收货人：${ detailInfo.receiver}</span>
-			<br/>
-			<span class="item-goodsname" id="item-disprice-id">收货人电话：${ detailInfo.receiverPhone}</span>
-			<br/>
-			<span class="item-goodsname">收货地址：${ detailInfo.receiverAddress}</span>
-		</div>
-		<table class="list_table" style="width:100%">
-		<c:forEach var="goodslist" items="${ detailInfo.goodList }">
-			<tr>
-			<td><img src="${goodslist.goodsImage }"/></td>
-			<td>
-			<p>${goodslist.goodsName }</p>
-			</td>
-			<td align="right">
-			<p>￥ ${goodslist.goodsPrice }</p>
-			
-			<p>x${goodslist.goodsQuantity }</p>
-			</td>
-			</tr>
-		</c:forEach>
-		</table>
-		<table style="width:100%">
-			<tr>
-				<td align="left">付款方式：</td>
-				<td align="right">${ detailInfo.paymethod}</td>
-			</tr>
-			<tr>
-				<td align="left">送货时间：</td>
-				<td align="right">${ detailInfo.deliveryDate} ${ detailInfo.deleveryTime} </td>
-			</tr>
-			<tr>
-				<td align="left">运费：</td>
-				<td align="right">${ detailInfo.yunfei}</td>
-			</tr>
-		</table>
+	<div class="order-item-status border-top-show">
+		${detailInfo.orderStatusView}!
 	</div>
-	<div class="item-btn" style="text-align:right;">
-		<div>合计：${ detailInfo.heji}</div>
-		<p>共${ detailInfo.goodList.size()}件商品</p>
+	
+	<div class="order-item-head">
+		<div class="order-item-time"><fmt:message key="ORDER_ITEM_ORDERNO" />${detailInfo.orderNo}</div>
+		<div class="order-item-headStatus">订单待付款</div>
+		<div class="order-select-address border-top-show">
+		
+			<div class="nameandphone">
+				<div class="name">${detailInfo.receiver }</div>
+				<div class="phone">${detailInfo.receiverPhone }</div>
+			</div>
+			<div class="detailaddress">
+				<i class="position"></i>
+				<div>
+					${detailInfo.receiverAddress}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="order-goods-div margin-1rem-top">
+		<c:forEach var="goodslist" items="${ detailInfo.goodList }">
+		<div class="order-checkBlockBody">
+			<div class="order-groupinfo">
+				<div class="order-group-img">
+					<img src="${goodslist.goodsImage }" class="img-responsive">
+				</div>
+				<div class="order-group-pro">
+					<span class="order-goodname">${goodslist.goodsName }</span>
+					
+					<div class="order-good－picktime" style="display: none">
+						<fmt:message key="ORDER_ITEM_DELIVERYTIME" /> ${goodslist.canbuyDay }
+					</div>
+				</div>
+				<div class="order-group-price">
+					<span>$${goodslist.goodsPrice }</span>	
+					<div class="order-item-group">X${goodslist.goodsQuantity }</div>		
+				</div>
+			</div>
+		</div>
+		</c:forEach>
+	</div>
+			
+
+	<div class="order-item-allinfo margin-1rem-top">
+		<div class="order-item-payinfo top-padding">
+			<div class="paytitle"><fmt:message key="ORDER_ITEM_PAYMETHOD" /></div>
+			<div class="paycontent">${ detailInfo.paymethod}</div>
+		</div>
+		<div class="order-item-payinfo top-padding">
+			<div class="paytitle"><fmt:message key="ORDER_ITEM_UNIFY" /></div>
+			<div class="paycontent">${ detailInfo.deliveryDate} ${ detailInfo.deleveryTime}</div>
+		</div>
+		<div class="order-item-payinfo bottom-padding">
+			<div class="paytitle"><fmt:message key="ORDER_ITEM_FEIGHT" /></div>
+			<div class="paycontent">${ detailInfo.yunfei}</div>
+		</div>
+		
+	</div>
+	<div class="order-item-money margin-1rem-top">
+		<div><fmt:message key="ORDRE_ITEM_COUNT" />${ detailInfo.heji}</div>
+		<p><fmt:message key="ORDRE_ITEM_ALL" />${ detailInfo.goodList.size()}<fmt:message key="ORDRE_ITEM_COUNT_GOODS" /></p>
 	</div>
 </body>
 <!-- END BODY -->

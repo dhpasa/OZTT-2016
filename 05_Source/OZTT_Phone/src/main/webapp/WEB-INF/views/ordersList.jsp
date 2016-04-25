@@ -10,17 +10,18 @@
 <meta charset="utf-8">
 <title><fmt:message key="ORDERLIST_TITLE" /></title>
 <script type="text/javascript">
+	var goodsall = '<fmt:message key="ORDERLIST_GOODSALL" />';
 	$(function(){
 		$(".ico-back").click(function(){
 			location.href="${ctx}/user/init"
 		});
-		initList(1);
+		initList('${tab}');
 		
 		kTouch('ordersList', 'y');
 		
 	});
 	function detail(id){
-		location.href="${ctx}/order/"+id;
+		location.href="${ctx}/order/"+id+"?tab="+${tab};
 	}
 
 	function initList(idd) {
@@ -32,66 +33,116 @@
 			data : "", 
 			success : function(data) {
 				if(!data.isException) {
-					if (data.isException) {
-						// 登录错误
-						$("#errormsg").text("加载失败，请点击重试");
-					} else {
+					if (!data.isException) {
 						// 组装页面
-						var ht = "";
+						var dataHtml = "";
+						var temp1 = '<div class="order-goods-div margin-1rem-top">';
+						var temp2 = '	<div class="order-head" onclick="detail(\'{0}\')">';
+						var temp3 = '		<div class="order-time">{0}</div>';
+						var temp4 = '		<div class="order-status">{0}</div>';
+						var temp5 = '	</div>';
+							
+						var temp10 = '	<div class="order-checkBlockBody">';
+						var temp11 = '		<div class="order-groupinfo">';
+						var temp12 = '			<input type="hidden" value="{0}">';
+						var temp13 = '			<div class="order-group-img">';
+						var temp14 = '				<img src="{0}" class="img-responsive">';
+						var temp15 = '			</div>';
+						var temp16 = '			<div class="order-group-pro">';
+						var temp17 = '				<span class="order-goodname">{0}</span>';		
+						var temp18 = '				<div class="order-good－picktime" style="display: none">{0}</div>';
+						var temp19 = '			</div>';
+						var temp20 = '			<div class="order-group-price">';
+						var temp21 = '				<span>\${0}</span>	';
+						var temp22 = '				<div class="order-item-group">X{0}</div>';	
+						var temp23 = '			</div>';
+						var temp24 = '		</div>';
+						var temp25 = '	</div>';
+							
+						var temp30 = '	<div class="order-bottom">';
+						var temp31 = '		<div class="order-bottom-freight">';
+						var temp32 = '			<div class="order-bottom-freight-info">';
+						var temp33 = '				<span><fmt:message key="ORDERLIST_FREIGHT" /></span>';
+						var temp34 = '			</div>';
+						var temp35 = '			<div class="order-bottom-freight-content">';
+						var temp36 = '				<span>\${0}</span>';
+						var temp37 = '			</div>';
+						var temp38 = '		</div>';
+						var temp39 = '		<div class="order-bottom-content">';
+						var temp40 = '			<div class="order-bottom-content-info">';
+						
+						var temp41 = '				<span>{0}</span>';
+						var temp42 = '				<span><fmt:message key="ORDERLIST_COUNT" /></span>';
+						var temp43 = '			</div>';
+						var temp44 = '			<div class="order-bottom-content-content">';
+						var temp45 = '				<span>\${0}</span>';
+						var temp46 = '			</div>';
+						var temp47 = '		</div>';
+						var temp48 = '	</div>';
+						var temp49 = '</div>';
 						if (data.orderList.length>0){
-							ht += "";
+							
 							for(var i=0;i<data.orderList.length;i++){
 								var order = data.orderList[i];
-								ht += '<table class="list_table" onclick="detail('+order.orderId+')">';
-								ht += '<tr>';
-								ht += '<td>'+order.orderDate+'</td>';
-								ht += '<td></td>';
-								ht += '<td>'+order.orderStatus+'</td>';
-								ht += '</tr>';
+								dataHtml += temp1;
+								dataHtml += temp2.replace("{0}",order.orderId);
+								dataHtml += temp3.replace("{0}",order.orderDate);
+								dataHtml += temp4.replace("{0}",order.orderStatus);
+								dataHtml += temp5;
 								
 								var details = order.itemList;
 								for (var j=0;j<details.length;j++){
 									var orderdetail = details[j];
-									ht += '<tr>';
-									ht += '<td><img src="'+orderdetail.goodsImage+'"/></td>';
-									ht += '<td>';
-									ht += '<p>'+orderdetail.goodsName+'</p>';
-									ht += '</td>';
-									ht += '<td align="right">';
-									ht += '<p>￥ '+orderdetail.goodsPrice+'</p>';
-									//ht += '<p>228</p>';
-									ht += '<p>x'+orderdetail.goodsQuantity+'</p>';
-									ht += '</td>';
-									ht += '</tr>';
+									dataHtml += temp10;
+									dataHtml += temp11;
+									dataHtml += temp12.replace("{0}",orderdetail.groupId);
+									dataHtml += temp13;
+									dataHtml += temp14.replace("{0}",orderdetail.goodsImage);
+									dataHtml += temp15;
+									dataHtml += temp16;
+									dataHtml += temp17.replace("{0}",orderdetail.goodsName);
+									dataHtml += temp18;
+									dataHtml += temp19;
+									dataHtml += temp20;
+									dataHtml += temp21.replace("{0}",orderdetail.goodsPrice);
+									dataHtml += temp22.replace("{0}",orderdetail.goodsQuantity);
+									dataHtml += temp23;
+									dataHtml += temp24;
+									dataHtml += temp25;
 								}
 								
-								ht += '<tr>';
-								ht += '<td colspan="2" align="right">';
-								ht += '运费：';
-								ht += '</td>';
-								ht += '<td align="right">';
-								ht += '<p >'+order.deliveryCost+'</p>';
-								ht += '</td>';
-								ht += '</tr>';
-								ht += '<tr>';
-								ht += '<td colspan="2" align="right">';
-								ht += '<p style="display:inline;">共'+order.detailCount+'件商品</p>合计：';
-								ht += '</td>';
-								ht += '<td align="right">';
-								ht += '<p>￥'+ order.orderAmount+'</p>';
-								ht += '</td>';
-								ht += '</tr>';
-								ht += '</table>';
+								dataHtml += temp30;
+								dataHtml += temp31;
+								dataHtml += temp32;
+								dataHtml += temp33;
+								dataHtml += temp34;
+								dataHtml += temp35;
+								dataHtml += temp36.replace("{0}",order.deliveryCost);
+								dataHtml += temp37;
+								dataHtml += temp38;
+								dataHtml += temp39;
+								dataHtml += temp40;
+								dataHtml += temp41.replace("{0}", goodsall.replace("{0}", order.detailCount));
+								dataHtml += temp42;
+								dataHtml += temp43;
+								dataHtml += temp44;
+								dataHtml += temp45.replace("{0}",order.orderAmount);
+								dataHtml += temp46;
+								dataHtml += temp47;
+								dataHtml += temp48;
+								dataHtml += temp49;
 								
 							}
 						}
 						
-						$("#ordersList").html(ht);
+						$("#ordersList").html(dataHtml);
+					} else {
+						
 					}
 				}
 			},
 			error : function(data) {
-				$("#errormsg").text(E0001);
+				
 			}
 		});
 	}
@@ -157,13 +208,13 @@
 	</div>
 	<div class="orderList-search-horizon">
 		<ul class="nav nav-tabs">
-			<li <c:if test="${tab == '1'}">class="active"</c:if>><a onclick="initList('1');return false;" data-toggle="tab"><fmt:message key="ORDERLIST_WAITPAY" /></a></li>
-			<li <c:if test="${tab == '2'}">class="active"</c:if>><a onclick="initList('2');return false;" data-toggle="tab"><fmt:message key="ORDERLIST_WAITSEND" /></a></li>
+			<li <c:if test="${tab == '0'}">class="active"</c:if>><a onclick="initList('0');return false;" data-toggle="tab"><fmt:message key="ORDERLIST_WAITPAY" /></a></li>
+			<li <c:if test="${tab == '1'}">class="active"</c:if>><a onclick="initList('1');return false;" data-toggle="tab"><fmt:message key="ORDERLIST_WAITSEND" /></a></li>
 			<li <c:if test="${tab == '3'}">class="active"</c:if>><a onclick="initList('3');return false;" data-toggle="tab"><fmt:message key="ORDERLIST_WAITRECEIVE" /></a></li>
 		</ul>
 	</div>
 	<div id="ordersList">
-
+		
 	</div>
 	<div style="text-align: center;height:2rem;display: none" id="loadingDiv">
 		<img src="${ctx}/images/loading.gif">

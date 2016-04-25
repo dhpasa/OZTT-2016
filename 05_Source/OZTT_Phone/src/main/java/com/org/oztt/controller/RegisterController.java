@@ -79,7 +79,10 @@ public class RegisterController extends BaseController {
             ozTtTpReDto.setNickname(nickname);
             ozTtTpReDto.setPhone(phone);
             ozTtTpReDto.setPassword(password);
-            customerService.insertRegister(ozTtTpReDto);
+            String customerNo = customerService.insertRegister(ozTtTpReDto);
+            
+            session.setAttribute(CommonConstants.SESSION_CUSTOMERNO, customerNo);
+            session.setAttribute(CommonConstants.SESSION_CUSTOMERNAME, nickname);
 
             mapReturn.put("isException", false);
             return mapReturn;
