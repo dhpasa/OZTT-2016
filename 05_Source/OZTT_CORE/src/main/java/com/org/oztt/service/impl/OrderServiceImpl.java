@@ -235,7 +235,13 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         tConsOrder.setPaymentmethod(CommonEnum.PaymentMethod.PAYPAL.getCode());
         tConsOrder.setOrdertimestamp(new Date());
         tConsOrder.setPaymenttimestamp(null);//付款时间
-        tConsOrder.setHandleflg(CommonEnum.HandleFlag.NOT_PAY.getCode());
+        if ("1".equals(payMethod)) {
+            // 在线付款
+            tConsOrder.setHandleflg(CommonEnum.HandleFlag.PAYED.getCode());
+        } else {
+            tConsOrder.setHandleflg(CommonEnum.HandleFlag.NOT_PAY.getCode());
+        }
+        
         tConsOrder.setDeliverymethod(hidDeliMethod);
         if ("true".equals(isUnify)) {
             tConsOrder.setHomedeliverytime(hidHomeDeliveryTime.replaceAll("/", ""));
@@ -261,37 +267,37 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         // 将购物车中的数据删除
         tConsCartDao.deleteCurrentBuyGoods(customerNo);
 
-        String rb = "";
-        if (CommonEnum.DeliveryMethod.COD.getCode().equals(hidDeliMethod)) {
-            // 货到付款是不需要付款的直接派送
-        }
-        else {
-            if (CommonEnum.PaymentMethod.PAYPAL.getCode().equals(payMethod)) {
-                // 货到付款
-                PaypalParam paypalParam = new PaypalParam();
-                paypalParam.setOrderId(maxOrderNo);
-                if (CommonEnum.DeliveryMethod.NORMAL.getCode().equals(hidDeliMethod)) {
-                    // 普通快递
-                    paypalParam.setPrice(orderAmount.add(deleveryCost).toString());
-                }
-                else if (CommonEnum.DeliveryMethod.SELF_PICK.getCode().equals(hidDeliMethod)) {
-                    // 来店自提
-                    paypalParam.setPrice(orderAmount.toString());
-                }
-                paypalParam.setNotifyUrl(getApplicationMessage("notifyUrl") + maxOrderNo); //这里是不是通知画面，做一些对数据库的更新操作等
-                paypalParam.setCancelReturn(getApplicationMessage("cancelReturn") + maxOrderNo);//应该返回未完成订单画面订单画面
-                paypalParam.setOrderInfo(getApplicationMessage("orderInfo"));
-                paypalParam.setReturnUrl(getApplicationMessage("returnUrl"));// 同样是当前订单画面
-                rb = paypalService.buildRequest(paypalParam);
-            }
-
-        }
+//        String rb = "";
+//        if (CommonEnum.DeliveryMethod.COD.getCode().equals(hidDeliMethod)) {
+//            // 货到付款是不需要付款的直接派送
+//        }
+//        else {
+//            if (CommonEnum.PaymentMethod.PAYPAL.getCode().equals(payMethod)) {
+//                // 货到付款
+//                PaypalParam paypalParam = new PaypalParam();
+//                paypalParam.setOrderId(maxOrderNo);
+//                if (CommonEnum.DeliveryMethod.NORMAL.getCode().equals(hidDeliMethod)) {
+//                    // 普通快递
+//                    paypalParam.setPrice(orderAmount.add(deleveryCost).toString());
+//                }
+//                else if (CommonEnum.DeliveryMethod.SELF_PICK.getCode().equals(hidDeliMethod)) {
+//                    // 来店自提
+//                    paypalParam.setPrice(orderAmount.toString());
+//                }
+//                paypalParam.setNotifyUrl(getApplicationMessage("notifyUrl") + maxOrderNo); //这里是不是通知画面，做一些对数据库的更新操作等
+//                paypalParam.setCancelReturn(getApplicationMessage("cancelReturn") + maxOrderNo);//应该返回未完成订单画面订单画面
+//                paypalParam.setOrderInfo(getApplicationMessage("orderInfo"));
+//                paypalParam.setReturnUrl(getApplicationMessage("returnUrl"));// 同样是当前订单画面
+//                rb = paypalService.buildRequest(paypalParam);
+//            }
+//
+//        }
 
         if ("1".equals(payMethod) && "1".equals(invoiceFlg)) {
             // 在线支付
             this.createTaxAndSendMailForPhone(maxOrderNo, customerNo, session, invoicemail);
         }
-        return rb;
+        return "";
 
     }
 

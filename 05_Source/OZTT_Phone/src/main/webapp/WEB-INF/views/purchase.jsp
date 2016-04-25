@@ -99,6 +99,19 @@
 	  		location.href = "${ctx}/addressIDUS/list?fromMode=1";
 	  	}
 	  	
+	  	function checkLastToBuy(){
+	  		$("#creditButton").css({
+				"background" : "#D4D4D4",
+			});
+			$("#creditButton").attr("onclick", "");
+			if ($("#creditCard").val().trim() != "" && $("#password").val().trim() != "") {
+				$("#creditButton").attr("onclick", "gotoPurchase()");
+				$("#creditButton").css({
+					"background" : "#FA6D72",
+				});
+			}
+	  	}
+	  	
 	  	function judgeAll(){
 	  		var canBuy = false;
 	  		$("#freightmoney").text("0.00");
@@ -196,7 +209,30 @@
 			});
 			$("#gotobuy").attr("onclick", "gotobuy()");
 	  	}
-	  	function gotobuy() {
+	  	
+	  	function gotobuy(){
+	  		// 支付方式的选择
+	  		var payMethod = "1";
+	  		if ($("#method_online").hasClass("method-check")) {
+	  			// 在线支付
+	  			payMethod = "1";
+	  		} else {
+	  			// 货到付款
+	  			payMethod = "2";
+	  		}
+	  		if (payMethod == "1") {
+	  			// 弹出银行画面
+	  			$("#purchase-credit-pop-up").modal('show');
+	  			checkLastToBuy();
+	  		} else {
+	  			// 直接进行后台操作
+	  			gotoPurchase();
+	  		}
+	  	}
+	  	
+	  	
+	  	
+	  	function gotoPurchase() {
 	  		// 选择了什么送货方式
 	  		var deliveryMethod = "";
 	  		var deliveryMethodArr = $(".purchase-select-horizon").find("li");
@@ -250,9 +286,10 @@
 					"deliverySelect":deliverySelect,
 					"payMethod":payMethod,
 					"needInvoice":needInvoice,
+					"creditCard":$("#creditCard").val(),
+					"password":$("#password").val(),
 					"invoicemail":$("#invoicemail").val()
 			}
-	  		
 	  		$.ajax({
 				type : "POST",
 				contentType:'application/json',
@@ -262,12 +299,25 @@
 				data : JSON.stringify(paramData), 
 				success : function(data) {
 					location.href = "${ctx}/Notice/paysuccess"
+					/* if (accountError) {
+						$("#credit-error").css("display","");
+						setTimeout(function() {
+							hiddenCreditError();
+						}, 1000);
+					} else {
+						
+					} */
+					
 				},
 				error : function(data) {
 					
 				}
 			});
 	  		
+	  	}
+	  	
+	  	function hiddenCreditError(){
+	  		$("#credit-error").css("display","none");
 	  	}
   </script>
   <style type="text/css">
@@ -468,16 +518,19 @@
 	            <button type="button" class="close"  data-dismiss="modal" aria-hidden="true">
 	                  &times;
 	            </button>
-	            <span class="purchase-modal-title">
-	               	请输入银行帐号和密码
+	            <span class="credit-modal-title">
+	               	<fmt:message key="PURCHASE_INPUT_ACCOUNT"/>
+	            </span>
+	            <span class="credit-modal-title-error" style="display:none" id="credit-error">
+	               	<fmt:message key="PURCHASE_CARD_ERROR"/>
 	            </span>
 	         </div>
-	         <div class="purchase-modal-body">
-	            <input type="text" id="creditCard" placeholder="银行卡号"/>
-	            <input type="password" id="password" placeholder="密码"/>
+	         <div class="credit-modal-body">
+	            <input type="text" id="creditCard" placeholder="<fmt:message key="PURCHASE_CRAD"/>" onchange="checkLastToBuy()"/>
+	            <input type="password" id="password" placeholder="<fmt:message key="PURCHASE_CARD_PASSWORD"/>" onchange="checkLastToBuy()"/>
 	         </div>
 	         <div class="modal-footer purchase-modal-footer" >
-	            <button type="button" class="btn btn-primary" onclick="payMoney()">
+	            <button type="button" class="btn btn-primary" id="creditButton">
 	               <fmt:message key="COMMON_CONFIRM"/>
 	            </button>
 	         </div>

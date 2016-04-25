@@ -127,18 +127,22 @@ public class PurchaseController extends BaseController {
             String isUnify = param.get("isUnify").toString();
             String invoicemail = param.get("invoicemail").toString();
             String needInvoice = param.get("needInvoice").toString();
+            String creditCard = param.get("creditCard").toString();
+            String password = param.get("password").toString();
+            // TODO 判断账号和密码是否相同
+            
             // 先判断付款方式
-            String rb = orderService.insertOrderInfoForPhone(customerNo, hidPayMethod, hidDeliMethod, hidAddressId,
+            orderService.insertOrderInfoForPhone(customerNo, hidPayMethod, hidDeliMethod, hidAddressId,
                     hidHomeDeliveryTime, isUnify, needInvoice, invoicemail, session);
-            if (!StringUtils.isEmpty(rb)) {
-                response.setCharacterEncoding("UTF-8");
-                response.getWriter().write(rb);
-                return null;
-            }
-            if (CommonEnum.DeliveryMethod.COD.getCode().equals(hidDeliMethod)) {
-                // 货到付款
-                return "redirect:/Notice/codNotice";
-            }
+//            if (!StringUtils.isEmpty(rb)) {
+//                response.setCharacterEncoding("UTF-8");
+//                response.getWriter().write(rb);
+//                return null;
+//            }
+//            if (CommonEnum.DeliveryMethod.COD.getCode().equals(hidDeliMethod)) {
+//                // 货到付款
+//                return "redirect:/Notice/codNotice";
+//            }
             return null;
 
         }
