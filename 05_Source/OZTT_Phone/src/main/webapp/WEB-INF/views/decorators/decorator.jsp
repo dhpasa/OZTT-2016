@@ -29,7 +29,7 @@
 	<sitemesh:write property='body' />
 
     <!-- BEGIN FOOTER -->
-    <div class="main-nav">
+    <div class="main-nav" id="main-nav-id">
 		<a href="${ctx}/main/init" class="main-nav-item main-nav-home main-nav-active">
 			<img alt="home" src="${ctx}/images/main.png">
 			<span><fmt:message key="DECORATOR_MAIN"/></span>
@@ -49,6 +49,15 @@
 	</div>
     <!-- END FOOTER -->
     <input type="hidden" value="${currentUserId}" id="currentUserId">
+    
+    <script type="text/javascript">
+    var currentPath = window.location.pathname;
+	if (currentPath.indexOf("login/init") > 0) {
+		$("#main-nav-id").css("display","none");
+	}
+    
+    
+    </script>
 </body>
 <!-- END BODY -->
 </html>

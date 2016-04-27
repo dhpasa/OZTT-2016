@@ -77,12 +77,12 @@
             </span>
         </div>
         <div class="login_other">
-            <dl>
-                <dt><fmt:message key="LOGIN_OTHER" /></dt>
-                <dd>
+            <div>
+                <div class="login-other-info"><fmt:message key="LOGIN_OTHER" /></div>
+                <div class="login-other-centent">
                     <a href="" onclick="" class="wechat"><span><fmt:message key="LOGIN_WECHAT" /></span></a>
-                </dd>
-            </dl>
+                </div>
+            </div>
         </div>
 	</div>
 	

@@ -103,7 +103,7 @@
 	}
 	
 	body {
-	    color: #3e4d5c;
+	    color: #666;
 	    direction: ltr;
 	    font: 400 13px 'Open Sans', Arial, sans-serif;
 	    background: #f9f9f9;
@@ -115,11 +115,11 @@
 	    display: inline-block;
 	    height: 2rem;
 	    line-height: 2rem;
-	    width: 10rem;
+	    width: 15rem;
 	    background-color: #FFE4E8;
 	    color: #FF9298;
 	    font-size: 1.3rem;
-	    border-radius: 5px !important;
+	    border-radius: 3px !important;
 	    text-align: center;
 	}
   </style>
@@ -140,7 +140,7 @@
 	<div class="flexslider border-top-show">
   		<ul class="slides">
   			<c:forEach var="imgList" items="${ goodItemDto.imgList }" varStatus="status">
-    			<li><img src="${imgList}" /></li>
+    			<li><img src="${imgList}" class="padding-2rem"/></li>
     		</c:forEach>
   		</ul>
    </div>
@@ -150,7 +150,10 @@
    			<span class="item-goodsname" id="item-goodsname-id">${ goodItemDto.goods.goodsname}</span>
    		</div>
    		<div>
-   			<span class="item-disprice" id="item-disprice-id"><fmt:message key="COMMON_DOLLAR" />${ goodItemDto.disPrice}</span>
+   			<span class="item-disprice" id="item-disprice-id">
+   				<span><fmt:message key="COMMON_DOLLAR" /></span>
+   				${ goodItemDto.disPrice}
+   			</span>
    			<span class="item-nowprice">${ goodItemDto.nowPrice}</span>
    		</div>
    		
@@ -160,12 +163,12 @@
    		</div> -->
    		
    		<div class="border-top-show height3">
-   			<span class="item-timeword"><fmt:message key="ITEM_TIME" /></span>
+   			<span class="item-timeword forceFloatLeft"><fmt:message key="ITEM_TIME" /></span>
    			<div class="cuntdown item-countdown" data-seconds-left="${goodItemDto.countdownTime}"></div>
    		</div>
    		
    		<div class="border-top-show height3">
-   			<i class="fa fa-user-md"></i>&nbsp;
+   			<i class="fa fa-user-md"></i>
    			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
    			<span class="">${goodItemDto.groupCurrent}&nbsp;/&nbsp;${goodItemDto.groupMax}</span>
    		</div>
