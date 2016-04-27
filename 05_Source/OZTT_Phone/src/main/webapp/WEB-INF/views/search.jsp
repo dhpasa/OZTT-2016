@@ -184,7 +184,7 @@
    				<c:forEach var="goodslist" items="${ goodsList }">
    				<li>					
 					<div class="jshop-item" onclick="toItem('${goodslist.groupno }')">
-						<img src="${goodslist.goodsthumbnail }" class="img-responsive">
+						<img src="${goodslist.goodsthumbnail }" class="img-responsive padding-1rem">
 						<span class="main-goodsname">${goodslist.goodsname }</span>
 		                <div class="main-group-price">
 		                	<span class="group-price">${goodslist.disprice }</span>

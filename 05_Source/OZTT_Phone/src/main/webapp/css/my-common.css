@@ -31,6 +31,11 @@ a{
 	border-bottom: 0.5px solid rgba(187, 187, 187, 0.15);
 }
 
+.border{
+	box-shadow: 0 1px 1px rgba(162, 153, 153, 0.5);
+}
+
+
 .height3{
 	height: 3rem;
 	line-height: 3rem;
@@ -53,6 +58,7 @@ a{
 	color: #FF9298;
     font-size: 1.3rem;
     border-radius: 5px !important;
+    border: 0.5px solid #FF9298;
 }
 
 .redcolor{
@@ -81,6 +87,43 @@ a{
 	padding:0.5rem 1rem 0.5rem 1rem
 }
 
+.font-l{
+	font-size: 1rem !important;
+}
+
+.font-xl{
+	font-size: 1.5rem !important;
+}
+
+.font-xxl{
+	font-size: 2rem !important;
+}
+
+.clearMargin{
+	margin: 0 !important;
+}
+
+.dollar-symbol{
+	margin-right: 2px;
+	font-size: 1.7rem;
+}
+
+.dollar-symbol2{
+	margin-right: 2px;
+}
+
+.padding-1rem{
+	padding: 1rem !important;
+}
+
+.padding-2rem{
+	padding: 2rem !important;
+}
+
+.forceFloatLeft{
+	float: left !important;
+}
+
 
 /* ========================================首页============================================== */
 html{
@@ -97,7 +140,7 @@ html{
     display: -ms-flexbox;
     display: flex;
     width: 100%;
-    height: 3.5rem;
+    height: 5rem;
     font-size: 1.5rem;
 }
 
@@ -111,11 +154,12 @@ html{
 .x-header-btn {
     display: block;
     min-width: 4rem;
-    height: 3.5rem;
-    line-height: 3.5rem;
-    color: #6f6f6f;
+    height: 5rem;
+    line-height: 5rem;
+    color: #666;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
+    margin-right: 0.5rem;
 }
 
 .x-header-title {
@@ -123,9 +167,9 @@ html{
     -webkit-box-flex: 1;
     -ms-flex: 1;
     flex: 1;
-    line-height: 3.5rem;
+    line-height: 5rem;
     text-align: center;
-    color: #1a1819;
+    color: #666;
     font-size:2rem;
 }
 
@@ -190,6 +234,7 @@ html{
     padding: 2%;
     list-style: none;
     background-color: #fff;
+    box-shadow: 0 1px 1px rgba(162, 153, 153, 0.5);
 }
 
 .newGoods-div{
@@ -197,6 +242,7 @@ html{
 	border-bottom: 0.5px solid rgba(187, 187, 187, 0.15);
 	display: inline-block;
 	background-color: #fff;
+	box-shadow: 0 1px 1px rgba(162, 153, 153, 0.5);
 }
 
 .newGoods-info{
@@ -211,7 +257,7 @@ html{
 .newGoods-info .newGoods-info-span{
 	display: inline-block;
 	float:left;
-	margin: 0.5rem 0;
+	margin: 0.5rem 0 0;
 	width:100%;
 }
 
@@ -232,7 +278,7 @@ html{
 }
 
 .newGoods-info .time{
-	font-size: 1.5rem;
+	font-size: 1rem;
 }
 
 .group-price-div{
@@ -242,8 +288,8 @@ html{
 }
 
 .text-through{
-	color:#3e4d5c;
-	font-size: 1rem;
+	color:#666;
+	font-size: 1.5rem;
 	vertical-align: middle;
 }
 
@@ -260,11 +306,12 @@ html{
 
 #label-search-horizon .nav-tabs > li > a{
     background: #fff;
-    color: #3e4d5c;
+    color: #666;
     width:90%;
     text-align:center;
     border-radius: 5px !important;
     border: 1px solid #fff !important;
+    box-shadow: 0 1px 1px rgba(162, 153, 153, 0.5);
 }
 
 #label-search-horizon .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
@@ -272,7 +319,7 @@ html{
     color: #FCAEB1;
     border-radius: 0;
     padding: 5px 15px;
-    border: 1px solid #FA6D72 !important;
+    border: 1px solid #FCAEB1 !important;
 }
 
 #label-search-horizon .nav-tabs{
@@ -288,13 +335,12 @@ html{
 .countdownDay{
 	float:left;
 	padding-right: 0.5rem;
-	font-size: 1.7rem;
+	font-size: 1rem;
 	color:#FA6D72
 }
 
 .jshop-item .countdown-time{
 	width : 100%;
-	margin-top: 0.6rem;
 }
 
 .jshop-item .countdown-time a{
@@ -313,18 +359,21 @@ html{
 }
 
 .main-goodsname{
-	font-size: 1.3rem;
+	font-size: 1.5rem;
     padding-top: 0.5rem;
-    height: 3.2rem;
+    height: 3.5rem;
+    line-height: 1.5rem;
 }
 
 .main-group-price{
 	color: #FA6D72;
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 .main-hasbuy{
     font-size: 1.3rem;
+    margin-top: 1rem;
+    vertical-align: -webkit-baseline-middle;
 }
 
 .goods-sticker-new {
@@ -452,7 +501,7 @@ html{
 	width:50%;
 	text-align: left;
 	font-size: 2rem;
-	color:#383838;
+	color:#666;
 }
 
 .viewallorder{
@@ -465,6 +514,11 @@ html{
 
 .adsmana{
 	width:100%;
+}
+
+.p-item a:hover,.p-item a:focus{
+	color: #666;
+	text-decoration: none;
 }
 
 .adsmana i{
@@ -481,7 +535,6 @@ html{
     text-align: left;
     font-size: 1.5rem;
     line-height: 3rem;
-    color: #383838;
 }
 
 .fangle{
@@ -502,7 +555,6 @@ html{
     text-align: left;
     font-size: 1.5rem;
     line-height: 3rem;
-    color: #383838;
 }
 
 .downContent{
@@ -571,7 +623,7 @@ html{
 
 .txt-input{
 	width:100%;
-	height:4rem;
+	height:5rem;
 	border:none;
 	padding-left: 15px;
 	border-bottom: 0.5px solid rgba(187, 187, 187, 0.15);
@@ -602,11 +654,11 @@ html{
 .loginBtn a{
 	display: inline-block;
     width: 100%;
-    height: 4rem;
-    border-radius: 8px !important;
+    height: 5rem;
+    border-radius: 3px !important;
     background: #FA6D72;
     text-decoration: none;
-    line-height: 4rem;
+    line-height: 5rem;
     text-align: center;
     font-size: 2rem;
     color: #fff;
@@ -616,7 +668,7 @@ html{
 	width: 90%;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 3rem;
+	margin-top: 1.5rem;
 }
 
 .login_option a{
@@ -643,8 +695,14 @@ html{
 	margin-top: 8rem;
 }
 
-.login_other dt {
+.login_other .login-other-info{
     margin-bottom: 13px;
+    text-align: center;
+    color:#666 !important;
+}
+
+.login_other .login-other-centent{
+	text-align: center;
 }
 
 .login_other .wechat span{
@@ -905,17 +963,21 @@ html{
 }
 
 .iteminfo .item-disprice{
-	font-size: 4rem;
+	font-size: 2rem;
 	color: #FA6D72;
 }
 
 .iteminfo .item-nowprice{
-	font-size: 2rem;
+	font-size: 1.5rem;
 	text-decoration: line-through;
 }
 
 .item-timeword{
-	float: left;
+	
+}
+
+.item-timeword-padding{
+	padding: 0px 10px;
 }
 
 .item-countdown{
@@ -932,7 +994,7 @@ html{
 
 .product-page-content .nav-tabs > li > a{
     background: #fff;
-    color: #3e4d5c;
+    color: #666;
 }
 
 .product-page-content .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
@@ -957,10 +1019,10 @@ html{
 .item-btn a{
 	display: inline-block;
     width: 100%;
-    height: 4rem;
-    background: #FA6D72;
+    height: 5rem;
+    background: #FF9298;
     text-decoration: none;
-    line-height: 4rem;
+    line-height: 5rem;
     text-align: center;
     font-size: 2rem;
     color: #fff;
@@ -969,7 +1031,7 @@ html{
 .product-page-content {
     width: 100%;
     overflow: hidden;
-    padding: 20px 13px 0;
+    padding: 5px 13px 0;
     background-color: #fff;
     margin-top: 1rem;
 }
