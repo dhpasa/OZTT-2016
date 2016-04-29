@@ -36,7 +36,7 @@ public class OrderListControler extends BaseController {
     @Resource
     OrderService orderService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/init", method = RequestMethod.GET)
     public String orders(Model model, HttpServletRequest request) {
         String tab = request.getParameter("tab");
         if (!StringUtils.isEmpty(tab)) {

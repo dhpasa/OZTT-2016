@@ -192,6 +192,8 @@ html{
     color: #ff0000;
     text-decoration: none;
     width: 25%;
+    display: block;
+    float: left;
 }
 
 .main-nav-item {
@@ -394,10 +396,30 @@ html{
 	position: relative;
 }
 
+/* .menu-mav{
+	display: block;
+	width: 100%;
+}
+
+.menu-mav li{
+	display: block;
+	width: 25%;
+	float: left;
+}
+
+.menu-mav li > a{
+	color: #ff0000;
+    text-decoration: none;
+    width: 100%;
+    display: block;
+    float: left;
+    padding: 0px;
+} */
+
 /* ========================================我============================================== */
 
 .profile {
-    height: 7rem;
+    height: 10rem;
     overflow: hidden;
     position: relative;
     background-color: #fff;
@@ -569,7 +591,7 @@ html{
 }
 
 .showusername span{
-	line-height: 7rem;
+	line-height: 9rem;
 	padding-left: 3rem;
 	color: #fff;
 	font-size: 2.5rem;
@@ -656,7 +678,7 @@ html{
     width: 100%;
     height: 5rem;
     border-radius: 3px !important;
-    background: #FA6D72;
+    background: #FF9298;
     text-decoration: none;
     line-height: 5rem;
     text-align: center;
@@ -742,8 +764,8 @@ html{
     margin-left: 1rem;
     float: left;
     font-size: 2rem;
-    height: 4rem;
-    line-height: 4rem;
+    height: 5rem;
+    line-height: 5rem;
     border-bottom: 0.5px solid rgba(187, 187, 187, 0.15);
 }
 
@@ -751,15 +773,15 @@ html{
 	width: 90%;
     border: none;
     padding-left: 8px;
-    height: 4rem;
-    line-height:4rem;
+    height: 5rem;
+    vertical-align: -webkit-baseline-middle;
     font-size: 1.5rem;
     border-bottom: 0.5px solid rgba(187, 187, 187, 0.15);
 }
 .registercontain i{
 	height: 2rem;
-    width: 2rem;
-    font-size: 2.5rem;
+    font-size: 2rem;
+    text-align: right;
 }
 .registerpwd{
 	margin-top: 1rem;
@@ -770,32 +792,32 @@ html{
 }
 .registericon{
 	position: absolute;
-    height: 4rem;
-    line-height: 5rem;
-    right: 2rem;
-    color:#FA6D72;
+    height: 5rem;
+    line-height: 6rem;
+    right: 3rem;
+    color:#FF9298;
 }
 .verifycodeBtn{
 	position: absolute;
 	right: 3rem;
-	height: 4rem;
-    line-height: 4rem;
+	height: 5rem;
+    line-height: 5rem;
 }
 
 .verifycodeBtn button{
-	background: #FA6D72;
-	border-radius: 8px !important;
+	background: #FF9298;
+	border-radius: 3px !important;
 	color: #fff;
 }
 
 .registerBtn a{
 	display: inline-block;
     width: 100%;
-    height: 4rem;
-    border-radius: 8px !important;
-    background: #FA6D72;
+    height: 5rem;
+    border-radius: 3px !important;
+    background: #FF9298;
     text-decoration: none;
-    line-height: 4rem;
+    line-height: 5rem;
     text-align: center;
     font-size: 2rem;
     color: #fff;
@@ -1038,11 +1060,12 @@ html{
 
 /*==================================检索页=============================*/
 .x-header-title > input{
-	height: 2.5rem;
-	line-height: 2.5rem;
+	height: 3rem;
+	line-height: 3rem;
 	vertical-align: middle;
 	background-color: #F9F9F9;
 	border: none;
+	width: 80%;
 	border-radius: 20px !important;
 }
 
@@ -1871,6 +1894,7 @@ html{
 
 .order-bottom-content{
 	width: 100%;
+	display: inline-block;
 }
 
 .order-bottom-content .order-bottom-content-info{
@@ -1879,6 +1903,27 @@ html{
 	float: left;
 	text-align: right;
 	padding:0.5rem 0rem 0.5rem 0rem;
+}
+
+.order-canpay{
+	width: 100%;
+	display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
+.order-canpay a{
+	display: inline-block;
+    height: 2rem;
+    line-height: 2rem;
+    width: 20%;
+    background-color: #FFE4E8;
+    color: #FF9298;
+    font-size: 1.4rem;
+    border-radius: 2px !important;
+    border: 0.5px solid #FF9298;
+    float: right;
+    margin-right: 1rem;
+    text-align: center;
 }
 
 .order-bottom-content .order-bottom-content-content{
