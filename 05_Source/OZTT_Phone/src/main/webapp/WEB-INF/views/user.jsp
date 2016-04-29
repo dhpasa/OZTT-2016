@@ -88,20 +88,20 @@
 	</div>
 	
 	<div class="order p-item">
-		<a href="${ctx}/order?tab=0" class="p-link padding-1rem-top">
+		<a href="${ctx}/order/init?tab=0" class="p-link padding-1rem-top">
 			<div class="myorder"><fmt:message key="USER_MYORDER"/></div>
 			<div class="viewallorder"><fmt:message key="USER_SEEALLORDER"/>&nbsp;<i class="fa fa-angle-right"></i></div>
 		</a>
 		<div class="order-nav padding-1rem-top">
-			<a href="${ctx}/order?tab=0">
+			<a href="${ctx}/order/init?tab=0">
 				<i class="await-pays"></i>
 				<div><fmt:message key="USER_ORDER_NOTPAY"/></div>
 			</a>
-			<a href="${ctx}/order?tab=1">
+			<a href="${ctx}/order/init?tab=1">
 				<i class="await-ship"></i>
 				<div><fmt:message key="USER_ORDER_NOTOVER"/></div>
 			</a>
-			<a href="${ctx}/order?tab=3">
+			<a href="${ctx}/order/init?tab=3">
 				<i class="await_received"></i>
 				<div><fmt:message key="USER_ORDER_OVER"/></div>
 			</a>

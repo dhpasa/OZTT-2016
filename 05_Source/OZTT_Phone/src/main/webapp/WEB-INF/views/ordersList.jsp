@@ -23,6 +23,10 @@
 	function detail(id){
 		location.href="${ctx}/order/"+id+"?tab="+${tab};
 	}
+	
+	function toPay(orderId) {
+		location.href = "${ctx}/Pay/init?orderNo="+orderId;
+	}
 
 	function initList(idd) {
 		$.ajax({
@@ -78,6 +82,7 @@
 						var temp45 = '				<span>\${0}</span>';
 						var temp46 = '			</div>';
 						var temp47 = '		</div>';
+						var temp47_1 = '	<div class="order-canpay"><a onclick="toPay(\'{0}\')"><fmt:message key="ORDERLIST_TOPAY" /></a></div>';
 						var temp48 = '	</div>';
 						var temp49 = '</div>';
 						if (data.orderList.length>0){
@@ -129,6 +134,9 @@
 								dataHtml += temp45.replace("{0}",order.orderAmount);
 								dataHtml += temp46;
 								dataHtml += temp47;
+								if (order.orderStatusFlag == '0') {
+									dataHtml += temp47_1.replace("{0}",order.orderId);
+								}
 								dataHtml += temp48;
 								dataHtml += temp49;
 								

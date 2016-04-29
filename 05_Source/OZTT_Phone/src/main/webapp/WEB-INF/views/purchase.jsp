@@ -222,8 +222,9 @@
 	  		}
 	  		if (payMethod == "1") {
 	  			// 弹出银行画面
-	  			$("#purchase-credit-pop-up").modal('show');
-	  			checkLastToBuy();
+	  			/* $("#purchase-credit-pop-up").modal('show');
+	  			checkLastToBuy(); */
+	  			gotoPurchase();
 	  		} else {
 	  			// 直接进行后台操作
 	  			gotoPurchase();
@@ -298,15 +299,18 @@
 				async : false,
 				data : JSON.stringify(paramData), 
 				success : function(data) {
-					location.href = "${ctx}/Notice/paysuccess"
-					/* if (accountError) {
-						$("#credit-error").css("display","");
-						setTimeout(function() {
-							hiddenCreditError();
-						}, 1000);
+					if (payMethod == "2") {
+						// 货到付款
+						location.href = "${ctx}/Notice/paysuccess"
 					} else {
+						//支付画面
+						if (needInvoice == "1"){
+							location.href = "${ctx}/Pay/init?orderNo="+data.orderNo+"&email="+$("#invoicemail").val();
+						} else {
+							location.href = "${ctx}/Pay/init?orderNo="+data.orderNo;
+						}
 						
-					} */
+					}
 					
 				},
 				error : function(data) {

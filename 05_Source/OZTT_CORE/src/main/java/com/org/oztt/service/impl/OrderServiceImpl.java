@@ -235,12 +235,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         tConsOrder.setPaymentmethod(CommonEnum.PaymentMethod.PAYPAL.getCode());
         tConsOrder.setOrdertimestamp(new Date());
         tConsOrder.setPaymenttimestamp(null);//付款时间
-        if ("1".equals(payMethod)) {
-            // 在线付款
-            tConsOrder.setHandleflg(CommonEnum.HandleFlag.PAYED.getCode());
-        } else {
-            tConsOrder.setHandleflg(CommonEnum.HandleFlag.NOT_PAY.getCode());
-        }
+        tConsOrder.setHandleflg(CommonEnum.HandleFlag.NOT_PAY.getCode());
         
         tConsOrder.setDeliverymethod(hidDeliMethod);
         if ("true".equals(isUnify)) {
@@ -293,11 +288,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
 //
 //        }
 
-        if ("1".equals(payMethod) && "1".equals(invoiceFlg)) {
-            // 在线支付
-            this.createTaxAndSendMailForPhone(maxOrderNo, customerNo, session, invoicemail);
-        }
-        return "";
+        return maxOrderNo;
 
     }
 
@@ -668,9 +659,9 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         tConsTransactionOut.setTransactiontype("2");// 交易类型（订单支付还是手续费收取）
         tConsTransactionDao.insertSelective(tConsTransactionOut);
 
-        if (!"ADMIN".equals(customerNo)) {
-            createTaxAndSendMail(orderId, customerNo, session);
-        }
+//        if (!"ADMIN".equals(customerNo)) {
+//            createTaxAndSendMail(orderId, customerNo, session);
+//        }
 
     }
 

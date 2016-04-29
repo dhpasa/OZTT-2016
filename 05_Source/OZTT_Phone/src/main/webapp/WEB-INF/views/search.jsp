@@ -168,7 +168,7 @@
 			<fmt:message key="SEARCH_TITLE" />
 		</div>
 	</div>
-	<div class="goods-search-horizon">
+	<div class="goods-search-horizon border-top-show">
 		 <ul class="nav nav-tabs">
 		 	<li <c:if test="${mode == '1'}">class="active"</c:if>><a onclick="searchGroup('1');return false;" data-toggle="tab"><fmt:message key="SEARCH_SALENUM" /></a></li>
 		 	<li <c:if test="${mode == '2'}">class="active"</c:if>><a onclick="searchGroup('2');return false;" data-toggle="tab"><fmt:message key="SEARCH_NEW" /></a></li>

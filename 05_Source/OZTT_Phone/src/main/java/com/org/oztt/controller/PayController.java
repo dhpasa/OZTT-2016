@@ -3,6 +3,9 @@ package com.org.oztt.controller;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -32,28 +36,17 @@ public class PayController extends BaseController {
     private OrderService  orderService;
 
     /**
-     * 付款
+     * 跳转到支付画面
      * 
      * @param model
      * @return
      */
-    @RequestMapping(value = "payment")
-    public String payment(Model model, HttpServletResponse response, HttpSession session, String hidDeliMethod,
-            String hidAddressId, String hidPayMethod, String hidHomeDeliveryTime) {
+    @RequestMapping(value = "init")
+    public String init(Model model, HttpServletResponse response, HttpSession session, String orderNo, String email) {
         try {
-            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
-            // 先判断付款方式
-            String rb = orderService.insertOrderInfo(customerNo, hidPayMethod, hidDeliMethod, hidAddressId, hidHomeDeliveryTime);
-            if (!StringUtils.isEmpty(rb)) {
-                response.setCharacterEncoding("UTF-8");
-                response.getWriter().write(rb);
-                return null;
-            }
-            if (CommonEnum.DeliveryMethod.COD.getCode().equals(hidDeliMethod)) {
-                // 货到付款
-                return "redirect:/Notice/codNotice";
-            }
-            return null;
+            model.addAttribute("orderNo", orderNo);
+            model.addAttribute("email", email);
+            return "payment";
 
         }
         catch (Exception e) {
@@ -116,6 +109,44 @@ public class PayController extends BaseController {
      * @param model
      * @return
      */
+    @RequestMapping(value = "toPay")
+    public Map<String, Object> toPay(Model model, HttpServletResponse response, HttpSession session,
+            @RequestBody Map<String, String> map) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            String card = map.get("card");
+            String password = map.get("password");
+            String verifycode = map.get("verifycode");
+            String orderNo = map.get("orderNo");
+            String email = map.get("email");
+            orderService.updateRecordAfterPay(orderNo, customerNo, session);
+
+            TConsOrder tConsOrder = orderService.selectByOrderId(orderNo);
+            BigDecimal amount = tConsOrder.getOrderamount();
+            if (paymoney(card, password, verifycode, amount)) {
+                if (!StringUtils.isEmpty(email)){
+                    orderService.createTaxAndSendMailForPhone(orderNo, customerNo, session, email);
+                }
+            }
+            
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+
+    /**
+     * 付款后的通知
+     * 
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "paypalNotify")
     public String paypalNotify(Model model, HttpServletResponse response, HttpSession session,
             @RequestParam String orderId) {
@@ -130,9 +161,9 @@ public class PayController extends BaseController {
             return CommonConstants.ERROR_PAGE;
         }
     }
-    
+
     @RequestMapping(value = "TestUrl")
-    public void TestUrl(Model model, HttpServletResponse response, HttpSession session) throws Exception{
+    public void TestUrl(Model model, HttpServletResponse response, HttpSession session) throws Exception {
         // 是客户操作
         // 将文件输出
         InputStream inStream = new FileInputStream("/Users/linliuan/ireport/INVOICE_TAX.pdf");
@@ -144,13 +175,33 @@ public class PayController extends BaseController {
         byte[] b = new byte[100];
         int len;
         try {
-                while ((len = inStream.read(b)) > 0)
+            while ((len = inStream.read(b)) > 0)
                 response.getOutputStream().write(b, 0, len);
-                inStream.close();
-        } 
-        catch (IOException e) {
-                e.printStackTrace();
+            inStream.close();
         }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 调用接口实现付款
+     * 
+     * @param card
+     * @param password
+     * @param verifycode
+     * @param amount
+     * @return
+     */
+    private boolean paymoney(String card, String password, String verifycode, BigDecimal amount) {
+
+        try {
+            return true;
+        }
+        catch (Exception e) {
+            return false;
+        }
+
     }
 
 }
