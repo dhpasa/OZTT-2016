@@ -10,12 +10,18 @@
   <meta charset="utf-8">
   <title><fmt:message key="PAYMENT_TITLE" /></title>
   <script type="text/javascript">
+  		var E0007 = '<fmt:message key="E0007" />';
   		$(function(){
   			checkShowBtn();
   		});
   		
   		function checkShowBtn(){
-  			if ($("#phone").val() == "" || $("#password").val() == "" || $("#verifycode").val() == ""){
+  			if ($("#vpc_AccessCode").val() == "" || 
+  					$("#vpc_MerchTxnRef").val() == "" || 
+  					$("#vpc_Merchant").val() == "" ||
+  					$("#vpc_CardNum").val() == "" || 
+  					$("#vpc_CardExp").val() == "" || 
+  					$("#vpc_CardSecurityCode").val() == ""){
   				$("#payBtn").css({
   					"background" : "#D4D4D4",
   				});
@@ -30,9 +36,12 @@
   		
   		function toPay(){
   			var paramData = {
-					"card":$("#card").val(),
-					"password":$("#password").val(),
-					"verifycode":$("#verifycode").val(),
+					"vpc_AccessCode":$("#vpc_AccessCode").val(),
+					"vpc_MerchTxnRef":$("#vpc_MerchTxnRef").val(),
+					"vpc_Merchant":$("#vpc_Merchant").val(),
+					"vpc_CardNum":$("#vpc_CardNum").val(),
+					"vpc_CardExp":$("#vpc_CardExp").val(),
+					"vpc_CardSecurityCode":$("#vpc_CardSecurityCode").val(),
 					"orderNo":$("#orderNo").val(),
 					"email":$("#email").val()
 			}
@@ -44,14 +53,21 @@
 				async : false,
 				data : JSON.stringify(paramData), 
 				success : function(data) {
-					// 货到付款
-					location.href = "${ctx}/Notice/paysuccess"
+					if (!data.isException) {
+						// 货到付款
+						location.href = "${ctx}/Notice/paysuccess"
+					} else {
+						$("#errormsg").text(E0007);
+					}
+					
 				},
 				error : function(data) {
 					
 				}
 			});
   		}
+  		
+  		
   </script>
 </head>
 <!-- Head END -->
@@ -69,14 +85,30 @@
 	</div>
 	<div class="logincontain">
         <div class="input_username">
-            <input class="txt-input " type="text" placeholder="请输入银行卡号"  autofocus="" maxlength="13" id="card" onchange="checkShowBtn()">
+            <input class="txt-input " type="text" placeholder="Merchant AccessCode"  autofocus="" id="vpc_AccessCode" onchange="checkShowBtn()">
         </div>
         <div class="input-password">
-            <input class="txt-input" type="password" autocomplete="off" placeholder="请输入密码" maxlength="13" id="password" onchange="checkShowBtn()">
+            <input class="txt-input" type="text" autocomplete="off" placeholder="Merchant Transaction Reference" id="vpc_MerchTxnRef" onchange="checkShowBtn()">
         </div>
         <div class="input-password">
-            <input class="txt-input" type="password" autocomplete="off" placeholder="请输入验证码" maxlength="13" id="verifycode" onchange="checkShowBtn()">
+            <input class="txt-input" type="text" autocomplete="off" placeholder="MerchantID" id="vpc_Merchant" onchange="checkShowBtn()">
         </div>
+        
+        <div class="input-password">
+            <input class="txt-input" type="text" autocomplete="off" placeholder="Card Number" id="vpc_CardNum" onchange="checkShowBtn()">
+        </div>
+        <div class="input-password">
+            <input class="txt-input" type="text" autocomplete="off" placeholder="Card Expiry Date (YYMM)" id="vpc_CardExp" onchange="checkShowBtn()">
+        </div>
+        <div class="input-password">
+            <input class="txt-input" type="text" autocomplete="off" placeholder="Card Security Code (CSC)" id="vpc_CardSecurityCode" onchange="checkShowBtn()">
+        </div>
+        
+        <div class="errormsg">
+			<span id="errormsg"></span>
+		</div>
+        
+        
         <div class="loginBtn">
             <a href="#" onclick="toPay()" id="payBtn"><fmt:message key="PAYMENT_BTN" /></a>
         </div>

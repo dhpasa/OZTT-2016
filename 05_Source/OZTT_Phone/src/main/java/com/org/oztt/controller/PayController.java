@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.org.oztt.base.util.MessageUtils;
+import com.org.oztt.base.util.VpcHttpPayUtils;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.contants.CommonEnum;
 import com.org.oztt.entity.TConsOrder;
@@ -104,7 +106,7 @@ public class PayController extends BaseController {
     }
 
     /**
-     * 付款后的通知
+     * 付款
      * 
      * @param model
      * @return
@@ -115,22 +117,31 @@ public class PayController extends BaseController {
         Map<String, Object> mapReturn = new HashMap<String, Object>();
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
-            String card = map.get("card");
-            String password = map.get("password");
-            String verifycode = map.get("verifycode");
             String orderNo = map.get("orderNo");
             String email = map.get("email");
-            orderService.updateRecordAfterPay(orderNo, customerNo, session);
 
             TConsOrder tConsOrder = orderService.selectByOrderId(orderNo);
             BigDecimal amount = tConsOrder.getOrderamount();
-            if (paymoney(card, password, verifycode, amount)) {
-                if (!StringUtils.isEmpty(email)){
+            map.put("vpc_Amount", amount.toString());
+            
+            map.put("vpc_Version", MessageUtils.getApplicationMessage("vpc_Version"));
+            map.put("vpc_Command", MessageUtils.getApplicationMessage("vpc_Command"));
+            map.put("vpc_OrderInfo", MessageUtils.getApplicationMessage("vpc_OrderInfo"));
+            Map<String, String> resMap = VpcHttpPayUtils.http(MessageUtils.getApplicationMessage("vpc_url"), map);
+
+            if (resMap != null && "0".equals(resMap.get(VpcHttpPayUtils.VPC_TXNRESPONSECODE))) {
+
+                orderService.updateRecordAfterPay(orderNo, customerNo, session);
+                if (!StringUtils.isEmpty(email)) {
                     orderService.createTaxAndSendMailForPhone(orderNo, customerNo, session, email);
                 }
+
+                mapReturn.put("isException", false);
             }
-            
-            mapReturn.put("isException", false);
+            else {
+                mapReturn.put("isException", true);
+            }
+
             return mapReturn;
         }
         catch (Exception e) {
@@ -182,26 +193,6 @@ public class PayController extends BaseController {
         catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * 调用接口实现付款
-     * 
-     * @param card
-     * @param password
-     * @param verifycode
-     * @param amount
-     * @return
-     */
-    private boolean paymoney(String card, String password, String verifycode, BigDecimal amount) {
-
-        try {
-            return true;
-        }
-        catch (Exception e) {
-            return false;
-        }
-
     }
 
 }
