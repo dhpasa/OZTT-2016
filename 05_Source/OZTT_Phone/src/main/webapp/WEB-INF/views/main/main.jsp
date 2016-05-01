@@ -26,7 +26,7 @@
 		var daySearch = '';
 		
 		function loadGoods(){
-			var temp1 = '<li>';
+			var temp1 = '<li class="main-goods-li">';
 			var temp2 = '<div class="jshop-item" onclick="toItem(\'{0}\')">';
 			var temp3 = '	<img src="{0}" class="img-responsive padding-1rem">';
 			var temp4 = '	<span class="main-goodsname">{0}</span>';
@@ -41,6 +41,8 @@
 			var temp13 = '    </div>';
 			var temp14 = '    <div class="countdown-time" data-seconds-left="{0}">';   	
 			var temp15 = '    </div>';
+			var temp20 = '<div class="goods-sticker goods-sticker-new"></div>';
+			var temp21 = '<div class="goods-sticker goods-sticker-hot"></div>';
 			var temp16 = '</div>';
 			var temp17 = '</li>';
 	    	$.ajax({
@@ -70,6 +72,12 @@
 								tempStr += temp13;
 								tempStr += temp14.replace('{0}',dataList[i].countdownTime);
 								tempStr += temp15;
+								if (dataList[i].newsaleflg == '1') {
+									tempStr += temp20;
+								}
+								if (dataList[i].hotsaleflg == '1') {
+									tempStr += temp21;
+								}
 								tempStr += temp16;
 								tempStr += temp17;
 							}
@@ -237,7 +245,10 @@
    <c:forEach var="newGoodsList" items="${ newGoodsList }">	
 	<div class="newGoods-div" onclick="toItem('${newGoodsList.groupno }')">
 		<div class="newGoods-info">
-			<span class="newGoods-info-span miaosha"><i class="glyphicon glyphicon-time"></i><fmt:message key="MAIN_MIAOSHAING" /></span>
+			<span class="newGoods-info-span miaosha">
+				<i class="goods-i-time"></i>
+				<fmt:message key="MAIN_MIAOSHAING" />
+			</span>
 			<span class="newGoods-info-span font-xl clearMargin">${newGoodsList.goodsname }</span>
 			<span class="newGoods-info-span time">
 				<div style="float:left;padding-right: 0.5rem;height: 1.7rem"><fmt:message key="MAIN_TIME" /></div>
@@ -285,15 +296,18 @@
 							<span class="text-through font-l">${goodslist.costprice }</span>
 		                </div>
 		                <div class="main-hasbuy">
-		                	<i class="fa fa-user-md" style="float: left"></i>
+		                	<i class="main-hasBuy" style="float: left"></i>
 				   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
 				   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span>
 		                </div>
 		                <div class="countdown-time" data-seconds-left="${goodslist.countdownTime}">
 		                </div>
-		                <%-- <c:if test="${goodslist.newsaleflg == '1' }">
+		                <c:if test="${goodslist.newsaleflg == '1' }">
 		                	<div class="goods-sticker goods-sticker-new"></div>
-		                </c:if> --%>
+		                </c:if>
+		                <c:if test="${goodslist.hotsaleflg == '1' }">
+		                	<div class="goods-sticker goods-sticker-hot"></div>
+		                </c:if>
 		                
 					</div>
    				</li>

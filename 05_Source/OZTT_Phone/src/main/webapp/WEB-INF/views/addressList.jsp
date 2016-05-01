@@ -113,6 +113,7 @@
             	  ${adsItem.suburb}&nbsp;
             	  ${adsItem.state}&nbsp;
             	  ${adsItem.countrycode}&nbsp;
+            	  ${adsItem.postcode}
             </span>
         </div>
         <div class="addressControl">

@@ -136,11 +136,11 @@
 		
 		$("#candelete").click(function(){
 			if ($(this).hasClass("shopcart-modify")) {
-				$("#candelete").text('<fmt:message key="COMMON_MODIFY"/>');
+				$("#candelete").text('<fmt:message key="COMMON_COMPLETE"/>');
 				$(this).removeClass("shopcart-modify");
 				$(".shopcart-goods-delete").find("i").css("display","");
 			} else {
-				$("#candelete").text('<fmt:message key="COMMON_COMPLETE"/>');
+				$("#candelete").text('<fmt:message key="COMMON_MODIFY"/>');
 				$(this).addClass("shopcart-modify");
 				$(".shopcart-goods-delete").find("i").css("display","none");
 			}
@@ -271,7 +271,7 @@
 		} else {
 			// 有选中
 			$("#surebuy").css({
-				"background" : "#FA6D72",
+				"background" : "#FF9298",
 			});
 			$("#surebuy").attr("onclick", "surebuy()");
 		}
@@ -343,7 +343,7 @@ body {
 			<span>
 				<fmt:message key="CARTLIST_TITLE"/>
 			</span>
-			<span style="color:red">
+			<span style="color:red" class="shopcart-count">
 				<c:if test="${count != null && count > 0 }">(${count})</c:if>
 			</span>
 		</div>
@@ -362,7 +362,7 @@ body {
 				<div class="check-icon"></div>
 			</div>
 			<div class="shopcart-overtime">
-				<i class="glyphicon glyphicon-time"></i>
+				<i class="shopcart-i-time"></i>
 				<fmt:message key="CARTLIST_TIME"/>${cartsList.queryDay }<fmt:message key="COMMON_DAY"/>
 			</div>
 		</div>

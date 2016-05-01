@@ -481,7 +481,7 @@
 			a.classId,
 		</if>
 		
-		c.validPeriodEnd
+		c.validPeriodEnd, c.groupNo
 	</select>
 	
 	<select id="getGoodsByParamForPageCount" resultType="int" parameterType="map">

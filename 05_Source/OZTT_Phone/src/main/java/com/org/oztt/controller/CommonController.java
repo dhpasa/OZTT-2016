@@ -704,8 +704,6 @@ public class CommonController extends BaseController {
                     Integer.parseInt(CommonConstants.MAIN_LIST_COUNT));
             Map<Object, Object> params = new HashMap<Object, Object>();
             params.put("daySearch", daySearch);
-            params.put("hotSaleFlg", CommonConstants.IS_NOT_HOT_SALE);
-            params.put("newSaleFlg", CommonConstants.IS_NOT_NEW_SALE);
             pagination.setParams(params);
             PagingResult<GroupItemDto> pageInfo = goodsService.getGoodsByParamForPage(pagination);
             
