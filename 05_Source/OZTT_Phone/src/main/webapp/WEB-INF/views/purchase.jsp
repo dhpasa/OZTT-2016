@@ -373,11 +373,11 @@
 				<div class="nameandphone">
 					<div class="name">${adsItem.receiver }</div>
 					<div class="phone">${adsItem.contacttel }</div>
-					<div class="default">
+					<%-- <div class="default">
 						<c:if test="${adsItem.flg == '1' }">
 							<fmt:message key="COMMON_DEFAULT"/>
 						</c:if>
-					</div>
+					</div> --%>
 				</div>
 				<div class="detailaddress">
 					<i class="position"></i>
@@ -415,7 +415,7 @@
 	
 	<div class="purchase-delivery-time" id="deliverytime">
 		<div class="purchase-hometime">
-			<input type="text" class="form-control" id="homeDeliveryTimeId" value="${deliveryDate }" onchange="judgeAll()"></input>
+			<input type="text" id="homeDeliveryTimeId" value="${deliveryDate }" onchange="judgeAll()"></input>
 		</div>
 		<div class="purchase-timeselect">
 			<select class="form-control" id="deliveryTimeSelect">

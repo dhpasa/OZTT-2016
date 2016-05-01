@@ -36,9 +36,6 @@
   		
   		function toPay(){
   			var paramData = {
-					"vpc_AccessCode":$("#vpc_AccessCode").val(),
-					"vpc_MerchTxnRef":$("#vpc_MerchTxnRef").val(),
-					"vpc_Merchant":$("#vpc_Merchant").val(),
 					"vpc_CardNum":$("#vpc_CardNum").val(),
 					"vpc_CardExp":$("#vpc_CardExp").val(),
 					"vpc_CardSecurityCode":$("#vpc_CardSecurityCode").val(),
@@ -85,16 +82,6 @@
 	</div>
 	<div class="logincontain">
         <div class="input_username">
-            <input class="txt-input " type="text" placeholder="Merchant AccessCode"  autofocus="" id="vpc_AccessCode" onchange="checkShowBtn()">
-        </div>
-        <div class="input-password">
-            <input class="txt-input" type="text" autocomplete="off" placeholder="Merchant Transaction Reference" id="vpc_MerchTxnRef" onchange="checkShowBtn()">
-        </div>
-        <div class="input-password">
-            <input class="txt-input" type="text" autocomplete="off" placeholder="MerchantID" id="vpc_Merchant" onchange="checkShowBtn()">
-        </div>
-        
-        <div class="input-password">
             <input class="txt-input" type="text" autocomplete="off" placeholder="Card Number" id="vpc_CardNum" onchange="checkShowBtn()">
         </div>
         <div class="input-password">
