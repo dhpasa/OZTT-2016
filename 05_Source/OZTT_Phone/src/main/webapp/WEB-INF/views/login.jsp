@@ -84,6 +84,9 @@
                 </div>
             </div>
         </div>
+        <div class="login_guangguang">
+        	<a href="${ctx}/main/init"><fmt:message key="LOGIN_SUIBIAN_GUANGGUANG" /></a>
+        </div>
 	</div>
 	
 	</div>

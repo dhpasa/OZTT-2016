@@ -25,7 +25,7 @@
 		<div class="x-header-btn"></div>
 		<div class="x-header-title">
 			<span>
-				<img alt="logo" src="${ctx}/images/logo_min.png" class="logo_min">
+				<img alt="logo" src="${ctx}/images/logo.png" class="logo_min" style="height: 3.5rem">
 			</span>
 		</div>
 		<div class="x-header-btn icon-search"></div>
