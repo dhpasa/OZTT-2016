@@ -343,18 +343,19 @@
 		<div class="x-header-btn">
 		</div>
 	</div>
+	
 	<div class="purchase-select-horizon margin-1px-top">
 		 <ul class="nav nav-tabs">
 		 	<li class="active">
 		 		<a onclick="selectDeliveryMethod('1')" data-toggle="tab">
-		 		<i class="fa fa-truck"></i>
-		 			<fmt:message key="PURCHASE_SONGHUOSHANGMEN"/>
+		 		<i class="fa fa-truck purchase-select-delivery"></i>
+		 			<span><fmt:message key="PURCHASE_SONGHUOSHANGMEN"/></span>
 		 		</a>
 		 	</li>
 		 	<li>
 		 		<a onclick="selectDeliveryMethod('2')" data-toggle="tab">
-		 		<i class="fa fa-home"></i>
-		 			<fmt:message key="PURCHASE_LAIDIANZITI"/>
+		 		<i class="fa fa-home purchase-select-delivery"></i>
+		 			<span><fmt:message key="PURCHASE_LAIDIANZITI"/></span>
 		 		</a>
 		 	</li>
 	      </ul>
@@ -368,16 +369,12 @@
 				</div>
 			</a>
 		</c:if>
+		
 		<c:if test="${adsItem != null }">
 			<a onclick="selectAddress()">
 				<div class="nameandphone">
-					<div class="name">${adsItem.receiver }</div>
-					<div class="phone">${adsItem.contacttel }</div>
-					<%-- <div class="default">
-						<c:if test="${adsItem.flg == '1' }">
-							<fmt:message key="COMMON_DEFAULT"/>
-						</c:if>
-					</div> --%>
+					<div class="name">${adsItem.receiver }&nbsp;&nbsp;&nbsp;${adsItem.contacttel }</div>
+					<div class="phone"></div>
 				</div>
 				<div class="detailaddress">
 					<i class="position"></i>
@@ -386,6 +383,7 @@
 						${adsItem.suburb}
 						${adsItem.state}
 						${adsItem.countrycode}
+						${adsItem.postcode}
 					</div>
 				</div>
 			</a>
@@ -394,8 +392,7 @@
 		</c:if>
 		
 		<span class="point-right"></span>
-	</div>
-	
+	</div> 
 	<div class="purchase-self-pick margin-1px-top" id="self-pick-address" style="display:none">
 		<span>
 			<fmt:message key="COMMON_SHOPADDRESS"/>
@@ -425,7 +422,7 @@
 			</select>
 		</div>
 	</div>
-	 
+	
 	<div class="purchase-goods-div margin-1rem-top">
     <c:forEach var="cartsBody" items="${cartsList}" varStatus="status">
 		<div class="purchase-checkBlockBody">
@@ -494,19 +491,19 @@
     <div id="purchase-mail-pop-up" class="modal fade" role="dialog" aria-hidden="true" >
     	<div class="modal-dialog purchase-dialog">
 	      <div class="modal-content">
-	         <div class="modal-header">
+	         <div class="modal-header clearborder">
 	            <button type="button" class="close" 
 	               data-dismiss="modal" aria-hidden="true">
 	                  &times;
 	            </button>
-	            <h4 class="purchase-modal-title">
+	            <span class="purchase-modal-title">
 	               <fmt:message key="PURCHASE_INVOICE"/>
-	            </h4>
+	            </span>
 	         </div>
-	         <div class="purchase-modal-body">
+	         <div class="purchase-modal-body clearborder">
 	            <input type="text" id="invoicemail"/>
 	         </div>
-	         <div class="modal-footer purchase-modal-footer" >
+	         <div class="modal-footer purchase-modal-footer clearborder" >
 	            <button type="button" class="btn btn-primary" onclick="closePurchaseMail()">
 	               <fmt:message key="COMMON_CONFIRM"/>
 	            </button>

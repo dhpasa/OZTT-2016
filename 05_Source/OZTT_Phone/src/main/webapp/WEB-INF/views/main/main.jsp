@@ -35,7 +35,7 @@
 			var temp7 = '		<span class="text-through">{0}</span>';
 			var temp8 = '    </div>';
 			var temp9 = '    <div class="main-hasbuy">';
-			var temp10 = '    	<i class="fa fa-user-md" style="float: left"></i>';
+			var temp10 = '    	<i class="main-hasBuy" style="float: left"></i>';
 			var temp11 = '		<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;';
 			var temp12 = '		<span class="">{0}&nbsp;/&nbsp;{1}</span>';
 			var temp13 = '    </div>';
@@ -242,7 +242,8 @@
   			<li><img src="${imgUrl}advertisement/pic_02.jpg" /></li>
   		</ul>
    </div>
-   <c:forEach var="newGoodsList" items="${ newGoodsList }">	
+   <c:forEach var="newGoodsList" items="${ newGoodsList }" varStatus="step">
+   <c:if test="${step.count%2 == 1 }">
 	<div class="newGoods-div" onclick="toItem('${newGoodsList.groupno }')">
 		<div class="newGoods-info">
 			<span class="newGoods-info-span miaosha">
@@ -270,6 +271,36 @@
 			<img src="${newGoodsList.goodsthumbnail }" class="padding-1rem">
 		</div>
 	</div>
+   </c:if>
+   <c:if test="${step.count%2 == 0 }">
+   	<div class="newGoods-div" onclick="toItem('${newGoodsList.groupno }')">
+   		<div class="newGoods-img">
+			<img src="${newGoodsList.goodsthumbnail }" class="padding-1rem">
+		</div>
+		<div class="newGoods-info">
+			<span class="newGoods-info-span miaosha">
+				<i class="goods-i-time"></i>
+				<fmt:message key="MAIN_MIAOSHAING" />
+			</span>
+			<span class="newGoods-info-span font-xl clearMargin">${newGoodsList.goodsname }</span>
+			<span class="newGoods-info-span time">
+				<div style="float:left;padding-right: 0.5rem;height: 1.7rem"><fmt:message key="MAIN_TIME" /></div>
+				<div class="countdownDay">${newGoodsList.countdownDay }<fmt:message key="COMMON_DAY" /></div>
+				<div id="cuntdown" class="cuntdown" data-seconds-left="${newGoodsList.countdownTime}" style="float:left;width: 100%;">
+				
+				</div>
+			</span>
+			<span class="newGoods-info-span">
+				<div class="group-price-div">
+					<span class="group-price">
+						<span class="dollar-symbol"><fmt:message key="COMMON_DOLLAR" /></span>${newGoodsList.disprice }
+					</span>
+					<span class="text-through">${newGoodsList.costprice }</span>
+				</div>
+			</span>
+		</div>
+	</div>
+   </c:if>		
 	</c:forEach>
 	
 	<div class="margin-1rem-top" id="label-search-horizon">

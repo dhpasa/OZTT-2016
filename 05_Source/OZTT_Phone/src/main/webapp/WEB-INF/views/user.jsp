@@ -89,6 +89,7 @@
 	
 	<div class="order p-item">
 		<a href="${ctx}/order/init?tab=0" class="p-link padding-1rem-top">
+			<span class="user-order-img"></span>
 			<div class="myorder"><fmt:message key="USER_MYORDER"/></div>
 			<div class="viewallorder"><fmt:message key="USER_SEEALLORDER"/>&nbsp;<i class="fa fa-angle-right"></i></div>
 		</a>
@@ -110,6 +111,7 @@
 	
 	<div class="order p-item user-item">
 		<a onclick="manageAddress()" class="adsmana padding-1rem-top">
+			<span class="user-adsmanage-img"></span>
 			<div class="content"><fmt:message key="USER_ADS_MANAGER"/></div>
 			<i class="fa fa-angle-right"></i>
 		</a>
@@ -117,6 +119,7 @@
 	
 	<div class="order p-item">
 		<a href="#" class="fangle padding-1rem-top">
+			<span class="user-service-img"></span>
 			<div class="content"><fmt:message key="USER_CONTENT"/></div>
 			<i class="fa fa-angle-right"></i>
 		</a>
@@ -128,6 +131,7 @@
 	
 	<div class="order p-item">
 		<a href="#" class="fangle padding-1rem-top">
+			<span class="user-cooprate-img"></span>
 			<div class="content"><fmt:message key="USER_OTHERCOOPERATE"/></div>
 			<i class="fa fa-angle-right"></i>
 		</a>
@@ -139,6 +143,7 @@
 	
 	<div class="order p-item">
 		<a href="#" class="fangle padding-1rem-top">
+			<span class="user-about-img"></span>
 			<div class="content"><fmt:message key="USER_ABOUT"/></div>
 			<i class="fa fa-angle-right"></i>
 		</a>
@@ -150,6 +155,7 @@
 	
 	<div class="order p-item">
 		<a href="#" class="fangle padding-1rem-top">
+			<span class="user-changedlan-img"></span>
 			<div class="content"><fmt:message key="USER_LANGUAGECHANGE"/></div>
 			<div class="user-language">
 				<img alt="cn" src="${ctx}/images/cn.png" onclick="changeLocale('zh')">

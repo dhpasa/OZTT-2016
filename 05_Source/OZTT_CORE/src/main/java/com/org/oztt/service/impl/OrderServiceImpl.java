@@ -536,7 +536,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             formDto.setReceiver(tAddressInfo.getReceiver());
             formDto.setReceiverAddress(tAddressInfo.getAddressdetails() + " "
                     + tSuburbDeliverFeeDao.selectByPrimaryKey(Long.valueOf(tAddressInfo.getSuburb())).getSuburb() + " "
-                    + tAddressInfo.getState() + " " + tAddressInfo.getCountrycode());
+                    + tAddressInfo.getState() + " " + tAddressInfo.getCountrycode() + " " + tAddressInfo.getPostcode());
             formDto.setReceiverPhone(tAddressInfo.getContacttel());
         }
 

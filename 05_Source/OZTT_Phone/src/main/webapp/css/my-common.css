@@ -35,6 +35,10 @@ a{
 	box-shadow: 0 1px 1px rgba(162, 153, 153, 0.5);
 }
 
+.clearborder{
+	border:none;
+}
+
 
 .height3{
 	height: 3rem;
@@ -292,7 +296,6 @@ html{
 .text-through{
 	color:#666;
 	font-size: 1.5rem;
-	vertical-align: middle;
 }
 
 #label-search-horizon{
@@ -509,7 +512,7 @@ html{
 
 .p-item {
     margin-top: 1rem;
-    padding-left: 2rem;
+    padding-left: 1rem;
     background-color: #fff;
     display: inline-block;
     width: 100%;
@@ -546,7 +549,7 @@ html{
 
 .myorder{
 	float:left;
-	width:50%;
+	width:40%;
 	text-align: left;
 	font-size: 2rem;
 	color:#666;
@@ -625,15 +628,62 @@ html{
 
 .user-language{
 	float: left;
-    width: 50%;
+    width: 40%;
     text-align: right;
-    padding-right: 2rem;
 }
 
 .user-language img{
 	margin-top: 0.7rem;
     margin-right: 1rem;
     height: 1.5rem;
+}
+
+.user-order-img{
+	background: url(../images/user/order.png) center center/1.5rem 1.5rem no-repeat;
+    height: 2rem;
+    display: block;
+    float: left;
+    width: 7%;
+}
+
+.user-adsmanage-img{
+	background: url(../images/user/adsmanage.png) center center/1.5rem 1.5rem no-repeat;
+    height: 3rem;
+    display: block;
+    width: 2rem;
+    float: left;
+}
+
+.user-service-img{
+	background: url(../images/user/service.png) center center/1.5rem 1.5rem no-repeat;
+    height: 3rem;
+    display: block;
+    width: 2rem;
+    float: left;
+}
+
+.user-cooprate-img{
+	background: url(../images/user/cooprate.png) center center/1.5rem 1.5rem no-repeat;
+    height: 3rem;
+    display: block;
+    width: 2rem;
+    float: left;
+}
+
+.user-about-img{
+	background: url(../images/user/about.png) center center/1.5rem 1.5rem no-repeat;
+    height: 3rem;
+    display: block;
+    width: 2rem;
+    float: left;
+}
+
+.user-changedlan-img{
+	background: url(../images/user/change.png) center center/1.5rem 1.5rem no-repeat;
+    height: 3rem;
+    display: block;
+    width: 2rem;
+    float: left;
 }
 
 
@@ -760,6 +810,19 @@ html{
     width:3rem;
     height:3rem;
 	background: url(../images/chat.png) center center/3rem 3rem no-repeat;
+}
+
+.login_guangguang{
+	margin-top:2rem;
+	display: block;
+	text-decoration: underline;
+	text-align: center;
+	width: 100%;
+	font-size: 1.5rem;
+}
+
+.login_guangguang a{
+	text-decoration: underline;
 }
 
 /* ========================================注册============================================== */
@@ -955,7 +1018,6 @@ html{
     border: none;
     padding-left: 8px;
     height: 4rem;
-    line-height: 4rem;
     font-size: 1.5rem;
     border-bottom: 0.5px solid rgba(187, 187, 187, 0.15);
 }
@@ -974,6 +1036,17 @@ html{
 
 #country{
 	background-color: #fff !important;
+}
+
+.adsinputdiv input[disabled]{
+	color: #111;
+}
+
+#suburb{
+	background: none;
+	border:none;
+	border-bottom:0.5px solid rgba(187, 187, 187, 0.15);
+	color: #666;
 }
 
 /*=======================商品显示页=====================*/
@@ -1083,6 +1156,66 @@ html{
     padding: 5px 13px 0;
     background-color: #fff;
     margin-top: 1rem;
+}
+
+.item-dialog{
+	position: fixed;
+    bottom: 0px;
+    width: 95%;
+}
+.item-modal-body{
+	height: 12rem;
+}
+
+.item-modal-img{
+	display: block;
+    width: 30%;
+    height: 5rem;
+    padding: 0.5rem;
+    float: left;
+    position: relative;
+}
+
+.item-modal-img img{
+	position: absolute;
+    bottom: 0.5rem;
+    margin-left: 2rem;
+    width: 100%;
+}
+
+.item-modal-value{
+	display: inline-block;
+    float: right;
+    width: 70%;
+    height: 7rem;
+    padding: 1.5rem;
+    text-align: right;
+}
+
+.item-modal-confirm{
+	width: 100%;
+	display: inline-block;
+}
+
+.item-modal-confirm a {
+    display: inline-block;
+    width: 100%;
+    height: 5rem;
+    background: #FF9298;
+    text-decoration: none;
+    line-height: 5rem;
+    text-align: center;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.u-flyer {
+	display: block;
+	width: 50px;
+	height: 50px;
+	border-radius: 50px;
+	position: fixed;
+	z-index: 9999;
 }
 
 /*==================================检索页=============================*/
@@ -1452,17 +1585,23 @@ html{
     color:#666;
 }
 
+.purchase-select-delivery{
+	display: block !important;
+    width: 50% !important;
+    margin: 0 auto;
+}
+
 .nameandphone{
-	width: 100%;
-	padding: 0 0 10px 0;
-    overflow: hidden;
+	padding: 0 0 5px 0;
     color: #666;
     font-size: 1.5rem;
     margin-left: 2.5rem;
+    display: inline-block;
 }
 
 .nameandphone .name{
 	float: left;
+	display: inline-block;
 }
 
 .nameandphone .phone{
@@ -1605,7 +1744,7 @@ html{
 	float: left;
 	line-height: 5rem;
 	font-size: 1.5rem;
-	padding-left: 0.5rem;
+	padding-left: 1rem;
 }
 
 .purchase-method{
@@ -1618,7 +1757,7 @@ html{
 .purchase-method > a {
     display: inline-block;
     line-height: 3rem;
-    width: 12rem;
+    width: 11.5rem;
     margin-left: 1rem;
     border-radius: 8px !important;
     font-size: 1.5rem;
@@ -1700,6 +1839,7 @@ html{
 
 #homeDeliveryTimeId{
 	background: none;
+	border:none;
 	border:0.5px solid #dbdbdb;
 	color: #666;
     display: block;
@@ -1742,6 +1882,9 @@ html{
 
 .purchase-modal-title {
 	text-align: center;
+	width: 100%;
+    display: block;
+    font-size: 1.5rem;
 }
 
 .purchase-modal-body input{
@@ -1907,13 +2050,14 @@ html{
 
 .order-goodname{
 	font-size: 2rem;
+	vertical-align: top;
 }
 
 .order-group-price{
 	width: 20%;
     float: left;
     text-align: right;
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 .order-item-group{

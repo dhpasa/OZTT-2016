@@ -10,12 +10,61 @@
   <title><fmt:message key="ITEM_TITLE"/></title>
   <!-- Head END -->
   <script>	
-		function addToCart(groudId){
+		  $(function(){
+			  $('.valuemius').click(function(){
+					var currentqty = $(this).parent().parent().find('.txt').text();
+					if (currentqty == 1) {
+						return;
+					} else {
+						$(this).parent().parent().find('.txt').text(currentqty - 1);
+					}
+				});
+				
+				$('.valueplus').click(function(){
+					var currentqty = $(this).parent().parent().find('.txt').text();
+					if (currentqty == 99) {
+						return;
+					} else {
+						$(this).parent().parent().find('.txt').text(parseFloat(currentqty) + 1);
+					}
+				});
+		  });
+		  
+		function itemFlyToCart() {
+			$("#purchase-credit-pop-up").modal('hide');
+			var offset = $("#navCart").offset();
+			var offsetAdd = $("#navCart").width();
+			var img = $("#itemFlyImg").attr('src');
+			var flyer = $('<img class="u-flyer" src="'+img+'">');
+			flyer.fly({
+				start: {
+					left: 100,
+					top: 200
+				},
+				end: {
+					left: offset.left+offsetAdd/2,
+					top: offset.top+offsetAdd/2,
+					width: 0,
+					height: 0
+				},
+				onEnd: function(){
+					this.destory();
+				}
+			});
+		}
+		
+		function checktoItem(groudId){
 			if ('${currentUserId}' == '') {
 				location.href = "${ctx}/login/init";
 			} else {
-				addItemToCart(groudId);
+				$("#purchase-credit-pop-up").modal('show');
 			}
+		}
+  
+	
+		function addToCart(groupId){
+			itemFlyToCart();
+			addItemToCart(groupId)
 		}
 		
 		function addItemToCart(groupId) {
@@ -27,7 +76,7 @@
 			var properties = {
 					"groupId":groupId,
 					"goodsName":goodsName,
-					"goodsQuantity":1,
+					"goodsQuantity":$("#goodsnum").text(),
 					"goodsPrice":goodsPrice,
 					"goodsProperties":JSON.stringify(oneGoodPropertiesList)
 			}
@@ -167,8 +216,8 @@
    			<div class="cuntdown item-countdown" data-seconds-left="${goodItemDto.countdownTime}"></div>
    		</div>
    		
-   		<div class="border-top-show height3">
-   			<i class="fa fa-user-md"></i>
+   		<div class="border-top-show" style="padding:0.5rem 0">
+   			<i class="main-hasBuy" style="float: left"></i>
    			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
    			<span class="">${goodItemDto.groupCurrent}&nbsp;/&nbsp;${goodItemDto.groupMax}</span>
    		</div>
@@ -194,7 +243,31 @@
     </div>
     
     <div class="item-btn">
-    	<a onclick="addToCart('${goodItemDto.groupId}')"><fmt:message key="ITEM_ADDTOCART"/></a>
+    	<a onclick="checktoItem('${goodItemDto.groupId}')"><fmt:message key="ITEM_ADDTOCART"/></a>
+    </div>
+    
+    <div id="purchase-credit-pop-up" class="modal fade" role="dialog" aria-hidden="true" >
+    	<div class="modal-dialog item-dialog">
+	      <div class="modal-content">
+	         
+	         <div class="item-modal-body">
+	         	<div class="item-modal-img">
+	         		<img src="${goodItemDto.firstImg}" class="item-dialog-img" id="itemFlyImg"/>
+	         	</div>
+	         	<div class="item-modal-value">
+	           		<div class="shopcart-goods-quantity">
+						<span class="minus"><i class="fa fa-minus valuemius"></i></span>	
+						<span class="txt" id="goodsnum">1</span>
+						<span class="add"><i class="fa fa-plus valueplus"></i></span>
+					</div>
+	           	</div>
+	           	<div class="item-modal-confirm">
+		            <a onclick="addToCart('${goodItemDto.groupId}')"><fmt:message key="COMMON_CONFIRM"/></a>
+	           	</div>
+	           	
+	         </div>
+	      </div>
+    	</div>
     </div>
 
     <script type="text/javascript">

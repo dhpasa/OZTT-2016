@@ -60,11 +60,11 @@
 			var temp3 = '	<img src="{0}" class="img-responsive">';
 			var temp4 = '	<span class="main-goodsname">{0}</span>';
 			var temp5 = '    <div class="main-group-price">';
-			var temp6 = '    	<span class="group-price">{0}</span>';
+			var temp6 = '    	<span class="dollar-symbol2 font-l"><fmt:message key="COMMON_DOLLAR" /></span><span class="group-price">{0}</span>';
 			var temp7 = '		<span class="text-through">{0}</span>';
 			var temp8 = '    </div>';
 			var temp9 = '    <div class="main-hasbuy">';
-			var temp10 = '    	<i class="fa fa-user-md"></i>&nbsp;';
+			var temp10 = '    	<i class="main-hasBuy" style="float: left"></i>';
 			var temp11 = '		<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;';
 			var temp12 = '		<span class="">{0}&nbsp;/&nbsp;{1}</span>';
 			var temp13 = '    </div>';
@@ -195,11 +195,11 @@
 						<img src="${goodslist.goodsthumbnail }" class="img-responsive padding-1rem">
 						<span class="main-goodsname">${goodslist.goodsname }</span>
 		                <div class="main-group-price">
-		                	<span class="group-price">${goodslist.disprice }</span>
+		                	<span class="dollar-symbol2 font-l"><fmt:message key="COMMON_DOLLAR" /></span><span class="group-price">${goodslist.disprice }</span>
 							<span class="text-through">${goodslist.costprice }</span>
 		                </div>
 		                <div class="main-hasbuy">
-		                	<i class="fa fa-user-md"></i>&nbsp;
+		                	<i class="main-hasBuy" style="float: left"></i>	
 				   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
 				   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span>
 		                </div>

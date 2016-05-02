@@ -38,12 +38,12 @@
 	
 	<div class="order-item-head">
 		<div class="order-item-time"><fmt:message key="ORDER_ITEM_ORDERNO" />${detailInfo.orderNo}</div>
-		<div class="order-item-headStatus">订单待付款</div>
+		<div class="order-item-headStatus">${detailInfo.orderStatusView}</div>
 		<div class="order-select-address border-top-show">
 		
 			<div class="nameandphone">
-				<div class="name">${detailInfo.receiver }</div>
-				<div class="phone">${detailInfo.receiverPhone }</div>
+				<div class="name">${detailInfo.receiver }&nbsp;&nbsp;&nbsp;${detailInfo.receiverPhone }</div>
+				<div class="phone"></div>
 			</div>
 			<div class="detailaddress">
 				<i class="position"></i>

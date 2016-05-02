@@ -47,13 +47,15 @@ public class OrderListControler extends BaseController {
 
     @RequestMapping(value = "/initList", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> orders(HttpServletRequest request, HttpSession session) {
+    public Map<String, Object> orders(HttpServletRequest request, HttpSession session, String pageNo) {
         Map<String, Object> resp = new HashMap<String, Object>();
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
             String handleFlg = request.getParameter("orderStatus");
-            String page = "1";
-            Pagination pagination = new Pagination(Integer.parseInt(page));
+            if (StringUtils.isEmpty(pageNo)) {
+                pageNo = "1";
+            }
+            Pagination pagination = new Pagination(Integer.parseInt(pageNo));
             pagination.setSize(10);
             Map<Object, Object> paramMap = new HashMap<Object, Object>();
             paramMap.put("customerNo", customerNo);

@@ -38,7 +38,7 @@
 			<img alt="category" src="${ctx}/images/category.png">
 			<span><fmt:message key="DECORATOR_CATEGORY"/></span>
 		</a>
-		<a href="#" onclick="toShopCart()" class="main-nav-item main-nav-cart ">
+		<a href="#" onclick="toShopCart()" class="main-nav-item main-nav-cart " id="navCart">
 			<img alt="shopcart" src="${ctx}/images/shopcart.png">
 			<span><fmt:message key="DECORATOR_SHOPCART"/></span>
 		</a>
