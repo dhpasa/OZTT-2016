@@ -156,7 +156,7 @@
 		</div>
 		<div class="x-header-btn"></div>
 	</div> -->
-	<div class="logodiv">
+	<div class="logodiv logobackgroud">
 	 	<img alt="logo" src="${ctx}/images/logo_login.png">
 	 </div>
 	

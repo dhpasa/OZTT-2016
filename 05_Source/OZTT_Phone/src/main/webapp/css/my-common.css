@@ -686,6 +686,27 @@ html{
     float: left;
 }
 
+.await-pays{
+	background: url(../images/await-pay.png) center center/2rem 2rem no-repeat;
+    display: inline-block;
+    height: 3rem;
+    width: 3rem;
+}
+
+.await-ship{
+	background: url(../images/await-ship.png) center center/2rem 2rem no-repeat;
+	display: inline-block;
+    height: 3rem;
+    width: 3rem;
+}
+
+.await_received{
+	background: url(../images/await-reveived.png) center center/2rem 2rem no-repeat;
+	display: inline-block;
+    height: 3rem;
+    width: 3rem;
+}
+
 
 /* ========================================登录============================================== */
 
@@ -693,22 +714,23 @@ html{
     width: 100%;
 }
 
+.login_bg{
+	background: url(../images/login_bg.png) no-repeat;
+}
+
 .logodiv{
-	background-color:#FA6D72;
 	width: 100%;
 	text-align: center;
 }
 
 .logodiv img{
-	margin-top:3rem;
-	margin-bottom:3rem;
-	width:200px;
+	margin-top: 7rem;
+    width: 30%;
 }
 
 .errormsg{
 	width: 100%;
 	height: 1.5rem;
-	background-color: #F9F9F9;
 	text-align: center;
 }
 
@@ -749,6 +771,26 @@ html{
 	margin-top: 2rem;
 }
 
+.loginOutBtn{
+	width:90%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 2rem;
+}
+
+.loginOutBtn a{
+	display: inline-block;
+    width: 100%;
+    height: 5rem;
+    border-radius: 3px !important;
+    background: #FF9298;
+    text-decoration: none;
+    line-height: 5rem;
+    text-align: center;
+    font-size: 2rem;
+    color: #fff;
+}
+
 .loginBtn a{
 	display: inline-block;
     width: 100%;
@@ -770,7 +812,7 @@ html{
 }
 
 .login_option a{
-	color:#6f6f6f;
+	color:#fff;
 	font-size: 1.5rem;
 }
 
@@ -796,7 +838,7 @@ html{
 .login_other .login-other-info{
     margin-bottom: 13px;
     text-align: center;
-    color:#666 !important;
+    color:#fff !important;
 }
 
 .login_other .login-other-centent{
@@ -807,9 +849,9 @@ html{
 	display: inline-block;
     overflow: hidden;
     text-indent: -9999px;
-    width:3rem;
-    height:3rem;
-	background: url(../images/chat.png) center center/3rem 3rem no-repeat;
+    width:4rem;
+    height:4rem;
+	background: url(../images/chat.png) center center/4rem 4rem no-repeat;
 }
 
 .login_guangguang{
@@ -822,7 +864,26 @@ html{
 }
 
 .login_guangguang a{
-	text-decoration: underline;
+	display: inline-block;
+    width: 50%;
+    height: 4rem;
+    border-radius: 3px !important;
+    box-shadow: 0 1px 1px rgba(255, 146, 152, 0.27);
+    background: rgba(255, 146, 152, 0.27);
+    text-decoration: none;
+    border: 0.5px solid #FF9298;
+    line-height: 4rem;
+    text-align: center;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.logobackgroud{
+	background: url(../images/login_min_bg.png) no-repeat;
+}
+
+.logobackgroud img{
+	margin-bottom: 3rem;
 }
 
 /* ========================================注册============================================== */

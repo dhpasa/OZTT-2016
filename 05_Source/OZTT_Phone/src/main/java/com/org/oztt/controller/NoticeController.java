@@ -46,7 +46,7 @@ public class NoticeController extends BaseController {
     public String registersuccess(Model model, HttpServletResponse response, HttpSession session) {
         try {
             
-            return "/notice/registerNotice";
+            return "/notice/registerSuccessNotice";
         }
         catch (Exception e) {
             e.printStackTrace();

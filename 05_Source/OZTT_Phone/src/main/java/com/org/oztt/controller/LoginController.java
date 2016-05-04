@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -95,5 +96,22 @@ public class LoginController extends BaseController {
             mapReturn.put("isException", true);
             return mapReturn;
         }
+    }
+    
+    /**
+     * 用户登出
+     * 
+     * @param model
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping("logout")
+    @ResponseBody
+    public String logout(Model model, HttpServletRequest request, HttpSession session) {
+        session.removeAttribute(CommonConstants.SESSION_CUSTOMERNO);
+        session.removeAttribute(CommonConstants.SESSION_CUSTOMERNAME);
+        session.invalidate();
+        return null;
     }
 }

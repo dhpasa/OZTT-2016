@@ -53,7 +53,7 @@
     <script type="text/javascript">
     var currentPath = window.location.pathname;
 	if (currentPath.indexOf("login/init") > 0) {
-		$("#main-nav-id").css("display","none");
+		$("#main-nav-id").remove();
 	}
     
     

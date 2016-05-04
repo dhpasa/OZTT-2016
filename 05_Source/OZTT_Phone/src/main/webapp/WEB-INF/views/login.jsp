@@ -50,7 +50,7 @@
 
 <!-- Body BEGIN -->
 <body>
-	<div>
+	<div class="login_bg" id="login-main-div">
 	 <div class="logodiv">
 	 	<img alt="logo" src="${ctx}/images/logo_login.png">
 	 </div>
@@ -90,6 +90,14 @@
 	</div>
 	
 	</div>
+	<script type="text/javascript">
+
+	//这里重新加载画面的高度
+	var viewHeight = window.screen.height ;
+	if ($("#login-main-div").height() < viewHeight) {
+		$("#login-main-div").height(viewHeight);
+	}
+	</script>   
 </body>
 <!-- END BODY -->
 </html>
