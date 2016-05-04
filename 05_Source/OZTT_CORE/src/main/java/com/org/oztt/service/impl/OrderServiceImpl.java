@@ -672,9 +672,10 @@ public class OrderServiceImpl extends BaseService implements OrderService {
      * @return
      */
     private BigDecimal getCostMoney(BigDecimal amount) {
-        String percent = super.getApplicationMessage("PAYPAL_PECENT");
-        String additional = super.getApplicationMessage("PAYPAL_ADDITIONAL");
-        return amount.multiply(new BigDecimal(percent)).add(new BigDecimal(additional));
+        return BigDecimal.ZERO;
+//        String percent = super.getApplicationMessage("PAYPAL_PECENT");
+//        String additional = super.getApplicationMessage("PAYPAL_ADDITIONAL");
+//        return amount.multiply(new BigDecimal(percent)).add(new BigDecimal(additional));
     }
 
     @Override

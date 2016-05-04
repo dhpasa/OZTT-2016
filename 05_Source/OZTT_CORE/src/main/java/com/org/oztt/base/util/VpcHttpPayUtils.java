@@ -1,8 +1,8 @@
 package com.org.oztt.base.util;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -21,61 +21,73 @@ public class VpcHttpPayUtils {
     public static final String VPC_TXNRESPONSECODE = "vpc_TxnResponseCode";
 
     public static Map<String, String> http(String url, Map<String, String> params) {
-        URL u = null;
-        HttpURLConnection con = null;
-        // 构建请求参数  
-        StringBuffer sb = new StringBuffer();
-        if (params != null) {
-            for (Entry<String, String> e : params.entrySet()) {
-                sb.append(e.getKey());
-                sb.append("=");
-                sb.append(e.getValue());
-                sb.append("&");
-            }
-            sb.substring(0, sb.length() - 1);
-        }
-        System.out.println("send_url:" + url);
-        System.out.println("send_data:" + sb.toString());
+        HttpURLConnection httpConnection = null;  
+        DataOutputStream out = null;  
+        BufferedReader reader = null;  
+        String responseMessage = "";  
+        StringBuffer resposne = new StringBuffer();  
         // 尝试发送请求  
         try {
-            u = new URL(url);
-            con = (HttpURLConnection) u.openConnection();
-            //// POST 只能为大写，严格限制，post会不识别  
-            con.setRequestMethod("POST");
-            con.setDoOutput(true);
-            con.setDoInput(true);
-            con.setUseCaches(false);
-            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            OutputStreamWriter osw = new OutputStreamWriter(con.getOutputStream(), "UTF-8");
-            osw.write(sb.toString());
-            osw.flush();
-            osw.close();
+            URL urlPost = new URL(url);  
+            httpConnection = (HttpURLConnection) urlPost.openConnection();  
+            httpConnection.setDoOutput(true);  
+            httpConnection.setDoInput(true);  
+            // 参数长度太大，不能用get方式  
+            httpConnection.setRequestMethod("POST");  
+            // 不使用缓存  
+            httpConnection.setUseCaches(false);  
+            // URLConnection.setInstanceFollowRedirects是成员函数，仅作用于当前函数  
+            httpConnection.setInstanceFollowRedirects(true);  
+            // 配置本次连接的Content-type，配置为application/x-www-form-urlencoded的  
+            // 意思是正文是urlencoded编码过的form参数  
+            httpConnection.setRequestProperty("Content-Type",  
+                    "application/x-www-form-urlencoded");  
+            // 连接，从postUrl.openConnection()至此的配置必须要在connect之前完成，  
+            // 要注意的是connection.getOutputStream会隐含的进行connect。  
+            // 实际上只是建立了一个与服务器的tcp连接，并没有实际发送http请求。 
+            StringBuffer sb = new StringBuffer();
+            if (params != null) {
+                for (Entry<String, String> e : params.entrySet()) {
+                    sb.append(e.getKey());
+                    sb.append("=");
+                    sb.append(e.getValue());
+                    sb.append("&");
+                }
+                sb.substring(0, sb.length() - 1);
+            }
+
+            httpConnection.connect();  
+            out = new DataOutputStream(httpConnection.getOutputStream());  
+            out.writeBytes(sb.substring(0, sb.length() - 1));  
+            // flush and close  
+            out.flush();  
+            reader = new BufferedReader(new InputStreamReader(  
+                    httpConnection.getInputStream()));  
+            while ((responseMessage = reader.readLine()) != null) {  
+                resposne.append(responseMessage);  
+            }  
         }
         catch (Exception e) {
             e.printStackTrace();
         }
         finally {
-            if (con != null) {
-                con.disconnect();
-            }
+            try {  
+                if (null != out) {  
+                    out.close();  
+                }  
+                if (null != reader) {  
+                    reader.close();  
+                }  
+                if (null != httpConnection) {  
+                    httpConnection.disconnect();  
+                }  
+            } catch (Exception e2) {  
+            }  
         }
 
         // 读取返回内容  
-        StringBuffer buffer = new StringBuffer();
-        try {
-            //一定要有返回值，否则无法把请求发送给server端。  
-            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
-            String temp;
-            while ((temp = br.readLine()) != null) {
-                buffer.append(temp);
-                buffer.append("\n");
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
         
-        return createMapFromResponse(buffer.toString());
+        return createMapFromResponse(resposne.toString());
     }
     
      private static Map<String, String> createMapFromResponse(String queryString) {

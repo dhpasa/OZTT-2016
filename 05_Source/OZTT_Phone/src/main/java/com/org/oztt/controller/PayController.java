@@ -122,19 +122,23 @@ public class PayController extends BaseController {
 
             TConsOrder tConsOrder = orderService.selectByOrderId(orderNo);
             BigDecimal amount = tConsOrder.getOrderamount();
-            map.put("vpc_Amount", amount.multiply(new BigDecimal(100)).toString());
-            map.put("vpc_AccessCode", MessageUtils.getApplicationMessage("vpc_AccessCode"));
-            map.put("vpc_MerchTxnRef", MessageUtils.getApplicationMessage("vpc_MerchTxnRef"));
-            map.put("vpc_Merchant", MessageUtils.getApplicationMessage("vpc_Merchant"));
-            map.put("vpc_Version", MessageUtils.getApplicationMessage("vpc_Version"));
-            map.put("vpc_Command", MessageUtils.getApplicationMessage("vpc_Command"));
-            map.put("vpc_OrderInfo", MessageUtils.getApplicationMessage("vpc_OrderInfo"));
-            map.put("vpc_CSCLevel", MessageUtils.getApplicationMessage("vpc_CSCLevel"));
+            Map<String, String> payMap = new HashMap<String, String>(); 
+            payMap.put("vpc_Version", MessageUtils.getApplicationMessage("vpc_Version"));
+            payMap.put("vpc_Command", MessageUtils.getApplicationMessage("vpc_Command"));
+            payMap.put("vpc_AccessCode", MessageUtils.getApplicationMessage("vpc_AccessCode"));
+            payMap.put("vpc_MerchTxnRef", MessageUtils.getApplicationMessage("vpc_MerchTxnRef"));
+            payMap.put("vpc_Merchant", MessageUtils.getApplicationMessage("vpc_Merchant"));
+            payMap.put("vpc_OrderInfo", MessageUtils.getApplicationMessage("vpc_OrderInfo"));
+            payMap.put("vpc_Amount", String.valueOf(amount.multiply(new BigDecimal(100)).intValue()));
+            payMap.put("vpc_CardNum", map.get("vpc_CardNum"));
+            payMap.put("vpc_CardExp", map.get("vpc_CardExp"));
+            payMap.put("vpc_CardSecurityCode", map.get("vpc_CardSecurityCode"));
+            payMap.put("vpc_CSCLevel", MessageUtils.getApplicationMessage("vpc_CSCLevel"));
+            payMap.put("vpc_TicketNo", "");
             
-            Map<String, String> resMap = VpcHttpPayUtils.http(MessageUtils.getApplicationMessage("vpc_url"), map);
+            Map<String, String> resMap = VpcHttpPayUtils.http(MessageUtils.getApplicationMessage("vpc_url"), payMap);
 
             if (resMap != null && "0".equals(resMap.get(VpcHttpPayUtils.VPC_TXNRESPONSECODE))) {
-
                 orderService.updateRecordAfterPay(orderNo, customerNo, session);
                 if (!StringUtils.isEmpty(email)) {
                     orderService.createTaxAndSendMailForPhone(orderNo, customerNo, session, email);
