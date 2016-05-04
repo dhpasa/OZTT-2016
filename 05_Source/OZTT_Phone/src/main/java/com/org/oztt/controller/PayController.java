@@ -122,13 +122,15 @@ public class PayController extends BaseController {
 
             TConsOrder tConsOrder = orderService.selectByOrderId(orderNo);
             BigDecimal amount = tConsOrder.getOrderamount();
-            map.put("vpc_Amount", amount.toString());
+            map.put("vpc_Amount", amount.multiply(new BigDecimal(100)).toString());
             map.put("vpc_AccessCode", MessageUtils.getApplicationMessage("vpc_AccessCode"));
             map.put("vpc_MerchTxnRef", MessageUtils.getApplicationMessage("vpc_MerchTxnRef"));
             map.put("vpc_Merchant", MessageUtils.getApplicationMessage("vpc_Merchant"));
             map.put("vpc_Version", MessageUtils.getApplicationMessage("vpc_Version"));
             map.put("vpc_Command", MessageUtils.getApplicationMessage("vpc_Command"));
             map.put("vpc_OrderInfo", MessageUtils.getApplicationMessage("vpc_OrderInfo"));
+            map.put("vpc_CSCLevel", MessageUtils.getApplicationMessage("vpc_CSCLevel"));
+            
             Map<String, String> resMap = VpcHttpPayUtils.http(MessageUtils.getApplicationMessage("vpc_url"), map);
 
             if (resMap != null && "0".equals(resMap.get(VpcHttpPayUtils.VPC_TXNRESPONSECODE))) {

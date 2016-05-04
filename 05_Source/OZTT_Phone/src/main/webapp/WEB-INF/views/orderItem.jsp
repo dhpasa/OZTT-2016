@@ -13,7 +13,7 @@
   
   	$(function(){
 		$(".ico-back").click(function(){
-			location.href="${ctx}/order?tab="+${tab};
+			location.href="${ctx}/order/init?tab="+${tab};
 		});
 		
 	});
@@ -28,7 +28,7 @@
 	<div class="x-header x-header-gray border-1px-bottom">
 		<div class="x-header-btn ico-back"></div>
 		<div class="x-header-title">
-			<span><fmt:message key="ADDRESSLIST_TITLE" /></span>
+			<span><fmt:message key="ORDERLIST_TITLE" /></span>
 		</div>
 		<div class="x-header-btn"></div>
 	</div>

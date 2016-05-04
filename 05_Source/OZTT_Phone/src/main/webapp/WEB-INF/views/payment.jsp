@@ -85,7 +85,7 @@
             <input class="txt-input" type="text" autocomplete="off" placeholder="Card Number" id="vpc_CardNum" onchange="checkShowBtn()">
         </div>
         <div class="input-password">
-            <input class="txt-input" type="text" autocomplete="off" placeholder="Card Expiry Date (YYMM)" id="vpc_CardExp" onchange="checkShowBtn()">
+            <input class="txt-input" type="text" autocomplete="off" placeholder="Card Expiry Date (MMYY)" id="vpc_CardExp" onchange="checkShowBtn()">
         </div>
         <div class="input-password">
             <input class="txt-input" type="text" autocomplete="off" placeholder="Card Security Code (CSC)" id="vpc_CardSecurityCode" onchange="checkShowBtn()">

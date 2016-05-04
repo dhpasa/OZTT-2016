@@ -25,6 +25,21 @@
   		});
   	});
   	
+  	function loginOut(){
+  		$.ajax({
+			type : "GET",
+			contentType:'application/json',
+			url : '${pageContext.request.contextPath}/login/logout',
+			dataType : "json",
+			data : "", 
+			success : function(data) {
+				location.href = "${ctx}/main/init";
+			},
+			error : function(data) {
+			}
+		});
+  	}
+  	
   	
   	function manageAddress(){
   		if ('${currentUserId}' == '') {
@@ -163,6 +178,10 @@
 			</div>
 		</a>
 	</div>
+	
+	<div class="loginOutBtn">
+            <a href="#" onclick="loginOut()"><fmt:message key="LOGIN_OUT_BTN" /></a>
+        </div>
 </body>
 <!-- END BODY -->
 </html>
