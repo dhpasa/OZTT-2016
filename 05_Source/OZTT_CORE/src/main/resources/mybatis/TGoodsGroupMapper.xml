@@ -6,6 +6,9 @@
 		<result column="groupNo" property="groupno" jdbcType="VARCHAR" />
 		<result column="goodsId" property="goodsid" jdbcType="VARCHAR" />
 		<result column="topPageUp" property="toppageup" jdbcType="VARCHAR" />
+		<result column="preFLg" property="preflg" jdbcType="VARCHAR" />
+		<result column="inStockFLg" property="instockflg" jdbcType="VARCHAR" />
+		<result column="hotFlg" property="hotflg" jdbcType="VARCHAR" />
 		<result column="groupPrice" property="groupprice" jdbcType="DECIMAL" />
 		<result column="groupMaxQuantity" property="groupmaxquantity"
 			jdbcType="DECIMAL" />
@@ -29,8 +32,8 @@
 		<result column="updPgmId" property="updpgmid" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		no, groupNo, goodsId, topPageUp, groupPrice, groupMaxQuantity, groupCurrentQuantity,
-		groupComments,
+		no, groupNo, goodsId, topPageUp, preFlg, inStockFlg, hotFlg, groupPrice,
+		groupMaxQuantity, groupCurrentQuantity, groupComments,
 		groupDesc, comsumerReminder, shopperRules, openFlg, validPeriodStart,
 		validPeriodEnd,
 		addTimestamp, addUserKey, updTimestamp, updUserKey, updPgmId
@@ -48,6 +51,7 @@
 	</delete>
 	<insert id="insert" parameterType="com.org.oztt.entity.TGoodsGroup">
 		insert into t_goods_group (no, groupNo, goodsId, topPageUp,
+		preFlg, inStockFlg, hotFlg,
 		groupPrice, groupMaxQuantity, groupCurrentQuantity,
 		groupComments, groupDesc, comsumerReminder,
 		shopperRules, openFlg, validPeriodStart,
@@ -56,6 +60,8 @@
 		)
 		values (#{no,jdbcType=BIGINT}, #{groupno,jdbcType=VARCHAR},
 		#{goodsid,jdbcType=VARCHAR}, #{toppageup,jdbcType=VARCHAR},
+		#{preflg,jdbcType=VARCHAR}, #{instockflg,jdbcType=VARCHAR},
+		#{hotflg,jdbcType=VARCHAR},
 		#{groupprice,jdbcType=DECIMAL}, #{groupmaxquantity,jdbcType=DECIMAL},
 		#{groupcurrentquantity,jdbcType=DECIMAL},
 		#{groupcomments,jdbcType=VARCHAR}, #{groupdesc,jdbcType=VARCHAR},
@@ -82,6 +88,15 @@
 			</if>
 			<if test="toppageup != null">
 				topPageUp,
+			</if>
+			<if test="preflg != null">
+				preFlg,
+			</if>
+			<if test="instockflg != null">
+				inStockFlg,
+			</if>
+			<if test="hotflg != null">
+				hotFlg,
 			</if>
 			<if test="groupprice != null">
 				groupPrice,
@@ -140,7 +155,16 @@
 				#{goodsid,jdbcType=VARCHAR},
 			</if>
 			<if test="toppageup != null">
-				#{topPageUp,jdbcType=VARCHAR},
+				#{toppageup,jdbcType=VARCHAR},
+			</if>
+			<if test="preflg != null">
+				#{preflg,jdbcType=VARCHAR},
+			</if>
+			<if test="instockflg != null">
+				#{instockflg,jdbcType=VARCHAR},
+			</if>
+			<if test="hotflg != null">
+				#{hotflg,jdbcType=VARCHAR},
 			</if>
 			<if test="groupprice != null">
 				#{groupprice,jdbcType=DECIMAL},
@@ -201,6 +225,15 @@
 			<if test="toppageup != null">
 				topPageUp = #{toppageup,jdbcType=VARCHAR},
 			</if>
+			<if test="preflg != null">
+				preFlg = #{preflg,jdbcType=VARCHAR},
+			</if>
+			<if test="instockflg != null">
+				inStockFlg = #{instockflg,jdbcType=VARCHAR},
+			</if>
+			<if test="hotflg != null">
+				hotFlg = #{hotflg,jdbcType=VARCHAR},
+			</if>
 			<if test="groupprice != null">
 				groupPrice = #{groupprice,jdbcType=DECIMAL},
 			</if>
@@ -254,6 +287,9 @@
 		set groupNo = #{groupno,jdbcType=VARCHAR},
 		goodsId = #{goodsid,jdbcType=VARCHAR},
 		topPageUp = #{toppageup,jdbcType=VARCHAR},
+		preFlg = #{preflg,jdbcType=VARCHAR},
+		inStockFlg = #{instockflg,jdbcType=VARCHAR},
+		hotFlg = #{hotflg,jdbcType=VARCHAR},
 		groupPrice = #{groupprice,jdbcType=DECIMAL},
 		groupMaxQuantity = #{groupmaxquantity,jdbcType=DECIMAL},
 		groupCurrentQuantity = #{groupcurrentquantity,jdbcType=DECIMAL},

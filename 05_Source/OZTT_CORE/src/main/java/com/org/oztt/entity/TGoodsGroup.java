@@ -14,6 +14,12 @@ public class TGoodsGroup implements Serializable {
     private String goodsid;
     
     private String toppageup;
+    
+    private String preFlg;
+    
+    private String inStockFlg;
+    
+    private String hotFlg;
 
     private BigDecimal groupprice;
 
@@ -196,4 +202,29 @@ public class TGoodsGroup implements Serializable {
     public void setToppageup(String toppageup) {
         this.toppageup = toppageup;
     }
+
+	public String getPreFlg() {
+		return preFlg;
+	}
+
+	public void setPreFlg(String preFlg) {
+		this.preFlg = preFlg;
+	}
+
+	public String getInStockFlg() {
+		return inStockFlg;
+	}
+
+	public void setInStockFlg(String inStockFlg) {
+		this.inStockFlg = inStockFlg;
+	}
+
+	public String getHotFlg() {
+		return hotFlg;
+	}
+
+	public void setHotFlg(String hotFlg) {
+		this.hotFlg = hotFlg;
+	}
+    
 }
