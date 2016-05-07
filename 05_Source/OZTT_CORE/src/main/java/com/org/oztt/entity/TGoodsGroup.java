@@ -7,49 +7,49 @@ import java.util.Date;
 public class TGoodsGroup implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Long no;
+    private Long              no;
 
-    private String groupno;
+    private String            groupno;
 
-    private String goodsid;
-    
-    private String toppageup;
-    
-    private String preFlg;
-    
-    private String inStockFlg;
-    
-    private String hotFlg;
+    private String            goodsid;
 
-    private BigDecimal groupprice;
+    private String            toppageup;
 
-    private Long groupmaxquantity;
+    private String            preflg;
 
-    private Long groupcurrentquantity;
+    private String            instockflg;
 
-    private String groupcomments;
+    private String            hotflg;
 
-    private String groupdesc;
+    private BigDecimal        groupprice;
 
-    private String comsumerreminder;
+    private Long              groupmaxquantity;
 
-    private String shopperrules;
+    private Long              groupcurrentquantity;
 
-    private String openflg;
+    private String            groupcomments;
 
-    private Date validperiodstart;
+    private String            groupdesc;
 
-    private Date validperiodend;
+    private String            comsumerreminder;
 
-    private Date addtimestamp;
+    private String            shopperrules;
 
-    private String adduserkey;
+    private String            openflg;
 
-    private Date updtimestamp;
+    private Date              validperiodstart;
 
-    private String upduserkey;
+    private Date              validperiodend;
 
-    private String updpgmid;
+    private Date              addtimestamp;
+
+    private String            adduserkey;
+
+    private Date              updtimestamp;
+
+    private String            upduserkey;
+
+    private String            updpgmid;
 
     public Long getNo() {
         return no;
@@ -203,28 +203,27 @@ public class TGoodsGroup implements Serializable {
         this.toppageup = toppageup;
     }
 
-	public String getPreFlg() {
-		return preFlg;
-	}
+    public String getPreflg() {
+        return preflg;
+    }
 
-	public void setPreFlg(String preFlg) {
-		this.preFlg = preFlg;
-	}
+    public void setPreflg(String preflg) {
+        this.preflg = preflg;
+    }
 
-	public String getInStockFlg() {
-		return inStockFlg;
-	}
+    public String getHotflg() {
+        return hotflg;
+    }
 
-	public void setInStockFlg(String inStockFlg) {
-		this.inStockFlg = inStockFlg;
-	}
+    public void setHotflg(String hotflg) {
+        this.hotflg = hotflg;
+    }
 
-	public String getHotFlg() {
-		return hotFlg;
-	}
+    public String getInstockflg() {
+        return instockflg;
+    }
 
-	public void setHotFlg(String hotFlg) {
-		this.hotFlg = hotFlg;
-	}
-    
+    public void setInstockflg(String instockflg) {
+        this.instockflg = instockflg;
+    }
 }

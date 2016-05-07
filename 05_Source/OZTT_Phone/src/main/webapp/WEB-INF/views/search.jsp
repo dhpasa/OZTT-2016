@@ -143,6 +143,11 @@
 			$(str).val('');
 		}
 		
+		function toItem(groupNo){
+			location.href="${ctx}/item/getGoodsItem?groupId="+groupNo;
+		}
+		
+		
 		
   </script>
   <style type="text/css">

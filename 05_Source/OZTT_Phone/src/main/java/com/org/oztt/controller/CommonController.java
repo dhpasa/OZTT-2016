@@ -27,6 +27,7 @@ import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.entity.TAddressInfo;
+import com.org.oztt.entity.TConsCart;
 import com.org.oztt.entity.TCustomerLoginHis;
 import com.org.oztt.entity.TCustomerLoginInfo;
 import com.org.oztt.entity.TGoodsGroup;
@@ -741,6 +742,39 @@ public class CommonController extends BaseController {
                 String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
                 goodsService.updateCartCanBuy(customerNo, list);
             }
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+    
+    /**
+     * 获取指定客户下所有的地址
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/getShopCartCount")
+    @ResponseBody
+    public Map<String, Object> getShopCartCount(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            //
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            if (customerNo == null) {
+                return mapReturn;
+            }
+            // 获取购物地址
+            List<TConsCart> cartList = goodsService.getAllContCart(customerNo);
+            
+            mapReturn.put("sccount", cartList == null ? 0 : cartList.size());
+            // 后台维护的时候提示让以逗号隔开
             mapReturn.put("isException", false);
             return mapReturn;
         }
