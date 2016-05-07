@@ -22,6 +22,28 @@
 			location.href = "${ctx}/shopcart/init"
 		}
 	}
+	
+	function updateShopCart(){
+		$.ajax({
+			type : "GET",
+			contentType:'application/json',
+			url : '${pageContext.request.contextPath}/COMMON/getShopCartCount',
+			dataType : "json",
+			async : false,
+			data : '', 
+			success : function(data) {
+				if(!data.isException){
+					$("#decoratorShopCart").text(data.sccount)
+				} else {
+					// 同步购物车失败
+					return;
+				}
+			},
+			error : function(data) {
+				
+			}
+		});
+	}
 </script>
 
 <!-- Body BEGIN -->
@@ -41,6 +63,7 @@
 		<a href="#" onclick="toShopCart()" class="main-nav-item main-nav-cart " id="navCart">
 			<img alt="shopcart" src="${ctx}/images/shopcart.png">
 			<span><fmt:message key="DECORATOR_SHOPCART"/></span>
+			<span class="decoratorShopCart" id="decoratorShopCart"></span>
 		</a>
 		<a href="${ctx}/user/init" class="main-nav-item main-nav-profile ">
 			<img alt="me" src="${ctx}/images/me.png">
@@ -54,6 +77,14 @@
     var currentPath = window.location.pathname;
 	if (currentPath.indexOf("login/init") > 0) {
 		$("#main-nav-id").remove();
+	}
+	
+	var sessionUserId = '${currentUserId}';
+	if (sessionUserId == null || sessionUserId == "") {
+		// 没有登录
+		$("#decoratorShopCart").remove();
+	} else {
+		updateShopCart();
 	}
     
     

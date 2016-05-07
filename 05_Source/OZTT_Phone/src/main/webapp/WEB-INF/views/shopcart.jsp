@@ -97,12 +97,14 @@
 		});
 		
 		$('.valuemius').click(function(){
-			var currentqty = $(this).parent().parent().find('.txt').text();
+			var currentqty = $(this).parent().parent().find('.txt').find("input[type='text']").val();
 			if (currentqty == 1) {
 				return;
 			} else {
-				$(this).parent().parent().find('.txt').text(currentqty - 1);
-				addShopCart($(this).parent().parent().find('input')[0].value, -1, false);
+				$(this).parent().parent().find('.txt').find("input[type='text']").val(currentqty - 1);
+				addShopCart($(this).parent().parent().find("input[type='hidden']")[0].value, -1, false);
+				$(this).parent().parent().find('.txt').find("input[type='text']").defaultValue = currentqty - 1;
+				
 				canBuyAndShowAllMoney();
 			}
 			
@@ -110,12 +112,13 @@
 		});
 		
 		$('.valueplus').click(function(){
-			var currentqty = $(this).parent().parent().find('.txt').text();
-			if (currentqty == 99) {
+			var currentqty = $(this).parent().parent().find('.txt').find("input[type='text']").val();
+			if (currentqty == 999) {
 				return;
 			} else {
-				$(this).parent().parent().find('.txt').text(parseFloat(currentqty) + 1);
-				addShopCart($(this).parent().parent().find('input')[0].value, 1, true);
+				$(this).parent().parent().find('.txt').find("input[type='text']").val(parseFloat(currentqty) + 1);
+				addShopCart($(this).parent().parent().find("input[type='hidden']")[0].value, 1, true);
+				$(this).parent().parent().find('.txt').find("input[type='text']").defaultValue = parseFloat(currentqty) + 1;
 				canBuyAndShowAllMoney();
 			}
 		});
@@ -278,7 +281,7 @@
 		var totalAmount = 0;
 		for (var i = 0; i < allChecked.length; i++) {
 			var price = $(allChecked[i]).parent().parent().find('.shopcart-group-price').find('span').text().substring(1);
-			var quantity = $(allChecked[i]).parent().parent().find('.shopcart-goods-quantity').find('.txt').text();
+			var quantity = $(allChecked[i]).parent().parent().find('.shopcart-goods-quantity').find('.txt').find("input[type='text']").val();
 			totalAmount += price * quantity;
 		}
 		if (totalAmount == 0) {
@@ -315,6 +318,19 @@
 				
 			}
 		});
+	}
+	
+	function checkGoodsNum(str) {
+		if ($(str).val().trim() == "" || isNaN($(str).val())) {
+			$(str).val(str.defaultValue);
+		} else {
+			var diff = parseFloat($(str).val()) - parseFloat(str.defaultValue);
+			if (diff != 0) {
+				addShopCart($(str).parent().parent().find("input[type='hidden']")[0].value, diff, true);
+				canBuyAndShowAllMoney();
+			}
+			
+		}
 	}
 	
 </script>
@@ -381,7 +397,10 @@ body {
 					
 					<div class="shopcart-goods-quantity">
 						<span class="minus"><i class="fa fa-minus valuemius"></i></span>	
-						<span class="txt">${cartsBody.goodsQuantity }</span>
+						<span class="txt">
+							<input type="text" value="${cartsBody.goodsQuantity }" maxlength="3" pattern="[0-9]*" class="item-num-input" id="itemNumber" onblur="checkGoodsNum(this)"/>
+						</span>
+						
 						<span class="add"><i class="fa fa-plus valueplus"></i></span>
 						<input type="hidden" value="${cartsBody.groupId }" />
 					</div>

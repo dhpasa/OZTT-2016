@@ -12,20 +12,20 @@
   <script>	
 		  $(function(){
 			  $('.valuemius').click(function(){
-					var currentqty = $(this).parent().parent().find('.txt').text();
+					var currentqty = $(this).parent().parent().find('.txt').find('input').val();
 					if (currentqty == 1) {
 						return;
 					} else {
-						$(this).parent().parent().find('.txt').text(currentqty - 1);
+						$(this).parent().parent().find('.txt').find('input').val(currentqty - 1);
 					}
 				});
 				
 				$('.valueplus').click(function(){
-					var currentqty = $(this).parent().parent().find('.txt').text();
-					if (currentqty == 99) {
+					var currentqty = $(this).parent().parent().find('.txt').find('input').val();
+					if (currentqty == 999) {
 						return;
 					} else {
-						$(this).parent().parent().find('.txt').text(parseFloat(currentqty) + 1);
+						$(this).parent().parent().find('.txt').find('input').val(parseFloat(currentqty) + 1);
 					}
 				});
 		  });
@@ -58,6 +58,13 @@
 				location.href = "${ctx}/login/init";
 			} else {
 				$("#purchase-credit-pop-up").modal('show');
+				$("#topcontrol").css("display","none");
+			}
+		}
+		
+		function checkGoodsNum(str) {
+			if ($(str).val().trim() == "" || isNaN($(str).val())) {
+				$(str).val("1");
 			}
 		}
   
@@ -76,7 +83,7 @@
 			var properties = {
 					"groupId":groupId,
 					"goodsName":goodsName,
-					"goodsQuantity":$("#goodsnum").text(),
+					"goodsQuantity":$("#itemNumber").val(),
 					"goodsPrice":goodsPrice,
 					"goodsProperties":JSON.stringify(oneGoodPropertiesList)
 			}
@@ -134,6 +141,8 @@
 					
 				}
 			});
+			
+			updateShopCart();
 
 		}
   </script>
@@ -255,14 +264,16 @@
 	         		<img src="${goodItemDto.firstImg}" class="item-dialog-img" id="itemFlyImg"/>
 	         	</div>
 	         	<div class="item-modal-value">
-	           		<div class="shopcart-goods-quantity">
+	           		<div class="item-goods-quantity">
 						<span class="minus"><i class="fa fa-minus valuemius"></i></span>	
-						<span class="txt" id="goodsnum">1</span>
+						<span class="txt" id="goodsnum">
+							<input type="text" value="1" maxlength="3" pattern="[0-9]*" class="item-num-input" id="itemNumber" onblur="checkGoodsNum(this)"/>
+						</span>
 						<span class="add"><i class="fa fa-plus valueplus"></i></span>
 					</div>
 	           	</div>
 	           	<div class="item-modal-confirm">
-		            <a onclick="addToCart('${goodItemDto.groupId}')"><fmt:message key="COMMON_CONFIRM"/></a>
+		            <a onclick="addToCart('${goodItemDto.groupId}')" id="addcartBtn"><fmt:message key="COMMON_CONFIRM"/></a>
 	           	</div>
 	           	
 	         </div>
@@ -283,6 +294,7 @@
 		$('.cuntdown').startTimer({
     		
     	});
+
 	</script>
 </body>
 <!-- END BODY -->
