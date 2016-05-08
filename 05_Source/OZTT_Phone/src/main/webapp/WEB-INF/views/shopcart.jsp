@@ -407,7 +407,7 @@ body {
 				</div>
 				<div class="shopcart-group-price">
 					
-					<span><fmt:message key="COMMON_DOLLAR" />&nbsp;${cartsBody.goodsUnitPrice }</span>
+					<span><fmt:message key="COMMON_DOLLAR" />${cartsBody.goodsUnitPrice }</span>
 					
 					<div class="shopcart-goods-delete">
 						<i class="fa fa-trash-o redcolor" style="display: none"></i>

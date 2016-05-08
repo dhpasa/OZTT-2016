@@ -60,8 +60,8 @@
 			var temp3 = '	<img src="{0}" class="img-responsive">';
 			var temp4 = '	<span class="main-goodsname">{0}</span>';
 			var temp5 = '    <div class="main-group-price">';
-			var temp6 = '    	<span class="dollar-symbol2 font-l"><fmt:message key="COMMON_DOLLAR" /></span><span class="group-price">{0}</span>';
-			var temp7 = '		<span class="text-through">{0}</span>';
+			var temp6 = '    	<span class="dollar-symbol2"><fmt:message key="COMMON_DOLLAR" /></span><span class="group-price">{0}</span>';
+			var temp7 = '		<span class="text-through"><fmt:message key="COMMON_DOLLAR" />{0}</span>';
 			var temp8 = '    </div>';
 			var temp9 = '    <div class="main-hasbuy">';
 			var temp10 = '    	<i class="main-hasBuy" style="float: left"></i>';
@@ -200,8 +200,8 @@
 						<img src="${goodslist.goodsthumbnail }" class="img-responsive padding-1rem">
 						<span class="main-goodsname">${goodslist.goodsname }</span>
 		                <div class="main-group-price">
-		                	<span class="dollar-symbol2 font-l"><fmt:message key="COMMON_DOLLAR" /></span><span class="group-price">${goodslist.disprice }</span>
-							<span class="text-through">${goodslist.costprice }</span>
+		                	<span class="dollar-symbol2"><fmt:message key="COMMON_DOLLAR" /></span><span class="group-price">${goodslist.disprice }</span>
+							<span class="text-through"><fmt:message key="COMMON_DOLLAR" />${goodslist.costprice }</span>
 		                </div>
 		                <div class="main-hasbuy">
 		                	<i class="main-hasBuy" style="float: left"></i>	

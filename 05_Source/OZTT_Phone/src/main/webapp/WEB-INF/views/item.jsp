@@ -209,10 +209,9 @@
    		</div>
    		<div>
    			<span class="item-disprice" id="item-disprice-id">
-   				<span><fmt:message key="COMMON_DOLLAR" /></span>
-   				${ goodItemDto.disPrice}
+   				<span><fmt:message key="COMMON_DOLLAR" /></span>${goodItemDto.disPrice}
    			</span>
-   			<span class="item-nowprice">${ goodItemDto.nowPrice}</span>
+   			<span class="item-nowprice"><fmt:message key="COMMON_DOLLAR" />${ goodItemDto.nowPrice}</span>
    		</div>
    		
    		<!-- <div class="border-top-show infoarea">
