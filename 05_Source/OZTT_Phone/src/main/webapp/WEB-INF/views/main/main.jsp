@@ -31,8 +31,8 @@
 			var temp3 = '	<img src="{0}" class="img-responsive padding-1rem">';
 			var temp4 = '	<span class="main-goodsname">{0}</span>';
 			var temp5 = '    <div class="main-group-price">';
-			var temp6 = '    	<span class="group-price"><span class="dollar-symbol2 font-l"><fmt:message key="COMMON_DOLLAR" /></span>{0}</span>';
-			var temp7 = '		<span class="text-through">{0}</span>';
+			var temp6 = '    	<span class="group-price"><span class="dollar-symbol2 font-xxl"><fmt:message key="COMMON_DOLLAR" /></span>{0}</span>';
+			var temp7 = '		<span class="text-through font-l"><fmt:message key="COMMON_DOLLAR" />{0}</span>';
 			var temp8 = '    </div>';
 			var temp9 = '    <div class="main-hasbuy">';
 			var temp10 = '    	<i class="main-hasBuy" style="float: left"></i>';
@@ -242,6 +242,7 @@
   			<li><img src="${imgUrl}advertisement/pic_02.jpg" /></li>
   		</ul>
    </div>
+   <div class="newgoods-parent-div">
    <c:forEach var="newGoodsList" items="${ newGoodsList }" varStatus="step">
    <c:if test="${step.count%2 == 1 }">
 	<div class="newGoods-div" onclick="toItem('${newGoodsList.groupno }')">
@@ -263,7 +264,7 @@
 					<span class="group-price">
 						<span class="dollar-symbol"><fmt:message key="COMMON_DOLLAR" /></span>${newGoodsList.disprice }
 					</span>
-					<span class="text-through">${newGoodsList.costprice }</span>
+					<span class="text-through"><fmt:message key="COMMON_DOLLAR" />${newGoodsList.costprice }</span>
 				</div>
 			</span>
 		</div>
@@ -295,13 +296,14 @@
 					<span class="group-price">
 						<span class="dollar-symbol"><fmt:message key="COMMON_DOLLAR" /></span>${newGoodsList.disprice }
 					</span>
-					<span class="text-through">${newGoodsList.costprice }</span>
+					<span class="text-through"><fmt:message key="COMMON_DOLLAR" />${newGoodsList.costprice }</span>
 				</div>
 			</span>
 		</div>
 	</div>
    </c:if>		
 	</c:forEach>
+	</div>
 	
 	<div class="margin-1rem-top" id="label-search-horizon">
 		 <ul class="nav nav-tabs">
@@ -323,8 +325,8 @@
 						<span class="main-goodsname">${goodslist.goodsname }</span>
 		                <div class="main-group-price">
 		                	<span class="group-price">
-		                		<span class="dollar-symbol2 font-l"><fmt:message key="COMMON_DOLLAR" /></span>${goodslist.disprice }</span>
-							<span class="text-through font-l">${goodslist.costprice }</span>
+		                		<span class="dollar-symbol2 font-xxl"><fmt:message key="COMMON_DOLLAR" /></span>${goodslist.disprice }</span>
+							<span class="text-through font-l"><fmt:message key="COMMON_DOLLAR" />${goodslist.costprice }</span>
 		                </div>
 		                <div class="main-hasbuy">
 		                	<i class="main-hasBuy" style="float: left"></i>

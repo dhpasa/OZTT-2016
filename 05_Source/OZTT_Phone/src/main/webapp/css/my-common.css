@@ -51,6 +51,7 @@ a{
 
 .text-through{
 	text-decoration: line-through;
+	color:#D4D4D4;
 }
 
 .alltime{
@@ -109,7 +110,7 @@ a{
 
 .dollar-symbol{
 	margin-right: 2px;
-	font-size: 1.7rem;
+	font-size: 2rem;
 }
 
 .dollar-symbol2{
@@ -246,8 +247,16 @@ html{
 
 .newGoods-div{
 	width: 100%;
-	border-bottom: 0.5px solid rgba(187, 187, 187, 0.15);
 	display: inline-block;
+	background-color: #fff;
+	border-bottom: 0.5px solid rgba(187, 187, 187, 0.5);
+}
+
+.newGoods-div:last-child{
+	border-bottom: none;
+}
+
+.newgoods-parent-div{
 	background-color: #fff;
 	box-shadow: 0 1px 1px rgba(162, 153, 153, 0.5);
 }
@@ -295,7 +304,7 @@ html{
 }
 
 .text-through{
-	color:#666;
+	color:#D4D4D4;
 	font-size: 1.5rem;
 }
 
@@ -373,7 +382,7 @@ html{
 
 .main-group-price{
 	color: #FA6D72;
-    font-size: 1.5rem;
+    font-size: 2rem;
 }
 
 .main-hasbuy{
@@ -502,13 +511,14 @@ html{
 }
 
 .profile-info .login{
-	margin-top: 2rem;
-	font-size: 1.6rem;
+	margin-top: 1rem;
+	font-size: 2rem;
 	color: rgba(255, 255, 255, 0.89);
 }
 
 .welcomeword{
 	color: rgba(255, 255, 255, 0.59);
+	font-size: 1.5rem;
 }
 
 .p-item {
@@ -622,15 +632,30 @@ html{
 
 .showusername span{
 	line-height: 9rem;
-	padding-left: 3rem;
+	padding-left: 0rem;
 	color: #fff;
 	font-size: 2.5rem;
+}
+
+.showusername img{
+	height: 5rem;
+	padding-left: 10%;
 }
 
 .user-language{
 	float: left;
     width: 40%;
     text-align: right;
+    padding-right: 1rem;
+}
+
+.user-language span{
+	line-height: 3rem;
+    margin-right: 1rem;
+    color: #fff;
+    background-color: #FF9298;
+    padding: 3px;
+    border-radius: 2px !important;
 }
 
 .user-language img{
@@ -645,6 +670,7 @@ html{
     display: block;
     float: left;
     width: 7%;
+    margin-right: 1rem;
 }
 
 .user-adsmanage-img{
@@ -653,6 +679,7 @@ html{
     display: block;
     width: 2rem;
     float: left;
+    margin-right: 1rem;
 }
 
 .user-service-img{
@@ -661,6 +688,7 @@ html{
     display: block;
     width: 2rem;
     float: left;
+    margin-right: 1rem;
 }
 
 .user-cooprate-img{
@@ -669,6 +697,7 @@ html{
     display: block;
     width: 2rem;
     float: left;
+    margin-right: 1rem;
 }
 
 .user-about-img{
@@ -677,6 +706,7 @@ html{
     display: block;
     width: 2rem;
     float: left;
+    margin-right: 1rem;
 }
 
 .user-changedlan-img{
@@ -685,6 +715,7 @@ html{
     display: block;
     width: 2rem;
     float: left;
+    margin-right: 1rem;
 }
 
 .await-pays{
@@ -854,6 +885,17 @@ html{
     margin-bottom: 13px;
     text-align: center;
     color:#fff !important;
+    border-top: 1px solid #FF9298;
+    position: relative;
+}
+
+.login-other-info span{
+	position: absolute;
+    top: -0.9rem;
+    left: 50%;
+    background-color: #EE5B74;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
 }
 
 .login_other .login-other-centent{
@@ -1358,7 +1400,7 @@ html{
 
 .goods-search-horizon .nav-tabs > li > a{
     background: #fff;
-    color: #3e4d5c;
+    color: #666;
     width:100%;
     text-align:center;
     border:none !important;

@@ -95,6 +95,7 @@
 		</c:if>
 		<c:if test="${currentUserId != null && currentUserId != ''}">
 			<div class="showusername">
+				<img alt="photo" src="${ctx}/images/head.png">
 				<span >${currentUserName}</span>
 			</div>
 			
@@ -173,8 +174,8 @@
 			<span class="user-changedlan-img"></span>
 			<div class="content"><fmt:message key="USER_LANGUAGECHANGE"/></div>
 			<div class="user-language">
-				<img alt="cn" src="${ctx}/images/cn.png" onclick="changeLocale('zh')">
-				<img alt="us" src="${ctx}/images/us.png" onclick="changeLocale('en')">
+				<span onclick="changeLocale('zh')"><fmt:message key="USER_LANGUAGE_CN"/></span>
+				<span onclick="changeLocale('en')"><fmt:message key="USER_LANGUAGE_EN"/></span>
 			</div>
 		</a>
 	</div>

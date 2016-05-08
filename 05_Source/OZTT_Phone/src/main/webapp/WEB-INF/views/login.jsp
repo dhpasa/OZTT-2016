@@ -78,7 +78,9 @@
         </div>
         <div class="login_other">
             <div>
-                <div class="login-other-info"><fmt:message key="LOGIN_OTHER" /></div>
+                <div class="login-other-info">
+                	<span><fmt:message key="LOGIN_OTHER" /></span>
+                </div>
                 <div class="login-other-centent">
                     <a href="" onclick="" class="wechat"><span><fmt:message key="LOGIN_WECHAT" /></span></a>
                 </div>
