@@ -409,6 +409,34 @@ html{
 	right: 0;
 }
 
+.goods-sticker-preLabel{
+	background: url(../images/prelabel.png) no-repeat;
+	background-size: 5rem 5rem;
+	left: auto;
+	right: 0;
+}
+
+.goods-sticker-inStockLabel{
+	background: url(../images/inStocklabel.png) no-repeat;
+	background-size: 5rem 5rem;
+	left: auto;
+	right: 0;
+}
+
+.goods-sticker-hotLabel{
+	background: url(../images/hotlabel.png) no-repeat;
+	background-size: 5rem 5rem;
+	left: auto;
+	right: 0;
+}
+
+.goods-sticker-salesLabel{
+	background: url(../images/saleslabel.png) no-repeat;
+	background-size: 5rem 5rem;
+	left: auto;
+	right: 0;
+}
+
 .goods-sticker {
 	position: absolute;
 	top: 0;
