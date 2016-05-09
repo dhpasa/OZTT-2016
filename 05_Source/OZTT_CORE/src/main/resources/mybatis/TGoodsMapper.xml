@@ -453,7 +453,7 @@
 		inner join t_goods_price b on c.goodsId = b.goodsId
 		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.pricePolicy = '0' and b.openFlg = '0')
 		inner join t_goods a on c.goodsId = a.goodsId
-		where a.onSaleFlg= '1' and c.topPageUp = '0'
+		where a.onSaleFlg= '1'
 		and (current_timestamp between c.validPeriodStart and c.validPeriodEnd and c.openFlg = '1')
 		<if test="classId != null and classId != '' ">
 			and a.classId = #{classId,jdbcType=VARCHAR}
@@ -469,6 +469,18 @@
 		</if>
 		<if test="daySearch != null and daySearch != '' ">
 			and DATEDIFF(c.validPeriodEnd,NOW()) <![CDATA[ <= ]]> #{daySearch}
+		</if>
+		<if test="topPageUp != null">
+			and c.topPageUp = #{topPageUp,jdbcType=VARCHAR}
+		</if>
+		<if test="preFlg != null">
+			and c.preFlg = #{preFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="inStockFlg != null">
+			and c.inStockFlg = #{inStockFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="hotFlg != null">
+			and c.hotFlg = #{hotFlg,jdbcType=VARCHAR}
 		</if>
 		order by 
 		<if test="mode == 1 ">
@@ -490,7 +502,7 @@
 		inner join t_goods_price b on c.goodsId = b.goodsId
 		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.pricePolicy = '0' and b.openFlg = '0')
 		inner join t_goods a on c.goodsId = a.goodsId
-		where a.onSaleFlg= '1' and c.topPageUp = '0'
+		where a.onSaleFlg= '1'
 		and (current_timestamp between c.validPeriodStart and c.validPeriodEnd and c.openFlg = '1')
 		<if test="classId != null and classId != '' ">
 			and classId = #{classId,jdbcType=VARCHAR}
@@ -507,7 +519,18 @@
 		<if test="daySearch != null and daySearch != '' ">
 			and DATEDIFF(c.validPeriodEnd,NOW()) <![CDATA[ <= ]]> #{daySearch}
 		</if>
-		
+		<if test="topPageUp != null">
+			and c.topPageUp = #{topPageUp,jdbcType=VARCHAR}
+		</if>
+		<if test="preFlg != null">
+			and c.preFlg = #{preFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="inStockFlg != null">
+			and c.inStockFlg = #{inStockFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="hotFlg != null">
+			and c.hotFlg = #{hotFlg,jdbcType=VARCHAR}
+		</if>
 	</select>
 	
 	<select id="getFiveHotSeller" resultMap="GroupInfoMap" parameterType="com.org.oztt.entity.TGoods">

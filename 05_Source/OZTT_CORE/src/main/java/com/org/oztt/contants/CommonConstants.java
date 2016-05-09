@@ -30,6 +30,10 @@ public final class CommonConstants {
 
     public static final String MAIN_LIST_COUNT       = "12";                                   // 主页面中显示的个数
 
+    public static final String MAIN_GOODS_LIST       = "6";                                    // 主页面中显示的个数
+
+    public static final String MAIN_TOPPAGE_LIST     = "2";                                    // 主页面中显示的个数
+
     public static final String IS_HOT_SALE           = "1";                                    // 热卖
 
     public static final String IS_NOT_HOT_SALE       = "0";                                    // 非热卖
