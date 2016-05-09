@@ -67,8 +67,10 @@
 			var temp13 = '    </div>';
 			var temp14 = '    <div class="countdown-time" data-seconds-left="{0}">';   	
 			var temp15 = '    </div>';
-			var temp20 = '<div class="goods-sticker goods-sticker-new"></div>';
-			var temp21 = '<div class="goods-sticker goods-sticker-hot"></div>';
+			var temp20 = '<div class="goods-sticker goods-sticker-preLabel"></div>';
+			var temp21 = '<div class="goods-sticker goods-sticker-inStockLabel"></div>';
+			var temp22 = '<div class="goods-sticker goods-sticker-hotLabel"></div>';
+			var temp23 = '<div class="goods-sticker goods-sticker-salesLabel"></div>';
 			var temp16 = '</div>';
 			var temp17 = '</li>';
 			var url = '${ctx}/main/grouptabnext?pageNo='+pageNo+"&tab="+${tab};
@@ -99,11 +101,17 @@
 								tempStr += temp13;
 								tempStr += temp14.replace('{0}',dataList[i].countdownTime);
 								tempStr += temp15;
-								if (dataList[i].newsaleflg == '1') {
+								if (dataList[i].preLabel == '1') {
 									tempStr += temp20;
 								}
-								if (dataList[i].hotsaleflg == '1') {
+								if (dataList[i].inStockLabel == '1') {
 									tempStr += temp21;
+								}
+								if (dataList[i].hotLabel == '1') {
+									tempStr += temp22;
+								}
+								if (dataList[i].salesLabel == '1') {
+									tempStr += temp23;
 								}
 								tempStr += temp16;
 								tempStr += temp17;
@@ -195,11 +203,17 @@
 		                <div class="countdown-time" data-seconds-left="${goodslist.countdownTime}">
 		                	
 		                </div>
-		                <c:if test="${goodslist.newsaleflg == '1' }">
-		                	<div class="goods-sticker goods-sticker-new"></div>
+		                <c:if test="${goodslist.preLabel == '1' }">
+		                	<div class="goods-sticker goods-sticker-preLabel"></div>
 		                </c:if>
-		                <c:if test="${goodslist.hotsaleflg == '1' }">
-		                	<div class="goods-sticker goods-sticker-hot"></div>
+		                <c:if test="${goodslist.inStockLabel == '1' }">
+		                	<div class="goods-sticker goods-sticker-inStockLabel"></div>
+		                </c:if>
+		                <c:if test="${goodslist.hotLabel == '1' }">
+		                	<div class="goods-sticker goods-sticker-hotLabel"></div>
+		                </c:if>
+		                <c:if test="${goodslist.salesLabel == '1' }">
+		                	<div class="goods-sticker goods-sticker-salesLabel"></div>
 		                </c:if>
 					</div>
    				</li>

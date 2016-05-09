@@ -50,9 +50,17 @@ public class GroupItemDto {
 
     private String     countdownDay;
 
-    private String     groupMax;       //团购最大数量
+    private String     groupMax;      //团购最大数量
 
-    private String     groupCurrent;   //团购现在数量
+    private String     groupCurrent;  //团购现在数量
+
+    private String     preLabel;      //预售
+
+    private String     inStockLabel;  // 现货
+
+    private String     hotLabel;      //热销
+
+    private String     salesLabel;    //秒杀
 
     public String getGoodsid() {
         return goodsid;
@@ -228,6 +236,38 @@ public class GroupItemDto {
 
     public void setGroupCurrent(String groupCurrent) {
         this.groupCurrent = groupCurrent;
+    }
+
+    public String getPreLabel() {
+        return preLabel;
+    }
+
+    public void setPreLabel(String preLabel) {
+        this.preLabel = preLabel;
+    }
+
+    public String getInStockLabel() {
+        return inStockLabel;
+    }
+
+    public void setInStockLabel(String inStockLabel) {
+        this.inStockLabel = inStockLabel;
+    }
+
+    public String getHotLabel() {
+        return hotLabel;
+    }
+
+    public void setHotLabel(String hotLabel) {
+        this.hotLabel = hotLabel;
+    }
+
+    public String getSalesLabel() {
+        return salesLabel;
+    }
+
+    public void setSalesLabel(String salesLabel) {
+        this.salesLabel = salesLabel;
     }
 
 }

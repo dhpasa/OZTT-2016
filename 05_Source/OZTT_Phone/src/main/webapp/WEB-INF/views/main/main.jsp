@@ -224,11 +224,17 @@
 		                </div>
 		                <div class="countdown-time" data-seconds-left="${goodslist.countdownTime}">
 		                </div>
-		                <c:if test="${goodslist.newsaleflg == '1' }">
-		                	<div class="goods-sticker goods-sticker-new"></div>
+		                <c:if test="${goodslist.preLabel == '1' }">
+		                	<div class="goods-sticker goods-sticker-preLabel"></div>
 		                </c:if>
-		                <c:if test="${goodslist.hotsaleflg == '1' }">
-		                	<div class="goods-sticker goods-sticker-hot"></div>
+		                <c:if test="${goodslist.inStockLabel == '1' }">
+		                	<div class="goods-sticker .goods-sticker-inStockLabel"></div>
+		                </c:if>
+		                <c:if test="${goodslist.hotLabel == '1' }">
+		                	<div class="goods-sticker .goods-sticker-hotLabel"></div>
+		                </c:if>
+		                <c:if test="${goodslist.salesLabel == '1' }">
+		                	<div class="goods-sticker .goods-sticker-salesLabel"></div>
 		                </c:if>
 		                
 					</div>
@@ -266,11 +272,17 @@
 		                </div>
 		                <div class="countdown-time" data-seconds-left="${goodslist.countdownTime}">
 		                </div>
-		                <c:if test="${goodslist.newsaleflg == '1' }">
-		                	<div class="goods-sticker goods-sticker-new"></div>
+		                <c:if test="${goodslist.preLabel == '1' }">
+		                	<div class="goods-sticker goods-sticker-preLabel"></div>
 		                </c:if>
-		                <c:if test="${goodslist.hotsaleflg == '1' }">
-		                	<div class="goods-sticker goods-sticker-hot"></div>
+		                <c:if test="${goodslist.inStockLabel == '1' }">
+		                	<div class="goods-sticker goods-sticker-inStockLabel"></div>
+		                </c:if>
+		                <c:if test="${goodslist.hotLabel == '1' }">
+		                	<div class="goods-sticker goods-sticker-hotLabel"></div>
+		                </c:if>
+		                <c:if test="${goodslist.salesLabel == '1' }">
+		                	<div class="goods-sticker goods-sticker-salesLabel"></div>
 		                </c:if>
 		                
 					</div>

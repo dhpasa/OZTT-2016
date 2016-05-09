@@ -58,8 +58,10 @@
 		<result column="validEndTime" property="validEndTime" jdbcType="TIMESTAMP" />
 		<result column="groupMax" property="groupMax" jdbcType="INTEGER" />
 		<result column="groupCurrent" property="groupCurrent" jdbcType="INTEGER" />
-		
-	
+		<result column="preLabel" property="preLabel" jdbcType="CHAR" />
+		<result column="inStockLabel" property="inStockLabel" jdbcType="CHAR" />
+		<result column="hotLabel" property="hotLabel" jdbcType="CHAR" />
+		<result column="salesLabel" property="salesLabel" jdbcType="CHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		no, goodsId, classId, goodsBrand, goodsName, goodsDesc, goodsComments,
@@ -448,6 +450,10 @@
 		c.validPeriodEnd as validEndTime,
 		c.groupMaxQuantity as groupMax,
 		IF(c.groupCurrentQuantity > c.groupMaxQuantity,c.groupMaxQuantity,c.groupCurrentQuantity) as groupCurrent,
+		c.preFlg as preLabel,
+		c.inStockFlg as inStockLabel,
+		c.hotFlg as hotLabel,
+		c.topPageUp as salesLabel,
 		c.groupNo
 		from t_goods_group c 
 		inner join t_goods_price b on c.goodsId = b.goodsId
