@@ -10,7 +10,7 @@ public class OzTtAdGlDto {
     private String isHotSale;
 
     private String isNewSale;
-
+    
     private String goodsClass;
 
     public String getGoodsName() {
@@ -44,4 +44,5 @@ public class OzTtAdGlDto {
     public void setGoodsClass(String goodsClass) {
         this.goodsClass = goodsClass;
     }
+
 }

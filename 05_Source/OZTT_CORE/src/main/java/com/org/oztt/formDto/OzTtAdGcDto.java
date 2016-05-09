@@ -19,6 +19,14 @@ public class OzTtAdGcDto {
     
     private String isOpenFlag;
 
+    private String isTopUp;
+    
+    private String isPre;
+    
+    private String isInStock;
+    
+    private String isHot;
+    
     public String getGoodsName() {
         return goodsName;
     }
@@ -66,4 +74,37 @@ public class OzTtAdGcDto {
     public void setIsOpenFlag(String isOpenFlag) {
         this.isOpenFlag = isOpenFlag;
     }
+
+	public String getIsTopUp() {
+		return isTopUp;
+	}
+
+	public void setIsTopUp(String isTopUp) {
+		this.isTopUp = isTopUp;
+	}
+
+	public String getIsPre() {
+		return isPre;
+	}
+
+	public void setIsPre(String isPre) {
+		this.isPre = isPre;
+	}
+
+	public String getIsInStock() {
+		return isInStock;
+	}
+
+	public void setIsInStock(String isInStock) {
+		this.isInStock = isInStock;
+	}
+
+	public String getIsHot() {
+		return isHot;
+	}
+
+	public void setIsHot(String isHot) {
+		this.isHot = isHot;
+	}
+
 }
