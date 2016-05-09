@@ -56,6 +56,22 @@
   						$("#groupDesc").val(data.resMap.groupDesc);
   						$("#groupReminder").val(data.resMap.groupReminder);
   						$("#groupRule").val(data.resMap.groupRule);
+  						if (data.resMap.isTopUp == '1'){
+  							alert(data.resMap.isTopUp);
+  							//20160509
+  							$("#isTopUpEdit").attr("checked", true);
+  							$("[name='isTopUpEdit']").attr("checked", true);
+  							document.getElementById("isTopUpEdit").checked = true;
+  						}
+  						if (data.resMap.isPre == '1'){
+  							$("#isPreEdit").attr("checked", true);
+  						}
+  						if (data.resMap.isInStock == '1'){
+  							$("#isInStockEdit").attr("checked", true);
+  						}
+  						if (data.resMap.isHot == '1'){
+  							$("#isHotEdit").attr("checked", true);
+  						}
   						if (data.resMap.openflg == '0'){
   							$("#saveBtn").css("display","");
   							$("#deleteBtn").css("display","");
@@ -69,20 +85,17 @@
   	  						$("#groupDesc").removeAttr("disabled");
   	  						$("#groupReminder").removeAttr("disabled");
   	  						$("#groupRule").removeAttr("disabled");
+  	  					    $("#isTopUpEdit").removeAttr("disabled");
+  	  					    $("#isPreEdit").removeAttr("disabled");
+  	  			            $("#isInStockEdit").removeAttr("disabled");
+  	  			            $("#isHotEdit").removeAttr("disabled");
+  	  			            
   						} else if (data.resMap.openflg == '1'){
-  							$("#saveBtn").css("display","none");
+  							$("#saveBtn").css("display","");
   							$("#deleteBtn").css("display","none");
-  							$("#submitBtn").css("display","none");
+  							$("#submitBtn").css("display","");
   							$("#unserBtn").css("display","");
-  							$("#goodsGroupPrice").attr("disabled","disabled");
-  	  						$("#goodsGroupNumber").attr("disabled","disabled");
-  	  						$("#dataFromGroup").attr("disabled","disabled");
-  	  						$("#dataToGroup").attr("disabled","disabled");
-  	  						$("#groupComment").attr("disabled","disabled");
-  	  						$("#groupDesc").attr("disabled","disabled");
-  	  						$("#groupReminder").attr("disabled","disabled");
-  	  						$("#groupRule").attr("disabled","disabled");
-  							
+			
   						} else if (data.resMap.openflg == '2'){
   							$("#saveBtn").css("display","none");
   							$("#deleteBtn").css("display","none");
@@ -96,6 +109,10 @@
   	  						$("#groupDesc").attr("disabled","disabled");
   	  						$("#groupReminder").attr("disabled","disabled");
   	  						$("#groupRule").attr("disabled","disabled");
+  	  					    $("#isTopUpEdit").attr("disabled","disabled");
+  	  					    $("#isPreEdit").attr("disabled","disabled");
+  	  			            $("#isInStockEdit").attr("disabled","disabled");
+  	  			            $("#isHotEdit").attr("disabled","disabled");
   							
   						}
   			  			
@@ -151,7 +168,22 @@
 				showErrorSpan($("#goodsGroupPrice"), message);
 				return false;
 			}
-			
+			var isTopUp = "0";
+			if ($("#isTopUpEdit").attr("checked")) {
+				isTopUp = "1";
+			}
+			var isPre = "0";
+			if ($("#isPreEdit").attr("checked")) {
+				isPre = "1";
+			}
+			var isInStock = "0";
+			if ($("#isInStockEdit").attr("checked")) {
+				isInStock = "1";
+			}
+			var isHot = "0";
+			if ($("#isHotEdit").attr("checked")) {
+				isHot = "1";
+			}
 			var jsonMap = {
 				comsumerreminder:groupReminder,
 				goodsid:$("#hiddenGroupGoodsId").val(),
@@ -163,7 +195,11 @@
 				validperiodend:dataToGroup,
 				validperiodstart:dataFromGroup,
 				groupmaxquantity:goodsGroupNumber,
-				groupno:$("#hiddenGroupId").val()
+				groupno:$("#hiddenGroupId").val(),
+				istopup:isTopUp,
+				ispre:isPre,
+				isinstock:isInStock,
+				ishot:isHot
 			}
 			
 			$.ajax({
@@ -298,6 +334,82 @@
 						
 					</div>
 					
+				</div>
+				<div class="form-group">
+					<label class="col-md-1 control-label"><fmt:message key="OZ_TT_AD_GL_topUp" /></label>
+					<div class="radio-list col-md-3">
+						<label class="radio-inline">
+						<form:radiobutton path="isTopUp" id="isTopUpId0" value="0"></form:radiobutton>
+						 <fmt:message key="COMMON_NO" />
+						 </label>
+						<label class="radio-inline">
+						<form:radiobutton path="isTopUp" id="isTopUpId1" value="1"></form:radiobutton>
+						 <fmt:message key="COMMON_YES" />
+						 </label>
+						 <label class="radio-inline">
+							<form:radiobutton path="isTopUp" value=""></form:radiobutton>
+						 	<fmt:message key="COMMON_ALL" />
+						 </label>
+					</div>
+			
+					<label class="col-md-1 control-label"><fmt:message key="OZ_TT_AD_GL_pre" /></label>
+					<div class="radio-list col-md-3">
+						<label class="radio-inline">
+						<form:radiobutton path="isPre" id="isPreId0" value="0"></form:radiobutton>
+						 <fmt:message key="COMMON_NO" />
+						 </label>
+						<label class="radio-inline">
+						<form:radiobutton path="isPre" id="isPreId1" value="1"></form:radiobutton>
+						 <fmt:message key="COMMON_YES" />
+						 </label>
+						 <label class="radio-inline">
+							<form:radiobutton path="isPre" value=""></form:radiobutton>
+						 	<fmt:message key="COMMON_ALL" />
+						 </label>
+					</div>
+					
+					<div class="col-md-4">
+						
+					</div>
+						
+				</div>
+				<div class="form-group">
+					<label class="col-md-1 control-label"><fmt:message key="OZ_TT_AD_GL_inStock" /></label>
+					<div class="radio-list col-md-3">
+						<label class="radio-inline">
+						<form:radiobutton path="isInStock" id="isInStockId0" value="0"></form:radiobutton>
+						 <fmt:message key="COMMON_NO" />
+						 </label>
+						<label class="radio-inline">
+						<form:radiobutton path="isInStock" id="isInStockId1" value="1"></form:radiobutton>
+						 <fmt:message key="COMMON_YES" />
+						 </label>
+						 <label class="radio-inline">
+							<form:radiobutton path="isInStock" value=""></form:radiobutton>
+						 	<fmt:message key="COMMON_ALL" />
+						 </label>
+					</div>
+			
+					<label class="col-md-1 control-label"><fmt:message key="OZ_TT_AD_GL_hot" /></label>
+					<div class="radio-list col-md-3">
+						<label class="radio-inline">
+						<form:radiobutton path="isHot" id="isHotId0" value="0"></form:radiobutton>
+						 <fmt:message key="COMMON_NO" />
+						 </label>
+						<label class="radio-inline">
+						<form:radiobutton path="isHot" id="isHotId1" value="1"></form:radiobutton>
+						 <fmt:message key="COMMON_YES" />
+						 </label>
+						 <label class="radio-inline">
+							<form:radiobutton path="isHot" value=""></form:radiobutton>
+						 	<fmt:message key="COMMON_ALL" />
+						 </label>
+					</div>
+					
+					<div class="col-md-4">
+						
+					</div>
+						
 				</div>
 				
 				<div class="form-group textright">
@@ -472,6 +584,46 @@
 									</span>
 									<input type="text" class="form-control" id="dataToGroup"></input>
 								</div>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_topUp" /></label>
+							<div class="checkbox-list col-md-8">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="isTopUpEdit" id="isTopUpEdit"></input>
+								 	<fmt:message key="COMMON_YES" />
+								</label>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_pre" /></label>
+							<div class="checkbox-list col-md-8">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="isPreEdit" id="isPreEdit"></input>
+								 	<fmt:message key="COMMON_YES" />
+								</label>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_inStock" /></label>
+							<div class="checkbox-list col-md-8">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="isInStockEdit" id="isInStockEdit"></input>
+								 	<fmt:message key="COMMON_YES" />
+								</label>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_hot" /></label>
+							<div class="checkbox-list col-md-8">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="isHotEdit" id="isHotEdit"></input>
+								 	<fmt:message key="COMMON_YES" />
+								</label>
 							</div>
 						</div>
 						

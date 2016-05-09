@@ -352,6 +352,10 @@
 			A.groupMaxQuantity as goodsMax,
 			A.groupCurrentQuantity as goodsCurr,
 			A.openFlg as isOpen,
+			A.topPageUp as isTopUp,
+            A.preFlg as isPre,
+            A.inStockFlg as isInStock,
+            A.hotFlg as isHot,
 			DATE_FORMAT(A.validPeriodStart,'%Y/%m/%d') as validDateFrom,
 			DATE_FORMAT(A.validPeriodEnd,'%Y/%m/%d') as validDateTo,
 			B.goodsName as goodsName,
@@ -370,6 +374,18 @@
       	</if>
       	<if test="isOpenFlag != null and isOpenFlag != ''" >
         	and A.openFlg = #{isOpenFlag,jdbcType=VARCHAR}
+      	</if>
+      	<if test="isTopUp != null and isTopUp != ''" >
+        	and A.topPageUp = #{isTopUp,jdbcType=VARCHAR}
+      	</if>
+      	<if test="isPre != null and isPre != ''" >
+        	and A.preFlg = #{isPre,jdbcType=VARCHAR}
+      	</if>
+      	<if test="isInStock != null and isInStock != ''" >
+        	and A.inStockFlg = #{isInStock,jdbcType=VARCHAR}
+      	</if>
+      	<if test="isHot != null and isHot != ''" >
+        	and A.hotFlg = #{isHot,jdbcType=VARCHAR}
       	</if>
       	<if test="dateFrom != null and dateFrom != ''" >
         	<![CDATA[and (DATE_FORMAT(A.validPeriodStart,'%Y/%m/%d')) >= #{dateFrom,jdbcType=VARCHAR}]]>
@@ -395,6 +411,18 @@
       	</if>
       	<if test="isOpenFlag != null and isOpenFlag != ''" >
         	and A.openFlg = #{isOpenFlag,jdbcType=VARCHAR}
+      	</if>
+      	<if test="isTopUp != null and isTopUp != ''" >
+        	and A.topPageUp = #{isTopUp,jdbcType=VARCHAR}
+      	</if>
+      	<if test="isPre != null and isPre != ''" >
+        	and A.preFlg = #{isPre,jdbcType=VARCHAR}
+      	</if>
+      	<if test="isInStock != null and isInStock != ''" >
+        	and A.inStockFlg = #{isInStock,jdbcType=VARCHAR}
+      	</if>
+      	<if test="isHot != null and isHot != ''" >
+        	and A.hotFlg = #{isHot,jdbcType=VARCHAR}
       	</if>
       	<if test="dateFrom != null and dateFrom != ''" >
         	<![CDATA[and (DATE_FORMAT(A.validPeriodStart,'%Y/%m/%d')) >= #{dateFrom,jdbcType=VARCHAR}]]>
