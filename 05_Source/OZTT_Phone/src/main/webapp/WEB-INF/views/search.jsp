@@ -55,21 +55,23 @@
 		}
 		
 		function loadGoods(){
-			var temp1 = '<li>';
+			var temp1 = '<li class="main-goods-li">';
 			var temp2 = '<div class="jshop-item" onclick="toItem(\'{0}\')">';
 			var temp3 = '	<img src="{0}" class="img-responsive">';
 			var temp4 = '	<span class="main-goodsname">{0}</span>';
 			var temp5 = '    <div class="main-group-price">';
-			var temp6 = '    	<span class="group-price">{0}</span>';
-			var temp7 = '		<span class="text-through">{0}</span>';
+			var temp6 = '    	<span class="dollar-symbol2"><fmt:message key="COMMON_DOLLAR" /></span><span class="group-price">{0}</span>';
+			var temp7 = '		<span class="text-through"><fmt:message key="COMMON_DOLLAR" />{0}</span>';
 			var temp8 = '    </div>';
 			var temp9 = '    <div class="main-hasbuy">';
-			var temp10 = '    	<i class="fa fa-user-md"></i>&nbsp;';
+			var temp10 = '    	<i class="main-hasBuy" style="float: left"></i>';
 			var temp11 = '		<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;';
 			var temp12 = '		<span class="">{0}&nbsp;/&nbsp;{1}</span>';
 			var temp13 = '    </div>';
 			var temp14 = '    <div class="countdown-time" data-seconds-left="{0}">';   	
 			var temp15 = '    </div>';
+			var temp20 = '<div class="goods-sticker goods-sticker-new"></div>';
+			var temp21 = '<div class="goods-sticker goods-sticker-hot"></div>';
 			var temp16 = '</div>';
 			var temp17 = '</li>';
 			var url = '${ctx}/search/next?pageNo='+pageNo+"&mode="+$("#hiddenmode").val()+"&searchcontent="+$("#searchcontent").val()+"&classId="+$("#hiddenclassId").val();
@@ -100,6 +102,12 @@
 								tempStr += temp13;
 								tempStr += temp14.replace('{0}',dataList[i].countdownTime);
 								tempStr += temp15;
+								if (dataList[i].newsaleflg == '1') {
+									tempStr += temp20;
+								}
+								if (dataList[i].hotsaleflg == '1') {
+									tempStr += temp21;
+								}
 								tempStr += temp16;
 								tempStr += temp17;
 							}
@@ -135,6 +143,11 @@
 			$(str).val('');
 		}
 		
+		function toItem(groupNo){
+			location.href="${ctx}/item/getGoodsItem?groupId="+groupNo;
+		}
+		
+		
 		
   </script>
   <style type="text/css">
@@ -168,7 +181,7 @@
 			<fmt:message key="SEARCH_TITLE" />
 		</div>
 	</div>
-	<div class="goods-search-horizon">
+	<div class="goods-search-horizon border-top-show">
 		 <ul class="nav nav-tabs">
 		 	<li <c:if test="${mode == '1'}">class="active"</c:if>><a onclick="searchGroup('1');return false;" data-toggle="tab"><fmt:message key="SEARCH_SALENUM" /></a></li>
 		 	<li <c:if test="${mode == '2'}">class="active"</c:if>><a onclick="searchGroup('2');return false;" data-toggle="tab"><fmt:message key="SEARCH_NEW" /></a></li>
@@ -182,22 +195,28 @@
    		<div class="jshop-product-two-column">
    			<ul id="goodItemList">
    				<c:forEach var="goodslist" items="${ goodsList }">
-   				<li>					
+   				<li class="main-goods-li">					
 					<div class="jshop-item" onclick="toItem('${goodslist.groupno }')">
-						<img src="${goodslist.goodsthumbnail }" class="img-responsive">
+						<img src="${goodslist.goodsthumbnail }" class="img-responsive padding-1rem">
 						<span class="main-goodsname">${goodslist.goodsname }</span>
 		                <div class="main-group-price">
-		                	<span class="group-price">${goodslist.disprice }</span>
-							<span class="text-through">${goodslist.costprice }</span>
+		                	<span class="dollar-symbol2"><fmt:message key="COMMON_DOLLAR" /></span><span class="group-price">${goodslist.disprice }</span>
+							<span class="text-through"><fmt:message key="COMMON_DOLLAR" />${goodslist.costprice }</span>
 		                </div>
 		                <div class="main-hasbuy">
-		                	<i class="fa fa-user-md"></i>&nbsp;
+		                	<i class="main-hasBuy" style="float: left"></i>	
 				   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
 				   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span>
 		                </div>
 		                <div class="countdown-time" data-seconds-left="${goodslist.countdownTime}">
 		                	
 		                </div>
+		                <c:if test="${goodslist.newsaleflg == '1' }">
+		                	<div class="goods-sticker goods-sticker-new"></div>
+		                </c:if>
+		                <c:if test="${goodslist.hotsaleflg == '1' }">
+		                	<div class="goods-sticker goods-sticker-hot"></div>
+		                </c:if>
 					</div>
    				</li>
    				</c:forEach>

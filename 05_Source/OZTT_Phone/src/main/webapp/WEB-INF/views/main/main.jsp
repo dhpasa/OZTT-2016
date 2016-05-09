@@ -26,21 +26,23 @@
 		var daySearch = '';
 		
 		function loadGoods(){
-			var temp1 = '<li>';
+			var temp1 = '<li class="main-goods-li">';
 			var temp2 = '<div class="jshop-item" onclick="toItem(\'{0}\')">';
-			var temp3 = '	<img src="{0}" class="img-responsive">';
+			var temp3 = '	<img src="{0}" class="img-responsive padding-1rem">';
 			var temp4 = '	<span class="main-goodsname">{0}</span>';
 			var temp5 = '    <div class="main-group-price">';
-			var temp6 = '    	<span class="group-price">{0}</span>';
-			var temp7 = '		<span class="text-through">{0}</span>';
+			var temp6 = '    	<span class="group-price"><span class="dollar-symbol2 font-xxl"><fmt:message key="COMMON_DOLLAR" /></span>{0}</span>';
+			var temp7 = '		<span class="text-through font-l"><fmt:message key="COMMON_DOLLAR" />{0}</span>';
 			var temp8 = '    </div>';
 			var temp9 = '    <div class="main-hasbuy">';
-			var temp10 = '    	<i class="fa fa-user-md"></i>&nbsp;';
+			var temp10 = '    	<i class="main-hasBuy" style="float: left"></i>';
 			var temp11 = '		<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;';
 			var temp12 = '		<span class="">{0}&nbsp;/&nbsp;{1}</span>';
 			var temp13 = '    </div>';
 			var temp14 = '    <div class="countdown-time" data-seconds-left="{0}">';   	
 			var temp15 = '    </div>';
+			var temp20 = '<div class="goods-sticker goods-sticker-new"></div>';
+			var temp21 = '<div class="goods-sticker goods-sticker-hot"></div>';
 			var temp16 = '</div>';
 			var temp17 = '</li>';
 	    	$.ajax({
@@ -70,6 +72,12 @@
 								tempStr += temp13;
 								tempStr += temp14.replace('{0}',dataList[i].countdownTime);
 								tempStr += temp15;
+								if (dataList[i].newsaleflg == '1') {
+									tempStr += temp20;
+								}
+								if (dataList[i].hotsaleflg == '1') {
+									tempStr += temp21;
+								}
 								tempStr += temp16;
 								tempStr += temp17;
 							}
@@ -137,51 +145,57 @@
   <style type="text/css">
 	.hours-1 {
 		float: left;
-		background-color:#111;
+		background-color:#333;
 		color:#fff;
 		margin-right: 3px;
 		width: 1rem;
 		text-align: center;
+		border-radius: 1px !important;
 	}
 	.hours-2 {
 		float: left;
-		background-color:#111;
+		background-color:#333;
 		color:#fff;
 		margin-right: 3px;
 		width: 1rem;
 		text-align: center;
+		border-radius: 1px !important;
 	}
 	.minutes-1 {
 		float: left;
-		background-color:#111;
+		background-color:#333;
 		color:#fff;
 		margin-right: 3px;
 		width: 1rem;
 		text-align: center;
+		border-radius: 1px !important;
 	}
 	.minutes-2 {
 		float: left;
-		background-color:#111;
+		background-color:#333;
 		color:#fff;
 		margin-right: 3px;
 		width: 1rem;
 		text-align: center;
+		border-radius: 1px !important;
 	}
 	.seconds-1 {
 		float: left;
-		background-color:#111;
+		background-color:#333;
 		color:#fff;
 		margin-right: 3px;
 		width: 1rem;
 		text-align: center;
+		border-radius: 1px !important;
 	}
 	.seconds-2 {
 		float: left;
-		background-color:#111;
+		background-color:#333;
 		color:#fff;
 		margin-right: 3px;
 		width: 1rem;
 		text-align: center;
+		border-radius: 1px !important;
 	}
 	.splitTime-1{
 		float: left;
@@ -217,42 +231,79 @@
 		<div class="x-header-btn"></div>
 		<div class="x-header-title">
 			<span>
-				<img alt="" src="${ctx}/images/logo.png" style="height: 2.5rem;">
+				<img alt="" src="${ctx}/images/logo.png" style="height: 3.5rem;">
 			</span>
 		</div>
 		<div class="x-header-btn icon-search"></div>
 	</div>
 	<div class="flexslider border-top-show">
   		<ul class="slides">
-  			<c:forEach var="hotGoodsList" items="${ hotGoodsList }" varStatus="status">
-    			<li onclick="toItem('${hotGoodsList.groupno }')"><img src="${hotGoodsList.goodsthumbnail }" /></li>
-    		</c:forEach>
+  			<li><img src="${imgUrl}advertisement/pic_01.jpg" /></li>
+  			<li><img src="${imgUrl}advertisement/pic_02.jpg" /></li>
   		</ul>
    </div>
-   <c:forEach var="newGoodsList" items="${ newGoodsList }">	
+   <div class="newgoods-parent-div">
+   <c:forEach var="newGoodsList" items="${ newGoodsList }" varStatus="step">
+   <c:if test="${step.count%2 == 1 }">
 	<div class="newGoods-div" onclick="toItem('${newGoodsList.groupno }')">
 		<div class="newGoods-info">
-			<span class="newGoods-info-span miaosha"><i class="glyphicon glyphicon-time"></i><fmt:message key="MAIN_MIAOSHAING" /></span>
-			<span class="newGoods-info-span">${newGoodsList.goodsname }</span>
+			<span class="newGoods-info-span miaosha">
+				<i class="goods-i-time"></i>
+				<fmt:message key="MAIN_MIAOSHAING" />
+			</span>
+			<span class="newGoods-info-span font-xl clearMargin">${newGoodsList.goodsname }</span>
 			<span class="newGoods-info-span time">
-				<div style="float:left;padding-right: 0.5rem"><fmt:message key="MAIN_TIME" /></div>
+				<div style="float:left;padding-right: 0.5rem;height: 1.7rem"><fmt:message key="MAIN_TIME" /></div>
 				<div class="countdownDay">${newGoodsList.countdownDay }<fmt:message key="COMMON_DAY" /></div>
-				<div id="cuntdown" class="cuntdown" data-seconds-left="${newGoodsList.countdownTime}" style="float:left">
+				<div id="cuntdown" class="cuntdown" data-seconds-left="${newGoodsList.countdownTime}" style="float:left;width: 100%;">
 				
 				</div>
 			</span>
 			<span class="newGoods-info-span">
 				<div class="group-price-div">
-					<span class="group-price"><fmt:message key="COMMON_DOLLAR" />${newGoodsList.disprice }</span>
-					<span class="text-through">${newGoodsList.costprice }</span>
+					<span class="group-price">
+						<span class="dollar-symbol"><fmt:message key="COMMON_DOLLAR" /></span>${newGoodsList.disprice }
+					</span>
+					<span class="text-through"><fmt:message key="COMMON_DOLLAR" />${newGoodsList.costprice }</span>
 				</div>
 			</span>
 		</div>
 		<div class="newGoods-img">
-			<img src="${newGoodsList.goodsthumbnail }">
+			<img src="${newGoodsList.goodsthumbnail }" class="padding-1rem">
 		</div>
 	</div>
+   </c:if>
+   <c:if test="${step.count%2 == 0 }">
+   	<div class="newGoods-div" onclick="toItem('${newGoodsList.groupno }')">
+   		<div class="newGoods-img">
+			<img src="${newGoodsList.goodsthumbnail }" class="padding-1rem">
+		</div>
+		<div class="newGoods-info">
+			<span class="newGoods-info-span miaosha">
+				<i class="goods-i-time"></i>
+				<fmt:message key="MAIN_MIAOSHAING" />
+			</span>
+			<span class="newGoods-info-span font-xl clearMargin">${newGoodsList.goodsname }</span>
+			<span class="newGoods-info-span time">
+				<div style="float:left;padding-right: 0.5rem;height: 1.7rem"><fmt:message key="MAIN_TIME" /></div>
+				<div class="countdownDay">${newGoodsList.countdownDay }<fmt:message key="COMMON_DAY" /></div>
+				<div id="cuntdown" class="cuntdown" data-seconds-left="${newGoodsList.countdownTime}" style="float:left;width: 100%;">
+				
+				</div>
+			</span>
+			<span class="newGoods-info-span">
+				<div class="group-price-div">
+					<span class="group-price">
+						<span class="dollar-symbol"><fmt:message key="COMMON_DOLLAR" /></span>${newGoodsList.disprice }
+					</span>
+					<span class="text-through"><fmt:message key="COMMON_DOLLAR" />${newGoodsList.costprice }</span>
+				</div>
+			</span>
+		</div>
+	</div>
+   </c:if>		
 	</c:forEach>
+	</div>
 	
 	<div class="margin-1rem-top" id="label-search-horizon">
 		 <ul class="nav nav-tabs">
@@ -270,22 +321,26 @@
    				<c:forEach var="goodslist" items="${ tgoodList }">
    				<li class="main-goods-li">
 					<div class="jshop-item" onclick="toItem('${goodslist.groupno }')">
-						<img src="${goodslist.goodsthumbnail }" class="img-responsive">
+						<img src="${goodslist.goodsthumbnail }" class="img-responsive padding-1rem">
 						<span class="main-goodsname">${goodslist.goodsname }</span>
 		                <div class="main-group-price">
-		                	<span class="group-price"><fmt:message key="COMMON_DOLLAR" />${goodslist.disprice }</span>
-							<span class="text-through">${goodslist.costprice }</span>
+		                	<span class="group-price">
+		                		<span class="dollar-symbol2 font-xxl"><fmt:message key="COMMON_DOLLAR" /></span>${goodslist.disprice }</span>
+							<span class="text-through font-l"><fmt:message key="COMMON_DOLLAR" />${goodslist.costprice }</span>
 		                </div>
 		                <div class="main-hasbuy">
-		                	<i class="fa fa-user-md"></i>&nbsp;
+		                	<i class="main-hasBuy" style="float: left"></i>
 				   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
 				   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span>
 		                </div>
 		                <div class="countdown-time" data-seconds-left="${goodslist.countdownTime}">
 		                </div>
-		                <%-- <c:if test="${goodslist.newsaleflg == '1' }">
+		                <c:if test="${goodslist.newsaleflg == '1' }">
 		                	<div class="goods-sticker goods-sticker-new"></div>
-		                </c:if> --%>
+		                </c:if>
+		                <c:if test="${goodslist.hotsaleflg == '1' }">
+		                	<div class="goods-sticker goods-sticker-hot"></div>
+		                </c:if>
 		                
 					</div>
    				</li>

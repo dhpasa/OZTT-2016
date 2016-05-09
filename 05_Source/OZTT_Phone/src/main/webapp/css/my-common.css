@@ -31,6 +31,15 @@ a{
 	border-bottom: 0.5px solid rgba(187, 187, 187, 0.15);
 }
 
+.border{
+	box-shadow: 0 1px 1px rgba(162, 153, 153, 0.5);
+}
+
+.clearborder{
+	border:none;
+}
+
+
 .height3{
 	height: 3rem;
 	line-height: 3rem;
@@ -42,6 +51,7 @@ a{
 
 .text-through{
 	text-decoration: line-through;
+	color:#D4D4D4;
 }
 
 .alltime{
@@ -53,6 +63,7 @@ a{
 	color: #FF9298;
     font-size: 1.3rem;
     border-radius: 5px !important;
+    border: 0.5px solid #FF9298;
 }
 
 .redcolor{
@@ -81,6 +92,43 @@ a{
 	padding:0.5rem 1rem 0.5rem 1rem
 }
 
+.font-l{
+	font-size: 1rem !important;
+}
+
+.font-xl{
+	font-size: 1.5rem !important;
+}
+
+.font-xxl{
+	font-size: 2rem !important;
+}
+
+.clearMargin{
+	margin: 0 !important;
+}
+
+.dollar-symbol{
+	margin-right: 2px;
+	font-size: 2rem;
+}
+
+.dollar-symbol2{
+	margin-right: 2px;
+}
+
+.padding-1rem{
+	padding: 1rem !important;
+}
+
+.padding-2rem{
+	padding: 2rem !important;
+}
+
+.forceFloatLeft{
+	float: left !important;
+}
+
 
 /* ========================================首页============================================== */
 html{
@@ -97,7 +145,7 @@ html{
     display: -ms-flexbox;
     display: flex;
     width: 100%;
-    height: 3.5rem;
+    height: 5rem;
     font-size: 1.5rem;
 }
 
@@ -111,11 +159,12 @@ html{
 .x-header-btn {
     display: block;
     min-width: 4rem;
-    height: 3.5rem;
-    line-height: 3.5rem;
-    color: #6f6f6f;
+    height: 5rem;
+    line-height: 5rem;
+    color: #666;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
+    margin-right: 0.5rem;
 }
 
 .x-header-title {
@@ -123,9 +172,9 @@ html{
     -webkit-box-flex: 1;
     -ms-flex: 1;
     flex: 1;
-    line-height: 3.5rem;
+    line-height: 5rem;
     text-align: center;
-    color: #1a1819;
+    color: #666;
     font-size:2rem;
 }
 
@@ -148,6 +197,9 @@ html{
     color: #ff0000;
     text-decoration: none;
     width: 25%;
+    display: block;
+    float: left;
+    position: relative;
 }
 
 .main-nav-item {
@@ -190,17 +242,27 @@ html{
     padding: 2%;
     list-style: none;
     background-color: #fff;
+    box-shadow: 0 1px 1px rgba(162, 153, 153, 0.5);
 }
 
 .newGoods-div{
 	width: 100%;
-	border-bottom: 0.5px solid rgba(187, 187, 187, 0.15);
 	display: inline-block;
 	background-color: #fff;
+	border-bottom: 0.5px solid rgba(187, 187, 187, 0.5);
+}
+
+.newGoods-div:last-child{
+	border-bottom: none;
+}
+
+.newgoods-parent-div{
+	background-color: #fff;
+	box-shadow: 0 1px 1px rgba(162, 153, 153, 0.5);
 }
 
 .newGoods-info{
-	padding: 1rem 1rem;
+	padding: 1rem 1rem 1rem 2rem;
 }
 
 .newGoods-div .newGoods-info{
@@ -211,7 +273,7 @@ html{
 .newGoods-info .newGoods-info-span{
 	display: inline-block;
 	float:left;
-	margin: 0.5rem 0;
+	margin: 0.5rem 0 0;
 	width:100%;
 }
 
@@ -232,7 +294,7 @@ html{
 }
 
 .newGoods-info .time{
-	font-size: 1.5rem;
+	font-size: 1rem;
 }
 
 .group-price-div{
@@ -242,9 +304,8 @@ html{
 }
 
 .text-through{
-	color:#3e4d5c;
-	font-size: 1rem;
-	vertical-align: middle;
+	color:#D4D4D4;
+	font-size: 1.5rem;
 }
 
 #label-search-horizon{
@@ -260,11 +321,12 @@ html{
 
 #label-search-horizon .nav-tabs > li > a{
     background: #fff;
-    color: #3e4d5c;
+    color: #666;
     width:90%;
     text-align:center;
     border-radius: 5px !important;
     border: 1px solid #fff !important;
+    box-shadow: 0 1px 1px rgba(162, 153, 153, 0.5);
 }
 
 #label-search-horizon .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
@@ -272,7 +334,7 @@ html{
     color: #FCAEB1;
     border-radius: 0;
     padding: 5px 15px;
-    border: 1px solid #FA6D72 !important;
+    border: 1px solid #FCAEB1 !important;
 }
 
 #label-search-horizon .nav-tabs{
@@ -288,13 +350,12 @@ html{
 .countdownDay{
 	float:left;
 	padding-right: 0.5rem;
-	font-size: 1.7rem;
+	font-size: 1rem;
 	color:#FA6D72
 }
 
 .jshop-item .countdown-time{
 	width : 100%;
-	margin-top: 0.6rem;
 }
 
 .jshop-item .countdown-time a{
@@ -313,9 +374,10 @@ html{
 }
 
 .main-goodsname{
-	font-size: 1.3rem;
+	font-size: 1.5rem;
     padding-top: 0.5rem;
-    height: 3.2rem;
+    height: 3.5rem;
+    line-height: 1.5rem;
 }
 
 .main-group-price{
@@ -325,10 +387,20 @@ html{
 
 .main-hasbuy{
     font-size: 1.3rem;
+    margin-top: 1rem;
+    vertical-align: -webkit-baseline-middle;
 }
 
 .goods-sticker-new {
-	background: url(../images/goodsnew.png) no-repeat;
+	background: url(../images/newlabel.png) no-repeat;
+	background-size: 5rem 5rem;
+	left: auto;
+	right: 0;
+}
+
+.goods-sticker-hot{
+	background: url(../images/hotlabel.png) no-repeat;
+	background-size: 5rem 5rem;
 	left: auto;
 	right: 0;
 }
@@ -345,10 +417,48 @@ html{
 	position: relative;
 }
 
+/* .menu-mav{
+	display: block;
+	width: 100%;
+}
+
+.menu-mav li{
+	display: block;
+	width: 25%;
+	float: left;
+}
+
+.menu-mav li > a{
+	color: #ff0000;
+    text-decoration: none;
+    width: 100%;
+    display: block;
+    float: left;
+    padding: 0px;
+} */
+
+.goods-i-time{
+	background: url("../images/goodstime.png") no-repeat;
+    background-size: auto 20px;
+    background-position: 0 0px;
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+}
+
+.main-hasBuy{
+	background: url("../images/hasbuy.png") no-repeat;
+    background-size: auto 15px;
+    background-position: 0 0px;
+    display: inline-block;
+    height: 15px;
+    width: 20px;
+}
+
 /* ========================================我============================================== */
 
 .profile {
-    height: 7rem;
+    height: 10rem;
     overflow: hidden;
     position: relative;
     background-color: #fff;
@@ -401,18 +511,19 @@ html{
 }
 
 .profile-info .login{
-	margin-top: 2rem;
-	font-size: 1.6rem;
+	margin-top: 1rem;
+	font-size: 2rem;
 	color: rgba(255, 255, 255, 0.89);
 }
 
 .welcomeword{
 	color: rgba(255, 255, 255, 0.59);
+	font-size: 1.5rem;
 }
 
 .p-item {
     margin-top: 1rem;
-    padding-left: 2rem;
+    padding-left: 1rem;
     background-color: #fff;
     display: inline-block;
     width: 100%;
@@ -449,10 +560,10 @@ html{
 
 .myorder{
 	float:left;
-	width:50%;
+	width:40%;
 	text-align: left;
 	font-size: 2rem;
-	color:#383838;
+	color:#666;
 }
 
 .viewallorder{
@@ -465,6 +576,11 @@ html{
 
 .adsmana{
 	width:100%;
+}
+
+.p-item a:hover,.p-item a:focus{
+	color: #666;
+	text-decoration: none;
 }
 
 .adsmana i{
@@ -481,7 +597,6 @@ html{
     text-align: left;
     font-size: 1.5rem;
     line-height: 3rem;
-    color: #383838;
 }
 
 .fangle{
@@ -502,7 +617,6 @@ html{
     text-align: left;
     font-size: 1.5rem;
     line-height: 3rem;
-    color: #383838;
 }
 
 .downContent{
@@ -517,23 +631,126 @@ html{
 }
 
 .showusername span{
-	line-height: 7rem;
-	padding-left: 3rem;
+	line-height: 9rem;
+	padding-left: 0rem;
 	color: #fff;
 	font-size: 2.5rem;
 }
 
+.showusername img{
+	height: 5rem;
+	padding-left: 10%;
+}
+
 .user-language{
 	float: left;
-    width: 50%;
+    width: 40%;
     text-align: right;
-    padding-right: 2rem;
+    padding-right: 1rem;
+}
+
+.user-language span{
+	line-height: 3rem;
+    margin-right: 1rem;
+    color: #fff;
+    background-color: #FF9298;
+    padding: 3px;
+    border-radius: 2px !important;
 }
 
 .user-language img{
 	margin-top: 0.7rem;
     margin-right: 1rem;
     height: 1.5rem;
+}
+
+.user-order-img{
+	background: url(../images/user/order.png) center center/1.5rem 1.5rem no-repeat;
+    height: 2rem;
+    display: block;
+    float: left;
+    width: 7%;
+    margin-right: 1rem;
+}
+
+.user-adsmanage-img{
+	background: url(../images/user/adsmanage.png) center center/1.5rem 1.5rem no-repeat;
+    height: 3rem;
+    display: block;
+    width: 2rem;
+    float: left;
+    margin-right: 1rem;
+}
+
+.user-service-img{
+	background: url(../images/user/service.png) center center/1.5rem 1.5rem no-repeat;
+    height: 3rem;
+    display: block;
+    width: 2rem;
+    float: left;
+    margin-right: 1rem;
+}
+
+.user-cooprate-img{
+	background: url(../images/user/cooprate.png) center center/1.5rem 1.5rem no-repeat;
+    height: 3rem;
+    display: block;
+    width: 2rem;
+    float: left;
+    margin-right: 1rem;
+}
+
+.user-about-img{
+	background: url(../images/user/about.png) center center/1.5rem 1.5rem no-repeat;
+    height: 3rem;
+    display: block;
+    width: 2rem;
+    float: left;
+    margin-right: 1rem;
+}
+
+.user-changedlan-img{
+	background: url(../images/user/change.png) center center/1.5rem 1.5rem no-repeat;
+    height: 3rem;
+    display: block;
+    width: 2rem;
+    float: left;
+    margin-right: 1rem;
+}
+
+.await-pays{
+	background: url(../images/await-pay.png) center center/2rem 2rem no-repeat;
+    display: inline-block;
+    height: 3rem;
+    width: 3rem;
+}
+
+.await-ship{
+	background: url(../images/await-ship.png) center center/2rem 2rem no-repeat;
+	display: inline-block;
+    height: 3rem;
+    width: 3rem;
+}
+
+.await_received{
+	background: url(../images/await-reveived.png) center center/2rem 2rem no-repeat;
+	display: inline-block;
+    height: 3rem;
+    width: 3rem;
+}
+
+.decoratorShopCart{
+	position: absolute;
+    color: #fff!important;
+    top: 0rem;
+    right: 15%;
+    font-size: 1rem !important;
+    width: 1.5rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    display: inline-block !important;
+    background-color: #FF9298;
+    border-radius: 10px !important;
 }
 
 
@@ -543,22 +760,23 @@ html{
     width: 100%;
 }
 
+.login_bg{
+	background: url(../images/login_bg.png) center center/100% 100%;
+}
+
 .logodiv{
-	background-color:#FA6D72;
 	width: 100%;
 	text-align: center;
 }
 
 .logodiv img{
-	margin-top:3rem;
-	margin-bottom:3rem;
-	width:200px;
+	margin-top: 7rem;
+    width: 30%;
 }
 
 .errormsg{
 	width: 100%;
 	height: 1.5rem;
-	background-color: #F9F9F9;
 	text-align: center;
 }
 
@@ -571,7 +789,7 @@ html{
 
 .txt-input{
 	width:100%;
-	height:4rem;
+	height:5rem;
 	border:none;
 	padding-left: 15px;
 	border-bottom: 0.5px solid rgba(187, 187, 187, 0.15);
@@ -599,14 +817,34 @@ html{
 	margin-top: 2rem;
 }
 
+.loginOutBtn{
+	width:90%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 2rem;
+}
+
+.loginOutBtn a{
+	display: inline-block;
+    width: 100%;
+    height: 5rem;
+    border-radius: 3px !important;
+    background: #FF9298;
+    text-decoration: none;
+    line-height: 5rem;
+    text-align: center;
+    font-size: 2rem;
+    color: #fff;
+}
+
 .loginBtn a{
 	display: inline-block;
     width: 100%;
-    height: 4rem;
-    border-radius: 8px !important;
-    background: #FA6D72;
+    height: 5rem;
+    border-radius: 3px !important;
+    background: #FF9298;
     text-decoration: none;
-    line-height: 4rem;
+    line-height: 5rem;
     text-align: center;
     font-size: 2rem;
     color: #fff;
@@ -616,11 +854,11 @@ html{
 	width: 90%;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 3rem;
+	margin-top: 1.5rem;
 }
 
 .login_option a{
-	color:#6f6f6f;
+	color:#fff;
 	font-size: 1.5rem;
 }
 
@@ -643,17 +881,66 @@ html{
 	margin-top: 8rem;
 }
 
-.login_other dt {
+.login_other .login-other-info{
     margin-bottom: 13px;
+    text-align: center;
+    color:#fff !important;
+    border-top: 1px solid #FF9298;
+    position: relative;
+}
+
+.login-other-info span{
+	position: absolute;
+    top: -0.9rem;
+    left: 50%;
+    background-color: #EE5B74;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+
+.login_other .login-other-centent{
+	text-align: center;
 }
 
 .login_other .wechat span{
 	display: inline-block;
     overflow: hidden;
     text-indent: -9999px;
-    width:3rem;
-    height:3rem;
-	background: url(../images/chat.png) center center/3rem 3rem no-repeat;
+    width:5rem;
+    height:5rem;
+	background: url(../images/chat.png) center center/5rem 5rem no-repeat;
+}
+
+.login_guangguang{
+	margin-top:2rem;
+	display: block;
+	text-decoration: underline;
+	text-align: center;
+	width: 100%;
+	font-size: 1.5rem;
+}
+
+.login_guangguang a{
+	display: inline-block;
+    width: 50%;
+    height: 4rem;
+    border-radius: 3px !important;
+    box-shadow: 0 1px 1px rgba(255, 146, 152, 0.27);
+    background: rgba(255, 146, 152, 0.27);
+    text-decoration: none;
+    border: 0.5px solid #FF9298;
+    line-height: 4rem;
+    text-align: center;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.logobackgroud{
+	background: url(../images/login_min_bg.png) center center/100% 100%;
+}
+
+.logobackgroud img{
+	margin-bottom: 3rem;
 }
 
 /* ========================================注册============================================== */
@@ -684,8 +971,8 @@ html{
     margin-left: 1rem;
     float: left;
     font-size: 2rem;
-    height: 4rem;
-    line-height: 4rem;
+    height: 5rem;
+    line-height: 5rem;
     border-bottom: 0.5px solid rgba(187, 187, 187, 0.15);
 }
 
@@ -693,15 +980,15 @@ html{
 	width: 90%;
     border: none;
     padding-left: 8px;
-    height: 4rem;
-    line-height:4rem;
+    height: 5rem;
+    vertical-align: -webkit-baseline-middle;
     font-size: 1.5rem;
     border-bottom: 0.5px solid rgba(187, 187, 187, 0.15);
 }
 .registercontain i{
 	height: 2rem;
-    width: 2rem;
-    font-size: 2.5rem;
+    font-size: 2rem;
+    text-align: right;
 }
 .registerpwd{
 	margin-top: 1rem;
@@ -712,32 +999,32 @@ html{
 }
 .registericon{
 	position: absolute;
-    height: 4rem;
-    line-height: 5rem;
-    right: 2rem;
-    color:#FA6D72;
+    height: 5rem;
+    line-height: 6rem;
+    right: 3rem;
+    color:#FF9298;
 }
 .verifycodeBtn{
 	position: absolute;
 	right: 3rem;
-	height: 4rem;
-    line-height: 4rem;
+	height: 5rem;
+    line-height: 5rem;
 }
 
 .verifycodeBtn button{
-	background: #FA6D72;
-	border-radius: 8px !important;
+	background: #FF9298;
+	border-radius: 3px !important;
 	color: #fff;
 }
 
 .registerBtn a{
 	display: inline-block;
     width: 100%;
-    height: 4rem;
-    border-radius: 8px !important;
-    background: #FA6D72;
+    height: 5rem;
+    border-radius: 3px !important;
+    background: #FF9298;
     text-decoration: none;
-    line-height: 4rem;
+    line-height: 5rem;
     text-align: center;
     font-size: 2rem;
     color: #fff;
@@ -791,7 +1078,7 @@ html{
     padding: 1rem 1rem;
 }
 .addressInfo{
-	margin-bottom: 2rem;
+	margin-bottom: 1rem;
 }
 
 .addressInfoHead{
@@ -835,11 +1122,12 @@ html{
     margin: 0 auto;
     height: 4rem;
     line-height: 4rem;
-    background-color: #FA6D72;
+    background-color: #FF9298;
     display: block;
     text-align: center;
     color: #fff;
     font-size: 2rem;
+    border-radius: 3px !important;
 }
 
 
@@ -848,7 +1136,6 @@ html{
     border: none;
     padding-left: 8px;
     height: 4rem;
-    line-height: 4rem;
     font-size: 1.5rem;
     border-bottom: 0.5px solid rgba(187, 187, 187, 0.15);
 }
@@ -867,6 +1154,17 @@ html{
 
 #country{
 	background-color: #fff !important;
+}
+
+.adsinputdiv input[disabled]{
+	color: #111;
+}
+
+#suburb{
+	background: none;
+	border:none;
+	border-bottom:0.5px solid rgba(187, 187, 187, 0.15);
+	color: #666;
 }
 
 /*=======================商品显示页=====================*/
@@ -905,17 +1203,21 @@ html{
 }
 
 .iteminfo .item-disprice{
-	font-size: 4rem;
+	font-size: 2rem;
 	color: #FA6D72;
 }
 
 .iteminfo .item-nowprice{
-	font-size: 2rem;
+	font-size: 1.5rem;
 	text-decoration: line-through;
 }
 
 .item-timeword{
-	float: left;
+	
+}
+
+.item-timeword-padding{
+	padding: 0px 10px;
 }
 
 .item-countdown{
@@ -932,7 +1234,7 @@ html{
 
 .product-page-content .nav-tabs > li > a{
     background: #fff;
-    color: #3e4d5c;
+    color: #666;
 }
 
 .product-page-content .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
@@ -957,10 +1259,10 @@ html{
 .item-btn a{
 	display: inline-block;
     width: 100%;
-    height: 4rem;
-    background: #FA6D72;
+    height: 5rem;
+    background: #FF9298;
     text-decoration: none;
-    line-height: 4rem;
+    line-height: 5rem;
     text-align: center;
     font-size: 2rem;
     color: #fff;
@@ -969,18 +1271,123 @@ html{
 .product-page-content {
     width: 100%;
     overflow: hidden;
-    padding: 20px 13px 0;
+    padding: 5px 13px 0;
     background-color: #fff;
     margin-top: 1rem;
 }
 
+.item-dialog{
+	position: fixed;
+    bottom: 0px;
+    width: 95%;
+}
+.item-modal-body{
+	height: 12rem;
+}
+
+.item-modal-img{
+	display: block;
+    width: 30%;
+    height: 5rem;
+    padding: 0.5rem;
+    float: left;
+    position: relative;
+}
+
+.item-modal-img img{
+	position: absolute;
+    bottom: 0.5rem;
+    margin-left: 2rem;
+    width: 100%;
+}
+
+.item-modal-value{
+	display: inline-block;
+    float: right;
+    width: 70%;
+    height: 7rem;
+    padding: 1.5rem;
+    text-align: right;
+}
+
+.item-modal-confirm{
+	width: 100%;
+	display: inline-block;
+}
+
+.item-modal-confirm a {
+    display: inline-block;
+    width: 100%;
+    height: 5rem;
+    background: #FF9298;
+    text-decoration: none;
+    line-height: 5rem;
+    text-align: center;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.u-flyer {
+	display: block;
+	width: 50px;
+	height: 50px;
+	border-radius: 50px;
+	position: fixed;
+	z-index: 9999;
+}
+
+.item-num-input{
+	width: 100%;
+    height: 80%;
+    border: none;
+    line-height: 100%;
+}
+
+.item-goods-quantity{
+	width: 13rem;
+    height: 4rem;
+    background-size: 100%;
+    display: inline-block;
+    margin-top: 0.5rem;
+}
+
+.item-goods-quantity span{
+	display: block;
+	float: left;
+	text-align: center;
+    height: 4rem;
+    line-height: 4rem;
+    font-size: 1.8rem;
+}
+
+.item-goods-quantity .minus{
+	border:0.5px solid #D8D8D8;
+	border-radius: 5px 0px 0px 5px !important;
+	color:#FA6D72;
+	width: 4rem;
+}
+
+.item-goods-quantity .txt{
+	border-top:0.5px solid #D8D8D8;
+	width: 5rem;
+	border-bottom:0.5px solid #D8D8D8;
+}
+
+.item-goods-quantity .add{
+	border:0.5px solid #D8D8D8;
+	width: 4rem;
+	border-radius: 0px 5px 5px 0px !important;
+	color:#FA6D72
+}
+
 /*==================================检索页=============================*/
 .x-header-title > input{
-	height: 2.5rem;
-	line-height: 2.5rem;
+	height: 3rem;
+	line-height: 3rem;
 	vertical-align: middle;
 	background-color: #F9F9F9;
 	border: none;
+	width: 80%;
 	border-radius: 20px !important;
 }
 
@@ -993,7 +1400,7 @@ html{
 
 .goods-search-horizon .nav-tabs > li > a{
     background: #fff;
-    color: #3e4d5c;
+    color: #666;
     width:100%;
     text-align:center;
     border:none !important;
@@ -1028,7 +1435,7 @@ html{
 .shopcart-checkBlockBody{
 	display: inline-block;
 	width: 100%;
-	height: 8rem;
+	height: 9rem;
 }
 
 .head-blockcheck{
@@ -1052,16 +1459,21 @@ html{
 }
 
 .shopcart-groupinfo{
-	width: 85%;
-    padding: 10px;
+	width: 90%;
+    padding: 10px 12px 10px 10px;
     float: left;
     display: inline-block;
-    height: 8rem;
+    height: 9rem;
     border-bottom:0.5px solid #F4F4F4;
 }
 
+.shopcart-checkBlockBody:last-child > .shopcart-groupinfo{
+	border-bottom:none;
+}
+
+
 .shopcart-groupinfo .shopcart-group-img{
-	width:30%;
+	width:25%;
 	height:100%;
 	float: left;
 }
@@ -1073,14 +1485,15 @@ html{
 }
 
 .shopcart-group-pro{
-	width:50%;
+	width:55%;
 	float: left;
-	padding-left: 1rem;
+	padding-left: 0.5rem;
 }
 
 .shopcart-group-pro span{
-	height: 3rem;
+	height: 4rem;
 	display: inline-block;
+	vertical-align: top;
 }
 
 .shopcart-group-price{
@@ -1088,10 +1501,16 @@ html{
     float: left;
     text-align: right;
     font-size: 2rem;
+    height: 100%;
+}
+.shopcart-group-price span{
+	font-size: 1.5rem;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .shopcart-goods-delete i{
-	margin: 1rem 1rem 1rem 1rem;
+	margin: 3rem 1rem 1rem 1rem;
 }
 
 .orderList-search-horizon{
@@ -1143,8 +1562,8 @@ html{
 .check-icon{
 	float: left;
     margin-left: 1px;
-	height: 20px;
-    width: 20px;
+	height: 25px;
+    width: 25px;
     background: url("../images/check.png") no-repeat;
     background-size: auto 20px;
 	background-position: 0 0px;
@@ -1154,7 +1573,7 @@ html{
 }
 
 .shopcart-goods-quantity{
-	width: 9rem;
+	width: 11rem;
     height: 3rem;
     background-size: 100%;
     display: inline-block;
@@ -1162,32 +1581,34 @@ html{
 }
 
 .shopcart-goodname{
-	font-size:1.5rem;
+	font-size:1.7rem;
 }
 
 .shopcart-goods-quantity span{
 	display: block;
 	float: left;
 	text-align: center;
-	width: 3rem;
     height: 3rem;
     line-height: 3rem;
     font-size: 1.8rem;
 }
 
 .shopcart-goods-quantity .minus{
-	border:0.5px solid #F4F4F4;
+	border:0.5px solid #D8D8D8;
 	border-radius: 5px 0px 0px 5px !important;
+	width: 3rem;
 	color:#FA6D72
 }
 
 .shopcart-goods-quantity .txt{
-	border-top:0.5px solid #F4F4F4;
-	border-bottom:0.5px solid #F4F4F4;
+	width: 5rem;
+	border-top:0.5px solid #D8D8D8;
+	border-bottom:0.5px solid #D8D8D8;
 }
 
 .shopcart-goods-quantity .add{
-	border:0.5px solid #F4F4F4;
+	width: 3rem;
+	border:0.5px solid #D8D8D8;
 	border-radius: 0px 5px 5px 0px !important;
 	color:#FA6D72
 }
@@ -1205,8 +1626,9 @@ html{
 
 .buy-blockcheck{
 	width: 30%;
-    padding: 1.8rem 10px 10px 10px;
+    padding: 1.4rem 10px 10px 10px;
     float: left;
+    vertical-align: top;
 }
 
 .buy-blockcheck span{
@@ -1232,8 +1654,8 @@ html{
 .buy-check-icon{
 	float: left;
     margin-left: 1px;
-	height: 20px;
-    width: 20px;
+	height: 25px;
+    width: 25px;
     background: url("../images/check.png") no-repeat;
     background-size: auto 20px;
 	background-position: 0 0px;
@@ -1254,6 +1676,20 @@ html{
     color: #fff;
 }
 
+.shopcart-i-time{
+	background: url("../images/goodstime.png") no-repeat;
+    background-size: auto 17px;
+    background-position: -17px 0px;
+    display: inline-block;
+    height: 17px;
+    width: 20px;
+}
+
+.shopcart-count{
+	font-size: 1.5rem;
+	vertical-align: top;
+}
+
 /*==========================确认订单=========================*/
 .purchase-select-horizon .nav-tabs > li {
     float: left;
@@ -1264,7 +1700,7 @@ html{
 
 .purchase-select-horizon .nav-tabs > li > a{
     background: #fff;
-    color: #3e4d5c;
+    color: #666;
     width:100%;
     text-align:center;
     border:none !important;
@@ -1310,20 +1746,26 @@ html{
     width: 100%;
     height: 100%;
     text-decoration: none;
-    color:#1a1819;
+    color:#666;
+}
+
+.purchase-select-delivery{
+	display: block !important;
+    width: 50% !important;
+    margin: 0 auto;
 }
 
 .nameandphone{
-	width: 100%;
-	padding: 0 0 10px 0;
-    overflow: hidden;
-    color: #252525;
+	padding: 0 0 5px 0;
+    color: #666;
     font-size: 1.5rem;
     margin-left: 2.5rem;
+    display: inline-block;
 }
 
 .nameandphone .name{
 	float: left;
+	display: inline-block;
 }
 
 .nameandphone .phone{
@@ -1367,8 +1809,7 @@ html{
 
 .purchase-unify{
 	margin-left: 3rem;
-	font-size: 1.8rem;
-    padding-top: 1px;
+	font-size: 1.5rem;
 }
 
 .purchase-goods-div{
@@ -1383,6 +1824,10 @@ html{
     height: 8rem;
 }
 
+.purchase-checkBlockBody:last-child > .purchase-groupinfo{
+	border-bottom:none;
+}
+
 .purchase-groupinfo{
 	width: 100%;
     padding: 10px;
@@ -1393,7 +1838,7 @@ html{
 }
 
 .purchase-groupinfo .purchase-group-img{
-	width:30%;
+	width:25%;
 	height:100%;
 	float: left;
 }
@@ -1405,7 +1850,7 @@ html{
 }
 
 .purchase-group-pro{
-	width:50%;
+	width:55%;
 	float: left;
 	padding-left: 1rem;
 }
@@ -1415,19 +1860,21 @@ html{
 }
 
 .purchase-good－picktime{
-	padding-top: 2rem;
+	padding-top: 1rem;
 	font-size: 1.5rem;
 }
 
 .purchase-goodname{
-	font-size: 2rem;
+	font-size: 1.5rem;
+	vertical-align: top;
+    display: inline-block;
 }
 
 .purchase-group-price{
 	width: 20%;
     float: left;
     text-align: right;
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 .purchase-delivery-time{
@@ -1461,7 +1908,7 @@ html{
 	float: left;
 	line-height: 5rem;
 	font-size: 1.5rem;
-	padding-left: 0.5rem;
+	padding-left: 1rem;
 }
 
 .purchase-method{
@@ -1474,17 +1921,19 @@ html{
 .purchase-method > a {
     display: inline-block;
     line-height: 3rem;
-    width: 9rem;
-    text-align: center;
+    width: 11.5rem;
     margin-left: 1rem;
     border-radius: 8px !important;
     font-size: 1.5rem;
+    text-align: left;
+	padding-left: 10px;
 }
 
 .purchase-method > .method-default{
 	background-color: #f9f9f9;
 	color:#6f6f6f;
 	border: 1px solid #f9f9f9;
+	
 }
 
 .purchase-method > .method-default > i{
@@ -1512,13 +1961,13 @@ html{
 	width: 60%;
     float: left;
     height: 100%;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
 }
 
 .purchase-blockprice .purchase-freight{
 	width: 100%;
 	height: 2.5rem;
-	padding-top: 1rem;
+	padding-top: 0.5rem;
     padding-left: 40%;
 }
 
@@ -1546,6 +1995,23 @@ html{
     color: #fff;
 }
 
+#deliveryTimeSelect{
+	background: none;
+	border:0.5px solid #dbdbdb;
+	color: #666;
+}
+
+#homeDeliveryTimeId{
+	background: none;
+	border:none;
+	border:0.5px solid #dbdbdb;
+	color: #666;
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+}
+
 .pruchase-empty-address{
 	padding: 1rem 0;
 	text-align: center;
@@ -1556,8 +2022,8 @@ html{
 .check-icon-invoice{
 	float: left;
     margin-left: 1px;
-	height: 20px;
-    width: 20px;
+	height: 25px;
+    width: 25px;
     background: url("../images/check.png") no-repeat;
     background-size: auto 20px;
 	background-position: 0 0px;
@@ -1575,12 +2041,14 @@ html{
 
 .purchase-mailspan{
 	margin-left: 3rem;
-	font-size: 1.8rem;
-    padding-top: 1px;
+	font-size: 1.5rem;
 }
 
 .purchase-modal-title {
 	text-align: center;
+	width: 100%;
+    display: block;
+    font-size: 1.5rem;
 }
 
 .purchase-modal-body input{
@@ -1662,6 +2130,39 @@ html{
 	height:4rem;
 }
 
+.credit-dialog{
+	position: fixed;
+    top: 40%;
+    width: 95%;
+}
+
+.credit-modal-title{
+	display:block;
+	width: 85%;
+	text-align: center;
+	font-size: 1.5rem;
+}
+
+.credit-modal-title-error{
+	display:block;
+	width: 85%;
+	text-align: center;
+	font-size: 1rem;
+	color:red;
+}
+
+.credit-modal-body input {
+    display: block;
+    width: 70%;
+    margin: 1rem auto;
+    height: 2.5rem;
+    padding-left: 5px;
+    line-height: 2.5rem;
+    vertical-align: middle;
+    border: none;
+    border-bottom: 1px solid #F4F4F4 !important;
+}
+
 /*=======================订单============================*/
 .order-goods-div{
 	display: inline-block;
@@ -1713,13 +2214,14 @@ html{
 
 .order-goodname{
 	font-size: 2rem;
+	vertical-align: top;
 }
 
 .order-group-price{
 	width: 20%;
     float: left;
     text-align: right;
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 .order-item-group{
@@ -1776,6 +2278,7 @@ html{
 
 .order-bottom-content{
 	width: 100%;
+	display: inline-block;
 }
 
 .order-bottom-content .order-bottom-content-info{
@@ -1784,6 +2287,27 @@ html{
 	float: left;
 	text-align: right;
 	padding:0.5rem 0rem 0.5rem 0rem;
+}
+
+.order-canpay{
+	width: 100%;
+	display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
+.order-canpay a{
+	display: inline-block;
+    height: 2rem;
+    line-height: 2rem;
+    width: 20%;
+    background-color: #FFE4E8;
+    color: #FF9298;
+    font-size: 1.4rem;
+    border-radius: 2px !important;
+    border: 0.5px solid #FF9298;
+    float: right;
+    margin-right: 1rem;
+    text-align: center;
 }
 
 .order-bottom-content .order-bottom-content-content{

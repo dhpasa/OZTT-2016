@@ -29,6 +29,14 @@ public class OzTtAdGcListDto {
     
     private String detailNo;
 
+    private String isTopUp;
+    
+    private String isPre;
+    
+    private String isInStock;
+    
+    private String isHot;
+    
     public String getGoodsId() {
         return goodsId;
     }
@@ -116,4 +124,37 @@ public class OzTtAdGcListDto {
     public void setDetailNo(String detailNo) {
         this.detailNo = detailNo;
     }
+
+	public String getIsTopUp() {
+		return isTopUp;
+	}
+
+	public void setIsTopUp(String isTopUp) {
+		this.isTopUp = isTopUp;
+	}
+
+	public String getIsPre() {
+		return isPre;
+	}
+
+	public void setIsPre(String isPre) {
+		this.isPre = isPre;
+	}
+
+	public String getIsInStock() {
+		return isInStock;
+	}
+
+	public void setIsInStock(String isInStock) {
+		this.isInStock = isInStock;
+	}
+
+	public String getIsHot() {
+		return isHot;
+	}
+
+	public void setIsHot(String isHot) {
+		this.isHot = isHot;
+	}
+    
 }

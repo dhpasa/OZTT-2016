@@ -38,7 +38,7 @@
     <script type="text/javascript" src="${ctx}/js/common_validate.js"></script>
    <script src="${ctx}/js/bootstrap-datepicker.js" type="text/javascript"></script>
    <script src="${ctx}/js/commonFunction.js" type="text/javascript"></script>
-   
+   <script src="${ctx}/js/jquery.fly.min.js" type="text/javascript"></script>
     
     <script type="text/javascript">
         jQuery(document).ready(function() {

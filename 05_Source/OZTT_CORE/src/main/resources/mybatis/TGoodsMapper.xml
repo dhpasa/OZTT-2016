@@ -481,7 +481,7 @@
 			a.classId,
 		</if>
 		
-		c.validPeriodEnd
+		c.validPeriodEnd, c.groupNo
 	</select>
 	
 	<select id="getGoodsByParamForPageCount" resultType="int" parameterType="map">
@@ -754,9 +754,13 @@
 		a.no, a.goodsId, a.classId, a.goodsBrand, a.goodsName, a.goodsDesc, a.goodsComments,
 		a.goodsThumbnail,
 		a.goodsSmallPic, a.goodsNormalPic, a.onSaleFlg, a.hotSaleFlg, a.newSaleFlg, 
-		c.groupPrice as  costPrice, 
+		c.groupPrice as  disPrice, 
+		b.priceValue as  costPrice, 
 		a.sortOrder,
 		a.deleteFlg, 
+		c.validPeriodEnd as validEndTime,
+		c.groupMaxQuantity as groupMax,
+		IF(c.groupCurrentQuantity > c.groupMaxQuantity,c.groupMaxQuantity,c.groupCurrentQuantity) as groupCurrent,
 		c.groupNo
 		from t_goods_group c 
 		inner join t_goods_price b on c.goodsId = b.goodsId

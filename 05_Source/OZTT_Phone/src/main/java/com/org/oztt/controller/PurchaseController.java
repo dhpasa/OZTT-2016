@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.alibaba.fastjson.JSONObject;
 import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.contants.CommonConstants;
-import com.org.oztt.contants.CommonEnum;
 import com.org.oztt.entity.TAddressInfo;
 import com.org.oztt.formDto.ContCartItemDto;
 import com.org.oztt.formDto.ContCartProItemDto;
@@ -115,8 +115,9 @@ public class PurchaseController extends BaseController {
      * @return
      */
     @RequestMapping(value = "payment")
-    public String payment(Model model, HttpServletResponse response, HttpSession session,
+    public Map<String, Object> payment(Model model, HttpServletResponse response, HttpSession session,
             @RequestBody Map<String, Object> param) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
             String hidPayMethod = param.get("payMethod").toString();
@@ -127,25 +128,20 @@ public class PurchaseController extends BaseController {
             String isUnify = param.get("isUnify").toString();
             String invoicemail = param.get("invoicemail").toString();
             String needInvoice = param.get("needInvoice").toString();
+            
             // 先判断付款方式
-            String rb = orderService.insertOrderInfoForPhone(customerNo, hidPayMethod, hidDeliMethod, hidAddressId,
+            String orderNo = orderService.insertOrderInfoForPhone(customerNo, hidPayMethod, hidDeliMethod, hidAddressId,
                     hidHomeDeliveryTime, isUnify, needInvoice, invoicemail, session);
-            if (!StringUtils.isEmpty(rb)) {
-                response.setCharacterEncoding("UTF-8");
-                response.getWriter().write(rb);
-                return null;
-            }
-            if (CommonEnum.DeliveryMethod.COD.getCode().equals(hidDeliMethod)) {
-                // 货到付款
-                return "redirect:/Notice/codNotice";
-            }
-            return null;
+            mapReturn.put("orderNo", orderNo);
+            mapReturn.put("isException", false);
+            return mapReturn;
 
         }
         catch (Exception e) {
             e.printStackTrace();
             logger.error(e.getMessage());
-            return CommonConstants.ERROR_PAGE;
+            mapReturn.put("isException", true);
+            return mapReturn;
         }
     }
 }

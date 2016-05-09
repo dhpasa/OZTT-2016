@@ -23,12 +23,16 @@
 	function detail(id){
 		location.href="${ctx}/order/"+id+"?tab="+${tab};
 	}
-
+	
+	function toPay(orderId) {
+		location.href = "${ctx}/Pay/init?orderNo="+orderId;
+	}
+	var pageNo = 1;
 	function initList(idd) {
 		$.ajax({
 			type : "GET",
 			contentType:'application/json',
-			url : '${pageContext.request.contextPath}/order/initList?orderStatus='+idd,
+			url : '${pageContext.request.contextPath}/order/initList?orderStatus='+idd+'&pageNo='+pageNo,
 			dataType : "json",
 			data : "", 
 			success : function(data) {
@@ -78,6 +82,7 @@
 						var temp45 = '				<span>\${0}</span>';
 						var temp46 = '			</div>';
 						var temp47 = '		</div>';
+						var temp47_1 = '	<div class="order-canpay"><a onclick="toPay(\'{0}\')"><fmt:message key="ORDERLIST_TOPAY" /></a></div>';
 						var temp48 = '	</div>';
 						var temp49 = '</div>';
 						if (data.orderList.length>0){
@@ -129,13 +134,16 @@
 								dataHtml += temp45.replace("{0}",order.orderAmount);
 								dataHtml += temp46;
 								dataHtml += temp47;
+								if (order.orderStatusFlag == '0') {
+									dataHtml += temp47_1.replace("{0}",order.orderId);
+								}
 								dataHtml += temp48;
 								dataHtml += temp49;
 								
 							}
 						}
 						
-						$("#ordersList").html(dataHtml);
+						$("#ordersList").append(dataHtml);
 					} else {
 						
 					}
@@ -178,6 +186,12 @@
 	function closeLoadingDiv(){
 		$("#loadingDiv").css("display","none");
 	}
+	
+	function reloadtab(tab){
+		$("#ordersList").text('');
+		pageNo = 0;
+		initList(tab);
+	}
 </script>
 <style>
 	.list_table{
@@ -208,9 +222,9 @@
 	</div>
 	<div class="orderList-search-horizon">
 		<ul class="nav nav-tabs">
-			<li <c:if test="${tab == '0'}">class="active"</c:if>><a onclick="initList('0');return false;" data-toggle="tab"><fmt:message key="ORDERLIST_WAITPAY" /></a></li>
-			<li <c:if test="${tab == '1'}">class="active"</c:if>><a onclick="initList('1');return false;" data-toggle="tab"><fmt:message key="ORDERLIST_WAITSEND" /></a></li>
-			<li <c:if test="${tab == '3'}">class="active"</c:if>><a onclick="initList('3');return false;" data-toggle="tab"><fmt:message key="ORDERLIST_WAITRECEIVE" /></a></li>
+			<li <c:if test="${tab == '0'}">class="active"</c:if>><a onclick="reloadtab('0');return false;" data-toggle="tab"><fmt:message key="ORDERLIST_WAITPAY" /></a></li>
+			<li <c:if test="${tab == '1'}">class="active"</c:if>><a onclick="reloadtab('1');return false;" data-toggle="tab"><fmt:message key="ORDERLIST_WAITSEND" /></a></li>
+			<li <c:if test="${tab == '3'}">class="active"</c:if>><a onclick="reloadtab('3');return false;" data-toggle="tab"><fmt:message key="ORDERLIST_WAITRECEIVE" /></a></li>
 		</ul>
 	</div>
 	<div id="ordersList">

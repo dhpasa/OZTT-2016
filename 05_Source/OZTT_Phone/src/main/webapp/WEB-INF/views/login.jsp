@@ -50,7 +50,7 @@
 
 <!-- Body BEGIN -->
 <body>
-	<div>
+	<div class="login_bg" id="login-main-div">
 	 <div class="logodiv">
 	 	<img alt="logo" src="${ctx}/images/logo_login.png">
 	 </div>
@@ -77,16 +77,29 @@
             </span>
         </div>
         <div class="login_other">
-            <dl>
-                <dt><fmt:message key="LOGIN_OTHER" /></dt>
-                <dd>
+            <div>
+                <div class="login-other-info">
+                	<span><fmt:message key="LOGIN_OTHER" /></span>
+                </div>
+                <div class="login-other-centent">
                     <a href="" onclick="" class="wechat"><span><fmt:message key="LOGIN_WECHAT" /></span></a>
-                </dd>
-            </dl>
+                </div>
+            </div>
+        </div>
+        <div class="login_guangguang">
+        	<a href="${ctx}/main/init"><fmt:message key="LOGIN_SUIBIAN_GUANGGUANG" /></a>
         </div>
 	</div>
 	
 	</div>
+	<script type="text/javascript">
+
+	//这里重新加载画面的高度
+	var viewHeight = window.screen.height ;
+	if ($("#login-main-div").height() < viewHeight) {
+		$("#login-main-div").height(viewHeight);
+	}
+	</script>   
 </body>
 <!-- END BODY -->
 </html>

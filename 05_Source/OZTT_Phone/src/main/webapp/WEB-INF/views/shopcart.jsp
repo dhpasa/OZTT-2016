@@ -97,12 +97,14 @@
 		});
 		
 		$('.valuemius').click(function(){
-			var currentqty = $(this).parent().parent().find('.txt').text();
+			var currentqty = $(this).parent().parent().find('.txt').find("input[type='text']").val();
 			if (currentqty == 1) {
 				return;
 			} else {
-				$(this).parent().parent().find('.txt').text(currentqty - 1);
-				addShopCart($(this).parent().parent().find('input')[0].value, -1, false);
+				$(this).parent().parent().find('.txt').find("input[type='text']").val(currentqty - 1);
+				addShopCart($(this).parent().parent().find("input[type='hidden']")[0].value, -1, false);
+				$(this).parent().parent().find('.txt').find("input[type='text']").defaultValue = currentqty - 1;
+				
 				canBuyAndShowAllMoney();
 			}
 			
@@ -110,12 +112,13 @@
 		});
 		
 		$('.valueplus').click(function(){
-			var currentqty = $(this).parent().parent().find('.txt').text();
-			if (currentqty == 99) {
+			var currentqty = $(this).parent().parent().find('.txt').find("input[type='text']").val();
+			if (currentqty == 999) {
 				return;
 			} else {
-				$(this).parent().parent().find('.txt').text(parseFloat(currentqty) + 1);
-				addShopCart($(this).parent().parent().find('input')[0].value, 1, true);
+				$(this).parent().parent().find('.txt').find("input[type='text']").val(parseFloat(currentqty) + 1);
+				addShopCart($(this).parent().parent().find("input[type='hidden']")[0].value, 1, true);
+				$(this).parent().parent().find('.txt').find("input[type='text']").defaultValue = parseFloat(currentqty) + 1;
 				canBuyAndShowAllMoney();
 			}
 		});
@@ -136,11 +139,11 @@
 		
 		$("#candelete").click(function(){
 			if ($(this).hasClass("shopcart-modify")) {
-				$("#candelete").text('<fmt:message key="COMMON_MODIFY"/>');
+				$("#candelete").text('<fmt:message key="COMMON_COMPLETE"/>');
 				$(this).removeClass("shopcart-modify");
 				$(".shopcart-goods-delete").find("i").css("display","");
 			} else {
-				$("#candelete").text('<fmt:message key="COMMON_COMPLETE"/>');
+				$("#candelete").text('<fmt:message key="COMMON_MODIFY"/>');
 				$(this).addClass("shopcart-modify");
 				$(".shopcart-goods-delete").find("i").css("display","none");
 			}
@@ -271,14 +274,14 @@
 		} else {
 			// 有选中
 			$("#surebuy").css({
-				"background" : "#FA6D72",
+				"background" : "#FF9298",
 			});
 			$("#surebuy").attr("onclick", "surebuy()");
 		}
 		var totalAmount = 0;
 		for (var i = 0; i < allChecked.length; i++) {
 			var price = $(allChecked[i]).parent().parent().find('.shopcart-group-price').find('span').text().substring(1);
-			var quantity = $(allChecked[i]).parent().parent().find('.shopcart-goods-quantity').find('.txt').text();
+			var quantity = $(allChecked[i]).parent().parent().find('.shopcart-goods-quantity').find('.txt').find("input[type='text']").val();
 			totalAmount += price * quantity;
 		}
 		if (totalAmount == 0) {
@@ -317,6 +320,19 @@
 		});
 	}
 	
+	function checkGoodsNum(str) {
+		if ($(str).val().trim() == "" || isNaN($(str).val())) {
+			$(str).val(str.defaultValue);
+		} else {
+			var diff = parseFloat($(str).val()) - parseFloat(str.defaultValue);
+			if (diff != 0) {
+				addShopCart($(str).parent().parent().find("input[type='hidden']")[0].value, diff, true);
+				canBuyAndShowAllMoney();
+			}
+			
+		}
+	}
+	
 </script>
 <style type="text/css">
 body {
@@ -343,7 +359,7 @@ body {
 			<span>
 				<fmt:message key="CARTLIST_TITLE"/>
 			</span>
-			<span style="color:red">
+			<span style="color:red" class="shopcart-count">
 				<c:if test="${count != null && count > 0 }">(${count})</c:if>
 			</span>
 		</div>
@@ -362,7 +378,7 @@ body {
 				<div class="check-icon"></div>
 			</div>
 			<div class="shopcart-overtime">
-				<i class="glyphicon glyphicon-time"></i>
+				<i class="shopcart-i-time"></i>
 				<fmt:message key="CARTLIST_TIME"/>${cartsList.queryDay }<fmt:message key="COMMON_DAY"/>
 			</div>
 		</div>
@@ -381,14 +397,17 @@ body {
 					
 					<div class="shopcart-goods-quantity">
 						<span class="minus"><i class="fa fa-minus valuemius"></i></span>	
-						<span class="txt">${cartsBody.goodsQuantity }</span>
+						<span class="txt">
+							<input type="text" value="${cartsBody.goodsQuantity }" maxlength="3" pattern="[0-9]*" class="item-num-input" id="itemNumber" onblur="checkGoodsNum(this)"/>
+						</span>
+						
 						<span class="add"><i class="fa fa-plus valueplus"></i></span>
 						<input type="hidden" value="${cartsBody.groupId }" />
 					</div>
 				</div>
 				<div class="shopcart-group-price">
 					
-					<span><fmt:message key="COMMON_DOLLAR" />&nbsp;${cartsBody.goodsUnitPrice }</span>
+					<span><fmt:message key="COMMON_DOLLAR" />${cartsBody.goodsUnitPrice }</span>
 					
 					<div class="shopcart-goods-delete">
 						<i class="fa fa-trash-o redcolor" style="display: none"></i>

@@ -25,6 +25,21 @@
   		});
   	});
   	
+  	function loginOut(){
+  		$.ajax({
+			type : "GET",
+			contentType:'application/json',
+			url : '${pageContext.request.contextPath}/login/logout',
+			dataType : "json",
+			data : "", 
+			success : function(data) {
+				location.href = "${ctx}/main/init";
+			},
+			error : function(data) {
+			}
+		});
+  	}
+  	
   	
   	function manageAddress(){
   		if ('${currentUserId}' == '') {
@@ -80,6 +95,7 @@
 		</c:if>
 		<c:if test="${currentUserId != null && currentUserId != ''}">
 			<div class="showusername">
+				<img alt="photo" src="${ctx}/images/head.png">
 				<span >${currentUserName}</span>
 			</div>
 			
@@ -88,20 +104,21 @@
 	</div>
 	
 	<div class="order p-item">
-		<a href="${ctx}/order?tab=0" class="p-link padding-1rem-top">
+		<a href="${ctx}/order/init?tab=0" class="p-link padding-1rem-top">
+			<span class="user-order-img"></span>
 			<div class="myorder"><fmt:message key="USER_MYORDER"/></div>
 			<div class="viewallorder"><fmt:message key="USER_SEEALLORDER"/>&nbsp;<i class="fa fa-angle-right"></i></div>
 		</a>
 		<div class="order-nav padding-1rem-top">
-			<a href="${ctx}/order?tab=0">
+			<a href="${ctx}/order/init?tab=0">
 				<i class="await-pays"></i>
 				<div><fmt:message key="USER_ORDER_NOTPAY"/></div>
 			</a>
-			<a href="${ctx}/order?tab=1">
+			<a href="${ctx}/order/init?tab=1">
 				<i class="await-ship"></i>
 				<div><fmt:message key="USER_ORDER_NOTOVER"/></div>
 			</a>
-			<a href="${ctx}/order?tab=3">
+			<a href="${ctx}/order/init?tab=3">
 				<i class="await_received"></i>
 				<div><fmt:message key="USER_ORDER_OVER"/></div>
 			</a>
@@ -110,6 +127,7 @@
 	
 	<div class="order p-item user-item">
 		<a onclick="manageAddress()" class="adsmana padding-1rem-top">
+			<span class="user-adsmanage-img"></span>
 			<div class="content"><fmt:message key="USER_ADS_MANAGER"/></div>
 			<i class="fa fa-angle-right"></i>
 		</a>
@@ -117,6 +135,7 @@
 	
 	<div class="order p-item">
 		<a href="#" class="fangle padding-1rem-top">
+			<span class="user-service-img"></span>
 			<div class="content"><fmt:message key="USER_CONTENT"/></div>
 			<i class="fa fa-angle-right"></i>
 		</a>
@@ -128,6 +147,7 @@
 	
 	<div class="order p-item">
 		<a href="#" class="fangle padding-1rem-top">
+			<span class="user-cooprate-img"></span>
 			<div class="content"><fmt:message key="USER_OTHERCOOPERATE"/></div>
 			<i class="fa fa-angle-right"></i>
 		</a>
@@ -139,6 +159,7 @@
 	
 	<div class="order p-item">
 		<a href="#" class="fangle padding-1rem-top">
+			<span class="user-about-img"></span>
 			<div class="content"><fmt:message key="USER_ABOUT"/></div>
 			<i class="fa fa-angle-right"></i>
 		</a>
@@ -150,13 +171,18 @@
 	
 	<div class="order p-item">
 		<a href="#" class="fangle padding-1rem-top">
+			<span class="user-changedlan-img"></span>
 			<div class="content"><fmt:message key="USER_LANGUAGECHANGE"/></div>
 			<div class="user-language">
-				<img alt="cn" src="${ctx}/images/cn.png" onclick="changeLocale('zh')">
-				<img alt="us" src="${ctx}/images/us.png" onclick="changeLocale('en')">
+				<span onclick="changeLocale('zh')"><fmt:message key="USER_LANGUAGE_CN"/></span>
+				<span onclick="changeLocale('en')"><fmt:message key="USER_LANGUAGE_EN"/></span>
 			</div>
 		</a>
 	</div>
+	
+	<div class="loginOutBtn">
+            <a href="#" onclick="loginOut()"><fmt:message key="LOGIN_OUT_BTN" /></a>
+        </div>
 </body>
 <!-- END BODY -->
 </html>

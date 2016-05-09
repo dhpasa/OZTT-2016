@@ -3,6 +3,9 @@ package com.org.oztt.controller;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -11,9 +14,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.org.oztt.base.util.MessageUtils;
+import com.org.oztt.base.util.VpcHttpPayUtils;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.contants.CommonEnum;
 import com.org.oztt.entity.TConsOrder;
@@ -32,28 +38,17 @@ public class PayController extends BaseController {
     private OrderService  orderService;
 
     /**
-     * 付款
+     * 跳转到支付画面
      * 
      * @param model
      * @return
      */
-    @RequestMapping(value = "payment")
-    public String payment(Model model, HttpServletResponse response, HttpSession session, String hidDeliMethod,
-            String hidAddressId, String hidPayMethod, String hidHomeDeliveryTime) {
+    @RequestMapping(value = "init")
+    public String init(Model model, HttpServletResponse response, HttpSession session, String orderNo, String email) {
         try {
-            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
-            // 先判断付款方式
-            String rb = orderService.insertOrderInfo(customerNo, hidPayMethod, hidDeliMethod, hidAddressId, hidHomeDeliveryTime);
-            if (!StringUtils.isEmpty(rb)) {
-                response.setCharacterEncoding("UTF-8");
-                response.getWriter().write(rb);
-                return null;
-            }
-            if (CommonEnum.DeliveryMethod.COD.getCode().equals(hidDeliMethod)) {
-                // 货到付款
-                return "redirect:/Notice/codNotice";
-            }
-            return null;
+            model.addAttribute("orderNo", orderNo);
+            model.addAttribute("email", email);
+            return "payment";
 
         }
         catch (Exception e) {
@@ -111,6 +106,61 @@ public class PayController extends BaseController {
     }
 
     /**
+     * 付款
+     * 
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "toPay")
+    public Map<String, Object> toPay(Model model, HttpServletResponse response, HttpSession session,
+            @RequestBody Map<String, String> map) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            String orderNo = map.get("orderNo");
+            String email = map.get("email");
+
+            TConsOrder tConsOrder = orderService.selectByOrderId(orderNo);
+            BigDecimal amount = tConsOrder.getOrderamount();
+            Map<String, String> payMap = new HashMap<String, String>(); 
+            payMap.put("vpc_Version", MessageUtils.getApplicationMessage("vpc_Version"));
+            payMap.put("vpc_Command", MessageUtils.getApplicationMessage("vpc_Command"));
+            payMap.put("vpc_AccessCode", MessageUtils.getApplicationMessage("vpc_AccessCode"));
+            payMap.put("vpc_MerchTxnRef", MessageUtils.getApplicationMessage("vpc_MerchTxnRef"));
+            payMap.put("vpc_Merchant", MessageUtils.getApplicationMessage("vpc_Merchant"));
+            payMap.put("vpc_OrderInfo", MessageUtils.getApplicationMessage("vpc_OrderInfo"));
+            payMap.put("vpc_Amount", String.valueOf(amount.multiply(new BigDecimal(100)).intValue()));
+            payMap.put("vpc_CardNum", map.get("vpc_CardNum"));
+            payMap.put("vpc_CardExp", map.get("vpc_CardExp"));
+            payMap.put("vpc_CardSecurityCode", map.get("vpc_CardSecurityCode"));
+            payMap.put("vpc_CSCLevel", MessageUtils.getApplicationMessage("vpc_CSCLevel"));
+            payMap.put("vpc_TicketNo", "");
+            
+            Map<String, String> resMap = VpcHttpPayUtils.http(MessageUtils.getApplicationMessage("vpc_url"), payMap);
+
+            if (resMap != null && "0".equals(resMap.get(VpcHttpPayUtils.VPC_TXNRESPONSECODE))) {
+                orderService.updateRecordAfterPay(orderNo, customerNo, session);
+                if (!StringUtils.isEmpty(email)) {
+                    orderService.createTaxAndSendMailForPhone(orderNo, customerNo, session, email);
+                }
+
+                mapReturn.put("isException", false);
+            }
+            else {
+                mapReturn.put("isException", true);
+            }
+
+            return mapReturn;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+
+    /**
      * 付款后的通知
      * 
      * @param model
@@ -130,9 +180,9 @@ public class PayController extends BaseController {
             return CommonConstants.ERROR_PAGE;
         }
     }
-    
+
     @RequestMapping(value = "TestUrl")
-    public void TestUrl(Model model, HttpServletResponse response, HttpSession session) throws Exception{
+    public void TestUrl(Model model, HttpServletResponse response, HttpSession session) throws Exception {
         // 是客户操作
         // 将文件输出
         InputStream inStream = new FileInputStream("/Users/linliuan/ireport/INVOICE_TAX.pdf");
@@ -144,12 +194,12 @@ public class PayController extends BaseController {
         byte[] b = new byte[100];
         int len;
         try {
-                while ((len = inStream.read(b)) > 0)
+            while ((len = inStream.read(b)) > 0)
                 response.getOutputStream().write(b, 0, len);
-                inStream.close();
-        } 
+            inStream.close();
+        }
         catch (IOException e) {
-                e.printStackTrace();
+            e.printStackTrace();
         }
     }
 

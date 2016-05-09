@@ -80,6 +80,10 @@ public class OzTtAdGlController extends BaseController {
             params.put("dateFrom", ozTtAdGcDto.getDateFrom());
             params.put("dateTo", ozTtAdGcDto.getDateTo());
             params.put("isOpenFlag", ozTtAdGcDto.getIsOpenFlag());
+            params.put("isTopUp", ozTtAdGcDto.getIsTopUp());
+            params.put("isPre", ozTtAdGcDto.getIsPre());
+            params.put("isInStock", ozTtAdGcDto.getIsInStock());
+            params.put("isHot", ozTtAdGcDto.getIsHot());
             pagination.setParams(params);
             PagingResult<OzTtAdGcListDto> pageInfo = goodsService.getAllGroupsInfoForAdmin(pagination);
 
@@ -112,6 +116,10 @@ public class OzTtAdGlController extends BaseController {
             params.put("dateFrom", ozTtAdGcDto.getDateFrom());
             params.put("dateTo", ozTtAdGcDto.getDateTo());
             params.put("isOpenFlag", ozTtAdGcDto.getIsOpenFlag());
+            params.put("isTopUp", ozTtAdGcDto.getIsTopUp());
+            params.put("isPre", ozTtAdGcDto.getIsPre());
+            params.put("isInStock", ozTtAdGcDto.getIsInStock());
+            params.put("isHot", ozTtAdGcDto.getIsHot());
             pagination.setParams(params);
             PagingResult<OzTtAdGcListDto> pageInfo = goodsService.getAllGroupsInfoForAdmin(pagination);
 
@@ -153,6 +161,10 @@ public class OzTtAdGlController extends BaseController {
             res.put("groupReminder", tGoodsGroup.getComsumerreminder());
             res.put("groupRule", tGoodsGroup.getShopperrules());
             res.put("openflg", tGoodsGroup.getOpenflg());
+            res.put("isTopUp", tGoodsGroup.getToppageup());
+            res.put("isPre", tGoodsGroup.getPreflg());
+            res.put("isInStock", tGoodsGroup.getInstockflg());
+            res.put("isHot", tGoodsGroup.getHotflg());
             
             // 后台维护的时候提示让以逗号隔开
             mapReturn.put("resMap", res);
@@ -188,6 +200,10 @@ public class OzTtAdGlController extends BaseController {
             tGoodsGroup.setGroupmaxquantity(Long.valueOf(map.get("groupmaxquantity")));
             tGoodsGroup.setGroupprice(new BigDecimal(map.get("groupprice")));
             tGoodsGroup.setOpenflg(map.get("openflg"));
+            tGoodsGroup.setToppageup(map.get("istopup"));
+            tGoodsGroup.setPreflg(map.get("ispre"));
+            tGoodsGroup.setInstockflg(map.get("isinstock"));
+            tGoodsGroup.setHotflg(map.get("ishot"));
             tGoodsGroup.setShopperrules(map.get("shopperrules"));
             tGoodsGroup.setValidperiodend(DateFormatUtils.string2DateWithFormat(map.get("validperiodend"),
                     DateFormatUtils.PATTEN_YMD2));

@@ -13,7 +13,7 @@
   
   	$(function(){
 		$(".ico-back").click(function(){
-			location.href="${ctx}/order?tab="+${tab};
+			location.href="${ctx}/order/init?tab="+${tab};
 		});
 		
 	});
@@ -28,7 +28,7 @@
 	<div class="x-header x-header-gray border-1px-bottom">
 		<div class="x-header-btn ico-back"></div>
 		<div class="x-header-title">
-			<span><fmt:message key="ADDRESSLIST_TITLE" /></span>
+			<span><fmt:message key="ORDERLIST_TITLE" /></span>
 		</div>
 		<div class="x-header-btn"></div>
 	</div>
@@ -38,12 +38,12 @@
 	
 	<div class="order-item-head">
 		<div class="order-item-time"><fmt:message key="ORDER_ITEM_ORDERNO" />${detailInfo.orderNo}</div>
-		<div class="order-item-headStatus">订单待付款</div>
+		<div class="order-item-headStatus">${detailInfo.orderStatusView}</div>
 		<div class="order-select-address border-top-show">
 		
 			<div class="nameandphone">
-				<div class="name">${detailInfo.receiver }</div>
-				<div class="phone">${detailInfo.receiverPhone }</div>
+				<div class="name">${detailInfo.receiver }&nbsp;&nbsp;&nbsp;${detailInfo.receiverPhone }</div>
+				<div class="phone"></div>
 			</div>
 			<div class="detailaddress">
 				<i class="position"></i>

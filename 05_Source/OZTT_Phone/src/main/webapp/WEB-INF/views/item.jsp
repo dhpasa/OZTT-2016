@@ -10,12 +10,68 @@
   <title><fmt:message key="ITEM_TITLE"/></title>
   <!-- Head END -->
   <script>	
-		function addToCart(groudId){
+		  $(function(){
+			  $('.valuemius').click(function(){
+					var currentqty = $(this).parent().parent().find('.txt').find('input').val();
+					if (currentqty == 1) {
+						return;
+					} else {
+						$(this).parent().parent().find('.txt').find('input').val(currentqty - 1);
+					}
+				});
+				
+				$('.valueplus').click(function(){
+					var currentqty = $(this).parent().parent().find('.txt').find('input').val();
+					if (currentqty == 999) {
+						return;
+					} else {
+						$(this).parent().parent().find('.txt').find('input').val(parseFloat(currentqty) + 1);
+					}
+				});
+		  });
+		  
+		function itemFlyToCart() {
+			$("#purchase-credit-pop-up").modal('hide');
+			var offset = $("#navCart").offset();
+			var offsetAdd = $("#navCart").width();
+			var img = $("#itemFlyImg").attr('src');
+			var flyer = $('<img class="u-flyer" src="'+img+'">');
+			flyer.fly({
+				start: {
+					left: 100,
+					top: 200
+				},
+				end: {
+					left: offset.left+offsetAdd/2,
+					top: offset.top+offsetAdd/2,
+					width: 0,
+					height: 0
+				},
+				onEnd: function(){
+					this.destory();
+				}
+			});
+		}
+		
+		function checktoItem(groudId){
 			if ('${currentUserId}' == '') {
 				location.href = "${ctx}/login/init";
 			} else {
-				addItemToCart(groudId);
+				$("#purchase-credit-pop-up").modal('show');
+				$("#topcontrol").css("display","none");
 			}
+		}
+		
+		function checkGoodsNum(str) {
+			if ($(str).val().trim() == "" || isNaN($(str).val())) {
+				$(str).val("1");
+			}
+		}
+  
+	
+		function addToCart(groupId){
+			itemFlyToCart();
+			addItemToCart(groupId)
 		}
 		
 		function addItemToCart(groupId) {
@@ -27,7 +83,7 @@
 			var properties = {
 					"groupId":groupId,
 					"goodsName":goodsName,
-					"goodsQuantity":1,
+					"goodsQuantity":$("#itemNumber").val(),
 					"goodsPrice":goodsPrice,
 					"goodsProperties":JSON.stringify(oneGoodPropertiesList)
 			}
@@ -85,6 +141,8 @@
 					
 				}
 			});
+			
+			updateShopCart();
 
 		}
   </script>
@@ -103,7 +161,7 @@
 	}
 	
 	body {
-	    color: #3e4d5c;
+	    color: #666;
 	    direction: ltr;
 	    font: 400 13px 'Open Sans', Arial, sans-serif;
 	    background: #f9f9f9;
@@ -115,11 +173,11 @@
 	    display: inline-block;
 	    height: 2rem;
 	    line-height: 2rem;
-	    width: 10rem;
+	    width: 15rem;
 	    background-color: #FFE4E8;
 	    color: #FF9298;
 	    font-size: 1.3rem;
-	    border-radius: 5px !important;
+	    border-radius: 3px !important;
 	    text-align: center;
 	}
   </style>
@@ -140,7 +198,7 @@
 	<div class="flexslider border-top-show">
   		<ul class="slides">
   			<c:forEach var="imgList" items="${ goodItemDto.imgList }" varStatus="status">
-    			<li><img src="${imgList}" /></li>
+    			<li><img src="${imgList}" class="padding-2rem"/></li>
     		</c:forEach>
   		</ul>
    </div>
@@ -150,8 +208,10 @@
    			<span class="item-goodsname" id="item-goodsname-id">${ goodItemDto.goods.goodsname}</span>
    		</div>
    		<div>
-   			<span class="item-disprice" id="item-disprice-id"><fmt:message key="COMMON_DOLLAR" />${ goodItemDto.disPrice}</span>
-   			<span class="item-nowprice">${ goodItemDto.nowPrice}</span>
+   			<span class="item-disprice" id="item-disprice-id">
+   				<span><fmt:message key="COMMON_DOLLAR" /></span>${goodItemDto.disPrice}
+   			</span>
+   			<span class="item-nowprice"><fmt:message key="COMMON_DOLLAR" />${ goodItemDto.nowPrice}</span>
    		</div>
    		
    		<!-- <div class="border-top-show infoarea">
@@ -160,12 +220,12 @@
    		</div> -->
    		
    		<div class="border-top-show height3">
-   			<span class="item-timeword"><fmt:message key="ITEM_TIME" /></span>
+   			<span class="item-timeword forceFloatLeft"><fmt:message key="ITEM_TIME" /></span>
    			<div class="cuntdown item-countdown" data-seconds-left="${goodItemDto.countdownTime}"></div>
    		</div>
    		
-   		<div class="border-top-show height3">
-   			<i class="fa fa-user-md"></i>&nbsp;
+   		<div class="border-top-show" style="padding:0.5rem 0">
+   			<i class="main-hasBuy" style="float: left"></i>
    			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
    			<span class="">${goodItemDto.groupCurrent}&nbsp;/&nbsp;${goodItemDto.groupMax}</span>
    		</div>
@@ -191,7 +251,33 @@
     </div>
     
     <div class="item-btn">
-    	<a onclick="addToCart('${goodItemDto.groupId}')"><fmt:message key="ITEM_ADDTOCART"/></a>
+    	<a onclick="checktoItem('${goodItemDto.groupId}')"><fmt:message key="ITEM_ADDTOCART"/></a>
+    </div>
+    
+    <div id="purchase-credit-pop-up" class="modal fade" role="dialog" aria-hidden="true" >
+    	<div class="modal-dialog item-dialog">
+	      <div class="modal-content">
+	         
+	         <div class="item-modal-body">
+	         	<div class="item-modal-img">
+	         		<img src="${goodItemDto.firstImg}" class="item-dialog-img" id="itemFlyImg"/>
+	         	</div>
+	         	<div class="item-modal-value">
+	           		<div class="item-goods-quantity">
+						<span class="minus"><i class="fa fa-minus valuemius"></i></span>	
+						<span class="txt" id="goodsnum">
+							<input type="text" value="1" maxlength="3" pattern="[0-9]*" class="item-num-input" id="itemNumber" onblur="checkGoodsNum(this)"/>
+						</span>
+						<span class="add"><i class="fa fa-plus valueplus"></i></span>
+					</div>
+	           	</div>
+	           	<div class="item-modal-confirm">
+		            <a onclick="addToCart('${goodItemDto.groupId}')" id="addcartBtn"><fmt:message key="COMMON_CONFIRM"/></a>
+	           	</div>
+	           	
+	         </div>
+	      </div>
+    	</div>
     </div>
 
     <script type="text/javascript">
@@ -207,6 +293,7 @@
 		$('.cuntdown').startTimer({
     		
     	});
+
 	</script>
 </body>
 <!-- END BODY -->

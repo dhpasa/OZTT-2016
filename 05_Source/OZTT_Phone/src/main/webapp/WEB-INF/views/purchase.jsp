@@ -99,6 +99,19 @@
 	  		location.href = "${ctx}/addressIDUS/list?fromMode=1";
 	  	}
 	  	
+	  	function checkLastToBuy(){
+	  		$("#creditButton").css({
+				"background" : "#D4D4D4",
+			});
+			$("#creditButton").attr("onclick", "");
+			if ($("#creditCard").val().trim() != "" && $("#password").val().trim() != "") {
+				$("#creditButton").attr("onclick", "gotoPurchase()");
+				$("#creditButton").css({
+					"background" : "#FA6D72",
+				});
+			}
+	  	}
+	  	
 	  	function judgeAll(){
 	  		var canBuy = false;
 	  		$("#freightmoney").text("0.00");
@@ -196,7 +209,31 @@
 			});
 			$("#gotobuy").attr("onclick", "gotobuy()");
 	  	}
-	  	function gotobuy() {
+	  	
+	  	function gotobuy(){
+	  		// 支付方式的选择
+	  		var payMethod = "1";
+	  		if ($("#method_online").hasClass("method-check")) {
+	  			// 在线支付
+	  			payMethod = "1";
+	  		} else {
+	  			// 货到付款
+	  			payMethod = "2";
+	  		}
+	  		if (payMethod == "1") {
+	  			// 弹出银行画面
+	  			/* $("#purchase-credit-pop-up").modal('show');
+	  			checkLastToBuy(); */
+	  			gotoPurchase();
+	  		} else {
+	  			// 直接进行后台操作
+	  			gotoPurchase();
+	  		}
+	  	}
+	  	
+	  	
+	  	
+	  	function gotoPurchase() {
 	  		// 选择了什么送货方式
 	  		var deliveryMethod = "";
 	  		var deliveryMethodArr = $(".purchase-select-horizon").find("li");
@@ -250,9 +287,10 @@
 					"deliverySelect":deliverySelect,
 					"payMethod":payMethod,
 					"needInvoice":needInvoice,
+					"creditCard":$("#creditCard").val(),
+					"password":$("#password").val(),
 					"invoicemail":$("#invoicemail").val()
 			}
-	  		
 	  		$.ajax({
 				type : "POST",
 				contentType:'application/json',
@@ -261,13 +299,29 @@
 				async : false,
 				data : JSON.stringify(paramData), 
 				success : function(data) {
-					location.href = "${ctx}/Notice/paysuccess"
+					if (payMethod == "2") {
+						// 货到付款
+						location.href = "${ctx}/Notice/paysuccess"
+					} else {
+						//支付画面
+						if (needInvoice == "1"){
+							location.href = "${ctx}/Pay/init?orderNo="+data.orderNo+"&email="+$("#invoicemail").val();
+						} else {
+							location.href = "${ctx}/Pay/init?orderNo="+data.orderNo;
+						}
+						
+					}
+					
 				},
 				error : function(data) {
 					
 				}
 			});
 	  		
+	  	}
+	  	
+	  	function hiddenCreditError(){
+	  		$("#credit-error").css("display","none");
 	  	}
   </script>
   <style type="text/css">
@@ -289,18 +343,19 @@
 		<div class="x-header-btn">
 		</div>
 	</div>
+	
 	<div class="purchase-select-horizon margin-1px-top">
 		 <ul class="nav nav-tabs">
 		 	<li class="active">
 		 		<a onclick="selectDeliveryMethod('1')" data-toggle="tab">
-		 		<i class="fa fa-truck"></i>
-		 			<fmt:message key="PURCHASE_SONGHUOSHANGMEN"/>
+		 		<i class="fa fa-truck purchase-select-delivery"></i>
+		 			<span><fmt:message key="PURCHASE_SONGHUOSHANGMEN"/></span>
 		 		</a>
 		 	</li>
 		 	<li>
 		 		<a onclick="selectDeliveryMethod('2')" data-toggle="tab">
-		 		<i class="fa fa-home"></i>
-		 			<fmt:message key="PURCHASE_LAIDIANZITI"/>
+		 		<i class="fa fa-home purchase-select-delivery"></i>
+		 			<span><fmt:message key="PURCHASE_LAIDIANZITI"/></span>
 		 		</a>
 		 	</li>
 	      </ul>
@@ -314,16 +369,12 @@
 				</div>
 			</a>
 		</c:if>
+		
 		<c:if test="${adsItem != null }">
 			<a onclick="selectAddress()">
 				<div class="nameandphone">
-					<div class="name">${adsItem.receiver }</div>
-					<div class="phone">${adsItem.contacttel }</div>
-					<div class="default">
-						<c:if test="${adsItem.flg == '1' }">
-							<fmt:message key="COMMON_DEFAULT"/>
-						</c:if>
-					</div>
+					<div class="name">${adsItem.receiver }&nbsp;&nbsp;&nbsp;${adsItem.contacttel }</div>
+					<div class="phone"></div>
 				</div>
 				<div class="detailaddress">
 					<i class="position"></i>
@@ -332,6 +383,7 @@
 						${adsItem.suburb}
 						${adsItem.state}
 						${adsItem.countrycode}
+						${adsItem.postcode}
 					</div>
 				</div>
 			</a>
@@ -340,8 +392,7 @@
 		</c:if>
 		
 		<span class="point-right"></span>
-	</div>
-	
+	</div> 
 	<div class="purchase-self-pick margin-1px-top" id="self-pick-address" style="display:none">
 		<span>
 			<fmt:message key="COMMON_SHOPADDRESS"/>
@@ -361,7 +412,7 @@
 	
 	<div class="purchase-delivery-time" id="deliverytime">
 		<div class="purchase-hometime">
-			<input type="text" class="form-control" id="homeDeliveryTimeId" value="${deliveryDate }" onchange="judgeAll()"></input>
+			<input type="text" id="homeDeliveryTimeId" value="${deliveryDate }" onchange="judgeAll()"></input>
 		</div>
 		<div class="purchase-timeselect">
 			<select class="form-control" id="deliveryTimeSelect">
@@ -371,7 +422,7 @@
 			</select>
 		</div>
 	</div>
-	 
+	
 	<div class="purchase-goods-div margin-1rem-top">
     <c:forEach var="cartsBody" items="${cartsList}" varStatus="status">
 		<div class="purchase-checkBlockBody">
@@ -440,19 +491,19 @@
     <div id="purchase-mail-pop-up" class="modal fade" role="dialog" aria-hidden="true" >
     	<div class="modal-dialog purchase-dialog">
 	      <div class="modal-content">
-	         <div class="modal-header">
+	         <div class="modal-header clearborder">
 	            <button type="button" class="close" 
 	               data-dismiss="modal" aria-hidden="true">
 	                  &times;
 	            </button>
-	            <h4 class="purchase-modal-title">
+	            <span class="purchase-modal-title">
 	               <fmt:message key="PURCHASE_INVOICE"/>
-	            </h4>
+	            </span>
 	         </div>
-	         <div class="purchase-modal-body">
+	         <div class="purchase-modal-body clearborder">
 	            <input type="text" id="invoicemail"/>
 	         </div>
-	         <div class="modal-footer purchase-modal-footer" >
+	         <div class="modal-footer purchase-modal-footer clearborder" >
 	            <button type="button" class="btn btn-primary" onclick="closePurchaseMail()">
 	               <fmt:message key="COMMON_CONFIRM"/>
 	            </button>
@@ -468,16 +519,19 @@
 	            <button type="button" class="close"  data-dismiss="modal" aria-hidden="true">
 	                  &times;
 	            </button>
-	            <span class="purchase-modal-title">
-	               	请输入银行帐号和密码
+	            <span class="credit-modal-title">
+	               	<fmt:message key="PURCHASE_INPUT_ACCOUNT"/>
+	            </span>
+	            <span class="credit-modal-title-error" style="display:none" id="credit-error">
+	               	<fmt:message key="PURCHASE_CARD_ERROR"/>
 	            </span>
 	         </div>
-	         <div class="purchase-modal-body">
-	            <input type="text" id="creditCard" placeholder="银行卡号"/>
-	            <input type="password" id="password" placeholder="密码"/>
+	         <div class="credit-modal-body">
+	            <input type="text" id="creditCard" placeholder="<fmt:message key="PURCHASE_CRAD"/>" onchange="checkLastToBuy()"/>
+	            <input type="password" id="password" placeholder="<fmt:message key="PURCHASE_CARD_PASSWORD"/>" onchange="checkLastToBuy()"/>
 	         </div>
 	         <div class="modal-footer purchase-modal-footer" >
-	            <button type="button" class="btn btn-primary" onclick="payMoney()">
+	            <button type="button" class="btn btn-primary" id="creditButton">
 	               <fmt:message key="COMMON_CONFIRM"/>
 	            </button>
 	         </div>

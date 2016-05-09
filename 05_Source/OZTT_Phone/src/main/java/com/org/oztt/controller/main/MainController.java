@@ -19,7 +19,6 @@ import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.controller.BaseController;
-import com.org.oztt.entity.TGoods;
 import com.org.oztt.formDto.GroupItemDto;
 import com.org.oztt.service.GoodsService;
 
@@ -46,25 +45,15 @@ public class MainController extends BaseController {
 
             List<String> tabList = goodsService.getMainSearchTab();
 
-            // 获取新货
-            List<GroupItemDto> newGoodsList = goodsService.getAllNewArravail();
-
-            if (!CollectionUtils.isEmpty(newGoodsList)) {
-                for (GroupItemDto goods : newGoodsList) {
-                    goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT
-                            + goods.getGoodsthumbnail());
-                    goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
-                    goods.setCountdownDay(DateFormatUtils.getBetweenDayTime(goods.getValidEndTime()));
-                }
-            }
-
-            // 获取热卖的商品
+            // 获取秒杀的商品
             List<GroupItemDto> topPageGoodsList = goodsService.getTopPage();
 
             if (!CollectionUtils.isEmpty(topPageGoodsList)) {
                 for (GroupItemDto goods : topPageGoodsList) {
                     goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT
                             + goods.getGoodsthumbnail());
+                    goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
+                    goods.setCountdownDay(DateFormatUtils.getBetweenDayTime(goods.getValidEndTime()));
                 }
             }
 
@@ -82,12 +71,12 @@ public class MainController extends BaseController {
                     goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
                 }
             }
-            model.addAttribute("hotGoodsList", topPageGoodsList);
             model.addAttribute("menucategory", myCategroyList);
-            model.addAttribute("newGoodsList", newGoodsList);
+            model.addAttribute("newGoodsList", topPageGoodsList);
             model.addAttribute("tgoodList",
                     (pageInfo == null || pageInfo.getResultList() == null) ? null : pageInfo.getResultList());
             model.addAttribute("tabList", tabList);
+            model.addAttribute("imgUrl", imgUrl);
 
             // 获取session中的值
             model.addAttribute(CommonConstants.SESSION_CUSTOMERNO,
