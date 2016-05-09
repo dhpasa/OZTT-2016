@@ -226,6 +226,8 @@ html{
 
 .jshop-product-two-column{
 	width: 100%;
+	display: inline-block;
+	background-color: #F9F9F9;
 }
 
 .jshop-product-two-column ul{
@@ -345,6 +347,8 @@ html{
 
 .main_goods{
 	display: inline-block;
+	background-color: #fff;
+	margin-top: 1rem;
 }
 
 .countdownDay{
@@ -453,6 +457,99 @@ html{
     display: inline-block;
     height: 15px;
     width: 20px;
+}
+
+.main-category{
+	display: inline-block;
+	width: 100%;
+	background-color: #fff;
+}
+
+.main-category img{
+	display: inline-block;
+    width: 33.33%;
+    float: left;
+}
+
+.main-rushpur-area{
+	width: 100%;
+	display: inline-block;
+	border-bottom: 0.5px solid rgba(187, 187, 187, 0.5);
+}
+.main-rushpur-area .rushtext{
+	width: 50%;
+	float:left;
+	text-align: left;
+	padding: 0.5rem 1rem 0.5rem 1rem;
+	font-size: 2rem;
+}
+.main-rushpur-area .rushmore{
+	width: 50%;
+	float:left;
+	text-align: right;
+	padding: 0.5rem 1rem 0.5rem 1rem;
+	font-size: 2rem;
+}
+
+.main-rushpur-area .rushmore > i{
+	font-size: 2.5rem;
+	padding-left: 0.5rem;
+}
+
+.main-presell-area{
+	width: 100%;
+	display: inline-block;
+/* 	border-bottom: 0.5px solid rgba(187, 187, 187, 0.5); */
+	background-color: #fff;
+	margin-top: 1rem;
+}
+
+.main-presell-area .preselltext{
+	width: 50%;
+	float:left;
+	text-align: left;
+	padding: 0.5rem 1rem 0.5rem 1rem;
+	font-size: 2rem;
+}
+.main-presell-area .presellmore{
+	width: 50%;
+	float:left;
+	text-align: right;
+	padding: 0.5rem 1rem 0.5rem 1rem;
+	font-size: 2rem;
+}
+
+.main-presell-area .presellmore > i{
+	font-size: 2.5rem;
+	padding-left: 0.5rem;
+}
+
+.main-nowsell-area{
+	width: 100%;
+	display: inline-block;
+/* 	border-bottom: 0.5px solid rgba(187, 187, 187, 0.5); */
+	background-color: #fff;
+	margin-top: 1rem;
+}
+
+.main-nowsell-area .nowselltext{
+	width: 50%;
+	float:left;
+	text-align: left;
+	padding: 0.5rem 1rem 0.5rem 1rem;
+	font-size: 2rem;
+}
+.main-nowsell-area .nowsellmore{
+	width: 50%;
+	float:left;
+	text-align: right;
+	padding: 0.5rem 1rem 0.5rem 1rem;
+	font-size: 2rem;
+}
+
+.main-nowsell-area .nowsellmore > i{
+	font-size: 2.5rem;
+	padding-left: 0.5rem;
 }
 
 /* ========================================我============================================== */
