@@ -57,11 +57,7 @@
   						$("#groupReminder").val(data.resMap.groupReminder);
   						$("#groupRule").val(data.resMap.groupRule);
   						if (data.resMap.isTopUp == '1'){
-  							alert(data.resMap.isTopUp);
-  							//20160509
   							$("#isTopUpEdit").attr("checked", true);
-  							$("[name='isTopUpEdit']").attr("checked", true);
-  							document.getElementById("isTopUpEdit").checked = true;
   						}
   						if (data.resMap.isPre == '1'){
   							$("#isPreEdit").attr("checked", true);
@@ -128,6 +124,7 @@
 	  		$(".wysihtml5").css("display","");
   			ComponentsEditors.init();
 	  		$('#groupSet_modal').modal('show');
+	  		$(":checkbox").uniform({checkboxClass: 'myCheckClass'});
 	  	}
 	  	
 	  	var E0002 = '<fmt:message key="E0002" />';
@@ -217,6 +214,7 @@
 				}
 			});
 			window.location.reload();
+			$(":checkbox").uniform({checkboxClass: 'myCheckClass'});
 	  	}
 	  	
 	  	function previewGroup(groupId) {
@@ -347,7 +345,7 @@
 						 <fmt:message key="COMMON_YES" />
 						 </label>
 						 <label class="radio-inline">
-							<form:radiobutton path="isTopUp" value=""></form:radiobutton>
+							<form:radiobutton path="isTopUp" value="" checked="true"></form:radiobutton>
 						 	<fmt:message key="COMMON_ALL" />
 						 </label>
 					</div>
@@ -363,7 +361,7 @@
 						 <fmt:message key="COMMON_YES" />
 						 </label>
 						 <label class="radio-inline">
-							<form:radiobutton path="isPre" value=""></form:radiobutton>
+							<form:radiobutton path="isPre" value="" checked="true"></form:radiobutton>
 						 	<fmt:message key="COMMON_ALL" />
 						 </label>
 					</div>
@@ -385,7 +383,7 @@
 						 <fmt:message key="COMMON_YES" />
 						 </label>
 						 <label class="radio-inline">
-							<form:radiobutton path="isInStock" value=""></form:radiobutton>
+							<form:radiobutton path="isInStock" value="" checked="true"></form:radiobutton>
 						 	<fmt:message key="COMMON_ALL" />
 						 </label>
 					</div>
@@ -401,7 +399,7 @@
 						 <fmt:message key="COMMON_YES" />
 						 </label>
 						 <label class="radio-inline">
-							<form:radiobutton path="isHot" value=""></form:radiobutton>
+							<form:radiobutton path="isHot" value="" checked="true"></form:radiobutton>
 						 	<fmt:message key="COMMON_ALL" />
 						 </label>
 					</div>
