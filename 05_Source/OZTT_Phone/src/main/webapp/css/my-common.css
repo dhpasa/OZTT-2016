@@ -411,28 +411,28 @@ html{
 
 .goods-sticker-preLabel{
 	background: url(../images/prelabel.png) no-repeat;
-	background-size: 5rem 5rem;
+	background-size: 5rem 2.5rem;
 	left: auto;
 	right: 0;
 }
 
 .goods-sticker-inStockLabel{
 	background: url(../images/inStocklabel.png) no-repeat;
-	background-size: 5rem 5rem;
+	background-size: 5rem 2.5rem;
 	left: auto;
 	right: 0;
 }
 
 .goods-sticker-hotLabel{
 	background: url(../images/hotlabel.png) no-repeat;
-	background-size: 5rem 5rem;
+	background-size: 5rem 2.5rem;
 	left: auto;
 	right: 0;
 }
 
 .goods-sticker-salesLabel{
 	background: url(../images/saleslabel.png) no-repeat;
-	background-size: 5rem 5rem;
+	background-size: 5rem 2.5rem;
 	left: auto;
 	right: 0;
 }
@@ -509,18 +509,18 @@ html{
 	float:left;
 	text-align: left;
 	padding: 0.5rem 1rem 0.5rem 1rem;
-	font-size: 2rem;
+	font-size: 1.5rem;
 }
 .main-rushpur-area .rushmore{
 	width: 50%;
 	float:left;
 	text-align: right;
 	padding: 0.5rem 1rem 0.5rem 1rem;
-	font-size: 2rem;
+	font-size: 1.5rem;
 }
 
 .main-rushpur-area .rushmore > i{
-	font-size: 2.5rem;
+	font-size: 1.5rem;
 	padding-left: 0.5rem;
 }
 
@@ -537,18 +537,18 @@ html{
 	float:left;
 	text-align: left;
 	padding: 0.5rem 1rem 0.5rem 1rem;
-	font-size: 2rem;
+	font-size: 1.5rem;
 }
 .main-presell-area .presellmore{
 	width: 50%;
 	float:left;
 	text-align: right;
 	padding: 0.5rem 1rem 0.5rem 1rem;
-	font-size: 2rem;
+	font-size: 1.5rem;
 }
 
 .main-presell-area .presellmore > i{
-	font-size: 2.5rem;
+	font-size: 1.5rem;
 	padding-left: 0.5rem;
 }
 
@@ -565,18 +565,18 @@ html{
 	float:left;
 	text-align: left;
 	padding: 0.5rem 1rem 0.5rem 1rem;
-	font-size: 2rem;
+	font-size: 1.5rem;
 }
 .main-nowsell-area .nowsellmore{
 	width: 50%;
 	float:left;
 	text-align: right;
 	padding: 0.5rem 1rem 0.5rem 1rem;
-	font-size: 2rem;
+	font-size: 1.5rem;
 }
 
 .main-nowsell-area .nowsellmore > i{
-	font-size: 2.5rem;
+	font-size: 1.5rem;
 	padding-left: 0.5rem;
 }
 
@@ -2519,4 +2519,17 @@ html{
 
 .order-item-money p{
 	margin: 0px;
+}
+
+.banklogodiv{
+	width: 100%;
+	display: inline-block;
+	text-align: center;
+	background-color: #fff;
+}
+
+.banklogodiv img{
+	margin-top: 5rem;
+	margin-bottom: 2rem;
+    width: 30%;
 }

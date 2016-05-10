@@ -35,6 +35,7 @@
   		}
   		
   		function toPay(){
+  			$("#payBtn").attr("onclick", "");
   			var paramData = {
 					"vpc_CardNum":$("#vpc_CardNum").val(),
 					"vpc_CardExp":$("#vpc_CardExp").val(),
@@ -62,6 +63,7 @@
 					
 				}
 			});
+  			$("#payBtn").attr("onclick", "toPay()");
   		}
   		
   		
@@ -80,8 +82,15 @@
 		<div class="x-header-btn">
 		</div>
 	</div>
+	<div class="banklogodiv">
+	 	<img alt="logo" src="${ctx}/images/banklogo.png">
+	 </div>
 	<div class="logincontain">
+		
         <div class="input_username">
+        	<input class="txt-input" type="text" autocomplete="off" placeholder="Card Holder">
+        </div>
+        <div class="input-password">
             <input class="txt-input" type="text" autocomplete="off" placeholder="Card Number" id="vpc_CardNum" onchange="checkShowBtn()">
         </div>
         <div class="input-password">

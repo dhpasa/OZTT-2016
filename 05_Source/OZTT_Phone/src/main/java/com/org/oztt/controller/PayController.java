@@ -121,7 +121,7 @@ public class PayController extends BaseController {
             String email = map.get("email");
 
             TConsOrder tConsOrder = orderService.selectByOrderId(orderNo);
-            BigDecimal amount = tConsOrder.getOrderamount();
+            BigDecimal amount = tConsOrder.getOrderamount().add(tConsOrder.getDeliverycost());
             Map<String, String> payMap = new HashMap<String, String>(); 
             payMap.put("vpc_Version", MessageUtils.getApplicationMessage("vpc_Version"));
             payMap.put("vpc_Command", MessageUtils.getApplicationMessage("vpc_Command"));
@@ -141,6 +141,7 @@ public class PayController extends BaseController {
             if (resMap != null && "0".equals(resMap.get(VpcHttpPayUtils.VPC_TXNRESPONSECODE))) {
                 orderService.updateRecordAfterPay(orderNo, customerNo, session);
                 if (!StringUtils.isEmpty(email)) {
+                    // 开启线程进行发信
                     orderService.createTaxAndSendMailForPhone(orderNo, customerNo, session, email);
                 }
 
