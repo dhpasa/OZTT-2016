@@ -397,35 +397,35 @@ html{
 
 .goods-sticker-new {
 	background: url(../images/newlabel.png) no-repeat;
-	background-size: 5rem 5rem;
+	background-size: 4rem 4rem;
 	left: auto;
 	right: 0;
 }
 
 .goods-sticker-hot{
 	background: url(../images/hotlabel.png) no-repeat;
-	background-size: 5rem 5rem;
+	background-size: 4rem 4rem;
 	left: auto;
 	right: 0;
 }
 
 .goods-sticker-preLabel{
 	background: url(../images/prelabel.png) no-repeat;
-	background-size: 5rem 2.5rem;
+	background-size: 4rem 4rem;
 	left: auto;
 	right: 0;
 }
 
 .goods-sticker-inStockLabel{
 	background: url(../images/inStocklabel.png) no-repeat;
-	background-size: 5rem 2.5rem;
+	background-size: 4rem 4rem;
 	left: auto;
 	right: 0;
 }
 
 .goods-sticker-hotLabel{
 	background: url(../images/hotlabel.png) no-repeat;
-	background-size: 5rem 2.5rem;
+	background-size: 4rem 4rem;
 	left: auto;
 	right: 0;
 }

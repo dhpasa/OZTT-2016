@@ -1,5 +1,8 @@
 package com.org.oztt.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import com.org.oztt.base.page.Pagination;
 import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.entity.TConsOrder;
@@ -62,4 +65,13 @@ public interface TConsOrderDao {
      * @return
      */
     PagingResult<OzTtAdOlListDto> getAllOrderInfoForAdmin(Pagination pagination);
+    
+    /**
+     * 分页获取订单信息(后台)
+     * @param pagination
+     * @return
+     */
+    List<OzTtAdOlListDto> getAllOrderInfoForAdminAll(Map<Object, Object> params);
+    
+    
 }

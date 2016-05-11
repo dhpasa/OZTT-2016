@@ -28,6 +28,25 @@
   		var pageNo = $("#pageNo").val();
   		location.href = "${pageContext.request.contextPath}/OZ_TT_AD_OD/init?orderNo="+orderNo+"&pageNo="+pageNo;
   	}
+  	
+  	
+  	function orderExport(){
+  		$.ajax({
+				type : "GET",
+				contentType:'application/json',
+				url : '${pageContext.request.contextPath}/OZ_TT_AD_OL/orderExport',
+				dataType : "json",
+				async:false,
+				data : "", 
+				success : function(data) {
+					
+				},
+				error : function(data) {
+
+				}
+			});
+  	}
+  	
   
   </script>
 </head>
@@ -137,7 +156,9 @@
 				</div>
 				
 				<div class="form-group textright">
+				
 					<button type="button" class="btn green mybtn" onclick="searchOrder()"><i class="fa fa-search"></i><fmt:message key="OZ_TT_AD_OL_searchBtn" /></button>
+					<button type="button" class="btn green mybtn" onclick="orderExport()"><i class="fa fa-download"></i><fmt:message key="COMMON_DOWNLOAD" /></button>
 				</div>
 				
 				<h4 class="form-section"></h4>

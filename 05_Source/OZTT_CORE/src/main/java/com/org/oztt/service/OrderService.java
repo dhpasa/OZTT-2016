@@ -1,5 +1,8 @@
 package com.org.oztt.service;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import com.org.oztt.base.page.Pagination;
@@ -87,6 +90,16 @@ public interface OrderService {
      * @throws Exception
      */
     public PagingResult<OzTtAdOlListDto> getAllOrderInfoForAdmin(Pagination pagination) throws Exception;
+    
+    /**
+     * admin端所有订单的获取
+     * 
+     * @param pagination
+     * @return
+     * @throws Exception
+     */
+    public List<OzTtAdOlListDto> getAllOrderInfoForAdminAll(Map<Object, Object> params) throws Exception;
+    
 
     /**
      * admin端获取订单详情
