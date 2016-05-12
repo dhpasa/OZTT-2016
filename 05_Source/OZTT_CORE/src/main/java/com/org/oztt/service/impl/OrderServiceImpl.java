@@ -705,6 +705,19 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         }
         return dtoPage;
     }
+    
+    @Override
+    public List<OzTtAdOlListDto> getAllOrderInfoForAdminAll(Map<Object, Object> params) throws Exception {
+        List<OzTtAdOlListDto> dtoPage = tConsOrderDao.getAllOrderInfoForAdminAll(params);
+        if (dtoPage != null && dtoPage.size() > 0) {
+            for (OzTtAdOlListDto detail : dtoPage) {
+                detail.setOrderStatusView(CommonEnum.HandleFlag.getEnumLabel(detail.getOrderStatusView()));
+                detail.setPaymentMethod(CommonEnum.PaymentMethod.getEnumLabel(detail.getPaymentMethod()));
+                detail.setDeliveryMethodView(CommonEnum.DeliveryMethod.getEnumLabel(detail.getDeliveryMethodView()));
+            }
+        }
+        return dtoPage;
+    }
 
     @Override
     public OzTtAdOdDto getOrderDetailForAdmin(String orderNo) throws Exception {

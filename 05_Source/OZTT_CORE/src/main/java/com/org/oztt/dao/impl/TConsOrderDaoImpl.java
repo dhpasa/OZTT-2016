@@ -1,5 +1,8 @@
 package com.org.oztt.dao.impl;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Repository;
 
 import com.org.oztt.base.dao.BaseDao;
@@ -67,6 +70,11 @@ public class TConsOrderDaoImpl extends BaseDao implements TConsOrderDao {
     public PagingResult<OzTtAdOlListDto> getAllOrderInfoForAdmin(Pagination pagination) {
         return selectPagination("com.org.oztt.dao.TConsOrderDao.getAllOrderInfoForAdmin",
                 "com.org.oztt.dao.TConsOrderDao.getAllOrderInfoForAdminCount", pagination);
+    }
+
+    @Override
+    public List<OzTtAdOlListDto> getAllOrderInfoForAdminAll(Map<Object, Object> params) {
+        return select("com.org.oztt.dao.TConsOrderDao.getAllOrderInfoForAdmin", params);
     }
 
 }
