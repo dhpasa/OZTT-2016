@@ -701,11 +701,18 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 detail.setOrderStatusView(CommonEnum.HandleFlag.getEnumLabel(detail.getOrderStatusView()));
                 detail.setPaymentMethod(CommonEnum.PaymentMethod.getEnumLabel(detail.getPaymentMethod()));
                 detail.setDeliveryMethodView(CommonEnum.DeliveryMethod.getEnumLabel(detail.getDeliveryMethodView()));
+                if (detail.getAtHomeTime() != null && detail.getAtHomeTime().length() > 8) {
+                    detail.setAtHomeTime(DateFormatUtils.dateFormatFromTo(detail.getAtHomeTime().substring(0, 8),
+                            DateFormatUtils.PATTEN_YMD_NO_SEPRATE, DateFormatUtils.PATTEN_YMD)
+                            + " "
+                            + CommonEnum.DeliveryTime.getEnumLabel(detail.getAtHomeTime().substring(8)));
+                }
+               
             }
         }
         return dtoPage;
     }
-    
+
     @Override
     public List<OzTtAdOlListDto> getAllOrderInfoForAdminAll(Map<Object, Object> params) throws Exception {
         List<OzTtAdOlListDto> dtoPage = tConsOrderDao.getAllOrderInfoForAdminAll(params);
@@ -714,6 +721,12 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 detail.setOrderStatusView(CommonEnum.HandleFlag.getEnumLabel(detail.getOrderStatusView()));
                 detail.setPaymentMethod(CommonEnum.PaymentMethod.getEnumLabel(detail.getPaymentMethod()));
                 detail.setDeliveryMethodView(CommonEnum.DeliveryMethod.getEnumLabel(detail.getDeliveryMethodView()));
+                if (detail.getAtHomeTime() != null && detail.getAtHomeTime().length() > 8) {
+                    detail.setAtHomeTime(DateFormatUtils.dateFormatFromTo(detail.getAtHomeTime().substring(0, 8),
+                            DateFormatUtils.PATTEN_YMD_NO_SEPRATE, DateFormatUtils.PATTEN_YMD)
+                            + " "
+                            + CommonEnum.DeliveryTime.getEnumLabel(detail.getAtHomeTime().substring(8)));
+                }
             }
         }
         return dtoPage;

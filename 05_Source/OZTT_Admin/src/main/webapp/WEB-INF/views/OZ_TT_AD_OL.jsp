@@ -29,23 +29,13 @@
   		location.href = "${pageContext.request.contextPath}/OZ_TT_AD_OD/init?orderNo="+orderNo+"&pageNo="+pageNo;
   	}
   	
-  	
   	function orderExport(){
-  		$.ajax({
-				type : "GET",
-				contentType:'application/json',
-				url : '${pageContext.request.contextPath}/OZ_TT_AD_OL/orderExport',
-				dataType : "json",
-				async:false,
-				data : "", 
-				success : function(data) {
-					
-				},
-				error : function(data) {
-
-				}
-			});
+  		var targetform = document.forms[0];
+  		targetform.action = "${pageContext.request.contextPath}/OZ_TT_AD_OL/orderExport";
+  		targetform.method = "POST";
+  		targetform.submit();
   	}
+ 
   	
   
   </script>

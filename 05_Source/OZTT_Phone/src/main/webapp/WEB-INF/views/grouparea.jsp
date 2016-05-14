@@ -173,9 +173,9 @@
     <div class="x-header x-header-gray border-1px-bottom">
 		<div class="x-header-btn ico-back"></div>
 		<div class="x-header-title">
-			<c:if test="${tab == '1' }"><fmt:message key="MAIN_RUSHTEXT" /></c:if>
-			<c:if test="${tab == '2' }"><fmt:message key="MAIN_PRESELLTEXT" /></c:if>
-			<c:if test="${tab == '3' }"><fmt:message key="MAIN_NOWSELLTEXT" /></c:if>
+			<c:if test="${tab == '1' }"><fmt:message key="MAIN_RUSHTEXT_D" /></c:if>
+			<c:if test="${tab == '2' }"><fmt:message key="MAIN_PRESELLTEXT_D" /></c:if>
+			<c:if test="${tab == '3' }"><fmt:message key="MAIN_NOWSELLTEXT_D" /></c:if>
 		</div>
 		<div class="x-header-btn searchgroup">
 			

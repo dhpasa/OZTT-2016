@@ -1,5 +1,6 @@
 package com.org.oztt.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -96,6 +97,11 @@ public class TGoodsDaoImpl extends BaseDao implements TGoodsDao {
     public PagingResult<OzTtAdGlListDto> getAllGoodsInfoForAdmin(Pagination pagination) {
         return selectPagination("com.org.oztt.dao.TGoodsDao.getAllGoodsInfoForAdmin",
                 "com.org.oztt.dao.TGoodsDao.getAllGoodsInfoForAdminCount", pagination);
+    }
+    
+    @Override
+    public List<OzTtAdGlListDto> getAllGoodsInfoForAdminNoPage() {
+        return select("com.org.oztt.dao.TGoodsDao.getAllGoodsInfoForAdmin", new HashMap<Object, Object>());
     }
 
     @Override

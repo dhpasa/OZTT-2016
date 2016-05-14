@@ -259,8 +259,7 @@ html{
 }
 
 .newgoods-parent-div{
-	background-color: #fff;
-	box-shadow: 0 1px 1px rgba(162, 153, 153, 0.5);
+	
 }
 
 .newGoods-info{
@@ -347,7 +346,6 @@ html{
 
 .main_goods{
 	display: inline-block;
-	background-color: #fff;
 	margin-top: 1rem;
 }
 
@@ -432,7 +430,7 @@ html{
 
 .goods-sticker-salesLabel{
 	background: url(../images/saleslabel.png) no-repeat;
-	background-size: 5rem 2.5rem;
+	background-size: 4rem 4rem;
 	left: auto;
 	right: 0;
 }
@@ -502,21 +500,22 @@ html{
 .main-rushpur-area{
 	width: 100%;
 	display: inline-block;
-	border-bottom: 0.5px solid rgba(187, 187, 187, 0.5);
+	margin-top: 1rem;
 }
 .main-rushpur-area .rushtext{
-	width: 50%;
-	float:left;
-	text-align: left;
-	padding: 0.5rem 1rem 0.5rem 1rem;
-	font-size: 1.5rem;
+	width: 100%;
+    float: left;
+    text-align: center;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    font-size: 1.5rem;
 }
 .main-rushpur-area .rushmore{
-	width: 50%;
-	float:left;
-	text-align: right;
-	padding: 0.5rem 1rem 0.5rem 1rem;
-	font-size: 1.5rem;
+	width: 100%;
+    float: left;
+    text-align: right;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    font-size: 1.5rem;
+    position: absolute;
 }
 
 .main-rushpur-area .rushmore > i{
@@ -527,24 +526,22 @@ html{
 .main-presell-area{
 	width: 100%;
 	display: inline-block;
-/* 	border-bottom: 0.5px solid rgba(187, 187, 187, 0.5); */
-	background-color: #fff;
-	margin-top: 1rem;
 }
 
 .main-presell-area .preselltext{
-	width: 50%;
+	width: 100%;
 	float:left;
-	text-align: left;
+	text-align: center;
 	padding: 0.5rem 1rem 0.5rem 1rem;
 	font-size: 1.5rem;
 }
 .main-presell-area .presellmore{
-	width: 50%;
-	float:left;
-	text-align: right;
-	padding: 0.5rem 1rem 0.5rem 1rem;
-	font-size: 1.5rem;
+	width: 100%;
+    float: left;
+    text-align: right;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    font-size: 1.5rem;
+    position: absolute;
 }
 
 .main-presell-area .presellmore > i{
@@ -555,24 +552,22 @@ html{
 .main-nowsell-area{
 	width: 100%;
 	display: inline-block;
-/* 	border-bottom: 0.5px solid rgba(187, 187, 187, 0.5); */
-	background-color: #fff;
-	margin-top: 1rem;
 }
 
 .main-nowsell-area .nowselltext{
-	width: 50%;
-	float:left;
-	text-align: left;
-	padding: 0.5rem 1rem 0.5rem 1rem;
-	font-size: 1.5rem;
+	width: 100%;
+    float: left;
+    text-align: center;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    font-size: 1.5rem;
 }
 .main-nowsell-area .nowsellmore{
-	width: 50%;
-	float:left;
-	text-align: right;
-	padding: 0.5rem 1rem 0.5rem 1rem;
-	font-size: 1.5rem;
+	width: 100%;
+    float: left;
+    text-align: right;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    font-size: 1.5rem;
+    position: absolute;
 }
 
 .main-nowsell-area .nowsellmore > i{

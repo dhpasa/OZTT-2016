@@ -366,6 +366,14 @@ public interface GoodsService {
     public PagingResult<OzTtAdGlListDto> getAllGoodsInfoForAdmin(Pagination pagination) throws Exception;
     
     /**
+     * 商品内容一览不分页
+     * @param pagination
+     * @return
+     * @throws Exception
+     */
+    public List<OzTtAdGlListDto> getAllGoodsInfoForAdminNoPage() throws Exception;
+    
+    /**
      * 商品保存
      * @param tGoods
      * @throws Exception

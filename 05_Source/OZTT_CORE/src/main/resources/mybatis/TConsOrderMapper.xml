@@ -328,10 +328,12 @@
 		A.deliveryMethod as deliveryMethodView,
 		A.paymentMethod as paymentMethod,
 		A.deliveryCost as deliveryCost,
-		B.receiver as address
+		A.homeDeliveryTime as atHomeTime,
+		CONCAT(B.addressDetails,D.suburb,B.state,B.countryCode) as address
 		from t_cons_order A
 		inner join t_customer_basic_info C on A.customerNo = C.customerNo
 		left join t_address_info B on B.id = A.addressId
+		left join t_suburb_deliver_fee D on B.suburb = D.no
 		where 1=1
 		<if test="nickName != null and nickName != ''" >
 			and C.nickName like '%' || #{nickName,jdbcType=VARCHAR} || '%'

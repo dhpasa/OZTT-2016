@@ -60,6 +60,7 @@
 <script type="text/javascript" src="${ctx}/js/user-common.js"></script>
 <script type="text/javascript" src="${ctx}/js/common_validate.js"></script>
 <script type="text/javascript" src="${ctx}/js/my-common.js"></script>
+<script src="${ctx}/js/bootstrap-multiselect.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL SCRIPTS -->
 <script>
 jQuery(document).ready(function() {    

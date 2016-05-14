@@ -705,6 +705,11 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
     public PagingResult<OzTtAdGlListDto> getAllGoodsInfoForAdmin(Pagination pagination) throws Exception {
         return tGoodsDao.getAllGoodsInfoForAdmin(pagination);
     }
+    
+    @Override
+    public List<OzTtAdGlListDto> getAllGoodsInfoForAdminNoPage() throws Exception {
+        return tGoodsDao.getAllGoodsInfoForAdminNoPage();
+    }
 
     @Override
     public String saveGoodsForAdmin(TGoods tGoods) throws Exception {
