@@ -131,6 +131,14 @@ public interface TGoodsDao {
     PagingResult<OzTtAdGlListDto> getAllGoodsInfoForAdmin(Pagination pagination);
     
     /**
+     * 商品管理admin端获取
+     * 
+     * @param pagination
+     * @return
+     */
+    List<OzTtAdGlListDto> getAllGoodsInfoForAdminNoPage();
+    
+    /**
      * 获取团购属性的所有ID
      * @param groupId
      * @return

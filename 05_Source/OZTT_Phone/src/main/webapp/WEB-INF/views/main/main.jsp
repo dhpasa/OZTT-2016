@@ -199,7 +199,7 @@
 	
 	
    
-   <div class="main_goods margin-1rem-top">
+   <div class="main_goods">
    	  <div class="main-presell-area">
 		<div class="preselltext"><span><fmt:message key="MAIN_PRESELLTEXT" /></span></div>
 		<div class="presellmore" onclick="toGroupArea('2')"><span><fmt:message key="MAIN_PRESELLMORE" /></span><i class="fa fa-angle-right"></i></div>

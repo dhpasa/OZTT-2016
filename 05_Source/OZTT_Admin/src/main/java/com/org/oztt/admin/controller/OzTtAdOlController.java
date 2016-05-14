@@ -26,6 +26,8 @@ import com.org.oztt.base.page.Pagination;
 import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.contants.CommonConstants;
+import com.org.oztt.formDto.OzTtAdOdDto;
+import com.org.oztt.formDto.OzTtAdOdListDto;
 import com.org.oztt.formDto.OzTtAdOlDto;
 import com.org.oztt.formDto.OzTtAdOlListDto;
 import com.org.oztt.service.CommonService;
@@ -158,7 +160,7 @@ public class OzTtAdOlController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/orderExport")
-    public String orderExport(Model model, HttpServletRequest request, HttpSession session, HttpServletResponse response) {
+    public void orderExport(Model model, HttpServletRequest request, HttpSession session, HttpServletResponse response) {
         try {
             OzTtAdOlDto ozTtAdOlDto = (OzTtAdOlDto) session.getAttribute("ozTtAdOlDto");
             if (ozTtAdOlDto == null) {
@@ -177,11 +179,9 @@ public class OzTtAdOlController extends BaseController {
             params.put("dataTo", ozTtAdOlDto.getDataTo());
             List<OzTtAdOlListDto> pageInfo = orderService.getAllOrderInfoForAdminAll(params);
             createExcelAndExport(request, response, pageInfo);
-            return "null";
         }
         catch (Exception e) {
             logger.error(e.getMessage());
-            return CommonConstants.ERROR_PAGE;
         }
     }
     
@@ -198,8 +198,8 @@ public class OzTtAdOlController extends BaseController {
     private void createExcelAndExport(HttpServletRequest request, HttpServletResponse response,
             List<OzTtAdOlListDto> list) throws Exception {
         String path = request.getSession().getServletContext().getRealPath("");
-        String tempPath = path + getMessage("tempPath");
-        String fileName = getMessage("fileName");
+        String tempPath = path + getApplicationMessage("downloadTempPath");
+        String fileName = getApplicationMessage("downloadOrderListName");
 
         // 获取模板
         File file = new File(tempPath + fileName);
@@ -218,9 +218,11 @@ public class OzTtAdOlController extends BaseController {
         setBorder.setBorderTop(HSSFCellStyle.BORDER_THIN);//上边框
         setBorder.setBorderRight(HSSFCellStyle.BORDER_THIN);//右边框
         HSSFCell cell = null;
+        int number = 1;// 这里说明已经有两行了。
         if (list != null && list.size() > 0) {
             for (int i = 0; i < list.size(); i++) {
-                HSSFRow row = sheet.createRow(i + 1);
+                number++;
+                HSSFRow row = sheet.createRow(number);
 
                 cell = row.createCell(0);
                 cell.setCellValue(i+1);
@@ -269,13 +271,42 @@ public class OzTtAdOlController extends BaseController {
                 cell = row.createCell(11);
                 cell.setCellValue(list.get(i).getAtHomeTime());
                 cell.setCellStyle(setBorder);
+                
+                OzTtAdOdDto ozTtAdOdDto = orderService.getOrderDetailForAdmin(list.get(i).getOrderNo());
+                
+                if (ozTtAdOdDto != null && ozTtAdOdDto.getItemList() != null && ozTtAdOdDto.getItemList().size() > 0) {
+                    for (OzTtAdOdListDto detail : ozTtAdOdDto.getItemList()) {
+                        number++;
+                        row = sheet.createRow(number);
+
+                        cell = row.createCell(1);
+                        cell.setCellValue(detail.getGoodsId());
+                        cell.setCellStyle(setBorder);
+
+                        cell = row.createCell(2);
+                        cell.setCellValue(detail.getGoodsName());
+                        cell.setCellStyle(setBorder);
+
+                        cell = row.createCell(3);
+                        cell.setCellValue(detail.getGoodsPrice());
+                        cell.setCellStyle(setBorder);
+
+                        cell = row.createCell(4);
+                        cell.setCellValue(detail.getGoodsQuantity());
+                        cell.setCellStyle(setBorder);
+                        
+                        cell = row.createCell(5);
+                        cell.setCellValue(detail.getGoodsTotalAmount());
+                        cell.setCellStyle(setBorder);
+                    }
+                }
 
             }
         }
 
         String type = "application/x-msdownload";
         response.setContentType(type);
-        String downFileName = "EmployeeList.xls";
+        String downFileName = "OrderList.xls";
         String inlineType = "attachment"; // 是否内联附件
         response.setHeader("Content-Disposition", inlineType + ";filename=\"" + downFileName + "\"");
 

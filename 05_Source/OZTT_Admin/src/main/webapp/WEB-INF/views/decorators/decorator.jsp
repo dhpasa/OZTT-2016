@@ -170,6 +170,12 @@
 							<fmt:message key="OZ_TT_AD_GL_title" />
 						</a>
 					</li>
+					<li>
+						<a href="${pageContext.request.contextPath}/OZ_TT_AD_GB/init">
+							<i class="fa fa-tasks"></i>
+							<fmt:message key="OZ_TT_AD_GB_title" />
+						</a>
+					</li>
 				</ul>
 			</li>
 			<li id="memberLi">
