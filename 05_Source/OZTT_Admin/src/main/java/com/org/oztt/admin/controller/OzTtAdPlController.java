@@ -235,6 +235,10 @@ public class OzTtAdPlController extends BaseController {
             tGoodsGroup.setGroupno(map.get("groupno"));
             tGoodsGroup.setGroupprice(new BigDecimal(map.get("groupprice")));
             tGoodsGroup.setOpenflg(map.get("openflg"));
+            tGoodsGroup.setToppageup(map.get("istopup"));
+            tGoodsGroup.setPreflg(map.get("ispre"));
+            tGoodsGroup.setInstockflg(map.get("isinstock"));
+            tGoodsGroup.setHotflg(map.get("ishot"));
             tGoodsGroup.setShopperrules(map.get("shopperrules"));
             tGoodsGroup.setValidperiodend(DateFormatUtils.string2DateWithFormat(map.get("validperiodend"),
                     DateFormatUtils.PATTEN_YMD2));

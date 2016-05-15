@@ -21,7 +21,7 @@ public class BaseService {
     protected static final Logger logger = LoggerFactory.getLogger(BaseService.class);
     
     public static BigDecimal getCostPercent(String payMethod) {
-        if (payMethod.equals(CommonEnum.PaymentMethod.PAYPAL.getCode())) {
+        if (payMethod.equals(CommonEnum.PaymentMethod.CREDIT_CARD.getCode())) {
             // 用PayPal付款
             return new BigDecimal(getApplicationMessage("PAYPAL_PECENT"));
         }
