@@ -71,7 +71,7 @@ public class PayController extends BaseController {
             TConsOrder tConsOrder = orderService.selectByOrderId(orderId);
             // 先判断付款方式
             String rb = "";
-            if (CommonEnum.PaymentMethod.PAYPAL.getCode().equals(hidPayMethod)) {
+            if (CommonEnum.PaymentMethod.CREDIT_CARD.getCode().equals(hidPayMethod)) {
                 // 货到付款
                 PaypalParam paypalParam = new PaypalParam();
                 paypalParam.setOrderId(orderId);

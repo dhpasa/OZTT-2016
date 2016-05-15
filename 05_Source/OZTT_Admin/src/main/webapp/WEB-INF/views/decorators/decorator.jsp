@@ -352,6 +352,13 @@
      	});
 	}
 	
+	if (currentPath.indexOf("OZ_TT_AD_GB") > 0) {
+		$('.multiselect').multiselect({
+	    	maxHeight: 200,
+	    });
+		ComponentsEditors.init();
+	}
+	
 	
 
 </script>

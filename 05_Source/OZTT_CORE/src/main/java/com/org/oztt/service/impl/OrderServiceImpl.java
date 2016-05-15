@@ -64,7 +64,6 @@ import com.org.oztt.formDto.OzTtAdOdDto;
 import com.org.oztt.formDto.OzTtAdOdListDto;
 import com.org.oztt.formDto.OzTtAdOlListDto;
 import com.org.oztt.formDto.OzTtGbOdDto;
-import com.org.oztt.formDto.PaypalParam;
 import com.org.oztt.service.BaseService;
 import com.org.oztt.service.CustomerService;
 import com.org.oztt.service.OrderService;
@@ -232,7 +231,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         tConsOrder.setCustomerno(customerNo);
 
         tConsOrder.setOrderamount(orderAmount);
-        tConsOrder.setPaymentmethod(CommonEnum.PaymentMethod.PAYPAL.getCode());
+        tConsOrder.setPaymentmethod(CommonEnum.PaymentMethod.CREDIT_CARD.getCode());
         tConsOrder.setOrdertimestamp(new Date());
         tConsOrder.setPaymenttimestamp(null);//付款时间
         tConsOrder.setHandleflg(CommonEnum.HandleFlag.NOT_PAY.getCode());
@@ -415,7 +414,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         tConsOrder.setCustomerno(customerNo);
 
         tConsOrder.setOrderamount(orderAmount);
-        tConsOrder.setPaymentmethod(CommonEnum.PaymentMethod.PAYPAL.getCode());
+        tConsOrder.setPaymentmethod(CommonEnum.PaymentMethod.CREDIT_CARD.getCode());
         tConsOrder.setOrdertimestamp(new Date());
         tConsOrder.setPaymenttimestamp(null);//付款时间
         tConsOrder.setHandleflg(CommonEnum.HandleFlag.NOT_PAY.getCode());
@@ -439,30 +438,30 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         tConsCartDao.deleteCurrentBuyGoods(customerNo);
 
         String rb = "";
-        if (CommonEnum.DeliveryMethod.COD.getCode().equals(hidDeliMethod)) {
-            // 货到付款是不需要付款的直接派送
-        }
-        else {
-            if (CommonEnum.PaymentMethod.PAYPAL.getCode().equals(payMethod)) {
-                // 货到付款
-                PaypalParam paypalParam = new PaypalParam();
-                paypalParam.setOrderId(maxOrderNo);
-                if (CommonEnum.DeliveryMethod.NORMAL.getCode().equals(hidDeliMethod)) {
-                    // 普通快递
-                    paypalParam.setPrice(orderAmount.add(deleveryCost).toString());
-                }
-                else if (CommonEnum.DeliveryMethod.SELF_PICK.getCode().equals(hidDeliMethod)) {
-                    // 来店自提
-                    paypalParam.setPrice(orderAmount.toString());
-                }
-                paypalParam.setNotifyUrl(getApplicationMessage("notifyUrl") + maxOrderNo); //这里是不是通知画面，做一些对数据库的更新操作等
-                paypalParam.setCancelReturn(getApplicationMessage("cancelReturn") + maxOrderNo);//应该返回未完成订单画面订单画面
-                paypalParam.setOrderInfo(getApplicationMessage("orderInfo"));
-                paypalParam.setReturnUrl(getApplicationMessage("returnUrl"));// 同样是当前订单画面
-                rb = paypalService.buildRequest(paypalParam);
-            }
-
-        }
+//        if (CommonEnum.DeliveryMethod.COD.getCode().equals(hidDeliMethod)) {
+//            // 货到付款是不需要付款的直接派送
+//        }
+//        else {
+//            if (CommonEnum.PaymentMethod.CREDIT_CARD.getCode().equals(payMethod)) {
+//                // 货到付款
+//                PaypalParam paypalParam = new PaypalParam();
+//                paypalParam.setOrderId(maxOrderNo);
+//                if (CommonEnum.DeliveryMethod.NORMAL.getCode().equals(hidDeliMethod)) {
+//                    // 普通快递
+//                    paypalParam.setPrice(orderAmount.add(deleveryCost).toString());
+//                }
+//                else if (CommonEnum.DeliveryMethod.SELF_PICK.getCode().equals(hidDeliMethod)) {
+//                    // 来店自提
+//                    paypalParam.setPrice(orderAmount.toString());
+//                }
+//                paypalParam.setNotifyUrl(getApplicationMessage("notifyUrl") + maxOrderNo); //这里是不是通知画面，做一些对数据库的更新操作等
+//                paypalParam.setCancelReturn(getApplicationMessage("cancelReturn") + maxOrderNo);//应该返回未完成订单画面订单画面
+//                paypalParam.setOrderInfo(getApplicationMessage("orderInfo"));
+//                paypalParam.setReturnUrl(getApplicationMessage("returnUrl"));// 同样是当前订单画面
+//                rb = paypalService.buildRequest(paypalParam);
+//            }
+//
+//        }
         return rb;
 
     }
