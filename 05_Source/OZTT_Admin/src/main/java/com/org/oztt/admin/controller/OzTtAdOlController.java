@@ -2,6 +2,7 @@ package com.org.oztt.admin.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,12 +21,15 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.org.oztt.base.page.Pagination;
 import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.contants.CommonConstants;
+import com.org.oztt.entity.TConsOrder;
 import com.org.oztt.formDto.OzTtAdOdDto;
 import com.org.oztt.formDto.OzTtAdOdListDto;
 import com.org.oztt.formDto.OzTtAdOlDto;
@@ -182,6 +186,42 @@ public class OzTtAdOlController extends BaseController {
         }
         catch (Exception e) {
             logger.error(e.getMessage());
+        }
+    }
+    
+    
+    /**
+     * 订单批量修改状态
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/updateBatchOrder")
+    @ResponseBody
+    public Map<String, Object> updateBatchOrder(HttpServletRequest request, HttpSession session,
+            @RequestBody Map<String, String> map) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            
+            String[] orderIdArr = map.get("orderIds").split(",");
+            String status = map.get("status");
+            for (String str : orderIdArr) {
+                TConsOrder tConsOrder = orderService.selectByOrderId(str);
+                tConsOrder.setHandleflg(status);
+                tConsOrder.setUpdpgmid("OZ_TT_AD_GB");
+                tConsOrder.setUpdtimestamp(new Date());
+                tConsOrder.setUpduserkey(CommonConstants.ADMIN_USERKEY);
+                orderService.updateOrderInfo(tConsOrder);
+            }
+            // 后台维护的时候提示让以逗号隔开
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return null;
         }
     }
     

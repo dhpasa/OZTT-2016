@@ -14,74 +14,35 @@
   	var E0002 = '<fmt:message key="E0002" />';
   	function setGroupSave(openFlag){
   		cleanFormError();
-		var goodsGroupPrice = $("#goodsGroupPrice").val();
-		var goodsGroupNumber = $("#goodsGroupNumber").val();
 		var dataFromGroup = $("#dataFromGroup").val();
 		var dataToGroup = $("#dataToGroup").val();
-		var groupComment = $("#groupComment").val();
-		var groupDesc = $("#groupDesc").val();
-		var groupReminder = $("#groupReminder").val();
-		var groupRule = $("#groupRule").val();
 		var groupIds = $("#groupsselect").val();
 		if (groupIds == null || groupIds.length == 0) {
 			var message = E0002.replace("{0}", '<fmt:message key="OZ_TT_AD_GB_selectGoods" />')
 			showErrorSpan($("#groupsselect"), message);
 			return false;
 		}
-		if (goodsGroupPrice == "") {
-			var message = E0002.replace("{0}", '<fmt:message key="OZ_TT_AD_GL_DIALOG_price" />')
-			showErrorSpan($("#goodsGroupPrice"), message);
-			return false;
-		}
-		if (goodsGroupNumber == "") {
-			var message = E0002.replace("{0}", '<fmt:message key="OZ_TT_AD_GL_DIALOG_number" />')
-			showErrorSpan($("#goodsGroupNumber"), message);
-			return false;
-		}
-		if (dataFromGroup == "") {
-			var message = E0002.replace("{0}", '<fmt:message key="OZ_TT_AD_GL_DIALOG_validDate" />')
-			showErrorSpan($("#dataToGroup"), message);
-			
-			return false;
-		}
-		if (dataToGroup == "") {
-			var message = E0002.replace("{0}", '<fmt:message key="OZ_TT_AD_GL_DIALOG_validDate" />')
-			showErrorSpan($("#dataToGroup"), message);
-			return false;
-		}
 		
-		if (!checkDecimalSize(goodsGroupPrice,"999999999.99")) {
-			var message = '<fmt:message key="E0003" />';
-			showErrorSpan($("#goodsGroupPrice"), message);
-			return false;
-		}
-		var isTopUp = "0";
+		var isTopUp = "";
 		if ($("#isTopUpEdit").attr("checked")) {
 			isTopUp = "1";
 		}
-		var isPre = "0";
+		var isPre = "";
 		if ($("#isPreEdit").attr("checked")) {
 			isPre = "1";
 		}
-		var isInStock = "0";
+		var isInStock = "";
 		if ($("#isInStockEdit").attr("checked")) {
 			isInStock = "1";
 		}
-		var isHot = "0";
+		var isHot = "";
 		if ($("#isHotEdit").attr("checked")) {
 			isHot = "1";
 		}
 		var jsonMap = {
-			comsumerreminder:groupReminder,
-			goodsid:groupIds.toString(),
-			groupcomments:groupComment,
-			groupdesc:groupDesc,
-			groupprice:goodsGroupPrice,
-			openflg:openFlag,
-			shopperrules:groupRule,
+			groupIds:groupIds.toString(),
 			validperiodend:dataToGroup,
 			validperiodstart:dataFromGroup,
-			groupmaxquantity:goodsGroupNumber,
 			istopup:isTopUp,
 			ispre:isPre,
 			isinstock:isInStock,
@@ -91,7 +52,7 @@
 		$.ajax({
 			type : "POST",
 			contentType:'application/json',
-			url : '${pageContext.request.contextPath}/OZ_TT_AD_GB/saveBatchGroup',
+			url : '${pageContext.request.contextPath}/OZ_TT_AD_GB/updateBatchGroup',
 			dataType : "json",
 			async:false,
 			data : JSON.stringify(jsonMap), 
@@ -102,8 +63,7 @@
 				
 			}
 		});
-		//window.location.reload();
-		//$(":checkbox").uniform({checkboxClass: 'myCheckClass'});
+		window.location.reload();
   	}
 	  	
 
@@ -148,24 +108,12 @@
 							<div class="col-md-10">
 							<select id="groupsselect" class="multiselect" multiple="multiple">
                     			<c:forEach var="bean" items="${ goodsList }">
-                    				<option value="${ bean.goodsId }">${ bean.goodsId }/${ bean.goodsName }</option>
+                    				<option value="${ bean.groupId }">${ bean.groupId }/${ bean.goodsName }</option>
                     			</c:forEach>
                    			</select>
                    			</div>
 						</div>
 						
-						<div class="form-group">
-							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_price" /></label>
-							<div class="col-md-3">
-								<input type="text" id="goodsGroupPrice" class="input-small form-control textright"></input>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_number" /></label>
-							<div class="col-md-3">
-								<input type="number" id="goodsGroupNumber" class="input-small form-control textright"></input>
-							</div>
-						</div>
 						<div class="form-group">
 							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_validDate" /></label>
 							<div class="col-md-7">
@@ -219,35 +167,9 @@
 							</div>
 						</div>
 						
-						<div class="form-group">
-							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_comment" /></label>
-							<div class="col-md-10">
-								<textarea id="groupComment" class="input-medium form-control" rows="3"></textarea>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_desc" /></label>
-							<div class="col-md-8">
-								<textarea id="groupDesc" class="wysihtml5 form-control" style="height: 500px"></textarea>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_comsumerReminder" /></label>
-							<div class="col-md-8">
-								<textarea id="groupReminder" class="wysihtml5 form-control" style="height: 500px"></textarea>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_rule" /></label>
-							<div class="col-md-8">
-								<textarea id="groupRule" class="wysihtml5 form-control" style="height: 500px"></textarea>
-							</div>
-						</div>
-
 					</form>
 				</div>
 				<div class="group_batch-footer">
-					<button class="btn btn-primary" onclick="setGroupSave('0')" id="saveBtn"><fmt:message key="COMMON_SAVE" /></button>
 					<button class="btn btn-success" onclick="setGroupSave('1')" id="submitBtn"><fmt:message key="COMMON_SUBMIT" /></button>
 				</div>
 			</div>

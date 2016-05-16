@@ -184,24 +184,7 @@ public class PayController extends BaseController {
 
     @RequestMapping(value = "TestUrl")
     public void TestUrl(Model model, HttpServletResponse response, HttpSession session) throws Exception {
-        // 是客户操作
-        // 将文件输出
-        InputStream inStream = new FileInputStream("/Users/linliuan/ireport/INVOICE_TAX.pdf");
-        // 输出格式
-        response.reset();
-        response.setContentType("application/pdf");
-        response.addHeader("Content-Disposition", "attachment; filename=\"" + "TEST.pdf" + "\"");
-        // 循环取出流中的数据
-        byte[] b = new byte[100];
-        int len;
-        try {
-            while ((len = inStream.read(b)) > 0)
-                response.getOutputStream().write(b, 0, len);
-            inStream.close();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        orderService.createTaxAndSendMailForPhone("2016051000000004", "2016050700000001", session, "578366868@qq.com");
     }
 
 }

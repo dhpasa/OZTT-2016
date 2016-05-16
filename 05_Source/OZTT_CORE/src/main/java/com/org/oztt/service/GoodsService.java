@@ -358,6 +358,14 @@ public interface GoodsService {
     public PagingResult<OzTtAdGcListDto> getAllGroupsInfoForAdmin(Pagination pagination) throws Exception;
     
     /**
+     * 商品团购一览
+     * @param pagination
+     * @return
+     * @throws Exception
+     */
+    public List<OzTtAdGcListDto> getAllGroupsInfoForAdminNoPage() throws Exception;
+    
+    /**
      * 商品内容一览
      * @param pagination
      * @return

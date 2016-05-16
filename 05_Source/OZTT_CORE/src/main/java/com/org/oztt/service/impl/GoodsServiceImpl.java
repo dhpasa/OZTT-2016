@@ -695,6 +695,13 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
         }
         return dtoList;
     }
+    
+    @Override
+    public List<OzTtAdGcListDto> getAllGroupsInfoForAdminNoPage() throws Exception {
+        List<OzTtAdGcListDto> dtoList = tGoodsGroupDao.getAllGroupsInfoForAdminNoPage();
+        
+        return dtoList;
+    }
 
     @Override
     public void updateGoodsSetGroup(TGoodsGroup tGoodsGroup) throws Exception {
