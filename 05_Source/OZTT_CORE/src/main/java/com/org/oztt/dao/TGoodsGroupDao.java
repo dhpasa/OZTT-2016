@@ -1,5 +1,7 @@
 package com.org.oztt.dao;
 
+import java.util.List;
+
 import com.org.oztt.base.page.Pagination;
 import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.entity.TGoodsGroup;
@@ -56,4 +58,11 @@ public interface TGoodsGroupDao {
      * @return
      */
     PagingResult<OzTtAdGcListDto> getAllGroupsInfoForAdmin(Pagination pagination);
+    
+    /**
+     * 
+     * @param pagination
+     * @return
+     */
+    List<OzTtAdGcListDto> getAllGroupsInfoForAdminNoPage();
 }

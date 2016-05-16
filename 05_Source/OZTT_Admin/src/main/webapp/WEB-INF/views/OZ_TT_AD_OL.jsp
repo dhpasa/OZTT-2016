@@ -35,6 +35,43 @@
   		targetform.method = "POST";
   		targetform.submit();
   	}
+  	var W0002 = '<fmt:message key="W0002" />';
+  	function batchupdateOrder(status) {
+  		var isChecked = false;
+  		var orderIds = "";
+  		$(".orderSetClass").each(function(){
+  			if (this.checked == true) {
+  				isChecked = true;
+  				orderIds = orderIds + this.value + ",";
+  			}
+  		});
+  		
+  		if (!isChecked) {
+  			alert(W0002);
+  			return;
+  		}
+  		
+  		var jsonMap = {
+  				orderIds: orderIds.substring(0, orderIds.length -1),
+  				status : status
+  		}
+  		$.ajax({
+			type : "POST",
+			contentType:'application/json',
+			url : '${pageContext.request.contextPath}/OZ_TT_AD_OL/updateBatchOrder',
+			dataType : "json",
+			async:false,
+			data : JSON.stringify(jsonMap), 
+			success : function(data) {
+				
+			},
+			error : function(data) {
+				
+			}
+		});
+  		
+  		window.location.reload();
+  	}
  
   	
   
@@ -145,10 +182,19 @@
 					<div class="col-md-5"></div>
 				</div>
 				
-				<div class="form-group textright">
-				
-					<button type="button" class="btn green mybtn" onclick="searchOrder()"><i class="fa fa-search"></i><fmt:message key="OZ_TT_AD_OL_searchBtn" /></button>
-					<button type="button" class="btn green mybtn" onclick="orderExport()"><i class="fa fa-download"></i><fmt:message key="COMMON_DOWNLOAD" /></button>
+				<div class="form-group">
+					<div style="width:70%;float:left;text-align: left;padding-left:3%">
+						<button type="button" class="btn green mybtn" onclick="batchupdateOrder('0')"><i class="fa fa-info"></i><fmt:message key="OZ_TT_AD_OL_orderStatusBtn0" /></button>
+						<button type="button" class="btn green mybtn" onclick="batchupdateOrder('1')"><i class="fa fa-info"></i><fmt:message key="OZ_TT_AD_OL_orderStatusBtn1" /></button>
+						<button type="button" class="btn green mybtn" onclick="batchupdateOrder('2')"><i class="fa fa-info"></i><fmt:message key="OZ_TT_AD_OL_orderStatusBtn2" /></button>
+						<button type="button" class="btn green mybtn" onclick="batchupdateOrder('3')"><i class="fa fa-info"></i><fmt:message key="OZ_TT_AD_OL_orderStatusBtn3" /></button>
+						<button type="button" class="btn green mybtn" onclick="batchupdateOrder('9')"><i class="fa fa-info"></i><fmt:message key="OZ_TT_AD_OL_orderStatusBtn9" /></button>
+					</div>
+					<div style="width:30%;float:right;text-align: right">
+						<button type="button" class="btn green mybtn" onclick="searchOrder()"><i class="fa fa-search"></i><fmt:message key="OZ_TT_AD_OL_searchBtn" /></button>
+						<button type="button" class="btn green mybtn" onclick="orderExport()"><i class="fa fa-download"></i><fmt:message key="COMMON_DOWNLOAD" /></button>
+					</div>
+					
 				</div>
 				
 				<h4 class="form-section"></h4>
@@ -159,6 +205,9 @@
 					<tr>
 						<th scope="col">
 							 <fmt:message key="OZ_TT_AD_OL_DE_detailNo" />
+						</th>
+						<th scope="col">
+							 <fmt:message key="OZ_TT_AD_OL_DE_checkbox" />
 						</th>
 						<th scope="col">
 							 <fmt:message key="OZ_TT_AD_OL_DE_orderNo" />
@@ -194,6 +243,9 @@
 					<tr>
 						<td>
 							 ${orderItem.detailNo }
+						</td>
+						<td>
+							 <input type="checkbox" value="${orderItem.orderNo }" class="orderSetClass"/>
 						</td>
 						<td>
 							 ${orderItem.orderNo }

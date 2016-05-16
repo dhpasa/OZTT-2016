@@ -286,7 +286,7 @@ public final class CommonEnum {
         /** Credit Card */
         CREDIT_CARD("Credit Card", "1"),
         /** Paypal */
-        PAYPAL("Paypal", "2"),
+        PAYPAL("Paypal", "2"),  
         /** 支付宝 */
         ALIPAY("支付宝", "3"),
         /** 微信支付 */

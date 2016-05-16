@@ -1,5 +1,8 @@
 package com.org.oztt.dao.impl;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.org.oztt.base.dao.BaseDao;
@@ -59,6 +62,11 @@ public class TGoodsGroupDaoImpl extends BaseDao implements TGoodsGroupDao {
     public PagingResult<OzTtAdGcListDto> getAllGroupsInfoForAdmin(Pagination pagination) {
         return selectPagination("com.org.oztt.dao.TGoodsGroupDao.getAllGroupsInfoForAdmin",
                 "com.org.oztt.dao.TGoodsGroupDao.getAllGroupsInfoForAdminCount", pagination);
+    }
+    
+    @Override
+    public List<OzTtAdGcListDto> getAllGroupsInfoForAdminNoPage() {
+        return select("com.org.oztt.dao.TGoodsGroupDao.getAllGroupsInfoForAdmin", new HashMap<Object, Object>());
     }
 
 }

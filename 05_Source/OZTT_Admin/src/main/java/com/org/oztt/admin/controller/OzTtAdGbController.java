@@ -1,6 +1,5 @@
 package com.org.oztt.admin.controller;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -10,18 +9,17 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.druid.util.StringUtils;
 import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.entity.TGoodsGroup;
-import com.org.oztt.formDto.OzTtAdGlListDto;
+import com.org.oztt.formDto.OzTtAdGcListDto;
 import com.org.oztt.service.GoodsService;
 
 /**
@@ -45,7 +43,7 @@ public class OzTtAdGbController extends BaseController {
     @RequestMapping(value = "/init")
     public String init(Model model, HttpServletRequest request, HttpSession session) {
         try {
-            List<OzTtAdGlListDto> dtoList = goodsService.getAllGoodsInfoForAdminNoPage();
+            List<OzTtAdGcListDto> dtoList = goodsService.getAllGroupsInfoForAdminNoPage();
             model.addAttribute("goodsList", dtoList);
             return "OZ_TT_AD_GB";
         }
@@ -62,41 +60,54 @@ public class OzTtAdGbController extends BaseController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/saveBatchGroup")
+    @RequestMapping(value = "/updateBatchGroup")
     @ResponseBody
-    public Map<String, Object> saveSetGroup(HttpServletRequest request, HttpSession session,
+    public Map<String, Object> updateBatchGroup(HttpServletRequest request, HttpSession session,
             @RequestBody Map<String, String> map) {
         Map<String, Object> mapReturn = new HashMap<String, Object>();
         try {
-            TGoodsGroup tGoodsGroup = new TGoodsGroup();
-            tGoodsGroup.setComsumerreminder(map.get("comsumerreminder"));
             
-            tGoodsGroup.setGoodsid(map.get("goodsid"));
-            tGoodsGroup.setGroupcomments(map.get("groupcomments"));
-            tGoodsGroup.setGroupcurrentquantity(0L);
-            tGoodsGroup.setGroupdesc(map.get("groupdesc"));
-            tGoodsGroup.setGroupmaxquantity(Long.valueOf(map.get("groupmaxquantity")));
-            tGoodsGroup.setGroupprice(new BigDecimal(map.get("groupprice")));
-            tGoodsGroup.setOpenflg(map.get("openflg"));
-            tGoodsGroup.setToppageup(map.get("istopup"));
-            tGoodsGroup.setPreflg(map.get("ispre"));
-            tGoodsGroup.setInstockflg(map.get("isinstock"));
-            tGoodsGroup.setHotflg(map.get("ishot"));
-            tGoodsGroup.setShopperrules(map.get("shopperrules"));
-            tGoodsGroup.setValidperiodend(DateFormatUtils.string2DateWithFormat(map.get("validperiodend"),
-                    DateFormatUtils.PATTEN_YMD2));
-            tGoodsGroup.setValidperiodstart(DateFormatUtils.string2DateWithFormat(map.get("validperiodstart"),
-                    DateFormatUtils.PATTEN_YMD2));
-            // 插入操作
-            tGoodsGroup.setUpdpgmid("OZ_TT_AD_GB");
-            tGoodsGroup.setUpdtimestamp(new Date());
-            tGoodsGroup.setUpduserkey(CommonConstants.ADMIN_USERKEY);
-            String[] goodsIdArr = map.get("goodsid").split(",");
+            String[] goodsIdArr = map.get("groupIds").split(",");
             for (String str : goodsIdArr) {
-                TGoodsGroup insertDto = new TGoodsGroup();
-                PropertyUtils.copyProperties(insertDto, tGoodsGroup);
-                insertDto.setGoodsid(str);
-                goodsService.saveGoodsSetGroup(insertDto);
+
+                TGoodsGroup tGoodsGroup = new TGoodsGroup();
+                tGoodsGroup.setGroupno(str);
+                tGoodsGroup = goodsService.getGoodPrice(tGoodsGroup);
+
+                if (!StringUtils.isEmpty(map.get("istopup"))) {
+                    tGoodsGroup.setToppageup(map.get("istopup"));
+                }
+                
+                if (!StringUtils.isEmpty(map.get("ispre"))) {
+                    tGoodsGroup.setPreflg(map.get("ispre"));
+                }
+                
+                if (!StringUtils.isEmpty(map.get("isinstock"))) {
+                    tGoodsGroup.setInstockflg(map.get("isinstock"));
+                }
+                
+                if (!StringUtils.isEmpty(map.get("ishot"))) {
+                    tGoodsGroup.setHotflg(map.get("ishot"));
+                }
+                
+                if (!StringUtils.isEmpty(map.get("ishot"))) {
+                    tGoodsGroup.setHotflg(map.get("ishot"));
+                }
+                
+                if (!StringUtils.isEmpty(map.get("validperiodend"))) {
+                    tGoodsGroup.setValidperiodend(DateFormatUtils.string2DateWithFormat(map.get("validperiodend"),
+                            DateFormatUtils.PATTEN_YMD2));
+                }
+                
+                if (!StringUtils.isEmpty(map.get("validperiodstart"))) {
+                    tGoodsGroup.setValidperiodstart(DateFormatUtils.string2DateWithFormat(map.get("validperiodstart"),
+                            DateFormatUtils.PATTEN_YMD2));
+                }
+                // 更新操作
+                tGoodsGroup.setUpdpgmid("OZ_TT_AD_GB");
+                tGoodsGroup.setUpdtimestamp(new Date());
+                tGoodsGroup.setUpduserkey(CommonConstants.ADMIN_USERKEY);
+                goodsService.updateGoodsSetGroup(tGoodsGroup);
             }
             // 后台维护的时候提示让以逗号隔开
             mapReturn.put("isException", false);
