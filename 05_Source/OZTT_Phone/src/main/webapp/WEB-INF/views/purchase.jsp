@@ -50,6 +50,8 @@
 				$(this).addClass("method-check");
 				$("#method_cod").removeClass("method-check");
 				$("#method_cod").addClass("method-default");
+				$("#method_ldfk").removeClass("method-check");
+				$("#method_ldfk").addClass("method-default");
 				judgeAll();
 				
 			});
@@ -59,6 +61,18 @@
 				$(this).addClass("method-check");
 				$("#method_online").removeClass("method-check");
 				$("#method_online").addClass("method-default");
+				$("#method_ldfk").removeClass("method-check");
+				$("#method_ldfk").addClass("method-default");
+				judgeAll();
+			});
+			
+			$("#method_ldfk").click(function(){
+				$(this).removeClass("method-default");
+				$(this).addClass("method-check");
+				$("#method_online").removeClass("method-check");
+				$("#method_online").addClass("method-default");
+				$("#method_cod").removeClass("method-check");
+				$("#method_cod").addClass("method-default");
 				judgeAll();
 			});
 		})
@@ -75,6 +89,18 @@
 	  			$(".purchase-select-alldelivery").css("display","")
 				$("#deliverytime").css("display","")
 				$(".purchase-good－picktime").css("display","none");
+	  			$("#method_ldfk").css("display","none");
+	  			
+	  			$("#method_online").removeClass("method-default");
+				$("#method_online").addClass("method-check");
+				$("#method_cod").removeClass("method-check");
+				$("#method_cod").addClass("method-default");
+				$("#method_ldfk").removeClass("method-check");
+				$("#method_ldfk").addClass("method-default");
+				
+				$("#lishsm").addClass("shsm_checked")
+				$("#lildzt").removeClass("ldzt_checked")
+				
 	  			judgeAll();
 	  		}else {
 	  			// 来店自提
@@ -82,14 +108,21 @@
 	  			$("#self-pick-address").css("display","");
 	  			$("#method_cod").css("display","none");
 	  			
-	  			$("#method_online").removeClass("method-default");
-				$("#method_online").addClass("method-check");
+	  			$("#method_ldfk").removeClass("method-default");
+				$("#method_ldfk").addClass("method-check");
+	  			$("#method_online").removeClass("method-check");
+				$("#method_online").addClass("method-default");
 				$("#method_cod").removeClass("method-check");
 				$("#method_cod").addClass("method-default");
 				
 				$(".purchase-select-alldelivery").css("display","none")
 				$("#deliverytime").css("display","none")
 				$(".purchase-good－picktime").css("display","");
+				$("#method_ldfk").css("display","");
+				
+				$("#lishsm").removeClass("shsm_checked")
+				$("#lildzt").addClass("ldzt_checked")
+				
 				judgeAll();
 	  			
 	  		}
@@ -124,7 +157,7 @@
 	  		var deliveryMethod = "";
 	  		var deliveryMethodArr = $(".purchase-select-horizon").find("li");
 	  		for (var i = 0; i < deliveryMethodArr.length; i++) {
-	  			if ($(deliveryMethodArr[i]).hasClass("active") && i==0) {
+	  			if ($(deliveryMethodArr[i]).hasClass("shsm_checked") && i==0) {
 	  				deliveryMethod = "1";
 	  				break;
 	  			} else {
@@ -175,24 +208,31 @@
 	  		if (groupList.length == 0) {
 	  			return canBuy;
 	  		}
-	  		if (isUnify) {
-	  			// 统一送货的情况下
-	  			countFreight = freight;
-	  			$("#freightmoney").text('<fmt:message key="COMMON_DOLLAR" />' + fmoney(countFreight, 2));
+	  		
+	  		if (deliveryMethod == "1") {//送货上门的情况
+	  			if (isUnify) {
+		  			// 统一送货的情况下
+		  			countFreight = freight;
+		  			$("#freightmoney").text('<fmt:message key="COMMON_DOLLAR" />' + fmoney(countFreight, 2));
+		  		} else {
+		  			// 非统一送货
+		  			var dataGroup = $(".purchase-groupinfo").find("input[type=hidden]");
+		  			var diffLength = 0;
+		  			var columnDate = "";
+		  			for (var i = 0; i < dataGroup.length; i++) {
+		  				if (columnDate != $(dataGroup[i]).val()) {
+		  					columnDate = $(dataGroup[i]).val();
+		  					diffLength = diffLength + 1;
+		  				}
+		  			}
+		  			countFreight = freight * diffLength;
+		  			$("#freightmoney").text('<fmt:message key="COMMON_DOLLAR" />' + fmoney(countFreight, 2));
+		  		}
 	  		} else {
-	  			// 非统一送货
-	  			var dataGroup = $(".purchase-groupinfo").find("input[type=hidden]");
-	  			var diffLength = 0;
-	  			var columnDate = "";
-	  			for (var i = 0; i < dataGroup.length; i++) {
-	  				if (columnDate != $(dataGroup[i]).val()) {
-	  					columnDate = $(dataGroup[i]).val();
-	  					diffLength = diffLength + 1;
-	  				}
-	  			}
-	  			countFreight = freight * diffLength;
-	  			$("#freightmoney").text('<fmt:message key="COMMON_DOLLAR" />' + fmoney(countFreight, 2));
+	  			// 来店自提
+	  			$("#freightmoney").text('<fmt:message key="COMMON_DOLLAR" />' + '0.00');
 	  		}
+	  		
 	  		
 	  		//合计是多少钱
 	  		var goodMoney = 0;
@@ -267,9 +307,12 @@
 	  		if ($("#method_online").hasClass("method-check")) {
 	  			// 在线支付
 	  			payMethod = "1";
-	  		} else {
+	  		} else if ($("#method_cod").hasClass("method-check")){
 	  			// 货到付款
 	  			payMethod = "2";
+	  		} else {
+	  			// 来店付款
+	  			payMethod = "3";
 	  		}
 	  		
 	  		// 是否需要发票
@@ -346,14 +389,14 @@
 	
 	<div class="purchase-select-horizon margin-1px-top">
 		 <ul class="nav nav-tabs">
-		 	<li class="active">
-		 		<a onclick="selectDeliveryMethod('1')" data-toggle="tab">
+		 	<li class="active shsm_checked" onclick="selectDeliveryMethod('1')" id="lishsm">
+		 		<a data-toggle="tab">
 		 		<i class="fa fa-truck purchase-select-delivery"></i>
 		 			<span><fmt:message key="PURCHASE_SONGHUOSHANGMEN"/></span>
 		 		</a>
 		 	</li>
-		 	<li>
-		 		<a onclick="selectDeliveryMethod('2')" data-toggle="tab">
+		 	<li onclick="selectDeliveryMethod('2')" id="lildzt">
+		 		<a data-toggle="tab">
 		 		<i class="fa fa-home purchase-select-delivery"></i>
 		 			<span><fmt:message key="PURCHASE_LAIDIANZITI"/></span>
 		 		</a>
@@ -458,6 +501,10 @@
 				<i class="fa fa-check"></i>
 				<fmt:message key="PURCHASE_COD"/>
 			</a>
+			<a class="method-default" id="method_ldfk">
+				<i class="fa fa-check"></i>
+				<fmt:message key="PURCHASE_LDFK"/>
+			</a>
 		</div>
 	</div>
 	
@@ -553,6 +600,7 @@
 		        todayHighlight: true
 		    }); 
     		// 初期化的时候调用
+    		$("#method_ldfk").css("display","none");
     	  	judgeAll();
     	});
     	

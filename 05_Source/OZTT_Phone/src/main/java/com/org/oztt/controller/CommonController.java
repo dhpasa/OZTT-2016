@@ -26,6 +26,7 @@ import com.org.oztt.base.page.Pagination;
 import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.contants.CommonConstants;
+import com.org.oztt.contants.CommonEnum;
 import com.org.oztt.entity.TAddressInfo;
 import com.org.oztt.entity.TConsCart;
 import com.org.oztt.entity.TCustomerLoginHis;
@@ -35,10 +36,12 @@ import com.org.oztt.formDto.ContCartItemDto;
 import com.org.oztt.formDto.ContCartProItemDto;
 import com.org.oztt.formDto.GoodItemDto;
 import com.org.oztt.formDto.GroupItemDto;
+import com.org.oztt.formDto.OrderInfoDto;
 import com.org.oztt.service.AddressService;
 import com.org.oztt.service.CommonService;
 import com.org.oztt.service.CustomerService;
 import com.org.oztt.service.GoodsService;
+import com.org.oztt.service.OrderService;
 
 /**
  * 定义一些共同的控制器，实现共同的操作
@@ -60,6 +63,9 @@ public class CommonController extends BaseController {
 
     @Resource
     private AddressService  addressService;
+    
+    @Resource
+    private OrderService orderService;
 
     /**
      * 得到团购产品信息
@@ -774,6 +780,43 @@ public class CommonController extends BaseController {
             List<TConsCart> cartList = goodsService.getAllContCart(customerNo);
             
             mapReturn.put("sccount", cartList == null ? 0 : cartList.size());
+            // 后台维护的时候提示让以逗号隔开
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+    
+    
+    /**
+     * 获取未付款的订单
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/getNotPayCount")
+    @ResponseBody
+    public Map<String, Object> getNotPayCount(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            //
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            if (customerNo == null) {
+                return mapReturn;
+            }
+            // 获取未付款的订单
+            Map<Object, Object> paramMap = new HashMap<Object, Object>();
+            paramMap.put("customerNo", customerNo);
+            paramMap.put("handleFlg", CommonEnum.HandleFlag.NOT_PAY.getCode());
+            List<OrderInfoDto> orderList = orderService.getAllOrderInfoNoPage(paramMap);
+            
+            mapReturn.put("sccount", orderList == null ? 0 : orderList.size());
             // 后台维护的时候提示让以逗号隔开
             mapReturn.put("isException", false);
             return mapReturn;

@@ -1,8 +1,5 @@
 package com.org.oztt.controller;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +20,7 @@ import com.org.oztt.base.util.VpcHttpPayUtils;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.contants.CommonEnum;
 import com.org.oztt.entity.TConsOrder;
+import com.org.oztt.formDto.OzTtGbOdDto;
 import com.org.oztt.formDto.PaypalParam;
 import com.org.oztt.service.OrderService;
 import com.org.oztt.service.PaypalService;
@@ -47,9 +45,12 @@ public class PayController extends BaseController {
     public String init(Model model, HttpServletResponse response, HttpSession session, String orderNo, String email) {
         try {
             model.addAttribute("orderNo", orderNo);
+            // 取得订单的金额
+            OzTtGbOdDto detail = orderService.getOrderDetailInfo(orderNo);
+            String amount = new BigDecimal(detail.getXiaoji()).add(new BigDecimal(detail.getYunfei())).toString();
+            model.addAttribute("amount", amount);
             model.addAttribute("email", email);
             return "payment";
-
         }
         catch (Exception e) {
             e.printStackTrace();

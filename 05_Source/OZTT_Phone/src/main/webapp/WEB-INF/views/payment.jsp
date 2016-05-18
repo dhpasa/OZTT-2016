@@ -86,7 +86,10 @@
 	 	<img alt="logo" src="${ctx}/images/banklogo.png">
 	 </div>
 	<div class="logincontain">
-		
+		<div class="input_username">
+			<span id="dingdanhao" class="payment_dingdan"><fmt:message key="PAYMENT_ORDER" /></span>
+			<span id="amount" class="payment_amount"><fmt:message key="COMMON_DOLLAR" /></span>
+		</div>
         <div class="input_username">
         	<input class="txt-input" type="text" autocomplete="off" placeholder="Card Holder">
         </div>
@@ -109,10 +112,18 @@
             <a href="#" onclick="toPay()" id="payBtn"><fmt:message key="PAYMENT_BTN" /></a>
         </div>
         
+        <div class="payment_power">
+        	<fmt:message key="PAYMENT_POWER_BY" />
+        </div>
+        
         <input type="hidden" value="${orderNo }" id="orderNo"/>
         <input type="hidden" value="${email }" id="email"/>
 	</div>
-	</div>
+	
+	<script type="text/javascript">
+		$("#dingdanhao").append("${orderNo }")
+		$("#amount").append(fmoney("${amount }", 2));
+	</script>
 </body>
 <!-- END BODY -->
 </html>

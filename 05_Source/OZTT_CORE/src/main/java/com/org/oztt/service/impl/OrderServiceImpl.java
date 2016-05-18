@@ -512,6 +512,14 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         return orderDBInfoPage;
 
     }
+    
+    @Override
+    public List<OrderInfoDto> getAllOrderInfoNoPage(Map<Object, Object> params) throws Exception {
+
+        List<OrderInfoDto> orderDBInfoNoPage = tConsOrderDao.getOrderByParamNoPage(params);
+        return orderDBInfoNoPage;
+
+    }
 
     @Override
     public void deleteOrderById(String orderNo, String customerNo) throws Exception {

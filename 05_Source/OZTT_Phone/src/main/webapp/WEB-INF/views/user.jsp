@@ -65,6 +65,28 @@
 		});
 		window.location.reload();
 	}
+  	
+  	function updateNotPay(){
+		$.ajax({
+			type : "GET",
+			contentType:'application/json',
+			url : '${pageContext.request.contextPath}/COMMON/getNotPayCount',
+			dataType : "json",
+			async : false,
+			data : '', 
+			success : function(data) {
+				if(!data.isException){
+					$("#orderNotPay").text(data.sccount)
+				} else {
+					// 同步购物车失败
+					return;
+				}
+			},
+			error : function(data) {
+				
+			}
+		});
+	}
   
   </script>
 </head>
@@ -113,6 +135,7 @@
 			<a href="${ctx}/order/init?tab=0">
 				<i class="await-pays"></i>
 				<div><fmt:message key="USER_ORDER_NOTPAY"/></div>
+				<span class="order_not_pay" id="orderNotPay"></span>
 			</a>
 			<a href="${ctx}/order/init?tab=1">
 				<i class="await-ship"></i>
@@ -182,7 +205,17 @@
 	
 	<div class="loginOutBtn">
             <a href="#" onclick="loginOut()"><fmt:message key="LOGIN_OUT_BTN" /></a>
-        </div>
+    </div>
+        
+    <script type="text/javascript">
+        var sessionUserId = '${currentUserId}';
+    	if (sessionUserId == null || sessionUserId == "") {
+    		// 没有登录
+    		$("#orderNotPay").remove();
+    	} else {
+    		updateNotPay();
+    	}
+    </script>
 </body>
 <!-- END BODY -->
 </html>

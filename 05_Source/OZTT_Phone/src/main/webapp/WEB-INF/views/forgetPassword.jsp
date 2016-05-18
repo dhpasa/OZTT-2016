@@ -79,7 +79,7 @@
 						$("#personInfo").css("color", "red");
 					} else if (data.hasNotRegister){
 						// 手机没有注册
-						$("#personInfo").text('<fmt:message key="E0004" />');
+						$("#personInfo").text('<fmt:message key="E0008" />');
 						$("#personInfo").css("color", "red");
 					} else {
 						// 正确登录

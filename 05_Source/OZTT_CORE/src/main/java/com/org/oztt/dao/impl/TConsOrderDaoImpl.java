@@ -60,6 +60,11 @@ public class TConsOrderDaoImpl extends BaseDao implements TConsOrderDao {
         return selectPagination("com.org.oztt.dao.TConsOrderDao.getOrderByParamForPage",
                 "com.org.oztt.dao.TConsOrderDao.getOrderByParamForPageCount", pagination);
     }
+    
+    @Override
+    public List<OrderInfoDto> getOrderByParamNoPage(Map<Object, Object> params) {
+        return select("com.org.oztt.dao.TConsOrderDao.getOrderByParamForPage", params);
+    }
 
     @Override
     public TConsOrder selectByOrderId(String orderId) {
