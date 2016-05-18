@@ -13,7 +13,12 @@
   
   	$(function(){
 		$(".ico-back").click(function(){
-			location.href="${ctx}/user/init"
+			if ('${fromMode}' == '1') {
+				location.href="${ctx}/purchase/init";
+			} else {
+				location.href="${ctx}/user/init";
+			}
+			
 		});
 		
 	});

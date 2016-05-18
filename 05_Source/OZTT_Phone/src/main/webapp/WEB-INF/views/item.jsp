@@ -28,6 +28,10 @@
 						$(this).parent().parent().find('.txt').find('input').val(parseFloat(currentqty) + 1);
 					}
 				});
+				
+				$(".icon-search").click(function(){
+	  				location.href="${ctx}/search/init?mode=1";
+	  			});
 		  });
 		  
 		function itemFlyToCart() {

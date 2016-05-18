@@ -39,6 +39,14 @@ public interface OrderService {
      * @throws Exception
      */
     public PagingResult<OrderInfoDto> getAllOrderInfoForPage(Pagination pagination) throws Exception;
+    
+    /**
+     * 获取当前用户所有的订单信息
+     * 
+     * @return
+     * @throws Exception
+     */
+    public List<OrderInfoDto> getAllOrderInfoNoPage(Map<Object, Object> params) throws Exception;
 
     /**
      * 删除订单信息

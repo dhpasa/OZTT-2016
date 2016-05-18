@@ -672,6 +672,7 @@ html{
     width: 33%;
     padding: 1rem 0rem; 
     text-align: center;
+    position: relative;
 }
 
 .order-nav a:hover,.order-nav a:focus{
@@ -2527,4 +2528,38 @@ html{
 	margin-top: 5rem;
 	margin-bottom: 2rem;
     width: 30%;
+}
+
+.payment_dingdan{
+	width:100%;
+	display: block;
+    text-align: center;
+}
+
+.payment_amount{
+	width:100%;
+	display: block;
+    text-align: center;
+	font-size: 1.5rem;
+}
+
+.order_not_pay {
+    position: absolute;
+    color: #fff!important;
+    top: 15%;
+    right: 27%;
+    font-size: 1rem !important;
+    width: 1.5rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    display: inline-block !important;
+    background-color: #FF9298;
+    border-radius: 10px !important;
+}
+
+.payment_power{
+	width:100%;
+	display: block;
+    text-align: center;
+    margin-top: 1rem;
 }
