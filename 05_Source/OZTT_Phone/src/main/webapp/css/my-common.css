@@ -421,6 +421,13 @@ html{
 	right: 0;
 }
 
+.goods-sticker-new {
+	background: url(../images/newlabel.png) no-repeat;
+	background-size: 4rem 4rem;
+	left: auto;
+	right: 0;
+}
+
 .goods-sticker-hotLabel{
 	background: url(../images/hotlabel.png) no-repeat;
 	background-size: 4rem 4rem;
@@ -430,6 +437,41 @@ html{
 
 .goods-sticker-salesLabel{
 	background: url(../images/saleslabel.png) no-repeat;
+	background-size: 4rem 4rem;
+	left: auto;
+	right: 0;
+}
+
+.goods-sticker-newLabel-en {
+	background: url(../images/newlabel_en.png) no-repeat;
+	background-size: 4rem 4rem;
+	left: auto;
+	right: 0;
+}
+
+.goods-sticker-preLabel-en {
+	background: url(../images/prelabel_en.png) no-repeat;
+	background-size: 4rem 4rem;
+	left: auto;
+	right: 0;
+}
+
+.goods-sticker-inStockLabel-en {
+	background: url(../images/inStocklabel_en.png) no-repeat;
+	background-size: 4rem 4rem;
+	left: auto;
+	right: 0;
+}
+
+.goods-sticker-hotLabel-en {
+	background: url(../images/hotlabel_en.png) no-repeat;
+	background-size: 4rem 4rem;
+	left: auto;
+	right: 0;
+}
+
+.goods-sticker-salesLabel-en {
+	background: url(../images/saleslabel_en.png) no-repeat;
 	background-size: 4rem 4rem;
 	left: auto;
 	right: 0;

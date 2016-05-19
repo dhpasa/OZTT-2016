@@ -74,6 +74,12 @@
 			var temp21 = '<div class="goods-sticker goods-sticker-inStockLabel"></div>';
 			var temp22 = '<div class="goods-sticker goods-sticker-hotLabel"></div>';
 			var temp23 = '<div class="goods-sticker goods-sticker-salesLabel"></div>';
+			
+			var temp24 = '<div class="goods-sticker goods-sticker-preLabel-en"></div>';
+			var temp25 = '<div class="goods-sticker goods-sticker-inStockLabel-en"></div>';
+			var temp26 = '<div class="goods-sticker goods-sticker-hotLabel-en"></div>';
+			var temp27 = '<div class="goods-sticker goods-sticker-salesLabel-en"></div>';
+			
 			var temp16 = '</div>';
 			var temp17 = '</li>';
 			var url = '${ctx}/search/next?pageNo='+pageNo+"&mode="+$("#hiddenmode").val()+"&searchcontent="+$("#searchcontent").val()+"&classId="+$("#hiddenclassId").val();
@@ -105,16 +111,32 @@
 								tempStr += temp14.replace('{0}',dataList[i].countdownTime);
 								tempStr += temp15;
 								if (dataList[i].preLabel == '1') {
-									tempStr += temp20;
+									if ('${languageSelf}' == 'zh_CN'){
+										tempStr += temp20;
+									} else if('${languageSelf}' == 'en_US') {
+										tempStr += temp24;
+									}
 								}
 								if (dataList[i].inStockLabel == '1') {
-									tempStr += temp21;
+									if ('${languageSelf}' == 'zh_CN'){
+										tempStr += temp21;
+									} else if('${languageSelf}' == 'en_US') {
+										tempStr += temp25;
+									}
 								}
 								if (dataList[i].hotLabel == '1') {
-									tempStr += temp22;
+									if ('${languageSelf}' == 'zh_CN'){
+										tempStr += temp22;
+									} else if('${languageSelf}' == 'en_US') {
+										tempStr += temp26;
+									}
 								}
 								if (dataList[i].salesLabel == '1') {
-									tempStr += temp23;
+									if ('${languageSelf}' == 'zh_CN'){
+										tempStr += temp23;
+									} else if('${languageSelf}' == 'en_US') {
+										tempStr += temp27;
+									}
 								}
 								tempStr += temp16;
 								tempStr += temp17;
@@ -220,16 +242,37 @@
 		                	
 		                </div>
 		                <c:if test="${goodslist.preLabel == '1' }">
-		                	<div class="goods-sticker goods-sticker-preLabel"></div>
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker goods-sticker-preLabel"></div>
+		                	</c:if>
+		                	<c:if test="${languageSelf == 'en_US' }">
+		                		<div class="goods-sticker goods-sticker-preLabel-en"></div>
+		                	</c:if>
 		                </c:if>
 		                <c:if test="${goodslist.inStockLabel == '1' }">
-		                	<div class="goods-sticker goods-sticker-inStockLabel"></div>
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker goods-sticker-inStockLabel"></div>
+		                	</c:if>
+		                	<c:if test="${languageSelf == 'en_US' }">
+		                		<div class="goods-sticker goods-sticker-inStockLabel-en"></div>
+		                	</c:if>
 		                </c:if>
 		                <c:if test="${goodslist.hotLabel == '1' }">
-		                	<div class="goods-sticker goods-sticker-hotLabel"></div>
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker goods-sticker-hotLabel"></div>
+							</c:if>
+							<c:if test="${languageSelf == 'en_US' }">
+								<div class="goods-sticker goods-sticker-hotLabel-en"></div>
+							</c:if>
 		                </c:if>
 		                <c:if test="${goodslist.salesLabel == '1' }">
-		                	<div class="goods-sticker goods-sticker-salesLabel"></div>
+		                	
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker goods-sticker-salesLabel"></div>
+							</c:if>
+							<c:if test="${languageSelf == 'en_US' }">
+								<div class="goods-sticker goods-sticker-salesLabel-en"></div>
+							</c:if>
 		                </c:if>
 					</div>
    				</li>
