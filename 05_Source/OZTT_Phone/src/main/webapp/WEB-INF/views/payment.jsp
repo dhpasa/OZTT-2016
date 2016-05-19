@@ -67,6 +67,40 @@
   		}
   		
   		
+  		function blurCardExp(){
+  			var cardexp = $("#vpc_CardExp").val();
+  			if (cardexp == null || cardexp.length == 0) {
+  				return;
+  			}
+  			if (cardexp.length < 4){
+  				checkShowBtn();
+  				return;
+  			}
+  			if (cardexp.length == 5 && cardexp.indexOf("/") == -1) {
+  				$("#vpc_CardExp").val("");
+  				checkShowBtn();
+  				return;
+  			}
+  			
+  			if (cardexp.length == 4){
+  				if (isNaN(cardexp)) {
+  					$("#vpc_CardExp").val("");
+  	  				checkShowBtn();
+  	  				return;
+  				} else {
+  					$("#vpc_CardExp").val(cardexp.substring(0,2) + "/" + cardexp.substring(2))
+  					checkShowBtn();
+  	  				return;
+  				}
+  			}
+  			
+  			
+  				
+  				
+  			
+  		}
+  		
+  		
   </script>
 </head>
 <!-- Head END -->
@@ -97,7 +131,7 @@
             <input class="txt-input" type="text" autocomplete="off" placeholder="Card Number" id="vpc_CardNum" onchange="checkShowBtn()">
         </div>
         <div class="input-password">
-            <input class="txt-input" type="text" autocomplete="off" placeholder="Card Expiry Date (MMYY)" id="vpc_CardExp" onchange="checkShowBtn()">
+            <input class="txt-input" type="text" autocomplete="off" maxlength="5" placeholder="Card Expiry Date (MM/YY)" id="vpc_CardExp" onchange="checkShowBtn()" onblur="blurCardExp()">
         </div>
         <div class="input-password">
             <input class="txt-input" type="text" autocomplete="off" placeholder="Card Security Code (CSC)" id="vpc_CardSecurityCode" onchange="checkShowBtn()">
@@ -121,7 +155,7 @@
 	</div>
 	
 	<script type="text/javascript">
-		$("#dingdanhao").append("${orderNo }")
+		$("#dingdanhao").append("${orderNo }");
 		$("#amount").append(fmoney("${amount }", 2));
 	</script>
 </body>

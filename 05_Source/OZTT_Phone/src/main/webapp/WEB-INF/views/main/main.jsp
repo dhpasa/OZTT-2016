@@ -225,18 +225,38 @@
 		                <div class="countdown-time" data-seconds-left="${goodslist.countdownTime}">
 		                </div>
 		                <c:if test="${goodslist.preLabel == '1' }">
-		                	<div class="goods-sticker goods-sticker-preLabel"></div>
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker goods-sticker-preLabel"></div>
+		                	</c:if>
+		                	<c:if test="${languageSelf == 'en_US' }">
+		                		<div class="goods-sticker goods-sticker-preLabel-en"></div>
+		                	</c:if>
 		                </c:if>
 		                <c:if test="${goodslist.inStockLabel == '1' }">
-		                	<div class="goods-sticker .goods-sticker-inStockLabel"></div>
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker goods-sticker-inStockLabel"></div>
+		                	</c:if>
+		                	<c:if test="${languageSelf == 'en_US' }">
+		                		<div class="goods-sticker goods-sticker-inStockLabel-en"></div>
+		                	</c:if>
 		                </c:if>
 		                <c:if test="${goodslist.hotLabel == '1' }">
-		                	<div class="goods-sticker .goods-sticker-hotLabel"></div>
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker goods-sticker-hotLabel"></div>
+							</c:if>
+							<c:if test="${languageSelf == 'en_US' }">
+								<div class="goods-sticker goods-sticker-hotLabel-en"></div>
+							</c:if>
 		                </c:if>
 		                <c:if test="${goodslist.salesLabel == '1' }">
-		                	<div class="goods-sticker .goods-sticker-salesLabel"></div>
+		                	
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker goods-sticker-salesLabel"></div>
+							</c:if>
+							<c:if test="${languageSelf == 'en_US' }">
+								<div class="goods-sticker goods-sticker-salesLabel-en"></div>
+							</c:if>
 		                </c:if>
-		                
 					</div>
    				</li>
    				</c:forEach>
@@ -273,16 +293,37 @@
 		                <div class="countdown-time" data-seconds-left="${goodslist.countdownTime}">
 		                </div>
 		                <c:if test="${goodslist.preLabel == '1' }">
-		                	<div class="goods-sticker goods-sticker-preLabel"></div>
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker goods-sticker-preLabel"></div>
+		                	</c:if>
+		                	<c:if test="${languageSelf == 'en_US' }">
+		                		<div class="goods-sticker goods-sticker-preLabel-en"></div>
+		                	</c:if>
 		                </c:if>
 		                <c:if test="${goodslist.inStockLabel == '1' }">
-		                	<div class="goods-sticker goods-sticker-inStockLabel"></div>
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker goods-sticker-inStockLabel"></div>
+		                	</c:if>
+		                	<c:if test="${languageSelf == 'en_US' }">
+		                		<div class="goods-sticker goods-sticker-inStockLabel-en"></div>
+		                	</c:if>
 		                </c:if>
 		                <c:if test="${goodslist.hotLabel == '1' }">
-		                	<div class="goods-sticker goods-sticker-hotLabel"></div>
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker goods-sticker-hotLabel"></div>
+							</c:if>
+							<c:if test="${languageSelf == 'en_US' }">
+								<div class="goods-sticker goods-sticker-hotLabel-en"></div>
+							</c:if>
 		                </c:if>
 		                <c:if test="${goodslist.salesLabel == '1' }">
-		                	<div class="goods-sticker goods-sticker-salesLabel"></div>
+		                	
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker goods-sticker-salesLabel"></div>
+							</c:if>
+							<c:if test="${languageSelf == 'en_US' }">
+								<div class="goods-sticker goods-sticker-salesLabel-en"></div>
+							</c:if>
 		                </c:if>
 		                
 					</div>

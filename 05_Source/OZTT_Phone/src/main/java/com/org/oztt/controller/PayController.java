@@ -132,7 +132,12 @@ public class PayController extends BaseController {
             payMap.put("vpc_OrderInfo", MessageUtils.getApplicationMessage("vpc_OrderInfo"));
             payMap.put("vpc_Amount", String.valueOf(amount.multiply(new BigDecimal(100)).intValue()));
             payMap.put("vpc_CardNum", map.get("vpc_CardNum"));
-            payMap.put("vpc_CardExp", map.get("vpc_CardExp"));
+            
+            String vpcCardExp = map.get("vpc_CardExp");
+            String[] cardExp = vpcCardExp.split("/");
+            String cardexp = cardExp[1] + cardExp[0];
+            payMap.put("vpc_CardExp", cardexp);
+            
             payMap.put("vpc_CardSecurityCode", map.get("vpc_CardSecurityCode"));
             payMap.put("vpc_CSCLevel", MessageUtils.getApplicationMessage("vpc_CSCLevel"));
             payMap.put("vpc_TicketNo", "");
