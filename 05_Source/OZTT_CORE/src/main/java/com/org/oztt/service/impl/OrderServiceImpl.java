@@ -235,13 +235,19 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         tConsOrder.setCustomerno(customerNo);
 
         tConsOrder.setOrderamount(orderAmount);
-        tConsOrder.setPaymentmethod(CommonEnum.PaymentMethod.CREDIT_CARD.getCode());
+        
+        tConsOrder.setPaymentmethod(payMethod);
         tConsOrder.setOrdertimestamp(new Date());
         tConsOrder.setPaymenttimestamp(null);//付款时间
-        tConsOrder.setHandleflg(CommonEnum.HandleFlag.NOT_PAY.getCode());
+        if (CommonEnum.PaymentMethod.ONLINE_PAY_CWB.getCode().equals(payMethod)){
+            tConsOrder.setHandleflg(CommonEnum.HandleFlag.NOT_PAY.getCode());
+        } else {
+            tConsOrder.setHandleflg(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
+        }
 
         tConsOrder.setDeliverymethod(hidDeliMethod);
-        if ("true".equals(isUnify)) {
+        if (CommonEnum.DeliveryMethod.HOME_DELIVERY.getCode().equals(hidDeliMethod) && "true".equals(isUnify)) {
+            // 送货上门并且是统一送货
             tConsOrder.setHomedeliverytime(hidHomeDeliveryTime.replaceAll("/", ""));
         }
 
@@ -418,7 +424,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         tConsOrder.setCustomerno(customerNo);
 
         tConsOrder.setOrderamount(orderAmount);
-        tConsOrder.setPaymentmethod(CommonEnum.PaymentMethod.CREDIT_CARD.getCode());
+        tConsOrder.setPaymentmethod(CommonEnum.PaymentMethod.ONLINE_PAY_CWB.getCode());
         tConsOrder.setOrdertimestamp(new Date());
         tConsOrder.setPaymenttimestamp(null);//付款时间
         tConsOrder.setHandleflg(CommonEnum.HandleFlag.NOT_PAY.getCode());
@@ -554,6 +560,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         formDto.setOrderStatus(tConsOrder.getHandleflg());
         formDto.setOrderStatusView(CommonEnum.HandleFlag.getEnumLabel(tConsOrder.getHandleflg()));
         formDto.setDeliveryMethod(tConsOrder.getDeliverymethod());
+        formDto.setDeliveryMethodView(CommonEnum.DeliveryMethod.getEnumLabel(tConsOrder.getDeliverymethod()));
         // 取得地址信息
         if (tConsOrder.getAddressid() != 0) {
             TAddressInfo tAddressInfo = tAddressInfoDao.selectByPrimaryKey(tConsOrder.getAddressid());
@@ -562,7 +569,11 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                     + tSuburbDeliverFeeDao.selectByPrimaryKey(Long.valueOf(tAddressInfo.getSuburb())).getSuburb() + " "
                     + tAddressInfo.getState() + " " + tAddressInfo.getCountrycode() + " " + tAddressInfo.getPostcode());
             formDto.setReceiverPhone(tAddressInfo.getContacttel());
+        } else {
+            formDto.setReceiverAddress(super.getPageMessage("COMMON_SHOPADDRESS"));
         }
+        
+        formDto.setAddressId(tConsOrder.getAddressid().toString());
 
         // 支付和配送方式
         formDto.setPaymethod(CommonEnum.PaymentMethod.getEnumLabel(tConsOrder.getPaymentmethod()));
@@ -604,7 +615,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
     public void updateRecordAfterPay(String orderId, String customerNo, HttpSession session) throws Exception {
         // 检索当前订单，更新状态为已经付款
         TConsOrder tConsOrder = this.selectByOrderId(orderId);
-        tConsOrder.setHandleflg(CommonEnum.HandleFlag.PAYED.getCode());
+        tConsOrder.setHandleflg(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
         this.updateOrderInfo(tConsOrder);
         // 生成入出账记录
         // 取得最新的入出账记录
@@ -787,11 +798,11 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 odDto.setGoodsId(item.getGoodsId());
                 odDto.setGoodsName(item.getGoodsName());
                 odDto.setGoodsPic(item.getGoodsImage());
-                odDto.setGoodsPrice(new BigDecimal(item.getGoodsPrice()).divide(
-                        new BigDecimal(item.getGoodsQuantity()), 2, BigDecimal.ROUND_DOWN).toString());
+                odDto.setGoodsPrice(item.getGoodsPrice());
                 odDto.setGoodsProperties(item.getGoodsPropertiesDB());
                 odDto.setGoodsQuantity(item.getGoodsQuantity());
-                odDto.setGoodsTotalAmount(item.getGoodsPrice());
+                odDto.setGoodsTotalAmount(new BigDecimal(item.getGoodsPrice()).multiply(
+                        new BigDecimal(item.getGoodsQuantity())).toString());
                 itemList.add(odDto);
             }
 

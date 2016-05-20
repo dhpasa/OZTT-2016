@@ -711,7 +711,7 @@ html{
 .order-nav a{
 	display: block;
     float: left;
-    width: 33%;
+    width: 25%;
     padding: 1rem 0rem; 
     text-align: center;
     position: relative;
@@ -1684,7 +1684,7 @@ html{
 .orderList-search-horizon .nav-tabs > li {
     float: left;
     margin-bottom: -1px;
-    width:33%;
+    width:25%;
     text-align: -webkit-center;
 }
 
@@ -2521,6 +2521,10 @@ html{
 	background-color: #fff;
 	position: relative;
 	display: inline-block;
+}
+
+.order-select-address .detailaddress_store > div{
+	padding: 0 25px;
 }
 
 .order-item-allinfo{

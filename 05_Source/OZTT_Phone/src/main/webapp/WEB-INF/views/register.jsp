@@ -140,8 +140,8 @@
 		}
 		
 		if (password != confirmpwd) {
-			$("#passwordInfo").text('<fmt:message key="W0007" />');
-			$("#passwordInfo").css("color", "red");
+			$("#personInfo").text('<fmt:message key="W0007" />');
+			$("#personInfo").css("color", "red");
 			return "";
 		}
 		

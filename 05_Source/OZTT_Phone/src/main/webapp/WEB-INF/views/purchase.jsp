@@ -196,9 +196,13 @@
 	  			// 在线支付
 	  			payMethod = "1";
 	  			$("#gotobuy").text('<fmt:message key="PURCHASE_IMMEPAY"/>');
-	  		} else {
+	  		} else if ($("#method_cod").hasClass("method-check")){
 	  			// 货到付款
 	  			payMethod = "2";
+	  			$("#gotobuy").text('<fmt:message key="PURCHASE_COMMITORDER"/>');
+	  		} else {
+	  			// 来店付款
+	  			payMethod = "3";
 	  			$("#gotobuy").text('<fmt:message key="PURCHASE_COMMITORDER"/>');
 	  		}
 	  		
@@ -251,27 +255,9 @@
 	  	}
 	  	
 	  	function gotobuy(){
-	  		// 支付方式的选择
-	  		var payMethod = "1";
-	  		if ($("#method_online").hasClass("method-check")) {
-	  			// 在线支付
-	  			payMethod = "1";
-	  		} else {
-	  			// 货到付款
-	  			payMethod = "2";
-	  		}
-	  		if (payMethod == "1") {
-	  			// 弹出银行画面
-	  			/* $("#purchase-credit-pop-up").modal('show');
-	  			checkLastToBuy(); */
-	  			gotoPurchase();
-	  		} else {
-	  			// 直接进行后台操作
-	  			gotoPurchase();
-	  		}
+	  		// 支付
+	  		gotoPurchase();
 	  	}
-	  	
-	  	
 	  	
 	  	function gotoPurchase() {
 	  		// 选择了什么送货方式
@@ -342,19 +328,17 @@
 				async : false,
 				data : JSON.stringify(paramData), 
 				success : function(data) {
-					if (payMethod == "2") {
-						// 货到付款
-						location.href = "${ctx}/Notice/paysuccess"
-					} else {
-						//支付画面
+					if (payMethod == "1") {
+						//在线支付
 						if (needInvoice == "1"){
 							location.href = "${ctx}/Pay/init?orderNo="+data.orderNo+"&email="+$("#invoicemail").val();
 						} else {
 							location.href = "${ctx}/Pay/init?orderNo="+data.orderNo;
 						}
-						
+					} else {
+						// 货到付款 来店付款
+						location.href = "${ctx}/Notice/paysuccess"
 					}
-					
 				},
 				error : function(data) {
 					

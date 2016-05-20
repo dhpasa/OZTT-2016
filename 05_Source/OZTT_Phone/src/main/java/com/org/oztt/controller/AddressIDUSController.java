@@ -131,7 +131,7 @@ public class AddressIDUSController extends BaseController {
             info.setContacttel(reqMap.get("contacttel"));
             info.setCountrycode(reqMap.get("country"));
             info.setCustomerno(customerNo);
-            info.setDeliverymethod(CommonEnum.DeliveryMethod.NORMAL.getCode());
+            info.setDeliverymethod(CommonEnum.DeliveryMethod.DEFAULT.getCode());
             info.setPostcode(reqMap.get("post"));
             info.setReceiver(reqMap.get("reveiver"));
             info.setFlg(CommonConstants.NOT_DEFAULT_ADDRESS);

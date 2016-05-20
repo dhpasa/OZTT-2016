@@ -72,15 +72,15 @@ public class PayController extends BaseController {
             TConsOrder tConsOrder = orderService.selectByOrderId(orderId);
             // 先判断付款方式
             String rb = "";
-            if (CommonEnum.PaymentMethod.CREDIT_CARD.getCode().equals(hidPayMethod)) {
+            if (CommonEnum.PaymentMethod.ONLINE_PAY_CWB.getCode().equals(hidPayMethod)) {
                 // 货到付款
                 PaypalParam paypalParam = new PaypalParam();
                 paypalParam.setOrderId(orderId);
-                if (CommonEnum.DeliveryMethod.NORMAL.getCode().equals(hidDeliMethod)) {
+                if (CommonEnum.DeliveryMethod.HOME_DELIVERY.getCode().equals(hidDeliMethod)) {
                     // 普通快递
                     paypalParam.setPrice(tConsOrder.getOrderamount().add(tConsOrder.getDeliverycost()).toString());
                 }
-                else if (CommonEnum.DeliveryMethod.SELF_PICK.getCode().equals(hidDeliMethod)) {
+                else if (CommonEnum.DeliveryMethod.PICK_INSTORE.getCode().equals(hidDeliMethod)) {
                     // 来店自提
                     paypalParam.setPrice(tConsOrder.getOrderamount().toString());
                 }

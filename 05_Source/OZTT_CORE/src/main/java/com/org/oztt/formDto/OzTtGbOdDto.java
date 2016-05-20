@@ -15,6 +15,8 @@ public class OzTtGbOdDto {
     
     private String orderStatus;
     
+    private String addressId;
+    
     private String receiver;
     
     private String receiverAddress;
@@ -42,6 +44,8 @@ public class OzTtGbOdDto {
     private String heji;
     
     private String deliveryMethod;
+    
+    private String deliveryMethodView;
     
     private List<ContCartItemDto> goodList;
 
@@ -187,6 +191,22 @@ public class OzTtGbOdDto {
 
     public void setDeliveryMethod(String deliveryMethod) {
         this.deliveryMethod = deliveryMethod;
+    }
+
+    public String getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(String addressId) {
+        this.addressId = addressId;
+    }
+
+    public String getDeliveryMethodView() {
+        return deliveryMethodView;
+    }
+
+    public void setDeliveryMethodView(String deliveryMethodView) {
+        this.deliveryMethodView = deliveryMethodView;
     }
     
     
