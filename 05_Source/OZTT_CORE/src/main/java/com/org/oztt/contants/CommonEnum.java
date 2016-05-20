@@ -18,14 +18,14 @@ public final class CommonEnum {
     public enum HandleFlag implements IEnum {
         /** 未付款 */
         NOT_PAY("未付款", "0"),
-        /** 已付款 */
-        PAYED("已付款", "1"),
-        /** 处理中 */
-        IN_HANDLE("处理中", "2"),
-        /** 处理完毕 */
-        HAS_HANDLED("处理完毕", "3"),
+        /** 下单成功 */
+        PLACE_ORDER_SU("下单成功", "1"),
+        /** 商品派送中 */
+        SENDING("商品派送中", "2"),
+        /** 订单已完成 */
+        COMPLATE("订单已完成", "3"),
         /** 删除 */
-        DELETED("删除", "9");
+        DELETED("订单已取消", "9");
 
         /** 值 */
         private String label;
@@ -152,12 +152,12 @@ public final class CommonEnum {
      * 运送方式
      */
     public enum DeliveryMethod implements IEnum {
+        /** 默认 */
+        DEFAULT("默认", "0"),
+        /** 送货上门 */
+        HOME_DELIVERY("送货上门", "1"),
         /** 来店自提 */
-        SELF_PICK("来店自提", "1"),
-        /** 已付款 */
-        NORMAL("普通快递", "2"),
-        /** 处理中 */
-        COD("货到付款", "3");
+        PICK_INSTORE("来店自提", "2");
 
         /** 值 */
         private String label;
@@ -283,14 +283,12 @@ public final class CommonEnum {
      * 付款方式
      */
     public enum PaymentMethod implements IEnum {
-        /** Credit Card */
-        CREDIT_CARD("Credit Card", "1"),
-        /** Paypal */
-        PAYPAL("Paypal", "2"),  
-        /** 支付宝 */
-        ALIPAY("支付宝", "3"),
-        /** 微信支付 */
-        WECHAT("微信支付", "4");
+        /** 在线支付_澳洲联邦 */
+        ONLINE_PAY_CWB("在线支付", "1"),
+        /** 货到付款 */
+        COD("货到付款", "2"),  
+        /** 来店付款 */
+        PAY_INSTORE("来店付款", "3");
 
         /** 值 */
         private String label;

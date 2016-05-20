@@ -40,17 +40,27 @@
 		<div class="order-item-time"><fmt:message key="ORDER_ITEM_ORDERNO" />${detailInfo.orderNo}</div>
 		<div class="order-item-headStatus">${detailInfo.orderStatusView}</div>
 		<div class="order-select-address border-top-show">
-		
-			<div class="nameandphone">
-				<div class="name">${detailInfo.receiver }&nbsp;&nbsp;&nbsp;${detailInfo.receiverPhone }</div>
-				<div class="phone"></div>
-			</div>
-			<div class="detailaddress">
-				<i class="position"></i>
-				<div>
-					${detailInfo.receiverAddress}
+			<c:if test="${detailInfo.addressId != '0' }">
+				<div class="nameandphone">
+					<div class="name">${detailInfo.receiver }&nbsp;&nbsp;&nbsp;${detailInfo.receiverPhone }</div>
+					<div class="phone"></div>
 				</div>
-			</div>
+				<div class="detailaddress">
+					<i class="position"></i>
+					<div>
+						${detailInfo.receiverAddress}
+					</div>
+				</div>
+			</c:if>
+			<c:if test="${detailInfo.addressId == '0' }">
+				<div class="detailaddress_store">
+					<i class="position"></i>
+					<div>
+						${detailInfo.receiverAddress}
+					</div>
+				</div>
+			</c:if>
+			
 		</div>
 	</div>
 	<div class="order-goods-div margin-1rem-top">
@@ -81,6 +91,10 @@
 		<div class="order-item-payinfo top-padding">
 			<div class="paytitle"><fmt:message key="ORDER_ITEM_PAYMETHOD" /></div>
 			<div class="paycontent">${ detailInfo.paymethod}</div>
+		</div>
+		<div class="order-item-payinfo top-padding">
+			<div class="paytitle"><fmt:message key="ORDER_ITEM_DELIVERYMETHOD" /></div>
+			<div class="paycontent">${ detailInfo.deliveryMethodView}</div>
 		</div>
 		<div class="order-item-payinfo top-padding">
 			<div class="paytitle"><fmt:message key="ORDER_ITEM_UNIFY" /></div>

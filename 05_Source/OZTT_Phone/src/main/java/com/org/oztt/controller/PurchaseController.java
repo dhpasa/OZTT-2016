@@ -67,8 +67,8 @@ public class PurchaseController extends BaseController {
                 }
                 dto.setGoodsPropertiesDB(StringUtils.EMPTY);
                 dto.setGoodsImage(imgUrl + dto.getGoodsId() + CommonConstants.PATH_SPLIT + dto.getGoodsImage());
-                dto.setDeliveryDate(DateFormatUtils.date2StringWithFormat(dto.getValidPeriodEnd(),
-                        DateFormatUtils.PATTEN_YMD2));
+                dto.setDeliveryDate(DateFormatUtils.date2StringWithFormat(
+                        DateFormatUtils.addDate(dto.getValidPeriodEnd(), Calendar.DATE, 1), DateFormatUtils.PATTEN_YMD2));
                 dto.setGoodsUnitPrice(String.valueOf(new BigDecimal(dto.getGoodsPrice()).divide(
                         new BigDecimal(dto.getGoodsQuantity()), 2, BigDecimal.ROUND_DOWN)));
                 if (maxdate == null) {
@@ -128,10 +128,10 @@ public class PurchaseController extends BaseController {
             String isUnify = param.get("isUnify").toString();
             String invoicemail = param.get("invoicemail").toString();
             String needInvoice = param.get("needInvoice").toString();
-            
+
             // 先判断付款方式
-            String orderNo = orderService.insertOrderInfoForPhone(customerNo, hidPayMethod, hidDeliMethod, hidAddressId,
-                    hidHomeDeliveryTime, isUnify, needInvoice, invoicemail, session);
+            String orderNo = orderService.insertOrderInfoForPhone(customerNo, hidPayMethod, hidDeliMethod,
+                    hidAddressId, hidHomeDeliveryTime, isUnify, needInvoice, invoicemail, session);
             mapReturn.put("orderNo", orderNo);
             mapReturn.put("isException", false);
             return mapReturn;

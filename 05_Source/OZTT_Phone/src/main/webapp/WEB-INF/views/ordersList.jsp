@@ -21,7 +21,7 @@
 		
 	});
 	function detail(id){
-		location.href="${ctx}/order/"+id+"?tab="+${tab};
+		location.href="${ctx}/order/"+id+"?tab="+selectTab;
 	}
 	
 	function toPay(orderId) {
@@ -187,9 +187,11 @@
 		$("#loadingDiv").css("display","none");
 	}
 	
+	var selectTab = '${tab}';
 	function reloadtab(tab){
 		$("#ordersList").text('');
 		pageNo = 0;
+		selectTab = tab;
 		initList(tab);
 	}
 </script>
@@ -224,7 +226,8 @@
 		<ul class="nav nav-tabs">
 			<li <c:if test="${tab == '0'}">class="active"</c:if>><a onclick="reloadtab('0');return false;" data-toggle="tab"><fmt:message key="ORDERLIST_WAITPAY" /></a></li>
 			<li <c:if test="${tab == '1'}">class="active"</c:if>><a onclick="reloadtab('1');return false;" data-toggle="tab"><fmt:message key="ORDERLIST_WAITSEND" /></a></li>
-			<li <c:if test="${tab == '3'}">class="active"</c:if>><a onclick="reloadtab('3');return false;" data-toggle="tab"><fmt:message key="ORDERLIST_WAITRECEIVE" /></a></li>
+			<li <c:if test="${tab == '2'}">class="active"</c:if>><a onclick="reloadtab('2');return false;" data-toggle="tab"><fmt:message key="ORDERLIST_SENDING" /></a></li>
+			<li <c:if test="${tab == '3'}">class="active"</c:if>><a onclick="reloadtab('3');return false;" data-toggle="tab"><fmt:message key="ORDERLIST_COMPLATE" /></a></li>
 		</ul>
 	</div>
 	<div id="ordersList">
