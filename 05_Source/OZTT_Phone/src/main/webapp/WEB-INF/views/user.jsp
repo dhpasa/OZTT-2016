@@ -138,8 +138,12 @@
 				<span class="order_not_pay" id="orderNotPay"></span>
 			</a>
 			<a href="${ctx}/order/init?tab=1">
-				<i class="await-ship"></i>
+				<i class="await-wait"></i>
 				<div><fmt:message key="USER_ORDER_NOTOVER"/></div>
+			</a>
+			<a href="${ctx}/order/init?tab=2">
+				<i class="await-ship"></i>
+				<div><fmt:message key="USER_ORDER_SENDING"/></div>
 			</a>
 			<a href="${ctx}/order/init?tab=3">
 				<i class="await_received"></i>
