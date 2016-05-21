@@ -888,6 +888,13 @@ html{
     width: 3rem;
 }
 
+.await-wait{
+	background: url(../images/await-wait.png) center center/2rem 2rem no-repeat;
+    display: inline-block;
+    height: 3rem;
+    width: 3rem;
+}
+
 .await-ship{
 	background: url(../images/await-ship.png) center center/2rem 2rem no-repeat;
 	display: inline-block;
