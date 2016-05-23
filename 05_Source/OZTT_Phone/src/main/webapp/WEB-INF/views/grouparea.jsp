@@ -107,28 +107,21 @@
 								tempStr += temp13;
 								tempStr += temp14.replace('{0}',dataList[i].countdownTime);
 								tempStr += temp15;
-								if (dataList[i].preLabel == '1') {
+								if (dataList[i].preLabel == '1' && '${tab}' == '2') {
 									if ('${languageSelf}' == 'zh_CN'){
 										tempStr += temp20;
 									} else if('${languageSelf}' == 'en_US') {
 										tempStr += temp24;
 									}
 								}
-								if (dataList[i].inStockLabel == '1') {
+								if (dataList[i].inStockLabel == '1' && '${tab}' == '3') {
 									if ('${languageSelf}' == 'zh_CN'){
 										tempStr += temp21;
 									} else if('${languageSelf}' == 'en_US') {
 										tempStr += temp25;
 									}
 								}
-								if (dataList[i].hotLabel == '1') {
-									if ('${languageSelf}' == 'zh_CN'){
-										tempStr += temp22;
-									} else if('${languageSelf}' == 'en_US') {
-										tempStr += temp26;
-									}
-								}
-								if (dataList[i].salesLabel == '1') {
+								if (dataList[i].salesLabel == '1' && '${tab}' == '1') {
 									if ('${languageSelf}' == 'zh_CN'){
 										tempStr += temp23;
 									} else if('${languageSelf}' == 'en_US') {
@@ -225,7 +218,7 @@
 		                <div class="countdown-time" data-seconds-left="${goodslist.countdownTime}">
 		                	
 		                </div>
-		                <c:if test="${goodslist.preLabel == '1' }">
+		                <c:if test="${goodslist.preLabel == '1' && tab == '2'}">
 		                	<c:if test="${languageSelf == 'zh_CN' }">
 		                		<div class="goods-sticker goods-sticker-preLabel"></div>
 		                	</c:if>
@@ -233,7 +226,7 @@
 		                		<div class="goods-sticker goods-sticker-preLabel-en"></div>
 		                	</c:if>
 		                </c:if>
-		                <c:if test="${goodslist.inStockLabel == '1' }">
+		                <c:if test="${goodslist.inStockLabel == '1' && tab == '3'}">
 		                	<c:if test="${languageSelf == 'zh_CN' }">
 		                		<div class="goods-sticker goods-sticker-inStockLabel"></div>
 		                	</c:if>
@@ -241,15 +234,7 @@
 		                		<div class="goods-sticker goods-sticker-inStockLabel-en"></div>
 		                	</c:if>
 		                </c:if>
-		                <c:if test="${goodslist.hotLabel == '1' }">
-		                	<c:if test="${languageSelf == 'zh_CN' }">
-		                		<div class="goods-sticker goods-sticker-hotLabel"></div>
-							</c:if>
-							<c:if test="${languageSelf == 'en_US' }">
-								<div class="goods-sticker goods-sticker-hotLabel-en"></div>
-							</c:if>
-		                </c:if>
-		                <c:if test="${goodslist.salesLabel == '1' }">
+		                <c:if test="${goodslist.salesLabel == '1' && tab == '1'}">
 		                	
 		                	<c:if test="${languageSelf == 'zh_CN' }">
 		                		<div class="goods-sticker goods-sticker-salesLabel"></div>
