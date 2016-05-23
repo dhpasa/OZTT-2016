@@ -190,7 +190,7 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
         goodItemDto.setImgList(goodPicList);
         goodItemDto.setNowPrice(tGoodsPrice.getPricevalue().toString());
         goodItemDto.setDisPrice(tGoodsGroup.getGroupprice().toString());
-        goodItemDto.setProductInfo(tGoodsGroup.getGroupcomments());
+        goodItemDto.setProductInfo(tGoodsGroup.getComsumerreminder());
         goodItemDto.setProductDesc(tGoodsGroup.getGroupdesc());
         goodItemDto.setSellerRule(tGoodsGroup.getShopperrules());
         goodItemDto.setGroupMax(String.valueOf(tGoodsGroup.getGroupmaxquantity()));

@@ -242,11 +242,11 @@
         <li><a href="#Reviews" data-toggle="tab"><fmt:message key="ITEM_RULE"/></a></li>
       </ul>
       <div id="myTabContent" class="tab-content">
-        <div class="tab-pane fade in active" id="Description">
-          	${goodItemDto.productInfo}
+      	<div class="tab-pane fade in active" id="Description">
+          	${goodItemDto.productDesc}
         </div>
         <div class="tab-pane fade" id="Information">
-          	${goodItemDto.productDesc}
+          	${goodItemDto.productInfo}
         </div>
         <div class="tab-pane fade" id="Reviews">
           	${goodItemDto.sellerRule}
