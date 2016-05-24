@@ -4,7 +4,7 @@ public final class CommonConstants {
 
     public static final String ERROR_PAGE            = "404";
 
-    public static final String FIRST_NUMBER          = "00000001";
+    public static final String FIRST_NUMBER          = "000001";
 
     public static final String ADD_NUMBER            = "000001";
 

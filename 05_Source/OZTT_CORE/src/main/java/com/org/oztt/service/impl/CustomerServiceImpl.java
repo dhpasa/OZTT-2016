@@ -115,7 +115,7 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
                 // 客户号最大值的保存
                 maxCustomer = nowDateString
                         + StringUtils.leftPad(
-                                String.valueOf(Integer.valueOf(maxTNoCustomer.getMaxno().substring(8)) + 1), len, "0");
+                                String.valueOf(Integer.valueOf(maxTNoCustomer.getMaxno().substring(6)) + 1), len, "0");
                 maxTNoCustomer.setMaxno(maxCustomer);
                 tNoCustomerDao.updateByPrimaryKeySelective(maxTNoCustomer);
             }
@@ -129,6 +129,7 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
             }
         }
 
+        maxCustomer =  "CS" + maxCustomer;
         // 可用登录信息的保存
         TCustomerLoginInfo tCustomerLoginInfo = new TCustomerLoginInfo();
         tCustomerLoginInfo.setAddtimestamp(new Date());
