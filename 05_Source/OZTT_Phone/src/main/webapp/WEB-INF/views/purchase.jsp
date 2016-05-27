@@ -477,9 +477,8 @@
     <div class="purchase-delivery-method margin-1rem-top">
 		<span class="purchase-delivery-span"><fmt:message key="PURCHASE_DELIVERY"/></span>
 		<div class="purchase-method">
-			<a class="method-check" id="method_online">
-				<i class="fa fa-check"></i>
-				<fmt:message key="PURCHASE_ONLINEBUY"/>
+			<a class="method-check purchase_paymoth_width" id="method_online">
+				<img src="${ctx}/images/banklogo_trans.png" style="height:2.5rem;">
 			</a>
 			<a class="method-default" id="method_cod">
 				<i class="fa fa-check"></i>

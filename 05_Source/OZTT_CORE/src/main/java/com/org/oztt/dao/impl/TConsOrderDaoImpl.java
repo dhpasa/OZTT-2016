@@ -65,6 +65,11 @@ public class TConsOrderDaoImpl extends BaseDao implements TConsOrderDao {
     public List<OrderInfoDto> getOrderByParamNoPage(Map<Object, Object> params) {
         return select("com.org.oztt.dao.TConsOrderDao.getOrderByParamForPage", params);
     }
+    
+    @Override
+    public List<OrderInfoDto> getNotSuccessedOrder(Map<Object, Object> params) {
+        return select("com.org.oztt.dao.TConsOrderDao.getNotSuccessedOrder", params);
+    }
 
     @Override
     public TConsOrder selectByOrderId(String orderId) {

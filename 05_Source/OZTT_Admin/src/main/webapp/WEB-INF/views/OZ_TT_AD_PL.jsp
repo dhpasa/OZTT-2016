@@ -226,6 +226,57 @@
 		targetForm.method = "POST";
 		targetForm.submit();
   	}
+  	var W0003 = '<fmt:message key="W0003" />';
+  	function batchUpdateClassfy(){
+  		var isChecked = false;
+  		var goodsIds = "";
+  		$(".orderSetClass").each(function(){
+  			if (this.checked == true) {
+  				isChecked = true;
+  				goodsIds = goodsIds + this.value + ",";
+  			}
+  		});
+  		
+  		if (!isChecked) {
+  			alert(W0003);
+  			return;
+  		}
+  		$("#classId").val("");
+  		$('#choose_classfy_modal').modal('show');
+  		
+  		
+  	}
+  	var I0002 = '<fmt:message key="I0002" />';
+  	function batchUpdateClassTrue(){
+  		if ($("#classId").val() == "") {
+  			return;
+  		}
+  		var goodsIds = "";
+  		$(".orderSetClass").each(function(){
+  			if (this.checked == true) {
+  				goodsIds = goodsIds + this.value + ",";
+  			}
+  		});
+  		var jsonMap = {
+  				goodsIds: goodsIds.substring(0, goodsIds.length -1),
+  				classId:$("#classId").val()
+  	  	}
+  		$('#choose_classfy_modal').modal('hide');
+  		$.ajax({
+			type : "POST",
+			contentType:'application/json',
+			url : '${pageContext.request.contextPath}/OZ_TT_AD_PL/saveBatchClass',
+			dataType : "json",
+			async:false,
+			data : JSON.stringify(jsonMap), 
+			success : function(data) {
+				alert(I0002);
+			},
+			error : function(data) {
+				
+			}
+		});
+  	}
   
   </script>
 </head>
@@ -343,7 +394,9 @@
 				
 				<div class="form-group textright">
 					<div class="col-md-6 textleft">
-						<button type="button" class="btn green mybtn" onclick="newGoods()"><i class="fa fa-search"></i><fmt:message key="COMMON_NEW" /></button>
+						<button type="button" class="btn green mybtn" onclick="newGoods()"><fmt:message key="COMMON_NEW" /></button>
+						
+						<button type="button" class="btn green mybtn" onclick="batchUpdateClassfy()"><fmt:message key="OZ_TT_AD_PL_CHOOSECLASSFY" /></button>
 					</div>
 					<div class="col-md-6 textright">
 						<button type="button" class="btn green mybtn" onclick="searchSetPrice()"><i class="fa fa-search"></i><fmt:message key="COMMON_SEARCH" /></button>
@@ -358,6 +411,9 @@
 					<tr>
 						<th scope="col">
 							 <fmt:message key="COMMON_NUM" />
+						</th>
+						<th scope="col">
+							 <fmt:message key="COMMON_CHECKBOX" />
 						</th>
 						<th scope="col">
 							 <fmt:message key="OZ_TT_AD_PL_DE_goodsId" />
@@ -390,6 +446,9 @@
 					<tr>
 						<td>
 							 ${goodsItem.detailNo }
+						</td>
+						<td>
+							 <input type="checkbox" value="${goodsItem.goodsId }" class="orderSetClass"/>
 						</td>
 						<td>
 							 ${goodsItem.goodsId }
@@ -628,6 +687,41 @@
 				<div class="modal-footer">
 					<button class="btn btn-primary" onclick="setGroupSave('0')"><fmt:message key="COMMON_SAVE" /></button>
 					<button class="btn btn-success" onclick="setGroupSave('1')"><fmt:message key="COMMON_SUBMIT" /></button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="choose_classfy_modal" class="modal fade" role="dialog" aria-hidden="true">
+		<div class="modal-dialog" style="width:1200px;">
+			<div class="modal-content">
+				<div class="modal-header" style="text-align: center">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+					<h4 class="modal-title"><fmt:message key="OZ_TT_AD_PL_DIALOG_CLASSFY" /></h4>
+				</div>
+				<div class="modal-body">
+					<form action="#" class="form-horizontal">
+						<div class="form-group">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_PL_DIALOG_CHOOSE_LABEL" /></label>
+							<div class="col-md-10">				
+								<select class="bs-select input-medium form-control" id="classId">
+									<optgroup label="">
+										<option value=""></option>
+									</optgroup>
+									<c:forEach var="faList" items="${ categoryList }">
+										<optgroup label="${faList.fatherClass.classid }：${faList.fatherClass.classname }">
+											<c:forEach var="chList" items="${ faList.childrenClass }">
+											<option value="${ chList.fatherClass.classid }">${ chList.fatherClass.classid }：${ chList.fatherClass.classname }</option>
+											</c:forEach>
+										</optgroup>
+		                   			</c:forEach>
+								</select>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-success" onclick="batchUpdateClassTrue()"><fmt:message key="COMMON_SUBMIT" /></button>
 				</div>
 			</div>
 		</div>

@@ -44,6 +44,33 @@
 			}
 		});
 	}
+	
+  	function updateNotOrder(){
+		$.ajax({
+			type : "GET",
+			contentType:'application/json',
+			url : '${pageContext.request.contextPath}/COMMON/getNotSuOrder',
+			dataType : "json",
+			async : false,
+			data : '', 
+			success : function(data) {
+				if(!data.isException){
+					if (parseFloat(data.sccount) > 0) {
+						$("#notSuccessedOrder").text(data.sccount);
+					} else {
+						$("#notSuccessedOrder").remove();
+					}
+					
+				} else {
+					// 同步购物车失败
+					return;
+				}
+			},
+			error : function(data) {
+				
+			}
+		});
+	}
 </script>
 
 <!-- Body BEGIN -->
@@ -68,6 +95,7 @@
 		<a href="${ctx}/user/init" class="main-nav-item main-nav-profile ">
 			<img alt="me" src="${ctx}/images/me.png">
 			<span><fmt:message key="DECORATOR_ME"/></span>
+			<span class="notSuccessedOrder" id="notSuccessedOrder"></span>
 		</a>
 	</div>
     <!-- END FOOTER -->
@@ -83,8 +111,10 @@
 	if (sessionUserId == null || sessionUserId == "") {
 		// 没有登录
 		$("#decoratorShopCart").remove();
+		$("#notSuccessedOrder").remove();
 	} else {
 		updateShopCart();
+		updateNotOrder();
 	}
     
     

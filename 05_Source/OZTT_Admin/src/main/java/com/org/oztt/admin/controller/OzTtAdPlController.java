@@ -21,6 +21,7 @@ import com.org.oztt.base.page.Pagination;
 import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.contants.CommonConstants;
+import com.org.oztt.entity.TGoods;
 import com.org.oztt.entity.TGoodsGroup;
 import com.org.oztt.entity.TGoodsPrice;
 import com.org.oztt.formDto.OzTtAdPlDto;
@@ -60,6 +61,7 @@ public class OzTtAdPlController extends BaseController {
             model.addAttribute("categoryList", commonService.getMyCategroy());
             model.addAttribute("ozTtAdPlDto", new OzTtAdPlDto());
             model.addAttribute("pageInfo", new PagingResult<OzTtAdPlListDto>());
+            model.addAttribute("categoryList", commonService.getMyCategroy());
             return "OZ_TT_AD_PL";
         }
         catch (Exception e) {
@@ -249,6 +251,41 @@ public class OzTtAdPlController extends BaseController {
             tGoodsGroup.setUpdtimestamp(new Date());
             tGoodsGroup.setUpduserkey(CommonConstants.ADMIN_USERKEY);
             goodsService.saveGoodsSetGroup(tGoodsGroup);
+            // 后台维护的时候提示让以逗号隔开
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return null;
+        }
+    }
+    
+    /**
+     * 产品分类修改状态
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/saveBatchClass")
+    @ResponseBody
+    public Map<String, Object> saveBatchClass(HttpServletRequest request, HttpSession session,
+            @RequestBody Map<String, String> map) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            
+            String[] goodsIdArr = map.get("goodsIds").split(",");
+            String classId = map.get("classId");
+            for (String str : goodsIdArr) {
+                TGoods tGoods = goodsService.getGoodsById(str);
+                tGoods.setClassid(classId);
+                tGoods.setUpdpgmid("OZ_TT_AD_PL");
+                tGoods.setUpdtimestamp(new Date());
+                tGoods.setUpduserkey(CommonConstants.ADMIN_USERKEY);
+                goodsService.updateGoodsForAdmin(tGoods);
+            }
             // 后台维护的时候提示让以逗号隔开
             mapReturn.put("isException", false);
             return mapReturn;

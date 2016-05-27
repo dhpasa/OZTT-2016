@@ -60,6 +60,13 @@ public interface TConsOrderDao {
     List<OrderInfoDto> getOrderByParamNoPage(Map<Object, Object> params);
     
     /**
+     * 获取订单信息
+     * @param pagination
+     * @return
+     */
+    List<OrderInfoDto> getNotSuccessedOrder(Map<Object, Object> params);
+    
+    /**
      * 通过订单号来取订单信息
      * @param orderId
      * @return

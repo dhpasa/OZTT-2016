@@ -316,6 +316,23 @@
 		where orderNo = #{orderId,jdbcType=VARCHAR}
 	</select>
 	
+	<select id="getNotSuccessedOrder" resultType="com.org.oztt.formDto.OrderInfoDto" parameterType="map">
+		SELECT
+		A.orderNo as orderId,
+		A.addTimestamp as orderDateDB,
+		A.handleFlg as orderStatus,
+		A.orderAmount as orderAmount,
+		A.deliveryMethod,
+		A.deliveryCost,
+		B.receiver as consignee
+		from t_cons_order A
+		left join t_address_info B on B.id = A.addressId
+		where 
+		(A.handleFlg = '0' or A.handleFlg = '1' or A.handleFlg = '2')
+		and A.customerNo = #{customerNo,jdbcType=VARCHAR}
+      	order by addTimestamp desc
+	</select>
+	
 	
 	<select id="getAllOrderInfoForAdmin" resultType="com.org.oztt.formDto.OzTtAdOlListDto" parameterType="map">
 		SELECT
