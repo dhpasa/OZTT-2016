@@ -47,6 +47,14 @@ public interface OrderService {
      * @throws Exception
      */
     public List<OrderInfoDto> getAllOrderInfoNoPage(Map<Object, Object> params) throws Exception;
+    
+    /**
+     * 获取当前用户未完成的订单信息
+     * 
+     * @return
+     * @throws Exception
+     */
+    public List<OrderInfoDto> getNotSuccessedOrder(Map<Object, Object> params) throws Exception;
 
     /**
      * 删除订单信息

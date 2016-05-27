@@ -923,6 +923,20 @@ html{
     border-radius: 10px !important;
 }
 
+.notSuccessedOrder{
+	position: absolute;
+    color: #fff!important;
+    top: 0rem;
+    right: 25%;
+    font-size: 1rem !important;
+    width: 1.5rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    display: inline-block !important;
+    background-color: #FF9298;
+    border-radius: 10px !important;
+}
+
 
 /* ========================================登录============================================== */
 
@@ -2097,6 +2111,10 @@ html{
     font-size: 1.5rem;
     text-align: left;
 	padding-left: 10px;
+}
+
+.purchase-method .purchase_paymoth_width{
+	width: 5.5rem;
 }
 
 .purchase-method > .method-default{
