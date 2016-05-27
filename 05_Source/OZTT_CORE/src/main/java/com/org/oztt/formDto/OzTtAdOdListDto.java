@@ -17,8 +17,18 @@ public class OzTtAdOdListDto {
     private String goodsTotalAmount;
     
     private String detailNo;
+    
+    private String goodsGroupId;
+    
+    public String getGoodsGroupId() {
+		return goodsGroupId;
+	}
 
-    public String getGoodsId() {
+	public void setGoodsGroupId(String goodsGroupId) {
+		this.goodsGroupId = goodsGroupId;
+	}
+
+	public String getGoodsId() {
         return goodsId;
     }
 

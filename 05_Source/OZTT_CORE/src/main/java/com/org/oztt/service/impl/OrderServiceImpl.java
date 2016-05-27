@@ -145,7 +145,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 // 属于同一天
                 // 订单号最大值的保存
                 maxOrderNo = nowDateString
-                        + StringUtils.leftPad(String.valueOf(Integer.valueOf(maxTNoOrder.getMaxno().substring(8)) + 1),
+                        + StringUtils.leftPad(String.valueOf(Integer.valueOf(maxTNoOrder.getMaxno().substring(6)) + 1),
                                 len, "0");
                 maxTNoOrder.setMaxno(maxOrderNo);
                 tNoOrderDao.updateByPrimaryKeySelective(maxTNoOrder);
@@ -160,6 +160,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             }
         }
 
+        maxOrderNo = "PO" + maxOrderNo;
         // 订单总金额
         BigDecimal orderAmount = BigDecimal.ZERO;
         // 生成订单表以及订单详细表
@@ -211,7 +212,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 // 订单号最大值的保存
                 maxInvoiceNo = nowDateString
                         + StringUtils.leftPad(
-                                String.valueOf(Integer.valueOf(maxTNoInvoice.getMaxno().substring(8)) + 1), len, "0");
+                                String.valueOf(Integer.valueOf(maxTNoInvoice.getMaxno().substring(6)) + 1), len, "0");
                 maxTNoInvoice.setMaxno(maxInvoiceNo);
                 tNoInvoiceDao.updateByPrimaryKeySelective(maxTNoInvoice);
             }
@@ -224,6 +225,8 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 tNoInvoiceDao.insertSelective(tNoInvoice);
             }
         }
+        
+        maxInvoiceNo = "IN" + maxInvoiceNo;
         TConsInvoice tConsInvoice = new TConsInvoice();
         tConsInvoice.setCustomerno(customerNo);
         tConsInvoice.setInvoiceno(maxInvoiceNo);
@@ -334,7 +337,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 // 属于同一天
                 // 订单号最大值的保存
                 maxOrderNo = nowDateString
-                        + StringUtils.leftPad(String.valueOf(Integer.valueOf(maxTNoOrder.getMaxno().substring(8)) + 1),
+                        + StringUtils.leftPad(String.valueOf(Integer.valueOf(maxTNoOrder.getMaxno().substring(6)) + 1),
                                 len, "0");
                 maxTNoOrder.setMaxno(maxOrderNo);
                 tNoOrderDao.updateByPrimaryKeySelective(maxTNoOrder);
@@ -349,6 +352,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             }
         }
 
+        maxOrderNo = "PO" + maxOrderNo;
         // 订单总金额
         BigDecimal orderAmount = BigDecimal.ZERO;
         // 生成订单表以及订单详细表
@@ -400,7 +404,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 // 订单号最大值的保存
                 maxInvoiceNo = nowDateString
                         + StringUtils.leftPad(
-                                String.valueOf(Integer.valueOf(maxTNoInvoice.getMaxno().substring(8)) + 1), len, "0");
+                                String.valueOf(Integer.valueOf(maxTNoInvoice.getMaxno().substring(6)) + 1), len, "0");
                 maxTNoInvoice.setMaxno(maxInvoiceNo);
                 tNoInvoiceDao.updateByPrimaryKeySelective(maxTNoInvoice);
             }
@@ -413,6 +417,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 tNoInvoiceDao.insertSelective(tNoInvoice);
             }
         }
+        maxInvoiceNo = "IN" + maxInvoiceNo;
         TConsInvoice tConsInvoice = new TConsInvoice();
         tConsInvoice.setCustomerno(customerNo);
         tConsInvoice.setInvoiceno(maxInvoiceNo);
@@ -643,7 +648,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 // 入出账号号最大值的保存
                 maxTranctionNo = nowDateString
                         + StringUtils.leftPad(
-                                String.valueOf(Integer.valueOf(maxTNoTransaction.getMaxno().substring(8)) + 1), len,
+                                String.valueOf(Integer.valueOf(maxTNoTransaction.getMaxno().substring(6)) + 1), len,
                                 "0");
                 maxTNoTransaction.setMaxno(maxTranctionNo);
                 tNoTransactionDao.updateByPrimaryKeySelective(maxTNoTransaction);
@@ -658,6 +663,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             }
         }
 
+        maxTranctionNo = "TS" + maxTranctionNo;
         // 第一次生成入出账记录
         TConsTransaction tConsTransaction = new TConsTransaction();
         tConsTransaction.setAccountno("");
@@ -795,6 +801,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             for (ContCartItemDto item : detailList) {
                 OzTtAdOdListDto odDto = new OzTtAdOdListDto();
                 odDto.setDetailNo(String.valueOf(++i));
+                odDto.setGoodsGroupId(item.getGroupId());
                 odDto.setGoodsId(item.getGoodsId());
                 odDto.setGoodsName(item.getGoodsName());
                 odDto.setGoodsPic(item.getGoodsImage());

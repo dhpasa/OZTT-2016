@@ -329,6 +329,8 @@
 		A.paymentMethod as paymentMethod,
 		A.deliveryCost as deliveryCost,
 		A.homeDeliveryTime as atHomeTime,
+		B.receiver as receiver,
+		B.contactTel as contactTel,
 		CONCAT(B.addressDetails,D.suburb,B.state,B.countryCode) as address
 		from t_cons_order A
 		inner join t_customer_basic_info C on A.customerNo = C.customerNo

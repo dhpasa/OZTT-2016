@@ -1,4 +1,4 @@
-/*
+﻿/*
 Navicat MySQL Data Transfer
 
 Source Server         : localMysql
@@ -537,9 +537,9 @@ CREATE TABLE `t_goods_group` (
   `groupMaxQuantity` decimal(12,0) DEFAULT NULL,
   `groupCurrentQuantity` decimal(12,0) DEFAULT NULL,
   `groupComments` varchar(500) DEFAULT NULL,
-  `groupDesc` varchar(255) DEFAULT NULL,
-  `comsumerReminder` varchar(255) DEFAULT NULL,
-  `shopperRules` varchar(255) DEFAULT NULL,
+  `groupDesc` text,
+  `comsumerReminder` text,
+  `shopperRules` text,
   `openFlg` char(1) NOT NULL,
   `validPeriodStart` timestamp NULL DEFAULT NULL,
   `validPeriodEnd` timestamp NULL DEFAULT NULL,

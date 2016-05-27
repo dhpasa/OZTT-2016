@@ -2,6 +2,7 @@ package com.org.oztt.admin.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -304,11 +305,29 @@ public class OzTtAdOlController extends BaseController {
                 cell.setCellValue(list.get(i).getDeliveryCost());
                 cell.setCellStyle(setBorder);
 
+                //合计
+                Double orderAmount = Double.valueOf(list.get(i).getOrderAmount().toString());
+                Double deliveryCost = Double.valueOf(list.get(i).getDeliveryCost().toString());
+                Double sumAmount = orderAmount + deliveryCost;
                 cell = row.createCell(10);
+                cell.setCellValue(sumAmount.toString());
+                cell.setCellStyle(setBorder);
+                
+                //收货人
+                cell = row.createCell(11);
+                cell.setCellValue(list.get(i).getReceiver());
+                cell.setCellStyle(setBorder);
+                
+                //联系电话
+                cell = row.createCell(12);
+                cell.setCellValue(list.get(i).getContactTel());
+                cell.setCellStyle(setBorder);
+                
+                cell = row.createCell(13);
                 cell.setCellValue(list.get(i).getAddress());
                 cell.setCellStyle(setBorder);
 
-                cell = row.createCell(11);
+                cell = row.createCell(14);
                 cell.setCellValue(list.get(i).getAtHomeTime());
                 cell.setCellStyle(setBorder);
                 
@@ -320,22 +339,26 @@ public class OzTtAdOlController extends BaseController {
                         row = sheet.createRow(number);
 
                         cell = row.createCell(1);
+                        cell.setCellValue(detail.getGoodsGroupId());
+                        cell.setCellStyle(setBorder);
+                        
+                        cell = row.createCell(2);
                         cell.setCellValue(detail.getGoodsId());
                         cell.setCellStyle(setBorder);
 
-                        cell = row.createCell(2);
+                        cell = row.createCell(3);
                         cell.setCellValue(detail.getGoodsName());
                         cell.setCellStyle(setBorder);
 
-                        cell = row.createCell(3);
+                        cell = row.createCell(4);
                         cell.setCellValue(detail.getGoodsPrice());
                         cell.setCellStyle(setBorder);
 
-                        cell = row.createCell(4);
+                        cell = row.createCell(5);
                         cell.setCellValue(detail.getGoodsQuantity());
                         cell.setCellStyle(setBorder);
                         
-                        cell = row.createCell(5);
+                        cell = row.createCell(6);
                         cell.setCellValue(detail.getGoodsTotalAmount());
                         cell.setCellStyle(setBorder);
                     }

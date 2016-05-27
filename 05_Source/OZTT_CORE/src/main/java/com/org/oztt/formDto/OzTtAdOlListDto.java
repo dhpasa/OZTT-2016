@@ -30,8 +30,28 @@ public class OzTtAdOlListDto {
     private String detailNo;
     
     private String nickName;
+    
+    private String receiver;
+    
+    private String contactTel;
+    
+    public String getReceiver() {
+		return receiver;
+	}
 
-    public String getCustomerNo() {
+	public void setReceiver(String receiver) {
+		this.receiver = receiver;
+	}
+
+	public String getContactTel() {
+		return contactTel;
+	}
+
+	public void setContactTel(String contactTel) {
+		this.contactTel = contactTel;
+	}
+
+	public String getCustomerNo() {
         return customerNo;
     }
 
