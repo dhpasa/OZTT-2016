@@ -103,6 +103,10 @@ public class OzTtAdGbController extends BaseController {
                     tGoodsGroup.setValidperiodstart(DateFormatUtils.string2DateWithFormat(map.get("validperiodstart"),
                             DateFormatUtils.PATTEN_YMD2));
                 }
+                
+                if (!StringUtils.isEmpty(map.get("maxnumber"))) {
+                    tGoodsGroup.setGroupmaxquantity(Long.valueOf(map.get("maxnumber")));
+                }
                 // 更新操作
                 tGoodsGroup.setUpdpgmid("OZ_TT_AD_GB");
                 tGoodsGroup.setUpdtimestamp(new Date());
