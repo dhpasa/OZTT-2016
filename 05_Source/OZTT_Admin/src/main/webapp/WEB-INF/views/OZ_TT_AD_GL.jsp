@@ -263,6 +263,109 @@
 			});
 	  		window.location.reload();
 	  	}
+	  	
+	  	var W0004 = '<fmt:message key="W0004" />';
+	  	function batchUpdateItem(str){
+	  		var isChecked = false;
+	  		var goodsIds = "";
+	  		$(".orderSetClass").each(function(){
+	  			if (this.checked == true) {
+	  				isChecked = true;
+	  				goodsIds = goodsIds + this.value + ",";
+	  			}
+	  		});
+	  		
+	  		if (!isChecked) {
+	  			alert(W0004);
+	  			return;
+	  		}
+	  		$("#dataFromGroup_batch").val("");
+	  		$("#dataToGroup_batch").val("");
+	  		$("#isTopUpEdit_batch").attr("checked",false);
+	  		$("#isPreEdit_batch").attr("checked",false);
+	  		$("#isInStockEdit_batch").attr("checked",false);
+	  		$("#isHotEdit_batch").attr("checked",false);
+	  		$("#maxnumber_batch").val("");
+	  		$(":checkbox").uniform({checkboxClass: 'myCheckClass'});
+	  		
+	  		$("#maxnumber_batch_div").css("display","none");
+	  		$("#isHotEdit_batch_div").css("display","none");
+	  		$("#isInStockEdit_batch_div").css("display","none");
+	  		$("#isPreEdit_batch_div").css("display","none");
+	  		$("#isTopUpEdit_batch_div").css("display","none");
+	  		$("#dataFromGroup_batch_div").css("display","none");
+	  		if (str == '1') {
+	  			$("#dataFromGroup_batch_div").css("display","");
+	  		} else if (str == '2') {
+	  			$("#isTopUpEdit_batch_div").css("display","");
+	  		} else if (str == '3') {
+	  			$("#isPreEdit_batch_div").css("display","");
+	  		} else if (str == '4') {
+	  			$("#isInStockEdit_batch_div").css("display","");
+	  		} else if (str == '5') {
+	  			$("#isHotEdit_batch_div").css("display","");
+	  		} else if (str == '6') {
+	  			$("#maxnumber_batch_div").css("display","");
+	  		} 
+	  		$('#batch_setgroup_modal').modal('show');
+	  	}
+	  	
+	  	function batchUpdateGroupTrue(){
+	  		cleanFormError();
+	  		
+			var dataFromGroup = $("#dataFromGroup_batch").val();
+			var dataToGroup = $("#dataToGroup_batch").val();
+			var groupIds = "";
+	  		$(".orderSetClass").each(function(){
+	  			if (this.checked == true) {
+	  				isChecked = true;
+	  				groupIds = groupIds + this.value + ",";
+	  			}
+	  		});
+			
+			var isTopUp = "";
+			if ($("#isTopUpEdit_batch").attr("checked")) {
+				isTopUp = "1";
+			}
+			var isPre = "";
+			if ($("#isPreEdit_batch").attr("checked")) {
+				isPre = "1";
+			}
+			var isInStock = "";
+			if ($("#isInStockEdit_batch").attr("checked")) {
+				isInStock = "1";
+			}
+			var isHot = "";
+			if ($("#isHotEdit_batch").attr("checked")) {
+				isHot = "1";
+			}
+			var jsonMap = {
+				groupIds:groupIds.substring(0, groupIds.length -1),
+				validperiodend:dataToGroup,
+				validperiodstart:dataFromGroup,
+				istopup:isTopUp,
+				ispre:isPre,
+				isinstock:isInStock,
+				ishot:isHot,
+				maxnumber:$("#maxnumber_batch").val()
+			}
+			
+			$.ajax({
+				type : "POST",
+				contentType:'application/json',
+				url : '${pageContext.request.contextPath}/OZ_TT_AD_GB/updateBatchGroup',
+				dataType : "json",
+				async:false,
+				data : JSON.stringify(jsonMap), 
+				success : function(data) {
+					
+				},
+				error : function(data) {
+					
+				}
+			});
+			window.location.reload();
+	  	}
   </script>
 </head>
 <body>
@@ -411,7 +514,19 @@
 				</div>
 				
 				<div class="form-group textright">
-					<button type="button" class="btn green mybtn" onclick="searchGroup()"><i class="fa fa-search"></i><fmt:message key="COMMON_SEARCH" /></button>
+					<div style="width:70%;float:left;text-align: left;padding-left:3%">
+						<button type="button" class="btn green mybtn" onclick="batchUpdateItem('1')"><fmt:message key="OZ_TT_AD_GL_BTN_VALIDTIME" /></button>
+						<button type="button" class="btn green mybtn" onclick="batchUpdateItem('2')"><fmt:message key="OZ_TT_AD_GL_BTN_ISMINSALE" /></button>
+						<button type="button" class="btn green mybtn" onclick="batchUpdateItem('3')"><fmt:message key="OZ_TT_AD_GL_BTN_ISPRESALE" /></button>
+						<button type="button" class="btn green mybtn" onclick="batchUpdateItem('4')"><fmt:message key="OZ_TT_AD_GL_BTN_ISNOWSALE" /></button>
+						<button type="button" class="btn green mybtn" onclick="batchUpdateItem('5')"><fmt:message key="OZ_TT_AD_GL_BTN_ISHOTSALE" /></button>
+						<button type="button" class="btn green mybtn" onclick="batchUpdateItem('6')"><fmt:message key="OZ_TT_AD_GL_BTN_MAXNUMBER" /></button>
+						
+					</div>
+					<div style="width:30%;float:right;text-align: right">
+						<button type="button" class="btn green mybtn" onclick="searchGroup()"><i class="fa fa-search"></i><fmt:message key="COMMON_SEARCH" /></button>
+					</div>
+					
 				</div>
 				
 				<h4 class="form-section"></h4>
@@ -422,6 +537,9 @@
 					<tr>
 						<th scope="col">
 							 <fmt:message key="COMMON_NUM" />
+						</th>
+						<th scope="col">
+							 <fmt:message key="COMMON_CHECKBOX" />
 						</th>
 						<th scope="col">
 							 <fmt:message key="OZ_TT_AD_GL_DE_goodsId" />
@@ -457,6 +575,9 @@
 					<tr>
 						<td>
 							 ${groupsItem.detailNo }
+						</td>
+						<td>
+							 <input type="checkbox" value="${groupsItem.groupId }" class="orderSetClass"/>
 						</td>
 						<td>
 							 ${groupsItem.goodsId }
@@ -660,6 +781,85 @@
 					<button class="btn default" onclick="cancelGroup()" id="unserBtn"><fmt:message key="COMMON_UNUSE" /></button>
 					<button class="btn default" onclick="deleteGroup()" id="deleteBtn"><fmt:message key="COMMON_DELETE" /></button>
 					<button class="btn btn-success" onclick="setGroupSave('1')" id="submitBtn"><fmt:message key="COMMON_SUBMIT" /></button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+		<div id="batch_setgroup_modal" class="modal fade" role="dialog" aria-hidden="true">
+		<div class="modal-dialog" style="width:1200px;">
+			<div class="modal-content">
+				<div class="modal-header" style="text-align: center">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+					<h4 class="modal-title"><fmt:message key="OZ_TT_AD_GL_SETGROUP_TITLE" /></h4>
+				</div>
+				<div class="modal-body">
+					<form action="#" class="form-horizontal">
+						<div class="form-group" id="dataFromGroup_batch_div" style="display:none">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_validDate" /></label>
+							<div class="col-md-7">
+								<div class="input-group input-large date-picker input-daterange" data-date="" data-date-format="yyyy/mm/dd">
+									<input type="text" class="form-control" id="dataFromGroup_batch"></input>
+									<span class="input-group-addon">
+										 <fmt:message key="COMMON_TO" />
+									</span>
+									<input type="text" class="form-control" id="dataToGroup_batch"></input>
+								</div>
+							</div>
+						</div>
+						
+						<div class="form-group" id="isTopUpEdit_batch_div" style="display:none">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_topUp" /></label>
+							<div class="checkbox-list col-md-8">
+								<label class="checkbox-inline">
+									<input type="checkbox" id="isTopUpEdit_batch"></input>
+								 	<fmt:message key="COMMON_YES" />
+								</label>
+							</div>
+						</div>
+						
+						<div class="form-group" id="isPreEdit_batch_div" style="display:none">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_pre" /></label>
+							<div class="checkbox-list col-md-8">
+								<label class="checkbox-inline">
+									<input type="checkbox" id="isPreEdit_batch"></input>
+								 	<fmt:message key="COMMON_YES" />
+								</label>
+							</div>
+						</div>
+						
+						<div class="form-group" id="isInStockEdit_batch_div" style="display:none">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_inStock" /></label>
+							<div class="checkbox-list col-md-8">
+								<label class="checkbox-inline">
+									<input type="checkbox" id="isInStockEdit_batch"></input>
+								 	<fmt:message key="COMMON_YES" />
+								</label>
+							</div>
+						</div>
+						
+						<div class="form-group" id="isHotEdit_batch_div" style="display:none">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_hot" /></label>
+							<div class="checkbox-list col-md-8">
+								<label class="checkbox-inline">
+									<input type="checkbox" id="isHotEdit_batch"></input>
+								 	<fmt:message key="COMMON_YES" />
+								</label>
+							</div>
+						</div>
+						
+						<div class="form-group" id="maxnumber_batch_div" style="display:none">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_number" /></label>
+							<div class="checkbox-list col-md-8">
+								<label class="checkbox-inline">
+									<input type="number"  id="maxnumber_batch" maxlength="3"></input>
+								</label>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-success" onclick="batchUpdateGroupTrue()"><fmt:message key="COMMON_SUBMIT" /></button>
 				</div>
 			</div>
 		</div>
