@@ -98,6 +98,15 @@
 			<span class="notSuccessedOrder" id="notSuccessedOrder"></span>
 		</a>
 	</div>
+	
+	<div id="errormsg-pop-up" class="modal fade" role="dialog" aria-hidden="true" >
+    	<div class="modal-dialog errormsg-dialog">
+	      <div class="modal-content">
+	         <div class="errormsg-modal-body clearborder" id="errormsg_content">
+	         </div>
+	      </div>
+    	</div>
+    </div>
     <!-- END FOOTER -->
     <input type="hidden" value="${currentUserId}" id="currentUserId">
     
