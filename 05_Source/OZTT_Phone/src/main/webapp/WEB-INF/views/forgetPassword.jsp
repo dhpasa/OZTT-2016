@@ -16,13 +16,17 @@
 		$("#personInfo").css("color", "#111");
 		var phone = $("#phone").val();
 		if (phone == "") {
-			$("#personInfo").text('<fmt:message key="W0002" />');
-			$("#personInfo").css("color", "red");
+/* 			$("#personInfo").text('<fmt:message key="W0002" />');
+			$("#personInfo").css("color", "red"); */
+			$('#errormsg_content').text('<fmt:message key="W0002" />');
+  			$('#errormsg-pop-up').modal('show');
 			return false;
 		}
 		if (!checkMobilePhoneForOztt(phone)){
-			$("#personInfo").text('<fmt:message key="E0002" />');
-			$("#personInfo").css("color", "red");
+			/* $("#personInfo").text('<fmt:message key="E0002" />');
+			$("#personInfo").css("color", "red"); */
+			$('#errormsg_content').text('<fmt:message key="E0002" />');
+  			$('#errormsg-pop-up').modal('show');
 			return false;
 		}
 		
@@ -75,15 +79,20 @@
 				if(!data.isException) {
 					if (data.verifyCodeError) {
 						// 验证码错误
-						$("#personInfo").text('<fmt:message key="E0003" />');
-						$("#personInfo").css("color", "red");
+						/* $("#personInfo").text('<fmt:message key="E0003" />');
+						$("#personInfo").css("color", "red"); */
+						$('#errormsg_content').text('<fmt:message key="E0003" />');
+			  			$('#errormsg-pop-up').modal('show');
 					} else if (data.hasNotRegister){
 						// 手机没有注册
-						$("#personInfo").text('<fmt:message key="E0008" />');
-						$("#personInfo").css("color", "red");
+						/* $("#personInfo").text('<fmt:message key="E0008" />');
+						$("#personInfo").css("color", "red"); */
+						$('#errormsg_content').text('<fmt:message key="E0008" />');
+			  			$('#errormsg-pop-up').modal('show');
 					} else {
 						// 正确登录
-						location.href = "${ctx}/main/init";
+						// 正确登录
+						location.href = "${ctx}/Notice/updatepasswordsuccess";
 					}
 				}
 			},
@@ -98,38 +107,50 @@
 		$("#personInfo").css("color", "#111");
 		var phone = $("#phone").val();
 		if (phone == "") {
-			$("#personInfo").text('<fmt:message key="W0002" />');
-			$("#personInfo").css("color", "red");
+			/* $("#personInfo").text('<fmt:message key="W0002" />');
+			$("#personInfo").css("color", "red"); */
+			$('#errormsg_content').text('<fmt:message key="W0002" />');
+  			$('#errormsg-pop-up').modal('show');
 			return "";
 		}
 		var verifycode = $("#verifycode").val();
 		if (verifycode == "") {
-			$("#personInfo").text('<fmt:message key="W0004" />');
-			$("#personInfo").css("color", "red");
+			/* $("#personInfo").text('<fmt:message key="W0004" />');
+			$("#personInfo").css("color", "red"); */
+			$('#errormsg_content').text('<fmt:message key="W0004" />');
+  			$('#errormsg-pop-up').modal('show');
 			return "";
 		}
 		if (!checkMobilePhoneForOztt(phone)){
-			$("#personInfo").text('<fmt:message key="E0002" />');
-			$("#personInfo").css("color", "red");
+			/* $("#personInfo").text('<fmt:message key="E0002" />');
+			$("#personInfo").css("color", "red"); */
+			$('#errormsg_content').text('<fmt:message key="E0002" />');
+  			$('#errormsg-pop-up').modal('show');
 			return "";
 		}
 		
 		var password = $("#password").val();
 		var confirmpwd = $("#confirmpwd").val();
 		if (password == "") {
-			$("#personInfo").text('<fmt:message key="W0005" />');
-			$("#personInfo").css("color", "red");
+			/* $("#personInfo").text('<fmt:message key="W0005" />');
+			$("#personInfo").css("color", "red"); */
+			$('#errormsg_content').text('<fmt:message key="W0005" />');
+  			$('#errormsg-pop-up').modal('show');
 			return "";
 		}
 		if (confirmpwd == "") {
-			$("#personInfo").text('<fmt:message key="W0006" />');
-			$("#personInfo").css("color", "red");
+			/* $("#personInfo").text('<fmt:message key="W0006" />');
+			$("#personInfo").css("color", "red"); */
+			$('#errormsg_content').text('<fmt:message key="W0006" />');
+  			$('#errormsg-pop-up').modal('show');
 			return "";
 		}
 		
 		if (password != confirmpwd) {
-			$("#personInfo").text('<fmt:message key="W0007" />');
-			$("#personInfo").css("color", "red");
+			/* $("#personInfo").text('<fmt:message key="W0007" />');
+			$("#personInfo").css("color", "red"); */
+			$('#errormsg_content').text('<fmt:message key="W0007" />');
+  			$('#errormsg-pop-up').modal('show');
 			return "";
 		}
 		

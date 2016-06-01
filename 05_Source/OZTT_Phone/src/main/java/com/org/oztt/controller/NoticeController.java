@@ -55,5 +55,43 @@ public class NoticeController extends BaseController {
         }
     }
     
+    /**
+     * 登录成功通知画面
+     * 
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "loginsuccess")
+    public String loginsuccess(Model model, HttpServletResponse response, HttpSession session) {
+        try {
+            
+            return "/notice/loginSuccessNotice";
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            return CommonConstants.ERROR_PAGE;
+        }
+    }
+    
+    /**
+     * 忘记密码成功通知画面
+     * 
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "updatepasswordsuccess")
+    public String updatepasswordsuccess(Model model, HttpServletResponse response, HttpSession session) {
+        try {
+            
+            return "/notice/updatePasswordSuccessNotice";
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            return CommonConstants.ERROR_PAGE;
+        }
+    }
+    
     
 }

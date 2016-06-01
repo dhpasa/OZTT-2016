@@ -12,12 +12,14 @@
   <script type="text/javascript">
   	var W0001 = '<fmt:message key="W0001" />';
   	var E0001 = '<fmt:message key="E0001" />';
+  	var I0001 = '<fmt:message key="I0001" />';
   	function login(){
   		$("#errormsg").text("");
   		var phone = $("#phone").val();
   		var password = $("#password").val();
   		if (phone == "" || password == "") {
-  			$("#errormsg").text(W0001);
+  			$('#errormsg_content').text(W0001);
+  			$('#errormsg-pop-up').modal('show');
   			return;
   		}
   		$.ajax({
@@ -30,17 +32,23 @@
 				if(!data.isException) {
 					if (data.isWrong) {
 						// 登录错误
-						$("#errormsg").text(E0001);
+						$('#errormsg_content').text(E0001);
+			  			$('#errormsg-pop-up').modal('show');
 					} else {
 						// 正确登录
-						location.href = "${ctx}/main/init";
+						hrefInit();
 					}
 				}
 			},
 			error : function(data) {
-				$("#errormsg").text(E0001);
+				$('#errormsg_content').text(E0001);
+	  			$('#errormsg-pop-up').modal('show');
 			}
 		});
+  	}
+  	
+  	function hrefInit(){
+  		location.href = "${ctx}/main/init";
   	}
   
   </script>

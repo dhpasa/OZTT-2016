@@ -1379,7 +1379,6 @@ html{
 .iteminfo{
 	background-color: #fff;
     padding: 3rem 1rem 0rem 1rem;
-    font-family: 'PT Sans Narrow', sans-serif;
 }   
 
 .iteminfo .item-goodsname{
@@ -2633,4 +2632,21 @@ html{
 	display: block;
     text-align: center;
     margin-top: 1rem;
+}
+
+
+/**==================================错误信息画面============================================**/
+.errormsg-dialog{
+	position: fixed;
+    top: 40%;
+    width: 70%;
+    margin-left: 15%;
+}
+
+.errormsg-modal-body{
+	text-align: center;
+    height: 5rem;
+    line-height: 5rem;
+    color: red;
+    background-color: #fff;
 }

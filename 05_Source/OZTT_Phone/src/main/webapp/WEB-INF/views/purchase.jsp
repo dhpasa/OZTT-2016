@@ -373,22 +373,23 @@
 	
 	<div class="purchase-select-horizon margin-1px-top">
 		 <ul class="nav nav-tabs">
-		 	<li class="active shsm_checked" onclick="selectDeliveryMethod('1')" id="lishsm">
-		 		<a data-toggle="tab">
-		 		<i class="fa fa-truck purchase-select-delivery"></i>
-		 			<span><fmt:message key="PURCHASE_SONGHUOSHANGMEN"/></span>
-		 		</a>
-		 	</li>
-		 	<li onclick="selectDeliveryMethod('2')" id="lildzt">
+		 	<li class="active ldzt_checked" onclick="selectDeliveryMethod('2')" id="lildzt">
 		 		<a data-toggle="tab">
 		 		<i class="fa fa-home purchase-select-delivery"></i>
 		 			<span><fmt:message key="PURCHASE_LAIDIANZITI"/></span>
 		 		</a>
 		 	</li>
+		 	<li class="" onclick="selectDeliveryMethod('1')" id="lishsm">
+		 		<a data-toggle="tab">
+		 		<i class="fa fa-truck purchase-select-delivery"></i>
+		 			<span><fmt:message key="PURCHASE_SONGHUOSHANGMEN"/></span>
+		 		</a>
+		 	</li>
+		 	
 	      </ul>
 	</div>
 	
-	<div class="purchase-select-address margin-1px-top" id="current-address">
+	<div class="purchase-select-address margin-1px-top" id="current-address" style="display:none">
 		<c:if test="${adsItem == null }">
 			<a onclick="selectAddress()">
 				<div class="pruchase-empty-address">
@@ -426,7 +427,7 @@
 		</span>
 	</div>
 	
-	<div class="purchase-select-alldelivery margin-1rem-top">
+	<div class="purchase-select-alldelivery margin-1rem-top" style="display:none">
 		<div class="purchase-blockcheck">
 			<div class="check-icon checked"></div>
 		</div>
@@ -437,7 +438,7 @@
 		</div>
 	</div>
 	
-	<div class="purchase-delivery-time" id="deliverytime">
+	<div class="purchase-delivery-time" id="deliverytime" style="display:none">
 		<div class="purchase-hometime">
 			<input type="text" id="homeDeliveryTimeId" value="${deliveryDate }" onchange="judgeAll()"></input>
 		</div>
@@ -584,6 +585,7 @@
 		    }); 
     		// 初期化的时候调用
     		$("#method_ldfk").css("display","none");
+    		selectDeliveryMethod('2');
     	  	judgeAll();
     	});
     	

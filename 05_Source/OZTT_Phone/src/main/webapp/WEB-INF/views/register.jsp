@@ -16,13 +16,17 @@
 		$("#personInfo").css("color", "#111");
 		var phone = $("#phone").val();
 		if (phone == "") {
-			$("#personInfo").text('<fmt:message key="W0002" />');
-			$("#personInfo").css("color", "red");
+			/* $("#personInfo").text('<fmt:message key="W0002" />');
+			$("#personInfo").css("color", "red"); */
+			$('#errormsg_content').text('<fmt:message key="W0002" />');
+  			$('#errormsg-pop-up').modal('show');
 			return false;
 		}
 		if (!checkMobilePhoneForOztt(phone)){
-			$("#personInfo").text('<fmt:message key="E0002" />');
-			$("#personInfo").css("color", "red");
+			/* $("#personInfo").text('<fmt:message key="E0002" />');
+			$("#personInfo").css("color", "red"); */
+			$('#errormsg_content').text('<fmt:message key="E0002" />');
+  			$('#errormsg-pop-up').modal('show');
 			return false;
 		}
 		
@@ -75,12 +79,16 @@
 				if(!data.isException) {
 					if (data.verifyCodeError) {
 						// 验证码错误
-						$("#personInfo").text('<fmt:message key="E0003" />');
-						$("#personInfo").css("color", "red");
+						/* $("#personInfo").text('<fmt:message key="E0003" />');
+						$("#personInfo").css("color", "red"); */
+						$('#errormsg_content').text('<fmt:message key="E0003" />');
+			  			$('#errormsg-pop-up').modal('show');
 					} else if (data.hasbeenRegister){
 						// 手机已经注册过了
-						$("#personInfo").text('<fmt:message key="E0004" />');
-						$("#personInfo").css("color", "red");
+						/* $("#personInfo").text('<fmt:message key="E0004" />');
+						$("#personInfo").css("color", "red"); */
+						$('#errormsg_content').text('<fmt:message key="E0004" />');
+			  			$('#errormsg-pop-up').modal('show');
 					} else {
 						// 正确登录
 						location.href = "${ctx}/Notice/registersuccess";
@@ -98,50 +106,66 @@
 		$("#personInfo").css("color", "#111");
 		var nickname = $("#nickname").val();
 		if (nickname == "") {
-			$("#personInfo").text('<fmt:message key="W0003" />');
-			$("#personInfo").css("color", "red");
+			/* $("#personInfo").text('<fmt:message key="W0003" />');
+			$("#personInfo").css("color", "red"); */
+			$('#errormsg_content').text('<fmt:message key="W0003" />');
+  			$('#errormsg-pop-up').modal('show');
 			return "";
 		}
 		var phone = $("#phone").val();
 		if (phone == "") {
-			$("#personInfo").text('<fmt:message key="W0002" />');
-			$("#personInfo").css("color", "red");
+			/* $("#personInfo").text('<fmt:message key="W0002" />');
+			$("#personInfo").css("color", "red"); */
+			$('#errormsg_content').text('<fmt:message key="W0002" />');
+  			$('#errormsg-pop-up').modal('show');
 			return "";
 		}
 		var verifycode = $("#verifycode").val();
 		if (verifycode == "") {
-			$("#personInfo").text('<fmt:message key="W0004" />');
-			$("#personInfo").css("color", "red");
+			/* $("#personInfo").text('<fmt:message key="W0004" />');
+			$("#personInfo").css("color", "red"); */
+			$('#errormsg_content').text('<fmt:message key="W0004" />');
+  			$('#errormsg-pop-up').modal('show');
 			return "";
 		}
 		if (!checkMobilePhoneForOztt(phone)){
-			$("#personInfo").text('<fmt:message key="E0002" />');
-			$("#personInfo").css("color", "red");
+			/* $("#personInfo").text('<fmt:message key="E0002" />');
+			$("#personInfo").css("color", "red"); */
+			$('#errormsg_content').text('<fmt:message key="E0002" />');
+  			$('#errormsg-pop-up').modal('show');
 			return "";
 		}
 		// 防止恶意攻击
 		if (checkQuote(nickname)){
-			$("#personInfo").text('<fmt:message key="E0005" />');
-			$("#personInfo").css("color", "red");
+			/* $("#personInfo").text('<fmt:message key="E0005" />');
+			$("#personInfo").css("color", "red"); */
+			$('#errormsg_content').text('<fmt:message key="E0005" />');
+  			$('#errormsg-pop-up').modal('show');
 			return "";
 		}
 		
 		var password = $("#password").val();
 		var confirmpwd = $("#confirmpwd").val();
 		if (password == "") {
-			$("#personInfo").text('<fmt:message key="W0005" />');
-			$("#personInfo").css("color", "red");
+			/* $("#personInfo").text('<fmt:message key="W0005" />');
+			$("#personInfo").css("color", "red"); */
+			$('#errormsg_content').text('<fmt:message key="W0005" />');
+  			$('#errormsg-pop-up').modal('show');
 			return "";
 		}
 		if (confirmpwd == "") {
-			$("#personInfo").text('<fmt:message key="W0006" />');
-			$("#personInfo").css("color", "red");
+			/* $("#personInfo").text('<fmt:message key="W0006" />');
+			$("#personInfo").css("color", "red"); */
+			$('#errormsg_content').text('<fmt:message key="W0006" />');
+  			$('#errormsg-pop-up').modal('show');
 			return "";
 		}
 		
 		if (password != confirmpwd) {
-			$("#personInfo").text('<fmt:message key="W0007" />');
-			$("#personInfo").css("color", "red");
+			/* $("#personInfo").text('<fmt:message key="W0007" />');
+			$("#personInfo").css("color", "red"); */
+			$('#errormsg_content').text('<fmt:message key="W0007" />');
+  			$('#errormsg-pop-up').modal('show');
 			return "";
 		}
 		
