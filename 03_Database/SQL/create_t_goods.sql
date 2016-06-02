@@ -19,6 +19,7 @@ CREATE TABLE `t_goods` (
   `newSaleFlg` char(1),
   `costPrice` decimal(12, 2),
   `sortOrder` int(8),
+  `tabs` varchar(255) DEFAULT NULL,
   `deleteFlg` char(1) NOT NULL,
   `addTimestamp` timestamp NULL DEFAULT NULL,
   `addUserKey` varchar(40) DEFAULT NULL,
