@@ -10,6 +10,7 @@ CREATE TABLE `t_goods_group` (
   `groupPrice` decimal(12, 2) NOT NULL,
   `groupMaxQuantity` decimal(12, 0),
   `groupCurrentQuantity` decimal(12, 0),
+  `groupQuantityLimit` decimal(12, 0),
   `groupComments` varchar(500) DEFAULT NULL,
   `groupDesc` text,
   `comsumerReminder` text,
