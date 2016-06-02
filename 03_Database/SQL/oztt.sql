@@ -383,6 +383,7 @@ CREATE TABLE `t_goods` (
   `newSaleFlg` char(1) DEFAULT NULL,
   `costPrice` decimal(12,2) DEFAULT NULL,
   `sortOrder` int(8) DEFAULT NULL,
+  `tabs` varchar(255) DEFAULT NULL,
   `deleteFlg` char(1) NOT NULL,
   `addTimestamp` timestamp NULL DEFAULT NULL,
   `addUserKey` varchar(40) DEFAULT NULL,
@@ -1122,4 +1123,31 @@ CREATE TABLE `t_sys_validate_message` (
 
 -- ----------------------------
 -- Records of t_sys_validate_message
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for t_tab_info
+-- ----------------------------
+DROP TABLE IF EXISTS `t_tab_info`;
+CREATE TABLE `t_tab_info` (
+  `id` bigint(12) NOT NULL AUTO_INCREMENT,
+  `tabName` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_tab_info
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for t_tab_index
+-- ----------------------------
+DROP TABLE IF EXISTS `t_tab_index`;
+CREATE TABLE `t_tab_index` (
+  `tabId` varchar(16) NOT NULL,
+  `goodsId` varchar(16) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_tab_index
 -- ----------------------------
