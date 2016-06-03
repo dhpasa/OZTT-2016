@@ -132,7 +132,10 @@
    
    <div class="newgoods-parent-div">
 	   <div class="main-rushpur-area">
-			<div class="rushtext"><span><fmt:message key="MAIN_RUSHTEXT" /></span></div>
+			<div class="rushtext">
+				<img alt="" src="${ctx}/images/main_icon_ms.png" class="mian_icon_class">
+				<span><fmt:message key="MAIN_RUSHTEXT" /></span>
+			</div>
 			<div class="rushmore" onclick="toGroupArea('1')"><span><fmt:message key="MAIN_RUSHMORE" /></span><i class="fa fa-angle-right"></i></div>
 	   </div>
 	   <c:forEach var="newGoodsList" items="${ topPageSellList }" varStatus="step">
@@ -201,7 +204,10 @@
    
    <div class="main_goods">
    	  <div class="main-presell-area">
-		<div class="preselltext"><span><fmt:message key="MAIN_PRESELLTEXT" /></span></div>
+		<div class="preselltext">
+			<img alt="" src="${ctx}/images/main_icon_ys.png" class="mian_icon_class">
+			<span><fmt:message key="MAIN_PRESELLTEXT" /></span>
+		</div>
 		<div class="presellmore" onclick="toGroupArea('2')"><span><fmt:message key="MAIN_PRESELLMORE" /></span><i class="fa fa-angle-right"></i></div>
    	  </div>
       <div class="">
@@ -244,7 +250,10 @@
    
    <div class="main_goods">
    	  <div class="main-nowsell-area">
-			<div class="nowselltext"><span><fmt:message key="MAIN_NOWSELLTEXT" /></span></div>
+			<div class="nowselltext">
+				<img alt="" src="${ctx}/images/main_icon_xh.png" class="mian_icon_class">
+				<span><fmt:message key="MAIN_NOWSELLTEXT" /></span>
+			</div>
 			<div class="nowsellmore" onclick="toGroupArea('3')"><span><fmt:message key="MAIN_NOWSELLMORE" /></span><i class="fa fa-angle-right"></i></div>
 	   </div>
       <div class="">
