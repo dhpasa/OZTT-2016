@@ -41,6 +41,8 @@ public class TGoods {
     private BigDecimal costprice;
 
     private Integer sortorder;
+    
+    private String tabs;
 
     private String deleteflg;
 
@@ -205,8 +207,16 @@ public class TGoods {
     public void setSortorder(Integer sortorder) {
         this.sortorder = sortorder;
     }
+    
+    public String getTabs() {
+		return tabs;
+	}
 
-    public String getDeleteflg() {
+	public void setTabs(String tabs) {
+		this.tabs = tabs;
+	}
+
+	public String getDeleteflg() {
         return deleteflg;
     }
 

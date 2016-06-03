@@ -26,6 +26,8 @@ public class TGoodsGroup implements Serializable {
     private Long              groupmaxquantity;
 
     private Long              groupcurrentquantity;
+    
+    private Long              groupQuantityLimit;
 
     private String            groupcomments;
 
@@ -99,7 +101,15 @@ public class TGoodsGroup implements Serializable {
         this.groupcurrentquantity = groupcurrentquantity;
     }
 
-    public String getGroupcomments() {
+    public Long getGroupQuantityLimit() {
+		return groupQuantityLimit;
+	}
+
+	public void setGroupQuantityLimit(Long groupQuantityLimit) {
+		this.groupQuantityLimit = groupQuantityLimit;
+	}
+
+	public String getGroupcomments() {
         return groupcomments;
     }
 

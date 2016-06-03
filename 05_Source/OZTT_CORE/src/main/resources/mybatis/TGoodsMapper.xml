@@ -25,6 +25,7 @@
 		<result column="newSaleFlg" property="newsaleflg" jdbcType="CHAR" />
 		<result column="costPrice" property="costprice" jdbcType="DECIMAL" />
 		<result column="sortOrder" property="sortorder" jdbcType="INTEGER" />
+		<result column="tabs" property="tabs" jdbcType="VARCHAR" />
 		<result column="deleteFlg" property="deleteflg" jdbcType="CHAR" />
 		<result column="addTimestamp" property="addtimestamp" jdbcType="TIMESTAMP" />
 		<result column="addUserKey" property="adduserkey" jdbcType="VARCHAR" />
@@ -53,6 +54,7 @@
 		<result column="disPrice" property="disprice" jdbcType="DECIMAL" />
 		<result column="costPrice" property="costprice" jdbcType="DECIMAL" />
 		<result column="sortOrder" property="sortorder" jdbcType="INTEGER" />
+		<result column="tabs" property="tabs" jdbcType="VARCHAR" />
 		<result column="deleteFlg" property="deleteflg" jdbcType="CHAR" />
 		<result column="groupNo" property="groupno" jdbcType="VARCHAR" />
 		<result column="validEndTime" property="validEndTime" jdbcType="TIMESTAMP" />
@@ -67,7 +69,7 @@
 		no, goodsId, classId, goodsBrand, goodsName, goodsDesc, goodsComments,
 		goodsThumbnail,
 		goodsSmallPic, goodsNormalPic, onSaleFlg, hotSaleFlg, newSaleFlg, costPrice,
-		sortOrder,
+		sortOrder, tabs,
 		deleteFlg, addTimestamp, addUserKey, updTimestamp, updUserKey, updPgmId
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
@@ -86,7 +88,7 @@
 		goodsBrand, goodsName, goodsDesc,
 		goodsComments, goodsThumbnail, goodsSmallPic,
 		goodsNormalPic, onSaleFlg, hotSaleFlg,
-		newSaleFlg, costPrice, sortOrder,
+		newSaleFlg, costPrice, sortOrder, tabs,
 		deleteFlg, addTimestamp, addUserKey,
 		updTimestamp, updUserKey, updPgmId
 		)
@@ -97,7 +99,7 @@
 		#{goodssmallpic,jdbcType=VARCHAR},
 		#{goodsnormalpic,jdbcType=VARCHAR}, #{onsaleflg,jdbcType=CHAR}, #{hotsaleflg,jdbcType=CHAR},
 		#{newsaleflg,jdbcType=CHAR}, #{costprice,jdbcType=DECIMAL},
-		#{sortorder,jdbcType=INTEGER},
+		#{sortorder,jdbcType=INTEGER}, #{tabs,jdbcType=VARCHAR},
 		#{deleteflg,jdbcType=CHAR}, #{addtimestamp,jdbcType=TIMESTAMP}, #{adduserkey,jdbcType=VARCHAR},
 		#{updtimestamp,jdbcType=TIMESTAMP}, #{upduserkey,jdbcType=VARCHAR},
 		#{updpgmid,jdbcType=VARCHAR}
@@ -150,6 +152,9 @@
 			</if>
 			<if test="sortorder != null">
 				sortOrder,
+			</if>
+			<if test="tabs != null">
+				tabs,
 			</if>
 			<if test="deleteflg != null">
 				deleteFlg,
@@ -216,6 +221,9 @@
 			<if test="sortorder != null">
 				#{sortorder,jdbcType=INTEGER},
 			</if>
+			<if test="tabs != null">
+				#{tabs,jdbcType=VARCHAR},
+			</if>
 			<if test="deleteflg != null">
 				#{deleteflg,jdbcType=CHAR},
 			</if>
@@ -281,6 +289,9 @@
 			<if test="sortorder != null">
 				sortOrder = #{sortorder,jdbcType=INTEGER},
 			</if>
+			<if test="tabs != null">
+				tabs = #{tabs,jdbcType=VARCHAR},
+			</if>
 			<if test="deleteflg != null">
 				deleteFlg = #{deleteflg,jdbcType=CHAR},
 			</if>
@@ -318,6 +329,7 @@
 		newSaleFlg = #{newsaleflg,jdbcType=CHAR},
 		costPrice = #{costprice,jdbcType=DECIMAL},
 		sortOrder = #{sortorder,jdbcType=INTEGER},
+		tabs = #{tabs,jdbcType=VARCHAR},
 		deleteFlg = #{deleteflg,jdbcType=CHAR},
 		addTimestamp = #{addtimestamp,jdbcType=TIMESTAMP},
 		addUserKey = #{adduserkey,jdbcType=VARCHAR},
@@ -380,6 +392,9 @@
 		<if test="sortorder != null">
 			and sortOrder = #{sortorder,jdbcType=INTEGER}
 		</if>
+		<if test="tabs != null">
+			and tabs = #{tabs,jdbcType=VARCHAR}
+		</if>
 		<if test="deleteflg != null">
 			and deleteFlg = #{deleteflg,jdbcType=CHAR}
 		</if>
@@ -402,7 +417,7 @@
 		a.goodsSmallPic, a.goodsNormalPic, a.onSaleFlg, a.hotSaleFlg, a.newSaleFlg, 
 		c.groupPrice as  disPrice, 
 		b.priceValue as  costPrice, 
-		a.sortOrder,
+		a.sortOrder, a.tabs,
 		a.deleteFlg,
 		c.validPeriodEnd as validEndTime,
 		c.groupNo
@@ -421,7 +436,7 @@
 		a.goodsThumbnail,
 		a.goodsSmallPic, a.goodsNormalPic, a.onSaleFlg, a.hotSaleFlg, a.newSaleFlg, 
 		c.groupPrice as  costPrice, 
-		a.sortOrder,
+		a.sortOrder, a.tabs,
 		a.deleteFlg, 
 		c.groupNo
 		from t_goods_group c 
@@ -445,7 +460,7 @@
 		a.goodsSmallPic, a.goodsNormalPic, a.onSaleFlg, a.hotSaleFlg, a.newSaleFlg, 
 		c.groupPrice as  disPrice, 
 		b.priceValue as  costPrice, 
-		a.sortOrder,
+		a.sortOrder, a.tabs,
 		a.deleteFlg, 
 		c.validPeriodEnd as validEndTime,
 		c.groupMaxQuantity as groupMax,
@@ -545,7 +560,7 @@
 		a.goodsThumbnail,
 		a.goodsSmallPic, a.goodsNormalPic, a.onSaleFlg, a.hotSaleFlg, a.newSaleFlg, 
 		c.groupPrice as  costPrice, 
-		a.sortOrder,
+		a.sortOrder, a.tabs,
 		a.deleteFlg, 
 		c.groupNo
 		from t_goods_group c 
@@ -592,6 +607,9 @@
 		</if>
 		<if test="sortorder != null">
 			and sortOrder = #{sortorder,jdbcType=INTEGER}
+		</if>
+		<if test="tabs != null">
+			and tabs = #{tabs,jdbcType=VARCHAR}
 		</if>
 		<if test="deleteflg != null">
 			and deleteFlg = #{deleteflg,jdbcType=CHAR}
@@ -606,7 +624,7 @@
 		a.goodsThumbnail,
 		a.goodsSmallPic, a.goodsNormalPic, a.onSaleFlg, a.hotSaleFlg, a.newSaleFlg, 
 		c.groupPrice as  costPrice, 
-		a.sortOrder,
+		a.sortOrder, a.tabs,
 		a.deleteFlg, 
 		c.groupNo
 		from t_goods_group c 
@@ -654,6 +672,9 @@
 		<if test="sortorder != null">
 			and sortOrder = #{sortorder,jdbcType=INTEGER}
 		</if>
+		<if test="tabs != null">
+			and tabs = #{tabs,jdbcType=VARCHAR}
+		</if>
 		<if test="deleteflg != null">
 			and deleteFlg = #{deleteflg,jdbcType=CHAR}
 		</if>
@@ -665,7 +686,7 @@
 		a.goodsThumbnail,
 		a.goodsSmallPic, a.goodsNormalPic, a.onSaleFlg, a.hotSaleFlg, a.newSaleFlg, 
 		c.groupPrice as  costPrice, 
-		a.sortOrder,
+		a.sortOrder, a.tabs,
 		a.deleteFlg, 
 		c.groupNo
 		from t_goods_group c 
@@ -785,7 +806,7 @@
 		a.goodsSmallPic, a.goodsNormalPic, a.onSaleFlg, a.hotSaleFlg, a.newSaleFlg, 
 		c.groupPrice as  disPrice, 
 		b.priceValue as  costPrice, 
-		a.sortOrder,
+		a.sortOrder, a.tabs,
 		a.deleteFlg, 
 		c.validPeriodEnd as validEndTime,
 		c.groupMaxQuantity as groupMax,
