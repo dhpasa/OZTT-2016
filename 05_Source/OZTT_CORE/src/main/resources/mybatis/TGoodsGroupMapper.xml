@@ -14,6 +14,8 @@
 			jdbcType="DECIMAL" />
 		<result column="groupCurrentQuantity" property="groupcurrentquantity"
 			jdbcType="DECIMAL" />
+		<result column="groupQuantityLimit" property="groupquantitylimit"
+			jdbcType="DECIMAL" />
 		<result column="groupComments" property="groupcomments"
 			jdbcType="VARCHAR" />
 		<result column="groupDesc" property="groupdesc" jdbcType="VARCHAR" />
@@ -33,7 +35,7 @@
 	</resultMap>
 	<sql id="Base_Column_List">
 		no, groupNo, goodsId, topPageUp, preFlg, inStockFlg, hotFlg, groupPrice,
-		groupMaxQuantity, groupCurrentQuantity, groupComments,
+		groupMaxQuantity, groupCurrentQuantity, groupQuantityLimit, groupComments,
 		groupDesc, comsumerReminder, shopperRules, openFlg, validPeriodStart,
 		validPeriodEnd,
 		addTimestamp, addUserKey, updTimestamp, updUserKey, updPgmId
@@ -52,7 +54,7 @@
 	<insert id="insert" parameterType="com.org.oztt.entity.TGoodsGroup">
 		insert into t_goods_group (no, groupNo, goodsId, topPageUp,
 		preFlg, inStockFlg, hotFlg,
-		groupPrice, groupMaxQuantity, groupCurrentQuantity,
+		groupPrice, groupMaxQuantity, groupCurrentQuantity, groupQuantityLimit,
 		groupComments, groupDesc, comsumerReminder,
 		shopperRules, openFlg, validPeriodStart,
 		validPeriodEnd, addTimestamp, addUserKey,
@@ -63,7 +65,7 @@
 		#{preflg,jdbcType=VARCHAR}, #{instockflg,jdbcType=VARCHAR},
 		#{hotflg,jdbcType=VARCHAR},
 		#{groupprice,jdbcType=DECIMAL}, #{groupmaxquantity,jdbcType=DECIMAL},
-		#{groupcurrentquantity,jdbcType=DECIMAL},
+		#{groupcurrentquantity,jdbcType=DECIMAL}, #{groupquantitylimit,jdbcType=DECIMAL},
 		#{groupcomments,jdbcType=VARCHAR}, #{groupdesc,jdbcType=VARCHAR},
 		#{comsumerreminder,jdbcType=VARCHAR},
 		#{shopperrules,jdbcType=VARCHAR}, #{openflg,jdbcType=CHAR},
@@ -106,6 +108,9 @@
 			</if>
 			<if test="groupcurrentquantity != null">
 				groupCurrentQuantity,
+			</if>
+			<if test="groupquantitylimit != null">
+				groupQuantityLimit,
 			</if>
 			<if test="groupcomments != null">
 				groupComments,
@@ -175,6 +180,9 @@
 			<if test="groupcurrentquantity != null">
 				#{groupcurrentquantity,jdbcType=DECIMAL},
 			</if>
+			<if test="groupquantitylimit != null">
+				#{groupquantitylimit,jdbcType=DECIMAL},
+			</if>
 			<if test="groupcomments != null">
 				#{groupcomments,jdbcType=VARCHAR},
 			</if>
@@ -243,6 +251,9 @@
 			<if test="groupcurrentquantity != null">
 				groupCurrentQuantity = #{groupcurrentquantity,jdbcType=DECIMAL},
 			</if>
+			<if test="groupquantitylimit != null">
+				groupQuantityLimit = #{groupquantitylimit,jdbcType=DECIMAL},
+			</if>
 			<if test="groupcomments != null">
 				groupComments = #{groupcomments,jdbcType=VARCHAR},
 			</if>
@@ -293,6 +304,7 @@
 		groupPrice = #{groupprice,jdbcType=DECIMAL},
 		groupMaxQuantity = #{groupmaxquantity,jdbcType=DECIMAL},
 		groupCurrentQuantity = #{groupcurrentquantity,jdbcType=DECIMAL},
+		groupQuantityLimit = #{groupquantitylimit,jdbcType=DECIMAL},
 		groupComments = #{groupcomments,jdbcType=VARCHAR},
 		groupDesc = #{groupdesc,jdbcType=VARCHAR},
 		comsumerReminder = #{comsumerreminder,jdbcType=VARCHAR},
