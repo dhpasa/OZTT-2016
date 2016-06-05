@@ -183,7 +183,7 @@
 		
 	});
 	
-	
+	var E0006 = '<fmt:message key="E0006" />';
 	function addShopCart(groupId, quantity, isAdd) {
 		// 取得商品的属性
 		var oneGoodPropertiesList = [];
@@ -208,7 +208,8 @@
 					if(!data.isException){
 						// 同步购物车成功
 						if (data.isOver) {
-							alert(E0006);
+							$('#errormsg_content').text(E0006);
+			  				$('#errormsg-pop-up').modal('show');
 							checkOver = true;
 							return;
 						} else {

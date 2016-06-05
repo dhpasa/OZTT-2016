@@ -29,6 +29,8 @@ import com.org.oztt.dao.TGoodsPropertyDao;
 import com.org.oztt.dao.TNoGoodsDao;
 import com.org.oztt.dao.TNoGroupDao;
 import com.org.oztt.dao.TNoPriceDao;
+import com.org.oztt.dao.TTabIndexDao;
+import com.org.oztt.dao.TTabInfoDao;
 import com.org.oztt.entity.TConsCart;
 import com.org.oztt.entity.TGoods;
 import com.org.oztt.entity.TGoodsAppendItems;
@@ -39,6 +41,8 @@ import com.org.oztt.entity.TGoodsProperty;
 import com.org.oztt.entity.TNoGoods;
 import com.org.oztt.entity.TNoGroup;
 import com.org.oztt.entity.TNoPrice;
+import com.org.oztt.entity.TTabIndex;
+import com.org.oztt.entity.TTabInfo;
 import com.org.oztt.formDto.ContCartItemDto;
 import com.org.oztt.formDto.ContCartProItemDto;
 import com.org.oztt.formDto.GoodItemDto;
@@ -85,6 +89,12 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
     @Resource
     private TNoGoodsDao            tNoGoodsDao;
 
+    @Resource
+    private TTabInfoDao            tTabInfoDao;
+
+    @Resource
+    private TTabIndexDao           tTabIndexDao;
+
     public TGoods getGoodsById(String goodsId) throws Exception {
         return tGoodsDao.selectByGoodsId(goodsId);
     }
@@ -107,6 +117,11 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
 
     public PagingResult<GroupItemDto> getGoodsByParamForPage(Pagination pagination) throws Exception {
         return tGoodsDao.getGoodsByParamForPage(pagination);
+    }
+
+    @Override
+    public PagingResult<GroupItemDto> getGoodsTabByParamForPage(Pagination pagination) throws Exception {
+        return tGoodsDao.getGoodsTabByParamForPage(pagination);
     }
 
     @Override
@@ -216,6 +231,8 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
         }
         goodItemDto.setProperties(JSON.toJSONString(propertiesFormList));
         goodItemDto.setCountdownTime(DateFormatUtils.getBetweenSecondTime(tGoodsGroup.getValidperiodend()));
+        // 获取当前商品的标签属性
+        goodItemDto.setGoodsTabs(tTabInfoDao.getTabsByGoods(goods.getGoodsid()));
         return goodItemDto;
     }
 
@@ -377,7 +394,7 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
     public List<GroupItemDto> getFiveHotSeller(TGoods tGoods) throws Exception {
         return tGoodsDao.getFiveHotSeller(tGoods);
     }
-    
+
     @Override
     public List<GroupItemDto> getHotSeller(TGoods tGoods) throws Exception {
         return tGoodsDao.getHotSeller(tGoods);
@@ -463,7 +480,6 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
                 TGoodsGroup tGoodsGroup = new TGoodsGroup();
                 tGoodsGroup.setGroupno(groupId);
                 tGoodsGroup = this.getGoodPrice(tGoodsGroup);
-               
 
                 tConsCart = new TConsCart();
                 tConsCart.setGroupno(groupId);
@@ -697,11 +713,11 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
         }
         return dtoList;
     }
-    
+
     @Override
     public List<OzTtAdGcListDto> getAllGroupsInfoForAdminNoPage() throws Exception {
         List<OzTtAdGcListDto> dtoList = tGoodsGroupDao.getAllGroupsInfoForAdminNoPage();
-        
+
         return dtoList;
     }
 
@@ -714,7 +730,7 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
     public PagingResult<OzTtAdGlListDto> getAllGoodsInfoForAdmin(Pagination pagination) throws Exception {
         return tGoodsDao.getAllGoodsInfoForAdmin(pagination);
     }
-    
+
     @Override
     public List<OzTtAdGlListDto> getAllGoodsInfoForAdminNoPage() throws Exception {
         return tGoodsDao.getAllGoodsInfoForAdminNoPage();
@@ -774,7 +790,7 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
     @Override
     public void deleteGoodsSetGroup(TGoodsGroup tGoodsGroup) throws Exception {
         tGoodsGroupDao.deleteByPrimaryKey(tGoodsGroup.getNo());
-        
+
     }
 
     @Override
@@ -803,6 +819,65 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
     @Override
     public List<GroupItemDto> getTopPage() throws Exception {
         return tGoodsDao.getTopPage();
+    }
+
+    @Override
+    public List<TTabInfo> getAllTabs() throws Exception {
+        return tTabInfoDao.getAllTabs();
+
+    }
+
+    @Override
+    public void saveTab(TTabInfo info) throws Exception {
+        tTabInfoDao.insertSelective(info);
+
+    }
+
+    @Override
+    public void updateTab(TTabInfo info) throws Exception {
+        tTabInfoDao.updateByPrimaryKeySelective(info);
+    }
+
+    @Override
+    public void deleteTab(TTabInfo info) throws Exception {
+        tTabInfoDao.deleteByPrimaryKey(info.getId());
+    }
+
+    @Override
+    public TTabInfo getOneTab(Long no) throws Exception {
+        return tTabInfoDao.selectByPrimaryKey(no);
+    }
+
+    @Override
+    public String getAllGoodsByTab(String tabId) throws Exception {
+        String goods = tTabIndexDao.getAllGoodsByTab(tabId);
+        return goods == null ? "" : goods;
+    }
+
+    @Override
+    public void deleteTabIndexByTab(String tabId) throws Exception {
+        tTabIndexDao.deleteByTab(tabId);
+    }
+
+    @Override
+    public void saveTabIndexByTab(List<TTabIndex> list) throws Exception {
+        if (list != null && list.size() > 0) {
+            for (TTabIndex index : list) {
+                tTabIndexDao.insertSelective(index);
+            }
+        }
+
+    }
+
+    @Override
+    public Long getMaxTabId() throws Exception {
+        return tTabInfoDao.getMaxTabId();
+    }
+
+    @Override
+    public String getTabName(String tabId) throws Exception {
+        TTabInfo info = tTabInfoDao.selectByPrimaryKey(Long.valueOf(tabId));
+        return info.getTabname();
     }
 
 }

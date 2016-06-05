@@ -16,27 +16,27 @@
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
-<!--  				<ref local="serverTriggersTest"/>  -->
+  				<ref local="serverCleanOrder"/>
 			</list>
 		</property>
 		<property name="taskExecutor" ref="executor"/>
 	</bean>
 	
 	<!-- 测试定时任务调用 -->
-	<bean id="schedueCycleTest" class="com.org.oztt.schedue.CycleTestController"></bean>
+	<bean id="schedueQuartz" class="com.org.oztt.schedue.QuartzController"></bean>
 
-	<bean id="serverMethodInvokingTest" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject" ref="schedueCycleTest"/>
-		<property name="targetMethod" value="test"/>
+	<bean id="serverMethodInvoking" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="schedueQuartz"/>
+		<property name="targetMethod" value="cleanorder"/>
 		<property name="concurrent" value="false"/>
 	</bean>
 
-	<bean id="serverTriggersTest" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-		<property name="jobDetail" ref="serverMethodInvokingTest"/>
+	<bean id="serverCleanOrder" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="serverMethodInvoking"/>
 		<property name="cronExpression">
- 		 <value>0/2 * * * * ?</value> 
+			<value>0 0/3 * * * ?</value> 
 		</property>
 	</bean>
-	<!--每两秒运行一次 -->
+	<!--每5分钟运行一次 -->
 	
 </beans>

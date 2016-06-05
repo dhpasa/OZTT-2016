@@ -196,6 +196,24 @@
 					</li>
 				</ul>
 			</li>
+			<li id="tabLi">
+				<a href="javascript:;">
+					<i class="fa fa-user"></i>
+					<span class="title">
+						<fmt:message key="OZ_TT_AD_MN_tab" />
+					</span>
+					<span class="arrow ">
+					</span>
+				</a>
+				<ul class="sub-menu">
+					<li>
+						<a href="${pageContext.request.contextPath}/OZ_TT_AD_TL/search">
+							<i class="fa fa-list-ol"></i>
+							<fmt:message key="OZ_TT_AD_TL_title" />
+						</a>
+					</li>
+				</ul>
+			</li>
 		</ul>
 		<!-- END SIDEBAR MENU -->
 
@@ -357,6 +375,12 @@
 	    	maxHeight: 200,
 	    });
 		ComponentsEditors.init();
+	}
+	
+	if (currentPath.indexOf("OZ_TT_AD_TD") > 0) {
+		$('.multiselect').multiselect({
+	    	maxHeight: 200,
+	    });
 	}
 	
 	

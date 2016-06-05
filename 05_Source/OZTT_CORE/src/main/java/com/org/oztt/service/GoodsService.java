@@ -12,6 +12,8 @@ import com.org.oztt.entity.TGoodsClassfication;
 import com.org.oztt.entity.TGoodsGroup;
 import com.org.oztt.entity.TGoodsPrice;
 import com.org.oztt.entity.TGoodsProperty;
+import com.org.oztt.entity.TTabIndex;
+import com.org.oztt.entity.TTabInfo;
 import com.org.oztt.formDto.ContCartItemDto;
 import com.org.oztt.formDto.GoodItemDto;
 import com.org.oztt.formDto.GroupItemDto;
@@ -53,7 +55,7 @@ public interface GoodsService {
      * @throws Exception
      */
     public List<GroupItemDto> getFiveHotSeller(TGoods tGoods) throws Exception;
-    
+
     /**
      * 获取所有热卖
      * 
@@ -61,9 +63,10 @@ public interface GoodsService {
      * @throws Exception
      */
     public List<GroupItemDto> getHotSeller(TGoods tGoods) throws Exception;
-    
+
     /**
      * 取得广告商品
+     * 
      * @return
      * @throws Exception
      */
@@ -103,6 +106,15 @@ public interface GoodsService {
      * @throws Exception
      */
     public PagingResult<GroupItemDto> getGoodsByParamForPage(Pagination pagination) throws Exception;
+    
+    /**
+     * 分页获取标签商品信息
+     * 
+     * @param pagination
+     * @return
+     * @throws Exception
+     */
+    public PagingResult<GroupItemDto> getGoodsTabByParamForPage(Pagination pagination) throws Exception;
 
     /**
      * 获取商品价格信息
@@ -148,7 +160,7 @@ public interface GoodsService {
      * @throws Exception
      */
     public GoodItemDto getGoodAllItemDto(String groupId) throws Exception;
-    
+
     /**
      * 获取商品的所有属性
      * 
@@ -271,6 +283,7 @@ public interface GoodsService {
 
     /**
      * 保存商品分类信息
+     * 
      * @param tGoodsClassfication
      * @throws Exception
      */
@@ -278,143 +291,233 @@ public interface GoodsService {
 
     /**
      * 更新商品分类信息
+     * 
      * @param tGoodsClassfication
      * @throws Exception
      */
     public void updateClassFication(TGoodsClassfication tGoodsClassfication) throws Exception;
-    
+
     /**
      * 获取最大的分类ID
+     * 
      * @param fatherId
      * @throws Exception
      */
     public String getMaxClassNo(String fatherId) throws Exception;
-    
+
     /**
      * 获取二级分类
+     * 
      * @param classId
      * @return
      * @throws Exception
      */
     public List<TGoodsClassfication> getSecondClassfication(String classId) throws Exception;
-    
+
     /**
      * admin端所有商品定价的获取
+     * 
      * @param pagination
      * @return
      * @throws Exception
      */
     public PagingResult<OzTtAdPlListDto> getAllGoodsPriceInfoForAdmin(Pagination pagination) throws Exception;
-    
+
     /**
      * 获取商品定价信息
+     * 
      * @param goodsId
      * @return
      * @throws Exception
      */
     public TGoodsPrice getGoodsSetPriceInfo(String goodsId) throws Exception;
-    
+
     /**
      * 商品定价保存
+     * 
      * @param tGoodsPrice
      * @throws Exception
      */
     public void saveGoodsSetPrice(TGoodsPrice tGoodsPrice) throws Exception;
-    
+
     /**
      * 商品定价更新
+     * 
      * @param tGoodsPrice
      * @throws Exception
      */
     public void updateGoodsSetPrice(TGoodsPrice tGoodsPrice) throws Exception;
-    
+
     /**
      * 商品团购保存
+     * 
      * @param tGoodsGroup
      * @throws Exception
      */
     public void saveGoodsSetGroup(TGoodsGroup tGoodsGroup) throws Exception;
-    
+
     /**
      * 商品团购更新
+     * 
      * @param tGoodsGroup
      * @throws Exception
      */
     public void updateGoodsSetGroup(TGoodsGroup tGoodsGroup) throws Exception;
-    
+
     /**
      * 商品团购删除
+     * 
      * @param tGoodsGroup
      * @throws Exception
      */
     public void deleteGoodsSetGroup(TGoodsGroup tGoodsGroup) throws Exception;
-    
+
     /**
      * 商品团购一览
+     * 
      * @param pagination
      * @return
      * @throws Exception
      */
     public PagingResult<OzTtAdGcListDto> getAllGroupsInfoForAdmin(Pagination pagination) throws Exception;
-    
+
     /**
      * 商品团购一览
+     * 
      * @param pagination
      * @return
      * @throws Exception
      */
     public List<OzTtAdGcListDto> getAllGroupsInfoForAdminNoPage() throws Exception;
-    
+
     /**
      * 商品内容一览
+     * 
      * @param pagination
      * @return
      * @throws Exception
      */
     public PagingResult<OzTtAdGlListDto> getAllGoodsInfoForAdmin(Pagination pagination) throws Exception;
-    
+
     /**
      * 商品内容一览不分页
+     * 
      * @param pagination
      * @return
      * @throws Exception
      */
     public List<OzTtAdGlListDto> getAllGoodsInfoForAdminNoPage() throws Exception;
-    
+
     /**
      * 商品保存
+     * 
      * @param tGoods
      * @throws Exception
      */
     public String saveGoodsForAdmin(TGoods tGoods) throws Exception;
-    
+
     /**
      * 商品保存
+     * 
      * @param tGoods
      * @throws Exception
      */
     public void updateGoodsForAdmin(TGoods tGoods) throws Exception;
-    
+
     /**
      * 获取团购属性的所有ID
+     * 
      * @param groupId
      * @return
      * @throws Exception
      */
     public GroupItemIdDto getGroupItemId(String groupId) throws Exception;
-    
+
     /**
      * 获取
+     * 
      * @return
      * @throws Exception
      */
     public List<String> getMainSearchTab() throws Exception;
-    
+
     /**
      * 更新购物车作为本地购买的物品
+     * 
      * @param customerNo
      * @param str
      * @throws Exception
      */
     public void updateCartCanBuy(String customerNo, List<String> str) throws Exception;
+
+    /**
+     * 获取所有的商品标签
+     * 
+     * @throws Exception
+     */
+    public List<TTabInfo> getAllTabs() throws Exception;
+    
+    /**
+     * 获取所有的商品标签
+     * 
+     * @throws Exception
+     */
+    public TTabInfo getOneTab(Long no) throws Exception;
+
+    /**
+     * 保存标签
+     * @param info
+     * @throws Exception
+     */
+    public void saveTab(TTabInfo info) throws Exception;
+
+    /**
+     * 更新标签
+     * @param info
+     * @throws Exception
+     */
+    public void updateTab(TTabInfo info) throws Exception;
+    
+    /**
+     * 删除标签
+     * @param info
+     * @throws Exception
+     */
+    public void deleteTab(TTabInfo info) throws Exception;
+    
+    /**
+     * 获取当前标签所索引的所有的商品信息
+     * @param tabId
+     * @return
+     * @throws Exception
+     */
+    public String getAllGoodsByTab(String tabId) throws Exception;
+    
+    /**
+     * 删除所有的标签信息
+     * @param tabId
+     * @throws Exception
+     */
+    public void deleteTabIndexByTab(String tabId) throws Exception;
+    
+    /**
+     * 保存标签索引信息
+     * @param list
+     * @throws Exception
+     */
+    public void saveTabIndexByTab(List<TTabIndex> list) throws Exception;
+    
+    /**
+     * 得到最新的数据
+     * @throws Exception
+     */
+    public Long getMaxTabId() throws Exception;
+    
+    /**
+     * 获取标签信息
+     * @param tabId
+     * @return
+     * @throws Exception
+     */
+    public String getTabName(String tabId) throws Exception;
 }

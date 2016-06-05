@@ -18,8 +18,9 @@ public class TConsOrderDaoImpl extends BaseDao implements TConsOrderDao {
 
     @Override
     public int deleteByPrimaryKey(Long no) {
-        // TODO Auto-generated method stub
-        return 0;
+        TConsOrder record = new TConsOrder();
+        record.setNo(no);
+        return deleteObj("com.org.oztt.dao.TConsOrderDao.deleteByPrimaryKey", record);
     }
 
     @Override
@@ -85,6 +86,11 @@ public class TConsOrderDaoImpl extends BaseDao implements TConsOrderDao {
     @Override
     public List<OzTtAdOlListDto> getAllOrderInfoForAdminAll(Map<Object, Object> params) {
         return select("com.org.oztt.dao.TConsOrderDao.getAllOrderInfoForAdmin", params);
+    }
+
+    @Override
+    public List<TConsOrder> getNotPayOrderInfo() {
+        return select("com.org.oztt.dao.TConsOrderDao.getNotPayOrderInfo");
     }
 
 }

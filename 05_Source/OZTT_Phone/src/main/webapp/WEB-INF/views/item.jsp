@@ -74,10 +74,12 @@
   
 	
 		function addToCart(groupId){
-			itemFlyToCart();
-			addItemToCart(groupId)
+			if (addItemToCart(groupId)) {
+				itemFlyToCart();
+			}
 		}
 		
+		var E0006 = '<fmt:message key="E0006" />';
 		function addItemToCart(groupId) {
 			// 取得商品的属性
 			var goodsName = $("#item-goodsname-id").text();
@@ -106,15 +108,16 @@
 					if(!data.isException){
 						// 同步购物车成功
 						if (data.isOver) {
-							alert(E0006);
+							$('#errormsg_content').text(E0006);
+			  				$('#errormsg-pop-up').modal('show');
 							checkOver = true;
-							return;
+							return false;
 						} else {
 							checkOver = false;
 						}
 					} else {
 						// 同步购物车失败
-						return;
+						return false;
 					}
 				},
 				error : function(data) {
@@ -122,7 +125,7 @@
 				}
 			});
 			
-			if (checkOver) return;
+			if (checkOver) return false;
 			
 			var inputList = [];
 			inputList.push(properties);
@@ -148,6 +151,11 @@
 			
 			updateShopCart();
 
+		}
+		
+		function toShowTabGoods(tabId) {
+			// 进入标签检索画面
+			location.href="${ctx}/item/goodstab?tabId="+tabId;
 		}
   </script>
   <style type="text/css">
@@ -218,10 +226,14 @@
    			<span class="item-nowprice"><fmt:message key="COMMON_DOLLAR" />${ goodItemDto.nowPrice}</span>
    		</div>
    		
-   		<!-- <div class="border-top-show infoarea">
-   			<span class="item-label">美容 护肤</span>
-   			<span class=""></span>
-   		</div> -->
+   		<c:if test="${not empty goodItemDto.goodsTabs}">
+   			<div class="border-top-show tabarea tabInfo">
+	   		<c:forEach var="tabList" items="${ goodItemDto.goodsTabs }">
+	   			<span class="item-label" onclick="toShowTabGoods('${tabList.id}')">${tabList.tabname}</span>
+	   		</c:forEach>
+	   		</div>
+   		</c:if>
+   		
    		
    		<div class="border-top-show height3">
    			<span class="item-timeword forceFloatLeft"><fmt:message key="ITEM_TIME" /></span>

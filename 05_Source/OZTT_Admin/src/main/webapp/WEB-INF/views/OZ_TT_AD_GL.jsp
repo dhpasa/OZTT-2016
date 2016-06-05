@@ -286,6 +286,7 @@
 	  		$("#isInStockEdit_batch").attr("checked",false);
 	  		$("#isHotEdit_batch").attr("checked",false);
 	  		$("#maxnumber_batch").val("");
+	  		$("#maxbuy_batch").val("");
 	  		$(":checkbox").uniform({checkboxClass: 'myCheckClass'});
 	  		
 	  		$("#maxnumber_batch_div").css("display","none");
@@ -294,6 +295,7 @@
 	  		$("#isPreEdit_batch_div").css("display","none");
 	  		$("#isTopUpEdit_batch_div").css("display","none");
 	  		$("#dataFromGroup_batch_div").css("display","none");
+	  		$("#maxbuy_batch_div").css("display","none");
 	  		if (str == '1') {
 	  			$("#dataFromGroup_batch_div").css("display","");
 	  		} else if (str == '2') {
@@ -306,7 +308,9 @@
 	  			$("#isHotEdit_batch_div").css("display","");
 	  		} else if (str == '6') {
 	  			$("#maxnumber_batch_div").css("display","");
-	  		} 
+	  		} else if (str == '7') {
+	  			$("#maxbuy_batch_div").css("display","");
+	  		}
 	  		$('#batch_setgroup_modal').modal('show');
 	  	}
 	  	
@@ -347,7 +351,8 @@
 				ispre:isPre,
 				isinstock:isInStock,
 				ishot:isHot,
-				maxnumber:$("#maxnumber_batch").val()
+				maxnumber:$("#maxnumber_batch").val(),
+				maxbuy:$("#maxbuy_batch").val()
 			}
 			
 			$.ajax({
@@ -514,16 +519,17 @@
 				</div>
 				
 				<div class="form-group textright">
-					<div style="width:70%;float:left;text-align: left;padding-left:3%">
+					<div style="width:85%;float:left;text-align: left;padding-left:3%">
 						<button type="button" class="btn green mybtn" onclick="batchUpdateItem('1')"><fmt:message key="OZ_TT_AD_GL_BTN_VALIDTIME" /></button>
 						<button type="button" class="btn green mybtn" onclick="batchUpdateItem('2')"><fmt:message key="OZ_TT_AD_GL_BTN_ISMINSALE" /></button>
 						<button type="button" class="btn green mybtn" onclick="batchUpdateItem('3')"><fmt:message key="OZ_TT_AD_GL_BTN_ISPRESALE" /></button>
 						<button type="button" class="btn green mybtn" onclick="batchUpdateItem('4')"><fmt:message key="OZ_TT_AD_GL_BTN_ISNOWSALE" /></button>
 						<button type="button" class="btn green mybtn" onclick="batchUpdateItem('5')"><fmt:message key="OZ_TT_AD_GL_BTN_ISHOTSALE" /></button>
 						<button type="button" class="btn green mybtn" onclick="batchUpdateItem('6')"><fmt:message key="OZ_TT_AD_GL_BTN_MAXNUMBER" /></button>
+						<button type="button" class="btn green mybtn" onclick="batchUpdateItem('7')"><fmt:message key="OZ_TT_AD_GL_BTN_MAXBUY" /></button>
 						
 					</div>
-					<div style="width:30%;float:right;text-align: right">
+					<div style="width:15%;float:right;text-align: right">
 						<button type="button" class="btn green mybtn" onclick="searchGroup()"><i class="fa fa-search"></i><fmt:message key="COMMON_SEARCH" /></button>
 					</div>
 					
@@ -853,6 +859,15 @@
 							<div class="checkbox-list col-md-8">
 								<label class="checkbox-inline">
 									<input type="number"  id="maxnumber_batch" maxlength="3"></input>
+								</label>
+							</div>
+						</div>
+						
+						<div class="form-group" id="maxbuy_batch_div" style="display:none">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_number" /></label>
+							<div class="checkbox-list col-md-8">
+								<label class="checkbox-inline">
+									<input type="number"  id="maxbuy_batch" maxlength="3"></input>
 								</label>
 							</div>
 						</div>

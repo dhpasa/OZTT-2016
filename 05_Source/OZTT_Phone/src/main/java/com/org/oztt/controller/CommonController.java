@@ -591,6 +591,10 @@ public class CommonController extends BaseController {
                 if (checkQuantity + tGoodsGroup.getGroupcurrentquantity() <= tGoodsGroup.getGroupmaxquantity()) {
                     isOver = false;
                 }
+                
+                if (checkQuantity > tGoodsGroup.getGroupquantitylimit()) {
+                    isOver = true;
+                }
             }
 
             mapReturn.put("isOver", isOver);

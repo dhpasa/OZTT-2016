@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.org.oztt.dao.TTabIndexDao" >
+  <resultMap id="BaseResultMap" type="com.org.oztt.entity.TTabIndex" >
+    <result column="tabId" property="tabid" jdbcType="VARCHAR" />
+    <result column="goodsId" property="goodsid" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.org.oztt.entity.TTabIndex" >
+    insert into t_tab_index (tabId, goodsId)
+    values (#{tabid,jdbcType=VARCHAR}, #{goodsid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.org.oztt.entity.TTabIndex" >
+    insert into t_tab_index
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tabid != null" >
+        tabId,
+      </if>
+      <if test="goodsid != null" >
+        goodsId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tabid != null" >
+        #{tabid,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsid != null" >
+        #{goodsid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <delete id="deleteByTab" parameterType="java.lang.String" >
+    delete from t_tab_index
+    where tabId = #{tabId,jdbcType=VARCHAR}
+  </delete>
+  
+  <select id="getAllGoodsByTab" resultType="java.lang.String" >
+    select 
+    group_concat(goodsId)
+    from t_tab_index 
+	where tabId = #{tabId,jdbcType=VARCHAR}
+  </select>
+  
+  
+</mapper>

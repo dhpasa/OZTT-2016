@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.org.oztt.dao.TTabInfoDao" >
+  <resultMap id="BaseResultMap" type="com.org.oztt.entity.TTabInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="tabName" property="tabname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, tabName
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_tab_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_tab_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.org.oztt.entity.TTabInfo" >
+    insert into t_tab_info (id, tabName)
+    values (#{id,jdbcType=BIGINT}, #{tabname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.org.oztt.entity.TTabInfo" >
+    insert into t_tab_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="tabname != null" >
+        tabName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="tabname != null" >
+        #{tabname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.org.oztt.entity.TTabInfo" >
+    update t_tab_info
+    <set >
+      <if test="tabname != null" >
+        tabName = #{tabname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.org.oztt.entity.TTabInfo" >
+    update t_tab_info
+    set tabName = #{tabname,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="getAllTabs" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_tab_info
+  </select>
+  
+  <select id="getMaxTabId" resultType="java.lang.Long" >
+    select 
+    max(id)
+    from t_tab_info
+  </select>
+  
+  
+  <select id="getTabsByGoods" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    a.id, 
+    a.tabName
+    from t_tab_info a
+    inner join t_tab_index b
+    on a.id = b.tabId
+    where b.goodsId = #{goodsId,jdbcType=VARCHAR}
+  </select>
+  
+</mapper>

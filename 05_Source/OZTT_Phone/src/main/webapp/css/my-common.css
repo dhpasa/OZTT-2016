@@ -49,6 +49,10 @@ a{
 	padding: 1rem 0;
 }
 
+.tabarea{
+	padding: 0.6rem 0;
+}
+
 .text-through{
 	text-decoration: line-through;
 	color:#D4D4D4;
@@ -1383,7 +1387,19 @@ html{
 .iteminfo{
 	background-color: #fff;
     padding: 3rem 1rem 0rem 1rem;
-}   
+}  
+
+.iteminfo .tabInfo span{
+	display: inline-block;
+    padding: 0px 10px;
+    background-color: #FFE4E8;
+    line-height: 2rem;
+    border: 0.5px solid #FF9298;
+    color: #FF9298;
+    border-radius: 3px !important;
+    height: 2rem;
+    margin: 3px 5px;
+}
 
 .iteminfo .item-goodsname{
 	font-size: 2rem;

@@ -87,5 +87,11 @@ public interface TConsOrderDao {
      */
     List<OzTtAdOlListDto> getAllOrderInfoForAdminAll(Map<Object, Object> params);
     
+    /**
+     * 获取三十分钟内没有付款的信息
+     * @return
+     */
+    List<TConsOrder> getNotPayOrderInfo();
+    
     
 }

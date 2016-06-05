@@ -228,4 +228,13 @@
     inner join t_goods b on a.goodsId = b.goodsId
     where a.orderNo = #{orderno,jdbcType=VARCHAR}
   </select>
+  
+  <select id="selectDetailsByOrderId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_cons_order_details
+    where orderNo = #{orderno,jdbcType=VARCHAR}
+  </select>
+  
+  
 </mapper>
