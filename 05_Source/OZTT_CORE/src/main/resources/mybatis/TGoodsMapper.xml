@@ -554,6 +554,51 @@
 		</if>
 	</select>
 	
+		<select id="getGoodsTabByParamForPage" resultMap="GroupInfoMap" parameterType="map">
+		select
+		a.no, a.goodsId, a.classId, a.goodsBrand, a.goodsName, a.goodsDesc, a.goodsComments,
+		a.goodsThumbnail,
+		a.goodsSmallPic, a.goodsNormalPic, a.onSaleFlg, a.hotSaleFlg, a.newSaleFlg, 
+		c.groupPrice as  disPrice, 
+		b.priceValue as  costPrice, 
+		a.sortOrder, a.tabs,
+		a.deleteFlg, 
+		c.validPeriodEnd as validEndTime,
+		c.groupMaxQuantity as groupMax,
+		IF(c.groupCurrentQuantity > c.groupMaxQuantity,c.groupMaxQuantity,c.groupCurrentQuantity) as groupCurrent,
+		c.preFlg as preLabel,
+		c.inStockFlg as inStockLabel,
+		c.hotFlg as hotLabel,
+		c.topPageUp as salesLabel,
+		c.groupNo
+		from t_goods_group c 
+		inner join t_goods_price b on c.goodsId = b.goodsId
+		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.pricePolicy = '0' and b.openFlg = '0')
+		inner join t_goods a on c.goodsId = a.goodsId
+		inner join t_tab_index f on f.goodsId = c.goodsId
+		where a.onSaleFlg= '1'
+		and (current_timestamp between c.validPeriodStart and c.validPeriodEnd and c.openFlg = '1')
+		<if test="tabId != null and tabId != '' ">
+			and f.tabId = #{tabId,jdbcType=VARCHAR}
+		</if>
+		order by 
+		c.validPeriodEnd, c.groupNo
+	</select>
+	
+	<select id="getGoodsTabByParamForPageCount" resultType="int" parameterType="map">
+		SELECT count(1)
+		from t_goods_group c 
+		inner join t_goods_price b on c.goodsId = b.goodsId
+		and (current_timestamp between b.validPeriodStart and b.validPeriodEnd and b.pricePolicy = '0' and b.openFlg = '0')
+		inner join t_goods a on c.goodsId = a.goodsId
+		inner join t_tab_index f on f.goodsId = c.goodsId
+		where a.onSaleFlg= '1'
+		and (current_timestamp between c.validPeriodStart and c.validPeriodEnd and c.openFlg = '1')
+		<if test="tabId != null and tabId != '' ">
+			and f.tabId = #{tabId,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
 	<select id="getFiveHotSeller" resultMap="GroupInfoMap" parameterType="com.org.oztt.entity.TGoods">
 		select
 		a.no, a.goodsId, a.classId, a.goodsBrand, a.goodsName, a.goodsDesc, a.goodsComments,

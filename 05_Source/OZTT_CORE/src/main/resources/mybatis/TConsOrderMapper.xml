@@ -405,4 +405,14 @@
         	<![CDATA[and (DATE_FORMAT(A.orderTimestamp,'%Y/%m/%d')) <= #{dataTo,jdbcType=VARCHAR}]]>
       	</if>
 	</select>
+	
+	<select id="getNotPayOrderInfo" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+			t_cons_order
+		WHERE
+			TIMESTAMPDIFF(MINUTE, orderTimestamp, now()) > 30
+		AND handleFlg = '0'
+	</select>
 </mapper>

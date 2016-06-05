@@ -146,5 +146,11 @@ public interface OrderService {
      */
     public void createTaxAndSendMailForPhone(String orderId, String customerNo, HttpSession session, String email)
             throws Exception;
+    
+    /**
+     * 清空未处理的订单信息
+     * @throws Exception
+     */
+    public void cleanOrderInfo() throws Exception;
 
 }

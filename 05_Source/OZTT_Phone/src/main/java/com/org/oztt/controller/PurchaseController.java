@@ -122,7 +122,7 @@ public class PurchaseController extends BaseController {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
             String hidPayMethod = param.get("payMethod").toString();
             String hidDeliMethod = param.get("deliveryMethod").toString();
-            String hidAddressId = param.get("addressId").toString();
+            String hidAddressId = param.get("addressId") == null ? null : param.get("addressId").toString();
             String hidHomeDeliveryTime = param.get("deliveryTime").toString().replaceAll("/", "")
                     + param.get("deliverySelect").toString();
             String isUnify = param.get("isUnify").toString();

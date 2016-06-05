@@ -70,6 +70,10 @@ public abstract class BaseDao extends SqlSessionDaoSupport {
     public int delete(String statementName, BaseEntity entity) {
         return sqlSession.delete(statementName, entity);
     }
+    
+    public int deleteObj(String statementName, Object entity) {
+        return sqlSession.delete(statementName, entity);
+    }
 
     /**
      * 删除考虑并发

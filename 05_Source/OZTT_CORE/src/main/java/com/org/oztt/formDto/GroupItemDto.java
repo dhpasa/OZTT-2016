@@ -40,6 +40,8 @@ public class GroupItemDto {
 
     private Integer    sortorder;
 
+    private String     tabs;
+
     private String     deleteflg;
 
     private String     groupno;
@@ -268,6 +270,14 @@ public class GroupItemDto {
 
     public void setSalesLabel(String salesLabel) {
         this.salesLabel = salesLabel;
+    }
+
+    public String getTabs() {
+        return tabs;
+    }
+
+    public void setTabs(String tabs) {
+        this.tabs = tabs;
     }
 
 }

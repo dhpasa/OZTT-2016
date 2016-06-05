@@ -94,7 +94,8 @@
 			<tx:method name="delete*" rollback-for="Exception"/>
 			<tx:method name="update*" rollback-for="Exception"/>
 			<tx:method name="insert*" rollback-for="Exception"/>
-			<tx:method name="create*" rollback-for="Exception"/>			
+			<tx:method name="create*" rollback-for="Exception"/>
+			<tx:method name="clean*" rollback-for="Exception"/>						
 		</tx:attributes>
 	</tx:advice>
 	

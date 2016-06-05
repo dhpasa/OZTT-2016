@@ -26,6 +26,7 @@
   	});
   	
   	function loginOut(){
+  		delCookie("cookieUserPw");
   		$.ajax({
 			type : "GET",
 			contentType:'application/json',

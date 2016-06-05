@@ -36,7 +36,13 @@
 			  			$('#errormsg-pop-up').modal('show');
 					} else {
 						// 正确登录
-						hrefInit();
+						// 登录正确存入cookie
+						var cookieUserPw = {
+								cookiePhone : phone,
+								cookiePw : password
+						}
+						addCookie("cookieUserPw",JSON.stringify(cookieUserPw));
+						hrefLoginSuccess();
 					}
 				}
 			},
@@ -47,8 +53,8 @@
 		});
   	}
   	
-  	function hrefInit(){
-  		location.href = "${ctx}/main/init";
+  	function hrefLoginSuccess(){
+  		location.href = "${ctx}/Notice/loginsuccess";
   	}
   
   </script>

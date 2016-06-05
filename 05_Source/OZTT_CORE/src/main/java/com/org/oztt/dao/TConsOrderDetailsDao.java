@@ -47,4 +47,11 @@ public interface TConsOrderDetailsDao {
      * @return
      */
     List<ContCartItemDto> selectByOrderId(String orderId);
+    
+    /**
+     * 取得所有的详细订单内容
+     * @param orderId
+     * @return
+     */
+    List<TConsOrderDetails> selectDetailsByOrderId(String orderId);
 }

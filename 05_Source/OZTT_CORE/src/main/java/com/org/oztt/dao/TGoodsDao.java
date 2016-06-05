@@ -81,6 +81,14 @@ public interface TGoodsDao {
      * @return
      */
     PagingResult<GroupItemDto> getGoodsByParamForPage(Pagination pagination);
+    
+    /**
+     * 分页获取标签商品信息
+     * 
+     * @param pagination
+     * @return
+     */
+    PagingResult<GroupItemDto> getGoodsTabByParamForPage(Pagination pagination);
 
     /**
      * 热卖的前五个

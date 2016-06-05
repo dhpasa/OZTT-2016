@@ -3,6 +3,7 @@ package com.org.oztt.formDto;
 import java.util.List;
 
 import com.org.oztt.entity.TGoods;
+import com.org.oztt.entity.TTabInfo;
 
 /**
  * 所有商品涵盖的信息表
@@ -44,6 +45,8 @@ public class GoodItemDto {
     private String       properties;
 
     private String       countdownTime;
+    
+    private List<TTabInfo> goodsTabs; //商品标签       
 
     public TGoods getGoods() {
         return goods;
@@ -179,5 +182,13 @@ public class GoodItemDto {
 
     public void setCountdownTime(String countdownTime) {
         this.countdownTime = countdownTime;
+    }
+
+    public List<TTabInfo> getGoodsTabs() {
+        return goodsTabs;
+    }
+
+    public void setGoodsTabs(List<TTabInfo> goodsTabs) {
+        this.goodsTabs = goodsTabs;
     }
 }

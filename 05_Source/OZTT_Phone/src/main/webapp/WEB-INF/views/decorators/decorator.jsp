@@ -14,6 +14,31 @@
 </head>
 <!-- Head END -->
 <script>
+	//添加COOKIE	
+	function addCookie(objName,objValue){
+	    var infostr = objName + '=' + escape(objValue);
+	    var date = new Date();
+	    date.setTime(date.getTime()+365*24*3600*1000);
+	    infostr += ';expires =' + date.toGMTString() + ";path=/";
+	    document.cookie = infostr; //添加
+	}
+	function getCookie(name){ 
+		var strCookie=document.cookie;
+		var arrCookie=strCookie.split(";"); 
+		for(var i=0;i<arrCookie.length;i++){ 
+			var arr=arrCookie[i].split("="); 
+			if(arr[0]==name){
+				return unescape(arr[1]); 
+			}
+		} 
+		return ""; 
+	} 
+	
+	// 删除COOKIE
+	function delCookie(objName){
+		addCookie(objName,'');
+	}
+	
 	function toShopCart(){
 		var currentUserId = $("#currentUserId").val();
 		if (currentUserId == null || currentUserId.length == 0) {
@@ -71,6 +96,39 @@
 			}
 		});
 	}
+  	
+  	function judgeIsOverTime(){
+  		var currentUserId = $("#currentUserId").val();
+  		if (currentUserId == null || currentUserId.length == 0) {
+  			var cookieUserPw = getCookie("cookieUserPw");
+  			if (cookieUserPw != null && cookieUserPw.length > 0){
+  				var cookieNameJson = JSON.parse(cookieUserPw);
+  	  			if (cookieNameJson.cookiePhone != null && cookieNameJson.cookiePhone.length > 0 && cookieNameJson.cookiePw != null && cookieNameJson.cookiePw.length > 0 ) {
+	  				// 登录操作
+	  				$.ajax({
+	  					type : "GET",
+	  					contentType:'application/json',
+	  					url : '${pageContext.request.contextPath}/login/login?phone='+cookieNameJson.cookiePhone+"&password="+cookieNameJson.cookiePw,
+	  					dataType : "json",
+	  					data : "", 
+	  					success : function(data) {
+	  						if(!data.isException) {
+	  							if (data.isWrong) {
+	  							} else {
+	  								// 正确登录
+	  								window.location.reload(); 
+	  							}
+	  						}
+	  					},
+	  					error : function(data) {
+	  					}
+	  				}); 
+  				}
+  			}
+  			
+  			
+  		}
+  	}
 </script>
 
 <!-- Body BEGIN -->
@@ -126,7 +184,7 @@
 		updateNotOrder();
 	}
     
-    
+	judgeIsOverTime();
     </script>
 </body>
 <!-- END BODY -->

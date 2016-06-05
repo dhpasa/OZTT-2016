@@ -1132,4 +1132,30 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         }
     }
 
+    @Override
+    public void cleanOrderInfo() throws Exception {
+        // 取得三十分钟没有没有付款的订单
+        List<TConsOrder> orderList = tConsOrderDao.getNotPayOrderInfo();
+        if (!CollectionUtils.isEmpty(orderList)) {
+            // 取出所有明细的数据
+            for(TConsOrder tConsOrder : orderList) {
+                List<TConsOrderDetails> details = tConsOrderDetailsDao.selectDetailsByOrderId(tConsOrder.getOrderno());
+                if (!CollectionUtils.isEmpty(details)) {
+                    for(TConsOrderDetails detail : details) {
+                        // 优先更新团购表信息
+                        TGoodsGroup tGoodsGroup = new TGoodsGroup();
+                        tGoodsGroup.setGroupno(detail.getGroupno());
+                        tGoodsGroup = tGoodsGroupDao.selectByParams(tGoodsGroup);
+                        tGoodsGroup.setGroupcurrentquantity(tGoodsGroup.getGroupcurrentquantity() - detail.getQuantity());
+                        tGoodsGroupDao.updateByPrimaryKeySelective(tGoodsGroup);
+                        // 删除详细内容
+                        tConsOrderDetailsDao.deleteByPrimaryKey(detail.getNo());
+                    }
+                }
+                
+                tConsOrderDao.deleteByPrimaryKey(tConsOrder.getNo());
+            }
+        }
+    }
+
 }
