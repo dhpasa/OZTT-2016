@@ -96,11 +96,6 @@
 
 <!-- Body BEGIN -->
 <body>
-	<div class="x-header x-header-gray border-1px-bottom">
-		<div class="x-header-title">
-			<span><fmt:message key="USER_TITLE"/></span>
-		</div>
-	</div>
 	
 	<div class="profile">
 		<c:if test="${currentUserId == null || currentUserId == ''}">

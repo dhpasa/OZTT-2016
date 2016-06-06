@@ -150,6 +150,7 @@
 			});
 			
 			updateShopCart();
+			return true;
 
 		}
 		
@@ -282,7 +283,7 @@
 	           		<div class="item-goods-quantity">
 						<span class="minus"><i class="fa fa-minus valuemius"></i></span>	
 						<span class="txt" id="goodsnum">
-							<input type="text" value="1" maxlength="3" pattern="[0-9]*" class="item-num-input" id="itemNumber" onblur="checkGoodsNum(this)"/>
+							<input type="text" value="1" maxlength="4" pattern="[0-9]*" class="item-num-input" id="itemNumber" onblur="checkGoodsNum(this)"/>
 						</span>
 						<span class="add"><i class="fa fa-plus valueplus"></i></span>
 					</div>

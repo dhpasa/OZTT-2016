@@ -399,7 +399,7 @@ body {
 					<div class="shopcart-goods-quantity">
 						<span class="minus"><i class="fa fa-minus valuemius"></i></span>	
 						<span class="txt">
-							<input type="text" value="${cartsBody.goodsQuantity }" maxlength="3" pattern="[0-9]*" class="item-num-input" id="itemNumber" onblur="checkGoodsNum(this)"/>
+							<input type="text" value="${cartsBody.goodsQuantity }" maxlength="4" pattern="[0-9]*" class="item-num-input" id="itemNumber" onblur="checkGoodsNum(this)"/>
 						</span>
 						
 						<span class="add"><i class="fa fa-plus valueplus"></i></span>
@@ -435,6 +435,20 @@ body {
 			<a id="surebuy"><fmt:message key="CARTLIST_BUY_BTN"/></a>
 		</div>
     </div>
+    
+    <script type="text/javascript">
+	    if ($(".buy-check-icon").hasClass('checked')) {
+			$(".check-icon").parent().find('input')[0].checked = false;
+			$(".check-icon").removeClass('checked');
+			$(".buy-check-icon").removeClass('checked');
+		} else {
+			$(".check-icon").parent().find('input')[0].checked = true;
+			$(".check-icon").addClass('checked');
+			$(".buy-check-icon").addClass('checked');
+		}
+		canBuyAndShowAllMoney();
+    
+    </script>
     
 </body>
 </html>
