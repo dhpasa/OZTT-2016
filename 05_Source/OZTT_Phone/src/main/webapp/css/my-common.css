@@ -1547,7 +1547,7 @@ html{
 }
 
 .item-goods-quantity{
-	width: 13rem;
+	width: 14rem;
     height: 4rem;
     background-size: 100%;
     display: inline-block;
@@ -1572,7 +1572,7 @@ html{
 
 .item-goods-quantity .txt{
 	border-top:0.5px solid #D8D8D8;
-	width: 5rem;
+	width: 6rem;
 	border-bottom:0.5px solid #D8D8D8;
 }
 
@@ -1776,7 +1776,7 @@ html{
 }
 
 .shopcart-goods-quantity{
-	width: 11rem;
+	width: 12rem;
     height: 3rem;
     background-size: 100%;
     display: inline-block;
@@ -1804,7 +1804,7 @@ html{
 }
 
 .shopcart-goods-quantity .txt{
-	width: 5rem;
+	width: 6rem;
 	border-top:0.5px solid #D8D8D8;
 	border-bottom:0.5px solid #D8D8D8;
 }
