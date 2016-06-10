@@ -11,6 +11,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.StringTokenizer;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * 支付方法的接口
  * 
@@ -19,6 +22,8 @@ import java.util.StringTokenizer;
 public class VpcHttpPayUtils {
     
     public static final String VPC_TXNRESPONSECODE = "vpc_TxnResponseCode";
+    
+    public static final Log logger = LogFactory.getLog(VpcHttpPayUtils.class);
 
     public static Map<String, String> http(String url, Map<String, String> params) {
         HttpURLConnection httpConnection = null;  
@@ -91,6 +96,7 @@ public class VpcHttpPayUtils {
     }
     
      private static Map<String, String> createMapFromResponse(String queryString) {
+         logger.error(queryString);
          Map<String, String> map = new HashMap<String, String>();
          StringTokenizer st = new StringTokenizer(queryString, "&");
          while (st.hasMoreTokens()) {
