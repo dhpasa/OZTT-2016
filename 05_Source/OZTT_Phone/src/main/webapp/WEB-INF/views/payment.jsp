@@ -120,7 +120,13 @@
 	 	<img alt="logo" src="${ctx}/images/banklogo.png">
 	 </div>
 	<div class="logincontain">
-		<div class="input_username">
+		<div class="input_username" style="text-align: center">
+			<span class="payment_dingdan"><fmt:message key="COMMON_30MIN_PAY" /></span>
+			<span class="payment_cuntdown" data-seconds-left="${leftTime}">
+					
+			</span>
+			</br>
+			
 			<span id="dingdanhao" class="payment_dingdan"><fmt:message key="PAYMENT_ORDER" /></span>
 			<span id="amount" class="payment_amount"><fmt:message key="COMMON_DOLLAR" /></span>
 		</div>
@@ -157,6 +163,10 @@
 	<script type="text/javascript">
 		$("#dingdanhao").append("${orderNo }");
 		$("#amount").append(fmoney("${amount }", 2));
+		
+		$('.payment_cuntdown').startOtherTimer({
+    		
+    	});
 	</script>
 </body>
 <!-- END BODY -->

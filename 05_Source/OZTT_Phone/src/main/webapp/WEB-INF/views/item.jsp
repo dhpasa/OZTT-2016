@@ -208,7 +208,7 @@
 		<div class="x-header-btn icon-search"></div>
 	</div>
 	
-	<div class="flexslider border-top-show">
+	<div class="flexslider border-top-show item_flexslider">
   		<ul class="slides">
   			<c:forEach var="imgList" items="${ goodItemDto.imgList }" varStatus="status">
     			<li><img src="${imgList}" class="padding-2rem"/></li>

@@ -616,7 +616,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         formDto.setXiaoji(tConsOrder.getOrderamount().toString());
         formDto.setYunfei(tConsOrder.getDeliverycost().toString());
         formDto.setHeji(tConsOrder.getOrderamount().add(tConsOrder.getDeliverycost()).toString());
-
+        formDto.setLeftTime(DateFormatUtils.getTimeBetNowACreate(tConsOrder.getOrdertimestamp()));
         formDto.setGoodList(detailList);
 
         return formDto;

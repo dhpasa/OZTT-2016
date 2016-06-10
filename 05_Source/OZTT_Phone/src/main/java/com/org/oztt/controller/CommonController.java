@@ -581,6 +581,7 @@ public class CommonController extends BaseController {
         Map<String, Object> mapReturn = new HashMap<String, Object>();
         try {
             boolean isOver = true;
+            int maxBuy = 0;
             Map<String, String> mapParam = new HashMap<String, String>();
             if (list != null && list.size() > 0) {
                 mapParam = list.get(0);
@@ -596,7 +597,7 @@ public class CommonController extends BaseController {
                     isOver = true;
                 }
             }
-
+            mapReturn.put("maxBuy", maxBuy);
             mapReturn.put("isOver", isOver);
             mapReturn.put("isException", false);
             return mapReturn;

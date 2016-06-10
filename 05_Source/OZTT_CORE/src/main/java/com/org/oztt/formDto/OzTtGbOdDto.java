@@ -48,6 +48,8 @@ public class OzTtGbOdDto {
     private String deliveryMethodView;
     
     private List<ContCartItemDto> goodList;
+    
+    private String leftTime;
 
     public String getOrderNo() {
         return orderNo;
@@ -207,6 +209,14 @@ public class OzTtGbOdDto {
 
     public void setDeliveryMethodView(String deliveryMethodView) {
         this.deliveryMethodView = deliveryMethodView;
+    }
+
+    public String getLeftTime() {
+        return leftTime;
+    }
+
+    public void setLeftTime(String leftTime) {
+        this.leftTime = leftTime;
     }
     
     

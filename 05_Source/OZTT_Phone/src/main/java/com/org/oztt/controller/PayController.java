@@ -8,6 +8,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -50,6 +52,7 @@ public class PayController extends BaseController {
             String amount = new BigDecimal(detail.getXiaoji()).add(new BigDecimal(detail.getYunfei())).toString();
             model.addAttribute("amount", amount);
             model.addAttribute("email", email);
+            model.addAttribute("leftTime", detail.getLeftTime());
             return "payment";
         }
         catch (Exception e) {
@@ -141,9 +144,10 @@ public class PayController extends BaseController {
             payMap.put("vpc_CardSecurityCode", map.get("vpc_CardSecurityCode"));
             payMap.put("vpc_CSCLevel", MessageUtils.getApplicationMessage("vpc_CSCLevel"));
             payMap.put("vpc_TicketNo", "");
-            
+            logger.error("start vpc interface");
+            logger.error("input:" + JSONObject.fromObject(payMap).toString());
             Map<String, String> resMap = VpcHttpPayUtils.http(MessageUtils.getApplicationMessage("vpc_url"), payMap);
-
+            logger.error("output:" + JSONObject.fromObject(resMap).toString());
             if (resMap != null && "0".equals(resMap.get(VpcHttpPayUtils.VPC_TXNRESPONSECODE))) {
                 orderService.updateRecordAfterPay(orderNo, customerNo, session);
                 if (!StringUtils.isEmpty(email)) {
