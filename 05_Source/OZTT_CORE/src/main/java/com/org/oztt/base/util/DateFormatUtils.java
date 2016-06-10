@@ -933,6 +933,16 @@ public class DateFormatUtils {
     }
     
     /**
+     * 获取现在到订单下单的时间
+     * @param date
+     * @return
+     */
+    public static String getTimeBetNowACreate(Date date) {
+        long time = (new Date().getTime() - date.getTime()) / 1000;
+        return String.valueOf(time);
+    }
+    
+    /**
      * 获取指定天到现在的天数
      * @param date
      * @return

@@ -211,6 +211,7 @@
 							$('#errormsg_content').text(E0006);
 			  				$('#errormsg-pop-up').modal('show');
 							checkOver = true;
+							
 							return;
 						} else {
 							checkOver = false;

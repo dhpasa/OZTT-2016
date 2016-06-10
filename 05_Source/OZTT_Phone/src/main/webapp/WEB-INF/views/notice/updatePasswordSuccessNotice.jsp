@@ -34,7 +34,7 @@
       	</div>
     </div>
     <div class="notice-buy-again">
-    	<a href="${ctx }/main/init" class="link">立即购物</a>
+    	<a href="${ctx }/login/init" class="link">立即登录</a>
     </div> 
     </div>
     <script type="text/javascript">

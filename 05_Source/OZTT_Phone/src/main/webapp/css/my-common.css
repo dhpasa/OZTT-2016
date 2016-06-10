@@ -384,6 +384,13 @@ html{
     padding-top: 0.5rem;
     height: 3.5rem;
     line-height: 1.5rem;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box !important;
 }
 
 .main-group-price{
@@ -1583,6 +1590,12 @@ html{
 	color:#FA6D72
 }
 
+.item_flexslider .slides img{
+	width: 60% !important;
+    display: block;
+    margin: 0 auto !important;
+}
+
 /*==================================检索页=============================*/
 .x-header-title > input{
 	height: 3rem;
@@ -2652,6 +2665,14 @@ html{
 	display: block;
     text-align: center;
     margin-top: 1rem;
+}
+
+.payment_cuntdown div{
+	float: left;
+}
+
+.payment_cuntdown{
+	display: inline-block;
 }
 
 
