@@ -1722,6 +1722,7 @@ html{
 	height: 4rem;
 	display: inline-block;
 	vertical-align: top;
+	font-size: 1.5rem;
 }
 
 .shopcart-group-price{
@@ -2454,7 +2455,7 @@ html{
 }
 
 .order-goodname{
-	font-size: 2rem;
+	font-size: 1.5rem;
 	vertical-align: top;
 }
 
