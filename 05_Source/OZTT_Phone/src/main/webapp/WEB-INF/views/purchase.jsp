@@ -441,6 +441,7 @@
 	<div class="purchase-delivery-time" id="deliverytime" style="display:none">
 		<div class="purchase-hometime">
 			<input type="text" id="homeDeliveryTimeId" value="${deliveryDate }" onchange="judgeAll()"></input>
+			<i class="fa fa-angle-down purchase_selectdown"></i>
 		</div>
 		<div class="purchase-timeselect">
 			<select class="form-control" id="deliveryTimeSelect">
@@ -448,6 +449,7 @@
        				<option value="${ seList.key }">${ seList.value }</option>
        			</c:forEach>
 			</select>
+			<i class="fa fa-angle-down purchase_selectdown"></i>
 		</div>
 	</div>
 	

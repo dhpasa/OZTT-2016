@@ -22,7 +22,7 @@
 				
 				$('.valueplus').click(function(){
 					var currentqty = $(this).parent().parent().find('.txt').find('input').val();
-					if (currentqty == 999) {
+					if (currentqty == 9999) {
 						return;
 					} else {
 						$(this).parent().parent().find('.txt').find('input').val(parseFloat(currentqty) + 1);
@@ -108,7 +108,7 @@
 					if(!data.isException){
 						// 同步购物车成功
 						if (data.isOver) {
-							$('#errormsg_content').text(E0006);
+							$('#errormsg_content').text(E0006.replace("{0}", data.maxBuy));
 			  				$('#errormsg-pop-up').modal('show');
 							checkOver = true;
 							return false;
@@ -268,7 +268,13 @@
     </div>
     
     <div class="item-btn">
-    	<a onclick="checktoItem('${goodItemDto.groupId}')"><fmt:message key="ITEM_ADDTOCART"/></a>
+    	<c:if test="${IS_OVER != '1' }">
+    		<a onclick="checktoItem('${goodItemDto.groupId}')" class="canBuy"><fmt:message key="ITEM_ADDTOCART"/></a>
+    	</c:if>
+    	<c:if test="${IS_OVER == '1' }">
+    		<a class="canNotBuy"><fmt:message key="ITEM_ISOVER"/></a>
+    	</c:if>
+    	
     </div>
     
     <div id="purchase-credit-pop-up" class="modal fade" role="dialog" aria-hidden="true" >
