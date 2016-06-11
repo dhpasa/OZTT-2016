@@ -33,7 +33,7 @@ public class VpcHttpPayUtils {
         StringBuffer resposne = new StringBuffer();  
         // 尝试发送请求  
         try {
-            URL urlPost = new URL(url);  
+            URL urlPost = new URL(url);
             httpConnection = (HttpURLConnection) urlPost.openConnection();  
             httpConnection.setDoOutput(true);  
             httpConnection.setDoInput(true);  
@@ -74,6 +74,7 @@ public class VpcHttpPayUtils {
         }
         catch (Exception e) {
             e.printStackTrace();
+            logger.error(e.toString());
         }
         finally {
             try {  
