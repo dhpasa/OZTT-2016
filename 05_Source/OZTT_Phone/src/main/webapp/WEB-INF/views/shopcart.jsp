@@ -97,12 +97,13 @@
 		});
 		
 		$('.valuemius').click(function(){
+			var curObj = $(this).parent().parent().find('.txt').find("input[type='text']")[0];
 			var currentqty = $(this).parent().parent().find('.txt').find("input[type='text']").val();
 			if (currentqty == 1) {
 				return;
 			} else {
 				$(this).parent().parent().find('.txt').find("input[type='text']").val(currentqty - 1);
-				addShopCart($(this).parent().parent().find("input[type='hidden']")[0].value, -1, false);
+				addShopCart($(this).parent().parent().find("input[type='hidden']")[0].value, currentqty, false, curObj, -1);
 				$(this).parent().parent().find('.txt').find("input[type='text']").defaultValue = currentqty - 1;
 				
 				canBuyAndShowAllMoney();
@@ -112,12 +113,13 @@
 		});
 		
 		$('.valueplus').click(function(){
+			var curObj = $(this).parent().parent().find('.txt').find("input[type='text']")[0];
 			var currentqty = $(this).parent().parent().find('.txt').find("input[type='text']").val();
-			if (currentqty == 999) {
+			if (currentqty == 9999) {
 				return;
 			} else {
 				$(this).parent().parent().find('.txt').find("input[type='text']").val(parseFloat(currentqty) + 1);
-				addShopCart($(this).parent().parent().find("input[type='hidden']")[0].value, 1, true);
+				addShopCart($(this).parent().parent().find("input[type='hidden']")[0].value, parseFloat(currentqty) + 1, true, curObj, 1);
 				$(this).parent().parent().find('.txt').find("input[type='text']").defaultValue = parseFloat(currentqty) + 1;
 				canBuyAndShowAllMoney();
 			}
@@ -184,12 +186,12 @@
 	});
 	
 	var E0006 = '<fmt:message key="E0006" />';
-	function addShopCart(groupId, quantity, isAdd) {
+	function addShopCart(groupId, checkquantity, isAdd, curObj, changeQuantity) {
 		// 取得商品的属性
 		var oneGoodPropertiesList = [];
 		var properties = {
 				"groupId":groupId,
-				"goodsQuantity":quantity,
+				"goodsQuantity":checkquantity,
 				"goodsProperties":JSON.stringify(oneGoodPropertiesList)
 		}
 		
@@ -208,8 +210,9 @@
 					if(!data.isException){
 						// 同步购物车成功
 						if (data.isOver) {
-							$('#errormsg_content').text(E0006);
+							$('#errormsg_content').text(E0006.replace("{0}", data.maxBuy));
 			  				$('#errormsg-pop-up').modal('show');
+			  				$(curObj).val(curObj.defaultValue);
 							checkOver = true;
 							
 							return;
@@ -231,7 +234,12 @@
 		
 		
 		var inputList = [];
-		inputList.push(properties);
+		var propertiesChange = {
+				"groupId":groupId,
+				"goodsQuantity":changeQuantity,
+				"goodsProperties":JSON.stringify(oneGoodPropertiesList)
+		}
+		inputList.push(propertiesChange);
 		$.ajax({
 			type : "POST",
 			contentType:'application/json',
@@ -295,12 +303,60 @@
 	}
 	
 	function surebuy() {
+		// 做对商品购买数量的check
+		var oneGoodPropertiesList = [];
+		var checkGroup = [];
+		$(".shopcart-goods-quantity").each(function(){
+			var quantity = $(this).find('.txt').find("input[type='text']").val();
+			var groupId = $(this).find("input[type='hidden']").val();
+			var propertiesChange = {
+				"groupId":groupId,
+				"goodsQuantity":quantity,
+				"goodsProperties":JSON.stringify(oneGoodPropertiesList)
+			}
+			checkGroup.push(propertiesChange);
+		});
+		var isOver = true;
+		$.ajax({
+			type : "POST",
+			contentType:'application/json',
+			url : '${pageContext.request.contextPath}/COMMON/checkAllIsOverGroup',
+			dataType : "json",
+			async : false,
+			data : JSON.stringify(checkGroup), 
+			success : function(data) {
+				if(!data.isException){
+					// 同步购物车成功
+					if (data.isOver) {
+						$('#errormsg_content').text(data.checkAllMsg);
+		  				$('#errormsg-pop-up').modal('show');
+						return;
+					} else {
+						isOver = false;
+					}
+				} else {
+					// 同步购物车失败
+					return;
+				}
+			},
+			error : function(data) {
+				
+			}
+		});
+		
+		if (isOver) {
+			return;
+		}
+		
+		
+		
 		// 确定购买
 		var allChecked = $(".body-blockcheck").find(".check-icon.checked");
 		var data = [];
 		for (var i = 0; i < allChecked.length; i++) {
 			data.push($(allChecked[i]).parent().find('input')[0].value);
 		}
+		
 		$.ajax({
 			type : "POST",
 			contentType:'application/json',
@@ -328,7 +384,7 @@
 		} else {
 			var diff = parseFloat($(str).val()) - parseFloat(str.defaultValue);
 			if (diff != 0) {
-				addShopCart($(str).parent().parent().find("input[type='hidden']")[0].value, diff, true);
+				addShopCart($(str).parent().parent().find("input[type='hidden']")[0].value, $(str).val(), true, str, diff);
 				canBuyAndShowAllMoney();
 			}
 			

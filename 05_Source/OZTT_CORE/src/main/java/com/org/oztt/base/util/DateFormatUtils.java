@@ -135,6 +135,11 @@ public class DateFormatUtils {
      */
     public static String       PATTEN_MD_RIGHT_SLASH           = "MM/dd";
 
+    /**
+     * 订单多少时间删除
+     */
+    public static long         ORDER_TIME                      = 30;
+
     public static int getDateSx() {
         Calendar cal = Calendar.getInstance();
         int hour = cal.get(Calendar.HOUR_OF_DAY);
@@ -840,42 +845,38 @@ public class DateFormatUtils {
     public static String getDateFormatStr(String formart) {
         return new SimpleDateFormat(formart).format(new java.util.Date());
     }
-    
+
     /**
      * 日期转化
+     * 
      * @param formartFrom
      * @param formartTo
      * @return
-     * @throws Exception 
+     * @throws Exception
      */
     public static String dateFormatFromTo(String date, String formartFrom, String formartTo) throws Exception {
         SimpleDateFormat df = new SimpleDateFormat(formartFrom);
         SimpleDateFormat dt = new SimpleDateFormat(formartTo);
         return dt.format(df.parse(date));
     }
-    
+
     /**
      * 日期加分钟
      * 
-     * @param date
-     *            日期
-     * @param spans
-     *            增加数量
+     * @param date 日期
+     * @param spans 增加数量
      * @return 加分钟后的日期
      */
     public static Date addMinute(Date date, int spans) {
         return addDate(date, Calendar.MINUTE, spans);
     }
-    
+
     /**
      * 日期加法计算
      * 
-     * @param date
-     *            日期
-     * @param type
-     *            增加类型
-     * @param spans
-     *            增加数量
+     * @param date 日期
+     * @param type 增加类型
+     * @param spans 增加数量
      * @return 加法计算后的日期
      */
     public static Date addDate(Date date, int type, int spans) {
@@ -884,7 +885,7 @@ public class DateFormatUtils {
         inputCalendar.add(type, spans);
         return inputCalendar.getTime();
     }
-    
+
     /**
      * 获取当前时间， 日期类型
      * 
@@ -893,14 +894,12 @@ public class DateFormatUtils {
     public static Date getCurrentDate() {
         return new Date();
     }
-    
+
     /**
      * 比较两个日期大小
      * 
-     * @param startDate
-     *            开始日期
-     * @param endDate
-     *            结束日期
+     * @param startDate 开始日期
+     * @param endDate 结束日期
      * @return 开始日期早于结束日期，返回true。否则返回false。相等，返回false
      */
     public static boolean dateCompare(Date startDate, Date endDate) {
@@ -909,9 +908,10 @@ public class DateFormatUtils {
         }
         return false;
     }
-    
+
     /**
      * 指定形式获取明天
+     * 
      * @param format
      * @return
      */
@@ -921,34 +921,37 @@ public class DateFormatUtils {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(c.getTime());
     }
-    
+
     /**
      * 获取指定天到现在的时间
+     * 
      * @param date
      * @return
      */
     public static String getBetweenSecondTime(Date date) {
-        long time = (date.getTime()-new Date().getTime()) / 1000;
+        long time = (date.getTime() - new Date().getTime()) / 1000;
         return String.valueOf(time);
     }
-    
+
     /**
      * 获取现在到订单下单的时间
+     * 
      * @param date
      * @return
      */
     public static String getTimeBetNowACreate(Date date) {
-        long time = (new Date().getTime() - date.getTime()) / 1000;
+        long time = 30 * 60 - (new Date().getTime() - date.getTime()) / 1000;
         return String.valueOf(time);
     }
-    
+
     /**
      * 获取指定天到现在的天数
+     * 
      * @param date
      * @return
      */
     public static String getBetweenDayTime(Date date) {
-        long time = (date.getTime()-new Date().getTime()) / 1000 / 60 / 60 /24;
+        long time = (date.getTime() - new Date().getTime()) / 1000 / 60 / 60 / 24;
         return String.valueOf(time);
     }
 }

@@ -1466,11 +1466,23 @@ html{
     z-index: 999;
 }
 
-.item-btn a{
+.item-btn .canBuy{
 	display: inline-block;
     width: 100%;
     height: 5rem;
     background: #FF9298;
+    text-decoration: none;
+    line-height: 5rem;
+    text-align: center;
+    font-size: 2rem;
+    color: #fff;
+}
+
+.item-btn .canNotBuy{
+	display: inline-block;
+    width: 100%;
+    height: 5rem;
+    background: #919191;
     text-decoration: none;
     line-height: 5rem;
     text-align: center;
@@ -2104,12 +2116,14 @@ html{
 	width: 50%;
 	float: left;
 	padding: 0 1rem;
+	position: relative;
 }
 
 .purchase-timeselect{
 	width: 50%;
 	float: left;
 	padding: 0 1rem;
+	position: relative;
 }
 
 .purchase-delivery-method{
@@ -2295,6 +2309,13 @@ html{
 .purchase-modal-footer button{
 	width:80%;
 	margin: 0 auto;
+}
+
+.purchase_selectdown{
+	position: absolute;
+    right: 1.5rem;
+    top: 1px;
+    font-size: 3rem;
 }
 
 .notice-div{
@@ -2686,8 +2707,7 @@ html{
 
 .errormsg-modal-body{
 	text-align: center;
-    height: 5rem;
-    line-height: 5rem;
     color: red;
     background-color: #fff;
+    padding: 5px 10px;
 }

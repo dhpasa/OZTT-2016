@@ -146,7 +146,7 @@ public class PayController extends BaseController {
             payMap.put("vpc_TicketNo", "");
             logger.error("start vpc interface");
             logger.error("input:" + JSONObject.fromObject(payMap).toString());
-            Map<String, String> resMap = VpcHttpPayUtils.http(MessageUtils.getApplicationMessage("vpc_url"), payMap);
+            Map<String, String> resMap = VpcHttpPayUtils.http("https://migs.mastercard.com.au/vpcdps", payMap);
             logger.error("output:" + JSONObject.fromObject(resMap).toString());
             if (resMap != null && "0".equals(resMap.get(VpcHttpPayUtils.VPC_TXNRESPONSECODE))) {
                 orderService.updateRecordAfterPay(orderNo, customerNo, session);

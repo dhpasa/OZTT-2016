@@ -45,6 +45,10 @@ public class ItemController extends BaseController {
             
             // 后台维护的时候提示让以逗号隔开
             model.addAttribute("goodItemDto", goodItemDto);
+            // 这里判断是否已经满团
+            if (Integer.valueOf(goodItemDto.getGroupCurrent()) >= Integer.valueOf(goodItemDto.getGroupMax())) {
+                model.addAttribute("IS_OVER", "1");
+            }
             return "item";
         }
         catch (Exception e) {

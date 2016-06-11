@@ -581,7 +581,7 @@ public class CommonController extends BaseController {
         Map<String, Object> mapReturn = new HashMap<String, Object>();
         try {
             boolean isOver = true;
-            int maxBuy = 0;
+            long maxBuy = 0;
             Map<String, String> mapParam = new HashMap<String, String>();
             if (list != null && list.size() > 0) {
                 mapParam = list.get(0);
@@ -591,13 +591,72 @@ public class CommonController extends BaseController {
                 Long checkQuantity = Long.valueOf(mapParam.get("goodsQuantity"));
                 if (checkQuantity + tGoodsGroup.getGroupcurrentquantity() <= tGoodsGroup.getGroupmaxquantity()) {
                     isOver = false;
+                } else {
+                    isOver = true;
+                    maxBuy = tGoodsGroup.getGroupmaxquantity() - tGoodsGroup.getGroupcurrentquantity();
                 }
                 
                 if (checkQuantity > tGoodsGroup.getGroupquantitylimit()) {
                     isOver = true;
+                    maxBuy = (maxBuy > tGoodsGroup.getGroupquantitylimit() || maxBuy == 0L) ? tGoodsGroup.getGroupquantitylimit() : maxBuy;
                 }
             }
             mapReturn.put("maxBuy", maxBuy);
+            mapReturn.put("isOver", isOver);
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+    
+    /**
+     * 购物车内容的商品数量是否超过了购买上线
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/checkAllIsOverGroup")
+    @ResponseBody
+    public Map<String, Object> checkAllIsOverGroup(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session, @RequestBody List<Map<String, String>> list) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            boolean isOver = true;
+            long maxBuy = 0;
+            String msg = "";
+            if (list != null && list.size() > 0) {
+                for (Map<String, String> mapParam : list) {
+                    TGoodsGroup tGoodsGroup = new TGoodsGroup();
+                    tGoodsGroup.setGroupno(mapParam.get("groupId"));
+                    tGoodsGroup = goodsService.getGoodPrice(tGoodsGroup);
+                    Long checkQuantity = Long.valueOf(mapParam.get("goodsQuantity"));
+                    if (checkQuantity + tGoodsGroup.getGroupcurrentquantity() <= tGoodsGroup.getGroupmaxquantity()) {
+                        isOver = false;
+                    } else {
+                        isOver = true;
+                        maxBuy = tGoodsGroup.getGroupmaxquantity() - tGoodsGroup.getGroupcurrentquantity();
+                    }
+                    
+                    if (checkQuantity > tGoodsGroup.getGroupquantitylimit()) {
+                        isOver = true;
+                        maxBuy = (maxBuy > tGoodsGroup.getGroupquantitylimit() || maxBuy == 0L) ? tGoodsGroup.getGroupquantitylimit() : maxBuy;
+                    }
+                    
+                    if (isOver) {
+                        GoodItemDto itemDto = goodsService.getGoodAllItemDto(mapParam.get("groupId"));
+                        msg = super.getMessage("E0009").replace("{0}", itemDto.getGoods().getGoodsname()).replace("{1}", String.valueOf(maxBuy));
+                    }
+                    
+                    
+                }
+                
+            }
+            mapReturn.put("checkAllMsg", msg);
             mapReturn.put("isOver", isOver);
             mapReturn.put("isException", false);
             return mapReturn;
