@@ -6,14 +6,28 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.Properties;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+
 public class MessageUtils {
 
-    public static String getApplicationMessage(String key) {
+    public static String getApplicationMessage(String key, HttpSession session) {
         try {
 
-            String language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+            String language = "";
+            if (session == null) {
+                language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+            } else {
+                Locale locale = (Locale) session.getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
+                if (locale == null) {
+                    language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+                } else {
+                    language = locale.getLanguage() + "_" + locale.getCountry();
+                }
+            }
             FileInputStream messageStream;
-            String s = MessageUtils.class.getResource("/").getPath().toString();
+            String s = MessageUtils.class.getClassLoader().getResource("/").getPath().toString();
             s = java.net.URLDecoder.decode(s, "UTF-8");
             Properties properties = new Properties();
             if ("zh_CN".equals(language)) {
@@ -45,12 +59,23 @@ public class MessageUtils {
         }
     }
 
-    public static String getMessage(String key) {
+    public static String getMessage(String key, HttpSession session) {
         try {
 
-            String language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+            String language = "";
+            if (session == null) {
+                language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+            } else {
+                Locale locale = (Locale) session.getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
+                if (locale == null) {
+                    language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+                } else {
+                    language = locale.getLanguage() + "_" + locale.getCountry();
+                }
+            }
+            
             FileInputStream messageStream;
-            String s = MessageUtils.class.getResource("/").getPath().toString();
+            String s = MessageUtils.class.getClassLoader().getResource("/").getPath().toString();
             s = java.net.URLDecoder.decode(s, "UTF-8");
             Properties properties = new Properties();
             if ("zh_CN".equals(language)) {
@@ -82,12 +107,23 @@ public class MessageUtils {
         }
     }
 
-    public static String getPageMessage(String key) {
+    public static String getPageMessage(String key, HttpSession session) {
         try {
 
-            String language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+            String language = "";
+            if (session == null) {
+                language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+            } else {
+                Locale locale = (Locale) session.getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
+                if (locale == null) {
+                    language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+                } else {
+                    language = locale.getLanguage() + "_" + locale.getCountry();
+                }
+            }
+            
             FileInputStream messageStream;
-            String s = MessageUtils.class.getResource("/").getPath().toString();
+            String s = MessageUtils.class.getClassLoader().getResource("/").getPath().toString();
             s = java.net.URLDecoder.decode(s, "UTF-8");
             Properties properties = new Properties();
             if ("zh_CN".equals(language)) {

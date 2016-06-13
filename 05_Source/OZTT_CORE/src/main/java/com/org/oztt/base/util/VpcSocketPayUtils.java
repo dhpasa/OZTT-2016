@@ -23,15 +23,15 @@ import com.sun.net.ssl.X509TrustManager;
  */
 public class VpcSocketPayUtils {
 
-    private final static String    proxyHost          = MessageUtils.getApplicationMessage("proxyHost");
+    private final static String    proxyHost          = MessageUtils.getApplicationMessage("proxyHost", null);
 
-    private final static String    proxyPort          = MessageUtils.getApplicationMessage("proxyPort");
+    private final static String    proxyPort          = MessageUtils.getApplicationMessage("proxyPort", null);
 
-    private final static String    vpc_Host           = MessageUtils.getApplicationMessage("vpc_Host");
+    private final static String    vpc_Host           = MessageUtils.getApplicationMessage("vpc_Host", null);
 
-    private final static String    vpc_Port           = MessageUtils.getApplicationMessage("vpc_Port");
+    private final static String    vpc_Port           = MessageUtils.getApplicationMessage("vpc_Port", null);
 
-    private final static String    vpc_Filename       = MessageUtils.getApplicationMessage("vpc_filename");
+    private final static String    vpc_Filename       = MessageUtils.getApplicationMessage("vpc_filename", null);
 
     @SuppressWarnings({ "deprecation", "restriction" })
     public static X509TrustManager s_x509TrustManager = null;

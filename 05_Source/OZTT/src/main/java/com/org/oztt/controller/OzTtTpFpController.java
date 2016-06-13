@@ -99,13 +99,13 @@ public class OzTtTpFpController extends BaseController {
             if (tCustomerLoginInfo != null) {
                 String customerNo = tCustomerLoginInfo.getCustomerno();
                 SendMailDto sendMailDto = new SendMailDto();
-                sendMailDto.setTitle(MessageUtils.getMessage("FORGET_PASSWORD_title"));
+                sendMailDto.setTitle(MessageUtils.getMessage("FORGET_PASSWORD_title", session));
                 
                 StringBuffer sb = new StringBuffer();
-                sb.append(MessageUtils.getMessage("FORGET_PASSWORD_content"));
+                sb.append(MessageUtils.getMessage("FORGET_PASSWORD_content", session));
                 sb.append("</br>");
                 // 这里将客户号加密
-                sb.append(MessageUtils.getApplicationMessage("base_url") + "/OZ_TT_TP_FP/changepw/" + UrlParamDecode.paramEncode(customerNo));
+                sb.append(MessageUtils.getApplicationMessage("base_url", session) + "/OZ_TT_TP_FP/changepw/" + UrlParamDecode.paramEncode(customerNo));
                 sendMailDto.setContent(sb.toString());
                 List<String> mailTo = new ArrayList<String>();
                 mailTo.add(ozTtTpFpDto.getEmail());

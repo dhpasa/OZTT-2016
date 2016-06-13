@@ -28,7 +28,7 @@ public class CategoryController extends BaseController {
             // 获取目录
             List<MyCategroy> myCategroyList = super.commonService.getMyCategroy();
             model.addAttribute("category", myCategroyList);
-            model.addAttribute("categoryHost", super.getApplicationMessage("categoryImgUrl"));
+            model.addAttribute("categoryHost", super.getApplicationMessage("categoryImgUrl", session));
             return "category";
         }
         catch (Exception e) {

@@ -9,11 +9,11 @@ import com.org.oztt.service.PaypalService;
 @Service
 public class PaypalServiceImpl extends BaseService implements PaypalService {
 
-    public static String URL_LIVE_ACCOUNT  = getApplicationMessage("url_live_account"); // 首款账号
+    public static String URL_LIVE_ACCOUNT  = getApplicationMessage("url_live_account", null); // 首款账号
 
-    public static String URL_LIVE_CODE_URL = getApplicationMessage("url_live_code_url"); // 生产付款页面
+    public static String URL_LIVE_CODE_URL = getApplicationMessage("url_live_code_url", null); // 生产付款页面
 
-    public static String CURRENCY_CODE     = getApplicationMessage("currency_code");    // 当前货币种类
+    public static String CURRENCY_CODE     = getApplicationMessage("currency_code", null);    // 当前货币种类
 
     /**
      * @param orderId 订单号
@@ -27,7 +27,7 @@ public class PaypalServiceImpl extends BaseService implements PaypalService {
     @Override
     public String buildRequest(PaypalParam paypalParam) throws Exception {
 
-        String isTest = super.getApplicationMessage("IS_TEST_PAY");
+        String isTest = super.getApplicationMessage("IS_TEST_PAY", null);
         String sanboxPrice = paypalParam.getPrice();
         if (isTest.equals("1")) {
             sanboxPrice = "0.01";

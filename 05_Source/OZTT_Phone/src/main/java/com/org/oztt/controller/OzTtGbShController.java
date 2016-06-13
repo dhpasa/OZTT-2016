@@ -37,7 +37,7 @@ public class OzTtGbShController extends BaseController {
         try {
             // 加入购物车操作，判断所有的属性是不是相同，相同在添加
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
-            String imgUrl = super.getApplicationMessage("saveImgUrl");
+            String imgUrl = super.getApplicationMessage("saveImgUrl", session);
             // 取得购物车里面选购的内容
             List<ContCartItemDto> consCarts = goodsService.getAllContCartForBuy(customerNo);
             

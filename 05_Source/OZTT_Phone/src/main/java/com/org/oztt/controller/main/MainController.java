@@ -40,7 +40,7 @@ public class MainController extends BaseController {
             // 获取目录
             //List<MyCategroy> myCategroyList = super.commonService.getMyCategroy();
             //List<String> tabList = goodsService.getMainSearchTab();
-            String imgUrl = super.getApplicationMessage("saveImgUrl");
+            String imgUrl = super.getApplicationMessage("saveImgUrl", session);
             model.addAttribute("imgUrl", imgUrl);
             // 获取秒杀的商品
             Pagination pagination = new Pagination(1, Integer.parseInt(CommonConstants.MAIN_TOPPAGE_LIST));

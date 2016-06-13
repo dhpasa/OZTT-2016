@@ -51,7 +51,7 @@ public class OzTtGbOlController extends BaseController {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
             if (StringUtils.isEmpty(page)) page = "1";
             Pagination pagination = new Pagination(Integer.parseInt(page));
-            pagination.setSize(Integer.valueOf(getApplicationMessage("orderItemCount")));
+            pagination.setSize(Integer.valueOf(getApplicationMessage("orderItemCount", session)));
             Map<Object, Object> paramMap = new HashMap<Object, Object>();
             paramMap.put("customerNo", customerNo);
             pagination.setParams(paramMap);
@@ -60,7 +60,7 @@ public class OzTtGbOlController extends BaseController {
             model.addAttribute("pageInfo", orderListPage);
             model.addAttribute("clearCont", clearCont);
             if (StringUtils.isNotEmpty(clearCont) && "1".equals(clearCont)) {
-                String imgUrl = super.getApplicationMessage("saveImgUrl");
+                String imgUrl = super.getApplicationMessage("saveImgUrl", session);
                 
                 List<ContCartItemDto> consCarts = goodsService.getAllContCartForCookie(customerNo);
                 if (!CollectionUtils.isEmpty(consCarts)) {

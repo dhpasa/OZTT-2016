@@ -174,7 +174,7 @@ public class CommonServiceImpl extends BaseService implements CommonService {
 
     @Override
     public boolean getPhoneVerifyCode(String phone) throws Exception {
-        String msg = MessageUtils.getMessage("MESSAGE_TEMP");
+        String msg = MessageUtils.getMessage("MESSAGE_TEMP", null);
         String random = CommonUtils.getRandomNum(6);
         logger.info(random);
         phone = phone.replaceAll(" ", "");
@@ -210,7 +210,7 @@ public class CommonServiceImpl extends BaseService implements CommonService {
         TSysValidateMessage messageInfo = tSysValidateMessageDao.getInfoByPhone(phone);
         if (messageInfo == null)
             return false;
-        String codeInvalidTime = super.getApplicationMessage("code_invalid_time");
+        String codeInvalidTime = super.getApplicationMessage("code_invalid_time", null);
         Date date = DateFormatUtils.addMinute(messageInfo.getCreatetimestamp(), Integer.valueOf(codeInvalidTime));
 
         //查询字段的服务器当前时间 - 最新记录时间 > 30分钟

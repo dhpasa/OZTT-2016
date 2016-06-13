@@ -273,10 +273,11 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         tConsOrder.setDeliverycost(deleveryCost.multiply(new BigDecimal(freight)));
         tConsOrder.setAddtimestamp(new Date());
         tConsOrder.setAdduserkey(customerNo);
-        if ("1".equals(payMethod) || "1".equals(invoiceFlg)) {
-            tConsOrder.setInvoiceflg("1");
-            tConsOrder.setInvoiceno(maxInvoiceNo);
-        }
+//        if ("1".equals(payMethod) || "1".equals(invoiceFlg)) {
+//            tConsOrder.setInvoiceflg("1");
+//            tConsOrder.setInvoiceno(maxInvoiceNo);
+//        }
+        tConsOrder.setInvoiceflg("0");
         tConsOrderDao.insertSelective(tConsOrder);
 
         // 将购物车中的数据删除
@@ -486,7 +487,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
 
         PagingResult<OrderInfoDto> orderDBInfoPage = tConsOrderDao.getOrderByParamForPage(pagination);
 
-        String imgUrl = super.getApplicationMessage("saveImgUrl");
+        String imgUrl = super.getApplicationMessage("saveImgUrl", null);
 
         if (orderDBInfoPage != null && orderDBInfoPage.getResultList() != null
                 && orderDBInfoPage.getResultList().size() > 0) {
@@ -581,7 +582,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                     + tAddressInfo.getState() + " " + tAddressInfo.getCountrycode() + " " + tAddressInfo.getPostcode());
             formDto.setReceiverPhone(tAddressInfo.getContacttel());
         } else {
-            formDto.setReceiverAddress(super.getPageMessage("COMMON_SHOPADDRESS"));
+            formDto.setReceiverAddress(super.getPageMessage("COMMON_SHOPADDRESS", null));
         }
         
         formDto.setAddressId(tConsOrder.getAddressid().toString());
@@ -595,7 +596,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                     DateFormatUtils.PATTEN_YMD_NO_SEPRATE, DateFormatUtils.PATTEN_YMD));
             formDto.setDeleveryTime(CommonEnum.DeliveryTime.getEnumLabel(homeTime.substring(8)));
         }
-        String imgUrl = super.getApplicationMessage("saveImgUrl");
+        String imgUrl = super.getApplicationMessage("saveImgUrl", null);
         List<ContCartItemDto> detailList = tConsOrderDetailsDao.selectByOrderId(orderId);
         if (!CollectionUtils.isEmpty(detailList)) {
             for (ContCartItemDto dto : detailList) {
@@ -868,7 +869,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         params.put("warehouse", "Main warehouse");
         params.put("deliveryMethod", CommonEnum.DeliveryMethod.getEnumLabel(tConsOrder.getDeliverymethod()));
         params.put("subtotal", tConsOrder.getOrderamount().toString());
-        params.put("tax", tConsOrder.getOrderamount().multiply(new BigDecimal(super.getApplicationMessage("TAX")))
+        params.put("tax", tConsOrder.getOrderamount().multiply(new BigDecimal(super.getApplicationMessage("TAX", null)))
                 .setScale(2).toString());
         params.put(
                 "total",
@@ -876,7 +877,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                         .getOrderamount()
                         .subtract(
                                 tConsOrder.getOrderamount()
-                                        .multiply(new BigDecimal(super.getApplicationMessage("TAX"))).setScale(2))
+                                        .multiply(new BigDecimal(super.getApplicationMessage("TAX", null))).setScale(2))
                         .toString());
         String ireportPath = session.getServletContext().getRealPath("") + "/ireport/";
         JasperCompileManager.compileReportToFile(ireportPath + "INVOICE_TAX.jrxml", ireportPath + "INVOICE_TAX.jasper");
@@ -889,7 +890,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                     .getGoodsQuantity()))));
             invoiceDto.setQty(dto.getGoodsQuantity());
             invoiceDto.setTax((new BigDecimal(dto.getGoodsPrice())).multiply(
-                    new BigDecimal(super.getApplicationMessage("TAX"))).toString());
+                    new BigDecimal(super.getApplicationMessage("TAX", null))).toString());
             invoiceDto.setTotal(dto.getGoodsPrice());
             dataSource.add(invoiceDto);
         }
@@ -908,9 +909,9 @@ public class OrderServiceImpl extends BaseService implements OrderService {
 
         //️发信
         SendMailDto sendMailDto = new SendMailDto();
-        sendMailDto.setTitle(MessageUtils.getMessage("TAX_MAIL_TITLE"));
+        sendMailDto.setTitle(MessageUtils.getMessage("TAX_MAIL_TITLE", null));
         StringBuffer sb = new StringBuffer();
-        sb.append(MessageUtils.getMessage("TAX_MAIL_CONTENT"));
+        sb.append(MessageUtils.getMessage("TAX_MAIL_CONTENT", null));
         sb.append("</br>");
 
         sendMailDto.setContent(sb.toString());
@@ -936,7 +937,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         sendMail.customerNo = customerNo;
         sendMail.session = session;
         sendMail.email = email;
-        sendMail.tax = super.getApplicationMessage("TAX");
+        sendMail.tax = super.getApplicationMessage("TAX", null);
         sendMail.start();
         // 是客户操作
 //        List<InvoiceDto> dataSource = new ArrayList<InvoiceDto>();
@@ -1078,7 +1079,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             params.put("warehouse", "Main warehouse");
             params.put("deliveryMethod", CommonEnum.DeliveryMethod.getEnumLabel(tConsOrder.getDeliverymethod()));
             params.put("total", tConsOrder.getOrderamount().toString());
-            params.put("tax", tConsOrder.getOrderamount().multiply(new BigDecimal(getApplicationMessage("TAX")))
+            params.put("tax", tConsOrder.getOrderamount().multiply(new BigDecimal(getApplicationMessage("TAX", null)))
                     .setScale(2).toString());
             params.put(
                     "subtotal",
@@ -1113,9 +1114,9 @@ public class OrderServiceImpl extends BaseService implements OrderService {
 
             //️发信
             SendMailDto sendMailDto = new SendMailDto();
-            sendMailDto.setTitle(MessageUtils.getMessage("TAX_MAIL_TITLE"));
+            sendMailDto.setTitle(MessageUtils.getMessage("TAX_MAIL_TITLE", null));
             StringBuffer sb = new StringBuffer();
-            sb.append(MessageUtils.getMessage("TAX_MAIL_CONTENT"));
+            sb.append(MessageUtils.getMessage("TAX_MAIL_CONTENT", null));
             sb.append("</br>");
 
             sendMailDto.setContent(sb.toString());

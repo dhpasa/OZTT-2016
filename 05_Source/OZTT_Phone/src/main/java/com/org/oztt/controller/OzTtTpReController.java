@@ -74,13 +74,13 @@ public class OzTtTpReController extends BaseController {
             
             //️发信
             SendMailDto sendMailDto = new SendMailDto();
-            sendMailDto.setTitle(MessageUtils.getMessage("REGISTER_MAIL_title"));
+            sendMailDto.setTitle(MessageUtils.getMessage("REGISTER_MAIL_title", session));
             StringBuffer sb = new StringBuffer();
-            sb.append(MessageUtils.getMessage("REGISTER_MAIL_content"));
+            sb.append(MessageUtils.getMessage("REGISTER_MAIL_content", session));
             sb.append("</br>");
             // 这里将客户号加密
 
-            sb.append(MessageUtils.getApplicationMessage("base_url") + "OZ_TT_TP_RE/emailRegister?customerNo="
+            sb.append(MessageUtils.getApplicationMessage("base_url", session) + "OZ_TT_TP_RE/emailRegister?customerNo="
                     + UrlParamDecode.paramEncode(customerNo));
             
             sendMailDto.setContent(sb.toString());

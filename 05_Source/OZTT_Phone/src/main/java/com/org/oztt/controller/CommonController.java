@@ -317,7 +317,7 @@ public class CommonController extends BaseController {
             }
             goodsService.purchaseAsyncContCart(customerNo, list);
 
-            String imgUrl = super.getApplicationMessage("saveImgUrl");
+            String imgUrl = super.getApplicationMessage("saveImgUrl", session);
 
             // 当前用户已经登录, 直接跳转到主菜单画面。
             // 这里当用户已经登录的时候，就不需要再插入历史记录了。
@@ -649,7 +649,7 @@ public class CommonController extends BaseController {
                     
                     if (isOver) {
                         GoodItemDto itemDto = goodsService.getGoodAllItemDto(mapParam.get("groupId"));
-                        msg = super.getMessage("E0009").replace("{0}", itemDto.getGoods().getGoodsname()).replace("{1}", String.valueOf(maxBuy));
+                        msg = super.getMessage("E0009", session).replace("{0}", itemDto.getGoods().getGoodsname()).replace("{1}", String.valueOf(maxBuy));
                     }
                     
                     
@@ -697,7 +697,7 @@ public class CommonController extends BaseController {
                     if (Long.valueOf(itemDto.getGoodsQuantity()) + tGoodsGroup.getGroupcurrentquantity() > tGoodsGroup
                             .getGroupmaxquantity()) {
                         isOver = true;
-                        mapReturn.put("isOverMsg", itemDto.getGoodsName() + super.getMessage("E0012"));
+                        mapReturn.put("isOverMsg", itemDto.getGoodsName() + super.getMessage("E0012", session));
                         break;
                     }
                     if (DateFormatUtils.getCurrentDate().before(tGoodsGroup.getValidperiodstart())
@@ -706,7 +706,7 @@ public class CommonController extends BaseController {
                         isOverTime = true;
                         mapReturn.put(
                                 "isOverTimeMsg",
-                                super.getMessage("E0013").replace(CommonConstants.MESSAGE_PARAM_ONE,
+                                super.getMessage("E0013", session).replace(CommonConstants.MESSAGE_PARAM_ONE,
                                         itemDto.getGoodsName()));
                         break;
                     }
@@ -770,7 +770,7 @@ public class CommonController extends BaseController {
             HttpSession session, String pageNo, String daySearch) {
         Map<String, Object> mapReturn = new HashMap<String, Object>();
         try {
-            String imgUrl = super.getApplicationMessage("saveImgUrl");
+            String imgUrl = super.getApplicationMessage("saveImgUrl", session);
             Pagination pagination = new Pagination(Integer.parseInt(pageNo),
                     Integer.parseInt(CommonConstants.MAIN_LIST_COUNT));
             Map<Object, Object> params = new HashMap<Object, Object>();

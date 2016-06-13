@@ -99,7 +99,7 @@ public class ShopCartController extends BaseController {
                 }
 
                 if (timeDto.size() > 0) {
-                    contCartItemListDto.setQueryDay(super.getApplicationMessage("shopcart_other_time"));
+                    contCartItemListDto.setQueryDay(super.getApplicationMessage("shopcart_other_time", session));
                     contCartItemListDto.setItemList(timeDto);
                     cartsList.add(contCartItemListDto);
                 }
