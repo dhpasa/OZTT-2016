@@ -87,10 +87,10 @@ public class PayController extends BaseController {
                     // 来店自提
                     paypalParam.setPrice(tConsOrder.getOrderamount().toString());
                 }
-                paypalParam.setNotifyUrl(getApplicationMessage("notifyUrl") + orderId); //这里是不是通知画面，做一些对数据库的更新操作等
-                paypalParam.setCancelReturn(getApplicationMessage("cancelReturn") + orderId);//应该返回未完成订单画面订单画面
-                paypalParam.setOrderInfo(getApplicationMessage("orderInfo"));
-                paypalParam.setReturnUrl(getApplicationMessage("returnUrl"));// 同样是当前订单画面
+                paypalParam.setNotifyUrl(getApplicationMessage("notifyUrl", session) + orderId); //这里是不是通知画面，做一些对数据库的更新操作等
+                paypalParam.setCancelReturn(getApplicationMessage("cancelReturn", session) + orderId);//应该返回未完成订单画面订单画面
+                paypalParam.setOrderInfo(getApplicationMessage("orderInfo", session));
+                paypalParam.setReturnUrl(getApplicationMessage("returnUrl", session));// 同样是当前订单画面
                 rb = paypalService.buildRequest(paypalParam);
             }
             if (!StringUtils.isEmpty(rb)) {
@@ -127,12 +127,12 @@ public class PayController extends BaseController {
             TConsOrder tConsOrder = orderService.selectByOrderId(orderNo);
             BigDecimal amount = tConsOrder.getOrderamount().add(tConsOrder.getDeliverycost());
             Map<String, String> payMap = new HashMap<String, String>(); 
-            payMap.put("vpc_Version", MessageUtils.getApplicationMessage("vpc_Version"));
-            payMap.put("vpc_Command", MessageUtils.getApplicationMessage("vpc_Command"));
-            payMap.put("vpc_AccessCode", MessageUtils.getApplicationMessage("vpc_AccessCode"));
-            payMap.put("vpc_MerchTxnRef", MessageUtils.getApplicationMessage("vpc_MerchTxnRef"));
-            payMap.put("vpc_Merchant", MessageUtils.getApplicationMessage("vpc_Merchant"));
-            payMap.put("vpc_OrderInfo", MessageUtils.getApplicationMessage("vpc_OrderInfo"));
+            payMap.put("vpc_Version", MessageUtils.getApplicationMessage("vpc_Version", session));
+            payMap.put("vpc_Command", MessageUtils.getApplicationMessage("vpc_Command", session));
+            payMap.put("vpc_AccessCode", MessageUtils.getApplicationMessage("vpc_AccessCode", session));
+            payMap.put("vpc_MerchTxnRef", MessageUtils.getApplicationMessage("vpc_MerchTxnRef", session));
+            payMap.put("vpc_Merchant", MessageUtils.getApplicationMessage("vpc_Merchant", session));
+            payMap.put("vpc_OrderInfo", MessageUtils.getApplicationMessage("vpc_OrderInfo", session));
             payMap.put("vpc_Amount", String.valueOf(amount.multiply(new BigDecimal(100)).intValue()));
             payMap.put("vpc_CardNum", map.get("vpc_CardNum"));
             
@@ -142,7 +142,7 @@ public class PayController extends BaseController {
             payMap.put("vpc_CardExp", cardexp);
             
             payMap.put("vpc_CardSecurityCode", map.get("vpc_CardSecurityCode"));
-            payMap.put("vpc_CSCLevel", MessageUtils.getApplicationMessage("vpc_CSCLevel"));
+            payMap.put("vpc_CSCLevel", MessageUtils.getApplicationMessage("vpc_CSCLevel", session));
             payMap.put("vpc_TicketNo", "");
             logger.error("start vpc interface");
             logger.error("input:" + JSONObject.fromObject(payMap).toString());

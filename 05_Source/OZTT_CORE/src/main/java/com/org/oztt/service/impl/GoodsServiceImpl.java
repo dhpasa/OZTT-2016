@@ -147,7 +147,7 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
     @Override
     public GoodItemDto getGoodAllItemDto(String groupId) throws Exception {
 
-        String imgUrl = MessageUtils.getApplicationMessage("saveImgUrl");
+        String imgUrl = MessageUtils.getApplicationMessage("saveImgUrl", null);
         // 折扣价  团购这张表中
         TGoodsGroup tGoodsGroup = new TGoodsGroup();
         tGoodsGroup.setGroupno(groupId);
@@ -246,7 +246,7 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
 
         String goodId = tGoodsGroup.getGoodsid();
 
-        String imgUrl = MessageUtils.getApplicationMessage("saveImgUrl");
+        String imgUrl = MessageUtils.getApplicationMessage("saveImgUrl", null);
         // 取得当前商品的所有属性
         TGoods goods = getGoodsById(goodId);
         goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT + goods.getGoodsthumbnail());

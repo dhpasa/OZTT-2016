@@ -3,6 +3,7 @@ package com.org.oztt.controller;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.stereotype.Controller;
@@ -36,13 +37,13 @@ public class OzTtTpPdController extends BaseController {
      * @return
      */
     @RequestMapping(value = "init", method = RequestMethod.GET)
-    public String init(Model model, @RequestParam String groupId) {
+    public String init(Model model, @RequestParam String groupId, HttpSession session) {
         try {
             // 获取目录
             List<MyCategroy> myCategroyList = super.commonService.getMyCategroy();
             model.addAttribute("menucategory", myCategroyList);
 
-            String imgUrl = super.getApplicationMessage("saveImgUrl");
+            String imgUrl = super.getApplicationMessage("saveImgUrl", session);
 
             // 取得热卖的产品
             TGoods tGoodsParam = new TGoods();

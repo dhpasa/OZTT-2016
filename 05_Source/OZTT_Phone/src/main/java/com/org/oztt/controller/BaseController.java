@@ -7,9 +7,11 @@ import java.util.Locale;
 import java.util.Properties;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import com.org.oztt.service.CommonService;
 
@@ -19,15 +21,26 @@ public class BaseController {
     
     
     // 保存的图片地址
-    protected static final String imgUrl = getApplicationMessage("saveImgUrl");
+    protected static final String imgUrl = getApplicationMessage("saveImgUrl", null);
 
     @Resource
     protected CommonService       commonService;
-
-    public static String getApplicationMessage(String key) {
+    
+    public static String getApplicationMessage(String key, HttpSession session) {
         try {
-
-            String language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+            
+            String language = "";
+            if (session == null) {
+                language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+            } else {
+                Locale locale = (Locale) session.getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
+                if (locale == null) {
+                    language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+                } else {
+                    language = locale.getLanguage() + "_" + locale.getCountry();
+                }
+            }
+            
             FileInputStream messageStream;
             String s = BaseController.class.getResource("/").getPath().toString();
             s = java.net.URLDecoder.decode(s, "UTF-8");
@@ -61,10 +74,21 @@ public class BaseController {
         }
     }
 
-    public static String getMessage(String key) {
+    public static String getMessage(String key, HttpSession session) {
         try {
 
-            String language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+            String language = "";
+            if (session == null) {
+                language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+            } else {
+                Locale locale = (Locale) session.getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
+                if (locale == null) {
+                    language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+                } else {
+                    language = locale.getLanguage() + "_" + locale.getCountry();
+                }
+            }
+            
             FileInputStream messageStream;
             String s = BaseController.class.getResource("/").getPath().toString();
             s = java.net.URLDecoder.decode(s, "UTF-8");
@@ -98,10 +122,21 @@ public class BaseController {
         }
     }
 
-    public static String getPageMessage(String key) {
+    public static String getPageMessage(String key, HttpSession session) {
         try {
 
-            String language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+            String language = "";
+            if (session == null) {
+                language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+            } else {
+                Locale locale = (Locale) session.getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
+                if (locale == null) {
+                    language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+                } else {
+                    language = locale.getLanguage() + "_" + locale.getCountry();
+                }
+            }
+            
             FileInputStream messageStream;
             String s = BaseController.class.getResource("/").getPath().toString();
             s = java.net.URLDecoder.decode(s, "UTF-8");

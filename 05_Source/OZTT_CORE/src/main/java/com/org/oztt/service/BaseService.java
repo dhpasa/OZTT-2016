@@ -7,8 +7,11 @@ import java.math.BigDecimal;
 import java.util.Locale;
 import java.util.Properties;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import com.org.oztt.contants.CommonEnum;
 
@@ -23,15 +26,25 @@ public class BaseService {
     public static BigDecimal getCostPercent(String payMethod) {
         if (payMethod.equals(CommonEnum.PaymentMethod.ONLINE_PAY_CWB.getCode())) {
             // 用PayPal付款
-            return new BigDecimal(getApplicationMessage("PAYPAL_PECENT"));
+            return new BigDecimal(getApplicationMessage("PAYPAL_PECENT", null));
         }
         return BigDecimal.ZERO;
     }
 
-    public static String getApplicationMessage(String key) {
+    public static String getApplicationMessage(String key, HttpSession session) {
         try {
-
-            String language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+            String language = "";
+            if (session == null) {
+                language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+            } else {
+                Locale locale = (Locale) session.getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
+                if (locale == null) {
+                    language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+                } else {
+                    language = locale.getLanguage() + "_" + locale.getCountry();
+                }
+            }
+            
             FileInputStream messageStream;
             String s = BaseService.class.getResource("/").getPath().toString();
             s = java.net.URLDecoder.decode(s, "UTF-8");
@@ -65,10 +78,20 @@ public class BaseService {
         }
     }
     
-    public static String getPageMessage(String key) {
+    public static String getPageMessage(String key, HttpSession session) {
         try {
 
-            String language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+            String language = "";
+            if (session == null) {
+                language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+            } else {
+                Locale locale = (Locale) session.getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
+                if (locale == null) {
+                    language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+                } else {
+                    language = locale.getLanguage() + "_" + locale.getCountry();
+                }
+            }
             FileInputStream messageStream;
             String s = BaseService.class.getResource("/").getPath().toString();
             s = java.net.URLDecoder.decode(s, "UTF-8");

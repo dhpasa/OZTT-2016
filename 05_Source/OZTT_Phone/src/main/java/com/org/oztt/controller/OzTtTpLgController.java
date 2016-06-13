@@ -107,7 +107,7 @@ public class OzTtTpLgController extends BaseController {
                 customerService.insertLoginHisAndUpdateStatus(tCustomerLoginHis);
             }
 
-            String imgUrl = super.getApplicationMessage("saveImgUrl");
+            String imgUrl = super.getApplicationMessage("saveImgUrl", session);
 
             // 当前用户已经登录, 直接跳转到主菜单画面。
             // 这里当用户已经登录的时候，就不需要再插入历史记录了。

@@ -24,9 +24,12 @@ public class NoticeController extends BaseController {
      * @return
      */
     @RequestMapping(value = "paysuccess")
-    public String paysuccess(Model model, HttpServletResponse response, HttpSession session) {
+    public String paysuccess(Model model, HttpServletResponse response, HttpSession session, String orderNo, String is_success) {
         try {
-            
+            if ("1".equals(is_success)) {
+                model.addAttribute("pay_success", "1");
+            }
+            model.addAttribute("orderNo", orderNo);
             return "/notice/paySuccessNotice";
         }
         catch (Exception e) {

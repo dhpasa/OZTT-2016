@@ -7,9 +7,9 @@ import au.com.m4u.smsapi.ValidityPeriod;
 
 public class SendSMS extends BaseUtils {
 
-    private final static String m4uUser = StringDecode.paramDecode(MessageUtils.getApplicationMessage("sms_username"));
+    private final static String m4uUser = StringDecode.paramDecode(MessageUtils.getApplicationMessage("sms_username", null));
 
-    private final static String m4uPass = StringDecode.paramDecode(MessageUtils.getApplicationMessage("sms_passWord"));
+    private final static String m4uPass = StringDecode.paramDecode(MessageUtils.getApplicationMessage("sms_passWord", null));
 
     // 打开SMS连接
     private static SmsInterface openConnection(boolean secureMode, boolean debug, String debugFile) {

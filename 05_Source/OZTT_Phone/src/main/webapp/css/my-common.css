@@ -2712,3 +2712,17 @@ html{
     background-color: #fff;
     padding: 5px 10px;
 }
+
+.notice-needmail{
+	display: inline-block;
+    width: 100%;
+    text-align: center;
+    padding: 5px 10px 5px 10px;
+    font-size: 1.5rem;
+}
+
+.notice-email-dialog{
+	position: fixed;
+    top: 25%;
+    width: 95%;
+}

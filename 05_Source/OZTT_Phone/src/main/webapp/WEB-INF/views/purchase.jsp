@@ -27,7 +27,7 @@
 				}
 	  		});
 	  		
-	  		$('.check-icon-invoice').click(function(){
+	  		/**$('.check-icon-invoice').click(function(){
 	  			if ($(this).hasClass('checked')) {
 					$(this).removeClass('checked');
 				} else {
@@ -35,7 +35,7 @@
 					$('#purchase-mail-pop-up').modal('show');
 					
 				}
-	  		});
+	  		});*/
 			
 			$(".ico-back").click(function(){
 				history.go(-1);
@@ -157,11 +157,11 @@
 	  		var deliveryMethod = "";
 	  		var deliveryMethodArr = $(".purchase-select-horizon").find("li");
 	  		for (var i = 0; i < deliveryMethodArr.length; i++) {
-	  			if ($(deliveryMethodArr[i]).hasClass("shsm_checked") && i==0) {
-	  				deliveryMethod = "1";
+	  			if ($(deliveryMethodArr[i]).hasClass("ldzt_checked") && i==0) {
+	  				deliveryMethod = "2";
 	  				break;
 	  			} else {
-	  				deliveryMethod = "2";
+	  				deliveryMethod = "1";
 	  				break;
 	  			}
 	  		}
@@ -265,10 +265,10 @@
 	  		var deliveryMethodArr = $(".purchase-select-horizon").find("li");
 	  		for (var i = 0; i < deliveryMethodArr.length; i++) {
 	  			if ($(deliveryMethodArr[i]).hasClass("active") && i==0) {
-	  				deliveryMethod = "1";
+	  				deliveryMethod = "2";
 	  				break;
 	  			} else {
-	  				deliveryMethod = "2";
+	  				deliveryMethod = "1";
 	  				break;
 	  			}
 	  		}
@@ -510,7 +510,7 @@
 		</div>
     </div>
     
-    <div class="purchase-needmail">
+    <!-- <div class="purchase-needmail">
     	<div class="purchase-mailcheck">
 			<div class="check-icon-invoice"></div>
 		</div>
@@ -519,7 +519,7 @@
 				<fmt:message key="PURCHASE_NEEDMAIL"/>
 			</span>
 		</div>
-    </div>
+    </div>  -->
     
     <div id="purchase-mail-pop-up" class="modal fade" role="dialog" aria-hidden="true" >
     	<div class="modal-dialog purchase-dialog">

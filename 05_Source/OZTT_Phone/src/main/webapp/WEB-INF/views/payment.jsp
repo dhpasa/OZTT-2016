@@ -53,7 +53,7 @@
 				success : function(data) {
 					if (!data.isException) {
 						// 货到付款
-						location.href = "${ctx}/Notice/paysuccess"
+						location.href = "${ctx}/Notice/paysuccess?orderNo="+$("#orderNo").val()+"&is_success='1'"
 					} else {
 						$("#errormsg").text(E0007);
 					}

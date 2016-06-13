@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.stereotype.Controller;
@@ -41,13 +42,13 @@ public class OzTtTpPlController extends BaseController {
      * @return
      */
     @RequestMapping(value = "init", method = RequestMethod.GET)
-    public String init(Model model, String classId, String page, String listCount) {
+    public String init(Model model, String classId, String page, String listCount, HttpSession session) {
         try {
             // 获取目录
             List<MyCategroy> myCategroyList = super.commonService.getMyCategroy();
             model.addAttribute("menucategory", myCategroyList);
 
-            String imgUrl = super.getApplicationMessage("saveImgUrl");
+            String imgUrl = super.getApplicationMessage("saveImgUrl", session);
 
             // 取得热卖的产品
             TGoods tGoodsParam = new TGoods();
@@ -57,7 +58,8 @@ public class OzTtTpPlController extends BaseController {
             List<GroupItemDto> hotSellerList = goodsService.getFiveHotSeller(tGoodsParam);
             if (!CollectionUtils.isEmpty(hotSellerList)) {
                 for (GroupItemDto goods : hotSellerList) {
-                    goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT + goods.getGoodsthumbnail());
+                    goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT
+                            + goods.getGoodsthumbnail());
                 }
             }
             // 取出
@@ -66,39 +68,41 @@ public class OzTtTpPlController extends BaseController {
                 TGoodsClassfication tGoodsClassfication = goodsService.getGoodsClassficationByClassId(classId);
                 className = tGoodsClassfication.getClassname();
                 // 二级结构
-                tGoodsClassfication = goodsService.getGoodsClassficationByClassId(tGoodsClassfication.getFatherclassid());
+                tGoodsClassfication = goodsService.getGoodsClassficationByClassId(tGoodsClassfication
+                        .getFatherclassid());
                 if (tGoodsClassfication != null) {
                     className = tGoodsClassfication.getClassname() + CommonConstants.LEFT_INDICATE + className;
                 }
                 // 三级结构
-//                tGoodsClassfication = goodsService.getGoodsClassficationByClassId(tGoodsClassfication.getFatherclassid());
-//                if (tGoodsClassfication != null) {
-//                    className = tGoodsClassfication.getClassname() + CommonConstants.LEFT_INDICATE + className;
-//                }
-                
-                
-                
+                //                tGoodsClassfication = goodsService.getGoodsClassficationByClassId(tGoodsClassfication.getFatherclassid());
+                //                if (tGoodsClassfication != null) {
+                //                    className = tGoodsClassfication.getClassname() + CommonConstants.LEFT_INDICATE + className;
+                //                }
+
             }
-            
+
             // 分页获取商品
             // 获取明细分类的数据
             Pagination pagination = null;
-            if (StringUtils.isEmpty(page)) page = "1";
+            if (StringUtils.isEmpty(page))
+                page = "1";
             if (StringUtils.isEmpty(listCount)) {
                 pagination = new Pagination(1, CommonConstants.PRODUCT_INIT_COUNT);
                 listCount = String.valueOf(CommonConstants.PRODUCT_INIT_COUNT);
-            } else {
+            }
+            else {
                 pagination = new Pagination(Integer.parseInt(page), Integer.parseInt(listCount));
             }
             Map<Object, Object> mapParam = new HashMap<Object, Object>();
             mapParam.put("classId", classId);
             pagination.setParams(mapParam);
-            
+
             PagingResult<GroupItemDto> pageInfo = goodsService.getGoodsByParamForPage(pagination);
-            
+
             if (!CollectionUtils.isEmpty(pageInfo.getResultList())) {
                 for (GroupItemDto goods : pageInfo.getResultList()) {
-                    goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT + goods.getGoodsthumbnail());
+                    goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT
+                            + goods.getGoodsthumbnail());
                 }
             }
 
@@ -117,10 +121,10 @@ public class OzTtTpPlController extends BaseController {
             return CommonConstants.ERROR_PAGE;
         }
     }
-    
-    
+
     /**
      * 画面点击链接进行检索
+     * 
      * @param model
      * @param classId
      * @param page
@@ -128,10 +132,12 @@ public class OzTtTpPlController extends BaseController {
      * @return
      */
     @RequestMapping(value = "search", method = RequestMethod.GET)
-    public String search(Model model, @RequestParam String listCount, @RequestParam String classId, @RequestParam String pageNo) {
+    public String search(Model model, @RequestParam String listCount, @RequestParam String classId,
+            @RequestParam String pageNo, HttpSession session) {
         try {
-            return this.init(model, classId, pageNo, listCount);  
-        }catch (Exception e) {
+            return this.init(model, classId, pageNo, listCount, session);
+        }
+        catch (Exception e) {
             e.printStackTrace();
             logger.error(e.getMessage());
             return CommonConstants.ERROR_PAGE;
