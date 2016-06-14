@@ -1,4 +1,4 @@
-/*
+﻿/*
 Navicat MySQL Data Transfer
 
 Source Server         : localMysql
@@ -1581,21 +1581,19 @@ INSERT INTO `t_sys_code` VALUES ('16', 'COM004', '1', '订单状态', '下单成
 INSERT INTO `t_sys_code` VALUES ('17', 'COM004', '2', '订单状态', '商品派送中');
 INSERT INTO `t_sys_code` VALUES ('18', 'COM004', '3', '订单状态', '订单已完成');
 INSERT INTO `t_sys_code` VALUES ('19', 'COM004', '9', '订单状态', '订单已取消');
-INSERT INTO `t_sys_code` VALUES ('20', 'COM005', '1', '付款方式', 'Credit Card');
-INSERT INTO `t_sys_code` VALUES ('21', 'COM005', '2', '付款方式', 'Paypal');
-INSERT INTO `t_sys_code` VALUES ('22', 'COM005', '3', '付款方式', '支付宝');
-INSERT INTO `t_sys_code` VALUES ('23', 'COM005', '4', '付款方式', '微信支付');
-INSERT INTO `t_sys_code` VALUES ('24', 'COM006', '1', '交易类型', '订单支付');
-INSERT INTO `t_sys_code` VALUES ('25', 'COM006', '2', '交易类型', '手续费收取');
-INSERT INTO `t_sys_code` VALUES ('26', 'COM007', '0', '交易状态', '处理中');
-INSERT INTO `t_sys_code` VALUES ('27', 'COM007', '1', '交易状态', '处理成功');
-INSERT INTO `t_sys_code` VALUES ('28', 'COM007', '9', '交易状态', '处理失败');
-INSERT INTO `t_sys_code` VALUES ('29', 'COM008', '1', '运送方式', '来店自提');
-INSERT INTO `t_sys_code` VALUES ('30', 'COM008', '2', '运送方式', '普通快递');
-INSERT INTO `t_sys_code` VALUES ('31', 'COM008', '3', '运送方式', '货到付款');
-INSERT INTO `t_sys_code` VALUES ('32', 'COM009', '01', '送货上门时间段', '9:00～～12:00');
-INSERT INTO `t_sys_code` VALUES ('33', 'COM009', '02', '送货上门时间段', '12:00～～15:00');
-INSERT INTO `t_sys_code` VALUES ('34', 'COM009', '03', '送货上门时间段', '15:00～～18:00');
+INSERT INTO `t_sys_code` VALUES ('20', 'COM005', '1', '付款方式', '在线支付');
+INSERT INTO `t_sys_code` VALUES ('21', 'COM005', '2', '付款方式', '货到付款');
+INSERT INTO `t_sys_code` VALUES ('22', 'COM005', '3', '付款方式', '来店付款');
+INSERT INTO `t_sys_code` VALUES ('23', 'COM006', '1', '交易类型', '订单支付');
+INSERT INTO `t_sys_code` VALUES ('24', 'COM006', '2', '交易类型', '手续费收取');
+INSERT INTO `t_sys_code` VALUES ('25', 'COM007', '0', '交易状态', '处理中');
+INSERT INTO `t_sys_code` VALUES ('26', 'COM007', '1', '交易状态', '处理成功');
+INSERT INTO `t_sys_code` VALUES ('27', 'COM007', '9', '交易状态', '处理失败');
+INSERT INTO `t_sys_code` VALUES ('28', 'COM008', '1', '运送方式', '送货上门');
+INSERT INTO `t_sys_code` VALUES ('29', 'COM008', '2', '运送方式', '来店自提');
+INSERT INTO `t_sys_code` VALUES ('30', 'COM009', '01', '送货上门时间段', '9:00～～12:00');
+INSERT INTO `t_sys_code` VALUES ('31', 'COM009', '02', '送货上门时间段', '12:00～～15:00');
+INSERT INTO `t_sys_code` VALUES ('32', 'COM009', '03', '送货上门时间段', '15:00～～18:00');
 
 -- ----------------------------
 -- Table structure for t_sys_config

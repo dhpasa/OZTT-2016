@@ -781,6 +781,11 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         dto.setOrderStatusView(CommonEnum.HandleFlag.getEnumLabel(tConsOrder.getHandleflg()));
         dto.setOrderStatus(tConsOrder.getHandleflg());
         dto.setDeliveryMethodFlag(tConsOrder.getDeliverymethod());
+        dto.setOrderTimestamp(DateFormatUtils.date2StringWithFormat(tConsOrder.getOrdertimestamp(), "yyyyDDmm"));
+        dto.setPaymentMethod(CommonEnum.PaymentMethod.getEnumLabel(tConsOrder.getPaymentmethod()));
+        dto.setDeliveryMethod(CommonEnum.DeliveryMethod.getEnumLabel(tConsOrder.getDeliverymethod()));
+        dto.setInvoiceFlg(CommonEnum.InvoiceFlg.getEnumLabel(tConsOrder.getInvoiceflg()));
+        
         if (tConsOrder.getAddressid() != 0) {
             // 获取地址
             TAddressInfo tAddressInfo = tAddressInfoDao.selectByPrimaryKey(tConsOrder.getAddressid());
@@ -817,6 +822,14 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 odDto.setGoodsQuantity(item.getGoodsQuantity());
                 odDto.setGoodsTotalAmount(new BigDecimal(item.getGoodsPrice()).multiply(
                         new BigDecimal(item.getGoodsQuantity())).toString());
+                String deliveryTime = item.getDeliveryDate();
+                if (deliveryTime != null && deliveryTime.length() > 9) {
+                    String dateD = DateFormatUtils.dateFormatFromTo(deliveryTime.substring(0, 8),
+                            DateFormatUtils.PATTEN_YMD_NO_SEPRATE, DateFormatUtils.PATTEN_YMD);
+                    String timeD = CommonEnum.DeliveryTime.getEnumLabel(deliveryTime.substring(8));
+                    odDto.setDeliveryTime(dateD + " " + timeD);
+                }
+                
                 itemList.add(odDto);
             }
 

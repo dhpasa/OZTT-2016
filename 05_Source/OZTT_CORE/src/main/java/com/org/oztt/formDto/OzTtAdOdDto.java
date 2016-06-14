@@ -24,9 +24,49 @@ public class OzTtAdOdDto {
     
     private String yunfei;
     
+    private String orderTimestamp;
+    
+    private String paymentMethod;
+    
+    private String deliveryMethod;
+    
+    private String invoiceFlg;
+    
     private List<OzTtAdOdListDto> itemList;
 
-    public String getOrderNo() {
+    public String getInvoiceFlg() {
+		return invoiceFlg;
+	}
+
+	public void setInvoiceFlg(String invoiceFlg) {
+		this.invoiceFlg = invoiceFlg;
+	}
+
+	public String getOrderTimestamp() {
+		return orderTimestamp;
+	}
+
+	public void setOrderTimestamp(String orderTimestamp) {
+		this.orderTimestamp = orderTimestamp;
+	}
+
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+
+	public String getDeliveryMethod() {
+		return deliveryMethod;
+	}
+
+	public void setDeliveryMethod(String deliveryMethod) {
+		this.deliveryMethod = deliveryMethod;
+	}
+
+	public String getOrderNo() {
         return orderNo;
     }
 

@@ -20,7 +20,17 @@ public class OzTtAdOdListDto {
     
     private String goodsGroupId;
     
-    public String getGoodsGroupId() {
+    private String deliveryTime;
+    
+    public String getDeliveryTime() {
+		return deliveryTime;
+	}
+
+	public void setDeliveryTime(String deliveryTime) {
+		this.deliveryTime = deliveryTime;
+	}
+
+	public String getGoodsGroupId() {
 		return goodsGroupId;
 	}
 
