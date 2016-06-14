@@ -8,8 +8,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import net.sf.json.JSONObject;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -122,11 +120,11 @@ public class PayController extends BaseController {
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
             String orderNo = map.get("orderNo");
-            String email = map.get("email");
+            //String email = map.get("email");
 
             TConsOrder tConsOrder = orderService.selectByOrderId(orderNo);
             BigDecimal amount = tConsOrder.getOrderamount().add(tConsOrder.getDeliverycost());
-            Map<String, String> payMap = new HashMap<String, String>(); 
+            Map<String, String> payMap = new HashMap<String, String>();
             payMap.put("vpc_Version", MessageUtils.getApplicationMessage("vpc_Version", session));
             payMap.put("vpc_Command", MessageUtils.getApplicationMessage("vpc_Command", session));
             payMap.put("vpc_AccessCode", MessageUtils.getApplicationMessage("vpc_AccessCode", session));
@@ -135,32 +133,27 @@ public class PayController extends BaseController {
             payMap.put("vpc_OrderInfo", MessageUtils.getApplicationMessage("vpc_OrderInfo", session));
             payMap.put("vpc_Amount", String.valueOf(amount.multiply(new BigDecimal(100)).intValue()));
             payMap.put("vpc_CardNum", map.get("vpc_CardNum"));
-            
+
             String vpcCardExp = map.get("vpc_CardExp");
             String[] cardExp = vpcCardExp.split("/");
             String cardexp = cardExp[1] + cardExp[0];
             payMap.put("vpc_CardExp", cardexp);
-            
+
             payMap.put("vpc_CardSecurityCode", map.get("vpc_CardSecurityCode"));
             payMap.put("vpc_CSCLevel", MessageUtils.getApplicationMessage("vpc_CSCLevel", session));
             payMap.put("vpc_TicketNo", "");
-            logger.error("start vpc interface");
-            logger.error("input:" + JSONObject.fromObject(payMap).toString());
             Map<String, String> resMap = VpcHttpPayUtils.http("https://migs.mastercard.com.au/vpcdps", payMap);
-            logger.error("output:" + JSONObject.fromObject(resMap).toString());
             if (resMap != null && "0".equals(resMap.get(VpcHttpPayUtils.VPC_TXNRESPONSECODE))) {
                 orderService.updateRecordAfterPay(orderNo, customerNo, session);
-                if (!StringUtils.isEmpty(email)) {
-                    // 开启线程进行发信
-                    orderService.createTaxAndSendMailForPhone(orderNo, customerNo, session, email);
-                }
-
+                //                if (!StringUtils.isEmpty(email)) {
+                //                    // 开启线程进行发信
+                //                    orderService.createTaxAndSendMailForPhone(orderNo, customerNo, session, email);
+                //                }
                 mapReturn.put("isException", false);
             }
             else {
                 mapReturn.put("isException", true);
             }
-
             return mapReturn;
         }
         catch (Exception e) {
@@ -194,7 +187,8 @@ public class PayController extends BaseController {
 
     @RequestMapping(value = "TestUrl")
     public void TestUrl(Model model, HttpServletResponse response, HttpSession session) throws Exception {
-        orderService.createTaxAndSendMailForPhone("2016051000000004", "2016050700000001", session, "578366868@qq.com");
+        orderService.createTaxAndSendMailForPhone("PO20160614000001", "CS20160603000001", session, "578366868@qq.com",
+                "linliuan特咖信息技术有限公司", "10003004", "苏州观前街88弄88号88室");
     }
 
 }

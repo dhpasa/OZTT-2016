@@ -39,7 +39,7 @@ public interface OrderService {
      * @throws Exception
      */
     public PagingResult<OrderInfoDto> getAllOrderInfoForPage(Pagination pagination) throws Exception;
-    
+
     /**
      * 获取当前用户所有的订单信息
      * 
@@ -47,7 +47,7 @@ public interface OrderService {
      * @throws Exception
      */
     public List<OrderInfoDto> getAllOrderInfoNoPage(Map<Object, Object> params) throws Exception;
-    
+
     /**
      * 获取当前用户未完成的订单信息
      * 
@@ -106,7 +106,7 @@ public interface OrderService {
      * @throws Exception
      */
     public PagingResult<OzTtAdOlListDto> getAllOrderInfoForAdmin(Pagination pagination) throws Exception;
-    
+
     /**
      * admin端所有订单的获取
      * 
@@ -115,7 +115,6 @@ public interface OrderService {
      * @throws Exception
      */
     public List<OzTtAdOlListDto> getAllOrderInfoForAdminAll(Map<Object, Object> params) throws Exception;
-    
 
     /**
      * admin端获取订单详情
@@ -144,11 +143,12 @@ public interface OrderService {
      * @param session
      * @throws Exception
      */
-    public void createTaxAndSendMailForPhone(String orderId, String customerNo, HttpSession session, String email)
-            throws Exception;
-    
+    public void createTaxAndSendMailForPhone(String orderId, String customerNo, HttpSession session, String email,
+            String invoicename, String invoiceabn, String invoiceads) throws Exception;
+
     /**
      * 清空未处理的订单信息
+     * 
      * @throws Exception
      */
     public void cleanOrderInfo() throws Exception;

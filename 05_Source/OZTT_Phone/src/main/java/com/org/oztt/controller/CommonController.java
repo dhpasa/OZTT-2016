@@ -926,5 +926,47 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
     }
+    
+    
+    /**
+     * 向用户发送发票
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/sendInvoice")
+    @ResponseBody
+    public Map<String, Object> sendInvoice(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session, @RequestBody Map<String, String> requestMap) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            //
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            if (customerNo == null) {
+                mapReturn.put("isException", true);
+                return mapReturn;
+            }
+            String orderNo = requestMap.get("orderNo");
+            String invoicemail = requestMap.get("invoicemail");
+            String invoicename = requestMap.get("invoicename");
+            String invoiceabn = requestMap.get("invoiceabn");
+            String invoiceads = requestMap.get("invoiceads");
+            if (StringUtils.isEmpty(invoicemail) || StringUtils.isEmpty(orderNo)) {
+                mapReturn.put("isException", true);
+                return mapReturn;
+            }
+                
+            orderService.createTaxAndSendMailForPhone(orderNo, customerNo, session, invoicemail, invoicename, invoiceabn, invoiceads);
+            // 后台维护的时候提示让以逗号隔开
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
 
 }
