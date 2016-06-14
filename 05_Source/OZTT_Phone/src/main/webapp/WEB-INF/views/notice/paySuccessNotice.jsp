@@ -23,6 +23,33 @@
 			}
   		});
 	});
+	
+	function sendInvoice(){
+  		var paramData = {
+				"orderNo":$("#orderNo").val(),
+				"invoicemail":$("#invoicemail").val(),
+				"invoicename":$("#invoicename").val(),
+				"invoiceabn":$("#invoiceabn").val(),
+				"invoiceads":$("#invoiceads").val()
+		}
+  		// 优先删除发送发票信息
+  		$(".notice-needmail").remove();
+  		$.ajax({
+			type : "POST",
+			contentType:'application/json',
+			url : '${ctx}/COMMON/sendInvoice',
+			dataType : "json",
+			async : false,
+			data : JSON.stringify(paramData), 
+			success : function(data) {
+				
+			},
+			error : function(data) {
+				
+			}
+		});
+  		
+	}
 </script>
 
 </head>
@@ -53,7 +80,6 @@
 	    <div class="notice-needmail">
 	    	<span class="check-icon-invoice" style="margin-left: 47%"></span>
 	    </div>
-	    
 	    <div class="notice-buy-again">
 	    	<a href="${ctx }/main/init" class="link">继续购物</a>
 	    </div>
@@ -73,19 +99,19 @@
 	            </span>
 	         </div>
 	         <div class="purchase-modal-body clearborder">
-	            <input type="text" id="invoicemail" placeholder="请输入你的邮箱地址"/>
+	            <input type="text" id="invoicemail" placeholder="<fmt:message key="NOTICE_INVOICE_EMAIL_ADS" />"/>
 	         </div>
 	         <div class="purchase-modal-body clearborder">
-	            <input type="text" id="invoicemail" placeholder="请输入你的公司／个人名称"/>
+	            <input type="text" id="invoicename" placeholder="<fmt:message key="NOTICE_INVOICE_NAME" />"/>
 	         </div>
 	         <div class="purchase-modal-body clearborder">
-	            <input type="text" id="invoicemail" placeholder="请输入公司abn"/>
+	            <input type="text" id="invoiceabn" placeholder="<fmt:message key="NOTICE_INVOICE_COMPANYABN" />"/>
 	         </div>
 	         <div class="purchase-modal-body clearborder">
-	            <input type="text" id="invoicemail" placeholder="请输入地址"/>
+	            <input type="text" id="invoiceads" placeholder="<fmt:message key="NOTICE_INVOICE_ADDRESS" />"/>
 	         </div>
 	         <div class="modal-footer purchase-modal-footer clearborder" >
-	            <button type="button" class="btn btn-primary" onclick="closePurchaseMail()">
+	            <button type="button" class="btn btn-primary" onclick="sendInvoice()">
 	               <fmt:message key="COMMON_CONFIRM"/>
 	            </button>
 	         </div>

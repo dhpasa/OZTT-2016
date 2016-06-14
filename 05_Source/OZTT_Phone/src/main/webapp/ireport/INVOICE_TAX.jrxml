@@ -78,7 +78,7 @@
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="38" y="112" width="53" height="15"/>
+				<reportElement x="38" y="112" width="53" height="28"/>
 				<textElement>
 					<font fontName="华文细黑" pdfFontName="STSong-Light" pdfEncoding="Identity-H" isPdfEmbedded="true" size="10"/>
 				</textElement>

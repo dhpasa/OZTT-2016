@@ -114,9 +114,9 @@ public class OrderServiceImpl extends BaseService implements OrderService {
 
     @Resource
     private TCustomerSecurityInfoDao tCustomerSecurityInfoDao;
-    
+
     @Resource
-    private AddressService addressService;
+    private AddressService           addressService;
 
     @Override
     public String insertOrderInfoForPhone(String customerNo, String payMethod, String hidDeliMethod,
@@ -225,7 +225,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 tNoInvoiceDao.insertSelective(tNoInvoice);
             }
         }
-        
+
         maxInvoiceNo = "IN" + maxInvoiceNo;
         TConsInvoice tConsInvoice = new TConsInvoice();
         tConsInvoice.setCustomerno(customerNo);
@@ -238,13 +238,14 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         tConsOrder.setCustomerno(customerNo);
 
         tConsOrder.setOrderamount(orderAmount);
-        
+
         tConsOrder.setPaymentmethod(payMethod);
         tConsOrder.setOrdertimestamp(new Date());
         tConsOrder.setPaymenttimestamp(null);//付款时间
-        if (CommonEnum.PaymentMethod.ONLINE_PAY_CWB.getCode().equals(payMethod)){
+        if (CommonEnum.PaymentMethod.ONLINE_PAY_CWB.getCode().equals(payMethod)) {
             tConsOrder.setHandleflg(CommonEnum.HandleFlag.NOT_PAY.getCode());
-        } else {
+        }
+        else {
             tConsOrder.setHandleflg(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
         }
 
@@ -273,10 +274,10 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         tConsOrder.setDeliverycost(deleveryCost.multiply(new BigDecimal(freight)));
         tConsOrder.setAddtimestamp(new Date());
         tConsOrder.setAdduserkey(customerNo);
-//        if ("1".equals(payMethod) || "1".equals(invoiceFlg)) {
-//            tConsOrder.setInvoiceflg("1");
-//            tConsOrder.setInvoiceno(maxInvoiceNo);
-//        }
+        //        if ("1".equals(payMethod) || "1".equals(invoiceFlg)) {
+        //            tConsOrder.setInvoiceflg("1");
+        //            tConsOrder.setInvoiceno(maxInvoiceNo);
+        //        }
         tConsOrder.setInvoiceflg("0");
         tConsOrderDao.insertSelective(tConsOrder);
 
@@ -524,7 +525,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         return orderDBInfoPage;
 
     }
-    
+
     @Override
     public List<OrderInfoDto> getAllOrderInfoNoPage(Map<Object, Object> params) throws Exception {
 
@@ -532,7 +533,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         return orderDBInfoNoPage;
 
     }
-    
+
     @Override
     public List<OrderInfoDto> getNotSuccessedOrder(Map<Object, Object> params) throws Exception {
         List<OrderInfoDto> orderDBInfoNoPage = tConsOrderDao.getNotSuccessedOrder(params);
@@ -581,10 +582,11 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                     + tSuburbDeliverFeeDao.selectByPrimaryKey(Long.valueOf(tAddressInfo.getSuburb())).getSuburb() + " "
                     + tAddressInfo.getState() + " " + tAddressInfo.getCountrycode() + " " + tAddressInfo.getPostcode());
             formDto.setReceiverPhone(tAddressInfo.getContacttel());
-        } else {
+        }
+        else {
             formDto.setReceiverAddress(super.getPageMessage("COMMON_SHOPADDRESS", null));
         }
-        
+
         formDto.setAddressId(tConsOrder.getAddressid().toString());
 
         // 支付和配送方式
@@ -785,7 +787,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         dto.setPaymentMethod(CommonEnum.PaymentMethod.getEnumLabel(tConsOrder.getPaymentmethod()));
         dto.setDeliveryMethod(CommonEnum.DeliveryMethod.getEnumLabel(tConsOrder.getDeliverymethod()));
         dto.setInvoiceFlg(CommonEnum.InvoiceFlg.getEnumLabel(tConsOrder.getInvoiceflg()));
-        
+
         if (tConsOrder.getAddressid() != 0) {
             // 获取地址
             TAddressInfo tAddressInfo = tAddressInfoDao.selectByPrimaryKey(tConsOrder.getAddressid());
@@ -829,7 +831,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                     String timeD = CommonEnum.DeliveryTime.getEnumLabel(deliveryTime.substring(8));
                     odDto.setDeliveryTime(dateD + " " + timeD);
                 }
-                
+
                 itemList.add(odDto);
             }
 
@@ -882,8 +884,8 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         params.put("warehouse", "Main warehouse");
         params.put("deliveryMethod", CommonEnum.DeliveryMethod.getEnumLabel(tConsOrder.getDeliverymethod()));
         params.put("subtotal", tConsOrder.getOrderamount().toString());
-        params.put("tax", tConsOrder.getOrderamount().multiply(new BigDecimal(super.getApplicationMessage("TAX", null)))
-                .setScale(2).toString());
+        params.put("tax", tConsOrder.getOrderamount()
+                .multiply(new BigDecimal(super.getApplicationMessage("TAX", null))).setScale(2).toString());
         params.put(
                 "total",
                 tConsOrder
@@ -943,103 +945,106 @@ public class OrderServiceImpl extends BaseService implements OrderService {
      * @param session
      * @throws Exception
      */
-    public void createTaxAndSendMailForPhone(String orderId, String customerNo, HttpSession session, String email)
-            throws Exception {
-        StartSendMail sendMail = new StartSendMail(); 
+    public void createTaxAndSendMailForPhone(String orderId, String customerNo, HttpSession session, String email,
+            String invoicename, String invoiceabn, String invoiceads) throws Exception {
+        StartSendMail sendMail = new StartSendMail();
         sendMail.orderId = orderId;
         sendMail.customerNo = customerNo;
         sendMail.session = session;
         sendMail.email = email;
         sendMail.tax = super.getApplicationMessage("TAX", null);
+        sendMail.invoicename = invoicename;
+        sendMail.invoiceabn = invoiceabn;
+        sendMail.invoiceads = invoiceads;
         sendMail.start();
         // 是客户操作
-//        List<InvoiceDto> dataSource = new ArrayList<InvoiceDto>();
-//        Map<String, Object> params = new HashMap<String, Object>();
-//
-//        TCustomerSecurityInfo securityInfo = tCustomerSecurityInfoDao.selectByCustomerNo(customerNo);
-//
-//        TCustomerBasicInfo baseInfo = customerService.selectBaseInfoByCustomerNo(customerNo);
-//
-//        // 取得订单信息
-//        TConsOrder tConsOrder = this.selectByOrderId(orderId);
-//
-//        TAddressInfo tAddressInfo = new TAddressInfo();
-//        // 取得地址信息
-//        if (tConsOrder.getAddressid() != 0) {
-//            tAddressInfo = tAddressInfoDao.selectByPrimaryKey(tConsOrder.getAddressid());
-//        }
-//
-//        List<ContCartItemDto> detailList = tConsOrderDetailsDao.selectByOrderId(orderId);
-//
-//        params.put("name", baseInfo.getNickname());
-//        params.put("email", email);
-//        params.put("phone", securityInfo.getTelno());
-//        params.put("detailAddress", CommonUtils.objectToString(tAddressInfo.getAddressdetails()));
-//        params.put("city", CommonUtils.objectToString(tAddressInfo.getSuburb()));
-//        params.put("state", CommonUtils.objectToString(tAddressInfo.getState()));
-//        params.put(
-//                "coutryAndPost",
-//                CommonUtils.objectToString(tAddressInfo.getCountrycode()) + " "
-//                        + CommonUtils.objectToString(tAddressInfo.getPostcode()));
-//        params.put("orderNo", orderId);
-//        params.put("orderDate",
-//                DateFormatUtils.date2StringWithFormat(tConsOrder.getOrdertimestamp(), DateFormatUtils.PATTEN_YMD2));
-//        params.put("complateDate", DateFormatUtils.getNowTimeFormat(DateFormatUtils.PATTEN_YMD2));
-//        params.put("warehouse", "Main warehouse");
-//        params.put("deliveryMethod", CommonEnum.DeliveryMethod.getEnumLabel(tConsOrder.getDeliverymethod()));
-//        params.put("total", tConsOrder.getOrderamount().toString());
-//        params.put("tax", tConsOrder.getOrderamount().multiply(new BigDecimal(super.getApplicationMessage("TAX")))
-//                .setScale(2).toString());
-//        params.put(
-//                "subtotal",
-//                tConsOrder
-//                        .getOrderamount()
-//                        .subtract(
-//                                tConsOrder.getOrderamount()
-//                                        .multiply(new BigDecimal(super.getApplicationMessage("TAX"))).setScale(2))
-//                        .toString());
-//        String ireportPath = session.getServletContext().getRealPath("") + "/ireport/";
-//        JasperCompileManager.compileReportToFile(ireportPath + "INVOICE_TAX.jrxml", ireportPath + "INVOICE_TAX.jasper");
-//
-//        for (ContCartItemDto dto : detailList) {
-//            InvoiceDto invoiceDto = new InvoiceDto();
-//            invoiceDto.setCode(dto.getGoodsId());
-//            invoiceDto.setDescription(dto.getGoodsName());
-//            invoiceDto.setPrice(String.valueOf(new BigDecimal(dto.getGoodsPrice())));
-//            invoiceDto.setQty(dto.getGoodsQuantity());
-//            invoiceDto.setTax((new BigDecimal(dto.getGoodsPrice())).multiply(
-//                    new BigDecimal(super.getApplicationMessage("TAX"))).toString());
-//            invoiceDto.setTotal(dto.getGoodsPrice());
-//            dataSource.add(invoiceDto);
-//        }
-//
-//        JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(dataSource);
-//
-//        JasperFillManager.fillReportToFile(ireportPath + "INVOICE_TAX.jasper", params, beanColDataSource);
-//        String tempUrl = System.getProperty("java.io.tmpdir");
-//        File destDirectory = new File(tempUrl + CommonConstants.PATH_SPLIT + UUID.randomUUID());
-//        if (!destDirectory.exists()) {
-//            destDirectory.mkdirs();
-//        }
-//
-//        JasperExportManager.exportReportToPdfFile(ireportPath + "INVOICE_TAX.jrprint", destDirectory
-//                + CommonConstants.PATH_SPLIT + "INVOICE_TAX.pdf");
-//
-//        //️发信
-//        SendMailDto sendMailDto = new SendMailDto();
-//        sendMailDto.setTitle(MessageUtils.getMessage("TAX_MAIL_TITLE"));
-//        StringBuffer sb = new StringBuffer();
-//        sb.append(MessageUtils.getMessage("TAX_MAIL_CONTENT"));
-//        sb.append("</br>");
-//
-//        sendMailDto.setContent(sb.toString());
-//        List<String> mailTo = new ArrayList<String>();
-//        mailTo.add(email);
-//        sendMailDto.setTo(mailTo);
-//        Vector<String> files = new Vector<String>();
-//        files.add(destDirectory + CommonConstants.PATH_SPLIT + "INVOICE_TAX.pdf");
-//        sendMailDto.setFile(files);
-//        MailUtil.sendMail(sendMailDto, null);
+        //        List<InvoiceDto> dataSource = new ArrayList<InvoiceDto>();
+        //        Map<String, Object> params = new HashMap<String, Object>();
+        //
+        //        TCustomerSecurityInfo securityInfo = tCustomerSecurityInfoDao.selectByCustomerNo(customerNo);
+        //
+        //        TCustomerBasicInfo baseInfo = customerService.selectBaseInfoByCustomerNo(customerNo);
+        //
+        //        // 取得订单信息
+        //        TConsOrder tConsOrder = this.selectByOrderId(orderId);
+        //
+        //        TAddressInfo tAddressInfo = new TAddressInfo();
+        //        // 取得地址信息
+        //        if (tConsOrder.getAddressid() != 0) {
+        //            tAddressInfo = tAddressInfoDao.selectByPrimaryKey(tConsOrder.getAddressid());
+        //        }
+        //
+        //        List<ContCartItemDto> detailList = tConsOrderDetailsDao.selectByOrderId(orderId);
+        //
+        //        params.put("name", baseInfo.getNickname());
+        //        params.put("email", email);
+        //        params.put("phone", securityInfo.getTelno());
+        //        params.put("detailAddress", CommonUtils.objectToString(tAddressInfo.getAddressdetails()));
+        //        params.put("city", CommonUtils.objectToString(tAddressInfo.getSuburb()));
+        //        params.put("state", CommonUtils.objectToString(tAddressInfo.getState()));
+        //        params.put(
+        //                "coutryAndPost",
+        //                CommonUtils.objectToString(tAddressInfo.getCountrycode()) + " "
+        //                        + CommonUtils.objectToString(tAddressInfo.getPostcode()));
+        //        params.put("orderNo", orderId);
+        //        params.put("orderDate",
+        //                DateFormatUtils.date2StringWithFormat(tConsOrder.getOrdertimestamp(), DateFormatUtils.PATTEN_YMD2));
+        //        params.put("complateDate", DateFormatUtils.getNowTimeFormat(DateFormatUtils.PATTEN_YMD2));
+        //        params.put("warehouse", "Main warehouse");
+        //        params.put("deliveryMethod", CommonEnum.DeliveryMethod.getEnumLabel(tConsOrder.getDeliverymethod()));
+        //        params.put("total", tConsOrder.getOrderamount().toString());
+        //        params.put("tax", tConsOrder.getOrderamount().multiply(new BigDecimal(super.getApplicationMessage("TAX")))
+        //                .setScale(2).toString());
+        //        params.put(
+        //                "subtotal",
+        //                tConsOrder
+        //                        .getOrderamount()
+        //                        .subtract(
+        //                                tConsOrder.getOrderamount()
+        //                                        .multiply(new BigDecimal(super.getApplicationMessage("TAX"))).setScale(2))
+        //                        .toString());
+        //        String ireportPath = session.getServletContext().getRealPath("") + "/ireport/";
+        //        JasperCompileManager.compileReportToFile(ireportPath + "INVOICE_TAX.jrxml", ireportPath + "INVOICE_TAX.jasper");
+        //
+        //        for (ContCartItemDto dto : detailList) {
+        //            InvoiceDto invoiceDto = new InvoiceDto();
+        //            invoiceDto.setCode(dto.getGoodsId());
+        //            invoiceDto.setDescription(dto.getGoodsName());
+        //            invoiceDto.setPrice(String.valueOf(new BigDecimal(dto.getGoodsPrice())));
+        //            invoiceDto.setQty(dto.getGoodsQuantity());
+        //            invoiceDto.setTax((new BigDecimal(dto.getGoodsPrice())).multiply(
+        //                    new BigDecimal(super.getApplicationMessage("TAX"))).toString());
+        //            invoiceDto.setTotal(dto.getGoodsPrice());
+        //            dataSource.add(invoiceDto);
+        //        }
+        //
+        //        JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(dataSource);
+        //
+        //        JasperFillManager.fillReportToFile(ireportPath + "INVOICE_TAX.jasper", params, beanColDataSource);
+        //        String tempUrl = System.getProperty("java.io.tmpdir");
+        //        File destDirectory = new File(tempUrl + CommonConstants.PATH_SPLIT + UUID.randomUUID());
+        //        if (!destDirectory.exists()) {
+        //            destDirectory.mkdirs();
+        //        }
+        //
+        //        JasperExportManager.exportReportToPdfFile(ireportPath + "INVOICE_TAX.jrprint", destDirectory
+        //                + CommonConstants.PATH_SPLIT + "INVOICE_TAX.pdf");
+        //
+        //        //️发信
+        //        SendMailDto sendMailDto = new SendMailDto();
+        //        sendMailDto.setTitle(MessageUtils.getMessage("TAX_MAIL_TITLE"));
+        //        StringBuffer sb = new StringBuffer();
+        //        sb.append(MessageUtils.getMessage("TAX_MAIL_CONTENT"));
+        //        sb.append("</br>");
+        //
+        //        sendMailDto.setContent(sb.toString());
+        //        List<String> mailTo = new ArrayList<String>();
+        //        mailTo.add(email);
+        //        sendMailDto.setTo(mailTo);
+        //        Vector<String> files = new Vector<String>();
+        //        files.add(destDirectory + CommonConstants.PATH_SPLIT + "INVOICE_TAX.pdf");
+        //        sendMailDto.setFile(files);
+        //        MailUtil.sendMail(sendMailDto, null);
     }
 
     class StartSendMail extends Thread {
@@ -1054,93 +1059,108 @@ public class OrderServiceImpl extends BaseService implements OrderService {
 
         public String      tax;
 
+        public String      invoicename;
+
+        public String      invoiceabn;
+
+        public String      invoiceads;
+
         public void run() {
             try {
-            // 是客户操作
-            List<InvoiceDto> dataSource = new ArrayList<InvoiceDto>();
-            Map<String, Object> params = new HashMap<String, Object>();
+                // 是客户操作
+                List<InvoiceDto> dataSource = new ArrayList<InvoiceDto>();
+                Map<String, Object> params = new HashMap<String, Object>();
 
-            TCustomerSecurityInfo securityInfo = tCustomerSecurityInfoDao.selectByCustomerNo(customerNo);
+                TCustomerSecurityInfo securityInfo = tCustomerSecurityInfoDao.selectByCustomerNo(customerNo);
 
-            TCustomerBasicInfo baseInfo = customerService.selectBaseInfoByCustomerNo(customerNo);
+                TCustomerBasicInfo baseInfo = customerService.selectBaseInfoByCustomerNo(customerNo);
 
-            // 取得订单信息
-            TConsOrder tConsOrder = selectByOrderId(orderId);
+                // 取得订单信息
+                TConsOrder tConsOrder = selectByOrderId(orderId);
 
-            TAddressInfo tAddressInfo = new TAddressInfo();
-            // 取得地址信息
-            if (tConsOrder.getAddressid() != 0) {
-                tAddressInfo = tAddressInfoDao.selectByPrimaryKey(tConsOrder.getAddressid());
-            }
+                TAddressInfo tAddressInfo = null;
+                // 取得地址信息
+                if (tConsOrder.getAddressid() != 0) {
+                    tAddressInfo = tAddressInfoDao.selectByPrimaryKey(tConsOrder.getAddressid());
+                }
 
-            List<ContCartItemDto> detailList = tConsOrderDetailsDao.selectByOrderId(orderId);
+                List<ContCartItemDto> detailList = tConsOrderDetailsDao.selectByOrderId(orderId);
 
-            params.put("name", baseInfo.getNickname());
-            params.put("email", email);
-            params.put("phone", securityInfo.getTelno());
-            params.put("detailAddress", CommonUtils.objectToString(tAddressInfo.getAddressdetails()));
-            params.put("city", CommonUtils.objectToString(addressService.getTSuburbDeliverFeeById(Long.valueOf(tAddressInfo.getSuburb())).getSuburb()));
-            params.put("state", CommonUtils.objectToString(tAddressInfo.getState()));
-            params.put(
-                    "coutryAndPost",
-                    CommonUtils.objectToString(tAddressInfo.getCountrycode()) + " "
+                params.put("name", invoicename + invoicename + " " + invoiceabn + invoicename + " " + invoiceabn);
+                params.put("email", email);
+                params.put("phone", securityInfo.getTelno());
+                if (tAddressInfo != null) {
+                    params.put("detailAddress", CommonUtils.objectToString(tAddressInfo.getAddressdetails()));
+                    params.put(
+                            "city",
+                            CommonUtils.objectToString(addressService.getTSuburbDeliverFeeById(
+                                    Long.valueOf(tAddressInfo.getSuburb())).getSuburb()));
+                    params.put("state", CommonUtils.objectToString(tAddressInfo.getState()));
+                    params.put("coutryAndPost", CommonUtils.objectToString(tAddressInfo.getCountrycode()) + " "
                             + CommonUtils.objectToString(tAddressInfo.getPostcode()));
-            params.put("orderNo", orderId);
-            params.put("orderDate",
-                    DateFormatUtils.date2StringWithFormat(tConsOrder.getOrdertimestamp(), DateFormatUtils.PATTEN_YMD2));
-            params.put("complateDate", DateFormatUtils.getNowTimeFormat(DateFormatUtils.PATTEN_YMD2));
-            params.put("warehouse", "Main warehouse");
-            params.put("deliveryMethod", CommonEnum.DeliveryMethod.getEnumLabel(tConsOrder.getDeliverymethod()));
-            params.put("total", tConsOrder.getOrderamount().toString());
-            params.put("tax", tConsOrder.getOrderamount().multiply(new BigDecimal(getApplicationMessage("TAX", null)))
-                    .setScale(2).toString());
-            params.put(
-                    "subtotal",
-                    tConsOrder.getOrderamount()
-                            .subtract(tConsOrder.getOrderamount().multiply(new BigDecimal(tax)).setScale(2)).toString());
-            String ireportPath = session.getServletContext().getRealPath("") + "/ireport/";
-            JasperCompileManager.compileReportToFile(ireportPath + "INVOICE_TAX.jrxml", ireportPath
-                    + "INVOICE_TAX.jasper");
+                }
+                
+                params.put("orderNo", orderId);
+                params.put("orderDate", DateFormatUtils.date2StringWithFormat(tConsOrder.getOrdertimestamp(),
+                        DateFormatUtils.PATTEN_YMD2));
+                params.put("complateDate", DateFormatUtils.getNowTimeFormat(DateFormatUtils.PATTEN_YMD2));
+                params.put("warehouse", "Main warehouse");
+                params.put("deliveryMethod", CommonEnum.DeliveryMethod.getEnumLabel(tConsOrder.getDeliverymethod()));
+                params.put("total", tConsOrder.getOrderamount().toString());
+                params.put("tax",
+                        tConsOrder.getOrderamount().multiply(new BigDecimal(getApplicationMessage("TAX", null)))
+                                .setScale(2).toString());
+                params.put(
+                        "subtotal",
+                        tConsOrder.getOrderamount()
+                                .subtract(tConsOrder.getOrderamount().multiply(new BigDecimal(tax)).setScale(2))
+                                .toString());
+                String ireportPath = session.getServletContext().getRealPath("") + "/ireport/";
+                JasperCompileManager.compileReportToFile(ireportPath + "INVOICE_TAX.jrxml", ireportPath
+                        + "INVOICE_TAX.jasper");
 
-            for (ContCartItemDto dto : detailList) {
-                InvoiceDto invoiceDto = new InvoiceDto();
-                invoiceDto.setCode(dto.getGoodsId());
-                invoiceDto.setDescription(dto.getGoodsName());
-                invoiceDto.setPrice(String.valueOf(new BigDecimal(dto.getGoodsPrice())));
-                invoiceDto.setQty(dto.getGoodsQuantity());
-                invoiceDto.setTax((new BigDecimal(dto.getGoodsPrice())).multiply(new BigDecimal(tax)).toString());
-                invoiceDto.setTotal(dto.getGoodsPrice());
-                dataSource.add(invoiceDto);
+                for (ContCartItemDto dto : detailList) {
+                    InvoiceDto invoiceDto = new InvoiceDto();
+                    invoiceDto.setCode(dto.getGoodsId());
+                    invoiceDto.setDescription(dto.getGoodsName());
+                    invoiceDto.setPrice(String.valueOf(new BigDecimal(dto.getGoodsPrice())));
+                    invoiceDto.setQty(dto.getGoodsQuantity());
+                    invoiceDto.setTax((new BigDecimal(dto.getGoodsPrice())).multiply(new BigDecimal(tax)).toString());
+                    invoiceDto.setTotal(dto.getGoodsPrice());
+                    dataSource.add(invoiceDto);
+                }
+
+                JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(dataSource);
+
+                JasperFillManager.fillReportToFile(ireportPath + "INVOICE_TAX.jasper", params, beanColDataSource);
+                String tempUrl = System.getProperty("java.io.tmpdir");
+                File destDirectory = new File(tempUrl + CommonConstants.PATH_SPLIT + UUID.randomUUID());
+                if (!destDirectory.exists()) {
+                    destDirectory.mkdirs();
+                }
+
+                JasperExportManager.exportReportToPdfFile(ireportPath + "INVOICE_TAX.jrprint", destDirectory
+                        + CommonConstants.PATH_SPLIT + "INVOICE_TAX.pdf");
+
+                //️发信
+                SendMailDto sendMailDto = new SendMailDto();
+                sendMailDto.setTitle(MessageUtils.getMessage("TAX_MAIL_TITLE", null));
+                StringBuffer sb = new StringBuffer();
+                sb.append(MessageUtils.getMessage("TAX_MAIL_CONTENT", null));
+                sb.append("</br>");
+
+                sendMailDto.setContent(sb.toString());
+                List<String> mailTo = new ArrayList<String>();
+                mailTo.add(email);
+                sendMailDto.setTo(mailTo);
+                Vector<String> files = new Vector<String>();
+                files.add(destDirectory + CommonConstants.PATH_SPLIT + "INVOICE_TAX.pdf");
+                sendMailDto.setFile(files);
+                MailUtil.sendMail(sendMailDto, null);
+                
+                // 这里即表示发送邮件成功
             }
-
-            JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(dataSource);
-
-            JasperFillManager.fillReportToFile(ireportPath + "INVOICE_TAX.jasper", params, beanColDataSource);
-            String tempUrl = System.getProperty("java.io.tmpdir");
-            File destDirectory = new File(tempUrl + CommonConstants.PATH_SPLIT + UUID.randomUUID());
-            if (!destDirectory.exists()) {
-                destDirectory.mkdirs();
-            }
-
-            JasperExportManager.exportReportToPdfFile(ireportPath + "INVOICE_TAX.jrprint", destDirectory
-                    + CommonConstants.PATH_SPLIT + "INVOICE_TAX.pdf");
-
-            //️发信
-            SendMailDto sendMailDto = new SendMailDto();
-            sendMailDto.setTitle(MessageUtils.getMessage("TAX_MAIL_TITLE", null));
-            StringBuffer sb = new StringBuffer();
-            sb.append(MessageUtils.getMessage("TAX_MAIL_CONTENT", null));
-            sb.append("</br>");
-
-            sendMailDto.setContent(sb.toString());
-            List<String> mailTo = new ArrayList<String>();
-            mailTo.add(email);
-            sendMailDto.setTo(mailTo);
-            Vector<String> files = new Vector<String>();
-            files.add(destDirectory + CommonConstants.PATH_SPLIT + "INVOICE_TAX.pdf");
-            sendMailDto.setFile(files);
-            MailUtil.sendMail(sendMailDto, null);
-            } catch (Exception e) {
+            catch (Exception e) {
                 logger.error(e.getMessage());
             }
         }
@@ -1152,21 +1172,22 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         List<TConsOrder> orderList = tConsOrderDao.getNotPayOrderInfo();
         if (!CollectionUtils.isEmpty(orderList)) {
             // 取出所有明细的数据
-            for(TConsOrder tConsOrder : orderList) {
+            for (TConsOrder tConsOrder : orderList) {
                 List<TConsOrderDetails> details = tConsOrderDetailsDao.selectDetailsByOrderId(tConsOrder.getOrderno());
                 if (!CollectionUtils.isEmpty(details)) {
-                    for(TConsOrderDetails detail : details) {
+                    for (TConsOrderDetails detail : details) {
                         // 优先更新团购表信息
                         TGoodsGroup tGoodsGroup = new TGoodsGroup();
                         tGoodsGroup.setGroupno(detail.getGroupno());
                         tGoodsGroup = tGoodsGroupDao.selectByParams(tGoodsGroup);
-                        tGoodsGroup.setGroupcurrentquantity(tGoodsGroup.getGroupcurrentquantity() - detail.getQuantity());
+                        tGoodsGroup.setGroupcurrentquantity(tGoodsGroup.getGroupcurrentquantity()
+                                - detail.getQuantity());
                         tGoodsGroupDao.updateByPrimaryKeySelective(tGoodsGroup);
                         // 删除详细内容
                         tConsOrderDetailsDao.deleteByPrimaryKey(detail.getNo());
                     }
                 }
-                
+
                 tConsOrderDao.deleteByPrimaryKey(tConsOrder.getNo());
             }
         }
