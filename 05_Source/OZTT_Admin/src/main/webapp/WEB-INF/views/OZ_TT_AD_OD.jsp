@@ -73,6 +73,21 @@
 				</div>
 				
 				<div class="form-group">
+					<label class="col-md-1 control-label textleft"><fmt:message key="OZ_TT_AD_OD_orderTimestamp" /></label>
+					<div class="col-md-3">
+						<label class="control-label textleft">${ozTtAdOdDto.orderTimestamp}</label>
+					</div>
+					<label class="col-md-1 control-label textleft"><fmt:message key="OZ_TT_AD_OD_paymentMethod" /></label>
+					<div class="col-md-3">
+						<label class="control-label textleft">${ozTtAdOdDto.paymentMethod}</label>
+					</div>	
+					<label class="col-md-1 control-label textleft"><fmt:message key="OZ_TT_AD_OD_deliveryMethod" /></label>
+					<div class="col-md-3">
+						<label class="control-label textleft">${ozTtAdOdDto.deliveryMethod}</label>
+					</div>
+				</div>
+				
+				<div class="form-group">
 					<label class="col-md-1 control-label textleft"><fmt:message key="OZ_TT_AD_OD_receiver" /></label>
 					<div class="col-md-3">
 						<label class="control-label textleft">${ozTtAdOdDto.receiver}</label>
@@ -99,11 +114,11 @@
 					<div class="col-md-3">
 						<label class="control-label textleft">${ozTtAdOdDto.wantArriveTime}</label>
 					</div>
-					
-					
-					<div class="col-md-4">
-						
+					<label class="col-md-1 control-label textleft"><fmt:message key="OZ_TT_AD_OD_invoiceFlg" /></label>
+					<div class="col-md-3">
+						<label class="control-label textleft">${ozTtAdOdDto.invoiceFlg}</label>
 					</div>
+
 				</div>
 				
 				<h4 class="form-section"></h4>
@@ -120,6 +135,9 @@
 						</th>
 						<th scope="col">
 							 <fmt:message key="OZ_TT_AD_OD_DE_goodsName" />
+						</th>
+						<th scope="col">
+							 <fmt:message key="OZ_TT_AD_OD_DE_deliveryTime" />
 						</th>
 						<th scope="col">
 							 <fmt:message key="OZ_TT_AD_OD_DE_goodsPrice" />
@@ -143,6 +161,9 @@
 						</td>
 						<td>
 							 ${orderItem.goodsName }
+						</td>
+						<td>
+							 ${orderItem.deliveryTime }
 						</td>
 						<td>
 							 ${orderItem.goodsPrice }
