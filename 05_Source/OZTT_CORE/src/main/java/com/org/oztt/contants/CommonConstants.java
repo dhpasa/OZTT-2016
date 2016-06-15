@@ -74,6 +74,10 @@ public final class CommonConstants {
 
     public static final String OVERTIME_GROUP_NO     = "0";                                    // 没有超过时间
 
+    public static final String HAS_SEND_INVOICE      = "1";                                    // 已经发送发票
+
+    public static final String HAS_NOT_SEND_INVOICE  = "0";                                    // 没有发送发票
+
     //##############admin端常量#################//
 
     public static final String SESSION_ADMIN_USER_ID = "sessionUserId";

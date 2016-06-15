@@ -34,6 +34,7 @@
 		}
   		// 优先删除发送发票信息
   		$(".notice-needmail").remove();
+  		$('#purchase-mail-pop-up').modal('hide');
   		$.ajax({
 			type : "POST",
 			contentType:'application/json',
@@ -42,7 +43,11 @@
 			async : false,
 			data : JSON.stringify(paramData), 
 			success : function(data) {
-				
+				$('#errormsg_content').text('<fmt:message key="I0003" />');
+	  			$('#errormsg-pop-up').modal('show');
+	  			setTimeout(function() {
+	  				$('#errormsg-pop-up').modal('hide');
+				}, 2000);
 			},
 			error : function(data) {
 				
@@ -74,16 +79,18 @@
 	          <span>购买成功</span>
 	      	</div>
 	    </div>
-	    <div class="notice-needmail">
-	    	<fmt:message key="PURCHASE_NEEDMAIL"/>
-	    </div>
-	    <div class="notice-needmail">
-	    	<span class="check-icon-invoice" style="margin-left: 47%"></span>
-	    </div>
+	    <c:if test="${cansendmail == '1' }">
+		    <div class="notice-needmail">
+		    	<fmt:message key="PURCHASE_NEEDMAIL"/>
+		    </div>
+		    <div class="notice-needmail">
+		    	<span class="check-icon-invoice" style="margin-left: 47%"></span>
+		    </div>
+	    </c:if>
 	    <div class="notice-buy-again">
 	    	<a href="${ctx }/main/init" class="link">继续购物</a>
 	    </div>
-	    <input type="hidden" id="is_success" value="${pay_success}"> 
+	    <input type="hidden" id="cansendmail" value="${cansendmail}"> 
 	    <input type="hidden" id="orderNo" value="${orderNo}"> 
     </div>
     

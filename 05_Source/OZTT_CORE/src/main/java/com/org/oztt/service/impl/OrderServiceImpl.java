@@ -1073,7 +1073,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
 
                 TCustomerSecurityInfo securityInfo = tCustomerSecurityInfoDao.selectByCustomerNo(customerNo);
 
-                TCustomerBasicInfo baseInfo = customerService.selectBaseInfoByCustomerNo(customerNo);
+                //TCustomerBasicInfo baseInfo = customerService.selectBaseInfoByCustomerNo(customerNo);
 
                 // 取得订单信息
                 TConsOrder tConsOrder = selectByOrderId(orderId);
@@ -1086,7 +1086,8 @@ public class OrderServiceImpl extends BaseService implements OrderService {
 
                 List<ContCartItemDto> detailList = tConsOrderDetailsDao.selectByOrderId(orderId);
 
-                params.put("name", invoicename + invoicename + " " + invoiceabn + invoicename + " " + invoiceabn);
+                params.put("name", invoicename + " " + invoiceabn);
+                params.put("companyAddress", invoiceads);
                 params.put("email", email);
                 params.put("phone", securityInfo.getTelno());
                 if (tAddressInfo != null) {
@@ -1158,7 +1159,10 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 sendMailDto.setFile(files);
                 MailUtil.sendMail(sendMailDto, null);
                 
-                // 这里即表示发送邮件成功
+                // 这里即表示发送邮件成功，之后更新订单表
+                TConsOrder orderInfo = tConsOrderDao.selectByOrderId(orderId);
+                orderInfo.setInvoiceflg(CommonConstants.HAS_SEND_INVOICE);
+                tConsOrderDao.updateByPrimaryKeySelective(orderInfo);
             }
             catch (Exception e) {
                 logger.error(e.getMessage());
