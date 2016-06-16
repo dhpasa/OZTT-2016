@@ -901,12 +901,14 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             InvoiceDto invoiceDto = new InvoiceDto();
             invoiceDto.setCode(dto.getGoodsId());
             invoiceDto.setDescription(dto.getGoodsName());
-            invoiceDto.setPrice(String.valueOf(new BigDecimal(dto.getGoodsPrice()).divide(new BigDecimal(dto
-                    .getGoodsQuantity()))));
+//            invoiceDto.setPrice(String.valueOf(new BigDecimal(dto.getGoodsPrice()).divide(new BigDecimal(dto
+//                    .getGoodsQuantity()))));
+            invoiceDto.setPrice(dto.getGoodsPrice());
             invoiceDto.setQty(dto.getGoodsQuantity());
             invoiceDto.setTax((new BigDecimal(dto.getGoodsPrice())).multiply(
-                    new BigDecimal(super.getApplicationMessage("TAX", null))).toString());
-            invoiceDto.setTotal(dto.getGoodsPrice());
+                    new BigDecimal(super.getApplicationMessage("TAX", null))).setScale(2).toString());
+//            invoiceDto.setTotal(dto.getGoodsPrice());
+            invoiceDto.setTotal(String.valueOf(new BigDecimal(dto.getGoodsPrice()).divide(new BigDecimal(dto.getGoodsQuantity()))));
             dataSource.add(invoiceDto);
         }
 
@@ -1099,6 +1101,11 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                     params.put("state", CommonUtils.objectToString(tAddressInfo.getState()));
                     params.put("coutryAndPost", CommonUtils.objectToString(tAddressInfo.getCountrycode()) + " "
                             + CommonUtils.objectToString(tAddressInfo.getPostcode()));
+                } else {
+                    params.put("detailAddress", "");
+                    params.put("city", "");
+                    params.put("state", "");
+                    params.put("coutryAndPost", "");
                 }
                 
                 params.put("orderNo", orderId);
@@ -1126,8 +1133,10 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                     invoiceDto.setDescription(dto.getGoodsName());
                     invoiceDto.setPrice(String.valueOf(new BigDecimal(dto.getGoodsPrice())));
                     invoiceDto.setQty(dto.getGoodsQuantity());
-                    invoiceDto.setTax((new BigDecimal(dto.getGoodsPrice())).multiply(new BigDecimal(tax)).toString());
-                    invoiceDto.setTotal(dto.getGoodsPrice());
+                    BigDecimal total = new BigDecimal(0);
+                    total = new BigDecimal(dto.getGoodsPrice()).multiply(new BigDecimal(dto.getGoodsQuantity()));
+                    invoiceDto.setTax(total.multiply(new BigDecimal(tax)).setScale(2).toString());
+                    invoiceDto.setTotal(total.toString());
                     dataSource.add(invoiceDto);
                 }
 

@@ -382,7 +382,7 @@
 				<textElement textAlignment="Center">
 					<font fontName="华文细黑" size="10" pdfFontName="STSong-Light" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[Tax%]]></text>
+				<text><![CDATA[Tax(5%)]]></text>
 			</staticText>
 		</band>
 	</columnHeader>

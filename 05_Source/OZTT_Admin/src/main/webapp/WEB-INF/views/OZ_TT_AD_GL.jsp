@@ -27,11 +27,14 @@
 	  	function setGroup(groupId,goodsId, obj) {
 	  		cleanFormError();
 	  		var nametd = $(obj).parent().parent().find('td')[2];
-	  		$("#goodGroupName").text($(nametd).text());
+	  		var nametd2 = $(obj).parent().parent().find('td')[3];
+	  		$("#goodGroupId").text($(nametd).text());
+	  		$("#goodGroupName").text($(nametd2).text());
 	  		$("#hiddenGroupGoodsId").val(goodsId);
 	  		$("#hiddenGroupId").val(groupId);
 	  		$("#goodsGroupPrice").val('');
 			$("#goodsGroupNumber").val('');
+			$("#goodsGroupLimit").val('');
 			$("#dataFromGroup").val('');
 			$("#dataToGroup").val('');
 			$("#groupComment").val('');
@@ -48,8 +51,10 @@
   				data : "", 
   				success : function(data) {
   					if(!data.isException) {
+  						$("#goodsGroupName").val(data.resMap.goodsGroupName);
   						$("#goodsGroupPrice").val(data.resMap.goodsGroupPrice);
   						$("#goodsGroupNumber").val(data.resMap.goodsGroupNumber);
+  						$("#goodsGroupLimit").val(data.resMap.goodsGroupLimit);
   						$("#dataFromGroup").val(data.resMap.dataFromGroup);
   						$("#dataToGroup").val(data.resMap.dataToGroup);
   						$("#groupComment").val(data.resMap.groupComment);
@@ -75,6 +80,7 @@
   							$("#unserBtn").css("display","none");
   							$("#goodsGroupPrice").removeAttr("disabled");
   	  						$("#goodsGroupNumber").removeAttr("disabled");
+  	  					    $("#goodsGroupLimit").removeAttr("disabled");
   	  						$("#dataFromGroup").removeAttr("disabled");
   	  						$("#dataToGroup").removeAttr("disabled");
   	  						$("#groupComment").removeAttr("disabled");
@@ -99,6 +105,7 @@
   							$("#unserBtn").css("display","none");
   							$("#goodsGroupPrice").attr("disabled","disabled");
   	  						$("#goodsGroupNumber").attr("disabled","disabled");
+  	  					    $("#goodsGroupLimit").attr("disabled","disabled");
   	  						$("#dataFromGroup").attr("disabled","disabled");
   	  						$("#dataToGroup").attr("disabled","disabled");
   	  						$("#groupComment").attr("disabled","disabled");
@@ -132,6 +139,7 @@
 	  		cleanFormError();
 			var goodsGroupPrice = $("#goodsGroupPrice").val();
 			var goodsGroupNumber = $("#goodsGroupNumber").val();
+			var goodsGroupLimit = $("#goodsGroupLimit").val();
 			var dataFromGroup = $("#dataFromGroup").val();
 			var dataToGroup = $("#dataToGroup").val();
 			var groupComment = $("#groupComment").val();
@@ -146,6 +154,11 @@
 			if (goodsGroupNumber == "") {
 				var message = E0002.replace("{0}", '<fmt:message key="OZ_TT_AD_GL_DIALOG_number" />')
 				showErrorSpan($("#goodsGroupNumber"), message);
+				return false;
+			}
+			if (goodsGroupLimit == "") {
+				var message = E0002.replace("{0}", '<fmt:message key="OZ_TT_AD_GL_DIALOG_limit" />')
+				showErrorSpan($("#goodsGroupLimit"), message);
 				return false;
 			}
 			if (dataFromGroup == "") {
@@ -192,6 +205,7 @@
 				validperiodend:dataToGroup,
 				validperiodstart:dataFromGroup,
 				groupmaxquantity:goodsGroupNumber,
+				groupquantitylimit:goodsGroupLimit,
 				groupno:$("#hiddenGroupId").val(),
 				istopup:isTopUp,
 				ispre:isPre,
@@ -682,6 +696,12 @@
 				<div class="modal-body">
 					<form action="#" class="form-horizontal">
 						<div class="form-group">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_goodsId" /></label>
+							<div class="col-md-8">				
+								<label class="control-label" id="goodGroupId"></label>
+							</div>
+						</div>
+						<div class="form-group">
 							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_goodsName" /></label>
 							<div class="col-md-8">				
 								<label class="control-label" id="goodGroupName"></label>
@@ -697,6 +717,12 @@
 							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_number" /></label>
 							<div class="col-md-3">
 								<input type="number" id="goodsGroupNumber" class="input-small form-control textright"></input>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_limit" /></label>
+							<div class="col-md-3">
+								<input type="number" id="goodsGroupLimit" class="input-small form-control textright"></input>
 							</div>
 						</div>
 						<div class="form-group">
