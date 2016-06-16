@@ -9,7 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.org.oztt.contants.CommonConstants;
+import com.org.oztt.entity.TConsOrder;
 import com.org.oztt.service.GoodsService;
+import com.org.oztt.service.OrderService;
 
 @Controller
 @RequestMapping("/Notice")
@@ -17,6 +19,9 @@ public class NoticeController extends BaseController {
 
     @Resource
     private GoodsService goodsService;
+    
+    @Resource
+    private OrderService orderService;
     /**
      * 货到付款通知画面
      * 
@@ -26,9 +31,12 @@ public class NoticeController extends BaseController {
     @RequestMapping(value = "paysuccess")
     public String paysuccess(Model model, HttpServletResponse response, HttpSession session, String orderNo, String is_success) {
         try {
-            if ("1".equals(is_success)) {
-                model.addAttribute("pay_success", "1");
+            String canShow = "0";
+            TConsOrder orderInfo = orderService.selectByOrderId(orderNo);
+            if (orderInfo != null && CommonConstants.HAS_NOT_SEND_INVOICE.equals(orderInfo.getInvoiceflg()) && "1".equals(is_success)) {
+                canShow = "1";
             }
+            model.addAttribute("cansendmail", canShow);
             model.addAttribute("orderNo", orderNo);
             return "/notice/paySuccessNotice";
         }
