@@ -88,7 +88,51 @@
 			}
 		});
 	}
-  
+  	
+  	function updateNotDeliver(){
+		$.ajax({
+			type : "GET",
+			contentType:'application/json',
+			url : '${pageContext.request.contextPath}/COMMON/getNotDeliverCount',
+			dataType : "json",
+			async : false,
+			data : '', 
+			success : function(data) {
+				if(!data.isException){
+					$("#orderNotDeliver").text(data.sccount)
+				} else {
+					// 同步购物车失败
+					return;
+				}
+			},
+			error : function(data) {
+				
+			}
+		});
+	}
+  	
+  	function updateDelivering(){
+		$.ajax({
+			type : "GET",
+			contentType:'application/json',
+			url : '${pageContext.request.contextPath}/COMMON/getDeliveringCount',
+			dataType : "json",
+			async : false,
+			data : '', 
+			success : function(data) {
+				if(!data.isException){
+					$("#orderDelivering").text(data.sccount)
+				} else {
+					// 同步购物车失败
+					return;
+				}
+			},
+			error : function(data) {
+				
+			}
+		});
+	}
+  	
   </script>
 </head>
 <!-- Head END -->
@@ -136,10 +180,12 @@
 			<a href="${ctx}/order/init?tab=1">
 				<i class="await-wait"></i>
 				<div><fmt:message key="USER_ORDER_NOTOVER"/></div>
+				<span class="order_not_pay" id="orderNotDeliver"></span>
 			</a>
 			<a href="${ctx}/order/init?tab=2">
 				<i class="await-ship"></i>
 				<div><fmt:message key="USER_ORDER_SENDING"/></div>
+				<span class="order_not_pay" id="orderDelivering"></span>
 			</a>
 			<a href="${ctx}/order/init?tab=3">
 				<i class="await_received"></i>
@@ -212,8 +258,12 @@
     	if (sessionUserId == null || sessionUserId == "") {
     		// 没有登录
     		$("#orderNotPay").remove();
+    		$("#orderNotDeliver").remove();
+    		$("#orderDelivering").remove();
     	} else {
     		updateNotPay();
+    		updateNotDeliver();
+    		updateDelivering();
     	}
     </script>
 </body>

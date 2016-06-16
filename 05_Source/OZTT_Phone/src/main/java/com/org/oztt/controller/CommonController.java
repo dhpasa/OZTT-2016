@@ -893,6 +893,78 @@ public class CommonController extends BaseController {
     }
     
     /**
+     * 获取待发货的订单
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/getNotDeliverCount")
+    @ResponseBody
+    public Map<String, Object> getNotDeliverCount(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            //
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            if (customerNo == null) {
+                return mapReturn;
+            }
+            // 获取待发货的订单
+            Map<Object, Object> paramMap = new HashMap<Object, Object>();
+            paramMap.put("customerNo", customerNo);
+            paramMap.put("handleFlg", CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
+            List<OrderInfoDto> orderList = orderService.getAllOrderInfoNoPage(paramMap);
+            
+            mapReturn.put("sccount", orderList == null ? 0 : orderList.size());
+            // 后台维护的时候提示让以逗号隔开
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+    
+    /**
+     * 获取派送中的订单
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/getDeliveringCount")
+    @ResponseBody
+    public Map<String, Object> getDeliveringCount(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            //
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            if (customerNo == null) {
+                return mapReturn;
+            }
+            // 获取派送中的订单
+            Map<Object, Object> paramMap = new HashMap<Object, Object>();
+            paramMap.put("customerNo", customerNo);
+            paramMap.put("handleFlg", CommonEnum.HandleFlag.SENDING.getCode());
+            List<OrderInfoDto> orderList = orderService.getAllOrderInfoNoPage(paramMap);
+            
+            mapReturn.put("sccount", orderList == null ? 0 : orderList.size());
+            // 后台维护的时候提示让以逗号隔开
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+    
+    /**
      * 获取未完成的订单
      * 
      * @param request
