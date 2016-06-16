@@ -90,6 +90,7 @@
                 <a href="../forgetPassword/init" onclick="" class=""><fmt:message key="LOGIN_FORGETPWD" /></a>
             </span>
         </div>
+        <!-- 
         <div class="login_other">
             <div>
                 <div class="login-other-info">
@@ -100,6 +101,9 @@
                 </div>
             </div>
         </div>
+         -->
+        <br/>
+        <br/>
         <div class="login_guangguang">
         	<a href="${ctx}/main/init"><fmt:message key="LOGIN_SUIBIAN_GUANGGUANG" /></a>
         </div>

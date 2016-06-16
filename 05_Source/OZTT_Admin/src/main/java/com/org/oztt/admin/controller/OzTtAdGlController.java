@@ -152,6 +152,7 @@ public class OzTtAdGlController extends BaseController {
             Map<String, String> res = new HashMap<String, String>();
             res.put("goodsGroupPrice", tGoodsGroup.getGroupprice().toString());
             res.put("goodsGroupNumber", tGoodsGroup.getGroupmaxquantity().toString());
+            res.put("goodsGroupLimit", tGoodsGroup.getGroupquantitylimit().toString());
             res.put("dataFromGroup", DateFormatUtils.date2StringWithFormat(tGoodsGroup.getValidperiodstart(),
                     DateFormatUtils.PATTEN_YMD2));
             res.put("dataToGroup", DateFormatUtils.date2StringWithFormat(tGoodsGroup.getValidperiodend(),
@@ -198,6 +199,7 @@ public class OzTtAdGlController extends BaseController {
             tGoodsGroup.setGroupcomments(map.get("groupcomments"));
             tGoodsGroup.setGroupdesc(map.get("groupdesc"));
             tGoodsGroup.setGroupmaxquantity(Long.valueOf(map.get("groupmaxquantity")));
+            tGoodsGroup.setGroupquantitylimit(Long.valueOf(map.get("groupquantitylimit")));
             tGoodsGroup.setGroupprice(new BigDecimal(map.get("groupprice")));
             tGoodsGroup.setOpenflg(map.get("openflg"));
             tGoodsGroup.setToppageup(map.get("istopup"));
