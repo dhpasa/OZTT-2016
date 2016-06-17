@@ -43,7 +43,8 @@ public class PayController extends BaseController {
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
             // 先判断付款方式
-            String rb = orderService.insertOrderInfo(customerNo, hidPayMethod, hidDeliMethod, hidAddressId, hidHomeDeliveryTime);
+            String rb = orderService.insertOrderInfo(customerNo, hidPayMethod, hidDeliMethod, hidAddressId,
+                    hidHomeDeliveryTime);
             if (!StringUtils.isEmpty(rb)) {
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().write(rb);
@@ -121,7 +122,7 @@ public class PayController extends BaseController {
             @RequestParam String orderId) {
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
-            orderService.updateRecordAfterPay(orderId, customerNo, session);
+            orderService.updateRecordAfterPay(orderId, customerNo, session, CommonConstants.TRANSACTION_SERIAL_NO_MOCK);
             return "redirect:/OZ_TT_GB_OL/itemList?clearCont=1";
         }
         catch (Exception e) {
@@ -130,9 +131,9 @@ public class PayController extends BaseController {
             return CommonConstants.ERROR_PAGE;
         }
     }
-    
+
     @RequestMapping(value = "TestUrl")
-    public void TestUrl(Model model, HttpServletResponse response, HttpSession session) throws Exception{
+    public void TestUrl(Model model, HttpServletResponse response, HttpSession session) throws Exception {
         // 是客户操作
         // 将文件输出
         InputStream inStream = new FileInputStream("/Users/linliuan/ireport/INVOICE_TAX.pdf");
@@ -144,12 +145,12 @@ public class PayController extends BaseController {
         byte[] b = new byte[100];
         int len;
         try {
-                while ((len = inStream.read(b)) > 0)
+            while ((len = inStream.read(b)) > 0)
                 response.getOutputStream().write(b, 0, len);
-                inStream.close();
-        } 
+            inStream.close();
+        }
         catch (IOException e) {
-                e.printStackTrace();
+            e.printStackTrace();
         }
     }
 

@@ -3,6 +3,7 @@ package com.org.oztt.service.impl;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -178,6 +179,14 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             tConsOrderDetails.setUnitprice(tConsOrderDetails.getSumamount().divide(
                     new BigDecimal(itemDto.getGoodsQuantity()), 2, BigDecimal.ROUND_DOWN));
             tConsOrderDetails.setAddtimestamp(new Date());
+
+            if (CommonEnum.DeliveryMethod.HOME_DELIVERY.getCode().equals(hidDeliMethod) && !"true".equals(isUnify)) {
+                //只有在送货上门，且不是统一送货的情况下
+                tConsOrderDetails.setDeliverytime(DateFormatUtils.date2StringWithFormat(DateFormatUtils.addDate(
+                        itemDto.getValidPeriodEnd() == null ? new Date() : itemDto.getValidPeriodEnd(), Calendar.DATE,
+                        1), DateFormatUtils.PATTEN_YMD_NO_SEPRATE)
+                        + "00");
+            }
             tConsOrderDetails.setAdduserkey(customerNo);
             tConsOrderDetailsDao.insertSelective(tConsOrderDetails);
             orderAmount = orderAmount.add(tConsOrderDetails.getSumamount());
@@ -250,9 +259,35 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         }
 
         tConsOrder.setDeliverymethod(hidDeliMethod);
-        if (CommonEnum.DeliveryMethod.HOME_DELIVERY.getCode().equals(hidDeliMethod) && "true".equals(isUnify)) {
-            // 送货上门并且是统一送货
-            tConsOrder.setHomedeliverytime(hidHomeDeliveryTime.replaceAll("/", ""));
+        if (CommonEnum.DeliveryMethod.PICK_INSTORE.getCode().equals(hidDeliMethod)) {
+            // 最后一个团购最后一个团购结束日的后一天
+            // 获取最后一个团购的后一天
+            Date maxdate = null;
+            for (ContCartItemDto dto : payList) {
+                if (maxdate == null) {
+                    maxdate = dto.getValidPeriodEnd();
+                }
+                else {
+                    if (maxdate.compareTo(dto.getValidPeriodEnd()) < 0) {
+                        maxdate = dto.getValidPeriodEnd();
+                    }
+                }
+            }
+            tConsOrder.setHomedeliverytime(DateFormatUtils.date2StringWithFormat(
+                    DateFormatUtils.addDate(maxdate == null ? new Date() : maxdate, Calendar.DATE, 1),
+                    DateFormatUtils.PATTEN_YMD_NO_SEPRATE) + "00");
+
+        }
+        else if (CommonEnum.DeliveryMethod.HOME_DELIVERY.getCode().equals(hidDeliMethod)) {
+            // 送货上门的情况
+            if ("true".equals(isUnify)) {
+                // 送货上门并且是统一送货
+                tConsOrder.setHomedeliverytime(hidHomeDeliveryTime.replaceAll("/", ""));
+            }
+            else {
+                // 如果不是上述的不是统一送货
+                tConsOrder.setHomedeliverytime(null);
+            }
         }
 
         tConsOrder.setAddressid(StringUtils.isEmpty(hidAddressId) ? 0L : Long.valueOf(hidAddressId));
@@ -271,7 +306,13 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 freight++;
             }
         }
-        tConsOrder.setDeliverycost(deleveryCost.multiply(new BigDecimal(freight)));
+        // 这里的运费需要分统一送货还是不是统一送货
+        if ("true".equals(isUnify)) {
+            tConsOrder.setDeliverycost(deleveryCost);
+        } else {
+            tConsOrder.setDeliverycost(deleveryCost.multiply(new BigDecimal(freight)));
+        }
+        
         tConsOrder.setAddtimestamp(new Date());
         tConsOrder.setAdduserkey(customerNo);
         //        if ("1".equals(payMethod) || "1".equals(invoiceFlg)) {
@@ -626,7 +667,8 @@ public class OrderServiceImpl extends BaseService implements OrderService {
     }
 
     @Override
-    public void updateRecordAfterPay(String orderId, String customerNo, HttpSession session) throws Exception {
+    public void updateRecordAfterPay(String orderId, String customerNo, HttpSession session, String serialNo)
+            throws Exception {
         // 检索当前订单，更新状态为已经付款
         TConsOrder tConsOrder = this.selectByOrderId(orderId);
         tConsOrder.setHandleflg(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
@@ -679,7 +721,8 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         tConsTransaction.setAddtimestamp(new Date());
         tConsTransaction.setAdduserkey(customerNo);
         tConsTransaction.setCustomerno(customerNo);
-
+        tConsTransaction.setTransactionserialno(serialNo);
+        tConsTransaction.setTransactionobject(CommonConstants.TRANSACTION_OBJECT);
         tConsTransaction.setTransactioncomments("");
         tConsTransaction.setTransactionno(maxTranctionNo);
         tConsTransaction.setTransactionmethod(tConsOrder.getPaymentmethod());//付款方式（PayPal）
@@ -691,11 +734,11 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         BeanUtils.copyProperties(tConsTransaction, tConsTransactionIn);
         // 入账记录
         tConsTransactionIn.setInoutflg("1");//入账
-        tConsTransactionIn.setTransactionamount(tConsOrder.getOrderamount());
+        tConsTransactionIn.setTransactionamount(tConsOrder.getOrderamount().add(tConsOrder.getDeliverycost()));
         tConsTransactionIn.setTransactionbeforeamount(tConsTransactionLast == null ? BigDecimal.ZERO
                 : tConsTransactionLast.getTransactionafteramount());
-        tConsTransactionIn.setTransactionafteramount(tConsOrder.getOrderamount().add(
-                tConsTransactionIn.getTransactionbeforeamount()));
+        tConsTransactionIn.setTransactionafteramount(tConsOrder.getOrderamount().add(tConsOrder.getDeliverycost())
+                .add(tConsTransactionIn.getTransactionbeforeamount()));
         tConsTransactionIn.setTransactiontype("1");// 交易类型（订单支付还是手续费收取）
         tConsTransactionDao.insertSelective(tConsTransactionIn);
         // 出账记录
@@ -708,10 +751,6 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 tConsTransactionOut.getTransactionamount()));
         tConsTransactionOut.setTransactiontype("2");// 交易类型（订单支付还是手续费收取）
         tConsTransactionDao.insertSelective(tConsTransactionOut);
-
-        //        if (!"ADMIN".equals(customerNo)) {
-        //            createTaxAndSendMail(orderId, customerNo, session);
-        //        }
 
     }
 
@@ -901,14 +940,15 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             InvoiceDto invoiceDto = new InvoiceDto();
             invoiceDto.setCode(dto.getGoodsId());
             invoiceDto.setDescription(dto.getGoodsName());
-//            invoiceDto.setPrice(String.valueOf(new BigDecimal(dto.getGoodsPrice()).divide(new BigDecimal(dto
-//                    .getGoodsQuantity()))));
+            //            invoiceDto.setPrice(String.valueOf(new BigDecimal(dto.getGoodsPrice()).divide(new BigDecimal(dto
+            //                    .getGoodsQuantity()))));
             invoiceDto.setPrice(dto.getGoodsPrice());
             invoiceDto.setQty(dto.getGoodsQuantity());
-            invoiceDto.setTax((new BigDecimal(dto.getGoodsPrice())).multiply(
-                    new BigDecimal(super.getApplicationMessage("TAX", null))).setScale(2).toString());
-//            invoiceDto.setTotal(dto.getGoodsPrice());
-            invoiceDto.setTotal(String.valueOf(new BigDecimal(dto.getGoodsPrice()).divide(new BigDecimal(dto.getGoodsQuantity()))));
+            invoiceDto.setTax((new BigDecimal(dto.getGoodsPrice()))
+                    .multiply(new BigDecimal(super.getApplicationMessage("TAX", null))).setScale(2).toString());
+            //            invoiceDto.setTotal(dto.getGoodsPrice());
+            invoiceDto.setTotal(String.valueOf(new BigDecimal(dto.getGoodsPrice()).divide(new BigDecimal(dto
+                    .getGoodsQuantity()))));
             dataSource.add(invoiceDto);
         }
 
@@ -1101,13 +1141,14 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                     params.put("state", CommonUtils.objectToString(tAddressInfo.getState()));
                     params.put("coutryAndPost", CommonUtils.objectToString(tAddressInfo.getCountrycode()) + " "
                             + CommonUtils.objectToString(tAddressInfo.getPostcode()));
-                } else {
+                }
+                else {
                     params.put("detailAddress", "");
                     params.put("city", "");
                     params.put("state", "");
                     params.put("coutryAndPost", "");
                 }
-                
+
                 params.put("orderNo", orderId);
                 params.put("orderDate", DateFormatUtils.date2StringWithFormat(tConsOrder.getOrdertimestamp(),
                         DateFormatUtils.PATTEN_YMD2));
@@ -1167,7 +1208,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 files.add(destDirectory + CommonConstants.PATH_SPLIT + "INVOICE_TAX.pdf");
                 sendMailDto.setFile(files);
                 MailUtil.sendMail(sendMailDto, null);
-                
+
                 // 这里即表示发送邮件成功，之后更新订单表
                 TConsOrder orderInfo = tConsOrderDao.selectByOrderId(orderId);
                 orderInfo.setInvoiceflg(CommonConstants.HAS_SEND_INVOICE);

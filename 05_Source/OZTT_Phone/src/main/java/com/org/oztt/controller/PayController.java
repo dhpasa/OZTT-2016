@@ -144,7 +144,8 @@ public class PayController extends BaseController {
             payMap.put("vpc_TicketNo", "");
             Map<String, String> resMap = VpcHttpPayUtils.http("https://migs.mastercard.com.au/vpcdps", payMap);
             if (resMap != null && "0".equals(resMap.get(VpcHttpPayUtils.VPC_TXNRESPONSECODE))) {
-                orderService.updateRecordAfterPay(orderNo, customerNo, session);
+                String serialNo = resMap.get(CommonConstants.TRANSACTION_SERIAL_NO);
+                orderService.updateRecordAfterPay(orderNo, customerNo, session, serialNo);
                 //                if (!StringUtils.isEmpty(email)) {
                 //                    // 开启线程进行发信
                 //                    orderService.createTaxAndSendMailForPhone(orderNo, customerNo, session, email);
@@ -175,7 +176,7 @@ public class PayController extends BaseController {
             @RequestParam String orderId) {
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
-            orderService.updateRecordAfterPay(orderId, customerNo, session);
+            orderService.updateRecordAfterPay(orderId, customerNo, session, CommonConstants.TRANSACTION_SERIAL_NO_MOCK);
             return "redirect:/OZ_TT_GB_OL/itemList?clearCont=1";
         }
         catch (Exception e) {

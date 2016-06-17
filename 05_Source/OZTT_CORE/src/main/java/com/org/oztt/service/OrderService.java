@@ -96,7 +96,7 @@ public interface OrderService {
      * @param orderId
      * @throws Exception
      */
-    public void updateRecordAfterPay(String orderId, String customerNo, HttpSession session) throws Exception;
+    public void updateRecordAfterPay(String orderId, String customerNo, HttpSession session, String serialNo) throws Exception;
 
     /**
      * admin端所有订单的获取

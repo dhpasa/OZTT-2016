@@ -22,8 +22,7 @@ public class TNoTransactionDaoImpl extends BaseDao implements TNoTransactionDao 
 
     @Override
     public int insertSelective(TNoTransaction record) {
-        // TODO Auto-generated method stub
-        return 0;
+        return insert("com.org.oztt.dao.TNoTransactionDao.insertSelective", record);
     }
 
     @Override
