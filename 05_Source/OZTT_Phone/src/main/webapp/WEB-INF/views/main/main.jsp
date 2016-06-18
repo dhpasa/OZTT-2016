@@ -14,6 +14,10 @@
   			$(".icon-search").click(function(){
   				location.href="${ctx}/search/init?mode=1";
   			});
+  			
+  			$(".main_wechat").click(function(){
+  				$('#main_qrcode').modal('show');
+  			});
   		})
 		function toItem(groupNo){
 			location.href="${ctx}/item/getGoodsItem?groupId="+groupNo;
@@ -22,6 +26,28 @@
   		function toGroupArea(areaTab) {
   			location.href="${ctx}/main/grouptab?tab="+areaTab;
   		}
+  		
+  		//在线客服
+  		kefu = function(id, _top) {
+  			var me = id.charAt ? document.getElementById(id) : id, d1 = document.body, d2 = document.documentElement;
+  			d1.style.height = d2.style.height = '100%';
+  			me.style.top = _top ? _top + 'px' : 0;
+  			me.style.position = 'absolute';
+  			setInterval(
+  					function() {
+  						me.style.top = parseInt(me.style.top)
+  								+ (Math.max(d1.scrollTop, d2.scrollTop) + _top - parseInt(me.style.top))
+  								* 0.1 + 'px';
+  					}, 10 + parseInt(Math.random() * 20));
+  			return arguments.callee;
+  		};
+
+  		window.onload = function() {
+  			var hei = window.screen.height;
+  			kefu('main_wechat', hei * 0.75);
+  		}
+  		
+  		
   </script>
   <style type="text/css">
 	.hours-1 {
@@ -291,6 +317,22 @@
    			</ul>
    		</div>   
       </div>
+    </div>
+    
+    <div class="main_wechat" id="main_wechat">
+    	<img alt="weixin" src="${ctx}/images/main_wt.png">
+    </div>
+    <div id="main_qrcode" class="modal fade" role="dialog" aria-hidden="true" >
+    	<div class="modal-dialog qrcodemsg-dialog">
+	      <div class="modal-content">
+	         <div class="main_qrcode_info">
+	         	<fmt:message key="COMMON_GRCODE_INFO" />
+	         </div>
+	         <div class="main_qrcode_div">
+	         	<img alt="qrcode" src="${ctx}/images/oztt_qrcode.png">
+	         </div>
+	      </div>
+    	</div>
     </div>
    
     <script type="text/javascript">
