@@ -6,6 +6,7 @@
     <result column="orderNo" property="orderno" jdbcType="VARCHAR" />
     <result column="customerNo" property="customerno" jdbcType="VARCHAR" />
     <result column="goodsId" property="goodsid" jdbcType="VARCHAR" />
+    <result column="deliveryTime" property="deliverytime" jdbcType="VARCHAR" />
     <result column="specifications" property="specifications" jdbcType="VARCHAR" />
     <result column="quantity" property="quantity" jdbcType="DECIMAL" />
     <result column="groupNo" property="groupno" jdbcType="VARCHAR" />
@@ -19,7 +20,7 @@
     <result column="updPgmId" property="updpgmid" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    no, orderNo, customerNo, goodsId, specifications, quantity, groupNo, priceNo, unitPrice, 
+    no, orderNo, customerNo, goodsId, deliveryTime, specifications, quantity, groupNo, priceNo, unitPrice, 
     sumAmount, addTimestamp, addUserKey, updTimestamp, updUserKey, updPgmId
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -34,13 +35,13 @@
   </delete>
   <insert id="insert" parameterType="com.org.oztt.entity.TConsOrderDetails" >
     insert into t_cons_order_details (no, orderNo, customerNo, 
-      goodsId, specifications, quantity, 
+      goodsId, deliveryTime, specifications, quantity, 
       groupNo, priceNo, unitPrice, 
       sumAmount, addTimestamp, addUserKey, 
       updTimestamp, updUserKey, updPgmId
       )
     values (#{no,jdbcType=BIGINT}, #{orderno,jdbcType=VARCHAR}, #{customerno,jdbcType=VARCHAR}, 
-      #{goodsid,jdbcType=VARCHAR}, #{specifications,jdbcType=VARCHAR}, #{quantity,jdbcType=DECIMAL}, 
+      #{goodsid,jdbcType=VARCHAR}, #{deliverytime,jdbcType=VARCHAR}, #{specifications,jdbcType=VARCHAR}, #{quantity,jdbcType=DECIMAL}, 
       #{groupno,jdbcType=VARCHAR}, #{priceno,jdbcType=VARCHAR}, #{unitprice,jdbcType=DECIMAL}, 
       #{sumamount,jdbcType=DECIMAL}, #{addtimestamp,jdbcType=TIMESTAMP}, #{adduserkey,jdbcType=VARCHAR}, 
       #{updtimestamp,jdbcType=TIMESTAMP}, #{upduserkey,jdbcType=VARCHAR}, #{updpgmid,jdbcType=VARCHAR}
@@ -60,6 +61,9 @@
       </if>
       <if test="goodsid != null" >
         goodsId,
+      </if>
+      <if test="deliverytime != null" >
+        deliveryTime,
       </if>
       <if test="specifications != null" >
         specifications,
@@ -108,6 +112,9 @@
       <if test="goodsid != null" >
         #{goodsid,jdbcType=VARCHAR},
       </if>
+      <if test="deliverytime != null" >
+        #{deliverytime,jdbcType=VARCHAR},
+      </if>
       <if test="specifications != null" >
         #{specifications,jdbcType=VARCHAR},
       </if>
@@ -155,6 +162,9 @@
       <if test="goodsid != null" >
         goodsId = #{goodsid,jdbcType=VARCHAR},
       </if>
+      <if test="deliverytime != null" >
+        deliveryTime = #{deliverytime,jdbcType=VARCHAR},
+      </if>
       <if test="specifications != null" >
         specifications = #{specifications,jdbcType=VARCHAR},
       </if>
@@ -196,6 +206,7 @@
     set orderNo = #{orderno,jdbcType=VARCHAR},
       customerNo = #{customerno,jdbcType=VARCHAR},
       goodsId = #{goodsid,jdbcType=VARCHAR},
+      deliveryTime = #{deliverytime,jdbcType=VARCHAR},
       specifications = #{specifications,jdbcType=VARCHAR},
       quantity = #{quantity,jdbcType=DECIMAL},
       groupNo = #{groupno,jdbcType=VARCHAR},

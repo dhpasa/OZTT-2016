@@ -11,6 +11,8 @@ public class TConsOrderDetails {
     private String customerno;
 
     private String goodsid;
+    
+    private String deliverytime;
 
     private String specifications;
 
@@ -153,4 +155,13 @@ public class TConsOrderDetails {
     public void setUpdpgmid(String updpgmid) {
         this.updpgmid = updpgmid;
     }
+
+    public String getDeliverytime() {
+        return deliverytime;
+    }
+
+    public void setDeliverytime(String deliverytime) {
+        this.deliverytime = deliverytime;
+    }
+
 }
