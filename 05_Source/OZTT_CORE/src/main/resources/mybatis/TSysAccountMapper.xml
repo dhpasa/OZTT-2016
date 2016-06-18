@@ -139,4 +139,12 @@
       updPgmId = #{updpgmid,jdbcType=VARCHAR}
     where no = #{no,jdbcType=BIGINT}
   </update>
+  
+  <select id="selectByAccountNo" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_sys_account
+		where accountNo = #{accountNo,jdbcType=VARCHAR}
+  </select>
 </mapper>

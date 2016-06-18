@@ -32,4 +32,11 @@ public interface TSysAccountDao {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(TSysAccount record);
+    
+    /**
+     * 通过账户编号取得
+     * @param TSysAccount
+     * @return
+     */
+    TSysAccount selectByAccountNo(String accountNo);
 }
