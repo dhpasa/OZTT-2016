@@ -2161,7 +2161,7 @@ html{
 }
 
 .purchase-method .purchase_paymoth_width{
-	width: 5.5rem;
+	width: 12rem;
 }
 
 .purchase-method > .method-default{
@@ -2725,4 +2725,35 @@ html{
 	position: fixed;
     top: 25%;
     width: 95%;
+}
+
+.qrcodemsg-dialog{
+	position: fixed;
+    top: 30%;
+    width: 60%;
+    margin-left: 20%;
+}
+
+/**==================================================================**/
+.main_qrcode_wechat{
+	position: absolute;
+    bottom: 100px;
+}
+
+.main_qrcode_wechat img{
+	width:40px;
+}
+
+.main_qrcode_div{
+	width: 100%;
+}
+
+.main_qrcode_div img{
+	width: 100%;
+}
+
+.main_qrcode_info{
+	text-align: center;
+	padding: 3px 0px;
+	font-size: 1.5rem;
 }

@@ -212,9 +212,9 @@
 						if (data.isOver) {
 							$('#errormsg_content').text(E0006.replace("{0}", data.maxBuy));
 			  				$('#errormsg-pop-up').modal('show');
-			  				$(curObj).val(curObj.defaultValue);
+			  				$(curObj).val(data.maxBuy);
+			  				changeQuantity = data.maxBuy - curObj.defaultValue;
 							checkOver = true;
-							
 							return;
 						} else {
 							checkOver = false;
@@ -229,7 +229,7 @@
 				}
 			});
 			
-			if (checkOver) return;
+			//if (checkOver) return;
 		}
 		
 		

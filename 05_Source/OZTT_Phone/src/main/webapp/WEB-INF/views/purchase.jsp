@@ -482,6 +482,7 @@
 		<div class="purchase-method">
 			<a class="method-check purchase_paymoth_width" id="method_online">
 				<img src="${ctx}/images/banklogo_trans.png" style="height:2.5rem;">
+				<fmt:message key="PURCHASE_ONLINEBUY"/>
 			</a>
 			<a class="method-default" id="method_cod">
 				<i class="fa fa-check"></i>

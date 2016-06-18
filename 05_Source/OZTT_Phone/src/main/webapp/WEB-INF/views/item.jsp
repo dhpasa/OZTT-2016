@@ -111,6 +111,7 @@
 							$('#errormsg_content').text(E0006.replace("{0}", data.maxBuy));
 			  				$('#errormsg-pop-up').modal('show');
 							checkOver = true;
+							$("#itemNumber").val(data.maxBuy);
 							return false;
 						} else {
 							checkOver = false;
