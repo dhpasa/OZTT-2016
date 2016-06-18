@@ -1523,6 +1523,7 @@ CREATE TABLE `t_sys_account` (
 -- ----------------------------
 -- Records of t_sys_account
 -- ----------------------------
+INSERT INTO `t_sys_account` VALUES ('1', '10000001', '1', '0.00', '2016-06-18 22:09:06', 'oztt', '2016-06-18 22:09:44', 'oztt', 'oztt');
 
 -- ----------------------------
 -- Table structure for t_sys_announcement
