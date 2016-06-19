@@ -2757,3 +2757,9 @@ html{
 	padding: 3px 0px;
 	font-size: 1.5rem;
 }
+
+.main-ms-hasBuy{
+	display: inline-block;
+    font-size: 1.5rem;
+    margin-top: 0.5rem;
+}
