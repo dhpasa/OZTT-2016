@@ -70,6 +70,31 @@ a{
     border: 0.5px solid #FF9298;
 }
 
+.main-overtime-div{
+	display: inline-block;
+	height: 2rem;
+	line-height: 2rem;
+	width: 100%;
+	background-color: #D8D8D8;
+	color: #FFFFF;
+    font-size: 1.3rem;
+    border-radius: 5px !important;
+    border: 0.5px solid #D8D8D8;
+    text-align: center;
+}
+
+.overtime{
+	display: none;
+	height: 2rem;
+	line-height: 2rem;
+	width: 100%;
+	background-color: #D8D8D8;
+	color: #FFFFF;
+    font-size: 1.3rem;
+    border-radius: 5px !important;
+    border: 0.5px solid #D8D8D8;
+}
+
 .redcolor{
 	color: #FA6D72
 }
@@ -2736,8 +2761,9 @@ html{
 
 /**==================================================================**/
 .main_qrcode_wechat{
-	position: absolute;
-    bottom: 100px;
+	position: fixed;
+    bottom: 7rem;
+    left: 1rem;
 }
 
 .main_qrcode_wechat img{

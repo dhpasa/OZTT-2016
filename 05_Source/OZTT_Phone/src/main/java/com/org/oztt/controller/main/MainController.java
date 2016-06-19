@@ -55,6 +55,8 @@ public class MainController extends BaseController {
                             + goods.getGoodsthumbnail());
                     goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
                     goods.setCountdownDay(DateFormatUtils.getBetweenDayTime(goods.getValidEndTime()));
+                    goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods
+                            .getGroupMax()) ? CommonConstants.OVER_GROUP_YES : CommonConstants.OVER_GROUP_NO);
                 }
             }
             model.addAttribute(
@@ -73,6 +75,8 @@ public class MainController extends BaseController {
                     goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT
                             + goods.getGoodsthumbnail());
                     goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
+                    goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods
+                            .getGroupMax()) ? CommonConstants.OVER_GROUP_YES : CommonConstants.OVER_GROUP_NO);
                 }
             }
             model.addAttribute("preSellList", (pageInfoPre == null || pageInfoPre.getResultList() == null) ? null
@@ -89,6 +93,8 @@ public class MainController extends BaseController {
                     goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT
                             + goods.getGoodsthumbnail());
                     goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
+                    goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods
+                            .getGroupMax()) ? CommonConstants.OVER_GROUP_YES : CommonConstants.OVER_GROUP_NO);
                 }
             }
             model.addAttribute("nowSellList", (pageInfoNow == null || pageInfoNow.getResultList() == null) ? null
@@ -144,15 +150,17 @@ public class MainController extends BaseController {
                         + goods.getGoodsthumbnail());
                 goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
                 goods.setCountdownDay(DateFormatUtils.getBetweenDayTime(goods.getValidEndTime()));
+                goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods
+                        .getGroupMax()) ? CommonConstants.OVER_GROUP_YES : CommonConstants.OVER_GROUP_NO);
             }
         }
         model.addAttribute("tab", tab);
-        model.addAttribute("goodsList", (goodsList == null || goodsList.getResultList() == null) ? null
-                : goodsList.getResultList());
-        
+        model.addAttribute("goodsList",
+                (goodsList == null || goodsList.getResultList() == null) ? null : goodsList.getResultList());
+
         return "/grouparea";
     }
-    
+
     /**
      * 检索商品的所有信息
      * 
@@ -190,12 +198,14 @@ public class MainController extends BaseController {
                             + goods.getGoodsthumbnail());
                     goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
                     goods.setCountdownDay(DateFormatUtils.getBetweenDayTime(goods.getValidEndTime()));
+                    goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods
+                            .getGroupMax()) ? CommonConstants.OVER_GROUP_YES : CommonConstants.OVER_GROUP_NO);
                 }
             }
-            model.addAttribute("goodsList", (goodsList == null || goodsList.getResultList() == null) ? null
-                    : goodsList.getResultList());
+            model.addAttribute("goodsList",
+                    (goodsList == null || goodsList.getResultList() == null) ? null : goodsList.getResultList());
             mapReturn.put("isException", false);
-           
+
             return mapReturn;
         }
         catch (Exception e) {

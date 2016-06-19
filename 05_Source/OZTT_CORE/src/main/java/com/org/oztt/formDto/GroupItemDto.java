@@ -56,6 +56,8 @@ public class GroupItemDto {
 
     private String     groupCurrent;  //团购现在数量
 
+    private String     isOverGroup;   // 是否已经满团
+
     private String     preLabel;      //预售
 
     private String     inStockLabel;  // 现货
@@ -278,6 +280,14 @@ public class GroupItemDto {
 
     public void setTabs(String tabs) {
         this.tabs = tabs;
+    }
+
+    public String getIsOverGroup() {
+        return isOverGroup;
+    }
+
+    public void setIsOverGroup(String isOverGroup) {
+        this.isOverGroup = isOverGroup;
     }
 
 }
