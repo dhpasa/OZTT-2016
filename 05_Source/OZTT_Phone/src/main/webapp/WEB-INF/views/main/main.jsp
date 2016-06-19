@@ -188,6 +188,11 @@
 						<span class="text-through"><fmt:message key="COMMON_DOLLAR" />${newGoodsList.costprice }</span>
 					</div>
 				</span>
+				<div class="main-ms-hasBuy">
+                	<i class="main-hasBuy" style="float: left"></i>
+		   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
+		   			<span class="">${newGoodsList.groupCurrent}&nbsp;/&nbsp;${newGoodsList.groupMax}</span>
+                </div>
 			</div>
 			<div class="newGoods-img">
 				<img src="${newGoodsList.goodsthumbnail }" class="padding-1rem">
@@ -220,6 +225,11 @@
 						<span class="text-through"><fmt:message key="COMMON_DOLLAR" />${newGoodsList.costprice }</span>
 					</div>
 				</span>
+				<div class="main-ms-hasBuy">
+                	<i class="main-hasBuy" style="float: left"></i>
+		   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
+		   			<span class="">${newGoodsList.groupCurrent}&nbsp;/&nbsp;${newGoodsList.groupMax}</span>
+                </div>
 			</div>
 		</div>
 	   </c:if>		
