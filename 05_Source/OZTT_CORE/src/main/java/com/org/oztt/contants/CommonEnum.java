@@ -283,8 +283,8 @@ public final class CommonEnum {
      * 付款方式
      */
     public enum PaymentMethod implements IEnum {
-        /** 在线支付_澳洲联邦 */
-        ONLINE_PAY_CWB("在线支付", "1"),
+        /** 在线付款_澳洲联邦 */
+        ONLINE_PAY_CWB("在线付款", "1"),
         /** 货到付款 */
         COD("货到付款", "2"),  
         /** 来店付款 */

@@ -46,6 +46,7 @@ import com.org.oztt.dao.TNoInvoiceDao;
 import com.org.oztt.dao.TNoOrderDao;
 import com.org.oztt.dao.TNoTransactionDao;
 import com.org.oztt.dao.TSuburbDeliverFeeDao;
+import com.org.oztt.dao.TSysAccountDao;
 import com.org.oztt.dto.InvoiceDto;
 import com.org.oztt.entity.TAddressInfo;
 import com.org.oztt.entity.TConsInvoice;
@@ -58,6 +59,7 @@ import com.org.oztt.entity.TGoodsGroup;
 import com.org.oztt.entity.TNoInvoice;
 import com.org.oztt.entity.TNoOrder;
 import com.org.oztt.entity.TNoTransaction;
+import com.org.oztt.entity.TSysAccount;
 import com.org.oztt.formDto.ContCartItemDto;
 import com.org.oztt.formDto.ContCartProItemDto;
 import com.org.oztt.formDto.OrderInfoDto;
@@ -118,6 +120,9 @@ public class OrderServiceImpl extends BaseService implements OrderService {
 
     @Resource
     private AddressService           addressService;
+    
+    @Resource
+    private TSysAccountDao           tSysAccountDao;
 
     @Override
     public String insertOrderInfoForPhone(String customerNo, String payMethod, String hidDeliMethod,
@@ -669,10 +674,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
     @Override
     public void updateRecordAfterPay(String orderId, String customerNo, HttpSession session, String serialNo)
             throws Exception {
-        // 检索当前订单，更新状态为已经付款
         TConsOrder tConsOrder = this.selectByOrderId(orderId);
-        tConsOrder.setHandleflg(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
-        this.updateOrderInfo(tConsOrder);
         // 生成入出账记录
         // 取得最新的入出账记录
         TConsTransaction tConsTransactionLast = tConsTransactionDao.selectLastTransaction();
@@ -751,7 +753,20 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 tConsTransactionOut.getTransactionamount()));
         tConsTransactionOut.setTransactiontype("2");// 交易类型（订单支付还是手续费收取）
         tConsTransactionDao.insertSelective(tConsTransactionOut);
+        
+        // 检索当前订单，更新状态为已经付款
+        tConsOrder.setHandleflg(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
+        tConsOrder.setTransactionno(maxTranctionNo);
+        this.updateOrderInfo(tConsOrder);
 
+        TSysAccount tSysAccount = tSysAccountDao.selectByAccountNo("10000001"); 
+        BigDecimal oldBalance = tSysAccount.getAccountbalance();
+        BigDecimal tempBalance = tConsOrder.getOrderamount()
+        		.add(tConsOrder.getDeliverycost())
+        				.subtract(getCostMoney(tConsTransactionIn.getTransactionafteramount()));
+        BigDecimal newBalance = oldBalance.add(tempBalance);
+        tSysAccount.setAccountbalance(newBalance);
+        tSysAccountDao.updateByPrimaryKeySelective(tSysAccount);
     }
 
     /**

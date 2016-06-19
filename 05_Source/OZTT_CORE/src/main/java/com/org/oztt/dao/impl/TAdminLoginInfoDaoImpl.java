@@ -56,5 +56,5 @@ public class TAdminLoginInfoDaoImpl extends BaseDao implements TAdminLoginInfoDa
     public TAdminLoginInfo selectByAdminNo(String adminNo) {
         return selectOne("com.org.oztt.dao.TAdminLoginInfoDao.selectByAdminNo", adminNo);
     }
-
+ 
 }
