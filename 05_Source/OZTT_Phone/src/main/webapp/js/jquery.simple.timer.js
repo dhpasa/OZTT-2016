@@ -27,12 +27,16 @@
       
       var alltime = document.createElement('div');
       alltime.className = 'alltime';
+      
+      var overtime = document.createElement('div');
+      overtime.className = 'overtime';
 
       var clearDiv = document.createElement('div');
       clearDiv.className = 'clearDiv';
 
       return timerBoxElement.
         append(alltime).
+        append(overtime).
         append(clearDiv);
     };
 
@@ -122,8 +126,10 @@
   };
 
   Timer.prototype.clearTimer = function(element){
-	element.find('.alltime').text('0天00时00分00秒');
-    
+	element.find('.alltime').css("display","none");
+	element.find('.overtime').css("display","inline-block");
+	element.find('.overtime').text('已团满');
+	
   };
 
   Timer.prototype.currentTime = function() {

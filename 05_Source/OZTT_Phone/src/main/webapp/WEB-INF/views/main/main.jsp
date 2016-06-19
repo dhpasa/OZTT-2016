@@ -15,7 +15,7 @@
   				location.href="${ctx}/search/init?mode=1";
   			});
   			
-  			$(".main_wechat").click(function(){
+  			$("#main_wechat").click(function(){
   				$('#main_qrcode').modal('show');
   			});
   		})
@@ -28,7 +28,7 @@
   		}
   		
   		//在线客服
-  		kefu = function(id, _top) {
+  		/* kefu = function(id, _top) {
   			var me = id.charAt ? document.getElementById(id) : id, d1 = document.body, d2 = document.documentElement;
   			d1.style.height = d2.style.height = '100%';
   			me.style.top = _top ? _top + 'px' : 0;
@@ -40,12 +40,12 @@
   								* 0.1 + 'px';
   					}, 10 + parseInt(Math.random() * 20));
   			return arguments.callee;
-  		};
+  		}; */
 
-  		window.onload = function() {
+  		/* window.onload = function() {
   			var hei = window.screen.height;
   			kefu('main_wechat', hei * 0.75);
-  		}
+  		} */
   		
   		
   </script>
@@ -264,8 +264,13 @@
 				   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
 				   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span>
 		                </div>
-		                <div class="countdown-time" data-seconds-left="${goodslist.countdownTime}">
-		                </div>
+ 		                <c:if test="${goodslist.isOverGroup == '1' }">
+		                	<div class="main-overtime-div" style="display: inline-block;"><fmt:message key="COMMON_OVER_GROUP" /></div>
+		                </c:if>
+		                <c:if test="${goodslist.isOverGroup != '1' }">
+		                	<div class="countdown-time" data-seconds-left="${goodslist.countdownTime}">
+		                	</div>
+		                </c:if>
 		                <c:if test="${goodslist.preLabel == '1' }">
 		                	<c:if test="${languageSelf == 'zh_CN' }">
 		                		<div class="goods-sticker goods-sticker-preLabel"></div>
@@ -310,8 +315,15 @@
 				   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
 				   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span>
 		                </div>
-		                <div class="countdown-time" data-seconds-left="${goodslist.countdownTime}">
-		                </div>
+		                <c:if test="${goodslist.isOverGroup == '1' }">
+		                	<div class="main-overtime-div" style="display: inline-block;"><fmt:message key="COMMON_OVER_GROUP" /></div>
+		                </c:if>
+		                <c:if test="${goodslist.isOverGroup != '1' }">
+		                	<div class="countdown-time" data-seconds-left="${goodslist.countdownTime}">
+		                	</div>
+		                </c:if>
+		                
+		                
 		                <c:if test="${goodslist.inStockLabel == '1' }">
 		                	<c:if test="${languageSelf == 'zh_CN' }">
 		                		<div class="goods-sticker goods-sticker-inStockLabel"></div>
@@ -329,7 +341,7 @@
       </div>
     </div>
     
-    <div class="main_wechat" id="main_wechat">
+    <div class="main_qrcode_wechat" id="main_wechat">
     	<img alt="weixin" src="${ctx}/images/main_wt.png">
     </div>
     <div id="main_qrcode" class="modal fade" role="dialog" aria-hidden="true" >

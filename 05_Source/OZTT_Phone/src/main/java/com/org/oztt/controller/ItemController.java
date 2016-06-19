@@ -80,6 +80,8 @@ public class ItemController extends BaseController {
                         + goods.getGoodsthumbnail());
                 goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
                 goods.setCountdownDay(DateFormatUtils.getBetweenDayTime(goods.getValidEndTime()));
+                goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods
+                        .getGroupMax()) ? CommonConstants.OVER_GROUP_YES : CommonConstants.OVER_GROUP_NO);
             }
         }
         model.addAttribute("tabName", goodsService.getTabName(tabId));
@@ -114,6 +116,8 @@ public class ItemController extends BaseController {
                             + goods.getGoodsthumbnail());
                     goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
                     goods.setCountdownDay(DateFormatUtils.getBetweenDayTime(goods.getValidEndTime()));
+                    goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods
+                            .getGroupMax()) ? CommonConstants.OVER_GROUP_YES : CommonConstants.OVER_GROUP_NO);
                 }
             }
             model.addAttribute("goodsList", (goodsList == null || goodsList.getResultList() == null) ? null
