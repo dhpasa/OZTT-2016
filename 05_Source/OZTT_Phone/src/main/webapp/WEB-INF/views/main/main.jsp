@@ -349,6 +349,7 @@
 	      <div class="modal-content">
 	         <div class="main_qrcode_info">
 	         	<fmt:message key="COMMON_GRCODE_INFO" />
+	         	<br>oztt-online
 	         </div>
 	         <div class="main_qrcode_div">
 	         	<img alt="qrcode" src="${ctx}/images/oztt_qrcode.png">
