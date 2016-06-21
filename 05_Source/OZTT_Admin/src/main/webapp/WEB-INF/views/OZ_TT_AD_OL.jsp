@@ -72,6 +72,15 @@
   		
   		window.location.reload();
   	}
+  	
+  	function selAll(str) {
+  		if (str.checked) {
+  			$(".orderSetClass").attr("checked", true);
+  		} else {
+  			$(".orderSetClass").attr("checked", false);
+  		}
+  		$(":checkbox").uniform({checkboxClass: 'myCheckClass'});
+  	}
  
   	
   
@@ -208,6 +217,7 @@
 						</th>
 						<th scope="col">
 							 <fmt:message key="OZ_TT_AD_OL_DE_checkbox" />
+							 <input type="checkbox" onclick="selAll(this)"/>
 						</th>
 						<th scope="col">
 							 <fmt:message key="OZ_TT_AD_OL_DE_orderNo" />
