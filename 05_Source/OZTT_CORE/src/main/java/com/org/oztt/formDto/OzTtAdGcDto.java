@@ -27,7 +27,17 @@ public class OzTtAdGcDto {
     
     private String isHot;
     
-    public String getGoodsName() {
+    private String openFlg;
+    
+    public String getOpenFlg() {
+		return openFlg;
+	}
+
+	public void setOpenFlg(String openFlg) {
+		this.openFlg = openFlg;
+	}
+
+	public String getGoodsName() {
         return goodsName;
     }
 

@@ -449,7 +449,7 @@
 				<div class="form-group">
 					
 					<label class="col-md-1 control-label"><fmt:message key="OZ_TT_AD_GL_validDate" /></label>
-					<div class="col-md-4">
+					<div class="col-md-3">
 						<div class="input-group input-large date-picker input-daterange" data-date="" data-date-format="yyyy/mm/dd">
 							<form:input type="text" class="form-control" path="dateFrom"></form:input>
 							<span class="input-group-addon">
@@ -459,7 +459,19 @@
 						</div>
 					</div>
 					
-					<div class="col-md-7">
+					<label class="col-md-1 control-label textleft"><fmt:message key="OZ_TT_AD_GL_openFlg" /></label>
+					<div class="col-md-3">
+						<form:select class="input-medium form-control" path="openFlg">
+							<form:option value=""></form:option>
+							<c:forEach var="seList" items="${ openSelect }">
+                   				<form:option value="${ seList.key }">${ seList.value }</form:option>
+                   			</c:forEach>
+							
+						</form:select>
+						
+					</div>
+					
+					<div class="col-md-4">
 						
 					</div>
 					

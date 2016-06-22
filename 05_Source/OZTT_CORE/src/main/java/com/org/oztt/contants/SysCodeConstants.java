@@ -23,4 +23,7 @@ public final class SysCodeConstants {
     public static final String DELIVERY_METHOD    = "COM008";
 
     public static final String DELIVERY_TIME_CODE = "COM009";
+    
+    // 开放标识
+    public static final String OPEN_FLG       = "COM010";
 }

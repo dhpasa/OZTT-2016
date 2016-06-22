@@ -25,6 +25,8 @@ public interface CommonService {
     public List<MyMap> getPayment() throws Exception;
     
     public List<MyMap> getDelivery() throws Exception;
+    
+    public List<MyMap> getOpenFlg() throws Exception;
 
     /**
      * 检索出菜单项目
