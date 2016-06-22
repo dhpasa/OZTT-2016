@@ -49,6 +49,7 @@ public class OzTtAdGlController extends BaseController {
     @RequestMapping(value = "/init")
     public String init(Model model, HttpServletRequest request, HttpSession session) {
         try {
+            model.addAttribute("openSelect", commonService.getOpenFlg());
             model.addAttribute("ozTtAdGcDto", new OzTtAdGcDto());
             model.addAttribute("pageInfo", new PagingResult<OzTtAdGcListDto>());
             return "OZ_TT_AD_GL";
@@ -70,6 +71,7 @@ public class OzTtAdGlController extends BaseController {
     public String init(Model model, HttpServletRequest request, HttpSession session,
             @ModelAttribute OzTtAdGcDto ozTtAdGcDto) {
         try {
+            model.addAttribute("openSelect", commonService.getOpenFlg());
             session.setAttribute("ozTtAdGcDto", ozTtAdGcDto);
 
             Pagination pagination = new Pagination(1);
@@ -79,7 +81,7 @@ public class OzTtAdGlController extends BaseController {
             params.put("goodsId", ozTtAdGcDto.getGoodsId());
             params.put("dateFrom", ozTtAdGcDto.getDateFrom());
             params.put("dateTo", ozTtAdGcDto.getDateTo());
-            params.put("isOpenFlag", ozTtAdGcDto.getIsOpenFlag());
+            params.put("isOpenFlag", ozTtAdGcDto.getOpenFlg());
             params.put("isTopUp", ozTtAdGcDto.getIsTopUp());
             params.put("isPre", ozTtAdGcDto.getIsPre());
             params.put("isInStock", ozTtAdGcDto.getIsInStock());
@@ -107,6 +109,7 @@ public class OzTtAdGlController extends BaseController {
     @RequestMapping(value = "/pageSearch")
     public String init(Model model, HttpServletRequest request, HttpSession session, String pageNo) {
         try {
+            model.addAttribute("openSelect", commonService.getOpenFlg());
             OzTtAdGcDto ozTtAdGcDto = (OzTtAdGcDto) session.getAttribute("ozTtAdGcDto");
             Pagination pagination = new Pagination(Integer.valueOf(pageNo));
             Map<Object, Object> params = new HashMap<Object, Object>();
@@ -115,7 +118,7 @@ public class OzTtAdGlController extends BaseController {
             params.put("goodsId", ozTtAdGcDto.getGoodsId());
             params.put("dateFrom", ozTtAdGcDto.getDateFrom());
             params.put("dateTo", ozTtAdGcDto.getDateTo());
-            params.put("isOpenFlag", ozTtAdGcDto.getIsOpenFlag());
+            params.put("isOpenFlag", ozTtAdGcDto.getOpenFlg());
             params.put("isTopUp", ozTtAdGcDto.getIsTopUp());
             params.put("isPre", ozTtAdGcDto.getIsPre());
             params.put("isInStock", ozTtAdGcDto.getIsInStock());

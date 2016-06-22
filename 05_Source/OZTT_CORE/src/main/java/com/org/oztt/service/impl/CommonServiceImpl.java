@@ -47,6 +47,8 @@ public class CommonServiceImpl extends BaseService implements CommonService {
     private static List<MyMap>     paymentList         = null;
 
     private static List<MyMap>     deliveryList        = null;
+    
+    private static List<MyMap>     openFlgList     = null;
 
     @Resource
     private TSysCodeDao            tSysCodeDao;
@@ -244,5 +246,13 @@ public class CommonServiceImpl extends BaseService implements CommonService {
 
         return suburbList;
     }
+
+	@Override
+	public List<MyMap> getOpenFlg() throws Exception {
+        if (openFlgList == null) {
+        	openFlgList = entityList2mapList(tSysCodeDao.selectByCodeId(SysCodeConstants.OPEN_FLG));
+        }
+        return openFlgList;
+	}
 
 }
