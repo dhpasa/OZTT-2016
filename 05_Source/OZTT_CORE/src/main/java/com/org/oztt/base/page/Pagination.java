@@ -10,7 +10,7 @@ public class Pagination {
 	
 	private Integer page = 1; // 目前是第几页
 	
-	private Integer size = 10; // 每页大小
+	private Integer size = 20; // 每页大小
 	
 	private Map<Object, Object> params; // 传入的参数
 	
