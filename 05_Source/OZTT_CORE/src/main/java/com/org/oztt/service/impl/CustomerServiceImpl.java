@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.org.oztt.base.page.Pagination;
 import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.base.util.DateFormatUtils;
+import com.org.oztt.base.util.PassWordParseInMD5;
 import com.org.oztt.base.util.PasswordEncryptSalt;
 import com.org.oztt.base.util.PasswordEncryptSaltUtils;
 import com.org.oztt.contants.CommonConstants;
@@ -274,12 +275,22 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
             TCustomerLoginInfo info = new TCustomerLoginInfo();
             info.setCustomerno(param.getCustomerno());
             info = tCustomerLoginInfoDao.selectByParams(info);
-            if (PasswordEncryptSaltUtils.checkIsSame(password, info.getSalt(), info.getLoginpass())) {
-                return info;
+            if (!StringUtils.isEmpty(info.getSalt())) {
+                if (PasswordEncryptSaltUtils.checkIsSame(password, info.getSalt(), info.getLoginpass())) {
+                    return info;
+                }
+                else {
+                    return null;
+                }
+            } else {
+                // 不进行MD5加密处理
+                if (PassWordParseInMD5.Md5(password).equals(info.getLoginpass())) {
+                    return info;
+                } else {
+                    return null;
+                }
             }
-            else {
-                return null;
-            }
+            
         }
 
     }

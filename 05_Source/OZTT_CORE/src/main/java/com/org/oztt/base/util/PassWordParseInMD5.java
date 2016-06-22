@@ -27,6 +27,6 @@ public class PassWordParseInMD5 {
     @SuppressWarnings("static-access")
 	public static void main(String[] args) {
     	PassWordParseInMD5 passWordParseInMD5 = new PassWordParseInMD5();
-    	System.out.println(passWordParseInMD5.Md5("test"));
+    	System.out.println(passWordParseInMD5.Md5("123123"));
     }
 }
