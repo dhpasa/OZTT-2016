@@ -342,7 +342,7 @@
 	  		});
 			
 			var isTopUp = "";
-			if ($("#isTopUpEdit_batch").attr("checked")) {
+ 			if ($("#isTopUpEdit_batch").attr("checked")) {
 				isTopUp = "1";
 			}
 			var isPre = "";
@@ -599,6 +599,18 @@
 							 <fmt:message key="OZ_TT_AD_GL_DE_goodsCurr" />
 						</th>
 						<th scope="col">
+							 <fmt:message key="OZ_TT_AD_GL_DE_topUp" />
+						</th>
+						<th scope="col">
+							 <fmt:message key="OZ_TT_AD_GL_DE_preSale" />
+						</th>
+						<th scope="col">
+							 <fmt:message key="OZ_TT_AD_GL_DE_inStock" />
+						</th>
+						<th scope="col">
+							 <fmt:message key="OZ_TT_AD_GL_DE_hotSale" />
+						</th>
+						<th scope="col">
 							 <fmt:message key="OZ_TT_AD_GL_DE_validDate" />
 						</th>
 						<th scope="col">
@@ -635,6 +647,18 @@
 						</td>
 						<td>
 							 ${groupsItem.goodsCurr }
+						</td>
+						<td>
+							 ${groupsItem.isTopUp }
+						</td>
+						<td>
+							 ${groupsItem.isPre }
+						</td>
+						<td>
+							 ${groupsItem.isInStock }
+						</td>
+						<td>
+							 ${groupsItem.isHot }
 						</td>
 						<td>
 							 ${groupsItem.validDateFrom }~${groupsItem.validDateTo }
@@ -865,7 +889,7 @@
 						<div class="form-group" id="isTopUpEdit_batch_div" style="display:none">
 							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_topUp" /></label>
 							<div class="checkbox-list col-md-8">
-								<label class="checkbox-inline">
+ 								<label class="checkbox-inline">
 									<input type="checkbox" id="isTopUpEdit_batch"></input>
 								 	<fmt:message key="COMMON_YES" />
 								</label>

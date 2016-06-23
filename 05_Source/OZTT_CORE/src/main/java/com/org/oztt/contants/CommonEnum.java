@@ -1231,7 +1231,7 @@ public final class CommonEnum {
          * @return String
          */
         public String getEnumName() {
-            return "DeliveryMethod";
+            return "InvoiceFlg";
         }
 
         /**
@@ -1253,7 +1253,7 @@ public final class CommonEnum {
          * @return String
          */
         public static String getEnumLabel(String code) {
-            for (DeliveryMethod c : DeliveryMethod.values()) {
+            for (InvoiceFlg c : InvoiceFlg.values()) {
                 if (c.getCode().equals(code)) {
                     return c.label;
                 }
@@ -1268,7 +1268,7 @@ public final class CommonEnum {
          * @return String
          */
         public static String getEnumCode(String label) {
-            for (DeliveryMethod c : DeliveryMethod.values()) {
+            for (InvoiceFlg c : InvoiceFlg.values()) {
                 if (c.getLabel().equals(label)) {
                     return c.code;
                 }
@@ -1283,7 +1283,136 @@ public final class CommonEnum {
          */
         public static List<MyMap> getList() {
             List<MyMap> resultList = new ArrayList<MyMap>();
-            for (DeliveryMethod c : DeliveryMethod.values()) {
+            for (InvoiceFlg c : InvoiceFlg.values()) {
+                MyMap dto = new MyMap();
+                dto.setKey(c.getCode());
+                dto.setValue(c.getLabel());
+                resultList.add(dto);
+            }
+            return resultList;
+        }
+
+        /**
+         * get
+         * 
+         * @return String
+         */
+        public String getLabel() {
+            return label;
+        }
+
+        /**
+         * set
+         * 
+         * @return String
+         */
+        public String getCode() {
+            return code;
+        }
+
+        /**
+         * String转换，中间加横杠
+         * 
+         * @return String
+         */
+        @Override
+        public String toString() {
+            return this.label;
+        }
+
+        /**
+         * 转换成value
+         * 
+         * @return String
+         */
+        public String toValueString() {
+            return String.valueOf(this.code);
+        }
+
+        /**
+         * 转换成label
+         * 
+         * @return String
+         */
+        public String toLabelString() {
+            return String.valueOf(this.label);
+        }
+    }
+    
+    /**
+     * 是否
+     */
+    public enum ifOrNot implements IEnum {
+        /** 是 */
+        YES("是", "1"),
+        /** 否 */
+        NO(" ", "0");
+
+        /** 值 */
+        private String label;
+
+        /** 键 */
+        private String code;
+
+        /**
+         * 取得枚举区分
+         * 
+         * @return String
+         */
+        public String getEnumName() {
+            return "ifOrNot";
+        }
+
+        /**
+         * 构造函数
+         * 
+         * @param label String
+         * @param code String
+         */
+        private ifOrNot(String label, String code)
+        {
+            this.label = label;
+            this.code = code;
+        }
+
+        /**
+         * 根据键取得值
+         * 
+         * @param code String
+         * @return String
+         */
+        public static String getEnumLabel(String code) {
+            for (ifOrNot c : ifOrNot.values()) {
+                if (c.getCode().equals(code)) {
+                    return c.label;
+                }
+            }
+            return null;
+        }
+
+        /**
+         * 根据值取得第一个匹配的键
+         * 
+         * @param label String
+         * @return String
+         */
+        public static String getEnumCode(String label) {
+            for (ifOrNot c : ifOrNot.values()) {
+                if (c.getLabel().equals(label)) {
+                    return c.code;
+                }
+            }
+            return null;
+        }
+
+        /**
+         * 取得下拉框列表
+         * 
+         * @return List
+         */
+        public static List<MyMap> getList() {
+            List<MyMap> resultList = new ArrayList<MyMap>();
+            for (ifOrNot c : ifOrNot.values()) {
                 MyMap dto = new MyMap();
                 dto.setKey(c.getCode());
                 dto.setValue(c.getLabel());
