@@ -66,6 +66,9 @@
 							 <fmt:message key="OZ_TT_AD_RL_DE_customerNo" />
 						</th>
 						<th scope="col">
+							 <fmt:message key="OZ_TT_AD_RL_DE_telNo" />
+						</th>
+						<th scope="col">
 							 <fmt:message key="OZ_TT_AD_RL_DE_nickName" />
 						</th>
 						<th scope="col">
@@ -106,6 +109,9 @@
 						</td>
 						<td>
 							 ${customerItem.customerNo }
+						</td>
+						<td>
+							 ${customerItem.telNo }
 						</td>
 						<td>
 							 ${customerItem.nickName }

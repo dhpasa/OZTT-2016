@@ -332,6 +332,7 @@
 	<select id="getAllCustomerInfoForAdminForPage" resultType="com.org.oztt.formDto.OzTtAdRlListDto">
 		select
 		A.customerNo,
+		C.telNo,
 		A.cnSurname,
 		A.cnGivenname,
 		A.enFirstName,
@@ -350,6 +351,8 @@
 		from t_customer_basic_info A
 		inner join t_customer_login_info B
 		on A.customerNo = B.customerNo
+		inner join t_customer_security_info C
+		on A.customerNo = C.customerNo
 	</select>
 	
 	<select id="getAllCustomerInfoForAdminForPageCount" resultType="int">

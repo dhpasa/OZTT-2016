@@ -333,6 +333,10 @@
 	  		
 			var dataFromGroup = $("#dataFromGroup_batch").val();
 			var dataToGroup = $("#dataToGroup_batch").val();
+			var isTopUpEdit_batch =  document.getElementsByName("isTopUpEdit_batch");
+			var isPreEdit_batch =  document.getElementsByName("isPreEdit_batch");
+			var isInStockEdit_batch =  document.getElementsByName("isInStockEdit_batch");
+			var isHotEdit_batch =  document.getElementsByName("isHotEdit_batch");
 			var groupIds = "";
 	  		$(".orderSetClass").each(function(){
 	  			if (this.checked == true) {
@@ -342,21 +346,41 @@
 	  		});
 			
 			var isTopUp = "";
-			if ($("#isTopUpEdit_batch").attr("checked")) {
+			for(var i=0;i<isTopUpEdit_batch.length;i++){ 
+				if(isTopUpEdit_batch[i].checked){
+					isTopUp = isTopUpEdit_batch[i].value;
+				}
+			}
+/*  			if ($("#isTopUpEdit_batch").attr("checked")) {
 				isTopUp = "1";
-			}
+			} */
 			var isPre = "";
-			if ($("#isPreEdit_batch").attr("checked")) {
+			for(var i=0;i<isPreEdit_batch.length;i++){ 
+				if(isPreEdit_batch[i].checked){
+					isPre = isPreEdit_batch[i].value;
+				}
+			}
+/* 			if ($("#isPreEdit_batch").attr("checked")) {
 				isPre = "1";
-			}
+			} */
 			var isInStock = "";
-			if ($("#isInStockEdit_batch").attr("checked")) {
+			for(var i=0;i<isInStockEdit_batch.length;i++){ 
+				if(isInStockEdit_batch[i].checked){
+					isInStock = isInStockEdit_batch[i].value;
+				}
+			}
+/* 			if ($("#isInStockEdit_batch").attr("checked")) {
 				isInStock = "1";
-			}
+			} */
 			var isHot = "";
-			if ($("#isHotEdit_batch").attr("checked")) {
-				isHot = "1";
+			for(var i=0;i<isHotEdit_batch.length;i++){ 
+				if(isHotEdit_batch[i].checked){
+					isHot = isHotEdit_batch[i].value;
+				}
 			}
+/* 			if ($("#isHotEdit_batch").attr("checked")) {
+				isHot = "1";
+			} */
 			var jsonMap = {
 				groupIds:groupIds.substring(0, groupIds.length -1),
 				validperiodend:dataToGroup,
@@ -599,6 +623,18 @@
 							 <fmt:message key="OZ_TT_AD_GL_DE_goodsCurr" />
 						</th>
 						<th scope="col">
+							 <fmt:message key="OZ_TT_AD_GL_DE_topUp" />
+						</th>
+						<th scope="col">
+							 <fmt:message key="OZ_TT_AD_GL_DE_preSale" />
+						</th>
+						<th scope="col">
+							 <fmt:message key="OZ_TT_AD_GL_DE_inStock" />
+						</th>
+						<th scope="col">
+							 <fmt:message key="OZ_TT_AD_GL_DE_hotSale" />
+						</th>
+						<th scope="col">
 							 <fmt:message key="OZ_TT_AD_GL_DE_validDate" />
 						</th>
 						<th scope="col">
@@ -635,6 +671,18 @@
 						</td>
 						<td>
 							 ${groupsItem.goodsCurr }
+						</td>
+						<td>
+							 ${groupsItem.isTopUp }
+						</td>
+						<td>
+							 ${groupsItem.isPre }
+						</td>
+						<td>
+							 ${groupsItem.isInStock }
+						</td>
+						<td>
+							 ${groupsItem.isHot }
 						</td>
 						<td>
 							 ${groupsItem.validDateFrom }~${groupsItem.validDateTo }
@@ -864,40 +912,84 @@
 						
 						<div class="form-group" id="isTopUpEdit_batch_div" style="display:none">
 							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_topUp" /></label>
+<%-- 						
 							<div class="checkbox-list col-md-8">
-								<label class="checkbox-inline">
+ 								<label class="checkbox-inline">
 									<input type="checkbox" id="isTopUpEdit_batch"></input>
 								 	<fmt:message key="COMMON_YES" />
+								</label>
+ --%>
+							<div class="radio-list col-md-3">
+								<label class="radio-inline">
+									<input type="radio" name="isTopUpEdit_batch" value="1">
+									<fmt:message key="COMMON_YES" />
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="isTopUpEdit_batch" value="0">
+									<fmt:message key="COMMON_NO" />
 								</label>
 							</div>
 						</div>
 						
 						<div class="form-group" id="isPreEdit_batch_div" style="display:none">
 							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_pre" /></label>
+<!-- 
 							<div class="checkbox-list col-md-8">
 								<label class="checkbox-inline">
 									<input type="checkbox" id="isPreEdit_batch"></input>
 								 	<fmt:message key="COMMON_YES" />
+								</label>
+ -->
+							<div class="radio-list col-md-3">
+								<label class="radio-inline">
+									<input type="radio" name="isPreEdit_batch" value="1">
+									<fmt:message key="COMMON_YES" />
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="isPreEdit_batch" value="0">
+									<fmt:message key="COMMON_NO" />
 								</label>
 							</div>
 						</div>
 						
 						<div class="form-group" id="isInStockEdit_batch_div" style="display:none">
 							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_inStock" /></label>
+<!-- 
 							<div class="checkbox-list col-md-8">
 								<label class="checkbox-inline">
 									<input type="checkbox" id="isInStockEdit_batch"></input>
 								 	<fmt:message key="COMMON_YES" />
+								</label>
+ -->
+							<div class="radio-list col-md-3">
+								<label class="radio-inline">
+									<input type="radio" name="isInStockEdit_batch" value="1">
+									<fmt:message key="COMMON_YES" />
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="isInStockEdit_batch" value="0">
+									<fmt:message key="COMMON_NO" />
 								</label>
 							</div>
 						</div>
 						
 						<div class="form-group" id="isHotEdit_batch_div" style="display:none">
 							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_hot" /></label>
+<!-- 
 							<div class="checkbox-list col-md-8">
 								<label class="checkbox-inline">
 									<input type="checkbox" id="isHotEdit_batch"></input>
 								 	<fmt:message key="COMMON_YES" />
+								</label>
+ -->
+							<div class="radio-list col-md-3">
+								<label class="radio-inline">
+									<input type="radio" name="isHotEdit_batch" value="1">
+									<fmt:message key="COMMON_YES" />
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="isHotEdit_batch" value="0">
+									<fmt:message key="COMMON_NO" />
 								</label>
 							</div>
 						</div>

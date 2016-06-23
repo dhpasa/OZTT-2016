@@ -29,7 +29,7 @@ public class OzTtAdGcDto {
     
     private String openFlg;
     
-    public String getOpenFlg() {
+	public String getOpenFlg() {
 		return openFlg;
 	}
 

@@ -709,6 +709,10 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
             for (OzTtAdGcListDto detail : dtoList.getResultList()) {
                 detail.setDetailNo(String.valueOf((dtoList.getCurrentPage() - 1) * dtoList.getPageSize() + ++i));
                 detail.setIsOpen(CommonEnum.GroupOpenFlag.getEnumLabel(detail.getIsOpen()));
+                detail.setIsTopUp(CommonEnum.ifOrNot.getEnumLabel(detail.getIsTopUp()));
+                detail.setIsPre(CommonEnum.ifOrNot.getEnumLabel(detail.getIsPre()));
+                detail.setIsInStock(CommonEnum.ifOrNot.getEnumLabel(detail.getIsInStock()));
+                detail.setIsHot(CommonEnum.ifOrNot.getEnumLabel(detail.getIsHot()));
             }
         }
         return dtoList;

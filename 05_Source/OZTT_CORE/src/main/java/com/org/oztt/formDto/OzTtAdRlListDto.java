@@ -7,6 +7,8 @@ package com.org.oztt.formDto;
 public class OzTtAdRlListDto {
 
     private String customerNo;
+    
+    private String telNo;
 
     private String cnSurname;
 
@@ -40,7 +42,15 @@ public class OzTtAdRlListDto {
     
     private String detailNo;
 
-    public String getCustomerNo() {
+    public String getTelNo() {
+		return telNo;
+	}
+
+	public void setTelNo(String telNo) {
+		this.telNo = telNo;
+	}
+
+	public String getCustomerNo() {
         return customerNo;
     }
 
