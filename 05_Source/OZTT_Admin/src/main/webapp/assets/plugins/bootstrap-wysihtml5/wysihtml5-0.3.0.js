@@ -5072,6 +5072,12 @@ wysihtml5.dom.parse = (function() {
       };
     })(),
     
+    normal: (function() {
+        return function(attributeValue) {
+          return attributeValue;
+        };
+    })(),
+    
     numbers: (function() {
       var REG_EXP = /\D/g;
       return function(attributeValue) {
