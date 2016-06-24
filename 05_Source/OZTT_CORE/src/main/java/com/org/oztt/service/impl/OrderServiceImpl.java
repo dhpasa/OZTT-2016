@@ -1272,7 +1272,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 TGoodsGroup tGoodsGroup = new TGoodsGroup();
                 tGoodsGroup.setGroupno(detail.getGroupno());
                 tGoodsGroup = tGoodsGroupDao.selectByParams(tGoodsGroup);
-                tGoodsGroup.setGroupcurrentquantity(tGoodsGroup.getGroupcurrentquantity() + detail.getQuantity());
+                tGoodsGroup.setGroupcurrentquantity(tGoodsGroup.getGroupcurrentquantity() - detail.getQuantity());
                 tGoodsGroupDao.updateByPrimaryKeySelective(tGoodsGroup);
             }
         }
