@@ -439,7 +439,7 @@
                 "u": 1,
                 "img": {
                     "check_attributes": {
-                        "width": "numbers",
+                        "width": "normal",
                         "alt": "alt",
                         "src": "url",
                         "height": "numbers"

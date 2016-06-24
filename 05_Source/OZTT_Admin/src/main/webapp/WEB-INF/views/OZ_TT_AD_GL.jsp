@@ -512,7 +512,7 @@
 						 <fmt:message key="COMMON_YES" />
 						 </label>
 						 <label class="radio-inline">
-							<form:radiobutton path="isTopUp" value="" checked="true"></form:radiobutton>
+							<form:radiobutton path="isTopUp" value=""></form:radiobutton>
 						 	<fmt:message key="COMMON_ALL" />
 						 </label>
 					</div>
@@ -528,7 +528,7 @@
 						 <fmt:message key="COMMON_YES" />
 						 </label>
 						 <label class="radio-inline">
-							<form:radiobutton path="isPre" value="" checked="true"></form:radiobutton>
+							<form:radiobutton path="isPre" value=""></form:radiobutton>
 						 	<fmt:message key="COMMON_ALL" />
 						 </label>
 					</div>
@@ -550,7 +550,7 @@
 						 <fmt:message key="COMMON_YES" />
 						 </label>
 						 <label class="radio-inline">
-							<form:radiobutton path="isInStock" value="" checked="true"></form:radiobutton>
+							<form:radiobutton path="isInStock" value=""></form:radiobutton>
 						 	<fmt:message key="COMMON_ALL" />
 						 </label>
 					</div>
@@ -566,7 +566,7 @@
 						 <fmt:message key="COMMON_YES" />
 						 </label>
 						 <label class="radio-inline">
-							<form:radiobutton path="isHot" value="" checked="true"></form:radiobutton>
+							<form:radiobutton path="isHot" value=""></form:radiobutton>
 						 	<fmt:message key="COMMON_ALL" />
 						 </label>
 					</div>
