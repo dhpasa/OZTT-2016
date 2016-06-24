@@ -2762,7 +2762,7 @@ html{
 /**==================================================================**/
 .main_qrcode_wechat{
 	position: fixed;
-    bottom: 7rem;
+    bottom: 5rem;
     left: 1rem;
 }
 
