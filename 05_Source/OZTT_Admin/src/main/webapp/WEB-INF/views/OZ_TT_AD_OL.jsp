@@ -55,6 +55,31 @@
   				orderIds: orderIds.substring(0, orderIds.length -1),
   				status : status
   		}
+  		var canupdate = true;
+  		if (status == '9') {
+  			// 做是否可以取消订单的check
+  			$.ajax({
+  				type : "POST",
+  				contentType:'application/json',
+  				url : '${pageContext.request.contextPath}/OZ_TT_AD_OL/canUpdateBatchOrder',
+  				dataType : "json",
+  				async:false,
+  				data : JSON.stringify(jsonMap), 
+  				success : function(data) {
+  					if (data.canUpdate == "1") {
+  						canupdate = false;
+  						alert('<fmt:message key="W0005" />');
+  					} else {
+  						canupdate = true;
+  					}
+  				},
+  				error : function(data) {
+  					
+  				}
+  			});
+  		}
+  		
+  		if (!canupdate) return;
   		$.ajax({
 			type : "POST",
 			contentType:'application/json',

@@ -152,5 +152,14 @@ public interface OrderService {
      * @throws Exception
      */
     public void cleanOrderInfo() throws Exception;
+    
+    
+    /**
+     * 删除未付款信息订单信息
+     * 
+     * @param tConsOrder
+     * @throws Exception
+     */
+    public void deleteOrderInfoFormNotPay(TConsOrder tConsOrder) throws Exception;
 
 }

@@ -1262,4 +1262,20 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         }
     }
 
+    @Override
+    public void deleteOrderInfoFormNotPay(TConsOrder tConsOrder) throws Exception {
+        tConsOrderDao.updateByPrimaryKeySelective(tConsOrder);
+        // 为付款的订单，回滚团购件数
+        List<TConsOrderDetails> details = tConsOrderDetailsDao.selectDetailsByOrderId(tConsOrder.getOrderno());
+        if (details != null && details.size() > 0) {
+            for (TConsOrderDetails detail : details) {
+                TGoodsGroup tGoodsGroup = new TGoodsGroup();
+                tGoodsGroup.setGroupno(detail.getGroupno());
+                tGoodsGroup = tGoodsGroupDao.selectByParams(tGoodsGroup);
+                tGoodsGroup.setGroupcurrentquantity(tGoodsGroup.getGroupcurrentquantity() + detail.getQuantity());
+                tGoodsGroupDao.updateByPrimaryKeySelective(tGoodsGroup);
+            }
+        }
+    }
+
 }

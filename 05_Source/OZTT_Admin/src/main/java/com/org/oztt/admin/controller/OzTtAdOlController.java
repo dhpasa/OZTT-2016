@@ -2,7 +2,6 @@ package com.org.oztt.admin.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -30,12 +29,15 @@ import com.org.oztt.base.page.Pagination;
 import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.contants.CommonConstants;
+import com.org.oztt.contants.CommonEnum;
 import com.org.oztt.entity.TConsOrder;
+import com.org.oztt.entity.TGoodsGroup;
 import com.org.oztt.formDto.OzTtAdOdDto;
 import com.org.oztt.formDto.OzTtAdOdListDto;
 import com.org.oztt.formDto.OzTtAdOlDto;
 import com.org.oztt.formDto.OzTtAdOlListDto;
 import com.org.oztt.service.CommonService;
+import com.org.oztt.service.GoodsService;
 import com.org.oztt.service.OrderService;
 
 /**
@@ -52,6 +54,9 @@ public class OzTtAdOlController extends BaseController {
 
     @Resource
     private OrderService  orderService;
+
+    @Resource
+    private GoodsService  goodsService;
 
     /**
      * 订单一览画面
@@ -156,7 +161,7 @@ public class OzTtAdOlController extends BaseController {
             return CommonConstants.ERROR_PAGE;
         }
     }
-    
+
     /**
      * 订单一览分页选择画面
      * 
@@ -189,8 +194,7 @@ public class OzTtAdOlController extends BaseController {
             logger.error(e.getMessage());
         }
     }
-    
-    
+
     /**
      * 订单批量修改状态
      * 
@@ -204,16 +208,27 @@ public class OzTtAdOlController extends BaseController {
             @RequestBody Map<String, String> map) {
         Map<String, Object> mapReturn = new HashMap<String, Object>();
         try {
-            
+
             String[] orderIdArr = map.get("orderIds").split(",");
             String status = map.get("status");
             for (String str : orderIdArr) {
                 TConsOrder tConsOrder = orderService.selectByOrderId(str);
-                tConsOrder.setHandleflg(status);
+                
                 tConsOrder.setUpdpgmid("OZ_TT_AD_GB");
                 tConsOrder.setUpdtimestamp(new Date());
                 tConsOrder.setUpduserkey(CommonConstants.ADMIN_USERKEY);
-                orderService.updateOrderInfo(tConsOrder);
+                if (CommonEnum.HandleFlag.DELETED.getCode().equals(status)
+                        && CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode().equals(tConsOrder.getHandleflg())
+                        && (CommonEnum.PaymentMethod.PAY_INSTORE.getCode().equals(tConsOrder.getDeliverymethod()) || CommonEnum.PaymentMethod.COD
+                                .getCode().equals(tConsOrder.getDeliverymethod()))) {
+                    // 取消订单的时候
+                    tConsOrder.setHandleflg(status);
+                    orderService.deleteOrderInfoFormNotPay(tConsOrder);
+                }
+                else {
+                    tConsOrder.setHandleflg(status);
+                    orderService.updateOrderInfo(tConsOrder);
+                }
             }
             // 后台维护的时候提示让以逗号隔开
             mapReturn.put("isException", false);
@@ -225,9 +240,47 @@ public class OzTtAdOlController extends BaseController {
             return null;
         }
     }
-    
-    
-    
+
+    /**
+     * 订单批量修改状态
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/canUpdateBatchOrder")
+    @ResponseBody
+    public Map<String, Object> canUpdateBatchOrder(HttpServletRequest request, HttpSession session,
+            @RequestBody Map<String, String> map) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+
+            String[] orderIdArr = map.get("orderIds").split(",");
+            String canUpdate = "0";
+            for (String str : orderIdArr) {
+                TConsOrder tConsOrder = orderService.selectByOrderId(str);
+                // 只有订单是来店自提－到店付款或者送货上门－货到付款
+                if (CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode().equals(tConsOrder.getHandleflg())
+                        && (CommonEnum.PaymentMethod.PAY_INSTORE.getCode().equals(tConsOrder.getDeliverymethod()) || CommonEnum.PaymentMethod.COD
+                                .getCode().equals(tConsOrder.getDeliverymethod()))) {
+                    canUpdate = "0";
+                } else {
+                    canUpdate = "1";
+                    break;
+                }
+
+            }
+            mapReturn.put("canUpdate", canUpdate);
+            // 后台维护的时候提示让以逗号隔开
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return null;
+        }
+    }
 
     /**
      * 输出excel报表
@@ -266,7 +319,7 @@ public class OzTtAdOlController extends BaseController {
                 HSSFRow row = sheet.createRow(number);
 
                 cell = row.createCell(0);
-                cell.setCellValue(i+1);
+                cell.setCellValue(i + 1);
                 cell.setCellStyle(setBorder);
 
                 cell = row.createCell(1);
@@ -312,17 +365,17 @@ public class OzTtAdOlController extends BaseController {
                 cell = row.createCell(10);
                 cell.setCellValue(sumAmount.toString());
                 cell.setCellStyle(setBorder);
-                
+
                 //收货人
                 cell = row.createCell(11);
                 cell.setCellValue(list.get(i).getReceiver());
                 cell.setCellStyle(setBorder);
-                
+
                 //联系电话
                 cell = row.createCell(12);
                 cell.setCellValue(list.get(i).getContactTel());
                 cell.setCellStyle(setBorder);
-                
+
                 cell = row.createCell(13);
                 cell.setCellValue(list.get(i).getAddress());
                 cell.setCellStyle(setBorder);
@@ -330,9 +383,9 @@ public class OzTtAdOlController extends BaseController {
                 cell = row.createCell(14);
                 cell.setCellValue(list.get(i).getAtHomeTime());
                 cell.setCellStyle(setBorder);
-                
+
                 OzTtAdOdDto ozTtAdOdDto = orderService.getOrderDetailForAdmin(list.get(i).getOrderNo());
-                
+
                 if (ozTtAdOdDto != null && ozTtAdOdDto.getItemList() != null && ozTtAdOdDto.getItemList().size() > 0) {
                     for (OzTtAdOdListDto detail : ozTtAdOdDto.getItemList()) {
                         number++;
@@ -341,7 +394,7 @@ public class OzTtAdOlController extends BaseController {
                         cell = row.createCell(1);
                         cell.setCellValue(detail.getGoodsGroupId());
                         cell.setCellStyle(setBorder);
-                        
+
                         cell = row.createCell(2);
                         cell.setCellValue(detail.getGoodsId());
                         cell.setCellStyle(setBorder);
@@ -357,7 +410,7 @@ public class OzTtAdOlController extends BaseController {
                         cell = row.createCell(5);
                         cell.setCellValue(detail.getGoodsQuantity());
                         cell.setCellStyle(setBorder);
-                        
+
                         cell = row.createCell(6);
                         cell.setCellValue(detail.getGoodsTotalAmount());
                         cell.setCellStyle(setBorder);
