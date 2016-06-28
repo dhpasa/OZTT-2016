@@ -3,6 +3,7 @@ package com.org.oztt.base.common;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -31,14 +32,19 @@ public class MailUtil {
 
 	static {
 		mailServer = getApplicationMessage("mailServer");
+		//mailServer = "mail.oztuantuan.com.au";
 		mailAddress = getApplicationMessage("mailAddress");
+		//mailAddress = "info@oztuantuan.com.au";
 		password = StringDecode.paramDecode(getApplicationMessage("password"));
+		//password = "liuyuan19830808";
 	}
 
 	public static void sendMail(SendMailDto sendMailDto, List<String> paramList) throws Exception {
 		try {
 			Properties props = new Properties();
+			//props.put("mail.smtp.starttls.enable", "true");
 			props.put("mail.smtp.host", mailServer);
+			//props.put("mail.smtp.port", "587");
 			props.put("mail.smtp.auth", "true");
 			Session session = Session.getInstance(props);
 
@@ -145,5 +151,17 @@ public class MailUtil {
 		}
 	}
 	
+	@SuppressWarnings("static-access")
+	public static void main(String[] args) throws Exception {
+		MailUtil mailUtil = new MailUtil();
+		SendMailDto sendMailDto = new SendMailDto();
+		sendMailDto.setContent("test");
+		sendMailDto.setTitle("06281111222233333");
+		List<String> mailTo = new ArrayList<String>();
+		mailTo.add("liuyuan1983@gmail.com");
 
+		sendMailDto.setTo(mailTo);
+		mailUtil.sendMail(sendMailDto, null);
+	}
+	
 }
