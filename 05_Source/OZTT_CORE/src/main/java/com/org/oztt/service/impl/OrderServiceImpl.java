@@ -939,14 +939,14 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         params.put("deliveryMethod", CommonEnum.DeliveryMethod.getEnumLabel(tConsOrder.getDeliverymethod()));
         params.put("subtotal", tConsOrder.getOrderamount().toString());
         params.put("tax", tConsOrder.getOrderamount()
-                .multiply(new BigDecimal(super.getApplicationMessage("TAX", null))).setScale(2).toString());
+                .multiply(new BigDecimal(super.getApplicationMessage("TAX", null))).setScale(2, BigDecimal.ROUND_HALF_UP).toString());
         params.put(
                 "total",
                 tConsOrder
                         .getOrderamount()
                         .subtract(
                                 tConsOrder.getOrderamount()
-                                        .multiply(new BigDecimal(super.getApplicationMessage("TAX", null))).setScale(2))
+                                        .multiply(new BigDecimal(super.getApplicationMessage("TAX", null))).setScale(2, BigDecimal.ROUND_HALF_UP))
                         .toString());
         String ireportPath = session.getServletContext().getRealPath("") + "/ireport/";
         JasperCompileManager.compileReportToFile(ireportPath + "INVOICE_TAX.jrxml", ireportPath + "INVOICE_TAX.jasper");
@@ -960,7 +960,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             invoiceDto.setPrice(dto.getGoodsPrice());
             invoiceDto.setQty(dto.getGoodsQuantity());
             invoiceDto.setTax((new BigDecimal(dto.getGoodsPrice()))
-                    .multiply(new BigDecimal(super.getApplicationMessage("TAX", null))).setScale(2).toString());
+                    .multiply(new BigDecimal(super.getApplicationMessage("TAX", null))).setScale(2, BigDecimal.ROUND_HALF_UP).toString());
             //            invoiceDto.setTotal(dto.getGoodsPrice());
             invoiceDto.setTotal(String.valueOf(new BigDecimal(dto.getGoodsPrice()).divide(new BigDecimal(dto
                     .getGoodsQuantity()))));
@@ -1173,11 +1173,11 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 params.put("total", tConsOrder.getOrderamount().toString());
                 params.put("tax",
                         tConsOrder.getOrderamount().multiply(new BigDecimal(getApplicationMessage("TAX", null)))
-                                .setScale(2).toString());
+                                .setScale(2, BigDecimal.ROUND_HALF_UP).toString());
                 params.put(
                         "subtotal",
                         tConsOrder.getOrderamount()
-                                .subtract(tConsOrder.getOrderamount().multiply(new BigDecimal(tax)).setScale(2))
+                                .subtract(tConsOrder.getOrderamount().multiply(new BigDecimal(tax)).setScale(2, BigDecimal.ROUND_HALF_UP))
                                 .toString());
                 String ireportPath = session.getServletContext().getRealPath("") + "/ireport/";
                 JasperCompileManager.compileReportToFile(ireportPath + "INVOICE_TAX.jrxml", ireportPath
@@ -1191,7 +1191,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                     invoiceDto.setQty(dto.getGoodsQuantity());
                     BigDecimal total = new BigDecimal(0);
                     total = new BigDecimal(dto.getGoodsPrice()).multiply(new BigDecimal(dto.getGoodsQuantity()));
-                    invoiceDto.setTax(total.multiply(new BigDecimal(tax)).setScale(2).toString());
+                    invoiceDto.setTax(total.multiply(new BigDecimal(tax)).setScale(2, BigDecimal.ROUND_HALF_UP).toString());
                     invoiceDto.setTotal(total.toString());
                     dataSource.add(invoiceDto);
                 }

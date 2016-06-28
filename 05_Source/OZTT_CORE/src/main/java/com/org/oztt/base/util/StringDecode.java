@@ -68,6 +68,6 @@ public class StringDecode {
 	}
 	
 	public static void main(String[] args) {
-	    System.out.println(paramEncode("OZtuantuan888"));
+	    System.out.println(paramEncode("830808"));
 	}
 }
