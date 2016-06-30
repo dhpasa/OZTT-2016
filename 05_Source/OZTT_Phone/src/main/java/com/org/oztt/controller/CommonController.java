@@ -581,7 +581,7 @@ public class CommonController extends BaseController {
         Map<String, Object> mapReturn = new HashMap<String, Object>();
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
-            boolean isOver = true;
+            boolean isOver = false;
             long maxBuy = 0;
             Map<String, String> mapParam = new HashMap<String, String>();
             if (list != null && list.size() > 0) {
@@ -608,9 +608,7 @@ public class CommonController extends BaseController {
                     maxBuy = (maxBuy > tGoodsGroup.getGroupquantitylimit() || maxBuy == 0L) ? tGoodsGroup.getGroupquantitylimit() : maxBuy;
                 }
                 
-                if(checkQuantity + alreadyPurchaseSum <= tGoodsGroup.getGroupquantitylimit()) {
-                	isOver = false;
-                } else {
+                if(checkQuantity + alreadyPurchaseSum > tGoodsGroup.getGroupquantitylimit()) {
                 	isOver = true;
                 	maxBuy = ((maxBuy + alreadyPurchaseSum) > tGoodsGroup.getGroupquantitylimit() || maxBuy == 0L) ? (tGoodsGroup.getGroupquantitylimit() - alreadyPurchaseSum) : maxBuy;
                 }
@@ -645,7 +643,7 @@ public class CommonController extends BaseController {
         Map<String, Object> mapReturn = new HashMap<String, Object>();
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
-            boolean isOver = true;
+            boolean isOver = false;
             long maxBuy = 0;
             String msg = "";
             if (list != null && list.size() > 0) {
@@ -672,9 +670,7 @@ public class CommonController extends BaseController {
                         maxBuy = (maxBuy > tGoodsGroup.getGroupquantitylimit() || maxBuy == 0L) ? tGoodsGroup.getGroupquantitylimit() : maxBuy;
                     }
                     
-                    if(checkQuantity + alreadyPurchaseSum <= tGoodsGroup.getGroupquantitylimit()) {
-                    	isOver = false;
-                    } else {
+                    if(checkQuantity + alreadyPurchaseSum > tGoodsGroup.getGroupquantitylimit()) {
                     	isOver = true;
                     	maxBuy = ((maxBuy + alreadyPurchaseSum) > tGoodsGroup.getGroupquantitylimit() || maxBuy == 0L) ? (tGoodsGroup.getGroupquantitylimit() - alreadyPurchaseSum) : maxBuy;
                     }
