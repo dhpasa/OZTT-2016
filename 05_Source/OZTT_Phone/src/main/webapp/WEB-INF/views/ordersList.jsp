@@ -43,7 +43,7 @@
 						var temp1 = '<div class="order-goods-div margin-1rem-top">';
 						var temp2 = '	<div class="order-head" onclick="detail(\'{0}\')">';
 						var temp3 = '		<div class="order-time">{0}</div>';
-						var temp4 = '		<div class="order-status">{0}</div>';
+						var temp4 = '		<div class="order-status"><a class="orderListToDetail"><fmt:message key="COMMON_ORDER_D" /></a></div>';
 						var temp5 = '	</div>';
 							
 						var temp10 = '	<div class="order-checkBlockBody">';
@@ -168,7 +168,7 @@
 	        _end = _start - touch.pageY;
 	    }
 	    function touchEnd(event){
-	    	if ($("#main_goods").height() <= $(window).scrollTop() + $(window).height() && _end > 0) {
+	    	if (($("#main_goods").height() - 200) <= $(window).scrollTop() + $(window).height() && _end > 0) {
 	    		$("#loadingDiv").css("display","");
 	    		setTimeout(function(){
 	    			pageNo += 1;
