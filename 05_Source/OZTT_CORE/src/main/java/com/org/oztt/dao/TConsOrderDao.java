@@ -93,5 +93,6 @@ public interface TConsOrderDao {
      */
     List<TConsOrder> getNotPayOrderInfo();
     
+    int getAleadyPurchaseCount(Map<Object, Object> params);
     
 }

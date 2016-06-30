@@ -92,5 +92,9 @@ public class TConsOrderDaoImpl extends BaseDao implements TConsOrderDao {
     public List<TConsOrder> getNotPayOrderInfo() {
         return select("com.org.oztt.dao.TConsOrderDao.getNotPayOrderInfo");
     }
-
+    
+    @Override
+    public int getAleadyPurchaseCount(Map<Object, Object> params) {
+        return selectOne("com.org.oztt.dao.TConsOrderDao.getAleadyPurchaseCount", params);
+    }
 }

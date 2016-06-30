@@ -580,6 +580,7 @@ public class CommonController extends BaseController {
             HttpSession session, @RequestBody List<Map<String, String>> list) {
         Map<String, Object> mapReturn = new HashMap<String, Object>();
         try {
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
             boolean isOver = true;
             long maxBuy = 0;
             Map<String, String> mapParam = new HashMap<String, String>();
@@ -589,6 +590,12 @@ public class CommonController extends BaseController {
                 tGoodsGroup.setGroupno(mapParam.get("groupId"));
                 tGoodsGroup = goodsService.getGoodPrice(tGoodsGroup);
                 Long checkQuantity = Long.valueOf(mapParam.get("goodsQuantity"));
+                //单个团购，单个客户已经购买的数量取得
+                Map<Object, Object> paramMap = new HashMap<Object, Object>();
+                paramMap.put("customerNo", customerNo);
+                paramMap.put("groupNo", tGoodsGroup.getGroupno());
+                int alreadyPurchaseSum = orderService.getAleadyPurchaseCount(paramMap);
+                
                 if (checkQuantity + tGoodsGroup.getGroupcurrentquantity() <= tGoodsGroup.getGroupmaxquantity()) {
                     isOver = false;
                 } else {
@@ -600,6 +607,17 @@ public class CommonController extends BaseController {
                     isOver = true;
                     maxBuy = (maxBuy > tGoodsGroup.getGroupquantitylimit() || maxBuy == 0L) ? tGoodsGroup.getGroupquantitylimit() : maxBuy;
                 }
+                
+                if(checkQuantity + alreadyPurchaseSum <= tGoodsGroup.getGroupquantitylimit()) {
+                	isOver = false;
+                } else {
+                	isOver = true;
+                	maxBuy = ((maxBuy + alreadyPurchaseSum) > tGoodsGroup.getGroupquantitylimit() || maxBuy == 0L) ? (tGoodsGroup.getGroupquantitylimit() - alreadyPurchaseSum) : maxBuy;
+                }
+                
+            	if(maxBuy < 0) {
+            		maxBuy = 0;
+            	}
             }
             mapReturn.put("maxBuy", maxBuy);
             mapReturn.put("isOver", isOver);
@@ -626,6 +644,7 @@ public class CommonController extends BaseController {
             HttpSession session, @RequestBody List<Map<String, String>> list) {
         Map<String, Object> mapReturn = new HashMap<String, Object>();
         try {
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
             boolean isOver = true;
             long maxBuy = 0;
             String msg = "";
@@ -635,6 +654,12 @@ public class CommonController extends BaseController {
                     tGoodsGroup.setGroupno(mapParam.get("groupId"));
                     tGoodsGroup = goodsService.getGoodPrice(tGoodsGroup);
                     Long checkQuantity = Long.valueOf(mapParam.get("goodsQuantity"));
+                    //单个团购，单个客户已经购买的数量取得
+                    Map<Object, Object> paramMap = new HashMap<Object, Object>();
+                    paramMap.put("customerNo", customerNo);
+                    paramMap.put("groupNo", tGoodsGroup.getGroupno());
+                    int alreadyPurchaseSum = orderService.getAleadyPurchaseCount(paramMap);
+
                     if (checkQuantity + tGoodsGroup.getGroupcurrentquantity() <= tGoodsGroup.getGroupmaxquantity()) {
                         isOver = false;
                     } else {
@@ -647,6 +672,17 @@ public class CommonController extends BaseController {
                         maxBuy = (maxBuy > tGoodsGroup.getGroupquantitylimit() || maxBuy == 0L) ? tGoodsGroup.getGroupquantitylimit() : maxBuy;
                     }
                     
+                    if(checkQuantity + alreadyPurchaseSum <= tGoodsGroup.getGroupquantitylimit()) {
+                    	isOver = false;
+                    } else {
+                    	isOver = true;
+                    	maxBuy = ((maxBuy + alreadyPurchaseSum) > tGoodsGroup.getGroupquantitylimit() || maxBuy == 0L) ? (tGoodsGroup.getGroupquantitylimit() - alreadyPurchaseSum) : maxBuy;
+                    }
+                    
+                	if(maxBuy < 0) {
+                		maxBuy = 0;
+                	}
+                	
                     if (isOver) {
                         GoodItemDto itemDto = goodsService.getGoodAllItemDto(mapParam.get("groupId"));
                         msg = super.getMessage("E0009", session).replace("{0}", itemDto.getGoods().getGoodsname()).replace("{1}", String.valueOf(maxBuy));

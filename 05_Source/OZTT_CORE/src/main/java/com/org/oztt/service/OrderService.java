@@ -162,4 +162,5 @@ public interface OrderService {
      */
     public void deleteOrderInfoFormNotPay(TConsOrder tConsOrder) throws Exception;
 
+    public int getAleadyPurchaseCount(Map<Object, Object> params) throws Exception;
 }

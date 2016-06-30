@@ -415,4 +415,14 @@
 			TIMESTAMPDIFF(MINUTE, orderTimestamp, now()) > 30
 		AND handleFlg = '0'
 	</select>
+	
+	<select id="getAleadyPurchaseCount" resultType="int" parameterType="map">
+		SELECT
+		IFNULL(SUM(d.quantity), 0)
+		FROM t_cons_order_details d
+		LEFT JOIN t_cons_order o ON o.orderNo = d.orderNo
+		WHERE d.customerNo = #{customerNo,jdbcType=VARCHAR}
+		AND d.groupNo = #{groupNo,jdbcType=VARCHAR}
+		AND o.handleFlg <![CDATA[ <> ]]> '9'
+	</select>
 </mapper>
