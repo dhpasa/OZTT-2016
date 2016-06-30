@@ -1278,4 +1278,10 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         }
     }
 
+    @Override
+    public int getAleadyPurchaseCount(Map<Object, Object> params) throws Exception {
+        int sum = tConsOrderDao.getAleadyPurchaseCount(params);
+        return sum;
+
+    }
 }
