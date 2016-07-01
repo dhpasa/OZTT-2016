@@ -2585,6 +2585,19 @@ html{
 	padding:0.5rem 1rem 0.5rem 0rem;
 }
 
+.orderListToDetail{
+	color: #FF9298;
+    border-radius: 5px !important;
+    border: 0.5px solid #FF9298;
+    padding: 0px 5px;
+    
+}
+.orderListToDetail:hover,
+.orderListToDetail:active
+{
+	color: #FF9298;    
+}
+
 /*=====================================订单详情==============================================*/
 .order-item-status{
 	width: 100%;

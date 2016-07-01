@@ -39,7 +39,7 @@
 		        _end = _start - touch.pageY;
 		    }
 		    function touchEnd(event){
-		    	if ($("#main_goods").height() <= $(window).scrollTop() + $(window).height() && _end > 0) {
+		    	if (($("#main_goods").height() - 200) <= $(window).scrollTop() + $(window).height() && _end > 0) {
 		    		$("#loadingDiv").css("display","");
 		    		setTimeout(function(){
 		    			pageNo += 1;
