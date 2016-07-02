@@ -67,5 +67,8 @@ public interface CustomerService {
     
     // 通过手机号取得客户号
     public TCustomerSecurityInfo getCustomerByPhone(String phone) throws Exception;
+    
+    // 取得客户信息
+    public TCustomerSecurityInfo getCustomerSecurityByCustomerNo(String customerNo) throws Exception;
 
 }

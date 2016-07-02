@@ -302,4 +302,11 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
         return tCustomerSecurityInfoDao.selectByParam(param);
     }
 
+    @Override
+    public TCustomerSecurityInfo getCustomerSecurityByCustomerNo(String customerNo) throws Exception {
+        TCustomerSecurityInfo param = new TCustomerSecurityInfo();
+        param.setCustomerno(customerNo);
+        return tCustomerSecurityInfoDao.selectByParam(param);
+    }
+
 }
