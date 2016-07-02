@@ -483,7 +483,7 @@
 			and a.hotSaleFlg = #{hotSaleFlg,jdbcType=VARCHAR}
 		</if>
 		<if test="newSaleFlg != null">
-			and a.newSaleFlg = #{newSaleFlg,jdbcType=VARCHAR}
+			and c.topPageUp = #{newSaleFlg,jdbcType=VARCHAR}
 		</if>
 		<if test="goodsName != null and goodsName != '' ">
 			and a.goodsName like concat('%',#{goodsName},'%')
@@ -506,6 +506,9 @@
 		order by 
 		<if test="mode == 1 ">
 			c.groupCurrentQuantity desc,
+		</if>
+		<if test="mode == 2 ">
+			c.groupNo desc,
 		</if>
 		<if test="mode == 3 ">
 			c.groupPrice,
@@ -532,7 +535,7 @@
 			and a.hotSaleFlg = #{hotSaleFlg,jdbcType=VARCHAR}
 		</if>
 		<if test="newSaleFlg != null">
-			and a.newSaleFlg = #{newSaleFlg,jdbcType=VARCHAR}
+			and c.topPageUp = #{newSaleFlg,jdbcType=VARCHAR}
 		</if>
 		<if test="goodsName != null and goodsName != '' ">
 			and a.goodsName like concat('%',#{goodsName},'%')

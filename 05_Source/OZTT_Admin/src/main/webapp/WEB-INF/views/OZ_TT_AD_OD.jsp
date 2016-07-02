@@ -179,7 +179,8 @@
 					</tbody>
 					</table>
 				</div>
-				
+			
+			<div style="text-align: right;padding-right: 100px"><fmt:message key="COMMON_ALLAMOUNT" />${ozTtAdOdDto.orderAmount}</div>	
 			</div>
 			
 			</form:form>
