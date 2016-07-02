@@ -32,6 +32,8 @@ public class OzTtAdOdDto {
     
     private String invoiceFlg;
     
+    private String orderAmount;
+    
     private List<OzTtAdOdListDto> itemList;
 
     public String getInvoiceFlg() {
@@ -152,5 +154,13 @@ public class OzTtAdOdDto {
 
     public void setDeliveryMethodFlag(String deliveryMethodFlag) {
         this.deliveryMethodFlag = deliveryMethodFlag;
+    }
+
+    public String getOrderAmount() {
+        return orderAmount;
+    }
+
+    public void setOrderAmount(String orderAmount) {
+        this.orderAmount = orderAmount;
     }
 }

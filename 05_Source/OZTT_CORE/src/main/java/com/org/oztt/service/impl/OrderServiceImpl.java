@@ -841,6 +841,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         dto.setPaymentMethod(CommonEnum.PaymentMethod.getEnumLabel(tConsOrder.getPaymentmethod()));
         dto.setDeliveryMethod(CommonEnum.DeliveryMethod.getEnumLabel(tConsOrder.getDeliverymethod()));
         dto.setInvoiceFlg(CommonEnum.InvoiceFlg.getEnumLabel(tConsOrder.getInvoiceflg()));
+        dto.setOrderAmount(tConsOrder.getOrderamount().toString());
 
         if (tConsOrder.getAddressid() != 0) {
             // 获取地址
