@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.contants.CommonEnum;
 import com.org.oztt.entity.TConsOrder;
+import com.org.oztt.entity.TCustomerBasicInfo;
+import com.org.oztt.entity.TCustomerSecurityInfo;
 import com.org.oztt.formDto.OzTtAdOdDto;
 import com.org.oztt.service.CommonService;
+import com.org.oztt.service.CustomerService;
 import com.org.oztt.service.OrderService;
 
 /**
@@ -30,6 +33,9 @@ public class OzTtAdOdController extends BaseController {
 
     @Resource
     private OrderService  orderService;
+    
+    @Resource
+    private CustomerService customerService;
 
     /**
      * 订单详细画面
@@ -42,6 +48,15 @@ public class OzTtAdOdController extends BaseController {
     public String init(Model model, HttpServletRequest request, HttpSession session, String orderNo, String pageNo) {
         try {
             OzTtAdOdDto ozTtAdOdDto = orderService.getOrderDetailForAdmin(orderNo);
+            if (CommonEnum.DeliveryMethod.PICK_INSTORE.getCode().equals(ozTtAdOdDto.getDeliveryMethodFlag())) {
+                // 来店自提
+                TCustomerBasicInfo baseInfo = customerService.selectBaseInfoByCustomerNo(ozTtAdOdDto.getCustomerNo());
+                TCustomerSecurityInfo securityInfo = customerService.getCustomerSecurityByCustomerNo(ozTtAdOdDto.getCustomerNo());
+                ozTtAdOdDto.setReceiver(baseInfo.getNickname());
+                ozTtAdOdDto.setPhone(securityInfo.getTelno()); 
+            } else if (CommonEnum.DeliveryMethod.HOME_DELIVERY.getCode().equals(ozTtAdOdDto.getDeliveryMethodFlag())) {
+                // 送货上门
+            }
             model.addAttribute("ozTtAdOdDto", ozTtAdOdDto);
             model.addAttribute("pageNo", pageNo);
             return "OZ_TT_AD_OD";
