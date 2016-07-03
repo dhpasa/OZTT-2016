@@ -23,6 +23,13 @@
 		var pageNo = $("#pageNo").val();
 		location.href = "${pageContext.request.contextPath}/OZ_TT_AD_GL/pageSearch?pageNo="+pageNo;
 	}
+	
+	function changePhoneItem(str) {
+		var phonew = $(str).val().split("|")[0];
+		var phoneh = $(str).val().split("|")[1];
+		$("#phoneview").css("width",phonew);
+		$("#phoneview").css("height",phoneh);
+	}
   </script>
 </head>
 <body>
@@ -59,83 +66,93 @@
 			<!-- BEGIN CONTENT -->
 		<div class="form-body">
 				<div class="form-group">
-					<div class="col-md-12 textright">
+					<div class="col-md-6 textleft">
+						<select onchange="changePhoneItem(this)">
+							<option value="414|716">414 * 716</option>
+							<option value="375|667">375 * 667</option>
+						</select>
+					</div>	
+					<div class="col-md-6 textright">
 						<button type="button" class="btn green mybtn" onclick="backToList()">
 								<i class="fa fa-reply"></i>&nbsp;<fmt:message key="COMMON_BACK" />
 						</button>
 					</div>	
 				</div>
 			
-          <div class="col-md-9 col-sm-7">
-            <div class="product-page">
-              <div class="row">
-                <div class="col-md-6 col-sm-6">
-                  <div class="product-main-image">
-                    <img src="${goodItemDto.firstImg}" alt="${goodItemDto.goods.goodsname}" class="img-responsive" data-BigImgSrc="${goodItemDto.firstImg}" id="activeImage">
-                    <input type="hidden" value="${goodItemDto.goods.goodsthumbnail}" id="hiddenImage" />
-                  </div>
-                  <div class="product-other-images">
-                  <c:forEach var="imgTh" items="${ goodItemDto.imgList }" varStatus="status">
-                  		<c:if test="${ status.index == 0}">
-                  			<a onclick="showImgMain(this,'${imgTh}','${goodItemDto.goods.goodsname}')" class="active"><img alt="${goodItemDto.goods.goodsname}" src="${imgTh}"></a>
-                  		</c:if>
-                  		<c:if test="${ status.index != 0}">
-	                  		<a onclick="showImgMain(this,'${imgTh}','${goodItemDto.goods.goodsname}')"><img alt="${goodItemDto.goods.goodsname}" src="${imgTh}"></a>
-                  		</c:if>
-                  </c:forEach>
-                  </div>
-                </div>
-                <div class="col-md-6 col-sm-6">
-                  <h1 id="goodsNameh1">${goodItemDto.goods.goodsname}</h1>
-                  <div class="price-availability-block clearfix">
-                    <div class="price">
-                      <strong id="disPrice">${goodItemDto.disPrice}<fmt:message key="COMMON_YUAN"/></strong>
-                      <em><span id="nowPrice">${goodItemDto.nowPrice}<fmt:message key="COMMON_YUAN"/></span></em>
-                    </div>
-                    <div class="availability">
-
-                    </div>
-                  </div>
-                  <div class="description">
-                    <p>${goodItemDto.validPeriodStart}~${goodItemDto.validPeriodEnd}</p>
-                  </div>
-                  <div class="description">
-                    <p>${goodItemDto.goods.goodsdesc}</p>
-                  </div>
-                  <div class="product-page-options" id="productOptions">
-                    
-
-
-                  </div>
-                  <div class="product-page-cart">
-                    
-                    
-                 </div>
-                  
-                </div>
-
-                <div class="product-page-content">
-                  <ul id="myTab" class="nav nav-tabs">
-                    <li class="active"><a href="#Description" data-toggle="tab"><fmt:message key="OZ_TT_AD_GP_des"/></a></li>
-                    <li><a href="#Information" data-toggle="tab"><fmt:message key="OZ_TT_AD_GP_info"/></a></li>
-                    <li><a href="#Reviews" data-toggle="tab"><fmt:message key="OZ_TT_AD_GP_rule"/></a></li>
-                  </ul>
-                  <div id="myTabContent" class="tab-content">
-                    <div class="tab-pane fade in active" id="Description">
-                      	${goodItemDto.productInfo}
-                    </div>
-                    <div class="tab-pane fade" id="Information">
-                      	${goodItemDto.productDesc}
-                    </div>
-                    <div class="tab-pane fade" id="Reviews">
-                      	${goodItemDto.sellerRule}
-                    </div>
-                  </div>
-                </div>
-
-                <div class="sticker sticker-sale"></div>
-              </div>
-            </div>
+          <div id="phoneview" class="col-md-9 col-sm-7" style="width:414px;height:716px;border: 1px solid #111;overflow-y: auto">
+            	<div class="flexslider border-top-show item_flexslider">
+			  		<ul class="slides">
+			  			<c:forEach var="imgList" items="${ goodItemDto.imgList }" varStatus="status">
+			    			<li><img src="${imgList}" class="padding-2rem"/></li>
+			    			<li><img src="${imgList}" class="padding-2rem"/></li>
+			    		</c:forEach>
+			  		</ul>
+			   </div>
+			   
+			   <div class="iteminfo">
+			   		<div>
+			   			<span class="item-goodsname" id="item-goodsname-id">${ goodItemDto.goods.goodsname}</span>
+			   		</div>
+			   		<div>
+			   			<span class="item-disprice" id="item-disprice-id">
+			   				<span><fmt:message key="COMMON_DOLLAR" /></span>${goodItemDto.disPrice}
+			   			</span>
+			   			<span class="item-nowprice"><fmt:message key="COMMON_DOLLAR" />${ goodItemDto.nowPrice}</span>
+			   		</div>
+			   		
+			   		<c:if test="${not empty goodItemDto.goodsTabs}">
+			   			<div class="border-top-show tabarea tabInfo">
+				   		<c:forEach var="tabList" items="${ goodItemDto.goodsTabs }">
+				   			<span class="item-label" onclick="toShowTabGoods('${tabList.id}')">${tabList.tabname}</span>
+				   		</c:forEach>
+				   		</div>
+			   		</c:if>
+			   		
+			   		
+			   		<div class="border-top-show height3">
+			   			<span class="item-timeword forceFloatLeft"><fmt:message key="ITEM_TIME" /></span>
+			   			<div class="cuntdown item-countdown" data-seconds-left="${goodItemDto.countdownTime}"></div>
+			   		</div>
+			   		
+			   		<div class="border-top-show" style="padding:0.5rem 0">
+			   			<i class="main-hasBuy" style="float: left"></i>
+			   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
+			   			<span class="">${goodItemDto.groupCurrent}&nbsp;/&nbsp;${goodItemDto.groupMax}</span>
+			   		</div>
+			   </div>
+			   
+			   <div class="product-page-content">
+			      <ul id="myTab" class="nav nav-tabs">
+			        <li class="active"><a href="#Description" data-toggle="tab"><fmt:message key="ITEM_DESC"/></a></li>
+			        <li><a href="#Information" data-toggle="tab"><fmt:message key="ITEM_INFO"/></a></li>
+			        <li><a href="#Reviews" data-toggle="tab"><fmt:message key="ITEM_RULE"/></a></li>
+			      </ul>
+			      <div id="myTabContent" class="tab-content">
+			      	<div class="tab-pane fade in active" id="Description">
+			          	${goodItemDto.productDesc}
+			        </div>
+			        <div class="tab-pane fade" id="Information">
+			          	${goodItemDto.productInfo}
+			        </div>
+			        <div class="tab-pane fade" id="Reviews">
+			          	${goodItemDto.sellerRule}
+			        </div>
+			      </div>
+			    </div>
+			    
+			    <%-- <div class="item-btn">
+			    	<c:if test="${IS_OVER != '1' }">
+			    		<a onclick="checktoItem('${goodItemDto.groupId}')" class="canBuy"><fmt:message key="ITEM_ADDTOCART"/></a>
+			    	</c:if>
+			    	<c:if test="${IS_OVER == '1' }">
+			    		<a class="canNotBuy"><fmt:message key="ITEM_ISOVER"/></a>
+			    	</c:if>
+			    	
+			    </div> --%>
+            
+            
+            
+            
           </div>
           <!-- END CONTENT -->
           </div>
