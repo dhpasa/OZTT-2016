@@ -23,12 +23,14 @@
 <link href="${ctx}/assets/plugins/fancybox/source/jquery.fancybox.css" rel="stylesheet" type="text/css"/>
 <!-- END PAGE LEVEL PLUGIN STYLES -->
 <!-- BEGIN THEME STYLES -->
+
 <link href="${ctx}/assets/css/style-metronic.css" rel="stylesheet" type="text/css"/>
 <link href="${ctx}/assets/css/style.css" rel="stylesheet" type="text/css"/>
 <link href="${ctx}/assets/css/style-responsive.css" rel="stylesheet" type="text/css"/>
 <link href="${ctx}/assets/css/plugins.css" rel="stylesheet" type="text/css"/>
 <link href="${ctx}/assets/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color"/>
 <link href="${ctx}/assets/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="${ctx}/css/flexslider.css" rel="stylesheet" type="text/css">
 <link href="${ctx}/css/uploadify.css" type="text/css" rel="stylesheet" />
 <link href="${ctx}/css/fileinput.css" type="text/css" rel="stylesheet" />
 <link href="${ctx}/css/user-common.css" rel="stylesheet" type="text/css">

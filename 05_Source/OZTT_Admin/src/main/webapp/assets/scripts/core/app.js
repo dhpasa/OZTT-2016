@@ -1017,7 +1017,7 @@ var App = function () {
             handleFixedSidebar(); // handles fixed sidebar menu
             handleFixedSidebarHoverable(); // handles fixed sidebar on hover effect 
             handleSidebarMenu(); // handles main menu
-            handleHorizontalMenu(); // handles horizontal menu
+            //handleHorizontalMenu(); // handles horizontal menu
             handleSidebarToggler(); // handles sidebar hide/show            
             handleFixInputPlaceholderForIE(); // fixes/enables html5 placeholder attribute for IE9, IE8
             handleGoTop(); //handles scroll to top functionality in the footer
@@ -1029,7 +1029,7 @@ var App = function () {
             handlePortletTools(); // handles portlet action bar functionality(refresh, configure, toggle, remove)
             handleAlerts(); //handle closabled alerts
             handleDropdowns(); // handle dropdowns
-            handleTabs(); // handle tabs
+            //handleTabs(); // handle tabs
             handleTooltips(); // handle bootstrap tooltips
             handlePopovers(); // handles bootstrap popovers
             handleAccordions(); //handles accordions 

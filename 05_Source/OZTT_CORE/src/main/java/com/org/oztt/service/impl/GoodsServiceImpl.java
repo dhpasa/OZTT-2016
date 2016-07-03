@@ -322,6 +322,9 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
             goodItemDto.setIsOverTime(CommonConstants.OVERTIME_GROUP_NO);
         }
         goodItemDto.setProperties(JSON.toJSONString(propertiesFormList));
+        goodItemDto.setCountdownTime(DateFormatUtils.getBetweenSecondTime(tGoodsGroup.getValidperiodend()));
+        // 获取当前商品的标签属性
+        goodItemDto.setGoodsTabs(tTabInfoDao.getTabsByGoods(goods.getGoodsid()));
 
         return goodItemDto;
     }

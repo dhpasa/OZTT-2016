@@ -55,6 +55,10 @@
 <script type="text/javascript" src="${ctx}/assets/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js"></script>
 <script type="text/javascript" src="${ctx}/assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js"></script>
 
+<script src="${ctx}/js/jquery.flexslider-min.js" type="text/javascript"></script>
+<script src="${ctx}/js/jquery.simple.timer.js" type="text/javascript"></script>
+<script src="${ctx}/js/jquery.timer.js" type="text/javascript"></script>
+
 <script type="text/javascript" src='${ctx}/js/jquery.uploadify.min.js'></script>
 <script type="text/javascript" src='${ctx}/js/fileinput.js'></script>
 <script type="text/javascript" src="${ctx}/js/user-common.js"></script>
