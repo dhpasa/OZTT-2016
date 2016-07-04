@@ -80,12 +80,20 @@
 		}
 		
 		var E0006 = '<fmt:message key="E0006" />';
+		var E0010 = '<fmt:message key="E0010" />';
 		function addItemToCart(groupId) {
 			// 取得商品的属性
 			var goodsName = $("#item-goodsname-id").text();
 			var goodsImage = $("#item-disprice-id").text();
 			var goodsPrice = $("#item-disprice-id").text();
 			var oneGoodPropertiesList = [];
+			
+			var quantityInput = $("#itemNumber").val();
+			if (isNaN(quantityInput) || parseFloat(quantityInput) <= 0) {
+				$('#errormsg_content').text(E0010);
+  				$('#errormsg-pop-up').modal('show');
+				return;
+			}
 			var properties = {
 					"groupId":groupId,
 					"goodsName":goodsName,
