@@ -196,6 +196,7 @@
 		}
 		
 		if (isAdd) {
+			var maxbuy = 0;
 			var checkGroup = [];
 			checkGroup.push(properties);
 			var checkOver = true;
@@ -212,7 +213,10 @@
 						if (data.isOver) {
 							$('#errormsg_content').text(E0006.replace("{0}", data.maxBuy));
 			  				$('#errormsg-pop-up').modal('show');
-			  				$(curObj).val(data.maxBuy);
+			  				maxbuy = data.maxBuy;
+			  				if (data.maxBuy != "0") {
+			  					$(curObj).val(data.maxBuy);
+			  				}
 			  				changeQuantity = data.maxBuy - curObj.defaultValue;
 							checkOver = true;
 							return;
@@ -231,7 +235,9 @@
 			
 			//if (checkOver) return;
 		}
-		
+		if (maxbuy == 0) {
+			return;
+		}
 		
 		var inputList = [];
 		var propertiesChange = {
@@ -302,6 +308,7 @@
 		
 	}
 	
+	var E0010 = '<fmt:message key="E0010" />';
 	function surebuy() {
 		// 做对商品购买数量的check
 		var oneGoodPropertiesList = [];
@@ -309,6 +316,11 @@
 		$(".shopcart-goods-quantity").each(function(){
 			var quantity = $(this).find('.txt').find("input[type='text']").val();
 			var groupId = $(this).find("input[type='hidden']").val();
+			if (isNaN(quantity) || parseFloat(quantity) <= 0) {
+				$('#errormsg_content').text(E0010);
+  				$('#errormsg-pop-up').modal('show');
+				return;
+			}
 			var propertiesChange = {
 				"groupId":groupId,
 				"goodsQuantity":quantity,

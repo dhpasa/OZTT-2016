@@ -355,7 +355,7 @@
 		left join t_suburb_deliver_fee D on B.suburb = D.no
 		where 1=1
 		<if test="nickName != null and nickName != ''" >
-			and C.nickName like '%' || #{nickName,jdbcType=VARCHAR} || '%'
+			and C.nickName like concat('%',#{nickName,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="orderNo != null and orderNo != ''" >
         	and A.orderNo = #{orderNo,jdbcType=VARCHAR}
@@ -384,7 +384,7 @@
 		inner join t_customer_basic_info C on A.customerNo = C.customerNo
 		where 1=1
 		<if test="nickName != null and nickName != ''" >
-			and C.nickName like '%' || #{nickName,jdbcType=VARCHAR} || '%'
+			and C.nickName like concat('%',#{nickName,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="orderNo != null and orderNo != ''" >
         	and A.orderNo = #{orderNo,jdbcType=VARCHAR}
