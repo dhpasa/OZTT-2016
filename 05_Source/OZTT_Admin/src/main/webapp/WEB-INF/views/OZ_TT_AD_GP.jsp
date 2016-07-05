@@ -84,7 +84,6 @@
 			  		<ul class="slides">
 			  			<c:forEach var="imgList" items="${ goodItemDto.imgList }" varStatus="status">
 			    			<li><img src="${imgList}" class="padding-2rem"/></li>
-			    			<li><img src="${imgList}" class="padding-2rem"/></li>
 			    		</c:forEach>
 			  		</ul>
 			   </div>

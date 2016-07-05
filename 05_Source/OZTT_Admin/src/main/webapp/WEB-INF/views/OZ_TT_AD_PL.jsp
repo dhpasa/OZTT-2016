@@ -141,6 +141,7 @@
   		cleanFormError();
 		var goodsGroupPrice = $("#goodsGroupPrice").val();
 		var goodsGroupNumber = $("#goodsGroupNumber").val();
+		var goodsGroupLimit = $("#goodsGroupLimit").val();
 		var dataFromGroup = $("#dataFromGroup").val();
 		var dataToGroup = $("#dataToGroup").val();
 		var groupComment = $("#groupComment").val();
@@ -178,6 +179,23 @@
 			return false;
 		}
 		
+		var isTopUp = "0";
+		if ($("#isTopUpEdit").attr("checked")) {
+			isTopUp = "1";
+		}
+		var isPre = "0";
+		if ($("#isPreEdit").attr("checked")) {
+			isPre = "1";
+		}
+		var isInStock = "0";
+		if ($("#isInStockEdit").attr("checked")) {
+			isInStock = "1";
+		}
+		var isHot = "0";
+		if ($("#isHotEdit").attr("checked")) {
+			isHot = "1";
+		}
+		
 		var jsonMap = {
 			comsumerreminder:groupReminder,
 			goodsid:$("#hiddenGroupGoodsId").val(),
@@ -188,7 +206,12 @@
 			shopperrules:groupRule,
 			validperiodend:dataToGroup,
 			validperiodstart:dataFromGroup,
-			groupmaxquantity:goodsGroupNumber
+			groupmaxquantity:goodsGroupNumber,
+			groupquantitylimit:goodsGroupLimit,
+			istopup:isTopUp,
+			ispre:isPre,
+			isinstock:isInStock,
+			ishot:isHot
 		}
 		
 		$.ajax({
@@ -653,6 +676,12 @@
 							</div>
 						</div>
 						<div class="form-group">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_limit" /></label>
+							<div class="col-md-3">
+								<input type="number" id="goodsGroupLimit" class="input-small form-control textright"></input>
+							</div>
+						</div>
+						<div class="form-group">
 							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_PL_DIALOG_validDate" /></label>
 							<div class="col-md-6">
 								<div class="input-group input-large date-picker input-daterange" data-date="" data-date-format="yyyy/mm/dd">
@@ -662,6 +691,46 @@
 									</span>
 									<input type="text" class="form-control" id="dataToGroup"></input>
 								</div>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_topUp" /></label>
+							<div class="checkbox-list col-md-8">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="isTopUpEdit" id="isTopUpEdit"></input>
+								 	<fmt:message key="COMMON_YES" />
+								</label>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_pre" /></label>
+							<div class="checkbox-list col-md-8">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="isPreEdit" id="isPreEdit"></input>
+								 	<fmt:message key="COMMON_YES" />
+								</label>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_inStock" /></label>
+							<div class="checkbox-list col-md-8">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="isInStockEdit" id="isInStockEdit"></input>
+								 	<fmt:message key="COMMON_YES" />
+								</label>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_hot" /></label>
+							<div class="checkbox-list col-md-8">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="isHotEdit" id="isHotEdit"></input>
+								 	<fmt:message key="COMMON_YES" />
+								</label>
 							</div>
 						</div>
 						
