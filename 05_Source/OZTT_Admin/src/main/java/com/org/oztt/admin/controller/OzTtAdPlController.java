@@ -234,6 +234,7 @@ public class OzTtAdPlController extends BaseController {
             tGoodsGroup.setGroupcurrentquantity(0L);
             tGoodsGroup.setGroupdesc(map.get("groupdesc"));
             tGoodsGroup.setGroupmaxquantity(Long.valueOf(map.get("groupmaxquantity")));
+            tGoodsGroup.setGroupquantitylimit(Long.valueOf(map.get("groupquantitylimit")));
             tGoodsGroup.setGroupno(map.get("groupno"));
             tGoodsGroup.setGroupprice(new BigDecimal(map.get("groupprice")));
             tGoodsGroup.setOpenflg(map.get("openflg"));

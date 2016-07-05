@@ -240,7 +240,8 @@ public class OzTtAdGlController extends BaseController {
     @RequestMapping(value = "/groupPreview")
     public String groupPreview(Model model, HttpServletRequest request, HttpSession session, String groupId, String pageNo) {
         try {
-            GoodItemDto goodItemDto = goodsService.getGroupAllItemDtoForPreview(groupId);
+            GoodItemDto goodItemDto = goodsService.getGoodAllItemDto(groupId);
+            //GoodItemDto goodItemDto = goodsService.getGroupAllItemDtoForPreview(groupId);
 
             // 后台维护的时候提示让以逗号隔开
             model.addAttribute("goodItemDto", goodItemDto);

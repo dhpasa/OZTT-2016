@@ -97,7 +97,9 @@ public class OzTtAdPdController extends BaseController {
             tGoods.setGoodsid(ozTtAdGdDto.getGoodsId());
             tGoods.setClassid(ozTtAdGdDto.getClassId());
             tGoods.setGoodsbrand(ozTtAdGdDto.getGoodsBrand());
+            tGoods.setGoodsbranden("");
             tGoods.setGoodsname(ozTtAdGdDto.getGoodsName());
+            tGoods.setGoodsnameen("");
             tGoods.setGoodsdesc(ozTtAdGdDto.getGoodsDesc());
             tGoods.setGoodscomments(ozTtAdGdDto.getGoodsComments());
             tGoods.setGoodsthumbnail(ozTtAdGdDto.getGoodsThumbnail());
@@ -109,6 +111,7 @@ public class OzTtAdPdController extends BaseController {
             tGoods.setDeleteflg(CommonConstants.IS_NOT_DELETE);
             tGoods.setCostprice(new BigDecimal(ozTtAdGdDto.getCostPrice()));
             tGoods.setSortorder(Integer.valueOf(ozTtAdGdDto.getSortOrder()));
+            
 
             String distImgPath = super.getApplicationMessage("DistImgPath");
             if (tGoods.getNo() == null) {

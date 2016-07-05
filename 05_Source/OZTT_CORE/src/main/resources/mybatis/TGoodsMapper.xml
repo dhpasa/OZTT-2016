@@ -120,8 +120,14 @@
 			<if test="goodsbrand != null">
 				goodsBrand,
 			</if>
+			<if test="goodsbranden != null">
+				goodsBrandEn,
+			</if>
 			<if test="goodsname != null">
 				goodsName,
+			</if>
+			<if test="goodsnameen != null">
+				goodsNameEn,
 			</if>
 			<if test="goodsdesc != null">
 				goodsDesc,
@@ -188,8 +194,14 @@
 			<if test="goodsbrand != null">
 				#{goodsbrand,jdbcType=VARCHAR},
 			</if>
+			<if test="goodsbranden != null">
+				#{goodsbranden,jdbcType=VARCHAR},
+			</if>
 			<if test="goodsname != null">
 				#{goodsname,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsnameen != null">
+				#{goodsnameen,jdbcType=VARCHAR},
 			</if>
 			<if test="goodsdesc != null">
 				#{goodsdesc,jdbcType=VARCHAR},
@@ -318,7 +330,9 @@
 		set goodsId = #{goodsid,jdbcType=VARCHAR},
 		classId = #{classid,jdbcType=VARCHAR},
 		goodsBrand = #{goodsbrand,jdbcType=VARCHAR},
+		goodsBrandEn = #{goodsbranden,jdbcType=VARCHAR},
 		goodsName = #{goodsname,jdbcType=VARCHAR},
+		goodsNameEn = #{goodsnameen,jdbcType=VARCHAR},
 		goodsDesc = #{goodsdesc,jdbcType=VARCHAR},
 		goodsComments = #{goodscomments,jdbcType=VARCHAR},
 		goodsThumbnail = #{goodsthumbnail,jdbcType=VARCHAR},

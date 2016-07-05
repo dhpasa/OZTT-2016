@@ -654,7 +654,6 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
                 tNoPriceDao.insertSelective(tNoPrice);
             }
         }
-        maxPriceNo = "PR" + maxPriceNo;
         tGoodsPrice.setPriceno(maxPriceNo);
         tGoodsPriceDao.insertSelective(tGoodsPrice);
     }
@@ -699,7 +698,6 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
                 tNoGroupDao.insertSelective(tNoGroup);
             }
         }
-        maxGroupNo = "GP" + maxGroupNo;
         tGoodsGroup.setGroupno(maxGroupNo);
         tGoodsGroupDao.insertSelective(tGoodsGroup);
     }
@@ -778,7 +776,6 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
                 tNoGoodsDao.insertSelective(tNoGoods);
             }
         }
-        maxGoodsNo = "GD" + maxGoodsNo;
         tGoods.setGoodsid(maxGoodsNo);
         tGoodsDao.insertSelective(tGoods);
         return maxGoodsNo;
