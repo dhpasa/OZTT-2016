@@ -530,8 +530,8 @@
 		<if test="mode == 4 ">
 			a.classId,
 		</if>
-		
-		c.validPeriodEnd, c.groupNo
+		c.addTimestamp desc
+		<!-- c.validPeriodEnd, c.groupNo -->
 	</select>
 	
 	<select id="getGoodsByParamForPageCount" resultType="int" parameterType="map">
