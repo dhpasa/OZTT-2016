@@ -23,6 +23,8 @@ public class OzTtAdOlDto {
     private String dataFrom;
     
     private String dataTo;
+    
+    private String customerPhone;
 
     public String getCustomerNo() {
         return customerNo;
@@ -87,5 +89,13 @@ public class OzTtAdOlDto {
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo;
     }
+
+	public String getCustomerPhone() {
+		return customerPhone;
+	}
+
+	public void setCustomerPhone(String customerPhone) {
+		this.customerPhone = customerPhone;
+	}
 
 }

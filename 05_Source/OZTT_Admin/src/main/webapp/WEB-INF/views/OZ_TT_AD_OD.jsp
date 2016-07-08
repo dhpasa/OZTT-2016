@@ -180,7 +180,8 @@
 					</table>
 				</div>
 			
-			<div style="text-align: right;padding-right: 100px"><fmt:message key="COMMON_ALLAMOUNT" />${ozTtAdOdDto.orderAmount}</div>	
+			<div style="text-align: right;padding-right: 100px"><fmt:message key="COMMON_ALLAMOUNT" />${ozTtAdOdDto.orderAmount}</div>
+			<div style="text-align: right;padding-right: 100px"><fmt:message key="COMMON_ALLAMOUNT_FRE" />${OrderAmountAndFre}</div>		
 			</div>
 			
 			</form:form>

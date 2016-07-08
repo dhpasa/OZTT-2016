@@ -66,11 +66,16 @@
   				async:false,
   				data : JSON.stringify(jsonMap), 
   				success : function(data) {
-  					if (data.canUpdate == "1") {
+  					if(data.canUpdate0 == "1") {
   						canupdate = false;
-  						alert('<fmt:message key="W0005" />');
+  						alert('<fmt:message key="W0006" />');
   					} else {
-  						canupdate = true;
+	  					if (data.canUpdate == "1") {
+	  						canupdate = false;
+	  						alert('<fmt:message key="W0005" />');
+	  					} else {
+	  						canupdate = true;
+	  					}
   					}
   				},
   				error : function(data) {
@@ -147,9 +152,9 @@
 			<div class="form-body">
 			
 				<div class="form-group">
-					<label class="col-md-1 control-label textleft"><fmt:message key="OZ_TT_AD_OL_nickname" /></label>
+					<label class="col-md-1 control-label textleft"><fmt:message key="OZ_TT_AD_OL_phone" /></label>
 					<div class="col-md-3">
-						<form:input type="text" path="nickName" class="input-medium form-control"></form:input>
+						<form:input type="text" path="customerPhone" class="input-medium form-control"></form:input>
 					</div>
 					
 					<label class="col-md-1 control-label textleft"><fmt:message key="OZ_TT_AD_OL_orderNo" /></label>
@@ -248,7 +253,7 @@
 							 <fmt:message key="OZ_TT_AD_OL_DE_orderNo" />
 						</th>
 						<th scope="col">
-							 <fmt:message key="OZ_TT_AD_OL_DE_customer" />
+							 <fmt:message key="OZ_TT_AD_OL_DE_phone" />
 						</th>
 						<th scope="col">
 							 <fmt:message key="OZ_TT_AD_OL_DE_nickName" />
@@ -286,7 +291,7 @@
 							 ${orderItem.orderNo }
 						</td>
 						<td>
-							 ${orderItem.customerNo }
+							 ${orderItem.customerPhone }
 						</td>
 						<td>
 							 ${orderItem.nickName }

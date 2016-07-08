@@ -104,6 +104,7 @@ public class OzTtAdOlController extends BaseController {
 
             Pagination pagination = new Pagination(1);
             Map<Object, Object> params = new HashMap<Object, Object>();
+            params.put("customerPhone", ozTtAdOlDto.getCustomerPhone());
             params.put("nickName", ozTtAdOlDto.getNickName());
             params.put("orderNo", ozTtAdOlDto.getOrderNo());
             params.put("orderStatus", ozTtAdOlDto.getOrderStatus());
@@ -257,20 +258,26 @@ public class OzTtAdOlController extends BaseController {
 
             String[] orderIdArr = map.get("orderIds").split(",");
             String canUpdate = "0";
+            String canUpdate0 = "0";
             for (String str : orderIdArr) {
                 TConsOrder tConsOrder = orderService.selectByOrderId(str);
-                // 只有订单是来店自提－到店付款或者送货上门－货到付款
-                if (CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode().equals(tConsOrder.getHandleflg())
-                        && (CommonEnum.PaymentMethod.PAY_INSTORE.getCode().equals(tConsOrder.getDeliverymethod()) || CommonEnum.PaymentMethod.COD
-                                .getCode().equals(tConsOrder.getDeliverymethod()))) {
-                    canUpdate = "0";
+                if(CommonEnum.HandleFlag.DELETED.getCode().equals(tConsOrder.getHandleflg())) {
+                	canUpdate0 = "1";
+                	break;
                 } else {
+                	canUpdate0 = "0";
+                }
+                // 只有订单是来店自提－到店付款或者送货上门－货到付款
+                if (CommonEnum.PaymentMethod.ONLINE_PAY_CWB.getCode().equals(tConsOrder.getPaymentmethod())) {
                     canUpdate = "1";
                     break;
+                } else {
+                    canUpdate = "0";
                 }
 
             }
             mapReturn.put("canUpdate", canUpdate);
+            mapReturn.put("canUpdate0", canUpdate0);
             // 后台维护的时候提示让以逗号隔开
             mapReturn.put("isException", false);
             return mapReturn;

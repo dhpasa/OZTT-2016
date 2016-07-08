@@ -35,6 +35,8 @@ public class OzTtAdOlListDto {
     
     private String contactTel;
     
+    private String customerPhone;
+    
     public String getReceiver() {
 		return receiver;
 	}
@@ -146,4 +148,12 @@ public class OzTtAdOlListDto {
     public void setNickName(String nickName) {
         this.nickName = nickName;
     }
+
+	public String getCustomerPhone() {
+		return customerPhone;
+	}
+
+	public void setCustomerPhone(String customerPhone) {
+		this.customerPhone = customerPhone;
+	}
 }
