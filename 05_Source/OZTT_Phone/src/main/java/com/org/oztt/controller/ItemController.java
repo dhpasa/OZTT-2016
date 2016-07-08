@@ -49,6 +49,10 @@ public class ItemController extends BaseController {
             if (Integer.valueOf(goodItemDto.getGroupCurrent()) >= Integer.valueOf(goodItemDto.getGroupMax())) {
                 model.addAttribute("IS_OVER", "1");
             }
+            // 判断是否已经团购结束
+            if ("0".equals(goodItemDto.getCountdownTime()) || goodItemDto.getCountdownTime().contains("-")) {
+                model.addAttribute("IS_END", "1");
+            }
             return "item";
         }
         catch (Exception e) {

@@ -128,7 +128,7 @@
   Timer.prototype.clearTimer = function(element){
 	element.find('.alltime').css("display","none");
 	element.find('.overtime').css("display","inline-block");
-	element.find('.overtime').text('已团满');
+	element.find('.overtime').text('团购结束');
 	
   };
 
@@ -169,7 +169,7 @@
 
   Timer.prototype.setFinalValue = function(finalValues, element) {
 
-    if(finalValues.length === 0){
+    if(finalValues.length === 0 || parseFloat(finalValues[0]) < 0){
       this.clearTimer(element);
       element.trigger('complete');
       return false;

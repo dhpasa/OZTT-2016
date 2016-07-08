@@ -313,12 +313,14 @@
 		// 做对商品购买数量的check
 		var oneGoodPropertiesList = [];
 		var checkGroup = [];
+		var canBuy = true;
 		$(".shopcart-goods-quantity").each(function(){
 			var quantity = $(this).find('.txt').find("input[type='text']").val();
 			var groupId = $(this).find("input[type='hidden']").val();
 			if (isNaN(quantity) || parseFloat(quantity) <= 0) {
 				$('#errormsg_content').text(E0010);
   				$('#errormsg-pop-up').modal('show');
+  				canBuy = false;
 				return;
 			}
 			var propertiesChange = {
@@ -328,11 +330,12 @@
 			}
 			checkGroup.push(propertiesChange);
 		});
+		if (!canBuy) return;
 		var isOver = true;
 		$.ajax({
 			type : "POST",
 			contentType:'application/json',
-			url : '${pageContext.request.contextPath}/COMMON/checkAllIsOverGroup',
+			url : '${pageContext.request.contextPath}/COMMON/checkAllIsOverGroupAndCanBuy',
 			dataType : "json",
 			async : false,
 			data : JSON.stringify(checkGroup), 
@@ -340,6 +343,10 @@
 				if(!data.isException){
 					// 同步购物车成功
 					if (data.isOver) {
+						$('#errormsg_content').text(data.checkAllMsg);
+		  				$('#errormsg-pop-up').modal('show');
+						return;
+					} else if (data.isGroupEnd){
 						$('#errormsg_content').text(data.checkAllMsg);
 		  				$('#errormsg-pop-up').modal('show');
 						return;

@@ -50,7 +50,8 @@ public class PurchaseController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/init")
-    public String init(Model model, HttpServletRequest request, HttpSession session) {
+    public String init(Model model, HttpServletRequest request, HttpSession session, String fromMode, String isUnify,
+            String deliveryTime, String deliverySelect, String payMethod) {
         try {
             // 加入购物车操作，判断所有的属性是不是相同，相同在添加
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
@@ -98,7 +99,11 @@ public class PurchaseController extends BaseController {
                 tAddressInfo.setSuburb(addressService.getTSuburbDeliverFeeById(Long.valueOf(tAddressInfo.getSuburb()))
                         .getSuburb());
             }
-
+            model.addAttribute("fromMode", fromMode);
+            model.addAttribute("isUnify", isUnify);
+            model.addAttribute("deliveryTime", deliveryTime);
+            model.addAttribute("deliverySelectParam", deliverySelect);
+            model.addAttribute("payMethod", payMethod);
             return "/purchase";
         }
         catch (Exception e) {

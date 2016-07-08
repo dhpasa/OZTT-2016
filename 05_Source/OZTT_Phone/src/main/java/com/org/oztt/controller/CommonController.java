@@ -699,6 +699,91 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
     }
+    
+    /**
+     * 购物车内容的商品的各种check
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/checkAllIsOverGroupAndCanBuy")
+    @ResponseBody
+    public Map<String, Object> checkAllIsOverGroupAndCanBuy(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session, @RequestBody List<Map<String, String>> list) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            boolean isOver = false;
+            boolean isGroupEnd = false;
+            long maxBuy = 0;
+            String msg = "";
+            if (list != null && list.size() > 0) {
+                for (Map<String, String> mapParam : list) {
+                    TGoodsGroup tGoodsGroup = new TGoodsGroup();
+                    tGoodsGroup.setGroupno(mapParam.get("groupId"));
+                    tGoodsGroup = goodsService.getGoodPrice(tGoodsGroup);
+                    Long checkQuantity = Long.valueOf(mapParam.get("goodsQuantity"));
+                    //单个团购，单个客户已经购买的数量取得
+                    Map<Object, Object> paramMap = new HashMap<Object, Object>();
+                    paramMap.put("customerNo", customerNo);
+                    paramMap.put("groupNo", tGoodsGroup.getGroupno());
+                    int alreadyPurchaseSum = orderService.getAleadyPurchaseCount(paramMap);
+
+                    if (checkQuantity + tGoodsGroup.getGroupcurrentquantity() <= tGoodsGroup.getGroupmaxquantity()) {
+                        isOver = false;
+                    } else {
+                        isOver = true;
+                        maxBuy = tGoodsGroup.getGroupmaxquantity() - tGoodsGroup.getGroupcurrentquantity();
+                    }
+                    
+                    if (checkQuantity > tGoodsGroup.getGroupquantitylimit()) {
+                        isOver = true;
+                        maxBuy = (maxBuy > tGoodsGroup.getGroupquantitylimit() || maxBuy == 0L) ? tGoodsGroup.getGroupquantitylimit() : maxBuy;
+                    }
+                    
+                    if(checkQuantity + alreadyPurchaseSum > tGoodsGroup.getGroupquantitylimit()) {
+                        isOver = true;
+                        maxBuy = ((maxBuy + alreadyPurchaseSum) > tGoodsGroup.getGroupquantitylimit() || maxBuy == 0L) ? (tGoodsGroup.getGroupquantitylimit() - alreadyPurchaseSum) : maxBuy;
+                    }
+                    
+                        if(maxBuy < 0) {
+                                maxBuy = 0;
+                        }
+                        
+                    if (isOver) {
+                        GoodItemDto itemDto = goodsService.getGoodAllItemDto(mapParam.get("groupId"));
+                        msg = super.getMessage("E0009", session).replace("{0}", itemDto.getGoods().getGoodsname()).replace("{1}", String.valueOf(maxBuy));
+                    }
+                    
+                    // 判断商品是否已经结束
+                    if(DateFormatUtils.getBetweenSecondTime(tGoodsGroup.getValidperiodend()).contains("-")) {
+                        isGroupEnd = true;
+                    }
+                    
+                    if (isGroupEnd) {
+                        GoodItemDto itemDto = goodsService.getGoodAllItemDto(mapParam.get("groupId"));
+                        msg = super.getMessage("E0011", session).replace("{0}", itemDto.getGoods().getGoodsname());
+                    }
+                    
+                    if (isOver || isGroupEnd) {
+                        break;
+                    }
+                }
+                
+            }
+            mapReturn.put("checkAllMsg", msg);
+            mapReturn.put("isOver", isOver);
+            mapReturn.put("isGroupEnd", isGroupEnd);
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
 
     /**
      * 判断购物车数量是否超过团购数量

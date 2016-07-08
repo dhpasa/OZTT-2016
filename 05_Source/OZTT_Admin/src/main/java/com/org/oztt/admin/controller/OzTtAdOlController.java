@@ -220,8 +220,8 @@ public class OzTtAdOlController extends BaseController {
                 tConsOrder.setUpduserkey(CommonConstants.ADMIN_USERKEY);
                 if (CommonEnum.HandleFlag.DELETED.getCode().equals(status)
                         && CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode().equals(tConsOrder.getHandleflg())
-                        && (CommonEnum.PaymentMethod.PAY_INSTORE.getCode().equals(tConsOrder.getDeliverymethod()) || CommonEnum.PaymentMethod.COD
-                                .getCode().equals(tConsOrder.getDeliverymethod()))) {
+                        && (CommonEnum.PaymentMethod.PAY_INSTORE.getCode().equals(tConsOrder.getPaymentmethod()) || CommonEnum.PaymentMethod.COD
+                                .getCode().equals(tConsOrder.getPaymentmethod()))) {
                     // 取消订单的时候
                     tConsOrder.setHandleflg(status);
                     orderService.deleteOrderInfoFormNotPay(tConsOrder);

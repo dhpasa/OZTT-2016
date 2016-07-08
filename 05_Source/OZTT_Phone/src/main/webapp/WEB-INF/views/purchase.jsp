@@ -75,6 +75,7 @@
 				$("#method_cod").addClass("method-default");
 				judgeAll();
 			});
+
 		})
 		
 		
@@ -129,7 +130,31 @@
 	  	}
 	  	
 	  	function selectAddress(){
-	  		location.href = "${ctx}/addressIDUS/list?fromMode=1";
+	  		// 这里获取画面上的一些数据
+	  		// 是否统一送货
+	  		// 统一送货的时间点
+	  		var isUnify = false;
+	  		if ($(".purchase-blockcheck").find(".check-icon").hasClass("checked")) {
+	  			isUnify = true;
+	  		}
+	  		// 送货时间
+	  		// 统一送货时间和时间点
+	  		var deliveryTime = $("#homeDeliveryTimeId").val();
+	  		var deliverySelect = $("#deliveryTimeSelect").val();
+	  		
+	  		// 付款方式
+	  		var payMethod = "1";
+	  		if ($("#method_online").hasClass("method-check")) {
+	  			// 在线支付
+	  			payMethod = "1";
+	  		} else if ($("#method_cod").hasClass("method-check")){
+	  			// 货到付款
+	  			payMethod = "2";
+	  		} else {
+	  			// 来店付款
+	  			payMethod = "3";
+	  		}
+	  		location.href = "${ctx}/addressIDUS/list?fromMode=1&isUnify="+isUnify+"&deliveryTime="+deliveryTime+"&deliverySelect="+deliverySelect+"&payMethod="+payMethod;
 	  	}
 	  	
 	  	function checkLastToBuy(){
@@ -349,6 +374,42 @@
 	  	
 	  	function hiddenCreditError(){
 	  		$("#credit-error").css("display","none");
+	  	}
+	  	
+	  	function forInit(){
+	  		var hiddenfromMode = $("#hiddenfromMode").val();
+	  		var isUnify = $("#hiddenisUnify").val();
+			var payMethod = $("#hiddenpayMethod").val();
+	  		if (hiddenfromMode == "1") {
+	  			// 送货上门
+	  			selectDeliveryMethod("1");
+	  			$("#lishsm").addClass("active");
+	  			$("#lildzt").removeClass("active");
+	  			// 统一送货的时间点
+		  		if (isUnify = "true") {
+		  			$(".purchase-blockcheck").find(".check-icon").addClass("checked");
+		  		} else {
+		  			$(".purchase-blockcheck").find(".check-icon").removeClass("checked");
+		  		}
+		  		// 统一送货时间和时间点
+		  		$("#homeDeliveryTimeId").val($("#hiddendeliveryTime").val());
+		  		$("#deliveryTimeSelect").val($("#hiddendeliverySelect").val());
+		  		
+		  		$("#method_online").removeClass("method-check");
+		  		$("#method_cod").removeClass("method-check");
+		  		$("#method_ldfk").removeClass("method-check");
+		  		if (payMethod == "1") {
+		  			// 在线支付
+		  			$("#method_online").addClass("method-check");
+		  		} else if (payMethod == "2") {
+		  			// 货到付款
+		  			$("#method_cod").addClass("method-check");
+		  		} else {
+		  			// 来店付款
+		  			$("#method_ldfk").addClass("method-check");
+		  		}
+		  		
+	  		}
 	  	}
   </script>
   <style type="text/css">
@@ -575,6 +636,11 @@
     
     
     <input type="hidden" value="${deliveryDate }" id="delieveryDate"/>
+    <input type="hidden" value="${fromMode}" id="hiddenfromMode"/>
+	<input type="hidden" value="${isUnify}" id="hiddenisUnify"/>
+	<input type="hidden" value="${deliveryTime}" id="hiddendeliveryTime"/>
+	<input type="hidden" value="${deliverySelectParam}" id="hiddendeliverySelect"/>
+	<input type="hidden" value="${payMethod}" id="hiddenpayMethod"/>
     
     <script type="text/javascript">
     	$(function(){
@@ -589,6 +655,8 @@
     		// 初期化的时候调用
     		$("#method_ldfk").css("display","none");
     		selectDeliveryMethod('2');
+    		// 初期化的时候设定
+			forInit();
     	  	judgeAll();
     	});
     	

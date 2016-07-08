@@ -202,6 +202,19 @@
 	    border-radius: 3px !important;
 	    text-align: center;
 	}
+	
+	.overtime {
+	    display: none;
+	    height: 2rem;
+	    line-height: 2rem;
+	    width: 15rem;
+	    background-color: #D8D8D8;
+	    color: #FFFFF;
+	    font-size: 1.3rem;
+	    border-radius: 5px !important;
+	    border: 0.5px solid #D8D8D8;
+	    text-align: center;
+	}
   </style>
 </head>
 
@@ -277,12 +290,18 @@
     </div>
     
     <div class="item-btn">
-    	<c:if test="${IS_OVER != '1' }">
-    		<a onclick="checktoItem('${goodItemDto.groupId}')" class="canBuy"><fmt:message key="ITEM_ADDTOCART"/></a>
+    	<c:if test="${IS_END == '1' }">
+    		<a class="canNotBuy"><fmt:message key="ITEM_ISEND"/></a>
     	</c:if>
-    	<c:if test="${IS_OVER == '1' }">
-    		<a class="canNotBuy"><fmt:message key="ITEM_ISOVER"/></a>
+    	<c:if test="${IS_END != '1' }">
+    		<c:if test="${IS_OVER != '1' }">
+    			<a onclick="checktoItem('${goodItemDto.groupId}')" class="canBuy"><fmt:message key="ITEM_ADDTOCART"/></a>
+	    	</c:if>
+	    	<c:if test="${IS_OVER == '1' }">
+	    		<a class="canNotBuy"><fmt:message key="ITEM_ISOVER"/></a>
+	    	</c:if>
     	</c:if>
+    	
     	
     </div>
     
