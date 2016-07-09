@@ -14,7 +14,12 @@
   	$(function(){
 		$(".ico-back").click(function(){
 			if ('${fromMode}' == '1') {
-				location.href="${ctx}/purchase/init";
+				var fromMode = $("#hiddenfromMode").val();
+				var isUnify = $("#hiddenisUnify").val();
+				var deliveryTime = $("#hiddendeliveryTime").val();
+				var deliverySelect = $("#hiddendeliverySelect").val();
+				var payMethod = $("#hiddenpayMethod").val();
+				location.href="${ctx}/purchase/init?fromMode="+fromMode+"&isUnify="+isUnify+"&deliveryTime="+deliveryTime+"&deliverySelect="+deliverySelect+"&payMethod="+payMethod;
 			} else {
 				location.href="${ctx}/user/init";
 			}
@@ -23,15 +28,31 @@
 		
 	});
   	function newAddress() {
-  		location.href="${ctx}/addressIDUS/newAddress?fromMode="+$("#hiddenfromMode").val();
+  		var fromMode = $("#hiddenfromMode").val();
+		var isUnify = $("#hiddenisUnify").val();
+		var deliveryTime = $("#hiddendeliveryTime").val();
+		var deliverySelect = $("#hiddendeliverySelect").val();
+		var payMethod = $("#hiddenpayMethod").val();
+  		location.href='${ctx}/addressIDUS/newAddress?fromMode='+fromMode+"&isUnify="+isUnify+"&deliveryTime="+deliveryTime+"&deliverySelect="+deliverySelect+"&payMethod="+payMethod;
   	}
   	
   	function modifyAddress(addressId){
-  		location.href="${ctx}/addressIDUS/getAddressById?addressId="+addressId+"&fromMode="+$("#hiddenfromMode").val();
+  		var fromMode = $("#hiddenfromMode").val();
+		var isUnify = $("#hiddenisUnify").val();
+		var deliveryTime = $("#hiddendeliveryTime").val();
+		var deliverySelect = $("#hiddendeliverySelect").val();
+		var payMethod = $("#hiddenpayMethod").val();
+  		location.href="${ctx}/addressIDUS/getAddressById?addressId="+addressId+"&fromMode="+fromMode+"&isUnify="+isUnify+"&deliveryTime="+deliveryTime+"&deliverySelect="+deliverySelect+"&payMethod="+payMethod;
+  		
   	}
   	
   	// 删除地址
   	function delAddress(addressId) {
+  		var fromMode = $("#hiddenfromMode").val();
+		var isUnify = $("#hiddenisUnify").val();
+		var deliveryTime = $("#hiddendeliveryTime").val();
+		var deliverySelect = $("#hiddendeliverySelect").val();
+		var payMethod = $("#hiddenpayMethod").val();
   		$.ajax({
 			type : "GET",
 			contentType:'application/json',
@@ -40,7 +61,7 @@
 			data : "", 
 			success : function(data) {
 				if(!data.isException){
-					location.href = '${ctx}/addressIDUS/list?fromMode='+$("#hiddenfromMode").val();
+					location.href = "${ctx}/addressIDUS/list?fromMode="+fromMode+"&isUnify="+isUnify+"&deliveryTime="+deliveryTime+"&deliverySelect="+deliverySelect+"&payMethod="+payMethod;
 				} 
 			},
 			error : function(data) {
@@ -70,6 +91,11 @@
   	
   	// 设置默认地址并且
   	function setDefaultToBuy(addressId) {
+  		var fromMode = $("#hiddenfromMode").val();
+		var isUnify = $("#hiddenisUnify").val();
+		var deliveryTime = $("#hiddendeliveryTime").val();
+		var deliverySelect = $("#hiddendeliverySelect").val();
+		var payMethod = $("#hiddenpayMethod").val();
   		$.ajax({
 			type : "GET",
 			contentType:'application/json',
@@ -78,7 +104,7 @@
 			data : "", 
 			success : function(data) {
 				if(!data.isException){
-					location.href = '${ctx}/purchase/init';
+					location.href = "${ctx}/purchase/init?fromMode="+fromMode+"&isUnify="+isUnify+"&deliveryTime="+deliveryTime+"&deliverySelect="+deliverySelect+"&payMethod="+payMethod;
 				} 
 			},
 			error : function(data) {
@@ -149,6 +175,10 @@
 	</div>
 	
 	<input type="hidden" value="${fromMode}" id="hiddenfromMode"/>
+	<input type="hidden" value="${isUnify}" id="hiddenisUnify"/>
+	<input type="hidden" value="${deliveryTime}" id="hiddendeliveryTime"/>
+	<input type="hidden" value="${deliverySelect}" id="hiddendeliverySelect"/>
+	<input type="hidden" value="${payMethod}" id="hiddenpayMethod"/>
 
 </body>
 <!-- END BODY -->

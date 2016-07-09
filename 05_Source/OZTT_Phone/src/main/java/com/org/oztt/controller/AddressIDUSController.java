@@ -37,7 +37,8 @@ public class AddressIDUSController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/list")
-    public String init(Model model, HttpServletResponse response, HttpSession session, String fromMode) {
+    public String init(Model model, HttpServletResponse response, HttpSession session, String fromMode, String isUnify,
+            String deliveryTime, String deliverySelect, String payMethod) {
         try {
             // 加入购物车操作，判断所有的属性是不是相同，相同在添加
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
@@ -51,6 +52,10 @@ public class AddressIDUSController extends BaseController {
             // 后台维护的时候提示让以逗号隔开
             model.addAttribute("addressList", infoList);
             model.addAttribute("fromMode", fromMode);
+            model.addAttribute("isUnify", isUnify);
+            model.addAttribute("deliveryTime", deliveryTime);
+            model.addAttribute("deliverySelect", deliverySelect);
+            model.addAttribute("payMethod", payMethod);
             return "addressList";
         }
         catch (Exception e) {
@@ -68,7 +73,8 @@ public class AddressIDUSController extends BaseController {
      */
     @RequestMapping(value = "/getAddressById")
     public String getAddressById(Model model, HttpServletResponse response, HttpSession session,
-            @RequestParam String addressId, String fromMode) {
+            @RequestParam String addressId, String fromMode, String isUnify, String deliveryTime,
+            String deliverySelect, String payMethod) {
         try {
             // 获取地址
             TAddressInfo info = addressService.getAddressById(Long.valueOf(addressId));
@@ -76,6 +82,10 @@ public class AddressIDUSController extends BaseController {
             // 后台维护的时候提示让以逗号隔开
             model.addAttribute("item", info);
             model.addAttribute("fromMode", fromMode);
+            model.addAttribute("isUnify", isUnify);
+            model.addAttribute("deliveryTime", deliveryTime);
+            model.addAttribute("deliverySelect", deliverySelect);
+            model.addAttribute("payMethod", payMethod);
             return "addressEdit";
         }
         catch (Exception e) {
@@ -92,10 +102,15 @@ public class AddressIDUSController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/newAddress")
-    public String newAddress(Model model, HttpServletResponse response, HttpSession session, String fromMode) {
+    public String newAddress(Model model, HttpServletResponse response, HttpSession session, String fromMode,
+            String isUnify, String deliveryTime, String deliverySelect, String payMethod) {
         try {
             model.addAttribute("suburbSelect", commonService.getSuburbList());
             model.addAttribute("fromMode", fromMode);
+            model.addAttribute("isUnify", isUnify);
+            model.addAttribute("deliveryTime", deliveryTime);
+            model.addAttribute("deliverySelect", deliverySelect);
+            model.addAttribute("payMethod", payMethod);
             return "addressEdit";
         }
         catch (Exception e) {

@@ -39,6 +39,7 @@ public class ShopCartController extends BaseController {
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
             // 登陆成功以后取得购物车中的数据然后更新Cookie
+            goodsService.deleteCanNotBuyGoodsByCustomer(customerNo);
             List<ContCartItemDto> consCarts = goodsService.getAllContCartForCookie(customerNo);
 
             List<ContCartItemListDto> cartsList = new ArrayList<ContCartItemListDto>();

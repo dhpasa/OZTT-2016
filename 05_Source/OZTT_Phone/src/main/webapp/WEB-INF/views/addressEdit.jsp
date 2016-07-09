@@ -39,7 +39,12 @@
 					data : JSON.stringify(submitData), 
 					success : function(data) {
 						if(!data.isException){
-							location.href = '${ctx}/addressIDUS/list?fromMode='+$("#hiddenfromMode").val();
+							var fromMode = $("#hiddenfromMode").val();
+							var isUnify = $("#hiddenisUnify").val();
+							var deliveryTime = $("#hiddendeliveryTime").val();
+							var deliverySelect = $("#hiddendeliverySelect").val();
+							var payMethod = $("#hiddenpayMethod").val();
+							location.href = '${ctx}/addressIDUS/list?fromMode='+fromMode+"&isUnify="+isUnify+"&deliveryTime="+deliveryTime+"&deliverySelect="+deliverySelect+"&payMethod="+payMethod;
 						} else {
 							// 系统异常
 						}
@@ -114,6 +119,12 @@
 	
 	<input type="hidden" value="${item.id }" id="hiddenAddressId"/>
 	<input type="hidden" value="${fromMode}" id="hiddenfromMode"/>
+	
+	<input type="hidden" value="${isUnify}" id="hiddenisUnify"/>
+	<input type="hidden" value="${deliveryTime}" id="hiddendeliveryTime"/>
+	<input type="hidden" value="${deliverySelect}" id="hiddendeliverySelect"/>
+	<input type="hidden" value="${payMethod}" id="hiddenpayMethod"/>
+	
 	
 	
 	<div class="addressAdd">

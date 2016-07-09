@@ -36,8 +36,7 @@ public class TConsCartDaoImpl extends BaseDao implements TConsCartDao {
 
     @Override
     public int updateByPrimaryKeySelective(TConsCart record) {
-        // TODO Auto-generated method stub
-        return 0;
+        return update("com.org.oztt.dao.TConsCartDao.updateByPrimaryKeySelective", record);
     }
 
     @Override
