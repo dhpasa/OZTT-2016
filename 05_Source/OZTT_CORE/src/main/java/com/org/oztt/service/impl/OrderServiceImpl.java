@@ -130,8 +130,8 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             HttpSession session) throws Exception {
 
         List<ContCartItemDto> payList = tConsCartDao.getAllContCartForBuy(customerNo);
-        if (payList == null)
-            return null;
+        if (CollectionUtils.isEmpty(payList))
+            return CommonConstants.CART_CANBUY;
         // 产生订单号
         String maxOrderNo = "";
         // 获取最大的客户号

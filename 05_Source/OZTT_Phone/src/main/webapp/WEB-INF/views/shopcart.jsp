@@ -196,7 +196,7 @@
 		}
 		
 		if (isAdd) {
-			var maxbuy = -1;
+			var maxbuy = 0;
 			var checkGroup = [];
 			checkGroup.push(properties);
 			var checkOver = true;
@@ -235,7 +235,11 @@
 			
 			//if (checkOver) return;
 		}
-		if (maxbuy == 0) {
+		if (maxbuy == 0 && checkOver) {
+			return;
+		}
+		
+		if (changeQuantity == 0) {
 			return;
 		}
 		
@@ -398,7 +402,7 @@
 	}
 	
 	function checkGoodsNum(str) {
-		if ($(str).val().trim() == "" || isNaN($(str).val())) {
+		if ($(str).val().trim() == "" || isNaN($(str).val()) || parseFloat($(str).val()) <= 0) {
 			$(str).val(str.defaultValue);
 		} else {
 			var diff = parseFloat($(str).val()) - parseFloat(str.defaultValue);

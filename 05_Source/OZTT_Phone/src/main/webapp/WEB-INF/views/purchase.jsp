@@ -353,6 +353,11 @@
 				async : false,
 				data : JSON.stringify(paramData), 
 				success : function(data) {
+					if (data.orderPayStatus == "4") {
+						$('#errormsg_content').text('<fmt:message key="E0012" />');
+		  				$('#errormsg-pop-up').modal('show');
+		  				return;
+					}
 					if (payMethod == "1") {
 						//在线支付
 						if (needInvoice == "1"){
