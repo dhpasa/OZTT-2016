@@ -2,6 +2,7 @@ package com.org.oztt.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -55,6 +56,7 @@ import com.org.oztt.formDto.OzTtAdGlListDto;
 import com.org.oztt.formDto.OzTtAdPlListDto;
 import com.org.oztt.service.BaseService;
 import com.org.oztt.service.GoodsService;
+import com.org.oztt.service.OrderService;
 
 @Service
 public class GoodsServiceImpl extends BaseService implements GoodsService {
@@ -94,6 +96,9 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
 
     @Resource
     private TTabIndexDao           tTabIndexDao;
+    
+    @Resource
+    private OrderService           orderService;
 
     public TGoods getGoodsById(String goodsId) throws Exception {
         return tGoodsDao.selectByGoodsId(goodsId);
@@ -882,6 +887,56 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
     public String getTabName(String tabId) throws Exception {
         TTabInfo info = tTabInfoDao.selectByPrimaryKey(Long.valueOf(tabId));
         return info.getTabname();
+    }
+
+    @Override
+    public void deleteCanNotBuyGoodsByCustomer(String customerNo) throws Exception {
+        List<TConsCart> consCarts = this.getAllContCart(customerNo);
+        if (!CollectionUtils.isEmpty(consCarts)) {
+            for (TConsCart dto : consCarts) {
+                // 判断当前的这个商品是否已经过期，过期则删除
+                TGoodsGroup tGoodsGroup = new TGoodsGroup();
+                tGoodsGroup.setGroupno(dto.getGroupno());
+                tGoodsGroup = getGoodPrice(tGoodsGroup);
+                if (new Date().compareTo(tGoodsGroup.getValidperiodend()) > 0) {
+                    tConsCartDao.deleteByPrimaryKey(dto.getNo());
+                    continue;
+                }
+                
+                // 判断是否已经满团，满团则删除
+                if (tGoodsGroup.getGroupcurrentquantity() >= tGoodsGroup.getGroupmaxquantity()) {
+                    tConsCartDao.deleteByPrimaryKey(dto.getNo());
+                    continue;
+                }
+                
+                // 判断是否加入购物车的数据，不符合现在最大可用数据，如果不符合更新成现在最多可购买的数量
+                //单个团购，单个客户已经购买的数量取得
+                Map<Object, Object> paramMap = new HashMap<Object, Object>();
+                paramMap.put("customerNo", customerNo);
+                paramMap.put("groupNo", tGoodsGroup.getGroupno());
+                int alreadyPurchaseSum = orderService.getAleadyPurchaseCount(paramMap);
+                Long maxBuy = 0L;
+                if (dto.getQuantity() + tGoodsGroup.getGroupcurrentquantity() <= tGoodsGroup.getGroupmaxquantity()) {
+                } else {
+                    maxBuy = tGoodsGroup.getGroupmaxquantity() - tGoodsGroup.getGroupcurrentquantity();
+                }
+                
+                if (dto.getQuantity() > tGoodsGroup.getGroupquantitylimit()) {
+                    maxBuy = (maxBuy > tGoodsGroup.getGroupquantitylimit() || maxBuy == 0L) ? tGoodsGroup.getGroupquantitylimit() : maxBuy;
+                }
+                
+                if(dto.getQuantity() + alreadyPurchaseSum > tGoodsGroup.getGroupquantitylimit()) {
+                    maxBuy = ((maxBuy + alreadyPurchaseSum) > tGoodsGroup.getGroupquantitylimit() || maxBuy == 0L) ? (tGoodsGroup.getGroupquantitylimit() - alreadyPurchaseSum) : maxBuy;
+                }
+                
+                if(maxBuy != 0 && maxBuy != dto.getQuantity()) {
+                    // 更新购物车中的数据
+                    dto.setQuantity(maxBuy);
+                    tConsCartDao.updateByPrimaryKeySelective(dto);
+                }
+                 
+            }
+        }
     }
 
 }

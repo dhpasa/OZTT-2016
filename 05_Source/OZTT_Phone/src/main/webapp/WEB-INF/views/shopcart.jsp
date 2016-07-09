@@ -196,7 +196,7 @@
 		}
 		
 		if (isAdd) {
-			var maxbuy = 0;
+			var maxbuy = -1;
 			var checkGroup = [];
 			checkGroup.push(properties);
 			var checkOver = true;

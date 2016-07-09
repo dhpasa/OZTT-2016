@@ -520,4 +520,12 @@ public interface GoodsService {
      * @throws Exception
      */
     public String getTabName(String tabId) throws Exception;
+    
+    /**
+     * 删除或者更新不可以购买的购物车产品
+     * @param customerNo
+     * @return
+     * @throws Exception
+     */
+    public void deleteCanNotBuyGoodsByCustomer(String customerNo) throws Exception;
 }
