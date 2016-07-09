@@ -582,7 +582,7 @@ public class CommonController extends BaseController {
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
             boolean isOver = false;
-            long maxBuy = -1;
+            long maxBuy = 0;
             Map<String, String> mapParam = new HashMap<String, String>();
             if (list != null && list.size() > 0) {
                 mapParam = list.get(0);
@@ -613,9 +613,9 @@ public class CommonController extends BaseController {
                 	maxBuy = ((maxBuy + alreadyPurchaseSum) > tGoodsGroup.getGroupquantitylimit() || maxBuy == 0L) ? (tGoodsGroup.getGroupquantitylimit() - alreadyPurchaseSum) : maxBuy;
                 }
                 
-//            	if(maxBuy < 0) {
-//            		maxBuy = 0;
-//            	}
+            	if(maxBuy < 0) {
+            		maxBuy = 0;
+            	}
             }
             mapReturn.put("maxBuy", maxBuy);
             mapReturn.put("isOver", isOver);

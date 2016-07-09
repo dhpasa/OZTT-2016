@@ -137,6 +137,9 @@ public class PurchaseController extends BaseController {
             // 先判断付款方式
             String orderNo = orderService.insertOrderInfoForPhone(customerNo, hidPayMethod, hidDeliMethod,
                     hidAddressId, hidHomeDeliveryTime, isUnify, needInvoice, invoicemail, session);
+            if (CommonConstants.CART_CANBUY.equals(orderNo)) {
+                mapReturn.put("orderPayStatus", CommonConstants.CART_CANBUY);
+            }
             mapReturn.put("orderNo", orderNo);
             mapReturn.put("isException", false);
             return mapReturn;

@@ -82,7 +82,7 @@ public final class CommonConstants {
 
     public static final String TRANSACTION_SERIAL_NO      = "vpc_ReceiptNo";                        // 收据号
 
-    public static final String TRANSACTION_SERIAL_NO_MOCK = "00000-00000";                              // 模拟收据号
+    public static final String TRANSACTION_SERIAL_NO_MOCK = "00000-00000";                          // 模拟收据号
 
     //##############admin端常量#################//
 
@@ -111,5 +111,7 @@ public final class CommonConstants {
     public static final String DEFAULT_ADDRESS            = "1";
 
     public static final String NOT_DEFAULT_ADDRESS        = "0";
+
+    public static final String CART_CANBUY                = "4";//订单重复提交
 
 }
