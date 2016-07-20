@@ -284,7 +284,7 @@
 		from t_cons_cart a
 		inner join t_goods b on a.goodsId = b.goodsId
 		inner join t_goods_price c on a.goodsId = c.goodsId
-		inner join t_goods_group d on a.goodsId = d.goodsId
+		inner join t_goods_group d on a.groupNo = d.groupNo
 		where 1 = 1 and a.customerNo = #{customerno,jdbcType=VARCHAR}
 		and a.purchaseCurrent = '1'
 		order by d.validPeriodEnd
