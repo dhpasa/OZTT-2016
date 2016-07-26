@@ -145,8 +145,8 @@
 	</div>
 	<div class="flexslider border-top-show">
   		<ul class="slides">
-  			<li><img src="${imgUrl}advertisement/pic_01.png" /></li>
-  			<li><img src="${imgUrl}advertisement/pic_02.jpg" /></li>
+  			<li><img src="${imgUrl}advertisement/pic_01.jpeg" /></li>
+  			<li><img src="${imgUrl}advertisement/pic_02.jpeg" /></li>
   		</ul>
    </div>
    
