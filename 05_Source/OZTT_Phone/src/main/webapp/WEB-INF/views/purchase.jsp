@@ -92,10 +92,10 @@
 				$(".purchase-good－picktime").css("display","none");
 	  			$("#method_ldfk").css("display","none");
 	  			
-	  			$("#method_online").removeClass("method-default");
-				$("#method_online").addClass("method-check");
-				$("#method_cod").removeClass("method-check");
-				$("#method_cod").addClass("method-default");
+	  			$("#method_online").removeClass("method-check");
+				$("#method_online").addClass("method-default");
+				$("#method_cod").removeClass("method-default");
+				$("#method_cod").addClass("method-check");
 				$("#method_ldfk").removeClass("method-check");
 				$("#method_ldfk").addClass("method-default");
 				
