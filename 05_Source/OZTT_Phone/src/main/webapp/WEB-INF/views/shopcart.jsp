@@ -350,6 +350,10 @@
 						$('#errormsg_content').text(data.checkAllMsg);
 		  				$('#errormsg-pop-up').modal('show');
 						return;
+					} else if (data.isGroupNotStart){
+						$('#errormsg_content').text(data.checkAllMsg);
+		  				$('#errormsg-pop-up').modal('show');
+						return;
 					} else if (data.isGroupEnd){
 						$('#errormsg_content').text(data.checkAllMsg);
 		  				$('#errormsg-pop-up').modal('show');

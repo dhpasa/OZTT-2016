@@ -17,6 +17,8 @@
     <result column="invoiceNo" property="invoiceno" jdbcType="VARCHAR" />
     <result column="deliveryCost" property="deliverycost" jdbcType="DECIMAL" />
     <result column="transactionNo" property="transactionno" jdbcType="VARCHAR" />
+    <result column="commentsCustomer" property="commentscustomer" jdbcType="VARCHAR" />
+    <result column="commentsAdmin" property="commentsadmin" jdbcType="VARCHAR" />
     <result column="addTimestamp" property="addtimestamp" jdbcType="TIMESTAMP" />
     <result column="addUserKey" property="adduserkey" jdbcType="VARCHAR" />
     <result column="updTimestamp" property="updtimestamp" jdbcType="TIMESTAMP" />
@@ -25,7 +27,8 @@
   </resultMap>
   <sql id="Base_Column_List" >
     no, orderNo, customerNo, orderAmount, paymentMethod, orderTimestamp, paymentTimestamp, 
-    handleFlg, deliveryMethod, addressId, invoiceFlg, invoiceNo, homeDeliveryTime, deliveryCost, transactionNo, addTimestamp, 
+    handleFlg, deliveryMethod, addressId, invoiceFlg, invoiceNo, homeDeliveryTime, deliveryCost, transactionNo, 
+    commentsCustomer, commentsAdmin, addTimestamp, 
     addUserKey, updTimestamp, updUserKey, updPgmId
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -43,7 +46,7 @@
       orderAmount, paymentMethod, orderTimestamp, 
       paymentTimestamp, handleFlg, deliveryMethod, 
       addressId, homeDeliveryTime, invoiceFlg, invoiceNo, deliveryCost, 
-      transactionNo, addTimestamp, addUserKey, 
+      transactionNo, commentsCustomer, commentsAdmin, addTimestamp, addUserKey, 
       updTimestamp, updUserKey, updPgmId
       )
     values (#{no,jdbcType=BIGINT}, #{orderno,jdbcType=VARCHAR}, #{customerno,jdbcType=VARCHAR}, 
@@ -51,7 +54,8 @@
       #{paymenttimestamp,jdbcType=TIMESTAMP}, #{handleflg,jdbcType=VARCHAR}, #{deliverymethod,jdbcType=VARCHAR}, 
       #{addressid,jdbcType=BIGINT}, #{homedeliverytime,jdbcType=VARCHAR}, 
       #{invoiceflg,jdbcType=VARCHAR}, #{invoiceno,jdbcType=VARCHAR}, #{deliverycost,jdbcType=DECIMAL}, 
-      #{transactionno,jdbcType=VARCHAR}, #{addtimestamp,jdbcType=TIMESTAMP}, #{adduserkey,jdbcType=VARCHAR}, 
+      #{transactionno,jdbcType=VARCHAR}, #{commentscustomer,jdbcType=VARCHAR}, #{commentsadmin,jdbcType=VARCHAR},
+      #{addtimestamp,jdbcType=TIMESTAMP}, #{adduserkey,jdbcType=VARCHAR}, 
       #{updtimestamp,jdbcType=TIMESTAMP}, #{upduserkey,jdbcType=VARCHAR}, #{updpgmid,jdbcType=VARCHAR}
       )
   </insert>
@@ -102,6 +106,12 @@
       </if>
       <if test="transactionno != null" >
         transactionNo,
+      </if>
+      <if test="commentscustomer != null" >
+        commentsCustomer,
+      </if>
+      <if test="commentsadmin != null" >
+        commentsAdmin,
       </if>
       <if test="addtimestamp != null" >
         addTimestamp,
@@ -165,6 +175,12 @@
       <if test="transactionno != null" >
         #{transactionno,jdbcType=VARCHAR},
       </if>
+      <if test="commentscustomer != null" >
+        #{commentscustomer,jdbcType=VARCHAR},
+      </if>
+      <if test="commentsadmin != null" >
+        #{commentsadmin,jdbcType=VARCHAR},
+      </if>
       <if test="addtimestamp != null" >
         #{addtimestamp,jdbcType=TIMESTAMP},
       </if>
@@ -227,6 +243,12 @@
       <if test="transactionno != null" >
         transactionNo = #{transactionno,jdbcType=VARCHAR},
       </if>
+      <if test="commentscustomer != null" >
+        commentsCustomer = #{commentscustomer,jdbcType=VARCHAR},
+      </if>
+      <if test="commentsadmin != null" >
+        commentsAdmin = #{commentsadmin,jdbcType=VARCHAR},
+      </if>
       <if test="addtimestamp != null" >
         addTimestamp = #{addtimestamp,jdbcType=TIMESTAMP},
       </if>
@@ -261,6 +283,8 @@
       invoiceNo = #{invoiceno,jdbcType=VARCHAR},
       deliveryCost = #{deliverycost,jdbcType=DECIMAL},
       transactionNo = #{transactionno,jdbcType=VARCHAR},
+      commentsCustomer = #{commentscustomer,jdbcType=VARCHAR},
+      commentsAdmin = #{commentsadmin,jdbcType=VARCHAR},
       addTimestamp = #{addtimestamp,jdbcType=TIMESTAMP},
       addUserKey = #{adduserkey,jdbcType=VARCHAR},
       updTimestamp = #{updtimestamp,jdbcType=TIMESTAMP},
@@ -346,6 +370,7 @@
 		A.paymentMethod as paymentMethod,
 		A.deliveryCost as deliveryCost,
 		A.homeDeliveryTime as atHomeTime,
+		A.commentsCustomer as commentsCustomer,
 		B.receiver as receiver,
 		B.contactTel as contactTel,
 		Z.telNo as customerPhone,

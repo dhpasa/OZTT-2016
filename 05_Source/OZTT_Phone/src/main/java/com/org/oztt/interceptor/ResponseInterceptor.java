@@ -25,12 +25,16 @@ public class ResponseInterceptor implements HandlerInterceptor {
         Locale locale = (Locale) request.getSession().getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
         String language = "";
         if (locale == null) {
-            //language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
-            if ("en".equals(request.getLocale().getLanguage())) {
-				language = "en_US";
-			} else {
-				language = "zh_CN";
-			}
+
+            //            if ("en".equals(request.getLocale().getLanguage())) {
+            //                language = "en_US";
+            //            }
+            //            else {
+            //                language = "zh_CN";
+            //            }
+            language = "zh_CN";
+            request.getSession().setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME,
+                    new Locale("zh", "CN"));
         }
         else {
             language = locale.getLanguage() + "_" + locale.getCountry();

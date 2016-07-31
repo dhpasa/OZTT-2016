@@ -368,8 +368,8 @@
             A.preFlg as isPre,
             A.inStockFlg as isInStock,
             A.hotFlg as isHot,
-			DATE_FORMAT(A.validPeriodStart,'%Y/%m/%d') as validDateFrom,
-			DATE_FORMAT(A.validPeriodEnd,'%Y/%m/%d') as validDateTo,
+			DATE_FORMAT(A.validPeriodStart,'%Y/%m/%d %T') as validDateFrom,
+			DATE_FORMAT(A.validPeriodEnd,'%Y/%m/%d %T') as validDateTo,
 			B.goodsName as goodsName,
 			C.priceValue as cost
 	    from t_goods_group A

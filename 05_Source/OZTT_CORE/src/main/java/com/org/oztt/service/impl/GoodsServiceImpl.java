@@ -240,6 +240,98 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
         goodItemDto.setGoodsTabs(tTabInfoDao.getTabsByGoods(goods.getGoodsid()));
         return goodItemDto;
     }
+    
+    @Override
+    public GoodItemDto getGoodAllItemDtoForAdmin(String groupId) throws Exception {
+
+        String imgUrl = MessageUtils.getApplicationMessage("saveImgUrl", null);
+        // 折扣价  团购这张表中
+        TGoodsGroup tGoodsGroup = new TGoodsGroup();
+        tGoodsGroup.setGroupno(groupId);
+        //tGoodsGroup.setOpenflg(CommonConstants.OPEN_FLAG_GROUP);
+        tGoodsGroup = getGoodPrice(tGoodsGroup);
+        // 取得当前商品的所有属性
+        String goodId = tGoodsGroup.getGoodsid();
+        TGoods goods = getGoodsById(goodId);
+        goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT + goods.getGoodsthumbnail());
+        // 原价   商品定价策略表中
+        TGoodsPrice tGoodsPrice = new TGoodsPrice();
+        tGoodsPrice.setGoodsid(goodId);
+        //tGoodsPrice.setOpenflg(CommonConstants.OPEN_FLAG_OTHER);
+        tGoodsPrice = getGoodPrice(tGoodsPrice);
+
+        // 属性（比如：size，颜色）
+        // 商品扩展属性定义这张表中
+        List<GoodProertyDto> propertiesFormList = new ArrayList<GoodProertyDto>();
+        TGoodsProperty tGoodsProperty = new TGoodsProperty();
+        tGoodsProperty.setGoodsid(goodId);
+        tGoodsProperty.setOpenflg(CommonConstants.OPEN_FLAG_OTHER);
+        List<TGoodsProperty> properties = getGoodsProperty(tGoodsProperty);
+        if (!CollectionUtils.isEmpty(properties)) {
+            for (TGoodsProperty property : properties) {
+                TGoodsAppendItems tGoodsAppendItems = new TGoodsAppendItems();
+                tGoodsAppendItems.setItemid(property.getGoodsclassid());
+                tGoodsAppendItems.setOpenflg(CommonConstants.OPEN_FLAG_OTHER);
+                tGoodsAppendItems = getGoodsAppendItems(tGoodsAppendItems);
+
+                GoodProertyDto proDto = new GoodProertyDto();
+                proDto.setGoodsPropertiesId(property.getGoodsclassid());
+                proDto.setGoodsPropertiesName(tGoodsAppendItems.getDisplayname());
+                proDto.setGoodsPropertiesType(tGoodsAppendItems.getInputtype());
+                proDto.setGoodsPropertiesJson(property.getGoodsclassvalue());
+
+                propertiesFormList.add(proDto);
+            }
+        }
+
+        // 获取商品的图片
+        List<String> goodPicList = new ArrayList<String>();
+        if (goods.getGoodsnormalpic() != null) {
+            String[] goodsPic = goods.getGoodsnormalpic().split(",");
+            if (goodsPic != null && goodsPic.length > 0) {
+                for (String pic : goodsPic) {
+                    goodPicList.add(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT + pic);
+                }
+            }
+        }
+
+        GoodItemDto goodItemDto = new GoodItemDto();
+        goodItemDto.setGoods(goods);
+        goodItemDto.setGroupId(groupId);
+        goodItemDto.setFirstImg((goodPicList != null && goodPicList.size() > 0) ? goodPicList.get(0) : "");
+        goodItemDto.setImgList(goodPicList);
+        goodItemDto.setNowPrice(tGoodsPrice.getPricevalue().toString());
+        goodItemDto.setDisPrice(tGoodsGroup.getGroupprice().toString());
+        goodItemDto.setProductInfo(tGoodsGroup.getComsumerreminder());
+        goodItemDto.setProductDesc(tGoodsGroup.getGroupdesc());
+        goodItemDto.setSellerRule(tGoodsGroup.getShopperrules());
+        goodItemDto.setGroupMax(String.valueOf(tGoodsGroup.getGroupmaxquantity()));
+        if (tGoodsGroup.getGroupcurrentquantity() >= tGoodsGroup.getGroupmaxquantity()) {
+            goodItemDto.setGroupCurrent(String.valueOf(tGoodsGroup.getGroupmaxquantity()));
+            goodItemDto.setIsOver(CommonConstants.OVER_GROUP_YES);
+        }
+        else {
+            goodItemDto.setGroupCurrent(String.valueOf(tGoodsGroup.getGroupcurrentquantity()));
+            goodItemDto.setIsOver(CommonConstants.OVER_GROUP_NO);
+        }
+        goodItemDto.setValidPeriodStart(DateFormatUtils.date2StringWithFormat(tGoodsGroup.getValidperiodstart(),
+                DateFormatUtils.PATTEN_YMD));
+        goodItemDto.setValidPeriodEnd(DateFormatUtils.date2StringWithFormat(tGoodsGroup.getValidperiodend(),
+                DateFormatUtils.PATTEN_YMD));
+        if (DateFormatUtils.getCurrentDate().before(tGoodsGroup.getValidperiodstart())
+                || DateFormatUtils.getCurrentDate().after(tGoodsGroup.getValidperiodend())) {
+            // 不在范围内
+            goodItemDto.setIsOverTime(CommonConstants.OVERTIME_GROUP_YES);
+        }
+        else {
+            goodItemDto.setIsOverTime(CommonConstants.OVERTIME_GROUP_NO);
+        }
+        goodItemDto.setProperties(JSON.toJSONString(propertiesFormList));
+        goodItemDto.setCountdownTime(DateFormatUtils.getBetweenSecondTime(tGoodsGroup.getValidperiodend()));
+        // 获取当前商品的标签属性
+        goodItemDto.setGoodsTabs(tTabInfoDao.getTabsByGoods(goods.getGoodsid()));
+        return goodItemDto;
+    }
 
     @Override
     public GoodItemDto getGroupAllItemDtoForPreview(String groupId) throws Exception {
