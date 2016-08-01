@@ -46,6 +46,8 @@ public class GroupItemDto {
 
     private String     groupno;
 
+    private Date       validStartTime;
+
     private Date       validEndTime;
 
     private String     countdownTime;
@@ -65,6 +67,8 @@ public class GroupItemDto {
     private String     hotLabel;      //热销
 
     private String     salesLabel;    //秒杀
+
+    private String     isOnWay;       //即将销售
 
     public String getGoodsid() {
         return goodsid;
@@ -288,6 +292,22 @@ public class GroupItemDto {
 
     public void setIsOverGroup(String isOverGroup) {
         this.isOverGroup = isOverGroup;
+    }
+
+    public Date getValidStartTime() {
+        return validStartTime;
+    }
+
+    public void setValidStartTime(Date validStartTime) {
+        this.validStartTime = validStartTime;
+    }
+
+    public String getIsOnWay() {
+        return isOnWay;
+    }
+
+    public void setIsOnWay(String isOnWay) {
+        this.isOnWay = isOnWay;
     }
 
 }

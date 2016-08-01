@@ -70,6 +70,25 @@ a{
     border: 0.5px solid #FF9298;
 }
 
+.displaynone-time {
+    display: block !important;
+    height: 2rem;
+    line-height: 2rem;
+    width: 100%;
+}
+
+.display-block-time{
+	display: inline-block;
+	height: 2rem;
+	line-height: 2rem;
+	width: 100%;
+	background-color: #FFFFFF;
+	color: #FFFFFF;
+    font-size: 1.3rem;
+    border-radius: 5px !important;
+    border: 0.5px solid #FFFFFF;
+}
+
 .main-overtime-div{
 	display: inline-block;
 	height: 2rem;
@@ -80,6 +99,19 @@ a{
     font-size: 1.3rem;
     border-radius: 5px !important;
     border: 0.5px solid #D8D8D8;
+    text-align: center;
+}
+
+.main-onway-div{
+	display: inline-block;
+	height: 2rem;
+	line-height: 2rem;
+	width: 100%;
+	background-color: #FFE4E8;
+	color: #FF9298;
+    font-size: 1.3rem;
+    border-radius: 5px !important;
+    border: 0.5px solid #FF9298;
     text-align: center;
 }
 
@@ -399,7 +431,7 @@ html{
 }
 
 .jshop-item > div, .jshop-item > span{
-	display: inline-block;
+	display: block;
 	width: 100%;
 	margin-bottom: 0.3rem;
 }
@@ -2159,12 +2191,44 @@ html{
 	height: 5rem;
 }
 
+.purchase-remarks{
+	width: 100%;
+	display: inline-block;
+	background-color: #fff;
+	height: 5rem;
+}
+
 .purchase-delivery-span{
 	display: inline-block;
 	float: left;
 	line-height: 5rem;
 	font-size: 1.5rem;
 	padding-left: 1rem;
+}
+
+.purchase-remarks-span{
+	display: inline-block;
+	float: left;
+	line-height: 5rem;
+	font-size: 1.5rem;
+	padding-left: 1rem;
+}
+
+.purchase-remarks-input-div{
+	display: inline-block;
+	float: left;
+	height: 5rem;
+    line-height: 5rem;
+    margin-left: 1rem;
+    width: 80%;
+}
+
+.purchase-remarks-input{
+	border:none;
+	height: 3.5rem;
+	line-height:3.5rem;
+	border-bottom:0.5px solid #F4F4F4;
+	width: 95%;
 }
 
 .purchase-method{

@@ -127,7 +127,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
     @Override
     public String insertOrderInfoForPhone(String customerNo, String payMethod, String hidDeliMethod,
             String hidAddressId, String hidHomeDeliveryTime, String isUnify, String invoiceFlg, String invoicemail,
-            HttpSession session) throws Exception {
+            HttpSession session, String purchaseRemarks) throws Exception {
 
         List<ContCartItemDto> payList = tConsCartDao.getAllContCartForBuy(customerNo);
         if (CollectionUtils.isEmpty(payList))
@@ -325,6 +325,8 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         //            tConsOrder.setInvoiceno(maxInvoiceNo);
         //        }
         tConsOrder.setInvoiceflg("0");
+        // 备注
+        tConsOrder.setCommentscustomer(purchaseRemarks);
         tConsOrderDao.insertSelective(tConsOrder);
 
         // 将购物车中的数据删除

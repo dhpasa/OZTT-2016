@@ -77,6 +77,10 @@ public class MainController extends BaseController {
                     goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
                     goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods
                             .getGroupMax()) ? CommonConstants.OVER_GROUP_YES : CommonConstants.OVER_GROUP_NO);
+                    // 判断团购开始是否已经到
+                    if (goods.getValidStartTime().compareTo(DateFormatUtils.getCurrentDate()) > 0) {
+                        goods.setIsOnWay(CommonConstants.IS_ON_WAY);
+                    }
                 }
             }
             model.addAttribute("preSellList", (pageInfoPre == null || pageInfoPre.getResultList() == null) ? null
@@ -95,6 +99,10 @@ public class MainController extends BaseController {
                     goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
                     goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods
                             .getGroupMax()) ? CommonConstants.OVER_GROUP_YES : CommonConstants.OVER_GROUP_NO);
+                    // 判断团购开始是否已经到
+                    if (goods.getValidStartTime().compareTo(DateFormatUtils.getCurrentDate()) > 0) {
+                        goods.setIsOnWay(CommonConstants.IS_ON_WAY);
+                    }
                 }
             }
             model.addAttribute("nowSellList", (pageInfoNow == null || pageInfoNow.getResultList() == null) ? null
@@ -152,6 +160,10 @@ public class MainController extends BaseController {
                 goods.setCountdownDay(DateFormatUtils.getBetweenDayTime(goods.getValidEndTime()));
                 goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods
                         .getGroupMax()) ? CommonConstants.OVER_GROUP_YES : CommonConstants.OVER_GROUP_NO);
+                // 判断团购开始是否已经到
+                if (goods.getValidStartTime().compareTo(DateFormatUtils.getCurrentDate()) > 0) {
+                    goods.setIsOnWay(CommonConstants.IS_ON_WAY);
+                }
             }
         }
         model.addAttribute("tab", tab);
@@ -200,6 +212,10 @@ public class MainController extends BaseController {
                     goods.setCountdownDay(DateFormatUtils.getBetweenDayTime(goods.getValidEndTime()));
                     goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods
                             .getGroupMax()) ? CommonConstants.OVER_GROUP_YES : CommonConstants.OVER_GROUP_NO);
+                    // 判断团购开始是否已经到
+                    if (goods.getValidStartTime().compareTo(DateFormatUtils.getCurrentDate()) > 0) {
+                        goods.setIsOnWay(CommonConstants.IS_ON_WAY);
+                    }
                 }
             }
             model.addAttribute("goodsList",
