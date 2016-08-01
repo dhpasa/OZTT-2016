@@ -1,6 +1,7 @@
 package com.org.oztt.admin.controller;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -135,8 +136,7 @@ public class OzTtAdGlController extends BaseController {
             return CommonConstants.ERROR_PAGE;
         }
     }
-    
-    
+
     /**
      * 得到产品团购信息
      * 
@@ -156,10 +156,10 @@ public class OzTtAdGlController extends BaseController {
             res.put("goodsGroupPrice", tGoodsGroup.getGroupprice().toString());
             res.put("goodsGroupNumber", tGoodsGroup.getGroupmaxquantity().toString());
             res.put("goodsGroupLimit", tGoodsGroup.getGroupquantitylimit().toString());
-            res.put("dataFromGroup", DateFormatUtils.date2StringWithFormat(tGoodsGroup.getValidperiodstart(),
-                    DateFormatUtils.PATTEN_YMD2));
-            res.put("dataToGroup", DateFormatUtils.date2StringWithFormat(tGoodsGroup.getValidperiodend(),
-                    DateFormatUtils.PATTEN_YMD2));
+            res.put("dataFromGroup",
+                    DateFormatUtils.date2StringWithFormat(tGoodsGroup.getValidperiodstart(), DateFormatUtils.PATTEN_HM));
+            res.put("dataToGroup",
+                    DateFormatUtils.date2StringWithFormat(tGoodsGroup.getValidperiodend(), DateFormatUtils.PATTEN_HM));
             res.put("groupComment", tGoodsGroup.getGroupcomments());
             res.put("groupDesc", tGoodsGroup.getGroupdesc());
             res.put("groupReminder", tGoodsGroup.getComsumerreminder());
@@ -169,7 +169,7 @@ public class OzTtAdGlController extends BaseController {
             res.put("isPre", tGoodsGroup.getPreflg());
             res.put("isInStock", tGoodsGroup.getInstockflg());
             res.put("isHot", tGoodsGroup.getHotflg());
-            
+
             // 后台维护的时候提示让以逗号隔开
             mapReturn.put("resMap", res);
             mapReturn.put("isException", false);
@@ -211,9 +211,15 @@ public class OzTtAdGlController extends BaseController {
             tGoodsGroup.setHotflg(map.get("ishot"));
             tGoodsGroup.setShopperrules(map.get("shopperrules"));
             tGoodsGroup.setValidperiodend(DateFormatUtils.string2DateWithFormat(map.get("validperiodend"),
-                    DateFormatUtils.PATTEN_YMD2));
+                    DateFormatUtils.PATTEN_HM));
             tGoodsGroup.setValidperiodstart(DateFormatUtils.string2DateWithFormat(map.get("validperiodstart"),
-                    DateFormatUtils.PATTEN_YMD2));
+                    DateFormatUtils.PATTEN_HM));
+            if ("1".equals(tGoodsGroup.getInstockflg())) {
+                // 如果是现货
+                tGoodsGroup.setValidperiodend(DateFormatUtils.addDate(
+                        DateFormatUtils.string2DateWithFormat(map.get("validperiodstart"), DateFormatUtils.PATTEN_HM),
+                        Calendar.DATE, CommonConstants.MAX_DAY));
+            }
             // 更新操作
             tGoodsGroup.setUpdpgmid("OZ_TT_AD_GL");
             tGoodsGroup.setUpdtimestamp(new Date());
@@ -229,7 +235,7 @@ public class OzTtAdGlController extends BaseController {
             return null;
         }
     }
-    
+
     /**
      * 商品团购管理一览画面
      * 
@@ -238,9 +244,10 @@ public class OzTtAdGlController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/groupPreview")
-    public String groupPreview(Model model, HttpServletRequest request, HttpSession session, String groupId, String pageNo) {
+    public String groupPreview(Model model, HttpServletRequest request, HttpSession session, String groupId,
+            String pageNo) {
         try {
-            GoodItemDto goodItemDto = goodsService.getGoodAllItemDto(groupId);
+            GoodItemDto goodItemDto = goodsService.getGoodAllItemDtoForAdmin(groupId);
             //GoodItemDto goodItemDto = goodsService.getGroupAllItemDtoForPreview(groupId);
 
             // 后台维护的时候提示让以逗号隔开
@@ -253,8 +260,7 @@ public class OzTtAdGlController extends BaseController {
             return CommonConstants.ERROR_PAGE;
         }
     }
-    
-    
+
     /**
      * 商品团购删除
      * 
@@ -272,7 +278,7 @@ public class OzTtAdGlController extends BaseController {
             tGoodsGroup = goodsService.getGoodPrice(tGoodsGroup);
             tGoodsGroup.setOpenflg(CommonEnum.GroupOpenFlag.DELETE.getCode());
             goodsService.updateGoodsSetGroup(tGoodsGroup);
-            
+
             mapReturn.put("isException", false);
             return mapReturn;
         }
@@ -282,7 +288,7 @@ public class OzTtAdGlController extends BaseController {
             return mapReturn;
         }
     }
-    
+
     /**
      * 商品团购下架
      * 
@@ -310,7 +316,5 @@ public class OzTtAdGlController extends BaseController {
             return mapReturn;
         }
     }
-    
-    
 
 }

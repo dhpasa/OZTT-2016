@@ -96,12 +96,12 @@ public class OzTtAdGbController extends BaseController {
                 
                 if (!StringUtils.isEmpty(map.get("validperiodend"))) {
                     tGoodsGroup.setValidperiodend(DateFormatUtils.string2DateWithFormat(map.get("validperiodend"),
-                            DateFormatUtils.PATTEN_YMD2));
+                            DateFormatUtils.PATTEN_HM));
                 }
                 
                 if (!StringUtils.isEmpty(map.get("validperiodstart"))) {
                     tGoodsGroup.setValidperiodstart(DateFormatUtils.string2DateWithFormat(map.get("validperiodstart"),
-                            DateFormatUtils.PATTEN_YMD2));
+                            DateFormatUtils.PATTEN_HM));
                 }
                 
                 if (!StringUtils.isEmpty(map.get("maxnumber"))) {

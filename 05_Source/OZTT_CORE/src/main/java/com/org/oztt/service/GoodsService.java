@@ -160,6 +160,15 @@ public interface GoodsService {
      * @throws Exception
      */
     public GoodItemDto getGoodAllItemDto(String groupId) throws Exception;
+    
+    /**
+     * 获取团购商品的所有属性ADMIN端
+     * 
+     * @param tGoodsAppendItems
+     * @return
+     * @throws Exception
+     */
+    public GoodItemDto getGoodAllItemDtoForAdmin(String groupId) throws Exception;
 
     /**
      * 获取商品的所有属性

@@ -135,6 +135,7 @@
 	  	}
 	  	
 	  	var E0002 = '<fmt:message key="E0002" />';
+	  	var E0004 = '<fmt:message key="E0004" />';
 	  	function setGroupSave(openFlag){
 	  		cleanFormError();
 			var goodsGroupPrice = $("#goodsGroupPrice").val();
@@ -164,13 +165,19 @@
 			if (dataFromGroup == "") {
 				var message = E0002.replace("{0}", '<fmt:message key="OZ_TT_AD_GL_DIALOG_validDate" />')
 				showErrorSpan($("#dataToGroup"), message);
-				
 				return false;
 			}
-			if (dataToGroup == "") {
-				var message = E0002.replace("{0}", '<fmt:message key="OZ_TT_AD_GL_DIALOG_validDate" />')
-				showErrorSpan($("#dataToGroup"), message);
-				return false;
+			if ($("#isInStockEdit").attr("checked")) {
+				if (dataToGroup == "") {
+					var message = E0002.replace("{0}", '<fmt:message key="OZ_TT_AD_GL_DIALOG_validDate" />')
+					showErrorSpan($("#dataToGroup"), message);
+					return false;
+				}
+				
+				if (dataFromGroup > dataToGroup) {
+					showErrorSpan($("#dataToGroup"), E0004);
+					return false;
+				}
 			}
 			
 			if (!checkDecimalSize(goodsGroupPrice,"999999999.99")) {
@@ -194,6 +201,12 @@
 			if ($("#isHotEdit").attr("checked")) {
 				isHot = "1";
 			}
+			
+			var W0007 = '<fmt:message key="W0007" />'
+			if (isInStock == "1") {
+				alert(W0007);
+			}
+			
 			var jsonMap = {
 				comsumerreminder:groupReminder,
 				goodsid:$("#hiddenGroupGoodsId").val(),
@@ -798,12 +811,12 @@
 						<div class="form-group">
 							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_validDate" /></label>
 							<div class="col-md-7">
-								<div class="input-group input-large date-picker input-daterange" data-date="" data-date-format="yyyy/mm/dd">
-									<input type="text" class="form-control" id="dataFromGroup"></input>
+								<div class="input-group input-large">
+									<input type="text" class="form-control myself-datatimpick" id="dataFromGroup"></input>
 									<span class="input-group-addon">
 										 <fmt:message key="COMMON_TO" />
 									</span>
-									<input type="text" class="form-control" id="dataToGroup"></input>
+									<input type="text" class="form-control myself-datatimpick" id="dataToGroup"></input>
 								</div>
 							</div>
 						</div>
@@ -900,12 +913,12 @@
 						<div class="form-group" id="dataFromGroup_batch_div" style="display:none">
 							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_validDate" /></label>
 							<div class="col-md-7">
-								<div class="input-group input-large date-picker input-daterange" data-date="" data-date-format="yyyy/mm/dd">
-									<input type="text" class="form-control" id="dataFromGroup_batch"></input>
+								<div class="input-group input-large">
+									<input type="text" class="form-control myself-datatimpick" id="dataFromGroup_batch"></input>
 									<span class="input-group-addon">
 										 <fmt:message key="COMMON_TO" />
 									</span>
-									<input type="text" class="form-control" id="dataToGroup_batch"></input>
+									<input type="text" class="form-control myself-datatimpick" id="dataToGroup_batch"></input>
 								</div>
 							</div>
 						</div>

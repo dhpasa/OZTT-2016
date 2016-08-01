@@ -112,6 +112,10 @@ public final class CommonConstants {
 
     public static final String NOT_DEFAULT_ADDRESS        = "0";
 
-    public static final String CART_CANBUY                = "4";//订单重复提交
+    public static final String CART_CANBUY                = "4";                                    //订单重复提交
+
+    public static final String IS_ON_WAY                  = "1";                                    // 即将销售
+
+    public static final int    MAX_DAY                    = 999;
 
 }

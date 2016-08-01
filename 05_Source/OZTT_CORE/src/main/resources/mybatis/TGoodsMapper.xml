@@ -57,6 +57,7 @@
 		<result column="tabs" property="tabs" jdbcType="VARCHAR" />
 		<result column="deleteFlg" property="deleteflg" jdbcType="CHAR" />
 		<result column="groupNo" property="groupno" jdbcType="VARCHAR" />
+		<result column="validStartTime" property="validStartTime" jdbcType="TIMESTAMP" />
 		<result column="validEndTime" property="validEndTime" jdbcType="TIMESTAMP" />
 		<result column="groupMax" property="groupMax" jdbcType="INTEGER" />
 		<result column="groupCurrent" property="groupCurrent" jdbcType="INTEGER" />
@@ -476,6 +477,7 @@
 		b.priceValue as  costPrice, 
 		a.sortOrder, a.tabs,
 		a.deleteFlg, 
+		c.validPeriodStart as validStartTime,
 		c.validPeriodEnd as validEndTime,
 		c.groupMaxQuantity as groupMax,
 		IF(c.groupCurrentQuantity > c.groupMaxQuantity,c.groupMaxQuantity,c.groupCurrentQuantity) as groupCurrent,

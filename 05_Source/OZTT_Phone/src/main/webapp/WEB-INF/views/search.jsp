@@ -71,6 +71,8 @@
 			var temp14 = '    <div class="countdown-time" data-seconds-left="{0}">';   	
 			var temp15 = '    </div>';
 			var temp31 = '<div class="main-overtime-div" style="display: inline-block;"><fmt:message key="COMMON_OVER_GROUP" /></div>';
+			var temp32 = '<div class="main-onway-div" style="display: inline-block;"><fmt:message key="COMMON_GROUP_ONWAY" /></div>';
+			var temp33 = '<div class="displaynone-time"></div>';
 			
 			var temp20 = '<div class="goods-sticker goods-sticker-preLabel"></div>';
 			var temp21 = '<div class="goods-sticker goods-sticker-inStockLabel"></div>';
@@ -110,11 +112,19 @@
 								tempStr += temp11;
 								tempStr += temp12.replace('{0}',dataList[i].groupCurrent).replace('{1}',dataList[i].groupMax);
 								tempStr += temp13;
-								if (dataList[i].isOverGroup == '1') {
-									tempStr += temp31;
+								if (dataList[i].inStockLabel != '1') {
+									if (dataList[i].isOverGroup == '1') {
+										tempStr += temp31;
+									} else {
+										if (dataList[i].isOnWay == '1') {
+											tempStr += temp32;
+										} else {
+											tempStr += temp14.replace('{0}',dataList[i].countdownTime);
+											tempStr += temp15;
+										}
+									}
 								} else {
-									tempStr += temp14.replace('{0}',dataList[i].countdownTime);
-									tempStr += temp15;
+									tempStr += temp33;
 								}
 								if (dataList[i].preLabel == '1') {
 									if ('${languageSelf}' == 'zh_CN'){
@@ -244,12 +254,22 @@
 				   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
 				   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span>
 		                </div>
-		                <c:if test="${goodslist.isOverGroup == '1' }">
-		                	<div class="main-overtime-div" style="display: inline-block;"><fmt:message key="COMMON_OVER_GROUP" /></div>
+		                <c:if test="${goodslist.inStockLabel != '1' }">
+			                <c:if test="${goodslist.isOverGroup != '1' }">
+			                	<c:if test="${goodslist.isOnWay == '1' }">
+			                		<div class="main-onway-div" style="display: inline-block;"><fmt:message key="COMMON_GROUP_ONWAY" /></div>
+			                	</c:if>
+			                	<c:if test="${goodslist.isOnWay != '1' }">
+			                		<div class="countdown-time" data-seconds-left="${goodslist.countdownTime}">
+			                		</div>
+			                	</c:if>
+			                </c:if>
+			                <c:if test="${goodslist.isOverGroup == '1' }">
+			                	<div class="main-overtime-div" style="display: inline-block;"><fmt:message key="COMMON_OVER_GROUP" /></div>
+			                </c:if>
 		                </c:if>
-		                <c:if test="${goodslist.isOverGroup != '1' }">
-		                	<div class="countdown-time" data-seconds-left="${goodslist.countdownTime}">
-		                	</div>
+		                <c:if test="${goodslist.inStockLabel == '1' }">
+		                	<div class="displaynone-time"></div>
 		                </c:if>
 		                <c:if test="${goodslist.preLabel == '1' }">
 		                	<c:if test="${languageSelf == 'zh_CN' }">

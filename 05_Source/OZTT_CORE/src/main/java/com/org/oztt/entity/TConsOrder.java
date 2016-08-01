@@ -33,6 +33,10 @@ public class TConsOrder {
     private BigDecimal deliverycost;
 
     private String transactionno;
+    
+    private String commentscustomer;
+    
+    private String commentsadmin;
 
     private Date addtimestamp;
 
@@ -202,6 +206,22 @@ public class TConsOrder {
 
     public void setInvoiceno(String invoiceno) {
         this.invoiceno = invoiceno;
+    }
+
+    public String getCommentscustomer() {
+        return commentscustomer;
+    }
+
+    public void setCommentscustomer(String commentscustomer) {
+        this.commentscustomer = commentscustomer;
+    }
+
+    public String getCommentsadmin() {
+        return commentsadmin;
+    }
+
+    public void setCommentsadmin(String commentsadmin) {
+        this.commentsadmin = commentsadmin;
     }
 
 
