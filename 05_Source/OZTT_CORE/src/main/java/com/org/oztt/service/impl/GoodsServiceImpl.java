@@ -1,5 +1,6 @@
 package com.org.oztt.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -121,7 +122,18 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
     }
 
     public PagingResult<GroupItemDto> getGoodsByParamForPage(Pagination pagination) throws Exception {
-        return tGoodsDao.getGoodsByParamForPage(pagination);
+        PagingResult<GroupItemDto> itemList = tGoodsDao.getGoodsByParamForPage(pagination);
+        if (!CollectionUtils.isEmpty(itemList.getResultList())) {
+            for (GroupItemDto goods : itemList.getResultList()) {
+                if (StringUtils.isNotEmpty(goods.getSellOutInitQuantity())) {
+                    if (new BigDecimal(goods.getSellOutInitQuantity()).compareTo(new BigDecimal(goods.getGroupCurrent())) >= 0) {
+                        goods.setSellOutFlg(CommonConstants.SELL_OUT_FLG);
+                    }
+                }
+                
+            }
+        }
+        return itemList;
     }
 
     @Override

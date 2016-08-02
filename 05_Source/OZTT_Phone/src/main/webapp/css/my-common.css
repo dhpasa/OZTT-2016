@@ -553,6 +553,28 @@ html{
 	height: 63px;
 }
 
+.goods-sticker-right {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 63px !important;
+	height: 63px;
+}
+
+.goods-sticker-selloutLabel {
+	background: url(../images/selloutlabel.png) no-repeat;
+    background-size: 4rem 4rem;
+    left: auto;
+    right: 0;
+}
+
+.goods-sticker-selloutLabel-en {
+	background: url(../images/selloutlabel_en.png) no-repeat;
+    background-size: 4rem 4rem;
+    left: auto;
+    right: 0;
+}
+
 .main-goods-li{
 	position: relative;
 }

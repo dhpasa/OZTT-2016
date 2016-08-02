@@ -43,6 +43,14 @@ public class TGoodsGroup implements Serializable {
 
     private Date              validperiodend;
 
+    private String            diamondshowflg;
+
+    private BigDecimal        selloutinitquantity;
+
+    private String            selloutflg;
+
+    private String            enshowflg;
+
     private Date              addtimestamp;
 
     private String            adduserkey;
@@ -235,5 +243,37 @@ public class TGoodsGroup implements Serializable {
 
     public void setGroupquantitylimit(Long groupquantitylimit) {
         this.groupquantitylimit = groupquantitylimit;
+    }
+
+    public String getDiamondshowflg() {
+        return diamondshowflg;
+    }
+
+    public void setDiamondshowflg(String diamondshowflg) {
+        this.diamondshowflg = diamondshowflg;
+    }
+
+    public BigDecimal getSelloutinitquantity() {
+        return selloutinitquantity;
+    }
+
+    public void setSelloutinitquantity(BigDecimal selloutinitquantity) {
+        this.selloutinitquantity = selloutinitquantity;
+    }
+
+    public String getSelloutflg() {
+        return selloutflg;
+    }
+
+    public void setSelloutflg(String selloutflg) {
+        this.selloutflg = selloutflg;
+    }
+
+    public String getEnshowflg() {
+        return enshowflg;
+    }
+
+    public void setEnshowflg(String enshowflg) {
+        this.enshowflg = enshowflg;
     }
 }
