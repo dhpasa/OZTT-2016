@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -169,6 +170,8 @@ public class OzTtAdGlController extends BaseController {
             res.put("isPre", tGoodsGroup.getPreflg());
             res.put("isInStock", tGoodsGroup.getInstockflg());
             res.put("isHot", tGoodsGroup.getHotflg());
+            res.put("sellOutInitQuantity", tGoodsGroup.getSelloutinitquantity() == null ? "" : tGoodsGroup.getSelloutinitquantity().toString());
+            res.put("sellOutFlg", tGoodsGroup.getSelloutflg() == null ? "" : tGoodsGroup.getSelloutflg());
 
             // 后台维护的时候提示让以逗号隔开
             mapReturn.put("resMap", res);
@@ -220,6 +223,10 @@ public class OzTtAdGlController extends BaseController {
                         DateFormatUtils.string2DateWithFormat(map.get("validperiodstart"), DateFormatUtils.PATTEN_HM),
                         Calendar.DATE, CommonConstants.MAX_DAY));
             }
+            // 即将售罄数量和即将售罄标志
+            tGoodsGroup.setSelloutinitquantity(StringUtils.isEmpty(map.get("sellOutInitQuantity")) ? null
+                    : new BigDecimal(map.get("sellOutInitQuantity")));
+            tGoodsGroup.setSelloutflg(map.get("sellOutFlg"));
             // 更新操作
             tGoodsGroup.setUpdpgmid("OZ_TT_AD_GL");
             tGoodsGroup.setUpdtimestamp(new Date());

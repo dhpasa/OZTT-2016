@@ -81,6 +81,9 @@
 			var temp26 = '<div class="goods-sticker goods-sticker-hotLabel-en"></div>';
 			var temp27 = '<div class="goods-sticker goods-sticker-salesLabel-en"></div>';
 			
+			var temp28 = '<div class="goods-sticker-right goods-sticker-selloutLabel"></div>';
+			var temp29 = '<div class="goods-sticker-right goods-sticker-selloutLabel-en"></div>';
+			
 			var temp16 = '</div>';
 			var temp17 = '</li>';
 			var url = '${ctx}/main/grouptabnext?pageNo='+pageNo+"&tab="+${tab};
@@ -143,6 +146,14 @@
 										tempStr += temp23;
 									} else if('${languageSelf}' == 'en_US') {
 										tempStr += temp27;
+									}
+								}
+								
+								if (dataList[i].sellOutFlg == '1') {
+									if ('${languageSelf}' == 'zh_CN'){
+										tempStr += temp28;
+									} else if('${languageSelf}' == 'en_US') {
+										tempStr += temp29;
 									}
 								}
 								tempStr += temp16;
@@ -273,6 +284,15 @@
 							<c:if test="${languageSelf == 'en_US' }">
 								<div class="goods-sticker goods-sticker-salesLabel-en"></div>
 							</c:if>
+		                </c:if>
+		                
+		                <c:if test="${goodslist.sellOutFlg == '1' }">
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker-right goods-sticker-selloutLabel"></div>
+		                	</c:if>
+		                	<c:if test="${languageSelf == 'en_US' }">
+		                		<div class="goods-sticker-right goods-sticker-selloutLabel-en"></div>
+		                	</c:if>
 		                </c:if>
 					</div>
    				</li>

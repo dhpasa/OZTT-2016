@@ -41,6 +41,12 @@
 			$("#groupDesc").val('');
 			$("#groupReminder").val('');
 			$("#groupRule").val('');
+			$("#sellOutInitQuantity").val('');
+			$("#isTopUpEdit").attr("checked", false);
+			$("#isPreEdit").attr("checked", false);
+			$("#isInStockEdit").attr("checked", false);
+			$("#isHotEdit").attr("checked", false);
+			$("#sellOutFlg").attr("checked", false);
 	  		//将数据检索出
   			$.ajax({
   				type : "GET",
@@ -61,6 +67,7 @@
   						$("#groupDesc").val(data.resMap.groupDesc);
   						$("#groupReminder").val(data.resMap.groupReminder);
   						$("#groupRule").val(data.resMap.groupRule);
+  						$("#sellOutInitQuantity").val(data.resMap.sellOutInitQuantity);
   						if (data.resMap.isTopUp == '1'){
   							$("#isTopUpEdit").attr("checked", true);
   						}
@@ -72,6 +79,9 @@
   						}
   						if (data.resMap.isHot == '1'){
   							$("#isHotEdit").attr("checked", true);
+  						}
+  						if (data.resMap.sellOutFlg == '1'){
+  							$("#sellOutFlg").attr("checked", true);
   						}
   						if (data.resMap.openflg == '0'){
   							$("#saveBtn").css("display","");
@@ -91,6 +101,8 @@
   	  					    $("#isPreEdit").removeAttr("disabled");
   	  			            $("#isInStockEdit").removeAttr("disabled");
   	  			            $("#isHotEdit").removeAttr("disabled");
+  	  			        	$("#sellOutInitQuantity").removeAttr("disabled");
+  	  			        	$("#sellOutFlg").removeAttr("disabled");
   	  			            
   						} else if (data.resMap.openflg == '1'){
   							$("#saveBtn").css("display","");
@@ -116,6 +128,8 @@
   	  					    $("#isPreEdit").attr("disabled","disabled");
   	  			            $("#isInStockEdit").attr("disabled","disabled");
   	  			            $("#isHotEdit").attr("disabled","disabled");
+  	  			        	$("#sellOutInitQuantity").attr("disabled","disabled");
+	  			        	$("#sellOutFlg").attr("disabled","disabled");
   							
   						}
   			  			
@@ -202,6 +216,11 @@
 				isHot = "1";
 			}
 			
+			var sellOutFlg = "0";
+			if ($("#sellOutFlg").attr("checked")) {
+				sellOutFlg = "1";
+			}
+			
 			var W0007 = '<fmt:message key="W0007" />'
 			if (isInStock == "1") {
 				alert(W0007);
@@ -223,7 +242,9 @@
 				istopup:isTopUp,
 				ispre:isPre,
 				isinstock:isInStock,
-				ishot:isHot
+				ishot:isHot,
+				sellOutInitQuantity:$("#sellOutInitQuantity").val(),
+				sellOutFlg:sellOutFlg
 			}
 			
 			$.ajax({
@@ -856,6 +877,23 @@
 							<div class="checkbox-list col-md-8">
 								<label class="checkbox-inline">
 									<input type="checkbox" name="isHotEdit" id="isHotEdit"></input>
+								 	<fmt:message key="COMMON_YES" />
+								</label>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_sellOutInitQuantity" /></label>
+							<div class="col-md-3">
+								<input type="number" id="sellOutInitQuantity" class="input-small form-control textright"></input>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_sellOutFlg" /></label>
+							<div class="checkbox-list col-md-8">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="sellOutFlg" id="sellOutFlg"></input>
 								 	<fmt:message key="COMMON_YES" />
 								</label>
 							</div>
