@@ -88,6 +88,8 @@ public class OzTtAdGlController extends BaseController {
             params.put("isPre", ozTtAdGcDto.getIsPre());
             params.put("isInStock", ozTtAdGcDto.getIsInStock());
             params.put("isHot", ozTtAdGcDto.getIsHot());
+            params.put("isDiamond", ozTtAdGcDto.getIsDiamond());
+            params.put("isEn", ozTtAdGcDto.getIsEn());
             pagination.setParams(params);
             PagingResult<OzTtAdGcListDto> pageInfo = goodsService.getAllGroupsInfoForAdmin(pagination);
 
@@ -172,7 +174,8 @@ public class OzTtAdGlController extends BaseController {
             res.put("isHot", tGoodsGroup.getHotflg());
             res.put("sellOutInitQuantity", tGoodsGroup.getSelloutinitquantity() == null ? "" : tGoodsGroup.getSelloutinitquantity().toString());
             res.put("sellOutFlg", tGoodsGroup.getSelloutflg() == null ? "" : tGoodsGroup.getSelloutflg());
-
+            res.put("diamondShowFlg", tGoodsGroup.getDiamondshowflg() == null ? "" : tGoodsGroup.getDiamondshowflg());
+            res.put("enShowFlg", tGoodsGroup.getEnshowflg() == null ? "" : tGoodsGroup.getEnshowflg());
             // 后台维护的时候提示让以逗号隔开
             mapReturn.put("resMap", res);
             mapReturn.put("isException", false);
@@ -227,6 +230,8 @@ public class OzTtAdGlController extends BaseController {
             tGoodsGroup.setSelloutinitquantity(StringUtils.isEmpty(map.get("sellOutInitQuantity")) ? null
                     : new BigDecimal(map.get("sellOutInitQuantity")));
             tGoodsGroup.setSelloutflg(map.get("sellOutFlg"));
+            tGoodsGroup.setDiamondshowflg(map.get("diamondshowflg"));
+            tGoodsGroup.setEnshowflg(map.get("enshowflg"));
             // 更新操作
             tGoodsGroup.setUpdpgmid("OZ_TT_AD_GL");
             tGoodsGroup.setUpdtimestamp(new Date());
