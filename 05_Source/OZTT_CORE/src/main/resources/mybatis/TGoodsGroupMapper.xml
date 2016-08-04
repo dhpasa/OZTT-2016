@@ -418,6 +418,8 @@
             A.preFlg as isPre,
             A.inStockFlg as isInStock,
             A.hotFlg as isHot,
+            A.diamondShowFlg as isDiamond,
+            A.enShowFlg as isEn,
 			DATE_FORMAT(A.validPeriodStart,'%Y/%m/%d %T') as validDateFrom,
 			DATE_FORMAT(A.validPeriodEnd,'%Y/%m/%d %T') as validDateTo,
 			B.goodsName as goodsName,
@@ -448,6 +450,12 @@
       	</if>
       	<if test="isHot != null and isHot != ''" >
         	and A.hotFlg = #{isHot,jdbcType=VARCHAR}
+      	</if>
+      	<if test="isDiamond != null and isDiamond != ''" >
+        	and A.diamondShowFlg = #{isDiamond,jdbcType=VARCHAR}
+      	</if>
+      	<if test="isEn != null and isEn != ''" >
+        	and A.enShowFlg = #{isEn,jdbcType=VARCHAR}
       	</if>
       	<if test="dateFrom != null and dateFrom != ''" >
         	<![CDATA[and (DATE_FORMAT(A.validPeriodStart,'%Y/%m/%d')) >= #{dateFrom,jdbcType=VARCHAR}]]>
@@ -485,6 +493,12 @@
       	</if>
       	<if test="isHot != null and isHot != ''" >
         	and A.hotFlg = #{isHot,jdbcType=VARCHAR}
+      	</if>
+      	<if test="isDiamond != null and isDiamond != ''" >
+        	and A.diamondShowFlg = #{isDiamond,jdbcType=VARCHAR}
+      	</if>
+      	<if test="isEn != null and isEn != ''" >
+        	and A.enShowFlg = #{isEn,jdbcType=VARCHAR}
       	</if>
       	<if test="dateFrom != null and dateFrom != ''" >
         	<![CDATA[and (DATE_FORMAT(A.validPeriodStart,'%Y/%m/%d')) >= #{dateFrom,jdbcType=VARCHAR}]]>

@@ -823,6 +823,8 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
                 detail.setIsPre(CommonEnum.ifOrNot.getEnumLabel(detail.getIsPre()));
                 detail.setIsInStock(CommonEnum.ifOrNot.getEnumLabel(detail.getIsInStock()));
                 detail.setIsHot(CommonEnum.ifOrNot.getEnumLabel(detail.getIsHot()));
+                detail.setIsDiamond(CommonEnum.ifOrNot.getEnumLabel(detail.getIsDiamond()));
+                detail.setIsEn(CommonEnum.ifOrNot.getEnumLabel(detail.getIsEn()));
             }
         }
         return dtoList;

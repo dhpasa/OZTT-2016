@@ -94,6 +94,14 @@ public class OzTtAdGbController extends BaseController {
                     tGoodsGroup.setHotflg(map.get("ishot"));
                 }
                 
+                if (!StringUtils.isEmpty(map.get("isdiamond"))) {
+                    tGoodsGroup.setDiamondshowflg(map.get("isdiamond"));
+                }
+                
+                if (!StringUtils.isEmpty(map.get("isen"))) {
+                    tGoodsGroup.setEnshowflg(map.get("isen"));
+                }
+                
                 if (!StringUtils.isEmpty(map.get("validperiodend"))) {
                     tGoodsGroup.setValidperiodend(DateFormatUtils.string2DateWithFormat(map.get("validperiodend"),
                             DateFormatUtils.PATTEN_HM));

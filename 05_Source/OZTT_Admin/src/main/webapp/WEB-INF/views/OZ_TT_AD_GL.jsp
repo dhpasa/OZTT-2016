@@ -47,6 +47,8 @@
 			$("#isInStockEdit").attr("checked", false);
 			$("#isHotEdit").attr("checked", false);
 			$("#sellOutFlg").attr("checked", false);
+			$("#diamondShowFlg").attr("checked", false);
+			$("#enShowFlg").attr("checked", false);
 	  		//将数据检索出
   			$.ajax({
   				type : "GET",
@@ -83,6 +85,12 @@
   						if (data.resMap.sellOutFlg == '1'){
   							$("#sellOutFlg").attr("checked", true);
   						}
+  						if (data.resMap.diamondShowFlg == '1'){
+  							$("#diamondShowFlg").attr("checked", true);
+  						}
+  						if (data.resMap.enShowFlg == '1'){
+  							$("#enShowFlg").attr("checked", true);
+  						}
   						if (data.resMap.openflg == '0'){
   							$("#saveBtn").css("display","");
   							$("#deleteBtn").css("display","");
@@ -103,6 +111,8 @@
   	  			            $("#isHotEdit").removeAttr("disabled");
   	  			        	$("#sellOutInitQuantity").removeAttr("disabled");
   	  			        	$("#sellOutFlg").removeAttr("disabled");
+  	  			            $("#diamondShowFlg").removeAttr("disabled");
+  	  			            $("#enShowFlg").removeAttr("disabled");
   	  			            
   						} else if (data.resMap.openflg == '1'){
   							$("#saveBtn").css("display","");
@@ -130,7 +140,8 @@
   	  			            $("#isHotEdit").attr("disabled","disabled");
   	  			        	$("#sellOutInitQuantity").attr("disabled","disabled");
 	  			        	$("#sellOutFlg").attr("disabled","disabled");
-  							
+	  			        	$("#diamondShowFlg").attr("disabled","disabled");
+	  			        	$("#enShowFlg").attr("disabled","disabled");
   						}
   			  			
   					}
@@ -221,6 +232,16 @@
 				sellOutFlg = "1";
 			}
 			
+			var diamondShowFlg = "0";
+			if ($("#diamondShowFlg").attr("checked")) {
+				diamondShowFlg = "1";
+			}
+			
+			var enShowFlg = "0";
+			if ($("#enShowFlg").attr("checked")) {
+				enShowFlg = "1";
+			}
+			
 			var W0007 = '<fmt:message key="W0007" />'
 			if (isInStock == "1") {
 				alert(W0007);
@@ -244,7 +265,9 @@
 				isinstock:isInStock,
 				ishot:isHot,
 				sellOutInitQuantity:$("#sellOutInitQuantity").val(),
-				sellOutFlg:sellOutFlg
+				sellOutFlg:sellOutFlg,
+				diamondshowflg:diamondShowFlg,
+				enshowflg:enShowFlg
 			}
 			
 			$.ajax({
@@ -333,6 +356,8 @@
 	  		$("#isPreEdit_batch").attr("checked",false);
 	  		$("#isInStockEdit_batch").attr("checked",false);
 	  		$("#isHotEdit_batch").attr("checked",false);
+	  		$("#isDiamondEdit_batch").attr("checked",false);
+	  		$("#isEnEdit_batch").attr("checked",false);
 	  		$("#maxnumber_batch").val("");
 	  		$("#maxbuy_batch").val("");
 	  		$(":checkbox").uniform({checkboxClass: 'myCheckClass'});
@@ -342,6 +367,8 @@
 	  		$("#isInStockEdit_batch_div").css("display","none");
 	  		$("#isPreEdit_batch_div").css("display","none");
 	  		$("#isTopUpEdit_batch_div").css("display","none");
+	  		$("#isDiamondEdit_batch_div").css("display","none");
+	  		$("#isEnEdit_batch_div").css("display","none");
 	  		$("#dataFromGroup_batch_div").css("display","none");
 	  		$("#maxbuy_batch_div").css("display","none");
 	  		if (str == '1') {
@@ -358,6 +385,10 @@
 	  			$("#maxnumber_batch_div").css("display","");
 	  		} else if (str == '7') {
 	  			$("#maxbuy_batch_div").css("display","");
+	  		} else if (str == '8') {
+	  			$("#isDiamondEdit_batch_div").css("display","");
+	  		} else if (str == '9') {
+	  			$("#isEnEdit_batch_div").css("display","");
 	  		}
 	  		$('#batch_setgroup_modal').modal('show');
 	  	}
@@ -371,6 +402,8 @@
 			var isPreEdit_batch =  document.getElementsByName("isPreEdit_batch");
 			var isInStockEdit_batch =  document.getElementsByName("isInStockEdit_batch");
 			var isHotEdit_batch =  document.getElementsByName("isHotEdit_batch");
+			var isDiamondEdit_batch =  document.getElementsByName("isDiamondEdit_batch");
+			var isEnEdit_batch =  document.getElementsByName("isEnEdit_batch");
 			var groupIds = "";
 	  		$(".orderSetClass").each(function(){
 	  			if (this.checked == true) {
@@ -415,6 +448,18 @@
 /* 			if ($("#isHotEdit_batch").attr("checked")) {
 				isHot = "1";
 			} */
+			var isDiamond = "";
+			for(var i=0;i<isDiamondEdit_batch.length;i++){ 
+				if(isDiamondEdit_batch[i].checked){
+					isDiamond = isDiamondEdit_batch[i].value;
+				}
+			}
+			var isEn = "";
+			for(var i=0;i<isEnEdit_batch.length;i++){ 
+				if(isEnEdit_batch[i].checked){
+					isEn = isEnEdit_batch[i].value;
+				}
+			}
 			var jsonMap = {
 				groupIds:groupIds.substring(0, groupIds.length -1),
 				validperiodend:dataToGroup,
@@ -423,6 +468,8 @@
 				ispre:isPre,
 				isinstock:isInStock,
 				ishot:isHot,
+				isdiamond:isDiamond,
+				isen:isEn,
 				maxnumber:$("#maxnumber_batch").val(),
 				maxbuy:$("#maxbuy_batch").val()
 			}
@@ -611,6 +658,45 @@
 						
 				</div>
 				
+				<div class="form-group">
+					<label class="col-md-1 control-label"><fmt:message key="OZ_TT_AD_GL_diamond" /></label>
+					<div class="radio-list col-md-3">
+						<label class="radio-inline">
+						<form:radiobutton path="isDiamond" id="isDiamondId0" value="0"></form:radiobutton>
+						 <fmt:message key="COMMON_NO" />
+						 </label>
+						<label class="radio-inline">
+						<form:radiobutton path="isDiamond" id="isDiamondId1" value="1"></form:radiobutton>
+						 <fmt:message key="COMMON_YES" />
+						 </label>
+						 <label class="radio-inline">
+							<form:radiobutton path="isDiamond" value=""></form:radiobutton>
+						 	<fmt:message key="COMMON_ALL" />
+						 </label>
+					</div>
+			
+					<label class="col-md-1 control-label"><fmt:message key="OZ_TT_AD_GL_en" /></label>
+					<div class="radio-list col-md-3">
+						<label class="radio-inline">
+						<form:radiobutton path="isEn" id="isEnId0" value="0"></form:radiobutton>
+						 <fmt:message key="COMMON_NO" />
+						 </label>
+						<label class="radio-inline">
+						<form:radiobutton path="isEn" id="isEnId1" value="1"></form:radiobutton>
+						 <fmt:message key="COMMON_YES" />
+						 </label>
+						 <label class="radio-inline">
+							<form:radiobutton path="isEn" value=""></form:radiobutton>
+						 	<fmt:message key="COMMON_ALL" />
+						 </label>
+					</div>
+					
+					<div class="col-md-4">
+						
+					</div>
+						
+				</div>
+				
 				<div class="form-group textright">
 					<div style="width:85%;float:left;text-align: left;padding-left:3%">
 						<button type="button" class="btn green mybtn" onclick="batchUpdateItem('1')"><fmt:message key="OZ_TT_AD_GL_BTN_VALIDTIME" /></button>
@@ -618,6 +704,8 @@
 						<button type="button" class="btn green mybtn" onclick="batchUpdateItem('3')"><fmt:message key="OZ_TT_AD_GL_BTN_ISPRESALE" /></button>
 						<button type="button" class="btn green mybtn" onclick="batchUpdateItem('4')"><fmt:message key="OZ_TT_AD_GL_BTN_ISNOWSALE" /></button>
 						<button type="button" class="btn green mybtn" onclick="batchUpdateItem('5')"><fmt:message key="OZ_TT_AD_GL_BTN_ISHOTSALE" /></button>
+						<button type="button" class="btn green mybtn" onclick="batchUpdateItem('8')"><fmt:message key="OZ_TT_AD_GL_BTN_DIAMOND" /></button>
+						<button type="button" class="btn green mybtn" onclick="batchUpdateItem('9')"><fmt:message key="OZ_TT_AD_GL_BTN_EN" /></button>
 						<button type="button" class="btn green mybtn" onclick="batchUpdateItem('6')"><fmt:message key="OZ_TT_AD_GL_BTN_MAXNUMBER" /></button>
 						<button type="button" class="btn green mybtn" onclick="batchUpdateItem('7')"><fmt:message key="OZ_TT_AD_GL_BTN_MAXBUY" /></button>
 						
@@ -669,6 +757,12 @@
 							 <fmt:message key="OZ_TT_AD_GL_DE_hotSale" />
 						</th>
 						<th scope="col">
+							 <fmt:message key="OZ_TT_AD_GL_DE_diamond" />
+						</th>
+						<th scope="col">
+							 <fmt:message key="OZ_TT_AD_GL_DE_en" />
+						</th>
+						<th scope="col">
 							 <fmt:message key="OZ_TT_AD_GL_DE_validDate" />
 						</th>
 						<th scope="col">
@@ -718,6 +812,12 @@
 						<td>
 							 ${groupsItem.isHot }
 						</td>
+						<td>
+							 ${groupsItem.isDiamond }
+						</td>		
+						<td>
+							 ${groupsItem.isEn }
+						</td>				
 						<td>
 							 ${groupsItem.validDateFrom }~${groupsItem.validDateTo }
 						</td>
@@ -881,7 +981,27 @@
 								</label>
 							</div>
 						</div>
+
+						<div class="form-group">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_diamondShowFlg" /></label>
+							<div class="checkbox-list col-md-8">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="diamondShowFlg" id="diamondShowFlg"></input>
+								 	<fmt:message key="COMMON_YES" />
+								</label>
+							</div>
+						</div>
 						
+						<div class="form-group">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_enShowFlg" /></label>
+							<div class="checkbox-list col-md-8">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="enShowFlg" id="enShowFlg"></input>
+								 	<fmt:message key="COMMON_YES" />
+								</label>
+							</div>
+						</div>
+												
 						<div class="form-group">
 							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_sellOutInitQuantity" /></label>
 							<div class="col-md-3">
@@ -1045,11 +1165,30 @@
 							</div>
 						</div>
 						
-						<div class="form-group" id="maxnumber_batch_div" style="display:none">
-							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_number" /></label>
-							<div class="checkbox-list col-md-8">
-								<label class="checkbox-inline">
-									<input type="number"  id="maxnumber_batch" maxlength="3"></input>
+						<div class="form-group" id="isDiamondEdit_batch_div" style="display:none">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_diamondShowFlg" /></label>
+							<div class="radio-list col-md-3">
+								<label class="radio-inline">
+									<input type="radio" name="isDiamondEdit_batch" value="1">
+									<fmt:message key="COMMON_YES" />
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="isDiamondEdit_batch" value="0">
+									<fmt:message key="COMMON_NO" />
+								</label>
+							</div>
+						</div>
+						
+						<div class="form-group" id="isEnEdit_batch_div" style="display:none">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_enShowFlg" /></label>
+							<div class="radio-list col-md-3">
+								<label class="radio-inline">
+									<input type="radio" name="isEnEdit_batch" value="1">
+									<fmt:message key="COMMON_YES" />
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="isEnEdit_batch" value="0">
+									<fmt:message key="COMMON_NO" />
 								</label>
 							</div>
 						</div>
