@@ -845,7 +845,7 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		ComponentsEditors.init();
+		//ComponentsEditors.init();
 	</script>
 </body>
 </html>
