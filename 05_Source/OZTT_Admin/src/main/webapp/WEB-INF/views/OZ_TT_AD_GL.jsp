@@ -63,6 +63,7 @@
   						$("#goodsGroupPrice").val(data.resMap.goodsGroupPrice);
   						$("#goodsGroupNumber").val(data.resMap.goodsGroupNumber);
   						$("#goodsGroupLimit").val(data.resMap.goodsGroupLimit);
+  						$("#goodsGroupCurrent").val(data.resMap.goodsGroupCurrent);
   						$("#dataFromGroup").val(data.resMap.dataFromGroup);
   						$("#dataToGroup").val(data.resMap.dataToGroup);
   						$("#groupComment").val(data.resMap.groupComment);
@@ -95,10 +96,11 @@
   							$("#saveBtn").css("display","");
   							$("#deleteBtn").css("display","");
   							$("#submitBtn").css("display","");
-  							$("#unserBtn").css("display","none");
+  							$("#unserBtn").css("display","");
   							$("#goodsGroupPrice").removeAttr("disabled");
   	  						$("#goodsGroupNumber").removeAttr("disabled");
   	  					    $("#goodsGroupLimit").removeAttr("disabled");
+  	  					    $("#goodsGroupCurrent").removeAttr("disabled");
   	  						$("#dataFromGroup").removeAttr("disabled");
   	  						$("#dataToGroup").removeAttr("disabled");
   	  						$("#groupComment").removeAttr("disabled");
@@ -115,19 +117,14 @@
   	  			            $("#enShowFlg").removeAttr("disabled");
   	  			            
   						} else if (data.resMap.openflg == '1'){
-  							$("#saveBtn").css("display","");
-  							$("#deleteBtn").css("display","none");
-  							$("#submitBtn").css("display","");
-  							$("#unserBtn").css("display","");
-			
-  						} else if (data.resMap.openflg == '2'){
   							$("#saveBtn").css("display","none");
   							$("#deleteBtn").css("display","none");
   							$("#submitBtn").css("display","none");
-  							$("#unserBtn").css("display","none");
-  							$("#goodsGroupPrice").attr("disabled","disabled");
+  							$("#unserBtn").css("display","");
+  						    $("#goodsGroupPrice").attr("disabled","disabled");
   	  						$("#goodsGroupNumber").attr("disabled","disabled");
   	  					    $("#goodsGroupLimit").attr("disabled","disabled");
+  	  					    $("#goodsGroupCurrent").attr("disabled","disabled");
   	  						$("#dataFromGroup").attr("disabled","disabled");
   	  						$("#dataToGroup").attr("disabled","disabled");
   	  						$("#groupComment").attr("disabled","disabled");
@@ -141,7 +138,31 @@
   	  			        	$("#sellOutInitQuantity").attr("disabled","disabled");
 	  			        	$("#sellOutFlg").attr("disabled","disabled");
 	  			        	$("#diamondShowFlg").attr("disabled","disabled");
-	  			        	$("#enShowFlg").attr("disabled","disabled");
+	  			        	$("#enShowFlg").attr("disabled","disabled");  
+			
+  						} else if (data.resMap.openflg == '2'){
+  							$("#saveBtn").css("display","");
+  							$("#deleteBtn").css("display","");
+  							$("#submitBtn").css("display","");
+  							$("#unserBtn").css("display","none");
+  							//$("#goodsGroupPrice").attr("disabled","disabled");
+  	  						//$("#goodsGroupNumber").attr("disabled","disabled");
+  	  					    //$("#goodsGroupLimit").attr("disabled","disabled");
+  	  					    //$("#goodsGroupCurrent").attr("disabled","disabled");
+  	  						//$("#dataFromGroup").attr("disabled","disabled");
+  	  						//$("#dataToGroup").attr("disabled","disabled");
+  	  						//$("#groupComment").attr("disabled","disabled");
+  	  						//$("#groupDesc").attr("disabled","disabled");
+  	  						//$("#groupReminder").attr("disabled","disabled");
+  	  						//$("#groupRule").attr("disabled","disabled");
+  	  					    //$("#isTopUpEdit").attr("disabled","disabled");
+  	  					    //$("#isPreEdit").attr("disabled","disabled");
+  	  			            //$("#isInStockEdit").attr("disabled","disabled");
+  	  			            //$("#isHotEdit").attr("disabled","disabled");
+  	  			        	//$("#sellOutInitQuantity").attr("disabled","disabled");
+	  			        	//$("#sellOutFlg").attr("disabled","disabled");
+	  			        	//$("#diamondShowFlg").attr("disabled","disabled");
+	  			        	//$("#enShowFlg").attr("disabled","disabled");
   						}
   			  			
   					}
@@ -166,6 +187,7 @@
 			var goodsGroupPrice = $("#goodsGroupPrice").val();
 			var goodsGroupNumber = $("#goodsGroupNumber").val();
 			var goodsGroupLimit = $("#goodsGroupLimit").val();
+			var goodsGroupCurrent = $("#goodsGroupCurrent").val();
 			var dataFromGroup = $("#dataFromGroup").val();
 			var dataToGroup = $("#dataToGroup").val();
 			var groupComment = $("#groupComment").val();
@@ -185,6 +207,11 @@
 			if (goodsGroupLimit == "") {
 				var message = E0002.replace("{0}", '<fmt:message key="OZ_TT_AD_GL_DIALOG_limit" />')
 				showErrorSpan($("#goodsGroupLimit"), message);
+				return false;
+			}
+			if (goodsGroupCurrent == "") {
+				var message = E0002.replace("{0}", '<fmt:message key="OZ_TT_AD_GL_DIALOG_current" />')
+				showErrorSpan($("#goodsGroupCurrent"), message);
 				return false;
 			}
 			if (dataFromGroup == "") {
@@ -259,6 +286,7 @@
 				validperiodstart:dataFromGroup,
 				groupmaxquantity:goodsGroupNumber,
 				groupquantitylimit:goodsGroupLimit,
+				groupquantitycurrent:goodsGroupCurrent,
 				groupno:$("#hiddenGroupId").val(),
 				istopup:isTopUp,
 				ispre:isPre,
@@ -360,6 +388,7 @@
 	  		$("#isEnEdit_batch").attr("checked",false);
 	  		$("#maxnumber_batch").val("");
 	  		$("#maxbuy_batch").val("");
+	  		$("#ifOpen_batch").attr("checked",false);
 	  		$(":checkbox").uniform({checkboxClass: 'myCheckClass'});
 	  		
 	  		$("#maxnumber_batch_div").css("display","none");
@@ -371,6 +400,7 @@
 	  		$("#isEnEdit_batch_div").css("display","none");
 	  		$("#dataFromGroup_batch_div").css("display","none");
 	  		$("#maxbuy_batch_div").css("display","none");
+	  		$("#ifOpen_batch_div").css("display","none");
 	  		if (str == '1') {
 	  			$("#dataFromGroup_batch_div").css("display","");
 	  		} else if (str == '2') {
@@ -389,6 +419,8 @@
 	  			$("#isDiamondEdit_batch_div").css("display","");
 	  		} else if (str == '9') {
 	  			$("#isEnEdit_batch_div").css("display","");
+	  		} else if (str == '10') {
+	  			$("#ifOpen_batch_div").css("display","");
 	  		}
 	  		$('#batch_setgroup_modal').modal('show');
 	  	}
@@ -404,6 +436,7 @@
 			var isHotEdit_batch =  document.getElementsByName("isHotEdit_batch");
 			var isDiamondEdit_batch =  document.getElementsByName("isDiamondEdit_batch");
 			var isEnEdit_batch =  document.getElementsByName("isEnEdit_batch");
+			var ifOpen_batch =  document.getElementsByName("ifOpen_batch");
 			var groupIds = "";
 	  		$(".orderSetClass").each(function(){
 	  			if (this.checked == true) {
@@ -460,6 +493,12 @@
 					isEn = isEnEdit_batch[i].value;
 				}
 			}
+			var ifOpen = "";
+			for(var i=0;i<ifOpen_batch.length;i++){ 
+				if(ifOpen_batch[i].checked){
+					ifOpen = ifOpen_batch[i].value;
+				}
+			}
 			var jsonMap = {
 				groupIds:groupIds.substring(0, groupIds.length -1),
 				validperiodend:dataToGroup,
@@ -470,6 +509,7 @@
 				ishot:isHot,
 				isdiamond:isDiamond,
 				isen:isEn,
+				ifopen:ifOpen,
 				maxnumber:$("#maxnumber_batch").val(),
 				maxbuy:$("#maxbuy_batch").val()
 			}
@@ -708,6 +748,7 @@
 						<button type="button" class="btn green mybtn" onclick="batchUpdateItem('9')"><fmt:message key="OZ_TT_AD_GL_BTN_EN" /></button>
 						<button type="button" class="btn green mybtn" onclick="batchUpdateItem('6')"><fmt:message key="OZ_TT_AD_GL_BTN_MAXNUMBER" /></button>
 						<button type="button" class="btn green mybtn" onclick="batchUpdateItem('7')"><fmt:message key="OZ_TT_AD_GL_BTN_MAXBUY" /></button>
+						<button type="button" class="btn green mybtn" onclick="batchUpdateItem('10')"><fmt:message key="OZ_TT_AD_GL_BTN_IFOPEN" /></button>
 						
 					</div>
 					<div style="width:15%;float:right;text-align: right">
@@ -927,6 +968,12 @@
 							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_limit" /></label>
 							<div class="col-md-3">
 								<input type="number" id="goodsGroupLimit" class="input-small form-control textright"></input>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_current" /></label>
+							<div class="col-md-3">
+								<input type="number" id="goodsGroupCurrent" class="input-small form-control textright"></input>
 							</div>
 						</div>
 						<div class="form-group">
@@ -1201,6 +1248,23 @@
 								</label>
 							</div>
 						</div>
+						
+						<div class="form-group" id="ifOpen_batch_div" style="display:none">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_ifOpen" /></label>
+							<div class="radio-list col-md-3">
+								<!-- 上架 -->
+								<label class="radio-inline">
+									<input type="radio" name="ifOpen_batch" value="1">
+									<fmt:message key="COMMON_PUT_ON" />
+								</label>
+								<!-- 下架 -->
+								<label class="radio-inline">
+									<input type="radio" name="ifOpen_batch" value="2">
+									<fmt:message key="COMMON_PULL_OFF" />
+								</label>
+							</div>
+						</div>
+						
 					</form>
 				</div>
 				<div class="modal-footer">
