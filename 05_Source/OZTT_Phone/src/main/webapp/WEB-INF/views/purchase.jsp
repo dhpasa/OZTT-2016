@@ -343,6 +343,7 @@
 					"needInvoice":needInvoice,
 					"creditCard":$("#creditCard").val(),
 					"password":$("#password").val(),
+					"purchaseRemarks":$("#purchaseRemarks").val(),
 					"invoicemail":$("#invoicemail").val()
 			}
 	  		$.ajax({
@@ -558,6 +559,13 @@
 				<i class="fa fa-check"></i>
 				<fmt:message key="PURCHASE_LDFK"/>
 			</a>
+		</div>
+	</div>
+	
+	<div class="purchase-remarks margin-1rem-top">
+		<span class="purchase-remarks-span"><fmt:message key="PURCHASE_REMARKS"/></span>
+		<div class="purchase-remarks-input-div">
+			<input id="purchaseRemarks" type="text" class="purchase-remarks-input" maxlength="255" placeholder="<fmt:message key="PURCHASE_REMARKS_CONTENT"/>"/>
 		</div>
 	</div>
 	

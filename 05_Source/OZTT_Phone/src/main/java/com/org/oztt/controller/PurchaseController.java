@@ -133,10 +133,11 @@ public class PurchaseController extends BaseController {
             String isUnify = param.get("isUnify").toString();
             String invoicemail = param.get("invoicemail").toString();
             String needInvoice = param.get("needInvoice").toString();
+            String purchaseRemarks = param.get("purchaseRemarks").toString();
 
             // 先判断付款方式
             String orderNo = orderService.insertOrderInfoForPhone(customerNo, hidPayMethod, hidDeliMethod,
-                    hidAddressId, hidHomeDeliveryTime, isUnify, needInvoice, invoicemail, session);
+                    hidAddressId, hidHomeDeliveryTime, isUnify, needInvoice, invoicemail, session, purchaseRemarks);
             if (CommonConstants.CART_CANBUY.equals(orderNo)) {
                 mapReturn.put("orderPayStatus", CommonConstants.CART_CANBUY);
             }

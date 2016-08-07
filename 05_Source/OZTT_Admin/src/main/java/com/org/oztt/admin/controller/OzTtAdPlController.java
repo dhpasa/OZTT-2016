@@ -1,6 +1,7 @@
 package com.org.oztt.admin.controller;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -244,9 +245,19 @@ public class OzTtAdPlController extends BaseController {
             tGoodsGroup.setHotflg(map.get("ishot"));
             tGoodsGroup.setShopperrules(map.get("shopperrules"));
             tGoodsGroup.setValidperiodend(DateFormatUtils.string2DateWithFormat(map.get("validperiodend"),
-                    DateFormatUtils.PATTEN_YMD2));
+                    DateFormatUtils.PATTEN_HM));
             tGoodsGroup.setValidperiodstart(DateFormatUtils.string2DateWithFormat(map.get("validperiodstart"),
-                    DateFormatUtils.PATTEN_YMD2));
+                    DateFormatUtils.PATTEN_HM));
+            if ("1".equals(tGoodsGroup.getInstockflg())) {
+                // 如果是现货
+                tGoodsGroup.setValidperiodend(DateFormatUtils.addDate(
+                        DateFormatUtils.string2DateWithFormat(map.get("validperiodstart"), DateFormatUtils.PATTEN_HM),
+                        Calendar.DATE, CommonConstants.MAX_DAY));
+            }
+            // 即将售罄数量和即将售罄标志
+            tGoodsGroup.setSelloutinitquantity(StringUtils.isEmpty(map.get("sellOutInitQuantity")) ? null
+                    : new BigDecimal(map.get("sellOutInitQuantity")));
+            tGoodsGroup.setSelloutflg(map.get("sellOutFlg"));
             // 插入操作
             tGoodsGroup.setUpdpgmid("OZ_TT_AD_PL");
             tGoodsGroup.setUpdtimestamp(new Date());
@@ -262,7 +273,7 @@ public class OzTtAdPlController extends BaseController {
             return null;
         }
     }
-    
+
     /**
      * 产品分类修改状态
      * 
@@ -276,7 +287,7 @@ public class OzTtAdPlController extends BaseController {
             @RequestBody Map<String, String> map) {
         Map<String, Object> mapReturn = new HashMap<String, Object>();
         try {
-            
+
             String[] goodsIdArr = map.get("goodsIds").split(",");
             String classId = map.get("classId");
             for (String str : goodsIdArr) {

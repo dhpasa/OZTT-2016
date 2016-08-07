@@ -274,6 +274,9 @@
 							 <fmt:message key="OZ_TT_AD_OL_DE_orderAmount" />
 						</th>
 						<th scope="col">
+							 <fmt:message key="OZ_TT_AD_OL_DE_purchaseRemarks" />
+						</th>
+						<th scope="col">
 							 <fmt:message key="OZ_TT_AD_OL_DE_control" />
 						</th>
 					</tr>
@@ -310,6 +313,9 @@
 						</td>
 						<td>
 							 ${orderItem.orderAmount }
+						</td>
+						<td>
+							 ${orderItem.commentsCustomer }
 						</td>
 						<td>
 							<button type="button" class="btn green mybtn" onclick="toDetail('${orderItem.orderNo}')">

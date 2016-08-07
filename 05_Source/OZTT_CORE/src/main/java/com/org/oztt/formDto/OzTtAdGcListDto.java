@@ -37,6 +37,10 @@ public class OzTtAdGcListDto {
     
     private String isHot;
     
+    private String isDiamond;
+    
+    private String isEn;
+    
     public String getGoodsId() {
         return goodsId;
     }
@@ -155,6 +159,22 @@ public class OzTtAdGcListDto {
 
 	public void setIsHot(String isHot) {
 		this.isHot = isHot;
+	}
+
+	public String getIsDiamond() {
+		return isDiamond;
+	}
+
+	public void setIsDiamond(String isDiamond) {
+		this.isDiamond = isDiamond;
+	}
+
+	public String getIsEn() {
+		return isEn;
+	}
+
+	public void setIsEn(String isEn) {
+		this.isEn = isEn;
 	}
     
 }

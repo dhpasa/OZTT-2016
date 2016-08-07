@@ -94,14 +94,22 @@ public class OzTtAdGbController extends BaseController {
                     tGoodsGroup.setHotflg(map.get("ishot"));
                 }
                 
+                if (!StringUtils.isEmpty(map.get("isdiamond"))) {
+                    tGoodsGroup.setDiamondshowflg(map.get("isdiamond"));
+                }
+                
+                if (!StringUtils.isEmpty(map.get("isen"))) {
+                    tGoodsGroup.setEnshowflg(map.get("isen"));
+                }
+                
                 if (!StringUtils.isEmpty(map.get("validperiodend"))) {
                     tGoodsGroup.setValidperiodend(DateFormatUtils.string2DateWithFormat(map.get("validperiodend"),
-                            DateFormatUtils.PATTEN_YMD2));
+                            DateFormatUtils.PATTEN_HM));
                 }
                 
                 if (!StringUtils.isEmpty(map.get("validperiodstart"))) {
                     tGoodsGroup.setValidperiodstart(DateFormatUtils.string2DateWithFormat(map.get("validperiodstart"),
-                            DateFormatUtils.PATTEN_YMD2));
+                            DateFormatUtils.PATTEN_HM));
                 }
                 
                 if (!StringUtils.isEmpty(map.get("maxnumber"))) {
@@ -111,6 +119,11 @@ public class OzTtAdGbController extends BaseController {
                 if (!StringUtils.isEmpty(map.get("maxbuy"))) {
                     tGoodsGroup.setGroupquantitylimit(Long.valueOf(map.get("maxbuy")));
                 }
+                
+                if (!StringUtils.isEmpty(map.get("ifopen"))) {
+                    tGoodsGroup.setOpenflg(map.get("ifopen"));
+                }
+                
                 // 更新操作
                 tGoodsGroup.setUpdpgmid("OZ_TT_AD_GB");
                 tGoodsGroup.setUpdtimestamp(new Date());

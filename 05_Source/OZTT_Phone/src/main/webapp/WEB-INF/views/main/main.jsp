@@ -268,8 +268,13 @@
 		                	<div class="main-overtime-div" style="display: inline-block;"><fmt:message key="COMMON_OVER_GROUP" /></div>
 		                </c:if>
 		                <c:if test="${goodslist.isOverGroup != '1' }">
-		                	<div class="countdown-time" data-seconds-left="${goodslist.countdownTime}">
-		                	</div>
+		                	<c:if test="${goodslist.isOnWay == '1' }">
+		                		<div class="main-onway-div" style="display: inline-block;"><fmt:message key="COMMON_GROUP_ONWAY" /></div>
+		                	</c:if>
+		                	<c:if test="${goodslist.isOnWay != '1' }">
+		                		<div class="countdown-time" data-seconds-left="${goodslist.countdownTime}">
+		                		</div>
+		                	</c:if>
 		                </c:if>
 		                <c:if test="${goodslist.preLabel == '1' }">
 		                	<c:if test="${languageSelf == 'zh_CN' }">
@@ -279,6 +284,16 @@
 		                		<div class="goods-sticker goods-sticker-preLabel-en"></div>
 		                	</c:if>
 		                </c:if>
+		                
+		                <c:if test="${goodslist.sellOutFlg == '1' }">
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker-right goods-sticker-selloutLabel"></div>
+		                	</c:if>
+		                	<c:if test="${languageSelf == 'en_US' }">
+		                		<div class="goods-sticker-right goods-sticker-selloutLabel-en"></div>
+		                	</c:if>
+		                </c:if>
+		               	
 					</div>
    				</li>
    				</c:forEach>
@@ -315,13 +330,18 @@
 				   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
 				   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span>
 		                </div>
-		                <c:if test="${goodslist.isOverGroup == '1' }">
+		                <%-- <c:if test="${goodslist.isOverGroup == '1' }">
 		                	<div class="main-overtime-div" style="display: inline-block;"><fmt:message key="COMMON_OVER_GROUP" /></div>
 		                </c:if>
 		                <c:if test="${goodslist.isOverGroup != '1' }">
-		                	<div class="countdown-time" data-seconds-left="${goodslist.countdownTime}">
-		                	</div>
-		                </c:if>
+		                	<c:if test="${goodslist.isOnWay == '1' }">
+		                		<div class="main-onway-div" style="display: inline-block;"><fmt:message key="COMMON_GROUP_ONWAY" /></div>
+		                	</c:if>
+		                	<c:if test="${goodslist.isOnWay != '1' }">
+		                		<div class="displaynone-time"></div>
+		                	</c:if>
+		                </c:if> --%>
+		                <div class="displaynone-time"></div>
 		                
 		                
 		                <c:if test="${goodslist.inStockLabel == '1' }">
@@ -330,6 +350,15 @@
 		                	</c:if>
 		                	<c:if test="${languageSelf == 'en_US' }">
 		                		<div class="goods-sticker goods-sticker-inStockLabel-en"></div>
+		                	</c:if>
+		                </c:if>
+		                
+		                <c:if test="${goodslist.sellOutFlg == '1' }">
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker-right goods-sticker-selloutLabel"></div>
+		                	</c:if>
+		                	<c:if test="${languageSelf == 'en_US' }">
+		                		<div class="goods-sticker-right goods-sticker-selloutLabel-en"></div>
 		                	</c:if>
 		                </c:if>
 		                

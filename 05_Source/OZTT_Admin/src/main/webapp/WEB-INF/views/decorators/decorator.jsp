@@ -400,6 +400,10 @@
     	});
 	}
 	
+	$(".myself-datatimpick").datetimepicker({
+	    format: 'yyyy/mm/dd hh:ii'
+	});
+	
 	
 
 </script>
