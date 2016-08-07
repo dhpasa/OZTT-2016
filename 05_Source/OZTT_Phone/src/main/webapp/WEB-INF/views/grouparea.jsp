@@ -22,6 +22,9 @@
 		function closeLoadingDiv(){
 			$("#loadingDiv").css("display","none");
 		}
+	  	function closeNoMoreDiv(){
+	  		$("#noMoreRecordDiv").css("display","none");
+	  	}
 	  	var pageNo = 1;
 		function kTouch(contentId,way){
 		    var _start = 0,
@@ -42,6 +45,9 @@
 		    			pageNo += 1;
 		    			loadGoods();
 		    			closeLoadingDiv();
+		    			setTimeout(function(){
+		    				closeNoMoreDiv();
+		    			},1000);
 		            },1000);
 		    	}
 		    	
@@ -160,6 +166,9 @@
 								tempStr += temp17;
 							}
 							$("#goodItemList").append(tempStr);
+						} else {
+							$("#noMoreRecordDiv").css("display","");
+							closeLoadingDiv();
 						}
 					} else {
 						
@@ -304,6 +313,9 @@
     
     <div style="text-align: center;height:2rem;display: none" id="loadingDiv">
 		<img src="${ctx}/images/loading.gif">
+	</div>
+	<div style="text-align: center;height:3rem;line-height:3rem;display: none" id="noMoreRecordDiv">
+		<fmt:message key="COMMON_NOMORE_RECORD" />
 	</div>
     <script type="text/javascript">
 		$(function() {

@@ -555,10 +555,10 @@ html{
 
 .goods-sticker-right {
 	position: absolute;
-	top: 0;
-	right: 0;
-	width: 63px !important;
-	height: 63px;
+	top: 0.5rem;
+    right: 0;
+    width: 50px !important;
+    height: 50px;
 }
 
 .goods-sticker-selloutLabel {

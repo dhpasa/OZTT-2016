@@ -216,6 +216,24 @@
 					</li>
 				</ul>
 			</li>
+			<li id="searchLi">
+				<a href="javascript:;">
+					<i class="fa fa-search"></i>
+					<span class="title">
+						<fmt:message key="OZ_TT_AD_MN_search" />
+					</span>
+					<span class="arrow ">
+					</span>
+				</a>
+				<ul class="sub-menu">
+					<li>
+						<a href="${pageContext.request.contextPath}/OZ_TT_AD_SU/search">
+							<i class="fa fa-list-ol"></i>
+							<fmt:message key="OZ_TT_AD_SU_title" />
+						</a>
+					</li>
+				</ul>
+			</li>
 		</ul>
 		<!-- END SIDEBAR MENU -->
 

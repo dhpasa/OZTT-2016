@@ -66,6 +66,7 @@ import com.org.oztt.formDto.OrderInfoDto;
 import com.org.oztt.formDto.OzTtAdOdDto;
 import com.org.oztt.formDto.OzTtAdOdListDto;
 import com.org.oztt.formDto.OzTtAdOlListDto;
+import com.org.oztt.formDto.OzTtAdSuListDto;
 import com.org.oztt.formDto.OzTtGbOdDto;
 import com.org.oztt.service.AddressService;
 import com.org.oztt.service.BaseService;
@@ -1286,5 +1287,67 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         int sum = tConsOrderDao.getAleadyPurchaseCount(params);
         return sum;
 
+    }
+
+    @Override
+    public PagingResult<OzTtAdSuListDto> getAllOrderByUserPointForAdmin(Pagination pagination) throws Exception {
+        PagingResult<OzTtAdSuListDto> dtoPage = tConsOrderDetailsDao.getAllOrderByUserPointForAdmin(pagination);
+        if (dtoPage.getResultList() != null && dtoPage.getResultList().size() > 0) {
+            int i = 0;
+            for (OzTtAdSuListDto detail : dtoPage.getResultList()) {
+                detail.setDetailNo(String.valueOf((dtoPage.getCurrentPage() - 1) * dtoPage.getPageSize() + ++i));
+                if (StringUtils.isEmpty(detail.getDetailStatus())) {
+                    // 如果明细状态为空则用，订单状态代替
+                    detail.setDetailStatusView(CommonEnum.HandleFlag.getEnumLabel(detail.getOrderStatus()));
+                } else {
+                    detail.setDetailStatusView(CommonEnum.OrderDetailHandleFlag.getEnumLabel(detail.getDetailStatus()));
+                }
+                
+            }
+        }
+        return dtoPage;
+    }
+
+    @Override
+    public void updateOrderDetailStatus(String[] orderDetailId, String status) throws Exception {
+        // 将所有详细订单的状态更新
+        for(String detailId : orderDetailId) {
+            TConsOrderDetails orderDetail = tConsOrderDetailsDao.selectByPrimaryKey(Long.valueOf(detailId));
+            orderDetail.setHandleflg(status);
+            orderDetail.setUpduserkey(CommonConstants.ADMIN_USERKEY);
+            orderDetail.setUpdtimestamp(DateFormatUtils.getSystemTimestamp());
+            tConsOrderDetailsDao.updateByPrimaryKeySelective(orderDetail);
+        }
+        
+       
+        // 更新父状态
+        for(String detailId : orderDetailId) {
+            TConsOrderDetails orderDetail = tConsOrderDetailsDao.selectByPrimaryKey(Long.valueOf(detailId));
+            
+            if (CommonEnum.OrderDetailHandleFlag.SENDING.getCode().equals(status)) {
+                // 配送中
+                TConsOrder tConsOrder = tConsOrderDao.selectByOrderId(orderDetail.getOrderno());
+                tConsOrder.setHandleflg(CommonEnum.HandleFlag.SENDING.getCode());
+                tConsOrderDao.updateByPrimaryKeySelective(tConsOrder);
+            } else if (CommonEnum.OrderDetailHandleFlag.COMPLATE.getCode().equals(status)) {
+                // 完成
+                // 获取订单明细
+                List<TConsOrderDetails> detailList = tConsOrderDetailsDao.selectDetailsByOrderId(orderDetail.getOrderno());
+                boolean isAllUpate = true;
+                for (TConsOrderDetails detail : detailList) {
+                    if (!CommonEnum.OrderDetailHandleFlag.COMPLATE.equals(detail.getHandleflg())) {
+                        // 非完成
+                        isAllUpate = false;
+                        break;
+                    } 
+                }
+                if (isAllUpate) {
+                    TConsOrder tConsOrder = tConsOrderDao.selectByOrderId(orderDetail.getOrderno());
+                    tConsOrder.setHandleflg(CommonEnum.HandleFlag.COMPLATE.getCode());
+                    tConsOrderDao.updateByPrimaryKeySelective(tConsOrder);
+                }
+            }
+            
+        }
     }
 }
