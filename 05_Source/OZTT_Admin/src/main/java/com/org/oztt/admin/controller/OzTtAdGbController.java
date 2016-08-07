@@ -119,6 +119,11 @@ public class OzTtAdGbController extends BaseController {
                 if (!StringUtils.isEmpty(map.get("maxbuy"))) {
                     tGoodsGroup.setGroupquantitylimit(Long.valueOf(map.get("maxbuy")));
                 }
+                
+                if (!StringUtils.isEmpty(map.get("ifopen"))) {
+                    tGoodsGroup.setOpenflg(map.get("ifopen"));
+                }
+                
                 // 更新操作
                 tGoodsGroup.setUpdpgmid("OZ_TT_AD_GB");
                 tGoodsGroup.setUpdtimestamp(new Date());
