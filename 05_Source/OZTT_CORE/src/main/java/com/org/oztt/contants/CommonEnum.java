@@ -24,6 +24,8 @@ public final class CommonEnum {
         SENDING("商品派送中", "2"),
         /** 订单已完成 */
         COMPLATE("订单已完成", "3"),
+        /** 订单部分完成 */
+        PART_COMPLATE("订单部分完成", "4"),
         /** 删除 */
         DELETED("订单已取消", "9");
 
@@ -1472,15 +1474,15 @@ public final class CommonEnum {
      * 订单详细处理标志
      */
     public enum OrderDetailHandleFlag implements IEnum {
-
+        
+        /** 下单成功 */
+        PLACE_ORDER_SU("下单成功", "1"),
         /** 商品派送中 */
-        SENDING("商品派送中", "1"),
+        SENDING("商品派送中", "2"),
         /** 完成 */
-        COMPLATE("完成", "2"),
-        /** 删除 */
-        PART_COMPLATE("部分完成", "3"),
+        COMPLATE("完成", "3"),
         /** 取消 */
-        CANCEL("取消", "4");
+        CANCEL("取消", "9");
 
         /** 值 */
         private String label;

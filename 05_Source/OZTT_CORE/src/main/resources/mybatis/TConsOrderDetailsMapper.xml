@@ -290,10 +290,10 @@
 		and C.telNo like concat('%',#{customerPhone,jdbcType=VARCHAR},'%')
 	</if>
 	<if test="detailHandFlg != null and detailHandFlg == 0" >
-		and (A.handleFlg = '1' or A.handleFlg is null) and (B.handleFlg = '1' or B.handleFlg = '2' or B.handleFlg = '4')
+		and (A.handleFlg = '1' or A.handleFlg = '2')
 	</if>
 	<if test="detailHandFlg != null and detailHandFlg == 1" >
-		and (A.handleFlg = '2' or B.handleFlg = '3')
+		and (A.handleFlg = '3')
 	</if>
 	order by orderNo desc,orderTime desc
   </select>
@@ -318,10 +318,10 @@
 		and C.telNo like concat('%',#{customerPhone,jdbcType=VARCHAR},'%')
 	</if>
 	<if test="detailHandFlg != null and detailHandFlg == 0" >
-		and (A.handleFlg = '1' or A.handleFlg is null) and (B.handleFlg = '1' or B.handleFlg = '2' or B.handleFlg = '4')
+		and (A.handleFlg = '1' or A.handleFlg = '2')
 	</if>
 	<if test="detailHandFlg != null and detailHandFlg == 1" >
-		and (A.handleFlg = '2' or B.handleFlg = '3')
+		and (A.handleFlg = '3')
 	</if>
   </select>
   

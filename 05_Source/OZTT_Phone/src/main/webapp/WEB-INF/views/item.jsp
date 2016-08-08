@@ -36,8 +36,8 @@
 		  
 		function itemFlyToCart() {
 			$("#purchase-credit-pop-up").modal('hide');
-			var offset = $("#navCart").offset();
-			var offsetAdd = $("#navCart").width();
+			var offset = $("#navCartIcon").offset();
+			var offsetAdd = $("#navCartIcon").width();
 			var img = $("#itemFlyImg").attr('src');
 			var flyer = $('<img class="u-flyer" src="'+img+'">');
 			flyer.fly({
@@ -222,11 +222,13 @@
 <!-- Body BEGIN -->
 <body>
 
-    <div class="x-header x-header-gray border-1px-bottom">
+    <div class="x-header x-header-gray border-1px-bottom x-fixed">
+		<div class="x-header-btn"></div>
 		<div class="x-header-btn"></div>
 		<div class="x-header-title">
 			<span><fmt:message key="ITEM_TITLE" /></span>
 		</div>
+		<div class="x-header-btn icon-shopcart" id="navCartIcon"></div>
 		<div class="x-header-btn icon-search"></div>
 	</div>
 	
@@ -290,17 +292,32 @@
     </div>
     
     <div class="item-btn">
-    	<c:if test="${IS_END == '1' }">
-    		<a class="canNotBuy"><fmt:message key="ITEM_ISEND"/></a>
-    	</c:if>
-    	<c:if test="${IS_END != '1' }">
-    		<c:if test="${IS_OVER != '1' }">
-    			<a onclick="checktoItem('${goodItemDto.groupId}')" class="canBuy"><fmt:message key="ITEM_ADDTOCART"/></a>
+    	<div class="item-btn-nav">
+    		<a href="${ctx}/main/init" class="main-nav-item main-nav-home main-nav-active">
+				<img alt="home" src="${ctx}/images/main.png">
+				<span><fmt:message key="DECORATOR_MAIN"/></span>
+			</a>
+    		<a href="${ctx}/user/init" class="main-nav-item main-nav-profile ">
+				<img alt="me" src="${ctx}/images/me.png">
+				<span><fmt:message key="DECORATOR_ME"/></span>
+				<span class="notSuccessedOrder" id="notSuccessedOrder"></span>
+			</a>
+    	</div>
+    	
+    	<div class="item-btn-btn">
+    		<c:if test="${IS_END == '1' }">
+	    		<a class="canNotBuy"><fmt:message key="ITEM_ISEND"/></a>
 	    	</c:if>
-	    	<c:if test="${IS_OVER == '1' }">
-	    		<a class="canNotBuy"><fmt:message key="ITEM_ISOVER"/></a>
+	    	<c:if test="${IS_END != '1' }">
+	    		<c:if test="${IS_OVER != '1' }">
+	    			<a onclick="checktoItem('${goodItemDto.groupId}')" class="canBuy"><fmt:message key="ITEM_ADDTOCART"/></a>
+		    	</c:if>
+		    	<c:if test="${IS_OVER == '1' }">
+		    		<a class="canNotBuy"><fmt:message key="ITEM_ISOVER"/></a>
+		    	</c:if>
 	    	</c:if>
-    	</c:if>
+    	</div>
+    	
     	
     	
     </div>
