@@ -71,7 +71,7 @@ public class OzTtAdGSController extends BaseController {
 			params1.put("goodsName", ozTtAdGsDto.getGoodsName());
 			params1.put("dateFrom", ozTtAdGsDto.getDateFrom());
 			params1.put("dateTo", ozTtAdGsDto.getDateTo());
-			params1.put("status", "0");
+			params1.put("handleFlg", "0");
 
 			pagination1.setParams(params1);
 			PagingResult<OzTtAdGsListDto> pageInfo1 = goodsService.getAllGoodsRInfoForAdmin(pagination1);
@@ -82,9 +82,9 @@ public class OzTtAdGSController extends BaseController {
 			params2.put("goodsName", ozTtAdGsDto.getGoodsName());
 			params2.put("dateFrom", ozTtAdGsDto.getDateFrom());
 			params2.put("dateTo", ozTtAdGsDto.getDateTo());
-			params2.put("status", "0");
+			params2.put("handleFlg", "1");
 
-			pagination1.setParams(params2);
+			pagination2.setParams(params2);
 			PagingResult<OzTtAdGsListDto> pageInfo2 = goodsService.getAllGoodsRInfoForAdmin(pagination2);
 
 			model.addAttribute("ozTtAdGsDto", ozTtAdGsDto);
@@ -116,7 +116,7 @@ public class OzTtAdGSController extends BaseController {
 			params1.put("goodsName", ozTtAdGsDto.getGoodsName());
 			params1.put("dateFrom", ozTtAdGsDto.getDateFrom());
 			params1.put("dateTo", ozTtAdGsDto.getDateTo());
-			params1.put("status", "0");
+			params1.put("handleFlg", "0");
 
 			pagination1.setParams(params1);
 			PagingResult<OzTtAdGsListDto> pageInfo1 = goodsService.getAllGoodsRInfoForAdmin(pagination1);
@@ -127,9 +127,9 @@ public class OzTtAdGSController extends BaseController {
 			params2.put("goodsName", ozTtAdGsDto.getGoodsName());
 			params2.put("dateFrom", ozTtAdGsDto.getDateFrom());
 			params2.put("dateTo", ozTtAdGsDto.getDateTo());
-			params2.put("status", "0");
+			params2.put("handleFlg", "1");
 
-			pagination1.setParams(params2);
+			pagination2.setParams(params2);
 			PagingResult<OzTtAdGsListDto> pageInfo2 = goodsService.getAllGoodsRInfoForAdmin(pagination2);
 
 			model.addAttribute("ozTtAdGsDto", ozTtAdGsDto);
