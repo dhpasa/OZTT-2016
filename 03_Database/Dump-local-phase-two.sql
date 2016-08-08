@@ -236,7 +236,8 @@ CREATE TABLE `t_cons_order` (
   `updPgmId` varchar(30) DEFAULT NULL,
   `commentsCustomer` varchar(500) DEFAULT NULL,
   `commentsAdmin` varchar(500) DEFAULT NULL,
-  PRIMARY KEY (`no`)
+  PRIMARY KEY (`no`),
+  UNIQUE KEY `orderNo` (`orderNo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=437 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -488,7 +489,8 @@ CREATE TABLE `t_customer_security_info` (
   `updTimestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updUserKey` varchar(40) DEFAULT NULL,
   `updPgmId` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`no`)
+  PRIMARY KEY (`no`),
+  UNIQUE KEY `telNo` (`telNo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -536,7 +538,8 @@ CREATE TABLE `t_goods` (
   `updTimestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updUserKey` varchar(40) DEFAULT NULL,
   `updPgmId` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`no`)
+  PRIMARY KEY (`no`),
+  UNIQUE KEY `goodsId` (`goodsId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=538 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -658,7 +661,8 @@ CREATE TABLE `t_goods_group` (
   `sellOutInitQuantity` decimal(12,0) DEFAULT NULL,
   `sellOutFlg` char(1) DEFAULT NULL,
   `enShowFlg` char(1) DEFAULT NULL,
-  PRIMARY KEY (`no`)
+  PRIMARY KEY (`no`),
+  UNIQUE KEY `groupNo` (`groupNo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=543 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1290,4 +1294,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-07 15:57:14
+-- Dump completed on 2016-08-08 20:17:02
