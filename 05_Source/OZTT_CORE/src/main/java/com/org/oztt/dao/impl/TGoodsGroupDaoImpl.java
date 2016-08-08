@@ -11,6 +11,7 @@ import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.dao.TGoodsGroupDao;
 import com.org.oztt.entity.TGoodsGroup;
 import com.org.oztt.formDto.OzTtAdGcListDto;
+import com.org.oztt.formDto.OzTtAdGsListDto;
 
 @Repository
 public class TGoodsGroupDaoImpl extends BaseDao implements TGoodsGroupDao {
@@ -68,5 +69,10 @@ public class TGoodsGroupDaoImpl extends BaseDao implements TGoodsGroupDao {
     public List<OzTtAdGcListDto> getAllGroupsInfoForAdminNoPage() {
         return select("com.org.oztt.dao.TGoodsGroupDao.getAllGroupsInfoForAdmin", new HashMap<Object, Object>());
     }
+	@Override
+	public PagingResult<OzTtAdGsListDto> getAllGoodsRInfoForAdmin(Pagination pagination) {
+		 return selectPagination("com.org.oztt.dao.TGoodsGroupDao.searchGoodsView",
+	                "com.org.oztt.dao.TGoodsGroupDao.searchGoodsViewCount", pagination);
+	}
 
 }
