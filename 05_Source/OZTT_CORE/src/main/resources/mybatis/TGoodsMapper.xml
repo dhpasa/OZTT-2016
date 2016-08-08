@@ -485,6 +485,8 @@
 		c.inStockFlg as inStockLabel,
 		c.hotFlg as hotLabel,
 		c.topPageUp as salesLabel,
+		c.sellOutInitQuantity as sellOutInitQuantity,
+		c.sellOutFlg as sellOutFlg,
 		c.groupNo
 		from t_goods_group c 
 		inner join t_goods_price b on c.goodsId = b.goodsId

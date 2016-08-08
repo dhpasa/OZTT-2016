@@ -22,6 +22,9 @@
 		function closeLoadingDiv(){
 			$("#loadingDiv").css("display","none");
 		}
+	  	function closeNoMoreDiv(){
+	  		$("#noMoreRecordDiv").css("display","none");
+	  	}
 	  	var pageNo = 1;
 		function kTouch(contentId,way){
 		    var _start = 0,
@@ -42,6 +45,9 @@
 		    			pageNo += 1;
 		    			loadGoods();
 		    			closeLoadingDiv();
+		    			setTimeout(function(){
+		    				closeNoMoreDiv();
+		    			},1000);
 		            },1000);
 		    	}
 		    	
@@ -80,6 +86,9 @@
 			var temp25 = '<div class="goods-sticker goods-sticker-inStockLabel-en"></div>';
 			var temp26 = '<div class="goods-sticker goods-sticker-hotLabel-en"></div>';
 			var temp27 = '<div class="goods-sticker goods-sticker-salesLabel-en"></div>';
+			
+			var temp28 = '<div class="goods-sticker-right goods-sticker-selloutLabel"></div>';
+			var temp29 = '<div class="goods-sticker-right goods-sticker-selloutLabel-en"></div>';
 			
 			var temp16 = '</div>';
 			var temp17 = '</li>';
@@ -145,10 +154,21 @@
 										tempStr += temp27;
 									}
 								}
+								
+								if (dataList[i].sellOutFlg == '1') {
+									if ('${languageSelf}' == 'zh_CN'){
+										tempStr += temp28;
+									} else if('${languageSelf}' == 'en_US') {
+										tempStr += temp29;
+									}
+								}
 								tempStr += temp16;
 								tempStr += temp17;
 							}
 							$("#goodItemList").append(tempStr);
+						} else {
+							$("#noMoreRecordDiv").css("display","");
+							closeLoadingDiv();
 						}
 					} else {
 						
@@ -274,6 +294,15 @@
 								<div class="goods-sticker goods-sticker-salesLabel-en"></div>
 							</c:if>
 		                </c:if>
+		                
+		                <c:if test="${goodslist.sellOutFlg == '1' }">
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker-right goods-sticker-selloutLabel"></div>
+		                	</c:if>
+		                	<c:if test="${languageSelf == 'en_US' }">
+		                		<div class="goods-sticker-right goods-sticker-selloutLabel-en"></div>
+		                	</c:if>
+		                </c:if>
 					</div>
    				</li>
    				</c:forEach>
@@ -284,6 +313,9 @@
     
     <div style="text-align: center;height:2rem;display: none" id="loadingDiv">
 		<img src="${ctx}/images/loading.gif">
+	</div>
+	<div style="text-align: center;height:3rem;line-height:3rem;display: none" id="noMoreRecordDiv">
+		<fmt:message key="COMMON_NOMORE_RECORD" />
 	</div>
     <script type="text/javascript">
 		$(function() {

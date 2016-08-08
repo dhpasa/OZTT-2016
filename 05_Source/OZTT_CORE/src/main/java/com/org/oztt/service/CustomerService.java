@@ -70,5 +70,12 @@ public interface CustomerService {
     
     // 取得客户信息
     public TCustomerSecurityInfo getCustomerSecurityByCustomerNo(String customerNo) throws Exception;
+    
+    /**
+     * 更新客户的积分和级别
+     * @param customerNo
+     * @throws Exception
+     */
+    public void updateCustomerPointsAndLevels(String customerNo) throws Exception;
 
 }

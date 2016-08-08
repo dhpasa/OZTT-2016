@@ -211,6 +211,10 @@
 		if ($("#isHotEdit").attr("checked")) {
 			isHot = "1";
 		}
+		var sellOutFlg = "0";
+		if ($("#sellOutFlg").attr("checked")) {
+			sellOutFlg = "1";
+		}
 		
 		var jsonMap = {
 			comsumerreminder:groupReminder,
@@ -227,7 +231,9 @@
 			istopup:isTopUp,
 			ispre:isPre,
 			isinstock:isInStock,
-			ishot:isHot
+			ishot:isHot,
+			sellOutInitQuantity:$("#sellOutInitQuantity").val(),
+			sellOutFlg:sellOutFlg
 		}
 		
 		$.ajax({
@@ -751,6 +757,23 @@
 						</div>
 						
 						<div class="form-group">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_sellOutInitQuantity" /></label>
+							<div class="col-md-3">
+								<input type="number" id="sellOutInitQuantity" class="input-small form-control textright"></input>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_sellOutFlg" /></label>
+							<div class="checkbox-list col-md-8">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="sellOutFlg" id="sellOutFlg"></input>
+								 	<fmt:message key="COMMON_YES" />
+								</label>
+							</div>
+						</div>
+						
+						<div class="form-group">
 							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_PL_DIALOG_comment" /></label>
 							<div class="col-md-10">
 								<textarea id="groupComment" class="input-medium form-control" rows="3"></textarea>
@@ -822,7 +845,7 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		ComponentsEditors.init();
+		//ComponentsEditors.init();
 	</script>
 </body>
 </html>

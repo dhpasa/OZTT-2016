@@ -254,6 +254,10 @@ public class OzTtAdPlController extends BaseController {
                         DateFormatUtils.string2DateWithFormat(map.get("validperiodstart"), DateFormatUtils.PATTEN_HM),
                         Calendar.DATE, CommonConstants.MAX_DAY));
             }
+            // 即将售罄数量和即将售罄标志
+            tGoodsGroup.setSelloutinitquantity(StringUtils.isEmpty(map.get("sellOutInitQuantity")) ? null
+                    : new BigDecimal(map.get("sellOutInitQuantity")));
+            tGoodsGroup.setSelloutflg(map.get("sellOutFlg"));
             // 插入操作
             tGoodsGroup.setUpdpgmid("OZ_TT_AD_PL");
             tGoodsGroup.setUpdtimestamp(new Date());

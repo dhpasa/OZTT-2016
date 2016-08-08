@@ -27,6 +27,10 @@
 			jdbcType="TIMESTAMP" />
 		<result column="validPeriodEnd" property="validperiodend"
 			jdbcType="TIMESTAMP" />
+		<result column="diamondShowFlg" property="diamondshowflg" jdbcType="CHAR" />
+		<result column="sellOutInitQuantity" property="selloutinitquantity" jdbcType="DECIMAL" />
+		<result column="sellOutFlg" property="selloutflg" jdbcType="CHAR" />
+		<result column="enShowFlg" property="enshowflg" jdbcType="CHAR" />
 		<result column="addTimestamp" property="addtimestamp" jdbcType="TIMESTAMP" />
 		<result column="addUserKey" property="adduserkey" jdbcType="VARCHAR" />
 		<result column="updTimestamp" property="updtimestamp" jdbcType="TIMESTAMP" />
@@ -37,7 +41,7 @@
 		no, groupNo, goodsId, topPageUp, preFlg, inStockFlg, hotFlg, groupPrice,
 		groupMaxQuantity, groupCurrentQuantity, groupQuantityLimit, groupComments,
 		groupDesc, comsumerReminder, shopperRules, openFlg, validPeriodStart,
-		validPeriodEnd,
+		validPeriodEnd, diamondShowFlg, sellOutInitQuantity, sellOutFlg, enShowFlg,
 		addTimestamp, addUserKey, updTimestamp, updUserKey, updPgmId
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
@@ -57,7 +61,9 @@
 		groupPrice, groupMaxQuantity, groupCurrentQuantity, groupQuantityLimit,
 		groupComments, groupDesc, comsumerReminder,
 		shopperRules, openFlg, validPeriodStart,
-		validPeriodEnd, addTimestamp, addUserKey,
+		validPeriodEnd, 
+		addTimestamp, addUserKey, diamondShowFlg, 
+		sellOutInitQuantity, sellOutFlg, enShowFlg,
 		updTimestamp, updUserKey, updPgmId
 		)
 		values (#{no,jdbcType=BIGINT}, #{groupno,jdbcType=VARCHAR},
@@ -71,6 +77,10 @@
 		#{shopperrules,jdbcType=VARCHAR}, #{openflg,jdbcType=CHAR},
 		#{validperiodstart,jdbcType=TIMESTAMP},
 		#{validperiodend,jdbcType=TIMESTAMP},
+		#{diamondshowflg,jdbcType=CHAR},
+		#{selloutinitquantity,jdbcType=DECIMAL},
+		#{selloutflg,jdbcType=CHAR},
+		#{enshowflg,jdbcType=CHAR},
 		#{addtimestamp,jdbcType=TIMESTAMP}, #{adduserkey,jdbcType=VARCHAR},
 		#{updtimestamp,jdbcType=TIMESTAMP}, #{upduserkey,jdbcType=VARCHAR},
 		#{updpgmid,jdbcType=VARCHAR}
@@ -132,6 +142,18 @@
 			</if>
 			<if test="validperiodend != null">
 				validPeriodEnd,
+			</if>
+			<if test="diamondshowflg != null">
+				diamondShowFlg,
+			</if>
+			<if test="selloutinitquantity != null">
+				sellOutInitQuantity,
+			</if>
+			<if test="selloutflg != null">
+				sellOutFlg,
+			</if>
+			<if test="enshowflg != null">
+				enShowFlg,
 			</if>
 			<if test="addtimestamp != null">
 				addTimestamp,
@@ -204,6 +226,18 @@
 			<if test="validperiodend != null">
 				#{validperiodend,jdbcType=TIMESTAMP},
 			</if>
+			<if test="diamondshowflg != null">
+				#{diamondshowflg,jdbcType=CHAR},
+			</if>
+			<if test="selloutinitquantity != null">
+				#{selloutinitquantity,jdbcType=DECIMAL},
+			</if>
+			<if test="selloutflg != null">
+				#{selloutflg,jdbcType=CHAR},
+			</if>
+			<if test="enshowflg != null">
+				#{enshowflg,jdbcType=CHAR},
+			</if>
 			<if test="addtimestamp != null">
 				#{addtimestamp,jdbcType=TIMESTAMP},
 			</if>
@@ -275,6 +309,18 @@
 			<if test="validperiodend != null">
 				validPeriodEnd = #{validperiodend,jdbcType=TIMESTAMP},
 			</if>
+			<if test="diamondshowflg != null">
+				diamondShowFlg = #{diamondshowflg,jdbcType=CHAR},
+			</if>
+			<if test="selloutinitquantity != null">
+				sellOutInitQuantity = #{selloutinitquantity,jdbcType=DECIMAL},
+			</if>
+			<if test="selloutflg != null">
+				sellOutFlg = #{selloutflg,jdbcType=CHAR},
+			</if>
+			<if test="enshowflg != null">
+				enShowFlg = #{enshowflg,jdbcType=CHAR},
+			</if>
 			<if test="addtimestamp != null">
 				addTimestamp = #{addtimestamp,jdbcType=TIMESTAMP},
 			</if>
@@ -312,6 +358,10 @@
 		openFlg = #{openflg,jdbcType=CHAR},
 		validPeriodStart = #{validperiodstart,jdbcType=TIMESTAMP},
 		validPeriodEnd = #{validperiodend,jdbcType=TIMESTAMP},
+		diamondShowFlg = #{diamondshowflg,jdbcType=CHAR},
+		sellOutInitQuantity = #{selloutinitquantity,jdbcType=DECIMAL},
+		sellOutFlg = #{selloutflg,jdbcType=CHAR},
+		enShowFlg = #{enshowflg,jdbcType=CHAR},
 		addTimestamp = #{addtimestamp,jdbcType=TIMESTAMP},
 		addUserKey = #{adduserkey,jdbcType=VARCHAR},
 		updTimestamp = #{updtimestamp,jdbcType=TIMESTAMP},
@@ -368,6 +418,8 @@
             A.preFlg as isPre,
             A.inStockFlg as isInStock,
             A.hotFlg as isHot,
+            A.diamondShowFlg as isDiamond,
+            A.enShowFlg as isEn,
 			DATE_FORMAT(A.validPeriodStart,'%Y/%m/%d %T') as validDateFrom,
 			DATE_FORMAT(A.validPeriodEnd,'%Y/%m/%d %T') as validDateTo,
 			B.goodsName as goodsName,
@@ -399,12 +451,19 @@
       	<if test="isHot != null and isHot != ''" >
         	and A.hotFlg = #{isHot,jdbcType=VARCHAR}
       	</if>
+      	<if test="isDiamond != null and isDiamond != ''" >
+        	and A.diamondShowFlg = #{isDiamond,jdbcType=VARCHAR}
+      	</if>
+      	<if test="isEn != null and isEn != ''" >
+        	and A.enShowFlg = #{isEn,jdbcType=VARCHAR}
+      	</if>
       	<if test="dateFrom != null and dateFrom != ''" >
         	<![CDATA[and (DATE_FORMAT(A.validPeriodStart,'%Y/%m/%d')) >= #{dateFrom,jdbcType=VARCHAR}]]>
       	</if>
       	<if test="dateTo != null and dateTo != ''" >
         	<![CDATA[and (DATE_FORMAT(A.validPeriodEnd,'%Y/%m/%d')) <= #{dateTo,jdbcType=VARCHAR}]]>
       	</if>
+      	order by A.updTimestamp desc
 	</select>
 	
 	<select id="getAllGroupsInfoForAdminCount" resultType="int" parameterType="map">
@@ -435,6 +494,12 @@
       	</if>
       	<if test="isHot != null and isHot != ''" >
         	and A.hotFlg = #{isHot,jdbcType=VARCHAR}
+      	</if>
+      	<if test="isDiamond != null and isDiamond != ''" >
+        	and A.diamondShowFlg = #{isDiamond,jdbcType=VARCHAR}
+      	</if>
+      	<if test="isEn != null and isEn != ''" >
+        	and A.enShowFlg = #{isEn,jdbcType=VARCHAR}
       	</if>
       	<if test="dateFrom != null and dateFrom != ''" >
         	<![CDATA[and (DATE_FORMAT(A.validPeriodStart,'%Y/%m/%d')) >= #{dateFrom,jdbcType=VARCHAR}]]>

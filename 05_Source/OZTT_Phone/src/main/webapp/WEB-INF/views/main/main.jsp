@@ -284,6 +284,16 @@
 		                		<div class="goods-sticker goods-sticker-preLabel-en"></div>
 		                	</c:if>
 		                </c:if>
+		                
+		                <c:if test="${goodslist.sellOutFlg == '1' }">
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker-right goods-sticker-selloutLabel"></div>
+		                	</c:if>
+		                	<c:if test="${languageSelf == 'en_US' }">
+		                		<div class="goods-sticker-right goods-sticker-selloutLabel-en"></div>
+		                	</c:if>
+		                </c:if>
+		               	
 					</div>
    				</li>
    				</c:forEach>
@@ -340,6 +350,15 @@
 		                	</c:if>
 		                	<c:if test="${languageSelf == 'en_US' }">
 		                		<div class="goods-sticker goods-sticker-inStockLabel-en"></div>
+		                	</c:if>
+		                </c:if>
+		                
+		                <c:if test="${goodslist.sellOutFlg == '1' }">
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker-right goods-sticker-selloutLabel"></div>
+		                	</c:if>
+		                	<c:if test="${languageSelf == 'en_US' }">
+		                		<div class="goods-sticker-right goods-sticker-selloutLabel-en"></div>
 		                	</c:if>
 		                </c:if>
 		                

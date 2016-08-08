@@ -309,4 +309,12 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
         return tCustomerSecurityInfoDao.selectByParam(param);
     }
 
+	@Override
+	public void updateCustomerPointsAndLevels(String customerNo) throws Exception {
+		// 获取指定用户所有的订单，并且是订单已经结束的。
+		
+		// 算出
+		
+	}
+
 }

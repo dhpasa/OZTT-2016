@@ -28,6 +28,10 @@ public class OzTtAdGcDto {
     private String isInStock;
 
     private String isHot;
+    
+    private String isDiamond;
+    
+    private String isEn;
 
     private String openFlg;
 
@@ -118,5 +122,21 @@ public class OzTtAdGcDto {
     public void setIsHot(String isHot) {
         this.isHot = isHot;
     }
+
+	public String getIsDiamond() {
+		return isDiamond;
+	}
+
+	public void setIsDiamond(String isDiamond) {
+		this.isDiamond = isDiamond;
+	}
+
+	public String getIsEn() {
+		return isEn;
+	}
+
+	public void setIsEn(String isEn) {
+		this.isEn = isEn;
+	}
 
 }
