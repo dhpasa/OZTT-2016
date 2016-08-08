@@ -54,6 +54,7 @@ import com.org.oztt.formDto.GroupItemIdDto;
 import com.org.oztt.formDto.OzTtAdClDto;
 import com.org.oztt.formDto.OzTtAdGcListDto;
 import com.org.oztt.formDto.OzTtAdGlListDto;
+import com.org.oztt.formDto.OzTtAdGsListDto;
 import com.org.oztt.formDto.OzTtAdPlListDto;
 import com.org.oztt.service.BaseService;
 import com.org.oztt.service.GoodsService;
@@ -1044,5 +1045,25 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
             }
         }
     }
+	@Override
+	public PagingResult<OzTtAdGsListDto> getAllGoodsRInfoForAdmin(Pagination pagination) throws Exception {
+		 PagingResult<OzTtAdGsListDto> dtoList = tGoodsGroupDao.getAllGoodsRInfoForAdmin(pagination);
+	        if (dtoList.getResultList() != null && dtoList.getResultList().size() > 0) {
+
+	            for (OzTtAdGsListDto detail : dtoList.getResultList()) {
+
+	                detail.setGoodsId(CommonEnum.ifOrNot.getEnumLabel(detail.getGoodsId()));
+	                detail.setOrderDate(CommonEnum.ifOrNot.getEnumLabel(detail.getOrderDate()));
+	                detail.setOrderNo(CommonEnum.ifOrNot.getEnumLabel(detail.getOrderNo()));
+	                detail.setQualitity(CommonEnum.ifOrNot.getEnumLabel(detail.getQualitity()));
+	                detail.setCnGivenname(CommonEnum.ifOrNot.getEnumLabel(detail.getCnGivenname()));
+	                detail.setCnSurname(CommonEnum.ifOrNot.getEnumLabel(detail.getCnSurname()));
+	                detail.setEnFirstName(CommonEnum.ifOrNot.getEnumLabel(detail.getEnFirstName()));
+	                detail.setEnLastName(CommonEnum.ifOrNot.getEnumLabel(detail.getEnLastName()));
+	                detail.setEnMiddleName(CommonEnum.ifOrNot.getEnumLabel(detail.getEnMiddleName()));
+	            }
+	        }
+	        return dtoList;
+	}
 
 }

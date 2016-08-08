@@ -21,6 +21,7 @@ import com.org.oztt.formDto.GroupItemIdDto;
 import com.org.oztt.formDto.OzTtAdClDto;
 import com.org.oztt.formDto.OzTtAdGcListDto;
 import com.org.oztt.formDto.OzTtAdGlListDto;
+import com.org.oztt.formDto.OzTtAdGsListDto;
 import com.org.oztt.formDto.OzTtAdPlListDto;
 
 /**
@@ -537,4 +538,13 @@ public interface GoodsService {
      * @throws Exception
      */
     public void deleteCanNotBuyGoodsByCustomer(String customerNo) throws Exception;
+    
+    /**
+     * 产品维度查询
+     *
+     * @param pagination
+     * @return
+     * @throws Exception
+     */
+    public PagingResult<OzTtAdGsListDto> getAllGoodsRInfoForAdmin(Pagination pagination) throws Exception;
 }

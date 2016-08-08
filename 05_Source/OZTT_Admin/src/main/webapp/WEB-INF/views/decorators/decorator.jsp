@@ -234,6 +234,48 @@
 					</li>
 				</ul>
 			</li>
+			<li id="sysLi">
+				<a href="javascript:;">
+					<i class="fa fa-user"></i>
+					<span class="title">
+						<fmt:message key="OZ_TT_AD_SC_title" />
+					</span>
+					<span class="arrow ">
+					</span>
+				</a>
+				<ul class="sub-menu">
+					<li>
+						<a href="${pageContext.request.contextPath}/OZ_TT_AD_SC/initPic">
+							<i class="fa fa-list-ol"></i>
+							<fmt:message key="OZ_TT_AD_SC_GG_tabName" />
+						</a>
+					</li>
+					<li>
+						<a href="${pageContext.request.contextPath}/OZ_TT_AD_SC/initCont">
+							<i class="fa fa-list-ol"></i>
+							<fmt:message key="OZ_TT_AD_SC_CT_tabName" />
+						</a>
+					</li>
+				</ul>
+			</li>
+			<li id="productLi">
+				<a href="javascript:;">
+					<i class="fa fa-user"></i>
+					<span class="title">
+						<fmt:message key="OZ_TT_AD_GS_title" />
+					</span>
+					<span class="arrow ">
+					</span>
+				</a>
+				<ul class="sub-menu">
+					<li>
+						<a href="${pageContext.request.contextPath}/OZ_TT_AD_GS/init">
+							<i class="fa fa-list-ol"></i>
+							<fmt:message key="OZ_TT_AD_GS_tabName" />
+						</a>
+					</li>
+				</ul>
+			</li>
 		</ul>
 		<!-- END SIDEBAR MENU -->
 
