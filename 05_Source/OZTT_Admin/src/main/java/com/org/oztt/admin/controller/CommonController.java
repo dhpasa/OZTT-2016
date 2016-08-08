@@ -3,6 +3,7 @@ package com.org.oztt.admin.controller;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.contants.CommonConstants;
@@ -151,6 +154,34 @@ public class CommonController extends BaseController {
             mapReturn.put("isException", true);
             return null;
         }
+    }
+    
+    @RequestMapping(value = "/uploadFileJson", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> uploadFile(HttpServletRequest request, HttpServletResponse response) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            //获取文件到map容器中  
+        	MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+            CommonsMultipartFile file = (CommonsMultipartFile) multipartRequest.getFile("image[picture]");
+            String desFilePath = super.getApplicationMessage("DistImgPath") + CommonConstants.WYSIHTML5;
+            File destDirectory = new File(desFilePath);
+            if (!destDirectory.exists()) {
+                destDirectory.mkdirs();
+            }
+            String filename = file.getOriginalFilename();
+            String fileType = filename.substring(filename.lastIndexOf(CommonConstants.FILE_SPLIT));
+            String desFileName = UUID.randomUUID().toString() + fileType;
+            file.transferTo(new File(desFilePath + CommonConstants.PATH_SPLIT + desFileName));
+            mapReturn.put("image_url", super.getApplicationMessage("saveImgUrl") + CommonConstants.WYSIHTML5 + CommonConstants.PATH_SPLIT + desFileName);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return null;
+        }
+
     }
 
 }

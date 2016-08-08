@@ -35,6 +35,8 @@ public class TConsOrderDetails {
     private String upduserkey;
 
     private String updpgmid;
+    
+    private String handleflg;
 
     public Long getNo() {
         return no;
@@ -162,6 +164,14 @@ public class TConsOrderDetails {
 
     public void setDeliverytime(String deliverytime) {
         this.deliverytime = deliverytime;
+    }
+
+    public String getHandleflg() {
+        return handleflg;
+    }
+
+    public void setHandleflg(String handleflg) {
+        this.handleflg = handleflg;
     }
 
 }

@@ -159,7 +159,8 @@ public class OzTtAdGlController extends BaseController {
             res.put("goodsGroupPrice", tGoodsGroup.getGroupprice().toString());
             res.put("goodsGroupNumber", tGoodsGroup.getGroupmaxquantity().toString());
             res.put("goodsGroupLimit", tGoodsGroup.getGroupquantitylimit().toString());
-            res.put("goodsGroupCurrent", tGoodsGroup.getGroupcurrentquantity().toString());
+            res.put("goodsGroupCurrent", tGoodsGroup.getGroupcurrentquantity() == null ? "0" : tGoodsGroup
+                    .getGroupcurrentquantity().toString());
             res.put("dataFromGroup",
                     DateFormatUtils.date2StringWithFormat(tGoodsGroup.getValidperiodstart(), DateFormatUtils.PATTEN_HM));
             res.put("dataToGroup",
@@ -173,7 +174,8 @@ public class OzTtAdGlController extends BaseController {
             res.put("isPre", tGoodsGroup.getPreflg());
             res.put("isInStock", tGoodsGroup.getInstockflg());
             res.put("isHot", tGoodsGroup.getHotflg());
-            res.put("sellOutInitQuantity", tGoodsGroup.getSelloutinitquantity() == null ? "" : tGoodsGroup.getSelloutinitquantity().toString());
+            res.put("sellOutInitQuantity", tGoodsGroup.getSelloutinitquantity() == null ? "" : tGoodsGroup
+                    .getSelloutinitquantity().toString());
             res.put("sellOutFlg", tGoodsGroup.getSelloutflg() == null ? "" : tGoodsGroup.getSelloutflg());
             res.put("diamondShowFlg", tGoodsGroup.getDiamondshowflg() == null ? "" : tGoodsGroup.getDiamondshowflg());
             res.put("enShowFlg", tGoodsGroup.getEnshowflg() == null ? "" : tGoodsGroup.getEnshowflg());
@@ -204,7 +206,10 @@ public class OzTtAdGlController extends BaseController {
         try {
             TGoodsGroup tGoodsGroup = new TGoodsGroup();
             tGoodsGroup.setGroupno(map.get("groupno"));
-            tGoodsGroup = goodsService.getGoodPrice(tGoodsGroup);
+            if (!StringUtils.isEmpty(tGoodsGroup.getGroupno())) {
+                // 如果有groupNo
+                tGoodsGroup = goodsService.getGoodPrice(tGoodsGroup);
+            }
             tGoodsGroup.setComsumerreminder(map.get("comsumerreminder"));
             tGoodsGroup.setGroupcomments(map.get("groupcomments"));
             tGoodsGroup.setGroupdesc(map.get("groupdesc"));
@@ -238,7 +243,15 @@ public class OzTtAdGlController extends BaseController {
             tGoodsGroup.setUpdpgmid("OZ_TT_AD_GL");
             tGoodsGroup.setUpdtimestamp(new Date());
             tGoodsGroup.setUpduserkey(CommonConstants.ADMIN_USERKEY);
-            goodsService.updateGoodsSetGroup(tGoodsGroup);
+            if (!StringUtils.isEmpty(tGoodsGroup.getGroupno())) {
+                goodsService.updateGoodsSetGroup(tGoodsGroup);
+            }
+            else {
+                tGoodsGroup.setGoodsid(map.get("goodsid"));
+                tGoodsGroup.setAddtimestamp(new Date());
+                tGoodsGroup.setAdduserkey(CommonConstants.ADMIN_USERKEY);
+                goodsService.saveGoodsSetGroup(tGoodsGroup);
+            }
             // 后台维护的时候提示让以逗号隔开
             mapReturn.put("isException", false);
             return mapReturn;

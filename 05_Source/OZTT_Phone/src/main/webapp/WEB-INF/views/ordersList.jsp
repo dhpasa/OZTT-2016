@@ -141,9 +141,12 @@
 								dataHtml += temp49;
 								
 							}
+							$("#ordersList").append(dataHtml);
+						} else {
+							$("#noMoreRecordDiv").css("display","");
+							closeLoadingDiv();
 						}
-						
-						$("#ordersList").append(dataHtml);
+
 					} else {
 						
 					}
@@ -174,6 +177,9 @@
 	    			pageNo += 1;
 	    			initList();
 	    			closeLoadingDiv();
+	    			setTimeout(function(){
+	    				closeNoMoreDiv();
+	    			},1000);
 	            },1000);
 	    	}
 	    	
@@ -186,6 +192,9 @@
 	function closeLoadingDiv(){
 		$("#loadingDiv").css("display","none");
 	}
+	function closeNoMoreDiv(){
+  		$("#noMoreRecordDiv").css("display","none");
+  	}
 	
 	var selectTab = '${tab}';
 	function reloadtab(tab){
@@ -235,6 +244,9 @@
 	</div>
 	<div style="text-align: center;height:2rem;display: none" id="loadingDiv">
 		<img src="${ctx}/images/loading.gif">
+	</div>
+	<div style="text-align: center;height:3rem;line-height:3rem;display: none" id="noMoreRecordDiv">
+		<fmt:message key="COMMON_NOMORE_RECORD" />
 	</div>
 </body>
 <!-- END BODY -->

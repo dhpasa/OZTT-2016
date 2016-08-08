@@ -463,6 +463,7 @@
       	<if test="dateTo != null and dateTo != ''" >
         	<![CDATA[and (DATE_FORMAT(A.validPeriodEnd,'%Y/%m/%d')) <= #{dateTo,jdbcType=VARCHAR}]]>
       	</if>
+      	order by A.updTimestamp desc
 	</select>
 	
 	<select id="getAllGroupsInfoForAdminCount" resultType="int" parameterType="map">

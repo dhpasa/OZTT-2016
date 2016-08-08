@@ -26,6 +26,7 @@
 	  	
 	  	function setGroup(groupId,goodsId, obj) {
 	  		cleanFormError();
+	  		$("#modalTitle").text('<fmt:message key="OZ_TT_AD_GL_DIALOG_setGroup" />');
 	  		var nametd = $(obj).parent().parent().find('td')[2];
 	  		var nametd2 = $(obj).parent().parent().find('td')[3];
 	  		$("#goodGroupId").text($(nametd).text());
@@ -539,6 +540,33 @@
 	  		}
 	  		$(":checkbox").uniform({checkboxClass: 'myCheckClass'});
 	  	}
+	  	
+	  	function copyInsert(groupId,goodsId, obj) {
+			setGroup(groupId,goodsId, obj);
+			$("#hiddenGroupId").val('');
+			$("#modalTitle").text('<fmt:message key="OZ_TT_AD_GL_DIALOG_copyInsert" />');
+			$("#unserBtn").css("display","none");
+			$("#deleteBtn").css("display","none");
+			
+			$("#goodsGroupPrice").removeAttr("disabled");
+			$("#goodsGroupNumber").removeAttr("disabled");
+			$("#goodsGroupLimit").removeAttr("disabled");
+			$("#dataFromGroup").removeAttr("disabled");
+			$("#dataToGroup").removeAttr("disabled");
+			$("#groupComment").removeAttr("disabled");
+			$("#groupDesc").removeAttr("disabled");
+			$("#groupReminder").removeAttr("disabled");
+			$("#groupRule").removeAttr("disabled");
+			$("#isTopUpEdit").removeAttr("disabled");
+			$("#isPreEdit").removeAttr("disabled");
+			$("#isInStockEdit").removeAttr("disabled");
+			$("#isHotEdit").removeAttr("disabled");
+			$("#sellOutInitQuantity").removeAttr("disabled");
+			$("#sellOutFlg").removeAttr("disabled");
+			$("#diamondShowFlg").removeAttr("disabled");
+	        $("#enShowFlg").removeAttr("disabled");
+			$(":checkbox").uniform({checkboxClass: 'myCheckClass'});
+        }
   </script>
 </head>
 <body>
@@ -876,6 +904,9 @@
 							<button type="button" class="btn green mybtn" onclick="previewGroup('${groupsItem.groupId}')">
 								<i class="fa fa-info"></i>&nbsp;<fmt:message key="COMMON_PREVIEW" />
 							</button>
+							<button type="button" class="btn green mybtn" onclick="copyInsert('${groupsItem.groupId}','${groupsItem.goodsId}',this)">
+                                <i class="fa fa-info"></i>&nbsp;<fmt:message key="COMMON_COPYINSERT" />
+                            </button>
 						</td>
 					</tr>
 					</c:forEach>
@@ -936,7 +967,7 @@
 			<div class="modal-content">
 				<div class="modal-header" style="text-align: center">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-					<h4 class="modal-title"><fmt:message key="OZ_TT_AD_GL_DIALOG_setGroup" /></h4>
+					<h4 class="modal-title" id="modalTitle"><fmt:message key="OZ_TT_AD_GL_DIALOG_setGroup" />
 				</div>
 				<div class="modal-body">
 					<form action="#" class="form-horizontal">
@@ -1208,6 +1239,15 @@
 								<label class="radio-inline">
 									<input type="radio" name="isHotEdit_batch" value="0">
 									<fmt:message key="COMMON_NO" />
+								</label>
+							</div>
+						</div>
+						
+						<div class="form-group" id="maxnumber_batch_div" style="display:none">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_number" /></label>
+							<div class="checkbox-list col-md-8">
+								<label class="checkbox-inline">
+									<input type="number"  id="maxnumber_batch" maxlength="3"></input>
 								</label>
 							</div>
 						</div>
