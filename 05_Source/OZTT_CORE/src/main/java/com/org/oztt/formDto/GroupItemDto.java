@@ -46,25 +46,33 @@ public class GroupItemDto {
 
     private String     groupno;
 
+    private Date       validStartTime;
+
     private Date       validEndTime;
 
     private String     countdownTime;
 
     private String     countdownDay;
 
-    private String     groupMax;      //团购最大数量
+    private String     groupMax;           //团购最大数量
 
-    private String     groupCurrent;  //团购现在数量
+    private String     groupCurrent;       //团购现在数量
 
-    private String     isOverGroup;   // 是否已经满团
+    private String     isOverGroup;        // 是否已经满团
 
-    private String     preLabel;      //预售
+    private String     preLabel;           //预售
 
-    private String     inStockLabel;  // 现货
+    private String     inStockLabel;       // 现货
 
-    private String     hotLabel;      //热销
+    private String     hotLabel;           //热销
 
-    private String     salesLabel;    //秒杀
+    private String     salesLabel;         //秒杀
+
+    private String     isOnWay;            //即将销售
+    
+    private String     sellOutInitQuantity; // 即将售罄的数量
+
+    private String     sellOutFlg;         //即将售罄
 
     public String getGoodsid() {
         return goodsid;
@@ -288,6 +296,38 @@ public class GroupItemDto {
 
     public void setIsOverGroup(String isOverGroup) {
         this.isOverGroup = isOverGroup;
+    }
+
+    public Date getValidStartTime() {
+        return validStartTime;
+    }
+
+    public void setValidStartTime(Date validStartTime) {
+        this.validStartTime = validStartTime;
+    }
+
+    public String getIsOnWay() {
+        return isOnWay;
+    }
+
+    public void setIsOnWay(String isOnWay) {
+        this.isOnWay = isOnWay;
+    }
+
+    public String getSellOutFlg() {
+        return sellOutFlg;
+    }
+
+    public void setSellOutFlg(String sellOutFlg) {
+        this.sellOutFlg = sellOutFlg;
+    }
+
+    public String getSellOutInitQuantity() {
+        return sellOutInitQuantity;
+    }
+
+    public void setSellOutInitQuantity(String sellOutInitQuantity) {
+        this.sellOutInitQuantity = sellOutInitQuantity;
     }
 
 }

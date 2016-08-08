@@ -83,6 +83,7 @@
   	}
   	
   	var E0002 = '<fmt:message key="E0002" />';
+  	var E0004 = '<fmt:message key="E0004" />';
   	function setPriceSave(){
   		cleanFormError();
 		var goodsPrice = $("#goodsPrice").val();
@@ -158,16 +159,26 @@
 			showErrorSpan($("#goodsGroupNumber"), message);
 			return false;
 		}
+		
 		if (dataFromGroup == "") {
 			var message = E0002.replace("{0}", '<fmt:message key="OZ_TT_AD_PL_DIALOG_validDate" />')
 			showErrorSpan($("#dataToGroup"), message);
 			return false;
 		}
-		if (dataToGroup == "") {
-			var message = E0002.replace("{0}", '<fmt:message key="OZ_TT_AD_PL_DIALOG_validDate" />')
-			showErrorSpan($("#dataToGroup"), message);
-			return false;
+		
+		if (!$("#isInStockEdit").attr("checked")) {
+			if (dataToGroup == "") {
+				var message = E0002.replace("{0}", '<fmt:message key="OZ_TT_AD_PL_DIALOG_validDate" />')
+				showErrorSpan($("#dataToGroup"), message);
+				return false;
+			}
+					
+			if (dataFromGroup > dataToGroup) {
+				showErrorSpan($("#dataToGroup"), E0004);
+				return false;
+			}
 		}
+		
 		if (!checkDecimalSize(goodsGroupPrice,"999999999.99")) {
 			var message = '<fmt:message key="E0003" />';
 			showErrorSpan($("#goodsGroupPrice"), message);
@@ -175,6 +186,11 @@
 		}
 		
 		var I0001 = '<fmt:message key="I0001" />'
+		var W0007 = '<fmt:message key="W0007" />'
+		if ($("#isInStockEdit").attr("checked")) {
+			alert(W0007);
+		}
+		
 		if(!confirm(I0001)) {
 			return false;
 		}
@@ -195,6 +211,10 @@
 		if ($("#isHotEdit").attr("checked")) {
 			isHot = "1";
 		}
+		var sellOutFlg = "0";
+		if ($("#sellOutFlg").attr("checked")) {
+			sellOutFlg = "1";
+		}
 		
 		var jsonMap = {
 			comsumerreminder:groupReminder,
@@ -211,7 +231,9 @@
 			istopup:isTopUp,
 			ispre:isPre,
 			isinstock:isInStock,
-			ishot:isHot
+			ishot:isHot,
+			sellOutInitQuantity:$("#sellOutInitQuantity").val(),
+			sellOutFlg:sellOutFlg
 		}
 		
 		$.ajax({
@@ -684,12 +706,12 @@
 						<div class="form-group">
 							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_PL_DIALOG_validDate" /></label>
 							<div class="col-md-6">
-								<div class="input-group input-large date-picker input-daterange" data-date="" data-date-format="yyyy/mm/dd">
-									<input type="text" class="form-control" id="dataFromGroup"></input>
+								<div class="input-group input-large">
+									<input type="text" class="form-control myself-datatimpick" id="dataFromGroup"></input>
 									<span class="input-group-addon">
 										 <fmt:message key="COMMON_TO" />
 									</span>
-									<input type="text" class="form-control" id="dataToGroup"></input>
+									<input type="text" class="form-control myself-datatimpick" id="dataToGroup"></input>
 								</div>
 							</div>
 						</div>
@@ -729,6 +751,23 @@
 							<div class="checkbox-list col-md-8">
 								<label class="checkbox-inline">
 									<input type="checkbox" name="isHotEdit" id="isHotEdit"></input>
+								 	<fmt:message key="COMMON_YES" />
+								</label>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_sellOutInitQuantity" /></label>
+							<div class="col-md-3">
+								<input type="number" id="sellOutInitQuantity" class="input-small form-control textright"></input>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_sellOutFlg" /></label>
+							<div class="checkbox-list col-md-8">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="sellOutFlg" id="sellOutFlg"></input>
 								 	<fmt:message key="COMMON_YES" />
 								</label>
 							</div>

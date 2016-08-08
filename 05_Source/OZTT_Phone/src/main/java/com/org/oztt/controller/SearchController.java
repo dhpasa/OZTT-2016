@@ -53,6 +53,10 @@ public class SearchController extends BaseController {
                     goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
                     goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods
                             .getGroupMax()) ? CommonConstants.OVER_GROUP_YES : CommonConstants.OVER_GROUP_NO);
+                    // 判断团购开始是否已经到
+                    if (goods.getValidStartTime().compareTo(DateFormatUtils.getCurrentDate()) > 0) {
+                        goods.setIsOnWay(CommonConstants.IS_ON_WAY);
+                    }
                 }
             }
             model.addAttribute("classId", classId);
@@ -107,6 +111,10 @@ public class SearchController extends BaseController {
                     goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
                     goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods
                             .getGroupMax()) ? CommonConstants.OVER_GROUP_YES : CommonConstants.OVER_GROUP_NO);
+                    // 判断团购开始是否已经到
+                    if (goods.getValidStartTime().compareTo(DateFormatUtils.getCurrentDate()) > 0) {
+                        goods.setIsOnWay(CommonConstants.IS_ON_WAY);
+                    }
                 }
             }
             mapReturn.put("isException", false);

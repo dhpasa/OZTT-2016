@@ -716,6 +716,7 @@ public class CommonController extends BaseController {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
             boolean isOver = false;
             boolean isGroupEnd = false;
+            boolean isGroupNotStart = false;
             long maxBuy = 0;
             String msg = "";
             if (list != null && list.size() > 0) {
@@ -760,13 +761,20 @@ public class CommonController extends BaseController {
                     if(DateFormatUtils.getBetweenSecondTime(tGoodsGroup.getValidperiodend()).contains("-")) {
                         isGroupEnd = true;
                     }
-                    
-                    if (isGroupEnd) {
-                        GoodItemDto itemDto = goodsService.getGoodAllItemDto(mapParam.get("groupId"));
+                    GoodItemDto itemDto = goodsService.getGoodAllItemDto(mapParam.get("groupId"));
+                    if (isGroupEnd) { 
                         msg = super.getMessage("E0011", session).replace("{0}", itemDto.getGoods().getGoodsname());
                     }
                     
-                    if (isOver || isGroupEnd) {
+                    // 判断商品是否开始团购
+                    if (tGoodsGroup.getValidperiodstart().compareTo(DateFormatUtils.getCurrentDate()) > 0) {
+                        isGroupNotStart = true;
+                    }
+                    if (isGroupNotStart) { 
+                        msg = super.getMessage("E0013", session).replace("{0}", itemDto.getGoods().getGoodsname());
+                    }
+                    
+                    if (isOver || isGroupEnd || isGroupNotStart) {
                         break;
                     }
                 }
@@ -775,6 +783,7 @@ public class CommonController extends BaseController {
             mapReturn.put("checkAllMsg", msg);
             mapReturn.put("isOver", isOver);
             mapReturn.put("isGroupEnd", isGroupEnd);
+            mapReturn.put("isGroupNotStart", isGroupNotStart);
             mapReturn.put("isException", false);
             return mapReturn;
         }

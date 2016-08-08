@@ -30,7 +30,7 @@ public interface OrderService {
      */
     public String insertOrderInfoForPhone(String customerNo, String payMethod, String hidDeliMethod,
             String hidAddressId, String hidHomeDeliveryTime, String isUnify, String needInvoice, String invoicemail,
-            HttpSession session) throws Exception;
+            HttpSession session, String purchaseRemarks) throws Exception;
 
     /**
      * 获取当前用户所有的订单信息

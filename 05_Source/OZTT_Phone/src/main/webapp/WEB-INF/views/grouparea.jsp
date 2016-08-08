@@ -68,6 +68,9 @@
 			var temp14 = '    <div class="countdown-time" data-seconds-left="{0}">';   	
 			var temp15 = '    </div>';
 			var temp31 = '<div class="main-overtime-div" style="display: inline-block;"><fmt:message key="COMMON_OVER_GROUP" /></div>';
+			var temp32 = '<div class="main-onway-div" style="display: inline-block;"><fmt:message key="COMMON_GROUP_ONWAY" /></div>';
+			var temp33 = '<div class="displaynone-time"></div>';
+			
 			var temp20 = '<div class="goods-sticker goods-sticker-preLabel"></div>';
 			var temp21 = '<div class="goods-sticker goods-sticker-inStockLabel"></div>';
 			var temp22 = '<div class="goods-sticker goods-sticker-hotLabel"></div>';
@@ -77,6 +80,9 @@
 			var temp25 = '<div class="goods-sticker goods-sticker-inStockLabel-en"></div>';
 			var temp26 = '<div class="goods-sticker goods-sticker-hotLabel-en"></div>';
 			var temp27 = '<div class="goods-sticker goods-sticker-salesLabel-en"></div>';
+			
+			var temp28 = '<div class="goods-sticker-right goods-sticker-selloutLabel"></div>';
+			var temp29 = '<div class="goods-sticker-right goods-sticker-selloutLabel-en"></div>';
 			
 			var temp16 = '</div>';
 			var temp17 = '</li>';
@@ -106,13 +112,21 @@
 								tempStr += temp11;
 								tempStr += temp12.replace('{0}',dataList[i].groupCurrent).replace('{1}',dataList[i].groupMax);
 								tempStr += temp13;
-								if (dataList[i].isOverGroup == '1') {
-									tempStr += temp31;
+								if ('${tab}' == '3') {
+									tempStr += temp33;
 								} else {
-									tempStr += temp14.replace('{0}',dataList[i].countdownTime);
-									tempStr += temp15;
+									if (dataList[i].isOverGroup == '1') {
+										tempStr += temp31;
+									} else {
+										if (dataList[i].isOnWay == '1') {
+											tempStr += temp32;
+										} else {
+											tempStr += temp14.replace('{0}',dataList[i].countdownTime);
+											tempStr += temp15;
+										}
+									}
 								}
-								
+																
 								if (dataList[i].preLabel == '1' && '${tab}' == '2') {
 									if ('${languageSelf}' == 'zh_CN'){
 										tempStr += temp20;
@@ -132,6 +146,14 @@
 										tempStr += temp23;
 									} else if('${languageSelf}' == 'en_US') {
 										tempStr += temp27;
+									}
+								}
+								
+								if (dataList[i].sellOutFlg == '1') {
+									if ('${languageSelf}' == 'zh_CN'){
+										tempStr += temp28;
+									} else if('${languageSelf}' == 'en_US') {
+										tempStr += temp29;
 									}
 								}
 								tempStr += temp16;
@@ -221,12 +243,22 @@
 				   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
 				   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span>
 		                </div>
-		                <c:if test="${goodslist.isOverGroup == '1' }">
-		                	<div class="main-overtime-div" style="display: inline-block;"><fmt:message key="COMMON_OVER_GROUP" /></div>
+		                <c:if test="${tab == '3'}">
+		                	<div class="displaynone-time"></div>
 		                </c:if>
-		                <c:if test="${goodslist.isOverGroup != '1' }">
-		                	<div class="countdown-time" data-seconds-left="${goodslist.countdownTime}">
-		                	</div>
+		                <c:if test="${tab != '3'}">
+		                	<c:if test="${goodslist.isOverGroup != '1' }">
+			                	<c:if test="${goodslist.isOnWay == '1' }">
+			                		<div class="main-onway-div" style="display: inline-block;"><fmt:message key="COMMON_GROUP_ONWAY" /></div>
+			                	</c:if>
+			                	<c:if test="${goodslist.isOnWay != '1' }">
+			                		<div class="countdown-time" data-seconds-left="${goodslist.countdownTime}">
+			                		</div>
+			                	</c:if>
+			                </c:if>
+			                <c:if test="${goodslist.isOverGroup == '1' }">
+			                	<div class="main-overtime-div" style="display: inline-block;"><fmt:message key="COMMON_OVER_GROUP" /></div>
+			                </c:if>
 		                </c:if>
 		                <c:if test="${goodslist.preLabel == '1' && tab == '2'}">
 		                	<c:if test="${languageSelf == 'zh_CN' }">
@@ -252,6 +284,15 @@
 							<c:if test="${languageSelf == 'en_US' }">
 								<div class="goods-sticker goods-sticker-salesLabel-en"></div>
 							</c:if>
+		                </c:if>
+		                
+		                <c:if test="${goodslist.sellOutFlg == '1' }">
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker-right goods-sticker-selloutLabel"></div>
+		                	</c:if>
+		                	<c:if test="${languageSelf == 'en_US' }">
+		                		<div class="goods-sticker-right goods-sticker-selloutLabel-en"></div>
+		                	</c:if>
 		                </c:if>
 					</div>
    				</li>
