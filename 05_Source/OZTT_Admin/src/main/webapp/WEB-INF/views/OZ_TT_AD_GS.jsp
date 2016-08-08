@@ -19,8 +19,7 @@
 	
 	function pageSelected1(pageNo){
 		var targetForm = document.forms['olForm'];
-		var pageNo2 = $("#pageNo2").val();
-		if (pageNo2==''){pageNo2=1}
+		var pageNo2 = $("#pageNo1").val();
 		targetForm.action = "${pageContext.request.contextPath}/OZ_TT_AD_GS/pageSearch?pageNo1="+pageNo+"&pageNo2="+pageNo2;
 		targetForm.method = "POST";
 		targetForm.submit();
@@ -28,7 +27,6 @@
 	function pageSelected2(pageNo){
 		var targetForm = document.forms['olForm'];
 		var pageNo1 = $("#pageNo1").val();
-		if (pageNo1==''){pageNo1=1}
 		targetForm.action = "${pageContext.request.contextPath}/OZ_TT_AD_GS/pageSearch?pageNo2="+pageNo+"&pageNo1="+pageNo1;
 		targetForm.method = "POST";
 		targetForm.submit();
@@ -116,24 +114,19 @@
 								<c:forEach var="groupsItem" items="${ pageInfo1.resultList }">
 									<tr>
 										<td>${groupsItem.orderDate }</td>
-										<td>${groupsItem.quantity }</td>
+										<td>${groupsItem.qualitity }</td>
 										<td>${groupsItem.orderNo }</td>
-										<td>${groupsItem.customerName }</td>
+										<td>${groupsItem.cnGivenname }${groupsItem.cnSurname }</td>
 										<td>${groupsItem.customerPhone }</td>
 									</tr>
 								</c:forEach>
-								<c:if test="${pageInfo1.totalSize > 0}">
-								<tr>
-									<td colspan="5" align="right"><fmt:message key="OZ_TT_AD_GS_totalOrder" />：${pageInfo1.totalSize }<fmt:message key="OZ_TT_AD_GS_unit" /></td>
-								</tr>
-								</c:if>
 							</tbody>
 						</table>
 						<!-- BEGIN PAGINATOR -->
 						<c:if test="${pageInfo1.totalSize > 0}">
 							<c:if
 								test="${pageInfo1.firstPage > 0 || pageInfo1.prevPage > 0 || pageInfo1.nextPage > 0 || pageInfo1.lastPage >0}">
-								<div class="row" style="margin-right:0px;">
+								<div class="row">
 									<div class="col-md-4 col-sm-4 items-info"></div>
 									<div class="col-md-8 col-sm-8">
 										<ul class="pagination pull-right">
@@ -223,24 +216,19 @@
 								<c:forEach var="groupsItem" items="${ pageInfo2.resultList }">
 									<tr>
 										<td>${groupsItem.orderDate }</td>
-										<td>${groupsItem.quantity }</td>
+										<td>${groupsItem.qualitity }</td>
 										<td>${groupsItem.orderNo }</td>
-										<td>${groupsItem.customerName }</td>
+										<td>${groupsItem.cnGivenname }${groupsItem.cnSurname }</td>
 										<td>${groupsItem.customerPhone }</td>
 									</tr>
 								</c:forEach>
-								<c:if test="${pageInfo2.totalSize > 0}">
-								<tr>
-									<td colspan="5" align="right"><fmt:message key="OZ_TT_AD_GS_totalSailed" />：${pageInfo2.totalSize }<fmt:message key="OZ_TT_AD_GS_unit" /></td>
-								</tr>
-								</c:if>
 							</tbody>
 						</table>
 						<!-- BEGIN PAGINATOR -->
 						<c:if test="${pageInfo2.totalSize > 0}">
 							<c:if
 								test="${pageInfo2.firstPage > 0 || pageInfo2.prevPage > 0 || pageInfo2.nextPage > 0 || pageInfo2.lastPage >0}">
-								<div class="row" style="margin-right:0px;">
+								<div class="row">
 									<div class="col-md-4 col-sm-4 items-info"></div>
 									<div class="col-md-8 col-sm-8">
 										<ul class="pagination pull-right">
@@ -272,7 +260,7 @@
 														<li><span>${u}</span></li>
 													</c:when>
 													<c:otherwise>
-														<li><a href="javascript:pageSelected2('${u}')">${u}</a></li>
+														<li><a href="javascript:pageSelected(2'${u}')">${u}</a></li>
 													</c:otherwise>
 												</c:choose>
 											</c:forEach>

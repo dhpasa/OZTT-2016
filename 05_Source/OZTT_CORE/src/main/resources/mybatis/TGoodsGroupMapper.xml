@@ -512,15 +512,19 @@
 		select
 		a.orderNo,
 		b.goodsId,
-		c.nickName as customerName,
+		c.cnSurname,
+		c.cnGivenname,
+		c.enFirstName,
+		c.enMiddleName,
+		c.enLastName,
+		d.telNo as customerPhone,
 		a.quantity,
 		a.handleFlg,
-		DATE_FORMAT(e.orderTimestamp,'%Y/%m/%d') as orderDate,
-		d.telNo as customerPhone
+		DATE_FORMAT(e.orderTimestamp,'%Y/%m/%d') as orderDate
 		from t_cons_order_details a
-		inner join t_goods b on a.goodsId = b.goodsId
-		inner join t_customer_basic_info c on a.customerNo = c.customerNo
-		inner join t_customer_security_info d on a.customerNo = d.customerNo
+		left join t_goods b on a.goodsId = b.goodsId
+		left join t_customer_basic_info c on a.customerNo = c.customerNo
+		left join t_customer_security_info d on a.customerNo = d.customerNo
 		left join t_cons_order e on a.orderNo = e.orderNo
 		where 1=1
 		<if test="goodsName != null and goodsName != ''">
@@ -532,20 +536,17 @@
       	<if test="dateTo != null and dateTo != ''" >
         	<![CDATA[and (DATE_FORMAT(e.orderTimestamp,'%Y/%m/%d')) <= #{dateTo,jdbcType=VARCHAR}]]>
       	</if>
-      	<if test="handleFlg != null and handleFlg != '' and handleFlg ==0" >
-        	and (a.handleFlg = '1' or a.handleFlg = '2' or a.handleFlg is null)
-      	</if>
-      	<if test="handleFlg != null and handleFlg != '' and handleFlg ==1" >
-        	and a.handleFlg = '3'
+      	<if test="handleFlg != null and handleFlg != ''" >
+        	and a.handleFlg = #{handleFlg,jdbcType=VARCHAR}
       	</if>
 	</select>
 	<select id="searchGoodsViewCount" resultType="int" parameterType="map">
 		select
 		count(1)
 		from t_cons_order_details a
-		inner join t_goods b on a.goodsId = b.goodsId
-		inner join t_customer_basic_info c on a.customerNo = c.customerNo
-		inner join t_customer_security_info d on a.customerNo = d.customerNo
+		left join t_goods b on a.goodsId = b.goodsId
+		left join t_customer_basic_info c on a.customerNo = c.customerNo
+		left join t_customer_security_info d on a.customerNo = d.customerNo
 		left join t_cons_order e on a.orderNo = e.orderNo
 		where 1=1
 		<if test="goodsName != null and goodsName != ''">
@@ -557,11 +558,8 @@
       	<if test="dateTo != null and dateTo != ''" >
         	<![CDATA[and (DATE_FORMAT(e.orderTimestamp,'%Y/%m/%d')) <= #{dateTo,jdbcType=VARCHAR}]]>
       	</if>
-      	<if test="handleFlg != null and handleFlg != '' and handleFlg ==0" >
-        	and (a.handleFlg = '1' or a.handleFlg = '2' or a.handleFlg is null)
-      	</if>
-      	<if test="handleFlg != null and handleFlg != '' and handleFlg ==1" >
-        	and a.handleFlg = '3'
+      	<if test="handleFlg != null and handleFlg != ''" >
+        	and a.handleFlg = #{handleFlg,jdbcType=VARCHAR}
       	</if>
 	</select>
 	

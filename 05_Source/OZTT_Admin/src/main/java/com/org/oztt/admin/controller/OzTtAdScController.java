@@ -51,7 +51,7 @@ public class OzTtAdScController extends BaseController {
 	}
 
 	@RequestMapping(value = "/getCont")
-	public String getContent(Model model, HttpServletRequest request) {
+	public String getContent(HttpServletRequest request) {
 
 		String divisionStr = request.getParameter("division") == null ? "0" : request.getParameter("division");
 		int division = Integer.parseInt(divisionStr);
@@ -64,7 +64,7 @@ public class OzTtAdScController extends BaseController {
 		ozTtAdScDto.setContactservice(tSysConfig.getContactservice());
 		ozTtAdScDto.setShoppercooperation(tSysConfig.getShoppercooperation());
 		ozTtAdScDto.setAboutus(tSysConfig.getAboutus());
-		model.addAttribute("ozTtAdScDto", ozTtAdScDto);
+
 		return "OZ_TT_AD_SC";
 	}
 
