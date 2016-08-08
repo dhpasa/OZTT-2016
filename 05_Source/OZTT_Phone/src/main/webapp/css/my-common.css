@@ -190,6 +190,13 @@ a{
 	float: left !important;
 }
 
+.x-fixed{
+	width: 100%;
+    position: fixed !important;
+    top: 0rem;
+    z-index: 999;
+}
+
 
 /* ========================================首页============================================== */
 html{
@@ -212,6 +219,10 @@ html{
 
 .icon-search {
     background: url(../images/search.png) center center/2rem 2rem no-repeat;
+}
+
+.icon-shopcart {
+    background: url(../images/cart.png) center center/3rem 3rem no-repeat;
 }
 
 .ico-back{
@@ -633,31 +644,33 @@ html{
 	width: 100%;
 	display: inline-block;
 	margin-top: 1rem;
+	color: #ffb83c
 }
 .main-rushpur-area .rushtext{
 	width: 100%;
     float: left;
     text-align: center;
     padding: 0.5rem 1rem 0.5rem 1rem;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
 }
 .main-rushpur-area .rushmore{
 	width: 100%;
     float: left;
     text-align: right;
     padding: 0.5rem 1rem 0.5rem 1rem;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     position: absolute;
 }
 
 .main-rushpur-area .rushmore > i{
-	font-size: 1.5rem;
+	font-size: 1.8rem;
 	padding-left: 0.5rem;
 }
 
 .main-presell-area{
 	width: 100%;
 	display: inline-block;
+	color: #48beff;
 }
 
 .main-presell-area .preselltext{
@@ -665,25 +678,26 @@ html{
 	float:left;
 	text-align: center;
 	padding: 0.5rem 1rem 0.5rem 1rem;
-	font-size: 1.5rem;
+	font-size: 1.8rem;
 }
 .main-presell-area .presellmore{
 	width: 100%;
     float: left;
     text-align: right;
     padding: 0.5rem 1rem 0.5rem 1rem;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     position: absolute;
 }
 
 .main-presell-area .presellmore > i{
-	font-size: 1.5rem;
+	font-size: 1.8rem;
 	padding-left: 0.5rem;
 }
 
 .main-nowsell-area{
 	width: 100%;
 	display: inline-block;
+	color: #08c9ab;
 }
 
 .main-nowsell-area .nowselltext{
@@ -691,24 +705,24 @@ html{
     float: left;
     text-align: center;
     padding: 0.5rem 1rem 0.5rem 1rem;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
 }
 .main-nowsell-area .nowsellmore{
 	width: 100%;
     float: left;
     text-align: right;
     padding: 0.5rem 1rem 0.5rem 1rem;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     position: absolute;
 }
 
 .main-nowsell-area .nowsellmore > i{
-	font-size: 1.5rem;
+	font-size: 1.8rem;
 	padding-left: 0.5rem;
 }
 
 .mian_icon_class{
-	height: 1.48rem;
+	height: 1.8rem;
 }
 
 /* ========================================我============================================== */
@@ -1541,8 +1555,24 @@ html{
 .item-btn{
 	width: 100%;
     position: fixed;
-    bottom: 5rem;
+    bottom: 0rem;
     z-index: 999;
+    background-color: #fff;
+}
+
+.item-btn .item-btn-nav{
+	width: 50%;
+	float:left;
+}
+
+.item-btn .item-btn-nav a{
+	width: 50%;
+	float:left;
+}
+
+.item-btn .item-btn-btn{
+	width: 50%;
+	float:left;
 }
 
 .item-btn .canBuy{
@@ -1682,7 +1712,7 @@ html{
 }
 
 .item_flexslider .slides img{
-	width: 60% !important;
+	width: 50% !important;
     display: block;
     margin: 0 auto !important;
 }
