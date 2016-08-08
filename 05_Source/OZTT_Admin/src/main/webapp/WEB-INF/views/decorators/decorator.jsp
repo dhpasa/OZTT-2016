@@ -432,6 +432,71 @@
      	});
 	}
 	
+	if (currentPath.indexOf("OZ_TT_AD_SC") > 0) {
+		var startModel = '${ozTtAdScDto.startModel}';
+		if (startModel=='1') {
+			// 以下是广告图
+			var normalImagesStr = $("#toppageadpic").val();
+		    var imagesArr = normalImagesStr.split(",");
+		    var preList = [];
+		    var preConfigList = [];
+		    if (normalImagesStr != null && normalImagesStr != "" && imagesArr.length > 0) {
+		    	for (var i = 0; i < imagesArr.length; i++) {
+			    	var tempImg = '<img src="{0}" class="file-preview-image" style="width:auto;height:160px;"/>';
+			    	preList.push(tempImg.replace('{0}',saveImgUrl + goodsId + '/' + imagesArr[i]));
+			    }
+		    	// 与上面 预览图片json数据组 对应的config数据  
+			    for ( var i = 0; i < imagesArr.length; i++) {
+			        var array_element = imagesArr[i];  
+			        var tjson = {caption: array_element, // 展示的文件名  
+			                    width: '120px',   
+			                    url: '${ctx}/COMMON/deleteFile', // 删除url  
+			                    key: array_element, // 删除是Ajax向后台传递的参数  
+			                    extra: {fileId: array_element, goodId:goodsId}  
+			                    };  
+			        preConfigList.push(tjson);  
+			     }  
+		    }
+			
+			$("#fileNormalPic").fileinput({
+		        uploadUrl: '${pageContext.request.contextPath}/COMMON/uploadFile?goodId=toppage',
+		        allowedFileExtensions : ['jpg', 'png','gif'],
+		        uploadAsync:true,  
+				showCaption: true,  
+				showUpload: true,//是否显示上传按钮  
+				showRemove: false,//是否显示删除按钮  
+				showCaption: true,//是否显示输入框  
+				showPreview:true,   
+				showCancel:true,  
+				dropZoneEnabled: false,  
+				minFileCount:1,
+				maxFileCount: 4, 
+				initialPreviewShowDelete:true,  
+				initialPreview: preList,  
+		        allowedFileTypes: ['image'],
+		        initialPreviewConfig: preConfigList,  
+		        slugCallback: function(filename) {
+		            return filename.replace('(', '_').replace(']', '_');
+		        }
+			}).on("fileuploaded", function(event, outData) {
+	            //文件上传成功后返回的数据， 此处我只保存返回文件的id  
+	            var result = outData.response.fileId;  
+	            // 对应的input 赋值  
+	            if ($("#toppageadpic").val() == "") {
+	            	$("#toppageadpic").val(result);
+	            } else {
+	            	$("#toppageadpic").val($("#toppageadpic").val() + "," + result);
+	            }
+	     	}).on("filedeleted", function(event, extraData) {  
+	            //文件上传成功后返回的数据， 此处我只保存返回文件的id  
+	            var result = extraData;
+	            $("#toppageadpic").val($("#toppageadpic").val().replace(result + ",","").replace("," + result,"").replace(result,""));
+	     	});
+			
+		} else{
+			ComponentsEditors.init();
+		}
+	}
 	if (currentPath.indexOf("OZ_TT_AD_GB") > 0) {
 		$('.multiselect').multiselect({
 	    	maxHeight: 200,
