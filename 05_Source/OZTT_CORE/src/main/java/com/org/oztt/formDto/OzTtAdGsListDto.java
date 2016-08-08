@@ -13,15 +13,11 @@ public class OzTtAdGsListDto {
 
     private String orderDate;
 
-    private String qualitity;
+    private String quantity;
 
     private String orderNo;
 
-    private String cnSurname;
-    private String cnGivenname;
-    private String enFirstName;
-    private String enMiddleName;
-    private String enLastName;
+    private String customerName;
 
     private String customerPhone;
 
@@ -43,12 +39,12 @@ public class OzTtAdGsListDto {
 		this.orderDate = orderDate;
 	}
 
-	public String getQualitity() {
-		return qualitity;
+	public String getQuantity() {
+		return quantity;
 	}
 
-	public void setQualitity(String qualitity) {
-		this.qualitity = qualitity;
+	public void setQuantity(String quantity) {
+		this.quantity = quantity;
 	}
 
 	public String getOrderNo() {
@@ -59,44 +55,12 @@ public class OzTtAdGsListDto {
 		this.orderNo = orderNo;
 	}
 
-	public String getCnSurname() {
-		return cnSurname;
+	public String getCustomerName() {
+		return customerName;
 	}
 
-	public void setCnSurname(String cnSurname) {
-		this.cnSurname = cnSurname;
-	}
-
-	public String getCnGivenname() {
-		return cnGivenname;
-	}
-
-	public void setCnGivenname(String cnGivenname) {
-		this.cnGivenname = cnGivenname;
-	}
-
-	public String getEnFirstName() {
-		return enFirstName;
-	}
-
-	public void setEnFirstName(String enFirstName) {
-		this.enFirstName = enFirstName;
-	}
-
-	public String getEnMiddleName() {
-		return enMiddleName;
-	}
-
-	public void setEnMiddleName(String enMiddleName) {
-		this.enMiddleName = enMiddleName;
-	}
-
-	public String getEnLastName() {
-		return enLastName;
-	}
-
-	public void setEnLastName(String enLastName) {
-		this.enLastName = enLastName;
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
 	}
 
 	public String getCustomerPhone() {
