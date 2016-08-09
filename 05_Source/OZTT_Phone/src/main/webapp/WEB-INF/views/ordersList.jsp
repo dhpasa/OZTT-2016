@@ -143,7 +143,9 @@
 							}
 							$("#ordersList").append(dataHtml);
 						} else {
-							$("#noMoreRecordDiv").css("display","");
+							if (pageNo > 1) {
+								$("#noMoreRecordDiv").css("display","");
+							}
 							closeLoadingDiv();
 						}
 

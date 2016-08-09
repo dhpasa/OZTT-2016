@@ -181,6 +181,10 @@
 		$("#main-nav-id").remove();
 	}
 	
+	if (currentPath.indexOf("item/getGoodsItem") > 0) {
+		$("#main-nav-id").remove();
+	}
+	
 	var sessionUserId = '${currentUserId}';
 	if (sessionUserId == null || sessionUserId == "") {
 		// 没有登录

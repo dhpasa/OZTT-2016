@@ -64,10 +64,10 @@
 			if (this.checked == true) {
 				var detailStatus = $(this).parent().parent().find(".detailstatuscss").val();
 				var orderStatus = $(this).parent().parent().find(".orderstatuscss").val();
-				if (status == '1'){
+				if (status == '2'){
 					// 商品派送中,只有下单完成的才可以进行商品派送
 					
-				} else if (status == '2'){
+				} else if (status == '3'){
 					// 订单完成
 				}
 			}	
@@ -177,12 +177,12 @@
 					<div class="form-group">
 						<div style="float: left; text-align: left; padding-left: 3%">
 							<button type="button" class="btn green mybtn"
-								onclick="batchupdateOrder('1')">
+								onclick="batchupdateOrder('2')">
 								<i class="fa fa-info"></i>
 								<fmt:message key="OZ_TT_AD_OL_orderStatusBtn2" />
 							</button>
 							<button type="button" class="btn green mybtn"
-								onclick="batchupdateOrder('2')">
+								onclick="batchupdateOrder('3')">
 								<i class="fa fa-info"></i>
 								<fmt:message key="OZ_TT_AD_OL_orderStatusBtn3" />
 							</button>

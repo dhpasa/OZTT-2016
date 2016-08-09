@@ -50,6 +50,8 @@ public class TGoodsGroup implements Serializable {
     private String            selloutflg;
 
     private String            enshowflg;
+    
+    private Integer           sortorder;
 
     private Date              addtimestamp;
 
@@ -276,4 +278,12 @@ public class TGoodsGroup implements Serializable {
     public void setEnshowflg(String enshowflg) {
         this.enshowflg = enshowflg;
     }
+
+	public Integer getSortorder() {
+		return sortorder;
+	}
+
+	public void setSortorder(Integer sortorder) {
+		this.sortorder = sortorder;
+	}
 }
