@@ -161,6 +161,8 @@ public class OzTtAdGlController extends BaseController {
             res.put("goodsGroupLimit", tGoodsGroup.getGroupquantitylimit().toString());
             res.put("goodsGroupCurrent", tGoodsGroup.getGroupcurrentquantity() == null ? "0" : tGoodsGroup
                     .getGroupcurrentquantity().toString());
+            res.put("goodsGroupSortOrder", tGoodsGroup.getSortorder() == null ? "0" : tGoodsGroup
+                    .getSortorder().toString());
             res.put("dataFromGroup",
                     DateFormatUtils.date2StringWithFormat(tGoodsGroup.getValidperiodstart(), DateFormatUtils.PATTEN_HM));
             res.put("dataToGroup",
@@ -216,6 +218,7 @@ public class OzTtAdGlController extends BaseController {
             tGoodsGroup.setGroupmaxquantity(Long.valueOf(map.get("groupmaxquantity")));
             tGoodsGroup.setGroupquantitylimit(Long.valueOf(map.get("groupquantitylimit")));
             tGoodsGroup.setGroupcurrentquantity(Long.valueOf(map.get("groupquantitycurrent")));
+            tGoodsGroup.setSortorder(Integer.valueOf(map.get("goodsgroupsortorder")));
             tGoodsGroup.setGroupprice(new BigDecimal(map.get("groupprice")));
             tGoodsGroup.setOpenflg(map.get("openflg"));
             tGoodsGroup.setToppageup(map.get("istopup"));

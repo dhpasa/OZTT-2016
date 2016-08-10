@@ -36,6 +36,8 @@
 	  		$("#goodsGroupPrice").val('');
 			$("#goodsGroupNumber").val('');
 			$("#goodsGroupLimit").val('');
+			$("#goodsGroupCurrent").val('');
+			$("#goodsGroupSortOrder").val('');
 			$("#dataFromGroup").val('');
 			$("#dataToGroup").val('');
 			$("#groupComment").val('');
@@ -65,6 +67,7 @@
   						$("#goodsGroupNumber").val(data.resMap.goodsGroupNumber);
   						$("#goodsGroupLimit").val(data.resMap.goodsGroupLimit);
   						$("#goodsGroupCurrent").val(data.resMap.goodsGroupCurrent);
+  						$("#goodsGroupSortOrder").val(data.resMap.goodsGroupSortOrder);
   						$("#dataFromGroup").val(data.resMap.dataFromGroup);
   						$("#dataToGroup").val(data.resMap.dataToGroup);
   						$("#groupComment").val(data.resMap.groupComment);
@@ -102,6 +105,7 @@
   	  						$("#goodsGroupNumber").removeAttr("disabled");
   	  					    $("#goodsGroupLimit").removeAttr("disabled");
   	  					    $("#goodsGroupCurrent").removeAttr("disabled");
+  	  					    $("#goodsGroupSortOrder").removeAttr("disabled");
   	  						$("#dataFromGroup").removeAttr("disabled");
   	  						$("#dataToGroup").removeAttr("disabled");
   	  						$("#groupComment").removeAttr("disabled");
@@ -126,6 +130,7 @@
   	  						$("#goodsGroupNumber").attr("disabled","disabled");
   	  					    $("#goodsGroupLimit").attr("disabled","disabled");
   	  					    $("#goodsGroupCurrent").attr("disabled","disabled");
+  	  					    $("#goodsGroupSortOrder").attr("disabled","disabled");
   	  						$("#dataFromGroup").attr("disabled","disabled");
   	  						$("#dataToGroup").attr("disabled","disabled");
   	  						$("#groupComment").attr("disabled","disabled");
@@ -189,6 +194,7 @@
 			var goodsGroupNumber = $("#goodsGroupNumber").val();
 			var goodsGroupLimit = $("#goodsGroupLimit").val();
 			var goodsGroupCurrent = $("#goodsGroupCurrent").val();
+			var goodsGroupSortOrder = $("#goodsGroupSortOrder").val();
 			var dataFromGroup = $("#dataFromGroup").val();
 			var dataToGroup = $("#dataToGroup").val();
 			var groupComment = $("#groupComment").val();
@@ -288,6 +294,7 @@
 				groupmaxquantity:goodsGroupNumber,
 				groupquantitylimit:goodsGroupLimit,
 				groupquantitycurrent:goodsGroupCurrent,
+				goodsgroupsortorder:goodsGroupSortOrder,
 				groupno:$("#hiddenGroupId").val(),
 				istopup:isTopUp,
 				ispre:isPre,
@@ -1005,6 +1012,12 @@
 							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_current" /></label>
 							<div class="col-md-3">
 								<input type="number" id="goodsGroupCurrent" class="input-small form-control textright"></input>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_sortOrder" /></label>
+							<div class="col-md-3">
+								<input type="number" id="goodsGroupSortOrder" class="input-small form-control textright"></input>
 							</div>
 						</div>
 						<div class="form-group">
