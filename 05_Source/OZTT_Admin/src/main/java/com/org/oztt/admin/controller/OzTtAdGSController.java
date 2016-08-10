@@ -41,7 +41,7 @@ public class OzTtAdGSController extends BaseController {
 	@RequestMapping(value = "/init")
 	public String init(Model model, HttpServletRequest request, HttpSession session) {
 		try {
-			model.addAttribute("openSelect", commonService.getOpenFlg());
+			model.addAttribute("handleSelect", commonService.getOrderDetailStatus());
 			model.addAttribute("ozTtAdGsDto", new OzTtAdGsDto());
 			model.addAttribute("pageInfo", new PagingResult<OzTtAdGsListDto>());
 			return "OZ_TT_AD_GS";
@@ -62,34 +62,21 @@ public class OzTtAdGSController extends BaseController {
 	public String init(Model model, HttpServletRequest request, HttpSession session,
 			@ModelAttribute OzTtAdGsDto ozTtAdGsDto) {
 		try {
-			model.addAttribute("openSelect", commonService.getOpenFlg());
+			model.addAttribute("handleSelect", commonService.getOrderDetailStatus());
 			session.setAttribute("ozTtAdGsDto", ozTtAdGsDto);
 
-			// 已预订
 			Pagination pagination1 = new Pagination(1);
 			Map<Object, Object> params1 = new HashMap<Object, Object>();
 			params1.put("goodsName", ozTtAdGsDto.getGoodsName());
 			params1.put("dateFrom", ozTtAdGsDto.getDateFrom());
 			params1.put("dateTo", ozTtAdGsDto.getDateTo());
-			params1.put("handleFlg", "0");
+			params1.put("handleFlg", ozTtAdGsDto.getHandleFlg());
 
 			pagination1.setParams(params1);
 			PagingResult<OzTtAdGsListDto> pageInfo1 = goodsService.getAllGoodsRInfoForAdmin(pagination1);
 
-			// 已购买
-			Pagination pagination2 = new Pagination(1);
-			Map<Object, Object> params2 = new HashMap<Object, Object>();
-			params2.put("goodsName", ozTtAdGsDto.getGoodsName());
-			params2.put("dateFrom", ozTtAdGsDto.getDateFrom());
-			params2.put("dateTo", ozTtAdGsDto.getDateTo());
-			params2.put("handleFlg", "1");
-
-			pagination2.setParams(params2);
-			PagingResult<OzTtAdGsListDto> pageInfo2 = goodsService.getAllGoodsRInfoForAdmin(pagination2);
-
 			model.addAttribute("ozTtAdGsDto", ozTtAdGsDto);
 			model.addAttribute("pageInfo1", pageInfo1);
-			model.addAttribute("pageInfo2", pageInfo2);
 			return "OZ_TT_AD_GS";
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -105,37 +92,23 @@ public class OzTtAdGSController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/pageSearch")
-	public String init(Model model, HttpServletRequest request, HttpSession session, String pageNo1, String pageNo2) {
+	public String init(Model model, HttpServletRequest request, HttpSession session, String pageNo1) {
 		try {
-			model.addAttribute("openSelect", commonService.getOpenFlg());
+			model.addAttribute("handleSelect", commonService.getOrderDetailStatus());
 			OzTtAdGsDto ozTtAdGsDto = (OzTtAdGsDto) session.getAttribute("ozTtAdGsDto");
 
-			// 已预订
 			Pagination pagination1 = new Pagination(Integer.valueOf(pageNo1));
 			Map<Object, Object> params1 = new HashMap<Object, Object>();
 			params1.put("goodsName", ozTtAdGsDto.getGoodsName());
 			params1.put("dateFrom", ozTtAdGsDto.getDateFrom());
 			params1.put("dateTo", ozTtAdGsDto.getDateTo());
-			params1.put("handleFlg", "0");
+			params1.put("handleFlg", ozTtAdGsDto.getHandleFlg());
 
 			pagination1.setParams(params1);
 			PagingResult<OzTtAdGsListDto> pageInfo1 = goodsService.getAllGoodsRInfoForAdmin(pagination1);
 
-			// 已购买
-			Pagination pagination2 = new Pagination(Integer.valueOf(pageNo2));
-			Map<Object, Object> params2 = new HashMap<Object, Object>();
-			params2.put("goodsName", ozTtAdGsDto.getGoodsName());
-			params2.put("dateFrom", ozTtAdGsDto.getDateFrom());
-			params2.put("dateTo", ozTtAdGsDto.getDateTo());
-			params2.put("handleFlg", "1");
-
-			pagination2.setParams(params2);
-			PagingResult<OzTtAdGsListDto> pageInfo2 = goodsService.getAllGoodsRInfoForAdmin(pagination2);
-
 			model.addAttribute("ozTtAdGsDto", ozTtAdGsDto);
 			model.addAttribute("pageInfo1", pageInfo1);
-			model.addAttribute("pageInfo2", pageInfo2);
-
 			return "OZ_TT_AD_GS";
 		} catch (Exception e) {
 			logger.error(e.getMessage());

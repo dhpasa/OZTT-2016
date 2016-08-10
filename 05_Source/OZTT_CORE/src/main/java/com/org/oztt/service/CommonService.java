@@ -22,6 +22,8 @@ public interface CommonService {
     
     public List<MyMap> getOrderStatus() throws Exception;
     
+    public List<MyMap> getOrderDetailStatus() throws Exception;
+    
     public List<MyMap> getPayment() throws Exception;
     
     public List<MyMap> getDelivery() throws Exception;
