@@ -1047,8 +1047,13 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
     }
 	@Override
 	public PagingResult<OzTtAdGsListDto> getAllGoodsRInfoForAdmin(Pagination pagination) throws Exception {
-		 PagingResult<OzTtAdGsListDto> dtoList = tGoodsGroupDao.getAllGoodsRInfoForAdmin(pagination);
-	        return dtoList;
+		PagingResult<OzTtAdGsListDto> dtoList = tGoodsGroupDao.getAllGoodsRInfoForAdmin(pagination);
+		if (dtoList.getResultList() != null && dtoList.getResultList().size() > 0) {
+			for (OzTtAdGsListDto detail : dtoList.getResultList()) {
+				detail.setHandleFlg(CommonEnum.OrderDetailStatus.getEnumLabel(detail.getHandleFlg()));
+			}
+		}
+		return dtoList;
 	}
 
 }
