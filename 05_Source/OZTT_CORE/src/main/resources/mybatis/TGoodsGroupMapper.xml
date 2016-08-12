@@ -545,11 +545,8 @@
       	<if test="dateTo != null and dateTo != ''" >
         	<![CDATA[and (DATE_FORMAT(e.orderTimestamp,'%Y/%m/%d')) <= #{dateTo,jdbcType=VARCHAR}]]>
       	</if>
-      	<if test="handleFlg != null and handleFlg != '' and handleFlg ==0" >
-        	and (a.handleFlg = '1' or a.handleFlg = '2' or a.handleFlg is null)
-      	</if>
-      	<if test="handleFlg != null and handleFlg != '' and handleFlg ==1" >
-        	and a.handleFlg = '3'
+      	<if test="handleFlg != null and handleFlg != ''">
+        	and a.handleFlg = #{handleFlg,jdbcType=VARCHAR}
       	</if>
 	</select>
 	<select id="searchGoodsViewCount" resultType="int" parameterType="map">
@@ -570,11 +567,8 @@
       	<if test="dateTo != null and dateTo != ''" >
         	<![CDATA[and (DATE_FORMAT(e.orderTimestamp,'%Y/%m/%d')) <= #{dateTo,jdbcType=VARCHAR}]]>
       	</if>
-      	<if test="handleFlg != null and handleFlg != '' and handleFlg ==0" >
-        	and (a.handleFlg = '1' or a.handleFlg = '2' or a.handleFlg is null)
-      	</if>
-      	<if test="handleFlg != null and handleFlg != '' and handleFlg ==1" >
-        	and a.handleFlg = '3'
+      	<if test="handleFlg != null and handleFlg != ''">
+        	and a.handleFlg = #{handleFlg,jdbcType=VARCHAR}
       	</if>
 	</select>
 	

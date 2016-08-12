@@ -26,4 +26,7 @@ public final class SysCodeConstants {
     
     // 开放标识
     public static final String OPEN_FLG       = "COM010";
+    
+    // 订单明细状态
+    public static final String ORDER_DETAIL_STATUS= "COM012";
 }
