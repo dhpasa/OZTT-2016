@@ -148,6 +148,9 @@
 						<th scope="col">
 							 <fmt:message key="OZ_TT_AD_OD_DE_goodsTotalAmount" />
 						</th>
+						<th scope="col">
+							 <fmt:message key="OZ_TT_AD_OD_DE_detailStatus" />
+						</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -173,13 +176,54 @@
 						</td>
 						<td>
 							 ${orderItem.goodsTotalAmount }
-						</td>	
+						</td>
+						<td>
+							 ${orderItem.detailStatus }
+						</td>
 					</tr>
 					</c:forEach>
 					</tbody>
 					</table>
 				</div>
-			
+				
+				<div class="table-scrollable">
+					<table class="table table-striped table-bordered table-hover">
+					<thead>
+					<tr>
+						<th scope="col">
+							 <fmt:message key="OZ_TT_AD_OD_DE_commentsCustomer" />
+						</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td>
+							 ${ozTtAdOdDto.commentsCustomer}
+						</td>
+					</tr>
+					</tbody>
+					</table>
+				</div>
+
+				<div class="table-scrollable">
+					<table class="table table-striped table-bordered table-hover">
+					<thead>
+					<tr>
+						<th scope="col">
+							 <fmt:message key="OZ_TT_AD_OD_DE_commentsAdmin" />
+						</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td>
+							 ${ozTtAdOdDto.commentsAdmin}
+						</td>
+					</tr>
+					</tbody>
+					</table>
+				</div>
+				
 			<div style="text-align: right;padding-right: 100px"><fmt:message key="COMMON_ALLAMOUNT" />${ozTtAdOdDto.orderAmount}</div>
 			<div style="text-align: right;padding-right: 100px"><fmt:message key="COMMON_ALLAMOUNT_FRE" />${OrderAmountAndFre}</div>		
 			</div>

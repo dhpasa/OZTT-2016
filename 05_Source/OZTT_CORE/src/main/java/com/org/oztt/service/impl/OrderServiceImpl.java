@@ -606,7 +606,17 @@ public class OrderServiceImpl extends BaseService implements OrderService {
     @Override
     public void updateOrderInfo(TConsOrder tConsOrder) throws Exception {
         tConsOrderDao.updateByPrimaryKeySelective(tConsOrder);
-
+        List<TConsOrderDetails> listTConsOrderDetails = new ArrayList<TConsOrderDetails>();
+        listTConsOrderDetails = tConsOrderDetailsDao.selectDetailsByOrderId(tConsOrder.getOrderno());
+        if((listTConsOrderDetails != null) && (listTConsOrderDetails.size() > 0)) {
+        	for(TConsOrderDetails tConsOrderDetails : listTConsOrderDetails) {
+                TConsOrderDetails orderDetail = tConsOrderDetailsDao.selectByPrimaryKey(tConsOrderDetails.getNo());
+                orderDetail.setHandleflg(tConsOrder.getHandleflg());
+                orderDetail.setUpduserkey(CommonConstants.ADMIN_USERKEY);
+                orderDetail.setUpdtimestamp(DateFormatUtils.getSystemTimestamp());
+                tConsOrderDetailsDao.updateByPrimaryKeySelective(orderDetail);
+            }
+        }
     }
 
     @Override
@@ -856,7 +866,9 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         dto.setDeliveryMethod(CommonEnum.DeliveryMethod.getEnumLabel(tConsOrder.getDeliverymethod()));
         dto.setInvoiceFlg(CommonEnum.InvoiceFlg.getEnumLabel(tConsOrder.getInvoiceflg()));
         dto.setOrderAmount(tConsOrder.getOrderamount().toString());
-
+        dto.setCommentsCustomer(tConsOrder.getCommentscustomer());
+        dto.setCommentsAdmin(tConsOrder.getCommentsadmin());
+        
         if (tConsOrder.getAddressid() != 0) {
             // 获取地址
             TAddressInfo tAddressInfo = tAddressInfoDao.selectByPrimaryKey(tConsOrder.getAddressid());
@@ -893,6 +905,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 odDto.setGoodsQuantity(item.getGoodsQuantity());
                 odDto.setGoodsTotalAmount(new BigDecimal(item.getGoodsPrice()).multiply(
                         new BigDecimal(item.getGoodsQuantity())).toString());
+                odDto.setDetailStatus(item.getDetailStatus() == null ? " " : CommonEnum.DetailStatus.getEnumLabel(item.getDetailStatus()));
                 String deliveryTime = item.getDeliveryDate();
                 if (deliveryTime != null && deliveryTime.length() > 9) {
                     String dateD = DateFormatUtils.dateFormatFromTo(deliveryTime.substring(0, 8),
