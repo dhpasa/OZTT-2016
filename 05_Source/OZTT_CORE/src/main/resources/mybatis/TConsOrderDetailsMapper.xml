@@ -245,7 +245,8 @@
 	b.goodsThumbnail as goodsImage,
 	a.quantity as goodsQuantity,
 	a.unitPrice as goodsPrice, 
-	a.specifications as goodsPropertiesDB
+	a.specifications as goodsPropertiesDB,
+	a.handleFlg as detailStatus
     from t_cons_order_details a
     inner join t_goods b on a.goodsId = b.goodsId
     where a.orderNo = #{orderno,jdbcType=VARCHAR}

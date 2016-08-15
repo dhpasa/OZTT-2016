@@ -39,6 +39,8 @@ public class OzTtAdOlListDto {
     
     private String commentsCustomer;
     
+    private String commentsAdmin;
+    
     public String getReceiver() {
 		return receiver;
 	}
@@ -166,4 +168,12 @@ public class OzTtAdOlListDto {
     public void setCommentsCustomer(String commentsCustomer) {
         this.commentsCustomer = commentsCustomer;
     }
+
+	public String getCommentsAdmin() {
+		return commentsAdmin;
+	}
+
+	public void setCommentsAdmin(String commentsAdmin) {
+		this.commentsAdmin = commentsAdmin;
+	}
 }

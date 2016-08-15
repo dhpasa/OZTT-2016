@@ -371,6 +371,7 @@
 		A.deliveryCost as deliveryCost,
 		A.homeDeliveryTime as atHomeTime,
 		A.commentsCustomer as commentsCustomer,
+		A.commentsAdmin as commentsAdmin,
 		B.receiver as receiver,
 		B.contactTel as contactTel,
 		Z.telNo as customerPhone,
