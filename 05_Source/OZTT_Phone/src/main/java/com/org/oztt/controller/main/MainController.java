@@ -57,6 +57,10 @@ public class MainController extends BaseController {
                     goods.setCountdownDay(DateFormatUtils.getBetweenDayTime(goods.getValidEndTime()));
                     goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods
                             .getGroupMax()) ? CommonConstants.OVER_GROUP_YES : CommonConstants.OVER_GROUP_NO);
+                    // 商品的名称显示限购数量
+                    goods.setGoodsname(goods.getGoodsname()
+                            + super.getPageMessage("COMMON_LIMIT_QUANTITY_TEXT", session).replace(
+                                    CommonConstants.MESSAGE_PARAM_ONE, goods.getGroupQuantityLimit()));
                 }
             }
             model.addAttribute(
@@ -158,8 +162,8 @@ public class MainController extends BaseController {
                         + goods.getGoodsthumbnail());
                 goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
                 goods.setCountdownDay(DateFormatUtils.getBetweenDayTime(goods.getValidEndTime()));
-                goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods
-                        .getGroupMax()) ? CommonConstants.OVER_GROUP_YES : CommonConstants.OVER_GROUP_NO);
+                goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods.getGroupMax()) ? CommonConstants.OVER_GROUP_YES
+                        : CommonConstants.OVER_GROUP_NO);
                 // 判断团购开始是否已经到
                 if (goods.getValidStartTime().compareTo(DateFormatUtils.getCurrentDate()) > 0) {
                     goods.setIsOnWay(CommonConstants.IS_ON_WAY);

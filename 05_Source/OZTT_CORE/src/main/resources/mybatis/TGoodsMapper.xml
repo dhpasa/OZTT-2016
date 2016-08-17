@@ -487,6 +487,7 @@
 		c.topPageUp as salesLabel,
 		c.sellOutInitQuantity as sellOutInitQuantity,
 		c.sellOutFlg as sellOutFlg,
+		c.groupQuantityLimit as groupQuantityLimit,
 		c.groupNo
 		from t_goods_group c 
 		inner join t_goods_price b on c.goodsId = b.goodsId
@@ -521,7 +522,7 @@
 		<if test="hotFlg != null">
 			and c.hotFlg = #{hotFlg,jdbcType=VARCHAR}
 		</if>
-		order by 
+		order by c.sortOrder,
 		<if test="mode == 1 ">
 			c.groupCurrentQuantity desc,
 		</if>

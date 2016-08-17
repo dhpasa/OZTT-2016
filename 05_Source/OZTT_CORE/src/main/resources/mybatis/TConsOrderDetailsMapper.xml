@@ -259,72 +259,75 @@
     where orderNo = #{orderno,jdbcType=VARCHAR}
   </select>
   
-  <select id="getAllOrderByUserPointForAdmin" resultType="com.org.oztt.formDto.OzTtAdSuListDto" parameterType="map" >
-    select
-    A.no as detailOrderNo,
-    D.goodsName as goodName,
-    A.quantity as goodQuantity,
-    A.unitPrice as goodUnitPrice,
-    A.sumAmount as detailAmount,
-    A.orderNo as orderNo,
-    (DATE_FORMAT(B.orderTimestamp,'%Y/%m/%d %T')) as orderTime,
-    (B.orderAmount + B.deliveryCost) as allAmount,
-    A.handleFlg as detailStatus,
-    B.handleFlg as orderStatus,
-    (DATE_FORMAT(A.updTimestamp,'%Y/%m/%d %T')) as completeTime,
-    C.telNo as customerPhone
-    from t_cons_order_details A
-    inner join t_cons_order B on A.orderNo = B.orderNo
-    inner join t_customer_security_info C on B.customerNo = C.customerNo
-    inner join t_goods D on D.goodsId = A.goodsId
-    where 1=1
-    <if test="nickName != null and nickName != ''" >
-		and C.nickName like concat('%',#{nickName,jdbcType=VARCHAR},'%')
-	</if>
-	<if test="dataFrom != null and dataFrom != ''" >
-      	<![CDATA[and (DATE_FORMAT(B.orderTimestamp,'%Y/%m/%d')) >= #{dataFrom,jdbcType=VARCHAR}]]>
-    </if>
-    <if test="dataTo != null and dataTo != ''" >
-      	<![CDATA[and (DATE_FORMAT(B.orderTimestamp,'%Y/%m/%d')) <= #{dataTo,jdbcType=VARCHAR}]]>
-    </if>
-    <if test="customerPhone != null and customerPhone != ''" >
-		and C.telNo like concat('%',#{customerPhone,jdbcType=VARCHAR},'%')
-	</if>
-	<if test="detailHandFlg != null and detailHandFlg == 0" >
-		and (A.handleFlg = '1' or A.handleFlg = '2')
-	</if>
-	<if test="detailHandFlg != null and detailHandFlg == 1" >
-		and (A.handleFlg = '3')
-	</if>
-	order by orderNo desc,orderTime desc
-  </select>
-  
-    <select id="getAllOrderByUserPointForAdminCount" resultType="int" parameterType="map" >
-    select 
-    count(1)
-    from t_cons_order_details A
-    inner join t_cons_order B on A.orderNo = B.orderNo
-    inner join t_customer_security_info C on B.customerNo = C.customerNo
-    where 1=1
-    <if test="nickName != null and nickName != ''" >
-		and C.nickName like concat('%',#{nickName,jdbcType=VARCHAR},'%')
-	</if>
-	<if test="dataFrom != null and dataFrom != ''" >
-      	<![CDATA[and (DATE_FORMAT(B.orderTimestamp,'%Y/%m/%d')) >= #{dataFrom,jdbcType=VARCHAR}]]>
-    </if>
-    <if test="dataTo != null and dataTo != ''" >
-      	<![CDATA[and (DATE_FORMAT(B.orderTimestamp,'%Y/%m/%d')) <= #{dataTo,jdbcType=VARCHAR}]]>
-    </if>
-    <if test="customerPhone != null and customerPhone != ''" >
-		and C.telNo like concat('%',#{customerPhone,jdbcType=VARCHAR},'%')
-	</if>
-	<if test="detailHandFlg != null and detailHandFlg == 0" >
-		and (A.handleFlg = '1' or A.handleFlg = '2')
-	</if>
-	<if test="detailHandFlg != null and detailHandFlg == 1" >
-		and (A.handleFlg = '3')
-	</if>
-  </select>
-  
-  
+   <select id="getAllOrderByUserPointForAdmin" resultType="com.org.oztt.formDto.OzTtAdSuListDto" parameterType="map" >
+     select
+     A.no as detailOrderNo,
+     D.goodsName as goodName,
+     A.quantity as goodQuantity,
+     A.unitPrice as goodUnitPrice,
+     A.sumAmount as detailAmount,
+     A.orderNo as orderNo,
+     (DATE_FORMAT(B.orderTimestamp,'%Y/%m/%d %T')) as orderTime,
+     (B.orderAmount + B.deliveryCost) as allAmount,
+     A.handleFlg as detailStatus,
+     B.handleFlg as orderStatus,
+     (DATE_FORMAT(A.updTimestamp,'%Y/%m/%d %T')) as completeTime,
+     B.commentsCustomer as orderComment,
+     B.commentsAdmin as orderCommentAdmin,
+     C.telNo as customerPhone
+     from t_cons_order_details A
+     inner join t_cons_order B on A.orderNo = B.orderNo
+     inner join t_customer_security_info C on B.customerNo = C.customerNo
+     inner join t_goods D on D.goodsId = A.goodsId
+    inner join t_customer_basic_info E on E.customerNo = B.customerNo
+     where 1=1
+     <if test="nickName != null and nickName != ''" >
+		and E.nickName like concat('%',#{nickName,jdbcType=VARCHAR},'%')
+ 	</if>
+ 	<if test="dataFrom != null and dataFrom != ''" >
+       	<![CDATA[and (DATE_FORMAT(B.orderTimestamp,'%Y/%m/%d')) >= #{dataFrom,jdbcType=VARCHAR}]]>
+     </if>
+     <if test="dataTo != null and dataTo != ''" >
+       	<![CDATA[and (DATE_FORMAT(B.orderTimestamp,'%Y/%m/%d')) <= #{dataTo,jdbcType=VARCHAR}]]>
+     </if>
+     <if test="customerPhone != null and customerPhone != ''" >
+ 		and C.telNo like concat('%',#{customerPhone,jdbcType=VARCHAR},'%')
+ 	</if>
+ 	<if test="detailHandFlg != null and detailHandFlg == 0" >
+ 		and (A.handleFlg = '1' or A.handleFlg = '2')
+ 	</if>
+ 	<if test="detailHandFlg != null and detailHandFlg == 1" >
+ 		and (A.handleFlg = '3')
+ 	</if>
+ 	order by orderNo desc,orderTime desc
+   </select>
+   
+     <select id="getAllOrderByUserPointForAdminCount" resultType="int" parameterType="map" >
+     select 
+     count(1)
+     from t_cons_order_details A
+     inner join t_cons_order B on A.orderNo = B.orderNo
+     inner join t_customer_security_info C on B.customerNo = C.customerNo
+     inner join t_customer_basic_info E on E.customerNo = B.customerNo
+     where 1=1
+     <if test="nickName != null and nickName != ''" >
+		and E.nickName like concat('%',#{nickName,jdbcType=VARCHAR},'%')
+ 	</if>
+ 	<if test="dataFrom != null and dataFrom != ''" >
+       	<![CDATA[and (DATE_FORMAT(B.orderTimestamp,'%Y/%m/%d')) >= #{dataFrom,jdbcType=VARCHAR}]]>
+     </if>
+     <if test="dataTo != null and dataTo != ''" >
+       	<![CDATA[and (DATE_FORMAT(B.orderTimestamp,'%Y/%m/%d')) <= #{dataTo,jdbcType=VARCHAR}]]>
+     </if>
+     <if test="customerPhone != null and customerPhone != ''" >
+ 		and C.telNo like concat('%',#{customerPhone,jdbcType=VARCHAR},'%')
+ 	</if>
+ 	<if test="detailHandFlg != null and detailHandFlg == 0" >
+ 		and (A.handleFlg = '1' or A.handleFlg = '2')
+ 	</if>
+ 	<if test="detailHandFlg != null and detailHandFlg == 1" >
+ 		and (A.handleFlg = '3')
+ 	</if>
+   </select>
+    
 </mapper>

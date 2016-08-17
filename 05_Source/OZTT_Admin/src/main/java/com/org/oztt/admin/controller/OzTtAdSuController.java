@@ -62,6 +62,7 @@ public class OzTtAdSuController extends BaseController {
             params.put("customerPhone", ozTtAdSuDto.getCustomerPhone());
             params.put("dataFrom", ozTtAdSuDto.getDataFrom());
             params.put("dataTo", ozTtAdSuDto.getDataTo());
+            params.put("nickName", ozTtAdSuDto.getNickName());
             params.put("detailHandFlg", "0"); // 未完成订单
             model.addAttribute("ozTtAdSuDto", ozTtAdSuDto);
             
@@ -104,6 +105,7 @@ public class OzTtAdSuController extends BaseController {
             params.put("customerPhone", ozTtAdSuDto.getCustomerPhone());
             params.put("dataFrom", ozTtAdSuDto.getDataFrom());
             params.put("dataTo", ozTtAdSuDto.getDataTo());
+            params.put("nickName", ozTtAdSuDto.getNickName());
             params.put("detailHandFlg", "0"); // 未完成订单
             model.addAttribute("ozTtAdSuDto", ozTtAdSuDto);
             
@@ -143,7 +145,8 @@ public class OzTtAdSuController extends BaseController {
 
             String[] orderIdArr = map.get("orderIds").split(",");
             String status = map.get("status");
-            orderService.updateOrderDetailStatus(orderIdArr, status);
+            String adminComment = map.get("adminComments");
+            orderService.updateOrderDetailStatus(orderIdArr, status, adminComment);
             
             // 后台维护的时候提示让以逗号隔开
             mapReturn.put("isException", false);

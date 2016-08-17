@@ -119,7 +119,7 @@ public final class CommonConstants {
     public static final int    MAX_DAY                    = 999;
 
     public static final String SELL_OUT_FLG               = "1";                                    // 即将售罄
-    
+
     public static final String WYSIHTML5                  = "wysihtml5_data";
 
 }
