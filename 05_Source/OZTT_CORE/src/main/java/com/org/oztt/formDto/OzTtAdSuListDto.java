@@ -32,6 +32,10 @@ public class OzTtAdSuListDto {
     private String orderStatus;;
     
     private String completeTime;
+    
+    private String orderComment;
+    
+    private String orderCommentAdmin;
 
     public String getGoodName() {
         return goodName;
@@ -143,6 +147,22 @@ public class OzTtAdSuListDto {
 
     public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    public String getOrderComment() {
+        return orderComment;
+    }
+
+    public void setOrderComment(String orderComment) {
+        this.orderComment = orderComment;
+    }
+
+    public String getOrderCommentAdmin() {
+        return orderCommentAdmin;
+    }
+
+    public void setOrderCommentAdmin(String orderCommentAdmin) {
+        this.orderCommentAdmin = orderCommentAdmin;
     }
     
     

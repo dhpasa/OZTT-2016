@@ -38,8 +38,25 @@
 
 	function toDetail(orderNo) {
 		var pageNo = $("#pageNo").val();
-		location.href = "${pageContext.request.contextPath}/OZ_TT_AD_OD/init?orderNo="
-				+ orderNo + "&pageNo=" + pageNo;
+		var pageNoComplete = "";
+		if ($("#pageNoComplete")) {
+			pageNoComplete = $("#pageNoComplete").val();
+		}
+		var targetForm = document.forms['olForm'];
+		targetForm.action = "${pageContext.request.contextPath}/OZ_TT_AD_SD/init?orderNo="
+				+ orderNo + "&pageNo=" + pageNo + "&pageNoComplete=" + pageNoComplete;
+		targetForm.method = "POST";
+		targetForm.submit();
+	}
+	
+	function alertComment(status){
+		$("#hiddenStatus").val(status);
+		$('#batch_setgroup_modal').modal('show');
+	}
+	
+	function batchUpdateGroupTrue(){
+		var status = $("#hiddenStatus").val();
+		batchupdateOrder(status);
 	}
 
 	var W0002 = '<fmt:message key="W0002" />';
@@ -78,7 +95,8 @@
 		}
 		var jsonMap = {
 			orderIds : orderIds.substring(0, orderIds.length - 1),
-			status : status
+			status : status,
+			adminComments : $("#adminComment").val()
 		}
 		var canupdate = true;
 		
@@ -146,6 +164,18 @@
 								class="input-medium form-control"></form:input>
 						</div>
 
+						
+						<label class="col-md-1 control-label textleft"><fmt:message
+								key="OZ_TT_AD_OL_nickname" /></label>
+						<div class="col-md-3">
+							<form:input type="text" path="nickName"
+								class="input-medium form-control"></form:input>
+						</div>
+						
+						<div class="col-md-4"></div>
+					</div>
+					
+					<div class="form-group">
 						<label class="col-md-1 control-label"><fmt:message
 								key="OZ_TT_AD_OL_time" /></label>
 						<div class="col-md-6">
@@ -158,6 +188,7 @@
 								<form:input type="text" class="form-control" path="dataTo"></form:input>
 							</div>
 						</div
+					
 					</div>
 
 
@@ -177,12 +208,12 @@
 					<div class="form-group">
 						<div style="float: left; text-align: left; padding-left: 3%">
 							<button type="button" class="btn green mybtn"
-								onclick="batchupdateOrder('2')">
+								onclick="alertComment('2')">
 								<i class="fa fa-info"></i>
 								<fmt:message key="OZ_TT_AD_OL_orderStatusBtn2" />
 							</button>
 							<button type="button" class="btn green mybtn"
-								onclick="batchupdateOrder('3')">
+								onclick="alertComment('3')">
 								<i class="fa fa-info"></i>
 								<fmt:message key="OZ_TT_AD_OL_orderStatusBtn3" />
 							</button>
@@ -211,8 +242,9 @@
 											key="OZ_TT_AD_SU_DE_detailAmount" /></th>
 									<th scope="col"><fmt:message key="OZ_TT_AD_SU_DE_orderNo" />
 									</th>
-									<th scope="col"><fmt:message
-											key="OZ_TT_AD_SU_DE_orderTime" /></th>
+									<th scope="col"><fmt:message key="OZ_TT_AD_SU_DE_orderTime" /></th>
+									<th scope="col"><fmt:message key="OZ_TT_AD_SU_DE_orderComment" /></th>
+									<th scope="col"><fmt:message key="OZ_TT_AD_SU_DE_orderCommentAdmin" /></th>
 									<th scope="col"><fmt:message
 											key="OZ_TT_AD_SU_DE_allAmount" /></th>
 									<th scope="col"><fmt:message
@@ -233,9 +265,11 @@
 										<td>${orderItem.goodQuantity }</td>
 										<td>${orderItem.goodUnitPrice }</td>
 										<td>${orderItem.detailAmount }</td>
-										<td><a href="" onclick="toDetail('${orderItem.orderNo}')">${orderItem.orderNo }</a>
+										<td><a href="#" onclick="toDetail('${orderItem.orderNo}')">${orderItem.orderNo }</a>
 										</td>
 										<td>${orderItem.orderTime }</td>
+										<td>${orderItem.orderComment }</td>
+										<td>${orderItem.orderCommentAdmin }</td>
 										<td>${orderItem.allAmount }</td>
 										<td>
 										${orderItem.detailStatusView }
@@ -361,7 +395,7 @@
 										<td>${orderItem.goodQuantity }</td>
 										<td>${orderItem.goodUnitPrice }</td>
 										<td>${orderItem.detailAmount }</td>
-										<td><a href="" onclick="toDetail('${orderItem.orderNo}')">${orderItem.orderNo }</a>
+										<td><a href="#" onclick="toDetail('${orderItem.orderNo}')">${orderItem.orderNo }</a>
 										</td>
 										<td>${orderItem.orderTime }</td>
 										<td>${orderItem.allAmount }</td>
@@ -452,6 +486,33 @@
 		</div>
 	</div>
 	<!-- END CONTENT -->
+	<div id="batch_setgroup_modal" class="modal fade" role="dialog" aria-hidden="true">
+		<div class="modal-dialog" style="width:1200px;">
+			<div class="modal-content">
+				<div class="modal-header" style="text-align: center">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+					<h4 class="modal-title"><fmt:message key="OZ_TT_AD_SU_DE_orderCommentAdmin" /></h4>
+				</div>
+				<div class="modal-body">
+					<form action="#" class="form-horizontal">
+
+						<div class="form-group">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_SU_DE_orderCommentAdmin" /></label>
+							<div class="checkbox-list col-md-8">
+								<label class="checkbox-inline">
+									<input type="text"  id="adminComment" maxlength="255"></input>
+								</label>
+							</div>
+						</div>
+					</form>
+				</div>
+				<input type="hidden" id="hiddenStatus"/>
+				<div class="modal-footer">
+					<button class="btn btn-success" onclick="batchUpdateGroupTrue()"><fmt:message key="COMMON_SUBMIT" /></button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </body>
 </html>

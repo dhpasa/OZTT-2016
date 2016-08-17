@@ -297,7 +297,7 @@
 				<img alt="home" src="${ctx}/images/main.png">
 				<span><fmt:message key="DECORATOR_MAIN"/></span>
 			</a>
-    		<a href="${ctx}/user/init" class="main-nav-item main-nav-profile ">
+    		<a href="${ctx}/user/init" class="main-nav-item main-nav-profile " style="position: relative;">
 				<img alt="me" src="${ctx}/images/me.png">
 				<span><fmt:message key="DECORATOR_ME"/></span>
 				<span class="notSuccessedOrder" id="notSuccessedOrder"></span>

@@ -1329,7 +1329,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
     }
 
     @Override
-    public void updateOrderDetailStatus(String[] orderDetailId, String status) throws Exception {
+    public void updateOrderDetailStatus(String[] orderDetailId, String status, String adminComment) throws Exception {
         // 将所有详细订单的状态更新
         for(String detailId : orderDetailId) {
             TConsOrderDetails orderDetail = tConsOrderDetailsDao.selectByPrimaryKey(Long.valueOf(detailId));
@@ -1351,7 +1351,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 // 配送中
                 TConsOrder tConsOrder = tConsOrderDao.selectByOrderId(orderDetail.getOrderno());
                 tConsOrder.setHandleflg(CommonEnum.HandleFlag.SENDING.getCode());
-                
+                tConsOrder.setCommentsadmin(adminComment);
                 // 判断是否有完成的订单
                 boolean hasComplete = false;
                 for (TConsOrderDetails detail : detailList) {
@@ -1380,9 +1380,11 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 TConsOrder tConsOrder = tConsOrderDao.selectByOrderId(orderDetail.getOrderno());
                 if (isAllUpate) {
                     tConsOrder.setHandleflg(CommonEnum.HandleFlag.COMPLATE.getCode());
+                    tConsOrder.setCommentsadmin(adminComment);
                     tConsOrderDao.updateByPrimaryKeySelective(tConsOrder);
                 } else {
                     tConsOrder.setHandleflg(CommonEnum.HandleFlag.PART_COMPLATE.getCode());
+                    tConsOrder.setCommentsadmin(adminComment);
                     tConsOrderDao.updateByPrimaryKeySelective(tConsOrder);
                 }
             }

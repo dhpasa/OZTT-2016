@@ -179,5 +179,5 @@ public interface OrderService {
      * @param status
      * @throws Exception
      */
-    public void updateOrderDetailStatus(String[] orderDetailId, String status) throws Exception;
+    public void updateOrderDetailStatus(String[] orderDetailId, String status, String adminComment) throws Exception;
 }
