@@ -13,6 +13,8 @@ public class OzTtAdSuDto {
     private String dataTo;
     
     private String customerPhone;
+    
+    private String nickName;
 
     public String getDataFrom() {
         return dataFrom;
@@ -36,6 +38,14 @@ public class OzTtAdSuDto {
 
     public void setCustomerPhone(String customerPhone) {
         this.customerPhone = customerPhone;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     

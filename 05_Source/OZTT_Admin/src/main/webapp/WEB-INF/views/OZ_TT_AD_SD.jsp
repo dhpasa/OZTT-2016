@@ -10,14 +10,11 @@
   <title><fmt:message key="OZ_TT_AD_OL_title" /></title>
   
   <script type="text/javascript">
-	function changeOrderStatus(orderNo, status) {
-		var pageNo = $("#hiddenPageNo").val();
-		location.href="${pageContext.request.contextPath}/OZ_TT_AD_OD/changeStatus?orderNo="+orderNo+"&status="+status+"&pageNo="+pageNo;
-	}
 	
 	function backToOrderList(){
 		var pageNo = $("#hiddenPageNo").val();
-		location.href= "${pageContext.request.contextPath}/OZ_TT_AD_OL/pageSearch?pageNo="+pageNo;
+		var pageNoComplete = $("#hiddenPageNoComplete").val();
+		location.href= "${pageContext.request.contextPath}/OZ_TT_AD_SU/pageSearch?pageNo="+pageNo+"&pageNoComplete="+pageNoComplete;
 	}
   
   </script>
@@ -148,9 +145,6 @@
 						<th scope="col">
 							 <fmt:message key="OZ_TT_AD_OD_DE_goodsTotalAmount" />
 						</th>
-						<th scope="col">
-							 <fmt:message key="OZ_TT_AD_OD_DE_detailStatus" />
-						</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -176,79 +170,23 @@
 						</td>
 						<td>
 							 ${orderItem.goodsTotalAmount }
-						</td>
-						<td>
-							 ${orderItem.detailStatus }
-						</td>
+						</td>	
 					</tr>
 					</c:forEach>
 					</tbody>
 					</table>
 				</div>
-				
-				<div class="table-scrollable">
-					<table class="table table-striped table-bordered table-hover">
-					<thead>
-					<tr>
-						<th scope="col">
-							 <fmt:message key="OZ_TT_AD_OD_DE_commentsCustomer" />
-						</th>
-					</tr>
-					</thead>
-					<tbody>
-					<tr>
-						<td>
-							 ${ozTtAdOdDto.commentsCustomer}
-						</td>
-					</tr>
-					</tbody>
-					</table>
-				</div>
-
-				<div class="table-scrollable">
-					<table class="table table-striped table-bordered table-hover">
-					<thead>
-					<tr>
-						<th scope="col">
-							 <fmt:message key="OZ_TT_AD_OD_DE_commentsAdmin" />
-						</th>
-					</tr>
-					</thead>
-					<tbody>
-					<tr>
-						<td>
-							 ${ozTtAdOdDto.commentsAdmin}
-						</td>
-					</tr>
-					</tbody>
-					</table>
-				</div>
-				
+			
 			<div style="text-align: right;padding-right: 100px"><fmt:message key="COMMON_ALLAMOUNT" />${ozTtAdOdDto.orderAmount}</div>
 			<div style="text-align: right;padding-right: 100px"><fmt:message key="COMMON_ALLAMOUNT_FRE" />${OrderAmountAndFre}</div>		
 			</div>
-			
-			</form:form>
 			
 			<h4 class="form-section"></h4>
 			
 			<div class="row" style="padding:15px">
 				
 				<div class="col-md-8 textleft">
-					<c:if test="${ ozTtAdOdDto.orderStatus == '0' }">
-					<button type="button" class="btn green mybtn" onclick="changeOrderStatus('${ozTtAdOdDto.orderNo}','1')"><i class="fa fa-check"></i><fmt:message key="OZ_TT_AD_OD_changeToPaySu" /></button>
-					<span class="spanTip"><fmt:message key="OZ_TT_AD_OD_changeToPaySuTip" /></span>
-					</c:if>
-					<c:if test="${ ozTtAdOdDto.orderStatus == '1' }">
-						<button type="button" class="btn green mybtn" onclick="changeOrderStatus('${ozTtAdOdDto.orderNo}','2')"><i class="fa fa-check"></i><fmt:message key="OZ_TT_AD_OD_inControl" /></button>
 					
-						<span class="spanTip"><fmt:message key="OZ_TT_AD_OD_inControlTip" /></span>
-					</c:if>
-					<c:if test="${ ozTtAdOdDto.orderStatus == '2' }">
-						<button type="button" class="btn green mybtn" onclick="changeOrderStatus('${ozTtAdOdDto.orderNo}','3')"><i class="fa fa-check"></i><fmt:message key="OZ_TT_AD_OD_controled" /></button>
-					
-						<span class="spanTip"><fmt:message key="OZ_TT_AD_OD_controledTip" /></span>
-					</c:if>
 				</div>
 				<div class="col-md-4 textright">
 					<button type="button" class="btn green mybtn" onclick="backToOrderList()"><i class="fa fa-reply"></i><fmt:message key="COMMON_BACK" /></button>
@@ -256,9 +194,12 @@
 				
 			
 			</div>
+			
+			</form:form>
 		</div>
 	</div>
 	<!-- END CONTENT -->
 	<input type="hidden" value="${pageNo}" id="hiddenPageNo" ></input>
+	<input type="hidden" value="${pageNoComplete}" id="hiddenPageNoComplete" ></input>
 </body>
 </html>

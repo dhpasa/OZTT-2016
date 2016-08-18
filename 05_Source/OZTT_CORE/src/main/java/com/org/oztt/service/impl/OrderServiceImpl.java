@@ -606,7 +606,17 @@ public class OrderServiceImpl extends BaseService implements OrderService {
     @Override
     public void updateOrderInfo(TConsOrder tConsOrder) throws Exception {
         tConsOrderDao.updateByPrimaryKeySelective(tConsOrder);
-
+        List<TConsOrderDetails> listTConsOrderDetails = new ArrayList<TConsOrderDetails>();
+        listTConsOrderDetails = tConsOrderDetailsDao.selectDetailsByOrderId(tConsOrder.getOrderno());
+        if((listTConsOrderDetails != null) && (listTConsOrderDetails.size() > 0)) {
+        	for(TConsOrderDetails tConsOrderDetails : listTConsOrderDetails) {
+                TConsOrderDetails orderDetail = tConsOrderDetailsDao.selectByPrimaryKey(tConsOrderDetails.getNo());
+                orderDetail.setHandleflg(tConsOrder.getHandleflg());
+                orderDetail.setUpduserkey(CommonConstants.ADMIN_USERKEY);
+                orderDetail.setUpdtimestamp(DateFormatUtils.getSystemTimestamp());
+                tConsOrderDetailsDao.updateByPrimaryKeySelective(orderDetail);
+            }
+        }
     }
 
     @Override
@@ -856,7 +866,9 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         dto.setDeliveryMethod(CommonEnum.DeliveryMethod.getEnumLabel(tConsOrder.getDeliverymethod()));
         dto.setInvoiceFlg(CommonEnum.InvoiceFlg.getEnumLabel(tConsOrder.getInvoiceflg()));
         dto.setOrderAmount(tConsOrder.getOrderamount().toString());
-
+        dto.setCommentsCustomer(tConsOrder.getCommentscustomer());
+        dto.setCommentsAdmin(tConsOrder.getCommentsadmin());
+        
         if (tConsOrder.getAddressid() != 0) {
             // 获取地址
             TAddressInfo tAddressInfo = tAddressInfoDao.selectByPrimaryKey(tConsOrder.getAddressid());
@@ -893,6 +905,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 odDto.setGoodsQuantity(item.getGoodsQuantity());
                 odDto.setGoodsTotalAmount(new BigDecimal(item.getGoodsPrice()).multiply(
                         new BigDecimal(item.getGoodsQuantity())).toString());
+                odDto.setDetailStatus(item.getDetailStatus() == null ? " " : CommonEnum.DetailStatus.getEnumLabel(item.getDetailStatus()));
                 String deliveryTime = item.getDeliveryDate();
                 if (deliveryTime != null && deliveryTime.length() > 9) {
                     String dateD = DateFormatUtils.dateFormatFromTo(deliveryTime.substring(0, 8),
@@ -1316,7 +1329,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
     }
 
     @Override
-    public void updateOrderDetailStatus(String[] orderDetailId, String status) throws Exception {
+    public void updateOrderDetailStatus(String[] orderDetailId, String status, String adminComment) throws Exception {
         // 将所有详细订单的状态更新
         for(String detailId : orderDetailId) {
             TConsOrderDetails orderDetail = tConsOrderDetailsDao.selectByPrimaryKey(Long.valueOf(detailId));
@@ -1338,7 +1351,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 // 配送中
                 TConsOrder tConsOrder = tConsOrderDao.selectByOrderId(orderDetail.getOrderno());
                 tConsOrder.setHandleflg(CommonEnum.HandleFlag.SENDING.getCode());
-                
+                tConsOrder.setCommentsadmin(adminComment);
                 // 判断是否有完成的订单
                 boolean hasComplete = false;
                 for (TConsOrderDetails detail : detailList) {
@@ -1367,9 +1380,11 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 TConsOrder tConsOrder = tConsOrderDao.selectByOrderId(orderDetail.getOrderno());
                 if (isAllUpate) {
                     tConsOrder.setHandleflg(CommonEnum.HandleFlag.COMPLATE.getCode());
+                    tConsOrder.setCommentsadmin(adminComment);
                     tConsOrderDao.updateByPrimaryKeySelective(tConsOrder);
                 } else {
                     tConsOrder.setHandleflg(CommonEnum.HandleFlag.PART_COMPLATE.getCode());
+                    tConsOrder.setCommentsadmin(adminComment);
                     tConsOrderDao.updateByPrimaryKeySelective(tConsOrder);
                 }
             }

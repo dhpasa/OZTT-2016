@@ -22,6 +22,8 @@ public class OzTtAdOdListDto {
     
     private String deliveryTime;
     
+    private String detailStatus;
+    
     public String getDeliveryTime() {
 		return deliveryTime;
 	}
@@ -101,4 +103,12 @@ public class OzTtAdOdListDto {
     public void setDetailNo(String detailNo) {
         this.detailNo = detailNo;
     }
+
+	public String getDetailStatus() {
+		return detailStatus;
+	}
+
+	public void setDetailStatus(String detailStatus) {
+		this.detailStatus = detailStatus;
+	}
 }

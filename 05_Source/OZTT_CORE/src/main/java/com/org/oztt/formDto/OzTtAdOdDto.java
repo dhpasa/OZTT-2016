@@ -34,6 +34,10 @@ public class OzTtAdOdDto {
     
     private String orderAmount;
     
+    private String commentsCustomer;
+    
+    private String commentsAdmin;
+    
     private List<OzTtAdOdListDto> itemList;
 
     public String getInvoiceFlg() {
@@ -163,4 +167,20 @@ public class OzTtAdOdDto {
     public void setOrderAmount(String orderAmount) {
         this.orderAmount = orderAmount;
     }
+
+	public String getCommentsCustomer() {
+		return commentsCustomer;
+	}
+
+	public void setCommentsCustomer(String commentsCustomer) {
+		this.commentsCustomer = commentsCustomer;
+	}
+
+	public String getCommentsAdmin() {
+		return commentsAdmin;
+	}
+
+	public void setCommentsAdmin(String commentsAdmin) {
+		this.commentsAdmin = commentsAdmin;
+	}
 }

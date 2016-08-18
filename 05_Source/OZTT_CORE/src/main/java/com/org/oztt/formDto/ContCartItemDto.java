@@ -34,6 +34,8 @@ public class ContCartItemDto {
 
     private String                   deliveryDate;
 
+    private String                   detailStatus;
+    
     public String getGoodsId() {
         return goodsId;
     }
@@ -129,5 +131,13 @@ public class ContCartItemDto {
     public void setDeliveryDate(String deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
+
+	public String getDetailStatus() {
+		return detailStatus;
+	}
+
+	public void setDetailStatus(String detailStatus) {
+		this.detailStatus = detailStatus;
+	}
 
 }
