@@ -45,7 +45,7 @@ public class OzTtAdSdController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/init")
-    public String init(Model model, HttpServletRequest request, HttpSession session, String orderNo, String pageNo, String pageNoComplete) {
+    public String init(Model model, HttpServletRequest request, HttpSession session, String orderNo, String pageNo, String pageNoComplete, String fromDivision) {
         try {
             OzTtAdOdDto ozTtAdOdDto = orderService.getOrderDetailForAdmin(orderNo);
             if (CommonEnum.DeliveryMethod.PICK_INSTORE.getCode().equals(ozTtAdOdDto.getDeliveryMethodFlag())) {
@@ -64,6 +64,7 @@ public class OzTtAdSdController extends BaseController {
                     ozTtAdOdDto.getYunfei() == null ? "0" : ozTtAdOdDto.getYunfei())));
             model.addAttribute("pageNo", pageNo);
             model.addAttribute("pageNoComplete", pageNoComplete);
+            model.addAttribute("fromDivision", fromDivision);
             return "OZ_TT_AD_SD";
         }
         catch (Exception e) {

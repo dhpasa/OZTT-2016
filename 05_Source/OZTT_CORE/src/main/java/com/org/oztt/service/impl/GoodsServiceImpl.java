@@ -1055,7 +1055,7 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
 		PagingResult<OzTtAdGsListDto> dtoList = tGoodsGroupDao.getAllGoodsRInfoForAdmin(pagination);
 		if (dtoList.getResultList() != null && dtoList.getResultList().size() > 0) {
 			for (OzTtAdGsListDto detail : dtoList.getResultList()) {
-				detail.setHandleFlg(CommonEnum.OrderDetailStatus.getEnumLabel(detail.getHandleFlg()));
+				detail.setHandleFlg(CommonEnum.OrderDetailHandleFlag.getEnumLabel(detail.getHandleFlg()));
 			}
 		}
 		return dtoList;
