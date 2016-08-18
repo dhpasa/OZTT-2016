@@ -92,7 +92,7 @@ public class OzTtAdGSController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/pageSearch")
-	public String init(Model model, HttpServletRequest request, HttpSession session, String pageNo1) {
+	public String pageSearch(Model model, HttpServletRequest request, HttpSession session, String pageNo1) {
 		try {
 			model.addAttribute("handleSelect", commonService.getOrderDetailStatus());
 			OzTtAdGsDto ozTtAdGsDto = (OzTtAdGsDto) session.getAttribute("ozTtAdGsDto");

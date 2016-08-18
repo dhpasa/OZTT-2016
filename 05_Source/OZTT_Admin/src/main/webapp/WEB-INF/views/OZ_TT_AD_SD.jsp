@@ -14,7 +14,13 @@
 	function backToOrderList(){
 		var pageNo = $("#hiddenPageNo").val();
 		var pageNoComplete = $("#hiddenPageNoComplete").val();
-		location.href= "${pageContext.request.contextPath}/OZ_TT_AD_SU/pageSearch?pageNo="+pageNo+"&pageNoComplete="+pageNoComplete;
+		var fromDivision = $("#fromDivision").val();
+		if (fromDivision == 1) {
+			location.href= "${pageContext.request.contextPath}/OZ_TT_AD_SU/pageSearch?pageNo="+pageNo+"&pageNoComplete="+pageNoComplete;
+		} else if (fromDivision == 2) {
+			location.href= "${pageContext.request.contextPath}/OZ_TT_AD_GS/pageSearch?pageNo1="+pageNo;
+		}
+		
 	}
   
   </script>
@@ -201,5 +207,6 @@
 	<!-- END CONTENT -->
 	<input type="hidden" value="${pageNo}" id="hiddenPageNo" ></input>
 	<input type="hidden" value="${pageNoComplete}" id="hiddenPageNoComplete" ></input>
+	<input type="hidden" value="${fromDivision}" id="fromDivision" ></input>
 </body>
 </html>

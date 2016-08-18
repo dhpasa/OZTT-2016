@@ -35,8 +35,11 @@
 	}
 	function toDetail(orderNo) {
 		var pageNo = $("#pageNo1").val();
-		location.href = "${pageContext.request.contextPath}/OZ_TT_AD_OD/init?orderNo="
-				+ orderNo + "&pageNo=" + pageNo;
+
+		var targetForm = document.forms['olForm'];
+		targetForm.action = "${pageContext.request.contextPath}/OZ_TT_AD_SD/init?orderNo=" + orderNo + "&pageNo=" + pageNo + "&pageNoComplete=1&fromDivision=2";
+		targetForm.method = "POST";
+		targetForm.submit();
 	}
 </script>
 </head>
@@ -135,7 +138,7 @@
 									<tr>
 										<td>${groupsItem.orderDate }</td>
 										<td>${groupsItem.quantity }</td>
-										<td><a href="" onclick="toDetail('${orderItem.orderNo}')">${groupsItem.orderNo }</a></td>
+										<td><a href="#" onclick="toDetail('${groupsItem.orderNo}')">${groupsItem.orderNo }</a></td>
 										<td>${groupsItem.handleFlg }</td>
 										<td>${groupsItem.customerName }</td>
 										<td>${groupsItem.customerPhone }</td>
