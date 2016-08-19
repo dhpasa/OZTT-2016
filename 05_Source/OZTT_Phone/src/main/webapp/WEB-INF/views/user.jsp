@@ -179,13 +179,8 @@
 			</a>
 			<a href="${ctx}/order/init?tab=1">
 				<i class="await-wait"></i>
-				<div><fmt:message key="USER_ORDER_NOTOVER"/></div>
+				<div><fmt:message key="USER_ORDER_INCONTROLLER"/></div>
 				<span class="order_not_pay" id="orderNotDeliver"></span>
-			</a>
-			<a href="${ctx}/order/init?tab=2">
-				<i class="await-ship"></i>
-				<div><fmt:message key="USER_ORDER_SENDING"/></div>
-				<span class="order_not_pay" id="orderDelivering"></span>
 			</a>
 			<a href="${ctx}/order/init?tab=3">
 				<i class="await_received"></i>

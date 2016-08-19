@@ -574,6 +574,11 @@
 	        $("#enShowFlg").removeAttr("disabled");
 			$(":checkbox").uniform({checkboxClass: 'myCheckClass'});
         }
+	  	
+	  	function toShowGoods(goodsId) {
+	  		var pageNo = $("#pageNo").val();
+			location.href = "${pageContext.request.contextPath}/OZ_TT_AD_PD/init?goodsId="+goodsId+"&pageNo="+pageNo+"&back=1";
+	  	}
   </script>
 </head>
 <body>
@@ -862,7 +867,7 @@
 							 <input type="checkbox" value="${groupsItem.groupId }" class="orderSetClass"/>
 						</td>
 						<td>
-							 ${groupsItem.goodsId }
+							 <a href="#" onclick="toShowGoods('${groupsItem.goodsId}')">${groupsItem.goodsId }</a>
 						</td>
 						<td>
 							 ${groupsItem.goodsName }
@@ -911,9 +916,12 @@
 							<button type="button" class="btn green mybtn" onclick="previewGroup('${groupsItem.groupId}')">
 								<i class="fa fa-info"></i>&nbsp;<fmt:message key="COMMON_PREVIEW" />
 							</button>
-							<button type="button" class="btn green mybtn" onclick="copyInsert('${groupsItem.groupId}','${groupsItem.goodsId}',this)">
-                                <i class="fa fa-info"></i>&nbsp;<fmt:message key="COMMON_COPYINSERT" />
-                            </button>
+							<c:if test="${groupsItem.isOpenFlg == '2'}">
+								<button type="button" class="btn green mybtn" onclick="copyInsert('${groupsItem.groupId}','${groupsItem.goodsId}',this)">
+	                                <i class="fa fa-info"></i>&nbsp;<fmt:message key="COMMON_COPYINSERT" />
+	                            </button>
+							</c:if>
+							
 						</td>
 					</tr>
 					</c:forEach>
