@@ -1001,6 +1001,11 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
         List<TConsCart> consCarts = this.getAllContCart(customerNo);
         if (!CollectionUtils.isEmpty(consCarts)) {
             for (TConsCart dto : consCarts) {
+                // 优先判断购物车内产品数量
+                if (dto.getQuantity() == null || dto.getQuantity() <= 0L) {
+                    tConsCartDao.deleteByPrimaryKey(dto.getNo());
+                    continue;
+                }
                 // 判断当前的这个商品是否已经过期，过期则删除
                 TGoodsGroup tGoodsGroup = new TGoodsGroup();
                 tGoodsGroup.setGroupno(dto.getGroupno());
@@ -1050,7 +1055,7 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
 		PagingResult<OzTtAdGsListDto> dtoList = tGoodsGroupDao.getAllGoodsRInfoForAdmin(pagination);
 		if (dtoList.getResultList() != null && dtoList.getResultList().size() > 0) {
 			for (OzTtAdGsListDto detail : dtoList.getResultList()) {
-				detail.setHandleFlg(CommonEnum.OrderDetailStatus.getEnumLabel(detail.getHandleFlg()));
+				detail.setHandleFlg(CommonEnum.OrderDetailHandleFlag.getEnumLabel(detail.getHandleFlg()));
 			}
 		}
 		return dtoList;

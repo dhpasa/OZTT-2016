@@ -20,7 +20,10 @@
 
 	function pageSelected(pageNo) {
 		var targetForm = document.forms['olForm'];
-		var pageNoComplete = $("#pageNoComplete").val();
+		var pageNoComplete = "1";
+		if ($("#pageNoComplete").val()) {
+			pageNoComplete = $("#pageNoComplete").val();
+		}
 		targetForm.action = "${pageContext.request.contextPath}/OZ_TT_AD_SU/pageSearch?pageNo="
 				+ pageNo + "&pageNoComplete=" + pageNoComplete;
 		targetForm.method = "POST";
@@ -29,7 +32,10 @@
 
 	function pageSelectedComplete(pageNoComplete) {
 		var targetForm = document.forms['olForm'];
-		var pageNo = $("#pageNo").val();
+		var pageNo = "1";
+		if ($("#pageNo").val()) {
+			pageNo = $("#pageNo").val();
+		}
 		targetForm.action = "${pageContext.request.contextPath}/OZ_TT_AD_SU/pageSearch?pageNo="
 				+ pageNo + "&pageNoComplete=" + pageNoComplete;
 		targetForm.method = "POST";
@@ -37,14 +43,17 @@
 	}
 
 	function toDetail(orderNo) {
-		var pageNo = $("#pageNo").val();
-		var pageNoComplete = "";
-		if ($("#pageNoComplete")) {
+		var pageNo = "1";
+		if ($("#pageNo").val()) {
+			pageNo = $("#pageNo").val();
+		}
+		var pageNoComplete = "1";
+		if ($("#pageNoComplete").val()) {
 			pageNoComplete = $("#pageNoComplete").val();
 		}
 		var targetForm = document.forms['olForm'];
 		targetForm.action = "${pageContext.request.contextPath}/OZ_TT_AD_SD/init?orderNo="
-				+ orderNo + "&pageNo=" + pageNo + "&pageNoComplete=" + pageNoComplete;
+				+ orderNo + "&pageNo=" + pageNo + "&pageNoComplete=" + pageNoComplete + "&fromDivision=1";
 		targetForm.method = "POST";
 		targetForm.submit();
 	}
