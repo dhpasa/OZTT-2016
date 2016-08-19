@@ -168,10 +168,6 @@
 	   <c:if test="${step.count%2 == 1 }">
 		<div class="newGoods-div" onclick="toItem('${newGoodsList.groupno }')">
 			<div class="newGoods-info">
-				<span class="newGoods-info-span miaosha">
-					<i class="goods-i-time"></i>
-					<fmt:message key="MAIN_MIAOSHAING" />
-				</span>
 				<span class="newGoods-info-span font-xl clearMargin">${newGoodsList.goodsname }</span>
 				<span class="newGoods-info-span time">
 					<div style="float:left;padding-right: 0.5rem;height: 1.7rem"><fmt:message key="MAIN_TIME" /></div>
@@ -190,7 +186,7 @@
 				</span>
 				<div class="main-ms-hasBuy">
                 	<i class="main-hasBuy" style="float: left"></i>
-		   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
+		   			<span class="item-timeword"><fmt:message key="COMMON_HAS_RUSH_PURCHASE" /></span>&nbsp;
 		   			<span class="">${newGoodsList.groupCurrent}&nbsp;/&nbsp;${newGoodsList.groupMax}</span>
                 </div>
 			</div>
@@ -205,10 +201,6 @@
 				<img src="${newGoodsList.goodsthumbnail }" class="padding-1rem">
 			</div>
 			<div class="newGoods-info">
-				<span class="newGoods-info-span miaosha">
-					<i class="goods-i-time"></i>
-					<fmt:message key="MAIN_MIAOSHAING" />
-				</span>
 				<span class="newGoods-info-span font-xl clearMargin">${newGoodsList.goodsname }</span>
 				<span class="newGoods-info-span time">
 					<div style="float:left;padding-right: 0.5rem;height: 1.7rem"><fmt:message key="MAIN_TIME" /></div>
@@ -227,7 +219,7 @@
 				</span>
 				<div class="main-ms-hasBuy">
                 	<i class="main-hasBuy" style="float: left"></i>
-		   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
+		   			<span class="item-timeword"><fmt:message key="COMMON_HAS_RUSH_PURCHASE" /></span>&nbsp;
 		   			<span class="">${newGoodsList.groupCurrent}&nbsp;/&nbsp;${newGoodsList.groupMax}</span>
                 </div>
 			</div>

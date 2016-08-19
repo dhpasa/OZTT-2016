@@ -12,6 +12,11 @@
   
   	function backToGoodsList(){
 		var pageNo = $("#pageNo").val();
+		var backUse = $("#backUse").val();
+		if (backUse == '1') {
+			location.href= "${pageContext.request.contextPath}/OZ_TT_AD_GL/pageSearch?pageNo="+pageNo;
+			return;
+		}
 		if (pageNo == "") {
 			location.href= "${pageContext.request.contextPath}/OZ_TT_AD_PL/init";
 		} else {
@@ -249,6 +254,7 @@
 			<form:input path="no" type="hidden"/>
 			<form:input path="goodsId" type="hidden"/>
 			<form:input path="pageNo" type="hidden"/>
+			<input type="hidden" value="${back}" id="backUse"/>
 			</form:form>
 
 		</div>

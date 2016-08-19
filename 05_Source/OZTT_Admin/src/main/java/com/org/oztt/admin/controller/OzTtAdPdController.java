@@ -41,7 +41,7 @@ public class OzTtAdPdController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/init")
-    public String init(Model model, HttpServletRequest request, HttpSession session, String goodsId, String pageNo) {
+    public String init(Model model, HttpServletRequest request, HttpSession session, String goodsId, String pageNo, String back) {
         try {
             if (StringUtils.isEmpty(goodsId) || StringUtils.isEmpty(pageNo)) {
                 OzTtAdGdDto ozTtAdGdDto = new OzTtAdGdDto();
@@ -71,6 +71,7 @@ public class OzTtAdPdController extends BaseController {
                 ozTtAdGdDto.setPageNo(Integer.valueOf(pageNo));
                 model.addAttribute("ozTtAdGdDto", ozTtAdGdDto);
             }
+            model.addAttribute("back", back);
             model.addAttribute("classficationList",
                     goodsService.getSecondClassfication(CommonConstants.BELONG_FATHER_CLASS));
             return "OZ_TT_AD_PD";

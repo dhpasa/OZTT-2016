@@ -331,6 +331,10 @@
   		}
   		$(":checkbox").uniform({checkboxClass: 'myCheckClass'});
   	}
+  	
+  	function showGroupDetail(goodId) {
+  		location.href = "${pageContext.request.contextPath}/OZ_TT_AD_PL/toGroupList?goodsId="+goodId;
+  	}
   
   </script>
 </head>
@@ -555,6 +559,9 @@
 							</button>
 							<button type="button" class="btn green mybtn" onclick="showSetGroup('${goodsItem.goodsId}','${goodsItem.isSetPrice}', this)">
 								<i class="fa fa-info"></i>&nbsp;<fmt:message key="OZ_TT_AD_PL_DE_setgroup" />
+							</button>
+							<button type="button" class="btn green mybtn" onclick="showGroupDetail('${goodsItem.goodsId}')">
+								<i class="fa fa-info"></i>&nbsp;<fmt:message key="OZ_TT_AD_PL_DE_groupList" />
 							</button>
 						</td>
 					</tr>

@@ -60,6 +60,7 @@
 						var temp21 = '				<span>\${0}</span>	';
 						var temp22 = '				<div class="order-item-group">X{0}</div>';	
 						var temp23 = '			</div>';
+						var temp51 = '			<div class="order-groupinfo-status"><a>{0}</a></div>';	
 						var temp24 = '		</div>';
 						var temp25 = '	</div>';
 							
@@ -112,6 +113,15 @@
 									dataHtml += temp21.replace("{0}",orderdetail.goodsPrice);
 									dataHtml += temp22.replace("{0}",orderdetail.goodsQuantity);
 									dataHtml += temp23;
+									
+									if (orderdetail.detailStatus == '1') {
+										dataHtml += temp51.replace("{0}",'<fmt:message key="COMMON_ORDER_DETAIL_HANDLE_1" />');
+									} else if (orderdetail.detailStatus == '2') {
+										dataHtml += temp51.replace("{0}",'<fmt:message key="COMMON_ORDER_DETAIL_HANDLE_2" />');
+									} else if (orderdetail.detailStatus == '3'){
+										dataHtml += temp51.replace("{0}",'<fmt:message key="COMMON_ORDER_DETAIL_HANDLE_3" />');
+									}
+									
 									dataHtml += temp24;
 									dataHtml += temp25;
 								}
@@ -236,8 +246,7 @@
 	<div class="orderList-search-horizon">
 		<ul class="nav nav-tabs">
 			<li <c:if test="${tab == '0'}">class="active"</c:if>><a onclick="reloadtab('0');return false;" data-toggle="tab"><fmt:message key="ORDERLIST_WAITPAY" /></a></li>
-			<li <c:if test="${tab == '1'}">class="active"</c:if>><a onclick="reloadtab('1');return false;" data-toggle="tab"><fmt:message key="ORDERLIST_WAITSEND" /></a></li>
-			<li <c:if test="${tab == '2'}">class="active"</c:if>><a onclick="reloadtab('2');return false;" data-toggle="tab"><fmt:message key="ORDERLIST_SENDING" /></a></li>
+			<li <c:if test="${tab == '1'}">class="active"</c:if>><a onclick="reloadtab('1');return false;" data-toggle="tab"><fmt:message key="ORDERLIST_INCONTROLLER" /></a></li>
 			<li <c:if test="${tab == '3'}">class="active"</c:if>><a onclick="reloadtab('3');return false;" data-toggle="tab"><fmt:message key="ORDERLIST_COMPLATE" /></a></li>
 		</ul>
 	</div>
