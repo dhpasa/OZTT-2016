@@ -10,6 +10,13 @@
   <title><fmt:message key="OZ_TT_AD_PL_title" /></title>
   
   <script type="text/javascript">
+		function toDetail(customerNo) {
+			location.href = "${pageContext.request.contextPath}/OZ_TT_AD_RD/detail?customerNo="+customerNo;
+		}
+		
+  </script>
+  
+  <script type="text/javascript">
   	function pageSelected(pageNo){
 		var targetForm = document.forms['olForm'];
 		targetForm.action = "${pageContext.request.contextPath}/OZ_TT_AD_RL/search?pageNo="+pageNo;
@@ -98,6 +105,9 @@
 						<th scope="col">
 							 <fmt:message key="OZ_TT_AD_RL_DE_occupation" />
 						</th>
+						<th scope="col">
+							 <fmt:message key="OZ_TT_AD_RL_DE_control" />
+						</th>
 						
 					</tr>
 					</thead>
@@ -147,6 +157,11 @@
 						</td>
 						<td>
 							 ${customerItem.occupation }
+						</td>
+						<td>
+							 <button type="button" class="btn green mybtn" onclick="toDetail('${customerItem.customerNo}')">
+								<i class="fa fa-info"></i>&nbsp;<fmt:message key="COMMON_MODIFY" />
+							</button>
 						</td>
 						
 					</tr>

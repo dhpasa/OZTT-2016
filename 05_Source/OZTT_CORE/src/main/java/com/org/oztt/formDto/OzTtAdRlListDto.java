@@ -35,6 +35,8 @@ public class OzTtAdRlListDto {
     private String education;
 
     private String occupation;
+    
+    private String comments;
 
     private String deleteFlg;
 
@@ -185,4 +187,12 @@ public class OzTtAdRlListDto {
     public void setDetailNo(String detailNo) {
         this.detailNo = detailNo;
     }
+
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
 }
