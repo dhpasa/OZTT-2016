@@ -1382,6 +1382,9 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                     tConsOrder.setHandleflg(CommonEnum.HandleFlag.COMPLATE.getCode());
                     tConsOrder.setCommentsadmin(adminComment);
                     tConsOrderDao.updateByPrimaryKeySelective(tConsOrder);
+                    // 更新当前的积分制度
+                    customerService.updateCustomerPointsAndLevels(tConsOrder.getCustomerno(), tConsOrder.getOrderamount());
+                    
                 } else {
                     tConsOrder.setHandleflg(CommonEnum.HandleFlag.PART_COMPLATE.getCode());
                     tConsOrder.setCommentsadmin(adminComment);

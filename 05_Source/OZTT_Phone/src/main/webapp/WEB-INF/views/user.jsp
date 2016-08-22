@@ -159,6 +159,27 @@
 			<div class="showusername">
 				<img alt="photo" src="${ctx}/images/head.png">
 				<span >${currentUserName}</span>
+				<c:if test="${Level == '1' }">
+				 	<div class="userlevel userlevel_1"></div>
+				</c:if>
+				<c:if test="${Level == '2' }">
+					<div class="userlevel userlevel_2"></div>
+				</c:if>
+				<c:if test="${Level == '3' }">
+					<div class="userlevel userlevel_3"></div>
+				</c:if>
+				<c:if test="${Level == '4' }">
+					<div class="userlevel userlevel_4"></div>
+				</c:if>
+				<c:if test="${Level == '5' }">
+					<div class="userlevel userlevel_5"></div>
+				</c:if>
+				
+				<c:if test="${Points != null && Points != '' }">
+					<div class="userPoints">
+						<fmt:message key="USER_POINTS"/>${Points}
+					</div>
+				</c:if>
 			</div>
 			
 		</c:if>
@@ -205,7 +226,7 @@
 		</a>
 		
 		<div style="display:none" class="downContent">
-			<fmt:message key="USER_CONTENT_INFO"/>
+			${tSysConfig.contactservice }
 		</div>
 	</div>
 	
@@ -217,7 +238,7 @@
 		</a>
 		
 		<div style="display:none" class="downContent">
-			<fmt:message key="USER_OTHERCOOPERATE_INFO"/>
+			${tSysConfig.shoppercooperation }
 		</div>
 	</div>
 	
@@ -229,7 +250,7 @@
 		</a>
 		
 		<div style="display:none" class="downContent">
-			<fmt:message key="USER_ABOUT_INFO"/>
+			${tSysConfig.aboutus }
 		</div>
 	</div>
 	

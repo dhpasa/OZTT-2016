@@ -31,4 +31,6 @@ public interface SysConfigService {
 	 * 更新内容
 	 */
 	public void update(OzTtAdScDto ozTtAdScDto);
+	
+	public TSysConfig getTSysConfig();
 }
