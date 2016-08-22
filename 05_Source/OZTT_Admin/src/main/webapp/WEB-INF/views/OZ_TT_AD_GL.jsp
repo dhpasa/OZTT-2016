@@ -124,27 +124,27 @@
   						} else if (data.resMap.openflg == '1'){
   							$("#saveBtn").css("display","none");
   							$("#deleteBtn").css("display","none");
-  							$("#submitBtn").css("display","none");
+  							$("#submitBtn").css("display","");
   							$("#unserBtn").css("display","");
-  						    $("#goodsGroupPrice").attr("disabled","disabled");
-  	  						$("#goodsGroupNumber").attr("disabled","disabled");
-  	  					    $("#goodsGroupLimit").attr("disabled","disabled");
+  						    //$("#goodsGroupPrice").attr("disabled","disabled");
+  	  						//$("#goodsGroupNumber").attr("disabled","disabled");
+  	  					    //$("#goodsGroupLimit").attr("disabled","disabled");
   	  					    $("#goodsGroupCurrent").attr("disabled","disabled");
-  	  					    $("#goodsGroupSortOrder").attr("disabled","disabled");
-  	  						$("#dataFromGroup").attr("disabled","disabled");
-  	  						$("#dataToGroup").attr("disabled","disabled");
-  	  						$("#groupComment").attr("disabled","disabled");
-  	  						$("#groupDesc").attr("disabled","disabled");
-  	  						$("#groupReminder").attr("disabled","disabled");
-  	  						$("#groupRule").attr("disabled","disabled");
-  	  					    $("#isTopUpEdit").attr("disabled","disabled");
-  	  					    $("#isPreEdit").attr("disabled","disabled");
-  	  			            $("#isInStockEdit").attr("disabled","disabled");
-  	  			            $("#isHotEdit").attr("disabled","disabled");
-  	  			        	$("#sellOutInitQuantity").attr("disabled","disabled");
-	  			        	$("#sellOutFlg").attr("disabled","disabled");
-	  			        	$("#diamondShowFlg").attr("disabled","disabled");
-	  			        	$("#enShowFlg").attr("disabled","disabled");  
+  	  					    //$("#goodsGroupSortOrder").attr("disabled","disabled");
+  	  						//$("#dataFromGroup").attr("disabled","disabled");
+  	  						//$("#dataToGroup").attr("disabled","disabled");
+  	  						//$("#groupComment").attr("disabled","disabled");
+  	  						//$("#groupDesc").attr("disabled","disabled");
+  	  						//$("#groupReminder").attr("disabled","disabled");
+  	  						//$("#groupRule").attr("disabled","disabled");
+  	  					    //$("#isTopUpEdit").attr("disabled","disabled");
+  	  					    //$("#isPreEdit").attr("disabled","disabled");
+  	  			            //$("#isInStockEdit").attr("disabled","disabled");
+  	  			            //$("#isHotEdit").attr("disabled","disabled");
+  	  			        	//$("#sellOutInitQuantity").attr("disabled","disabled");
+	  			        	//$("#sellOutFlg").attr("disabled","disabled");
+	  			        	//$("#diamondShowFlg").attr("disabled","disabled");
+	  			        	//$("#enShowFlg").attr("disabled","disabled");
 			
   						} else if (data.resMap.openflg == '2'){
   							$("#saveBtn").css("display","");

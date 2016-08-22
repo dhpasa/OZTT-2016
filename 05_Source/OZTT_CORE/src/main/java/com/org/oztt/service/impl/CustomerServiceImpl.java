@@ -317,4 +317,21 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
 		
 	}
 
+	@Override
+	public OzTtAdRlListDto getCustomerInfoForAdmin(String customerNo)
+			throws Exception {
+		OzTtAdRlListDto ozTtAdRlListDto = tCustomerBasicInfoDao.getCustomerInfoForAdmin(customerNo);
+		if(ozTtAdRlListDto != null) {
+			ozTtAdRlListDto.setBirthday(DateFormatUtils.date2StringWithFormat(
+                    DateFormatUtils.string2DateWithFormat(ozTtAdRlListDto.getBirthday(), DateFormatUtils.PATTEN_YMD_NO_SEPRATE),
+                    DateFormatUtils.PATTEN_YMD2));
+			ozTtAdRlListDto.setSex(CommonEnum.SexStatus.getEnumLabel(ozTtAdRlListDto.getSex()));
+			ozTtAdRlListDto.setMarriage(CommonEnum.MarriageStatus.getEnumLabel(ozTtAdRlListDto.getMarriage()));
+			ozTtAdRlListDto.setEducation(CommonEnum.EducationStatus.getEnumLabel(ozTtAdRlListDto.getEducation()));
+			return ozTtAdRlListDto;
+		} else {
+			return null;
+		}
+	}
+
 }
