@@ -819,7 +819,7 @@ html{
 .order-nav a{
 	display: block;
     float: left;
-    width: 25%;
+    width: 33%;
     padding: 1rem 0rem; 
     text-align: center;
     position: relative;
@@ -1859,7 +1859,7 @@ html{
 .orderList-search-horizon .nav-tabs > li {
     float: left;
     margin-bottom: -1px;
-    width:25%;
+    width:33%;
     text-align: -webkit-center;
 }
 
@@ -2556,7 +2556,7 @@ html{
 .order-checkBlockBody{
 	display: inline-block;
     width: 100%;
-    height: 8rem;
+    height: 9rem;
 }
 
 .order-groupinfo{
@@ -2564,8 +2564,15 @@ html{
     padding: 10px;
     float: left;
     display: inline-block;
-    height: 8rem;
+    height: 9rem;
     border-bottom:0.5px solid #F4F4F4;
+}
+
+.order-groupinfo-status a{
+	color: #FF9298;
+    border-radius: 5px !important;
+    padding: 0px 5px;
+    float: right;
 }
 
 .order-groupinfo .order-group-img{

@@ -124,27 +124,27 @@
   						} else if (data.resMap.openflg == '1'){
   							$("#saveBtn").css("display","none");
   							$("#deleteBtn").css("display","none");
-  							$("#submitBtn").css("display","none");
+  							$("#submitBtn").css("display","");
   							$("#unserBtn").css("display","");
-  						    $("#goodsGroupPrice").attr("disabled","disabled");
-  	  						$("#goodsGroupNumber").attr("disabled","disabled");
-  	  					    $("#goodsGroupLimit").attr("disabled","disabled");
+  						    //$("#goodsGroupPrice").attr("disabled","disabled");
+  	  						//$("#goodsGroupNumber").attr("disabled","disabled");
+  	  					    //$("#goodsGroupLimit").attr("disabled","disabled");
   	  					    $("#goodsGroupCurrent").attr("disabled","disabled");
-  	  					    $("#goodsGroupSortOrder").attr("disabled","disabled");
-  	  						$("#dataFromGroup").attr("disabled","disabled");
-  	  						$("#dataToGroup").attr("disabled","disabled");
-  	  						$("#groupComment").attr("disabled","disabled");
-  	  						$("#groupDesc").attr("disabled","disabled");
-  	  						$("#groupReminder").attr("disabled","disabled");
-  	  						$("#groupRule").attr("disabled","disabled");
-  	  					    $("#isTopUpEdit").attr("disabled","disabled");
-  	  					    $("#isPreEdit").attr("disabled","disabled");
-  	  			            $("#isInStockEdit").attr("disabled","disabled");
-  	  			            $("#isHotEdit").attr("disabled","disabled");
-  	  			        	$("#sellOutInitQuantity").attr("disabled","disabled");
-	  			        	$("#sellOutFlg").attr("disabled","disabled");
-	  			        	$("#diamondShowFlg").attr("disabled","disabled");
-	  			        	$("#enShowFlg").attr("disabled","disabled");  
+  	  					    //$("#goodsGroupSortOrder").attr("disabled","disabled");
+  	  						//$("#dataFromGroup").attr("disabled","disabled");
+  	  						//$("#dataToGroup").attr("disabled","disabled");
+  	  						//$("#groupComment").attr("disabled","disabled");
+  	  						//$("#groupDesc").attr("disabled","disabled");
+  	  						//$("#groupReminder").attr("disabled","disabled");
+  	  						//$("#groupRule").attr("disabled","disabled");
+  	  					    //$("#isTopUpEdit").attr("disabled","disabled");
+  	  					    //$("#isPreEdit").attr("disabled","disabled");
+  	  			            //$("#isInStockEdit").attr("disabled","disabled");
+  	  			            //$("#isHotEdit").attr("disabled","disabled");
+  	  			        	//$("#sellOutInitQuantity").attr("disabled","disabled");
+	  			        	//$("#sellOutFlg").attr("disabled","disabled");
+	  			        	//$("#diamondShowFlg").attr("disabled","disabled");
+	  			        	//$("#enShowFlg").attr("disabled","disabled");
 			
   						} else if (data.resMap.openflg == '2'){
   							$("#saveBtn").css("display","");
@@ -574,6 +574,11 @@
 	        $("#enShowFlg").removeAttr("disabled");
 			$(":checkbox").uniform({checkboxClass: 'myCheckClass'});
         }
+	  	
+	  	function toShowGoods(goodsId) {
+	  		var pageNo = $("#pageNo").val();
+			location.href = "${pageContext.request.contextPath}/OZ_TT_AD_PD/init?goodsId="+goodsId+"&pageNo="+pageNo+"&back=1";
+	  	}
   </script>
 </head>
 <body>
@@ -862,7 +867,7 @@
 							 <input type="checkbox" value="${groupsItem.groupId }" class="orderSetClass"/>
 						</td>
 						<td>
-							 ${groupsItem.goodsId }
+							 <a href="#" onclick="toShowGoods('${groupsItem.goodsId}')">${groupsItem.goodsId }</a>
 						</td>
 						<td>
 							 ${groupsItem.goodsName }
@@ -911,9 +916,12 @@
 							<button type="button" class="btn green mybtn" onclick="previewGroup('${groupsItem.groupId}')">
 								<i class="fa fa-info"></i>&nbsp;<fmt:message key="COMMON_PREVIEW" />
 							</button>
-							<button type="button" class="btn green mybtn" onclick="copyInsert('${groupsItem.groupId}','${groupsItem.goodsId}',this)">
-                                <i class="fa fa-info"></i>&nbsp;<fmt:message key="COMMON_COPYINSERT" />
-                            </button>
+							<c:if test="${groupsItem.isOpenFlg == '2'}">
+								<button type="button" class="btn green mybtn" onclick="copyInsert('${groupsItem.groupId}','${groupsItem.goodsId}',this)">
+	                                <i class="fa fa-info"></i>&nbsp;<fmt:message key="COMMON_COPYINSERT" />
+	                            </button>
+							</c:if>
+							
 						</td>
 					</tr>
 					</c:forEach>

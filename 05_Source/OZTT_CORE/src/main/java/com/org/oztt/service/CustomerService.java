@@ -65,6 +65,8 @@ public interface CustomerService {
      */
     public PagingResult<OzTtAdRlListDto> getAllCustomerInfoForAdmin(Pagination pagination) throws Exception;
     
+    public OzTtAdRlListDto getCustomerInfoForAdmin(String customerNo) throws Exception;
+    
     // 通过手机号取得客户号
     public TCustomerSecurityInfo getCustomerByPhone(String phone) throws Exception;
     

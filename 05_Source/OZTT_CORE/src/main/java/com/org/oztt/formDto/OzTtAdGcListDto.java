@@ -41,6 +41,8 @@ public class OzTtAdGcListDto {
     
     private String isEn;
     
+    private String isOpenFlg;
+    
     public String getGoodsId() {
         return goodsId;
     }
@@ -176,5 +178,13 @@ public class OzTtAdGcListDto {
 	public void setIsEn(String isEn) {
 		this.isEn = isEn;
 	}
+
+    public String getIsOpenFlg() {
+        return isOpenFlg;
+    }
+
+    public void setIsOpenFlg(String isOpenFlg) {
+        this.isOpenFlg = isOpenFlg;
+    }
     
 }

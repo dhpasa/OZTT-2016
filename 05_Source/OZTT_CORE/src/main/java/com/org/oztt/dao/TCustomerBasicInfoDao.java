@@ -47,4 +47,6 @@ public interface TCustomerBasicInfoDao {
      * @return
      */
     PagingResult<OzTtAdRlListDto> getAllCustomerInfoForAdmin(Pagination pagination);
+    
+    OzTtAdRlListDto getCustomerInfoForAdmin(String customerNo);
 }

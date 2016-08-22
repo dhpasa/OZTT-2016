@@ -25,6 +25,8 @@ import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.entity.TGoods;
 import com.org.oztt.entity.TGoodsGroup;
 import com.org.oztt.entity.TGoodsPrice;
+import com.org.oztt.formDto.OzTtAdGcDto;
+import com.org.oztt.formDto.OzTtAdGcListDto;
 import com.org.oztt.formDto.OzTtAdPlDto;
 import com.org.oztt.formDto.OzTtAdPlListDto;
 import com.org.oztt.service.CommonService;
@@ -306,6 +308,49 @@ public class OzTtAdPlController extends BaseController {
             logger.error(e.getMessage());
             mapReturn.put("isException", true);
             return null;
+        }
+    }
+    
+    
+    /**
+     * 商品团购管理一览画面
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/toGroupList")
+    public String toGroupList(Model model, HttpServletRequest request, HttpSession session, String goodsId) {
+        try {
+            model.addAttribute("openSelect", commonService.getOpenFlg());
+            OzTtAdGcDto ozTtAdGcDto = new OzTtAdGcDto();
+            ozTtAdGcDto.setGoodsId(goodsId);
+            session.setAttribute("ozTtAdGcDto", ozTtAdGcDto);
+
+            Pagination pagination = new Pagination(1);
+            Map<Object, Object> params = new HashMap<Object, Object>();
+            params.put("goodsName", ozTtAdGcDto.getGoodsName());
+            params.put("goodsClassId", ozTtAdGcDto.getGoodsClassId());
+            params.put("goodsId", ozTtAdGcDto.getGoodsId());
+            params.put("dateFrom", ozTtAdGcDto.getDateFrom());
+            params.put("dateTo", ozTtAdGcDto.getDateTo());
+            params.put("isOpenFlag", ozTtAdGcDto.getOpenFlg());
+            params.put("isTopUp", ozTtAdGcDto.getIsTopUp());
+            params.put("isPre", ozTtAdGcDto.getIsPre());
+            params.put("isInStock", ozTtAdGcDto.getIsInStock());
+            params.put("isHot", ozTtAdGcDto.getIsHot());
+            params.put("isDiamond", ozTtAdGcDto.getIsDiamond());
+            params.put("isEn", ozTtAdGcDto.getIsEn());
+            pagination.setParams(params);
+            PagingResult<OzTtAdGcListDto> pageInfo = goodsService.getAllGroupsInfoForAdmin(pagination);
+
+            model.addAttribute("ozTtAdGcDto", ozTtAdGcDto);
+            model.addAttribute("pageInfo", pageInfo);
+            return "OZ_TT_AD_GL";
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            return CommonConstants.ERROR_PAGE;
         }
     }
 

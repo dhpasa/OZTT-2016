@@ -314,7 +314,10 @@
 		<if test="orderNo != null" >
         	and A.orderNo = #{orderNo,jdbcType=VARCHAR}
       	</if>
-      	<if test="handleFlg != null" >
+      	<if test="handleFlg != null and handleFlg == 1" >
+        	and (A.handleFlg = '1' OR A.handleFlg = '2' OR A.handleFlg = '4')
+      	</if>
+      	<if test="handleFlg != null and handleFlg != 1" >
         	and A.handleFlg = #{handleFlg,jdbcType=VARCHAR}
       	</if>
       	order by addTimestamp desc
@@ -328,7 +331,10 @@
 		<if test="orderNo != null" >
         	and orderNo = #{orderNo,jdbcType=VARCHAR}
       	</if>
-      	<if test="handleFlg != null" >
+      	<if test="handleFlg != null and handleFlg == 1" >
+        	and (handleFlg = '1' OR handleFlg = '2' OR handleFlg = '4')
+      	</if>
+      	<if test="handleFlg != null and handleFlg != 1" >
         	and handleFlg = #{handleFlg,jdbcType=VARCHAR}
       	</if>
 	</select>
