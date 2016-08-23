@@ -1,22 +1,17 @@
 package com.org.oztt.admin.controller;
 
-import java.util.Date;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.org.oztt.contants.CommonConstants;
-import com.org.oztt.entity.TGoodsClassfication;
 import com.org.oztt.formDto.OzTtAdRlListDto;
 import com.org.oztt.service.CustomerService;
-import com.org.oztt.service.GoodsService;
 
 /**
  * 注册用户明细
