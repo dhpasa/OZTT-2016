@@ -1,5 +1,7 @@
 package com.org.oztt.admin.controller;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.org.oztt.contants.CommonConstants;
+import com.org.oztt.entity.TCustomerBasicInfo;
 import com.org.oztt.formDto.OzTtAdRlListDto;
 import com.org.oztt.service.CustomerService;
 
@@ -57,15 +60,14 @@ public class OzTtAdRdController extends BaseController {
     @RequestMapping(value = "/save")
     public String init(Model model, HttpServletRequest request, HttpSession session, @ModelAttribute OzTtAdRlListDto itemDto) {
         try {
-            //TGoodsClassfication tGoodsClassfication = new TGoodsClassfication();
-                // 更新的情况
-            //    tGoodsClassfication.setNo(Long.valueOf(itemDto.getNo()));
-            //    tGoodsClassfication.setUpdtimestamp(new Date());
-            //    tGoodsClassfication.setUpdpgmid("OZ_TT_AD_CD");
-            //    tGoodsClassfication.setUpduserkey(CommonConstants.ADMIN_USERKEY);
-            //    goodsService.updateClassFication(tGoodsClassfication);
-           // }
-            return "redirect:/OZ_TT_AD_RL/init";
+            TCustomerBasicInfo tCustomerBasicInfo = new TCustomerBasicInfo();
+            tCustomerBasicInfo = customerService.selectBaseInfoByCustomerNo(itemDto.getCustomerNo());
+            tCustomerBasicInfo.setComments(itemDto.getComments());
+            tCustomerBasicInfo.setUpdtimestamp(new Date());
+            tCustomerBasicInfo.setUpdpgmid("OZ_TT_AD_RD");
+            tCustomerBasicInfo.setUpduserkey(CommonConstants.ADMIN_USERKEY);
+            customerService.updateTCustomerBasicInfo(tCustomerBasicInfo);
+            return "redirect:/OZ_TT_AD_RL/search";
         }
         catch (Exception e) {
             logger.error(e.getMessage());
