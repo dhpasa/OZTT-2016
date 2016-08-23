@@ -1,6 +1,7 @@
 package com.org.oztt.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class TCustomerMemberInfo implements Serializable {
@@ -30,6 +31,8 @@ public class TCustomerMemberInfo implements Serializable {
      *  
      */
     private String level;
+    
+    private BigDecimal sumAmount;
 
     /**
      *  
@@ -134,5 +137,13 @@ public class TCustomerMemberInfo implements Serializable {
 
     public void setUpdPgmId(String updPgmId) {
         this.updPgmId = updPgmId;
+    }
+
+    public BigDecimal getSumAmount() {
+        return sumAmount;
+    }
+
+    public void setSumAmount(BigDecimal sumAmount) {
+        this.sumAmount = sumAmount;
     }
 }
