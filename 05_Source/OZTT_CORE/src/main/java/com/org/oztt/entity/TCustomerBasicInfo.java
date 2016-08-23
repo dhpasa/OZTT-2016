@@ -37,6 +37,8 @@ public class TCustomerBasicInfo implements Serializable {
     private String education;
 
     private String occupation;
+    
+    private String comments;
 
     private String deleteflg;
 
@@ -225,4 +227,12 @@ public class TCustomerBasicInfo implements Serializable {
     public void setUpdpgmid(String updpgmid) {
         this.updpgmid = updpgmid;
     }
+
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
 }

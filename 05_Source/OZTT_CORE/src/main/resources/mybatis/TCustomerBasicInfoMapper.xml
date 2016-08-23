@@ -377,6 +377,7 @@
 	
 	<select id="getCustomerInfoForAdmin" resultType="com.org.oztt.formDto.OzTtAdRlListDto" parameterType="java.lang.String">
 		select
+		A.no as basicNo,
 		A.customerNo,
 		C.telNo,
 		A.cnSurname,
@@ -392,6 +393,7 @@
 		A.marriage,
 		A.education,
 		A.occupation,
+		A.comments,
 		A.deleteFlg,
 		B.canLogin
 		from t_customer_basic_info A
