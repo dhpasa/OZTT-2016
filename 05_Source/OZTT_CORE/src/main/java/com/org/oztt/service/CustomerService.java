@@ -93,4 +93,8 @@ public interface CustomerService {
      * @throws Exception
      */
     public TCustomerMemberInfo getCustomerMemberInfo(String customerNo) throws Exception;
+    
+    public void saveTCustomerMemberInfo(TCustomerMemberInfo info) throws Exception;
+    
+    public void updateTCustomerMemberInfo(TCustomerMemberInfo info) throws Exception;
 }

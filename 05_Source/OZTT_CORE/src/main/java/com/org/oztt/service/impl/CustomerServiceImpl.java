@@ -428,5 +428,15 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
         return tCustomerMemberInfoDao.selectByCustomerNo(customerNo);
     }
 
+    @Override
+    public void saveTCustomerMemberInfo(TCustomerMemberInfo info) throws Exception {
+        tCustomerMemberInfoDao.insertSelective(info);
+    }
+
+    @Override
+    public void updateTCustomerMemberInfo(TCustomerMemberInfo info) throws Exception {
+        tCustomerMemberInfoDao.updateByPrimaryKeySelective(info);
+    }
+
 
 }
