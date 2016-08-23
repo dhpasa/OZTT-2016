@@ -400,6 +400,9 @@
 		<if test="orderStatus != null and orderStatus != ''" >
         	and A.handleFlg = #{orderStatus,jdbcType=VARCHAR}
       	</if>
+      	<if test="customerNo != null and customerNo != ''" >
+        	and A.customerNo = #{customerNo,jdbcType=VARCHAR}
+      	</if>
       	<if test="payment != null and payment != ''" >
         	and A.paymentMethod = #{payment,jdbcType=VARCHAR}
       	</if>
@@ -432,6 +435,9 @@
       	</if>
 		<if test="orderStatus != null and orderStatus != ''" >
         	and A.handleFlg = #{orderStatus,jdbcType=VARCHAR}
+      	</if>
+      	<if test="customerNo != null and customerNo != ''" >
+        	and A.customerNo = #{customerNo,jdbcType=VARCHAR}
       	</if>
       	<if test="payment != null and payment != ''" >
         	and A.paymentMethod = #{payment,jdbcType=VARCHAR}

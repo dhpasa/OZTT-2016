@@ -158,7 +158,7 @@
 				}
 			});
 			
-			updateShopCart();
+			updateItemShopCart();
 			return true;
 
 		}
@@ -166,6 +166,28 @@
 		function toShowTabGoods(tabId) {
 			// 进入标签检索画面
 			location.href="${ctx}/item/goodstab?tabId="+tabId;
+		}
+		
+		function updateItemShopCart(){
+			$.ajax({
+				type : "GET",
+				contentType:'application/json',
+				url : '${pageContext.request.contextPath}/COMMON/getShopCartCount',
+				dataType : "json",
+				async : false,
+				data : '', 
+				success : function(data) {
+					if(!data.isException){
+						$("#itemShopCart").text(data.sccount)
+					} else {
+						// 同步购物车失败
+						return;
+					}
+				},
+				error : function(data) {
+					
+				}
+			});
 		}
   </script>
   <style type="text/css">
@@ -228,7 +250,9 @@
 		<div class="x-header-title">
 			<span><fmt:message key="ITEM_TITLE" /></span>
 		</div>
-		<div class="x-header-btn icon-shopcart" id="navCartIcon"></div>
+		<div class="x-header-btn icon-shopcart" id="navCartIcon" onclick="toShopCart()">
+			<span id="itemShopCart" style="display:none"></span>
+		</div>
 		<div class="x-header-btn icon-search"></div>
 	</div>
 	
@@ -361,6 +385,12 @@
 		$('.cuntdown').startTimer({
     		
     	});
+		
+		var sessionUserId = '${currentUserId}';
+		if (sessionUserId != null && sessionUserId.length > 0) {
+			updateItemShopCart();
+			$("#itemShopCart").css("display","");
+		} 
 
 	</script>
 </body>

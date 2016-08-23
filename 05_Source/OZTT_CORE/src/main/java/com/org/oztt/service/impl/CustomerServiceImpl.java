@@ -340,46 +340,57 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
             return null;
         }
     }
-    
+
     @Override
     public void updateCustomerPointsAndLevels(String customerNo, BigDecimal currentAmount) throws Exception {
         // 获取指定用户所有完成的订单。
         Map<Object, Object> params = new HashMap<Object, Object>();
         params.put("orderStatus", CommonEnum.HandleFlag.COMPLATE.getCode());
+        params.put("customerNo", customerNo);
         List<OzTtAdOlListDto> dtoList = tConsOrderDao.getAllOrderInfoForAdminAll(params);
         BigDecimal countBuy = BigDecimal.ZERO;
+        if (getTSysConfig() == null) {
+            // 参数没有直接退出
+            return;
+        }
         if (!CollectionUtils.isEmpty(dtoList)) {
+            // 抽取之前的数据
             // 算出总共买了多少金额
             for (OzTtAdOlListDto dto : dtoList) {
                 countBuy = countBuy.add(new BigDecimal(dto.getOrderAmount()));
             }
-            if (tSysConfig == null) {
-                return;
-            }
-            // 计算出积分有多少
-            BigDecimal point = countBuy.divide(tSysConfig.getPointcalcamount(), 0, BigDecimal.ROUND_DOWN);
-            // 级别是什么
-            String level = getLevel(point, tSysConfig.getLevelsumamount().split(","));
 
-            // 更新会员信息表
-            TCustomerMemberInfo memberInfo = tCustomerMemberInfoDao.selectByCustomerNo(customerNo);
-            if (memberInfo == null) {
-                // 插入
-                memberInfo = new TCustomerMemberInfo();
-                memberInfo.setAddTimestamp(new Date());
-                memberInfo.setAddUserKey(customerNo);
-                memberInfo.setCustomerNo(customerNo);
-                memberInfo.setPoints(point.intValue());
-                memberInfo.setLevel(level);
-                tCustomerMemberInfoDao.insertSelective(memberInfo);
-            }
-            else {
-                // 更新
-                memberInfo.setPoints(memberInfo.getPoints()
-                        + countBuy.divide(tSysConfig.getPointcalcamount(), 0, BigDecimal.ROUND_DOWN).intValue());
-                memberInfo.setLevel(level);
-                tCustomerMemberInfoDao.updateByPrimaryKeySelective(memberInfo);
-            }
+        }
+
+        // 计算出积分有多少
+        BigDecimal point = countBuy.divide(tSysConfig.getPointcalcamount(), 0, BigDecimal.ROUND_DOWN);
+
+        // 级别是什么
+        String level = getLevel(countBuy, tSysConfig.getLevelsumamount().split(","));
+
+        // 更新会员信息表
+        TCustomerMemberInfo memberInfo = tCustomerMemberInfoDao.selectByCustomerNo(customerNo);
+
+        if (memberInfo == null) {
+            // 插入
+            memberInfo = new TCustomerMemberInfo();
+            memberInfo.setAddTimestamp(new Date());
+            memberInfo.setAddUserKey(customerNo);
+            memberInfo.setCustomerNo(customerNo);
+            memberInfo.setPoints(point.intValue());
+            memberInfo.setLevel(level);
+            memberInfo.setSumAmount(countBuy.subtract(point.multiply(tSysConfig.getPointcalcamount())));
+            tCustomerMemberInfoDao.insertSelective(memberInfo);
+        }
+        else {
+            // 更新
+            BigDecimal All = currentAmount.add(memberInfo.getSumAmount());
+            memberInfo.setPoints(memberInfo.getPoints()
+                    + All.divide(tSysConfig.getPointcalcamount(), 0, BigDecimal.ROUND_DOWN).intValue());
+            memberInfo.setSumAmount(All.subtract(All.divide(tSysConfig.getPointcalcamount(), 0, BigDecimal.ROUND_DOWN)
+                    .multiply(tSysConfig.getPointcalcamount())));
+            memberInfo.setLevel(level);
+            tCustomerMemberInfoDao.updateByPrimaryKeySelective(memberInfo);
         }
     }
 
@@ -390,25 +401,25 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
      * @param levelArr
      * @return
      */
-    private String getLevel(BigDecimal point, String[] levelArr) {
+    private String getLevel(BigDecimal sumAmount, String[] levelArr) {
         if (levelArr != null && levelArr.length > 0) {
             String returnstr = "0";
             for (int i = 0; i < levelArr.length; i++) {
                 if (i == 0) {
                     // 第一个
-                    if (point.compareTo(new BigDecimal(levelArr[i])) < 0) {
+                    if (sumAmount.compareTo(new BigDecimal(levelArr[i])) < 0) {
                         returnstr = "0";
                         break;
                     }
                 }
-                if (i < levelArr.length - 1 && point.compareTo(new BigDecimal(levelArr[i])) >= 0
-                        && point.compareTo(new BigDecimal(levelArr[i + 1])) < 0) {
+                if (i < levelArr.length - 1 && sumAmount.compareTo(new BigDecimal(levelArr[i])) >= 0
+                        && sumAmount.compareTo(new BigDecimal(levelArr[i + 1])) < 0) {
                     returnstr = String.valueOf(i + 1);
                     break;
                 }
                 if (i == levelArr.length - 1) {
                     // 最后一个
-                    if (point.compareTo(new BigDecimal(levelArr[i])) >= 0) {
+                    if (sumAmount.compareTo(new BigDecimal(levelArr[i])) >= 0) {
                         returnstr = "4";
                         break;
                     }
@@ -437,6 +448,5 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
     public void updateTCustomerMemberInfo(TCustomerMemberInfo info) throws Exception {
         tCustomerMemberInfoDao.updateByPrimaryKeySelective(info);
     }
-
 
 }

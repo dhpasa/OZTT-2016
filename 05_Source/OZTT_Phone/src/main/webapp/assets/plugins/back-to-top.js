@@ -66,9 +66,13 @@ var scrolltotop={
 				mainobj.scrollup()
 				return false
 			})
-			$(window).bind('scroll resize', function(e){
-				mainobj.togglecontrol()
-			})
+			if (window.location.href.indexOf("shopcart/init") > 0 || window.location.href.indexOf("purchase/init") > 0) {
+				
+			} else {
+				$(window).bind('scroll resize', function(e){
+					mainobj.togglecontrol()
+				})
+			}
 		})
 	}
 }

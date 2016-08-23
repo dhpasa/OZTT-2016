@@ -223,6 +223,21 @@ html{
 
 .icon-shopcart {
     background: url(../images/cart.png) center center/3rem 3rem no-repeat;
+    position: relative;
+}
+
+.icon-shopcart span{
+	position: absolute;
+    top: 5px;
+    right: 1px;
+    line-height: 15px;
+    color: #fff;
+	width: 2rem;
+	padding: 0 3px;
+    height: 1.5rem;
+    text-align: center;
+    background-color: #FF9298;
+    border-radius: 10px !important;
 }
 
 .ico-back{
@@ -644,7 +659,8 @@ html{
 	width: 100%;
 	display: inline-block;
 	margin-top: 1rem;
-	color: #ffb83c
+	color: #ffb83c;
+	background-color: #d6f3ff;
 }
 .main-rushpur-area .rushtext{
 	width: 100%;
@@ -671,6 +687,7 @@ html{
 	width: 100%;
 	display: inline-block;
 	color: #48beff;
+	background-color: #d6f3ff;
 }
 
 .main-presell-area .preselltext{
@@ -698,6 +715,7 @@ html{
 	width: 100%;
 	display: inline-block;
 	color: #08c9ab;
+	background-color: #d6f3ff;
 }
 
 .main-nowsell-area .nowselltext{
@@ -1770,7 +1788,7 @@ html{
 .item_flexslider .slides img{
 	width: 50% !important;
     display: block;
-    margin: 0 auto !important;
+    margin: 5rem auto 0 auto !important;
 }
 
 /*==================================检索页=============================*/
