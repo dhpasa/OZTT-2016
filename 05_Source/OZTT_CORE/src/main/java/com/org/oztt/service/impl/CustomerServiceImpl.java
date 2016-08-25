@@ -1,7 +1,9 @@
 package com.org.oztt.service.impl;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -18,16 +20,20 @@ import com.org.oztt.base.util.PasswordEncryptSalt;
 import com.org.oztt.base.util.PasswordEncryptSaltUtils;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.contants.CommonEnum;
+import com.org.oztt.dao.TConsOrderDao;
 import com.org.oztt.dao.TCustomerBasicInfoDao;
 import com.org.oztt.dao.TCustomerLoginHisDao;
 import com.org.oztt.dao.TCustomerLoginInfoDao;
+import com.org.oztt.dao.TCustomerMemberInfoDao;
 import com.org.oztt.dao.TCustomerSecurityInfoDao;
 import com.org.oztt.dao.TNoCustomerDao;
 import com.org.oztt.entity.TCustomerBasicInfo;
 import com.org.oztt.entity.TCustomerLoginHis;
 import com.org.oztt.entity.TCustomerLoginInfo;
+import com.org.oztt.entity.TCustomerMemberInfo;
 import com.org.oztt.entity.TCustomerSecurityInfo;
 import com.org.oztt.entity.TNoCustomer;
+import com.org.oztt.formDto.OzTtAdOlListDto;
 import com.org.oztt.formDto.OzTtAdRlListDto;
 import com.org.oztt.formDto.OzTtTpFpDto;
 import com.org.oztt.formDto.OzTtTpReDto;
@@ -51,6 +57,12 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
 
     @Resource
     private TCustomerSecurityInfoDao tCustomerSecurityInfoDao;
+
+    @Resource
+    private TConsOrderDao            tConsOrderDao;
+
+    @Resource
+    private TCustomerMemberInfoDao   tCustomerMemberInfoDao;
 
     public TCustomerLoginInfo userLogin(String loginId, String password) throws Exception {
         Map<String, String> paramMap = new HashMap<String, String>();
@@ -130,7 +142,7 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
             }
         }
 
-        maxCustomer =  "CS" + maxCustomer;
+        maxCustomer = "CS" + maxCustomer;
         // 可用登录信息的保存
         TCustomerLoginInfo tCustomerLoginInfo = new TCustomerLoginInfo();
         tCustomerLoginInfo.setAddtimestamp(new Date());
@@ -197,7 +209,7 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
         TCustomerLoginInfo info = this.selectByCustomerNo(ozTtTpFpDto.getCustomerNo());
         PasswordEncryptSalt returnEnti = PasswordEncryptSaltUtils.encryptPassword(ozTtTpFpDto.getNewPassword());
         info.setLoginpass(returnEnti.getNewPassword());
-        info.setSalt(returnEnti.getSalt());        
+        info.setSalt(returnEnti.getSalt());
         info.setUpdtimestamp(new Date());
         info.setUpdpgmid("OZ_TT_TP_FP");
         info.setUpduserkey(ozTtTpFpDto.getCustomerNo());
@@ -282,15 +294,17 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
                 else {
                     return null;
                 }
-            } else {
+            }
+            else {
                 // 不进行MD5加密处理
                 if (PassWordParseInMD5.Md5(password).equals(info.getLoginpass())) {
                     return info;
-                } else {
+                }
+                else {
                     return null;
                 }
             }
-            
+
         }
 
     }
@@ -309,29 +323,130 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
         return tCustomerSecurityInfoDao.selectByParam(param);
     }
 
-	@Override
-	public void updateCustomerPointsAndLevels(String customerNo) throws Exception {
-		// 获取指定用户所有的订单，并且是订单已经结束的。
-		
-		// 算出
-		
-	}
+    @Override
+    public OzTtAdRlListDto getCustomerInfoForAdmin(String customerNo) throws Exception {
+        OzTtAdRlListDto ozTtAdRlListDto = tCustomerBasicInfoDao.getCustomerInfoForAdmin(customerNo);
+        if (ozTtAdRlListDto != null) {
+            ozTtAdRlListDto
+                    .setBirthday(DateFormatUtils.date2StringWithFormat(DateFormatUtils.string2DateWithFormat(
+                            ozTtAdRlListDto.getBirthday(), DateFormatUtils.PATTEN_YMD_NO_SEPRATE),
+                            DateFormatUtils.PATTEN_YMD2));
+            ozTtAdRlListDto.setSex(CommonEnum.SexStatus.getEnumLabel(ozTtAdRlListDto.getSex()));
+            ozTtAdRlListDto.setMarriage(CommonEnum.MarriageStatus.getEnumLabel(ozTtAdRlListDto.getMarriage()));
+            ozTtAdRlListDto.setEducation(CommonEnum.EducationStatus.getEnumLabel(ozTtAdRlListDto.getEducation()));
+            return ozTtAdRlListDto;
+        }
+        else {
+            return null;
+        }
+    }
 
-	@Override
-	public OzTtAdRlListDto getCustomerInfoForAdmin(String customerNo)
-			throws Exception {
-		OzTtAdRlListDto ozTtAdRlListDto = tCustomerBasicInfoDao.getCustomerInfoForAdmin(customerNo);
-		if(ozTtAdRlListDto != null) {
-			ozTtAdRlListDto.setBirthday(DateFormatUtils.date2StringWithFormat(
-                    DateFormatUtils.string2DateWithFormat(ozTtAdRlListDto.getBirthday(), DateFormatUtils.PATTEN_YMD_NO_SEPRATE),
-                    DateFormatUtils.PATTEN_YMD2));
-			ozTtAdRlListDto.setSex(CommonEnum.SexStatus.getEnumLabel(ozTtAdRlListDto.getSex()));
-			ozTtAdRlListDto.setMarriage(CommonEnum.MarriageStatus.getEnumLabel(ozTtAdRlListDto.getMarriage()));
-			ozTtAdRlListDto.setEducation(CommonEnum.EducationStatus.getEnumLabel(ozTtAdRlListDto.getEducation()));
-			return ozTtAdRlListDto;
-		} else {
-			return null;
-		}
-	}
+    @Override
+    public void updateCustomerPointsAndLevels(String customerNo, BigDecimal currentAmount) throws Exception {
+        // 获取指定用户所有完成的订单。
+        Map<Object, Object> params = new HashMap<Object, Object>();
+        params.put("orderStatus", CommonEnum.HandleFlag.COMPLATE.getCode());
+        params.put("customerNo", customerNo);
+        List<OzTtAdOlListDto> dtoList = tConsOrderDao.getAllOrderInfoForAdminAll(params);
+        BigDecimal countBuy = BigDecimal.ZERO;
+        if (getTSysConfig() == null) {
+            // 参数没有直接退出
+            return;
+        }
+        if (!CollectionUtils.isEmpty(dtoList)) {
+            // 抽取之前的数据
+            // 算出总共买了多少金额
+            for (OzTtAdOlListDto dto : dtoList) {
+                countBuy = countBuy.add(new BigDecimal(dto.getOrderAmount()));
+            }
+
+        }
+
+        // 计算出积分有多少
+        BigDecimal point = countBuy.divide(tSysConfig.getPointcalcamount(), 0, BigDecimal.ROUND_DOWN);
+
+        // 级别是什么
+        String level = getLevel(countBuy, tSysConfig.getLevelsumamount().split(","));
+
+        // 更新会员信息表
+        TCustomerMemberInfo memberInfo = tCustomerMemberInfoDao.selectByCustomerNo(customerNo);
+
+        if (memberInfo == null) {
+            // 插入
+            memberInfo = new TCustomerMemberInfo();
+            memberInfo.setAddTimestamp(new Date());
+            memberInfo.setAddUserKey(customerNo);
+            memberInfo.setCustomerNo(customerNo);
+            memberInfo.setPoints(point.intValue());
+            memberInfo.setLevel(level);
+            memberInfo.setSumAmount(countBuy.subtract(point.multiply(tSysConfig.getPointcalcamount())));
+            tCustomerMemberInfoDao.insertSelective(memberInfo);
+        }
+        else {
+            // 更新
+            BigDecimal All = currentAmount.add(memberInfo.getSumAmount());
+            memberInfo.setPoints(memberInfo.getPoints()
+                    + All.divide(tSysConfig.getPointcalcamount(), 0, BigDecimal.ROUND_DOWN).intValue());
+            memberInfo.setSumAmount(All.subtract(All.divide(tSysConfig.getPointcalcamount(), 0, BigDecimal.ROUND_DOWN)
+                    .multiply(tSysConfig.getPointcalcamount())));
+            memberInfo.setLevel(level);
+            tCustomerMemberInfoDao.updateByPrimaryKeySelective(memberInfo);
+        }
+    }
+
+    /**
+     * 获取积分级别
+     * 
+     * @param point
+     * @param levelArr
+     * @return
+     */
+    private String getLevel(BigDecimal sumAmount, String[] levelArr) {
+        if (levelArr != null && levelArr.length > 0) {
+            String returnstr = "0";
+            for (int i = 0; i < levelArr.length; i++) {
+                if (i == 0) {
+                    // 第一个
+                    if (sumAmount.compareTo(new BigDecimal(levelArr[i])) < 0) {
+                        returnstr = "0";
+                        break;
+                    }
+                }
+                if (i < levelArr.length - 1 && sumAmount.compareTo(new BigDecimal(levelArr[i])) >= 0
+                        && sumAmount.compareTo(new BigDecimal(levelArr[i + 1])) < 0) {
+                    returnstr = String.valueOf(i + 1);
+                    break;
+                }
+                if (i == levelArr.length - 1) {
+                    // 最后一个
+                    if (sumAmount.compareTo(new BigDecimal(levelArr[i])) >= 0) {
+                        returnstr = "4";
+                        break;
+                    }
+                }
+
+            }
+            return returnstr;
+        }
+        else {
+            return "0";
+        }
+
+    }
+
+    @Override
+    public TCustomerMemberInfo getCustomerMemberInfo(String customerNo) throws Exception {
+        return tCustomerMemberInfoDao.selectByCustomerNo(customerNo);
+    }
+
+    @Override
+    public void saveTCustomerMemberInfo(TCustomerMemberInfo info) throws Exception {
+        tCustomerMemberInfoDao.insertSelective(info);
+    }
+
+    @Override
+    public void updateTCustomerMemberInfo(TCustomerMemberInfo info) throws Exception {
+        tCustomerMemberInfoDao.updateByPrimaryKeySelective(info);
+    }
 
 }

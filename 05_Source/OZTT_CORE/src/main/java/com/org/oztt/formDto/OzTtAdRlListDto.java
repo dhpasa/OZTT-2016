@@ -43,6 +43,8 @@ public class OzTtAdRlListDto {
     private String canlogin;
     
     private String detailNo;
+    
+    private String basicNo;
 
     public String getTelNo() {
 		return telNo;
@@ -194,5 +196,13 @@ public class OzTtAdRlListDto {
 
 	public void setComments(String comments) {
 		this.comments = comments;
+	}
+
+	public String getBasicNo() {
+		return basicNo;
+	}
+
+	public void setBasicNo(String basicNo) {
+		this.basicNo = basicNo;
 	}
 }

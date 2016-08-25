@@ -223,6 +223,21 @@ html{
 
 .icon-shopcart {
     background: url(../images/cart.png) center center/3rem 3rem no-repeat;
+    position: relative;
+}
+
+.icon-shopcart span{
+	position: absolute;
+    top: 5px;
+    right: 1px;
+    line-height: 15px;
+    color: #fff;
+	width: 2rem;
+	padding: 0 3px;
+    height: 1.5rem;
+    text-align: center;
+    background-color: #FF9298;
+    border-radius: 10px !important;
 }
 
 .ico-back{
@@ -644,7 +659,8 @@ html{
 	width: 100%;
 	display: inline-block;
 	margin-top: 1rem;
-	color: #ffb83c
+	color: #ffb83c;
+	background-color: #d6f3ff;
 }
 .main-rushpur-area .rushtext{
 	width: 100%;
@@ -671,6 +687,7 @@ html{
 	width: 100%;
 	display: inline-block;
 	color: #48beff;
+	background-color: #d6f3ff;
 }
 
 .main-presell-area .preselltext{
@@ -698,6 +715,7 @@ html{
 	width: 100%;
 	display: inline-block;
 	color: #08c9ab;
+	background-color: #d6f3ff;
 }
 
 .main-nowsell-area .nowselltext{
@@ -895,22 +913,78 @@ html{
 	padding:1rem 0;
 }
 
+.userlevel{
+	position: absolute;
+    display: block;
+    width: 3rem;
+    height: 3rem;
+    left: auto;
+    right: 1rem;
+    top: 3rem;
+}
+
+.userlevel_1 {
+	background: url(../images/Level_1.png) no-repeat;
+    background-size: 3rem 3rem;
+}
+
+.userlevel_2 {
+	background: url(../images/Level_2.png) no-repeat;
+    background-size: 3rem 3rem;
+}
+
+.userlevel_3 {
+	background: url(../images/Level_3.png) no-repeat;
+    background-size: 3rem 3rem;
+}
+
+.userlevel_4 {
+	background: url(../images/Level_4.png) no-repeat;
+    background-size: 3rem 3rem;
+}
+
+.userlevel_5 {
+	background: url(../images/Level_4.png) no-repeat;
+    background-size: 3rem 3rem;
+}
+
+.userPoints{
+	width: 100%;
+    color: #fff;
+    font-size: 1.5rem;
+    position: absolute;
+    text-align: right;
+    right: 1rem;
+    bottom: 1rem;
+}
+
 .showusername{
 	background-color: #FA6D72;
 	width: 100%;
     height: 100%;
+    position: relative;
 }
 
 .showusername span{
-	line-height: 9rem;
-	padding-left: 0rem;
-	color: #fff;
-	font-size: 2.5rem;
+	line-height: 2rem;
+    padding-left: 0rem;
+    color: #fff;
+    font-size: 2.5rem;
+    word-break: break-word;
+    width: 50%;
+    height: 100%;
+    display: inline-block;
+    float: left;
+    padding-top: 3rem;
 }
 
 .showusername img{
 	height: 5rem;
-	padding-left: 10%;
+	padding-left: 7%;
+	width: 33%;
+    display: inline-block;
+    margin-top: 3rem;
+    float: left;
 }
 
 .user-language{
@@ -1714,7 +1788,7 @@ html{
 .item_flexslider .slides img{
 	width: 50% !important;
     display: block;
-    margin: 0 auto !important;
+    margin: 5rem auto 0 auto !important;
 }
 
 /*==================================检索页=============================*/
