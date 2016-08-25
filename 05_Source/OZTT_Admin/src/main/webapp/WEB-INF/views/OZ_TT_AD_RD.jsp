@@ -65,21 +65,21 @@
 			<form:form cssClass="form-horizontal" action="" method="post" id="olForm" modelAttribute="ozTtAdRlListDto" commandName="ozTtAdRlListDto" role="form">
 			<div class="form-body">
 				<div class="form-group">
-					<label class="col-md-1 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_customerNo" /></label>
+					<label class="col-md-2 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_customerNo" /></label>
 					<div class="col-md-3">
 						<form:input type="text" path="customerNo" class="form-control" maxlength="16" readonly="true"></form:input>
 					</div>					
 					<div class="col-md-8"></div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-1 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_telNo" /></label>
+					<label class="col-md-2 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_telNo" /></label>
 					<div class="col-md-3">
 						<form:input type="text" path="telNo" class="form-control" maxlength="20" readonly="true"></form:input>
 					</div>					
 					<div class="col-md-8"></div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-1 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_name" /></label>
+					<label class="col-md-2 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_name" /></label>
 					<div class="col-md-3">
 						<form:input type="text" path="cnSurname" class="form-control" maxlength="50" readonly="true"></form:input>
 
@@ -87,86 +87,86 @@
 					<div class="col-md-8"></div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-1 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_idCardNo" /></label>
+					<label class="col-md-2 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_idCardNo" /></label>
 					<div class="col-md-3">
 						<form:input type="text" path="idCardNo" class="form-control" maxlength="50" readonly="true"></form:input>
 					</div>					
 					<div class="col-md-8"></div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-1 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_passportNo" /></label>
+					<label class="col-md-2 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_passportNo" /></label>
 					<div class="col-md-3">
 						<form:input type="text" path="passportNo" class="form-control" maxlength="50" readonly="true"></form:input>
 					</div>					
 					<div class="col-md-8"></div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-1 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_sex" /></label>
+					<label class="col-md-2 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_sex" /></label>
 					<div class="col-md-3">
 						<form:input type="text" path="sex" class="form-control" maxlength="6" readonly="true"></form:input>
 					</div>					
 					<div class="col-md-8"></div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-1 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_nickName" /></label>
+					<label class="col-md-2 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_nickName" /></label>
 					<div class="col-md-3">
 						<form:input type="text" path="nickName" class="form-control" maxlength="50" readonly="true"></form:input>
 					</div>					
 					<div class="col-md-8"></div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-1 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_birthday" /></label>
+					<label class="col-md-2 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_birthday" /></label>
 					<div class="col-md-3">
 						<form:input type="text" path="birthday" class="form-control" maxlength="50" readonly="true"></form:input>
 					</div>					
 					<div class="col-md-8"></div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-1 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_marriage" /></label>
+					<label class="col-md-2 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_marriage" /></label>
 					<div class="col-md-3">
 						<form:input type="text" path="marriage" class="form-control" maxlength="6" readonly="true"></form:input>
 					</div>					
 					<div class="col-md-8"></div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-1 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_education" /></label>
+					<label class="col-md-2 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_education" /></label>
 					<div class="col-md-3">
 						<form:input type="text" path="education" class="form-control" maxlength="6" readonly="true"></form:input>
 					</div>					
 					<div class="col-md-8"></div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-1 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_occupation" /></label>
+					<label class="col-md-2 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_occupation" /></label>
 					<div class="col-md-3">
 						<form:input type="text" path="occupation" class="form-control" maxlength="6" readonly="true"></form:input>
 					</div>					
 					<div class="col-md-8"></div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-1 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_canlogin" /></label>
+					<label class="col-md-2 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_canlogin" /></label>
 					<div class="radio-list col-md-3">
 						<label class="radio-inline">
-						<form:radiobutton path="canlogin" value="0" readonly="true"></form:radiobutton>
+						<form:radiobutton path="canlogin" value="0" readonly="true" disabled="true"></form:radiobutton>
 						 <fmt:message key="OZ_TT_AD_RL_DE_canloginN" />
 						 </label>
 						<label class="radio-inline">
-						<form:radiobutton path="canlogin" value="1" readonly="true"></form:radiobutton>
+						<form:radiobutton path="canlogin" value="1" readonly="true" disabled="true"></form:radiobutton>
 						 <fmt:message key="OZ_TT_AD_RL_DE_canloginY" />
 						 </label>
 					</div>					
 					<div class="col-md-8"></div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-1 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_comments" /></label>
-					<div class="col-md-3">
-						<form:input type="textarea" path="comments" class="form-control" maxlength="500"></form:input>
+					<label class="col-md-2 control-label textleft"><fmt:message key="OZ_TT_AD_RL_DE_comments" /></label>
+					<div class="col-md-5">
+						<form:textarea path="comments" class="form-control" maxlength="500" rows="3"></form:textarea>
 					</div>					
 					<div class="col-md-8"></div>
 				</div>
 			</div>
 			
 			<h4 class="form-section"></h4>
-			<div class="col-md-6 textleft">
+			<div class="col-md-6 textleft forceClearFloat">
 					<button type="button" class="btn green mybtn" onclick="saveCustomerBasicInfo()">
 						<i class="fa fa-save"></i>&nbsp;<fmt:message key="COMMON_SAVE" />
 					</button>
