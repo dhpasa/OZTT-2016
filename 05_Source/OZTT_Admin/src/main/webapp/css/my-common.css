@@ -276,7 +276,7 @@ table .product-quantity .input-group {
 }
 /* END product page */
 
-/* ������������ */
+/* Date Format */
 .input_date_box {
 	border: 1px solid #bac7d2;
 	width: 167px;
@@ -366,7 +366,7 @@ table .product-quantity .input-group {
   padding-bottom: 5px;
 }
 
-/*=======================���������������=====================*/
+/*=======================Production Display Page=====================*/
 .item-carousel-indicators {
     position: absolute;
     bottom: 10px;
