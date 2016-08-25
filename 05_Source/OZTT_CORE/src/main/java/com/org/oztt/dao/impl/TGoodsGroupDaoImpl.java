@@ -2,6 +2,7 @@ package com.org.oztt.dao.impl;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -74,5 +75,8 @@ public class TGoodsGroupDaoImpl extends BaseDao implements TGoodsGroupDao {
 		 return selectPagination("com.org.oztt.dao.TGoodsGroupDao.searchGoodsView",
 	                "com.org.oztt.dao.TGoodsGroupDao.searchGoodsViewCount", pagination);
 	}
-
+	@Override
+	public Object getProductsCount(Map<Object, Object> param) {
+		return selectOne("com.org.oztt.dao.TGoodsGroupDao.searchProductsCount", param);
+	}
 }
