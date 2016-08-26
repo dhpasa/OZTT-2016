@@ -146,7 +146,7 @@
 								</c:forEach>
 								<c:if test="${pageInfo1.totalSize > 0}">
 								<tr>
-									<td colspan="6" align="right"><fmt:message key="OZ_TT_AD_GS_totalOrder" />：${pageInfo1.totalSize }<fmt:message key="OZ_TT_AD_GS_unit" /></td>
+									<td colspan="6" align="right"><fmt:message key="OZ_TT_AD_GS_totalOrder" />：${count }<fmt:message key="OZ_TT_AD_GS_unit" /></td>
 								</tr>
 								</c:if>
 							</tbody>

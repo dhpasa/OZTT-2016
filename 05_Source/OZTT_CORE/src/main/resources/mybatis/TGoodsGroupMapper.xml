@@ -571,5 +571,27 @@
         	and a.handleFlg = #{handleFlg,jdbcType=VARCHAR}
       	</if>
 	</select>
+	<select id="searchProductsCount" resultType="int" parameterType="map">
+		select
+		sum(a.quantity)
+		from t_cons_order_details a
+		inner join t_goods b on a.goodsId = b.goodsId
+		inner join t_customer_basic_info c on a.customerNo = c.customerNo
+		inner join t_customer_security_info d on a.customerNo = d.customerNo
+		left join t_cons_order e on a.orderNo = e.orderNo
+		where 1=1
+		<if test="goodsName != null and goodsName != ''">
+			and b.goodsName like concat('%',#{goodsName,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="dateFrom != null and dateFrom != ''" >
+        	<![CDATA[and (DATE_FORMAT(e.orderTimestamp,'%Y/%m/%d')) >= #{dateFrom,jdbcType=VARCHAR}]]>
+      	</if>
+      	<if test="dateTo != null and dateTo != ''" >
+        	<![CDATA[and (DATE_FORMAT(e.orderTimestamp,'%Y/%m/%d')) <= #{dateTo,jdbcType=VARCHAR}]]>
+      	</if>
+      	<if test="handleFlg != null and handleFlg != ''">
+        	and a.handleFlg = #{handleFlg,jdbcType=VARCHAR}
+      	</if>
+	</select>
 	
 </mapper>

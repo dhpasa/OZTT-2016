@@ -1,5 +1,6 @@
 package com.org.oztt.admin.controller;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,6 +76,7 @@ public class OzTtAdGSController extends BaseController {
 			pagination1.setParams(params1);
 			PagingResult<OzTtAdGsListDto> pageInfo1 = goodsService.getAllGoodsRInfoForAdmin(pagination1);
 
+			model.addAttribute("count", goodsService.getProductsCount(params1));
 			model.addAttribute("ozTtAdGsDto", ozTtAdGsDto);
 			model.addAttribute("pageInfo1", pageInfo1);
 			return "OZ_TT_AD_GS";
@@ -107,6 +109,7 @@ public class OzTtAdGSController extends BaseController {
 			pagination1.setParams(params1);
 			PagingResult<OzTtAdGsListDto> pageInfo1 = goodsService.getAllGoodsRInfoForAdmin(pagination1);
 
+			model.addAttribute("count", goodsService.getProductsCount(params1));
 			model.addAttribute("ozTtAdGsDto", ozTtAdGsDto);
 			model.addAttribute("pageInfo1", pageInfo1);
 			return "OZ_TT_AD_GS";

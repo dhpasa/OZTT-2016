@@ -1,6 +1,7 @@
 package com.org.oztt.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.org.oztt.base.page.Pagination;
 import com.org.oztt.base.page.PagingResult;
@@ -73,4 +74,6 @@ public interface TGoodsGroupDao {
     * @return
     */
    PagingResult<OzTtAdGsListDto> getAllGoodsRInfoForAdmin(Pagination pagination);
+   
+   Object getProductsCount(Map<Object, Object> param);
 }

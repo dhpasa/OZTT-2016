@@ -1061,5 +1061,14 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
 		}
 		return dtoList;
 	}
+	@Override
+	public int getProductsCount(Map<Object, Object> param) throws Exception {
+		Object o = tGoodsGroupDao.getProductsCount(param);
+		if (o != null) {
+			return (Integer) o;
+		} else {
+			return 0;
+		}
+	}
 
 }

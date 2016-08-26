@@ -547,4 +547,12 @@ public interface GoodsService {
      * @throws Exception
      */
     public PagingResult<OzTtAdGsListDto> getAllGoodsRInfoForAdmin(Pagination pagination) throws Exception;
+    /**
+     * 产品维度查询
+     *
+     * @param pagination
+     * @return
+     * @throws Exception
+     */
+    public int getProductsCount(Map<Object, Object> param) throws Exception;
 }

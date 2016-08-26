@@ -276,7 +276,7 @@ table .product-quantity .input-group {
 }
 /* END product page */
 
-/* 日期格式 */
+/* Date Format */
 .input_date_box {
 	border: 1px solid #bac7d2;
 	width: 167px;
@@ -366,7 +366,7 @@ table .product-quantity .input-group {
   padding-bottom: 5px;
 }
 
-/*=======================商品显示页=====================*/
+/*=======================Production Display Page=====================*/
 .item-carousel-indicators {
     position: absolute;
     bottom: 10px;
@@ -693,4 +693,8 @@ table .product-quantity .input-group {
 
 .forceFloatLeft {
     float: left !important;
+}
+
+.forceClearFloat {
+	float:none !important;
 }
