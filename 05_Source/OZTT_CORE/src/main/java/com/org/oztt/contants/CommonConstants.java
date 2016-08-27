@@ -20,6 +20,8 @@ public final class CommonConstants {
 
     public static final String SESSION_CUSTOMERNAME       = "sessionUserName";                      // 用来保存的用户名
 
+    public static final String SESSION_DIAMOND_CUSTOMER   = "sessionDiamondCustomer";               // 用来保存的用户名
+
     public static final String BELONG_FATHER_CLASS        = "0C0000";                               // 父分类
 
     public static final String FATHER_CLASS               = "1C";                                   // 父分类

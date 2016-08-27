@@ -358,6 +358,10 @@
 						$('#errormsg_content').text(data.checkAllMsg);
 		  				$('#errormsg-pop-up').modal('show');
 						return;
+					} else if (data.isBlackLevel) {
+						$('#errormsg_content').text(data.checkAllMsg);
+		  				$('#errormsg-pop-up').modal('show');
+						return;
 					} else {
 						isOver = false;
 					}

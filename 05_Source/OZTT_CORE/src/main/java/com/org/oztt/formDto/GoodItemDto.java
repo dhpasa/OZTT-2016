@@ -12,41 +12,43 @@ import com.org.oztt.entity.TTabInfo;
  */
 public class GoodItemDto {
 
-    private TGoods       goods;           //基本属性
+    private TGoods         goods;           //基本属性
 
-    private String       firstImg;        //默认显示的图片
+    private String         firstImg;        //默认显示的图片
 
-    private List<String> imgList;         // 图片
+    private List<String>   imgList;         // 图片
 
-    private String       nowPrice;         // 现价
+    private String         nowPrice;        // 现价
 
-    private String       disPrice;         // 折扣价格
+    private String         disPrice;        // 折扣价格
 
-    private String       groupMax;         //团购最大数量
+    private String         groupMax;        //团购最大数量
 
-    private String       groupCurrent;     //团购现在数量
+    private String         groupCurrent;    //团购现在数量
 
-    private String       validPeriodStart; // 适用期开始
+    private String         validPeriodStart; // 适用期开始
 
-    private String       validPeriodEnd;   // 适用期
+    private String         validPeriodEnd;  // 适用期
 
-    private String       isOver;           //是否已经打到团购上线
+    private String         isOver;          //是否已经打到团购上线
 
-    private String       isOverTime;       // 是否已经超过时间
+    private String         isOverTime;      // 是否已经超过时间
 
-    private String       productInfo;     // 商品详情
+    private String         productInfo;     // 商品详情
 
-    private String       productDesc;     // 商品描述
+    private String         productDesc;     // 商品描述
 
-    private String       sellerRule;      // 买家规则
+    private String         sellerRule;      // 买家规则
 
-    private String       groupId;         // 团购ID
+    private String         groupId;         // 团购ID
 
-    private String       properties;
+    private String         properties;
 
-    private String       countdownTime;
-    
-    private List<TTabInfo> goodsTabs; //商品标签       
+    private String         countdownTime;
+
+    private String         diamondShowFlg;  //钻石会员显示
+
+    private List<TTabInfo> goodsTabs;       //商品标签       
 
     public TGoods getGoods() {
         return goods;
@@ -190,5 +192,13 @@ public class GoodItemDto {
 
     public void setGoodsTabs(List<TTabInfo> goodsTabs) {
         this.goodsTabs = goodsTabs;
+    }
+
+    public String getDiamondShowFlg() {
+        return diamondShowFlg;
+    }
+
+    public void setDiamondShowFlg(String diamondShowFlg) {
+        this.diamondShowFlg = diamondShowFlg;
     }
 }

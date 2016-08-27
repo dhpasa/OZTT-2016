@@ -8,6 +8,7 @@
     <result column="points" property="points" jdbcType="INTEGER" />
     <result column="level" property="level" jdbcType="VARCHAR" />
     <result column="sumAmount" property="sumAmount" jdbcType="DECIMAL" />
+    <result column="leftAmount" property="leftAmount" jdbcType="DECIMAL" />
     <result column="addTimestamp" property="addTimestamp" jdbcType="TIMESTAMP" />
     <result column="addUserKey" property="addUserKey" jdbcType="VARCHAR" />
     <result column="updTimestamp" property="updTimestamp" jdbcType="TIMESTAMP" />
@@ -15,7 +16,7 @@
     <result column="updPgmId" property="updPgmId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    no, customerNo, memberCardNo, points, level, sumAmount, addTimestamp, addUserKey, updTimestamp, 
+    no, customerNo, memberCardNo, points, level, sumAmount, leftAmount, addTimestamp, addUserKey, updTimestamp, 
     updUserKey, updPgmId
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -30,11 +31,12 @@
   </delete>
   <insert id="insert" parameterType="com.org.oztt.entity.TCustomerMemberInfo" >
     insert into t_customer_member_info (no, customerNo, memberCardNo, 
-      points, level, sumAmount, addTimestamp, 
+      points, level, sumAmount, leftAmount, addTimestamp, 
       addUserKey, updTimestamp, updUserKey, 
       updPgmId)
     values (#{no,jdbcType=BIGINT}, #{customerNo,jdbcType=VARCHAR}, #{memberCardNo,jdbcType=VARCHAR}, 
-      #{points,jdbcType=INTEGER}, #{level,jdbcType=VARCHAR}, #{sumAmount,jdbcType=DECIMAL}, #{addTimestamp,jdbcType=TIMESTAMP}, 
+      #{points,jdbcType=INTEGER}, #{level,jdbcType=VARCHAR}, #{sumAmount,jdbcType=DECIMAL}, 
+      #{leftAmount,jdbcType=DECIMAL}, #{addTimestamp,jdbcType=TIMESTAMP}, 
       #{addUserKey,jdbcType=VARCHAR}, #{updTimestamp,jdbcType=TIMESTAMP}, #{updUserKey,jdbcType=VARCHAR}, 
       #{updPgmId,jdbcType=VARCHAR})
   </insert>
@@ -58,6 +60,9 @@
       </if>
       <if test="sumAmount != null" >
         sumAmount,
+      </if>
+      <if test="leftAmount != null" >
+        leftAmount,
       </if>
       <if test="addTimestamp != null" >
         addTimestamp,
@@ -94,6 +99,9 @@
       <if test="sumAmount != null" >
         #{sumAmount,jdbcType=DECIMAL},
       </if>
+      <if test="leftAmount != null" >
+        #{leftAmount,jdbcType=DECIMAL},
+      </if>
       <if test="addTimestamp != null" >
         #{addTimestamp,jdbcType=TIMESTAMP},
       </if>
@@ -129,6 +137,9 @@
       <if test="sumAmount != null" >
         sumAmount = #{sumAmount,jdbcType=DECIMAL},
       </if>
+      <if test="leftAmount != null" >
+        leftAmount = #{leftAmount,jdbcType=DECIMAL},
+      </if>
       <if test="addTimestamp != null" >
         addTimestamp = #{addTimestamp,jdbcType=TIMESTAMP},
       </if>
@@ -154,6 +165,7 @@
       points = #{points,jdbcType=INTEGER},
       level = #{level,jdbcType=VARCHAR},
       sumAmount = #{sumAmount,jdbcType=DECIMAL},
+      leftAmount = #{leftAmount,jdbcType=DECIMAL},
       addTimestamp = #{addTimestamp,jdbcType=TIMESTAMP},
       addUserKey = #{addUserKey,jdbcType=VARCHAR},
       updTimestamp = #{updTimestamp,jdbcType=TIMESTAMP},

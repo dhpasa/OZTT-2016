@@ -124,7 +124,7 @@ public class CommonServiceImpl extends BaseService implements CommonService {
     @Override
     public List<MyMap> getCustomerLevel() throws Exception {
         if (customerLevelList == null) {
-            customerLevelList = entityList2mapList(tSysCodeDao.selectByCodeId(SysCodeConstants.PAYMETHOD));
+            customerLevelList = entityList2mapList(tSysCodeDao.selectByCodeId(SysCodeConstants.CUSTOMER_LEVEL));
         }
         return customerLevelList;
     }

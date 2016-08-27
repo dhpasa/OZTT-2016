@@ -504,6 +504,9 @@
 		<if test="newSaleFlg != null">
 			and c.topPageUp = #{newSaleFlg,jdbcType=VARCHAR}
 		</if>
+		<if test="enShowFlg != null">
+			and c.enShowFlg = #{enShowFlg,jdbcType=VARCHAR}
+		</if>
 		<if test="goodsName != null and goodsName != '' ">
 			and a.goodsName like concat('%',#{goodsName},'%')
 		</if>
@@ -518,6 +521,9 @@
 		</if>
 		<if test="inStockFlg != null">
 			and c.inStockFlg = #{inStockFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="diamondShowFlg != null">
+			and c.diamondShowFlg = #{diamondShowFlg,jdbcType=VARCHAR}
 		</if>
 		<if test="hotFlg != null">
 			and c.hotFlg = #{hotFlg,jdbcType=VARCHAR}
@@ -565,11 +571,17 @@
 		<if test="topPageUp != null">
 			and c.topPageUp = #{topPageUp,jdbcType=VARCHAR}
 		</if>
+		<if test="enShowFlg != null">
+			and c.enShowFlg = #{enShowFlg,jdbcType=VARCHAR}
+		</if>
 		<if test="preFlg != null">
 			and c.preFlg = #{preFlg,jdbcType=VARCHAR}
 		</if>
 		<if test="inStockFlg != null">
 			and c.inStockFlg = #{inStockFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="diamondShowFlg != null">
+			and c.diamondShowFlg = #{diamondShowFlg,jdbcType=VARCHAR}
 		</if>
 		<if test="hotFlg != null">
 			and c.hotFlg = #{hotFlg,jdbcType=VARCHAR}

@@ -33,6 +33,8 @@ public class TCustomerMemberInfo implements Serializable {
     private String level;
     
     private BigDecimal sumAmount;
+    
+    private BigDecimal leftAmount;
 
     /**
      *  
@@ -145,5 +147,13 @@ public class TCustomerMemberInfo implements Serializable {
 
     public void setSumAmount(BigDecimal sumAmount) {
         this.sumAmount = sumAmount;
+    }
+
+    public BigDecimal getLeftAmount() {
+        return leftAmount;
+    }
+
+    public void setLeftAmount(BigDecimal leftAmount) {
+        this.leftAmount = leftAmount;
     }
 }

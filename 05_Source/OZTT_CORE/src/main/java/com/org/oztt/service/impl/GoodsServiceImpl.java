@@ -5,13 +5,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -121,8 +124,12 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
     public TGoodsClassfication getGoodsClassficationByClassId(String classId) throws Exception {
         return tGoodsClassficationDao.getGoodsClassficationByClassId(classId);
     }
-
-    public PagingResult<GroupItemDto> getGoodsByParamForPage(Pagination pagination) throws Exception {
+    
+    public PagingResult<GroupItemDto> getGoodsByParamForPage(Pagination pagination, HttpSession session) throws Exception {
+        Locale locale = (Locale) session.getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
+        if (locale != null && "en".equals(locale.getLanguage())) {
+            pagination.getParams().put("enShowFlg", "1");
+        }
         PagingResult<GroupItemDto> itemList = tGoodsDao.getGoodsByParamForPage(pagination);
         if (!CollectionUtils.isEmpty(itemList.getResultList())) {
             for (GroupItemDto goods : itemList.getResultList()) {

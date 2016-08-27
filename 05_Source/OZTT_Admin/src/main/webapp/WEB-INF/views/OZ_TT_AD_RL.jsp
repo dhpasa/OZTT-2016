@@ -25,10 +25,10 @@
 				dataType : "json",
 				async:false,
 				success : function(data) {
-					if (data.tCustomerMemberInfo.points == null || data.tCustomerMemberInfo.points.length == 0) {
+					if (data.tCustomerMemberInfo.points != null) {
 						$("#customerPoints").val(data.tCustomerMemberInfo.points);
 					}
-					if (data.tCustomerMemberInfo.level == null || data.tCustomerMemberInfo.level.length == 0) {
+					if (data.tCustomerMemberInfo.level != null && data.tCustomerMemberInfo.level.length > 0) {
 						$("#customerLevel").val(data.tCustomerMemberInfo.level);
 					}
 				},

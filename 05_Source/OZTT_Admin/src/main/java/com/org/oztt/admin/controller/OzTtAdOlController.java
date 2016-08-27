@@ -31,7 +31,6 @@ import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.contants.CommonEnum;
 import com.org.oztt.entity.TConsOrder;
-import com.org.oztt.entity.TGoodsGroup;
 import com.org.oztt.formDto.OzTtAdOdDto;
 import com.org.oztt.formDto.OzTtAdOdListDto;
 import com.org.oztt.formDto.OzTtAdOlDto;

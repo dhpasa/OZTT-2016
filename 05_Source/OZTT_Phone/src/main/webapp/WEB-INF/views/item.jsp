@@ -329,21 +329,20 @@
     	</div>
     	
     	<div class="item-btn-btn">
-    		<c:if test="${IS_END == '1' }">
-	    		<a class="canNotBuy"><fmt:message key="ITEM_ISEND"/></a>
-	    	</c:if>
-	    	<c:if test="${IS_END != '1' }">
-	    		<c:if test="${IS_OVER != '1' }">
-	    			<a onclick="checktoItem('${goodItemDto.groupId}')" class="canBuy"><fmt:message key="ITEM_ADDTOCART"/></a>
+    		<c:if test="${goodItemDto.diamondShowFlg != '1'}">
+    			<c:if test="${IS_END == '1' }">
+		    		<a class="canNotBuy"><fmt:message key="ITEM_ISEND"/></a>
 		    	</c:if>
-		    	<c:if test="${IS_OVER == '1' }">
-		    		<a class="canNotBuy"><fmt:message key="ITEM_ISOVER"/></a>
+		    	<c:if test="${IS_END != '1' }">
+		    		<c:if test="${IS_OVER != '1' }">
+		    			<a onclick="checktoItem('${goodItemDto.groupId}')" class="canBuy"><fmt:message key="ITEM_ADDTOCART"/></a>
+			    	</c:if>
+			    	<c:if test="${IS_OVER == '1' }">
+			    		<a class="canNotBuy"><fmt:message key="ITEM_ISOVER"/></a>
+			    	</c:if>
 		    	</c:if>
-	    	</c:if>
+    		</c:if>
     	</div>
-    	
-    	
-    	
     </div>
     
     <div id="purchase-credit-pop-up" class="modal fade" role="dialog" aria-hidden="true" >
