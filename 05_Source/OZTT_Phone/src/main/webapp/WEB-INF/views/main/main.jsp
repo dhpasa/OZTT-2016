@@ -228,6 +228,73 @@
 		</c:forEach>
 	</div>
 	
+	<c:if test="${currentUserId != null && currentUserId != '' && sessionDiamondCustomer == '4' }">
+	<div class="main_goods">
+   	  <div class="main-presell-area">
+		<div class="preselltext">
+			<img alt="" src="${ctx}/images/Level_4.png" class="mian_icon_class">
+			<span><fmt:message key="MAIN_DIAMONDTEXT" /></span>
+		</div>
+		<div class="presellmore" onclick="toGroupArea('4')"><span><fmt:message key="MAIN_PRESELLMORE" /></span><i class="fa fa-angle-right"></i></div>
+   	  </div>
+      <div class="">
+   		<div class="jshop-product-two-column">
+   			<ul id="goodItemList">
+   				<c:forEach var="goodslist" items="${ diamondSellList }">
+   				<li class="main-goods-li">
+					<div class="jshop-item" onclick="toItem('${goodslist.groupno }')">
+						<img src="${goodslist.goodsthumbnail }" class="img-responsive padding-1rem">
+						<span class="main-goodsname">${goodslist.goodsname }</span>
+		                <div class="main-group-price">
+		                	<span class="group-price">
+		                		<span class="dollar-symbol2 font-xxl"><fmt:message key="COMMON_DOLLAR" /></span>${goodslist.disprice }</span>
+							<span class="text-through font-l"><fmt:message key="COMMON_DOLLAR" />${goodslist.costprice }</span>
+		                </div>
+		                <div class="main-hasbuy">
+		                	<i class="main-hasBuy" style="float: left"></i>
+				   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
+				   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span>
+		                </div>
+		                <%-- <c:if test="${goodslist.isOverGroup == '1' }">
+		                	<div class="main-overtime-div" style="display: inline-block;"><fmt:message key="COMMON_OVER_GROUP" /></div>
+		                </c:if>
+		                <c:if test="${goodslist.isOverGroup != '1' }">
+		                	<c:if test="${goodslist.isOnWay == '1' }">
+		                		<div class="main-onway-div" style="display: inline-block;"><fmt:message key="COMMON_GROUP_ONWAY" /></div>
+		                	</c:if>
+		                	<c:if test="${goodslist.isOnWay != '1' }">
+		                		<div class="displaynone-time"></div>
+		                	</c:if>
+		                </c:if> --%>
+		                <div class="displaynone-time"></div>
+		                
+		                
+		                <c:if test="${goodslist.inStockLabel == '1' }">
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker goods-sticker-inStockLabel"></div>
+		                	</c:if>
+		                	<c:if test="${languageSelf == 'en_US' }">
+		                		<div class="goods-sticker goods-sticker-inStockLabel-en"></div>
+		                	</c:if>
+		                </c:if>
+		                
+		                <c:if test="${goodslist.sellOutFlg == '1' }">
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker-right goods-sticker-selloutLabel"></div>
+		                	</c:if>
+		                	<c:if test="${languageSelf == 'en_US' }">
+		                		<div class="goods-sticker-right goods-sticker-selloutLabel-en"></div>
+		                	</c:if>
+		                </c:if>
+		                
+					</div>
+   				</li>
+   				</c:forEach>
+   			</ul>
+   		</div>   
+      </div>
+    </div>
+	</c:if>
 	
    
    <div class="main_goods">

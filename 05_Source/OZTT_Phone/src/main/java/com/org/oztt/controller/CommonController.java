@@ -31,6 +31,7 @@ import com.org.oztt.entity.TAddressInfo;
 import com.org.oztt.entity.TConsCart;
 import com.org.oztt.entity.TCustomerLoginHis;
 import com.org.oztt.entity.TCustomerLoginInfo;
+import com.org.oztt.entity.TCustomerMemberInfo;
 import com.org.oztt.entity.TGoodsGroup;
 import com.org.oztt.formDto.ContCartItemDto;
 import com.org.oztt.formDto.ContCartProItemDto;
@@ -781,6 +782,12 @@ public class CommonController extends BaseController {
                 
             }
             mapReturn.put("checkAllMsg", msg);
+            // 判断是不是黑名单用户，如果是黑名单的用户则不可以购买
+            TCustomerMemberInfo tCustomerMemberInfo = customerService.getCustomerMemberInfo(customerNo);
+            if (tCustomerMemberInfo != null && CommonEnum.CustomerLevel.BLACK.getCode().equals(tCustomerMemberInfo.getLevel())) {
+                mapReturn.put("checkAllMsg", super.getMessage("E0014", session));
+                mapReturn.put("isBlackLevel", true);
+            }
             mapReturn.put("isOver", isOver);
             mapReturn.put("isGroupEnd", isGroupEnd);
             mapReturn.put("isGroupNotStart", isGroupNotStart);
@@ -902,7 +909,7 @@ public class CommonController extends BaseController {
             Map<Object, Object> params = new HashMap<Object, Object>();
             params.put("daySearch", daySearch);
             pagination.setParams(params);
-            PagingResult<GroupItemDto> pageInfo = goodsService.getGoodsByParamForPage(pagination);
+            PagingResult<GroupItemDto> pageInfo = goodsService.getGoodsByParamForPage(pagination, session);
             
             if (!CollectionUtils.isEmpty(pageInfo.getResultList())) {
                 for (GroupItemDto goods : pageInfo.getResultList()) {

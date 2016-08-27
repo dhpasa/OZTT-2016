@@ -118,7 +118,7 @@
 								tempStr += temp11;
 								tempStr += temp12.replace('{0}',dataList[i].groupCurrent).replace('{1}',dataList[i].groupMax);
 								tempStr += temp13;
-								if ('${tab}' == '3') {
+								if ('${tab}' == '3' || '${tab}' == '4') {
 									tempStr += temp33;
 								} else {
 									if (dataList[i].isOverGroup == '1') {
@@ -228,6 +228,7 @@
 			<c:if test="${tab == '1' }"><fmt:message key="MAIN_RUSHTEXT_D" /></c:if>
 			<c:if test="${tab == '2' }"><fmt:message key="MAIN_PRESELLTEXT_D" /></c:if>
 			<c:if test="${tab == '3' }"><fmt:message key="MAIN_NOWSELLTEXT_D" /></c:if>
+			<c:if test="${tab == '4' }"><fmt:message key="MAIN_DIAMOND_D" /></c:if>
 		</div>
 		<div class="x-header-btn searchgroup">
 			
@@ -252,10 +253,10 @@
 				   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
 				   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span>
 		                </div>
-		                <c:if test="${tab == '3'}">
+		                <c:if test="${tab == '3' || tab == '4'}">
 		                	<div class="displaynone-time"></div>
 		                </c:if>
-		                <c:if test="${tab != '3'}">
+		                <c:if test="${tab != '3' && tab != '4'}">
 		                	<c:if test="${goodslist.isOverGroup != '1' }">
 			                	<c:if test="${goodslist.isOnWay == '1' }">
 			                		<div class="main-onway-div" style="display: inline-block;"><fmt:message key="COMMON_GROUP_ONWAY" /></div>

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.stereotype.Controller;
@@ -41,7 +42,7 @@ public class OzTtTpPlController extends BaseController {
      * @return
      */
     @RequestMapping(value = "init", method = RequestMethod.GET)
-    public String init(Model model, String classId, String page, String listCount) {
+    public String init(Model model, String classId, String page, String listCount, HttpSession session) {
         try {
             // 获取目录
             List<MyCategroy> myCategroyList = super.commonService.getMyCategroy();
@@ -94,7 +95,7 @@ public class OzTtTpPlController extends BaseController {
             mapParam.put("classId", classId);
             pagination.setParams(mapParam);
             
-            PagingResult<GroupItemDto> pageInfo = goodsService.getGoodsByParamForPage(pagination);
+            PagingResult<GroupItemDto> pageInfo = goodsService.getGoodsByParamForPage(pagination, session);
             
             if (!CollectionUtils.isEmpty(pageInfo.getResultList())) {
                 for (GroupItemDto goods : pageInfo.getResultList()) {
@@ -128,9 +129,9 @@ public class OzTtTpPlController extends BaseController {
      * @return
      */
     @RequestMapping(value = "search", method = RequestMethod.GET)
-    public String search(Model model, @RequestParam String listCount, @RequestParam String classId, @RequestParam String pageNo) {
+    public String search(Model model, @RequestParam String listCount, @RequestParam String classId, @RequestParam String pageNo, HttpSession session) {
         try {
-            return this.init(model, classId, pageNo, listCount);  
+            return this.init(model, classId, pageNo, listCount, session);  
         }catch (Exception e) {
             e.printStackTrace();
             logger.error(e.getMessage());

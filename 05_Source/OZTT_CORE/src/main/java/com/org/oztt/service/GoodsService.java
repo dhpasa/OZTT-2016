@@ -3,6 +3,8 @@ package com.org.oztt.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import com.org.oztt.base.page.Pagination;
 import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.entity.TConsCart;
@@ -106,7 +108,8 @@ public interface GoodsService {
      * @return
      * @throws Exception
      */
-    public PagingResult<GroupItemDto> getGoodsByParamForPage(Pagination pagination) throws Exception;
+    public PagingResult<GroupItemDto> getGoodsByParamForPage(Pagination pagination, HttpSession session) throws Exception;
+
     
     /**
      * 分页获取标签商品信息

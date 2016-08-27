@@ -19,6 +19,34 @@
 		var pageNo = $("#hiddenPageNo").val();
 		location.href= "${pageContext.request.contextPath}/OZ_TT_AD_OL/pageSearch?pageNo="+pageNo;
 	}
+	
+	function changeCommentsAdmin(orderNo){
+		$("#hiddenOrderNo").val(orderNo);
+		$('#batch_setgroup_modal').modal('show');
+	}
+	
+	function UpdateAdminCommentTrue() {
+		var jsonMap = {
+				orderNo : $("#hiddenOrderNo").val(),
+				adminComment : $("#adminComment").val()
+		}
+		$.ajax({
+			type : "POST",
+			contentType : 'application/json',
+			url : '${pageContext.request.contextPath}/OZ_TT_AD_OD/updateOrderAdminComment',
+			dataType : "json",
+			async : false,
+			data : JSON.stringify(jsonMap),
+			success : function(data) {
+
+			},
+			error : function(data) {
+
+			}
+		});
+
+		window.location.reload();
+	}
   
   </script>
 </head>
@@ -210,7 +238,10 @@
 					<thead>
 					<tr>
 						<th scope="col">
-							 <fmt:message key="OZ_TT_AD_OD_DE_commentsAdmin" />
+							<div>
+							 <span><fmt:message key="OZ_TT_AD_OD_DE_commentsAdmin" /></span>
+							 <button type="button" class="btn green mybtn" onclick="changeCommentsAdmin('${ozTtAdOdDto.orderNo}')" style="float: right;"><i class="fa fa-check"></i><fmt:message key="OZ_TT_AD_OD_changeAdminComment" /></button>
+							</div>
 						</th>
 					</tr>
 					</thead>
@@ -260,5 +291,33 @@
 	</div>
 	<!-- END CONTENT -->
 	<input type="hidden" value="${pageNo}" id="hiddenPageNo" ></input>
+	
+	<div id="batch_setgroup_modal" class="modal fade" role="dialog" aria-hidden="true">
+		<div class="modal-dialog" style="width:1200px;">
+			<div class="modal-content">
+				<div class="modal-header" style="text-align: center">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+					<h4 class="modal-title"><fmt:message key="OZ_TT_AD_SU_DE_orderCommentAdmin" /></h4>
+				</div>
+				<div class="modal-body">
+					<form action="#" class="form-horizontal">
+
+						<div class="form-group">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_SU_DE_orderCommentAdmin" /></label>
+							<div class="checkbox-list col-md-8">
+								<label class="checkbox-inline">
+									<input type="text"  id="adminComment" maxlength="255"></input>
+								</label>
+							</div>
+						</div>
+					</form>
+				</div>
+				<input type="hidden" id="hiddenOrderNo"/>
+				<div class="modal-footer">
+					<button class="btn btn-success" onclick="UpdateAdminCommentTrue()"><fmt:message key="COMMON_SUBMIT" /></button>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

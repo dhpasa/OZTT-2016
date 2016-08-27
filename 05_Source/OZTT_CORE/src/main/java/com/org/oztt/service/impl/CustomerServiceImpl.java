@@ -379,16 +379,20 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
             memberInfo.setCustomerNo(customerNo);
             memberInfo.setPoints(point.intValue());
             memberInfo.setLevel(level);
-            memberInfo.setSumAmount(countBuy.subtract(point.multiply(tSysConfig.getPointcalcamount())));
+            memberInfo.setLeftAmount(countBuy.subtract(point.multiply(tSysConfig.getPointcalcamount())));
+            memberInfo.setSumAmount(countBuy);
             tCustomerMemberInfoDao.insertSelective(memberInfo);
         }
         else {
             // 更新
-            BigDecimal All = currentAmount.add(memberInfo.getSumAmount());
+            BigDecimal All = currentAmount.add(memberInfo.getLeftAmount());
             memberInfo.setPoints(memberInfo.getPoints()
                     + All.divide(tSysConfig.getPointcalcamount(), 0, BigDecimal.ROUND_DOWN).intValue());
-            memberInfo.setSumAmount(All.subtract(All.divide(tSysConfig.getPointcalcamount(), 0, BigDecimal.ROUND_DOWN)
+            memberInfo.setLeftAmount(All.subtract(All.divide(tSysConfig.getPointcalcamount(), 0, BigDecimal.ROUND_DOWN)
                     .multiply(tSysConfig.getPointcalcamount())));
+            // 级别应该是
+            level = getLevel(memberInfo.getSumAmount().add(currentAmount), tSysConfig.getLevelsumamount().split(","));
+            memberInfo.setSumAmount(memberInfo.getSumAmount().add(currentAmount));
             memberInfo.setLevel(level);
             tCustomerMemberInfoDao.updateByPrimaryKeySelective(memberInfo);
         }
@@ -420,7 +424,7 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
                 if (i == levelArr.length - 1) {
                     // 最后一个
                     if (sumAmount.compareTo(new BigDecimal(levelArr[i])) >= 0) {
-                        returnstr = "4";
+                        returnstr = "3";
                         break;
                     }
                 }
