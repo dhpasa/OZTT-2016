@@ -662,80 +662,20 @@
 					
 				</div>
 				<div class="form-group">
-					<label class="col-md-1 control-label"><fmt:message key="OZ_TT_AD_GL_topUp" /></label>
+					<label class="col-md-1 control-label">团购区域</label>
 					<div class="radio-list col-md-3">
-						<form:select class="input-medium form-control" path="isTopUp">
-                  			<form:option value="0"><fmt:message key="COMMON_NO" /></form:option>
-							<form:option value="1"><fmt:message key="COMMON_YES" /></form:option>
-							<form:option value=""><fmt:message key="COMMON_ALL" /></form:option>
+						<form:select class="input-medium form-control" path="groupArea">
+	                 		<form:option value="0"><fmt:message key="COMMON_ALL" /></form:option>
+							<form:option value="1"><fmt:message key="OZ_TT_AD_GL_topUp" /></form:option>
+							<form:option value="2"><fmt:message key="OZ_TT_AD_GL_pre" /></form:option>
+							<form:option value="3"><fmt:message key="OZ_TT_AD_GL_inStock" /></form:option>
+							<form:option value="4"><fmt:message key="OZ_TT_AD_GL_hot" /></form:option>
+							<form:option value="5"><fmt:message key="OZ_TT_AD_GL_diamond" /></form:option>
+							<form:option value="6"><fmt:message key="OZ_TT_AD_GL_en" /></form:option>
 						</form:select>
-					</div>
-			
-					<label class="col-md-1 control-label"><fmt:message key="OZ_TT_AD_GL_pre" /></label>
-					<div class="radio-list col-md-3">
-						 <form:select class="input-medium form-control" path="isPre">
-                  			<form:option value="0"><fmt:message key="COMMON_NO" /></form:option>
-							<form:option value="1"><fmt:message key="COMMON_YES" /></form:option>
-							<form:option value=""><fmt:message key="COMMON_ALL" /></form:option>
-						</form:select>
-					</div>
-					
-					<div class="col-md-4">
-						
-					</div>
-						
-				</div>
-				<div class="form-group">
-					<label class="col-md-1 control-label"><fmt:message key="OZ_TT_AD_GL_inStock" /></label>
-					<div class="radio-list col-md-3">
-						 <form:select class="input-medium form-control" path="isInStock">
-                  			<form:option value="0"><fmt:message key="COMMON_NO" /></form:option>
-							<form:option value="1"><fmt:message key="COMMON_YES" /></form:option>
-							<form:option value=""><fmt:message key="COMMON_ALL" /></form:option>
-						</form:select>
-					</div>
-			
-					<label class="col-md-1 control-label"><fmt:message key="OZ_TT_AD_GL_hot" /></label>
-					<div class="radio-list col-md-3">
-						 <form:select class="input-medium form-control" path="isHot">
-                  			<form:option value="0"><fmt:message key="COMMON_NO" /></form:option>
-							<form:option value="1"><fmt:message key="COMMON_YES" /></form:option>
-							<form:option value=""><fmt:message key="COMMON_ALL" /></form:option>
-						</form:select>
-						 
-					</div>
-					
-					<div class="col-md-4">
-						
-					</div>
-						
+					</div>	
 				</div>
 				
-				<div class="form-group">
-					<label class="col-md-1 control-label"><fmt:message key="OZ_TT_AD_GL_diamond" /></label>
-					<div class="radio-list col-md-3">
-						
-						 <form:select class="input-medium form-control" path="isDiamond">
-                  			<form:option value="0"><fmt:message key="COMMON_NO" /></form:option>
-							<form:option value="1"><fmt:message key="COMMON_YES" /></form:option>
-							<form:option value=""><fmt:message key="COMMON_ALL" /></form:option>
-						</form:select>
-					</div>
-			
-					<label class="col-md-1 control-label"><fmt:message key="OZ_TT_AD_GL_en" /></label>
-					<div class="radio-list col-md-3">
-						 <form:select class="input-medium form-control" path="isEn">
-                  			<form:option value="0"><fmt:message key="COMMON_NO" /></form:option>
-							<form:option value="1"><fmt:message key="COMMON_YES" /></form:option>
-							<form:option value=""><fmt:message key="COMMON_ALL" /></form:option>
-						</form:select>
-					</div>
-					
-					<div class="col-md-4">
-						
-					</div>
-						
-				</div>
 				
 				<div class="form-group textright">
 					<div style="width:85%;float:left;text-align: left;padding-left:3%">

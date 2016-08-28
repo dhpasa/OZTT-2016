@@ -84,12 +84,30 @@ public class OzTtAdGlController extends BaseController {
             params.put("dateFrom", ozTtAdGcDto.getDateFrom());
             params.put("dateTo", ozTtAdGcDto.getDateTo());
             params.put("isOpenFlag", ozTtAdGcDto.getOpenFlg());
-            params.put("isTopUp", ozTtAdGcDto.getIsTopUp());
-            params.put("isPre", ozTtAdGcDto.getIsPre());
-            params.put("isInStock", ozTtAdGcDto.getIsInStock());
-            params.put("isHot", ozTtAdGcDto.getIsHot());
-            params.put("isDiamond", ozTtAdGcDto.getIsDiamond());
-            params.put("isEn", ozTtAdGcDto.getIsEn());
+            if (!StringUtils.isEmpty(ozTtAdGcDto.getGroupArea())) {
+                switch (ozTtAdGcDto.getGroupArea()) {
+                    case "1":
+                        params.put("isTopUp", "1");
+                        break;
+                    case "2":
+                        params.put("isPre", "1");
+                        break;
+                    case "3":
+                        params.put("isInStock", "1");
+                        break;
+                    case "4":
+                        params.put("isHot", "1");
+                        break;
+                    case "5":
+                        params.put("isDiamond", "1");
+                        break;
+                    case "6":
+                        params.put("isEn", "1");
+                        break;
+                    default:
+                        break;
+                }
+            }
             pagination.setParams(params);
             PagingResult<OzTtAdGcListDto> pageInfo = goodsService.getAllGroupsInfoForAdmin(pagination);
 
@@ -123,10 +141,30 @@ public class OzTtAdGlController extends BaseController {
             params.put("dateFrom", ozTtAdGcDto.getDateFrom());
             params.put("dateTo", ozTtAdGcDto.getDateTo());
             params.put("isOpenFlag", ozTtAdGcDto.getOpenFlg());
-            params.put("isTopUp", ozTtAdGcDto.getIsTopUp());
-            params.put("isPre", ozTtAdGcDto.getIsPre());
-            params.put("isInStock", ozTtAdGcDto.getIsInStock());
-            params.put("isHot", ozTtAdGcDto.getIsHot());
+            if (!StringUtils.isEmpty(ozTtAdGcDto.getGroupArea())) {
+                switch (ozTtAdGcDto.getGroupArea()) {
+                    case "1":
+                        params.put("isTopUp", "1");
+                        break;
+                    case "2":
+                        params.put("isPre", "1");
+                        break;
+                    case "3":
+                        params.put("isInStock", "1");
+                        break;
+                    case "4":
+                        params.put("isHot", "1");
+                        break;
+                    case "5":
+                        params.put("isDiamond", "1");
+                        break;
+                    case "6":
+                        params.put("isEn", "1");
+                        break;
+                    default:
+                        break;
+                }
+            }
             pagination.setParams(params);
             PagingResult<OzTtAdGcListDto> pageInfo = goodsService.getAllGroupsInfoForAdmin(pagination);
 
@@ -161,8 +199,8 @@ public class OzTtAdGlController extends BaseController {
             res.put("goodsGroupLimit", tGoodsGroup.getGroupquantitylimit().toString());
             res.put("goodsGroupCurrent", tGoodsGroup.getGroupcurrentquantity() == null ? "0" : tGoodsGroup
                     .getGroupcurrentquantity().toString());
-            res.put("goodsGroupSortOrder", tGoodsGroup.getSortorder() == null ? "0" : tGoodsGroup
-                    .getSortorder().toString());
+            res.put("goodsGroupSortOrder", tGoodsGroup.getSortorder() == null ? "0" : tGoodsGroup.getSortorder()
+                    .toString());
             res.put("dataFromGroup",
                     DateFormatUtils.date2StringWithFormat(tGoodsGroup.getValidperiodstart(), DateFormatUtils.PATTEN_HM));
             res.put("dataToGroup",

@@ -34,6 +34,8 @@ public class OzTtAdGcDto {
     private String isEn;
 
     private String openFlg;
+    
+    private String groupArea;
 
     public String getOpenFlg() {
         return openFlg;
@@ -138,5 +140,13 @@ public class OzTtAdGcDto {
 	public void setIsEn(String isEn) {
 		this.isEn = isEn;
 	}
+
+    public String getGroupArea() {
+        return StringUtils.isEmpty(groupArea) ? "" : groupArea;
+    }
+
+    public void setGroupArea(String groupArea) {
+        this.groupArea = groupArea;
+    }
 
 }
