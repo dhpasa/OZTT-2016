@@ -122,29 +122,32 @@ public class MainController extends BaseController {
             Object customerNo = session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
             if (!StringUtils.isEmpty(customerNo)) {
                 TCustomerMemberInfo memberInfo = customerService.getCustomerMemberInfo(customerNo.toString());
-                model.addAttribute(CommonConstants.SESSION_DIAMOND_CUSTOMER, memberInfo.getLevel());
-                
-                // 钻石分区
-                pagination = new Pagination(1, Integer.parseInt(CommonConstants.MAIN_GOODS_LIST));
-                params = new HashMap<Object, Object>();
-                params.put("diamondShowFlg", "1");
-                pagination.setParams(params);
-                PagingResult<GroupItemDto> pageInfoDiamond = goodsService.getGoodsByParamForPage(pagination, session);
-                if (!CollectionUtils.isEmpty(pageInfoDiamond.getResultList())) {
-                    for (GroupItemDto goods : pageInfoDiamond.getResultList()) {
-                        goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT
-                                + goods.getGoodsthumbnail());
-                        goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
-                        goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods
-                                .getGroupMax()) ? CommonConstants.OVER_GROUP_YES : CommonConstants.OVER_GROUP_NO);
-                        // 判断团购开始是否已经到
-                        if (goods.getValidStartTime().compareTo(DateFormatUtils.getCurrentDate()) > 0) {
-                            goods.setIsOnWay(CommonConstants.IS_ON_WAY);
+                if (memberInfo != null) {
+                    model.addAttribute(CommonConstants.SESSION_DIAMOND_CUSTOMER, memberInfo.getLevel());
+                    
+                    // 钻石分区
+                    pagination = new Pagination(1, Integer.parseInt(CommonConstants.MAIN_GOODS_LIST));
+                    params = new HashMap<Object, Object>();
+                    params.put("diamondShowFlg", "1");
+                    pagination.setParams(params);
+                    PagingResult<GroupItemDto> pageInfoDiamond = goodsService.getGoodsByParamForPage(pagination, session);
+                    if (!CollectionUtils.isEmpty(pageInfoDiamond.getResultList())) {
+                        for (GroupItemDto goods : pageInfoDiamond.getResultList()) {
+                            goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT
+                                    + goods.getGoodsthumbnail());
+                            goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
+                            goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods
+                                    .getGroupMax()) ? CommonConstants.OVER_GROUP_YES : CommonConstants.OVER_GROUP_NO);
+                            // 判断团购开始是否已经到
+                            if (goods.getValidStartTime().compareTo(DateFormatUtils.getCurrentDate()) > 0) {
+                                goods.setIsOnWay(CommonConstants.IS_ON_WAY);
+                            }
                         }
                     }
+                    model.addAttribute("diamondSellList", (pageInfoDiamond == null || pageInfoDiamond.getResultList() == null) ? null
+                            : pageInfoDiamond.getResultList());
                 }
-                model.addAttribute("diamondSellList", (pageInfoDiamond == null || pageInfoDiamond.getResultList() == null) ? null
-                        : pageInfoDiamond.getResultList());
+                
             }
             
 
