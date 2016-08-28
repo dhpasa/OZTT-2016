@@ -664,34 +664,20 @@
 				<div class="form-group">
 					<label class="col-md-1 control-label"><fmt:message key="OZ_TT_AD_GL_topUp" /></label>
 					<div class="radio-list col-md-3">
-						<label class="radio-inline">
-						<form:radiobutton path="isTopUp" id="isTopUpId0" value="0"></form:radiobutton>
-						 <fmt:message key="COMMON_NO" />
-						 </label>
-						<label class="radio-inline">
-						<form:radiobutton path="isTopUp" id="isTopUpId1" value="1"></form:radiobutton>
-						 <fmt:message key="COMMON_YES" />
-						 </label>
-						 <label class="radio-inline">
-							<form:radiobutton path="isTopUp" value=""></form:radiobutton>
-						 	<fmt:message key="COMMON_ALL" />
-						 </label>
+						<form:select class="input-medium form-control" path="isTopUp">
+                  			<form:option value="0"><fmt:message key="COMMON_NO" /></form:option>
+							<form:option value="1"><fmt:message key="COMMON_YES" /></form:option>
+							<form:option value=""><fmt:message key="COMMON_ALL" /></form:option>
+						</form:select>
 					</div>
 			
 					<label class="col-md-1 control-label"><fmt:message key="OZ_TT_AD_GL_pre" /></label>
 					<div class="radio-list col-md-3">
-						<label class="radio-inline">
-						<form:radiobutton path="isPre" id="isPreId0" value="0"></form:radiobutton>
-						 <fmt:message key="COMMON_NO" />
-						 </label>
-						<label class="radio-inline">
-						<form:radiobutton path="isPre" id="isPreId1" value="1"></form:radiobutton>
-						 <fmt:message key="COMMON_YES" />
-						 </label>
-						 <label class="radio-inline">
-							<form:radiobutton path="isPre" value=""></form:radiobutton>
-						 	<fmt:message key="COMMON_ALL" />
-						 </label>
+						 <form:select class="input-medium form-control" path="isPre">
+                  			<form:option value="0"><fmt:message key="COMMON_NO" /></form:option>
+							<form:option value="1"><fmt:message key="COMMON_YES" /></form:option>
+							<form:option value=""><fmt:message key="COMMON_ALL" /></form:option>
+						</form:select>
 					</div>
 					
 					<div class="col-md-4">
@@ -702,34 +688,21 @@
 				<div class="form-group">
 					<label class="col-md-1 control-label"><fmt:message key="OZ_TT_AD_GL_inStock" /></label>
 					<div class="radio-list col-md-3">
-						<label class="radio-inline">
-						<form:radiobutton path="isInStock" id="isInStockId0" value="0"></form:radiobutton>
-						 <fmt:message key="COMMON_NO" />
-						 </label>
-						<label class="radio-inline">
-						<form:radiobutton path="isInStock" id="isInStockId1" value="1"></form:radiobutton>
-						 <fmt:message key="COMMON_YES" />
-						 </label>
-						 <label class="radio-inline">
-							<form:radiobutton path="isInStock" value=""></form:radiobutton>
-						 	<fmt:message key="COMMON_ALL" />
-						 </label>
+						 <form:select class="input-medium form-control" path="isInStock">
+                  			<form:option value="0"><fmt:message key="COMMON_NO" /></form:option>
+							<form:option value="1"><fmt:message key="COMMON_YES" /></form:option>
+							<form:option value=""><fmt:message key="COMMON_ALL" /></form:option>
+						</form:select>
 					</div>
 			
 					<label class="col-md-1 control-label"><fmt:message key="OZ_TT_AD_GL_hot" /></label>
 					<div class="radio-list col-md-3">
-						<label class="radio-inline">
-						<form:radiobutton path="isHot" id="isHotId0" value="0"></form:radiobutton>
-						 <fmt:message key="COMMON_NO" />
-						 </label>
-						<label class="radio-inline">
-						<form:radiobutton path="isHot" id="isHotId1" value="1"></form:radiobutton>
-						 <fmt:message key="COMMON_YES" />
-						 </label>
-						 <label class="radio-inline">
-							<form:radiobutton path="isHot" value=""></form:radiobutton>
-						 	<fmt:message key="COMMON_ALL" />
-						 </label>
+						 <form:select class="input-medium form-control" path="isHot">
+                  			<form:option value="0"><fmt:message key="COMMON_NO" /></form:option>
+							<form:option value="1"><fmt:message key="COMMON_YES" /></form:option>
+							<form:option value=""><fmt:message key="COMMON_ALL" /></form:option>
+						</form:select>
+						 
 					</div>
 					
 					<div class="col-md-4">
@@ -741,34 +714,21 @@
 				<div class="form-group">
 					<label class="col-md-1 control-label"><fmt:message key="OZ_TT_AD_GL_diamond" /></label>
 					<div class="radio-list col-md-3">
-						<label class="radio-inline">
-						<form:radiobutton path="isDiamond" id="isDiamondId0" value="0"></form:radiobutton>
-						 <fmt:message key="COMMON_NO" />
-						 </label>
-						<label class="radio-inline">
-						<form:radiobutton path="isDiamond" id="isDiamondId1" value="1"></form:radiobutton>
-						 <fmt:message key="COMMON_YES" />
-						 </label>
-						 <label class="radio-inline">
-							<form:radiobutton path="isDiamond" value=""></form:radiobutton>
-						 	<fmt:message key="COMMON_ALL" />
-						 </label>
+						
+						 <form:select class="input-medium form-control" path="isDiamond">
+                  			<form:option value="0"><fmt:message key="COMMON_NO" /></form:option>
+							<form:option value="1"><fmt:message key="COMMON_YES" /></form:option>
+							<form:option value=""><fmt:message key="COMMON_ALL" /></form:option>
+						</form:select>
 					</div>
 			
 					<label class="col-md-1 control-label"><fmt:message key="OZ_TT_AD_GL_en" /></label>
 					<div class="radio-list col-md-3">
-						<label class="radio-inline">
-						<form:radiobutton path="isEn" id="isEnId0" value="0"></form:radiobutton>
-						 <fmt:message key="COMMON_NO" />
-						 </label>
-						<label class="radio-inline">
-						<form:radiobutton path="isEn" id="isEnId1" value="1"></form:radiobutton>
-						 <fmt:message key="COMMON_YES" />
-						 </label>
-						 <label class="radio-inline">
-							<form:radiobutton path="isEn" value=""></form:radiobutton>
-						 	<fmt:message key="COMMON_ALL" />
-						 </label>
+						 <form:select class="input-medium form-control" path="isEn">
+                  			<form:option value="0"><fmt:message key="COMMON_NO" /></form:option>
+							<form:option value="1"><fmt:message key="COMMON_YES" /></form:option>
+							<form:option value=""><fmt:message key="COMMON_ALL" /></form:option>
+						</form:select>
 					</div>
 					
 					<div class="col-md-4">

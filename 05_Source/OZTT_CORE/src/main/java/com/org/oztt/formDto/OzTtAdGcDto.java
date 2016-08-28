@@ -124,7 +124,7 @@ public class OzTtAdGcDto {
     }
 
 	public String getIsDiamond() {
-		return isDiamond;
+		return StringUtils.isEmpty(isDiamond) ? "" : isDiamond;
 	}
 
 	public void setIsDiamond(String isDiamond) {
@@ -132,7 +132,7 @@ public class OzTtAdGcDto {
 	}
 
 	public String getIsEn() {
-		return isEn;
+		return StringUtils.isEmpty(isEn) ? "" : isEn;
 	}
 
 	public void setIsEn(String isEn) {

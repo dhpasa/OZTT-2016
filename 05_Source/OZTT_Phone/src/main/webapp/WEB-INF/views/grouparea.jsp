@@ -16,6 +16,9 @@
 			$(".ico-back").click(function(){
 				history.go(-1);
 			});
+			$(".icon-search").click(function(){
+  				location.href="${ctx}/search/init?mode=1";
+  			});
 			
 		})
 		
@@ -230,9 +233,7 @@
 			<c:if test="${tab == '3' }"><fmt:message key="MAIN_NOWSELLTEXT_D" /></c:if>
 			<c:if test="${tab == '4' }"><fmt:message key="MAIN_DIAMOND_D" /></c:if>
 		</div>
-		<div class="x-header-btn searchgroup">
-			
-		</div>
+		<div class="x-header-btn icon-search"></div>
 	</div>
 	 
     <div class="main_goods">
