@@ -197,6 +197,18 @@ a{
     z-index: 999;
 }
 
+.no_more_record_bg{
+	background-color: #FFEB3B;
+	text-align: center;
+	height:4rem;
+	line-height:4rem;
+}
+
+.searchButtonClass{
+	color: #666 !important;
+	border: 1px solid #FCAEB1 !important;
+	border-radius: 10px !important;
+}
 
 /* ========================================首页============================================== */
 html{
@@ -659,8 +671,8 @@ html{
 	width: 100%;
 	display: inline-block;
 	margin-top: 1rem;
-	color: #ffb83c;
-	background-color: #d6f3ff;
+	color: #ff0000;
+	background-color: #ffc0cb;
 }
 .main-rushpur-area .rushtext{
 	width: 100%;
@@ -741,6 +753,22 @@ html{
 
 .mian_icon_class{
 	height: 1.8rem;
+}
+
+.stock_1{
+	color:red;
+}
+
+.stock_2{
+	color:#9ec548;
+}
+
+.stock_3{
+	color:green;
+}
+
+.stock_4{
+	color:#666;
 }
 
 /* ========================================我============================================== */

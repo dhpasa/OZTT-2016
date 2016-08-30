@@ -138,6 +138,26 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
                         goods.setSellOutFlg(CommonConstants.SELL_OUT_FLG);
                     }
                 }
+                if (CommonConstants.STOCK_50 > (Integer.valueOf(goods.getGroupMax()) - Integer.valueOf(goods.getGroupCurrent()))) {
+                    // 库存紧张
+                    goods.setStockStatus("1");
+                }
+                
+                if (CommonConstants.STOCK_50 <= (Integer.valueOf(goods.getGroupMax()) - Integer.valueOf(goods.getGroupCurrent()))
+                        && CommonConstants.STOCK_100 > (Integer.valueOf(goods.getGroupMax()) - Integer.valueOf(goods.getGroupCurrent()))) {
+                    // 库存有限
+                    goods.setStockStatus("2");
+                }
+                
+                if (CommonConstants.STOCK_100 < (Integer.valueOf(goods.getGroupMax()) - Integer.valueOf(goods.getGroupCurrent()))) {
+                    // 库存充足
+                    goods.setStockStatus("3");
+                }
+                
+                if (Integer.valueOf(goods.getGroupMax()) - Integer.valueOf(goods.getGroupCurrent()) <= 0) {
+                    // 暂时缺货
+                    goods.setStockStatus("4");
+                }
                 
             }
         }

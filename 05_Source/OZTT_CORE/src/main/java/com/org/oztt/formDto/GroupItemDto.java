@@ -75,6 +75,8 @@ public class GroupItemDto {
     private String     sellOutFlg;         //即将售罄
 
     private String     groupQuantityLimit; //个人最大限购数
+    
+    private String     stockStatus; //库存状态
 
     public String getGoodsid() {
         return goodsid;
@@ -338,6 +340,14 @@ public class GroupItemDto {
 
     public void setGroupQuantityLimit(String groupQuantityLimit) {
         this.groupQuantityLimit = groupQuantityLimit;
+    }
+
+    public String getStockStatus() {
+        return stockStatus;
+    }
+
+    public void setStockStatus(String stockStatus) {
+        this.stockStatus = stockStatus;
     }
 
 }
