@@ -1,5 +1,6 @@
 package com.org.oztt.contants;
 
+
 public final class CommonConstants {
 
     public static final String ERROR_PAGE                 = "404";
@@ -123,5 +124,9 @@ public final class CommonConstants {
     public static final String SELL_OUT_FLG               = "1";                                    // 即将售罄
 
     public static final String WYSIHTML5                  = "wysihtml5_data";
+
+    public static final int    STOCK_50                   = 50;
+
+    public static final int    STOCK_100                  = 100;
 
 }

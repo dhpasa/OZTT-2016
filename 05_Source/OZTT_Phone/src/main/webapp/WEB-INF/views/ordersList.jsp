@@ -253,10 +253,11 @@
 	<div id="ordersList">
 		
 	</div>
-	<div style="text-align: center;height:2rem;display: none" id="loadingDiv">
+	<div style="text-align: center;height:4rem;display:none" id="loadingDiv">
+    	<span style="display:inline-block;width: 100%;" id="hasMore"><fmt:message key="COMMON_PUSH" /></br><fmt:message key="COMMON_HASMORE" /></span>
 		<img src="${ctx}/images/loading.gif">
 	</div>
-	<div style="text-align: center;height:3rem;line-height:3rem;display: none" id="noMoreRecordDiv">
+	<div style="display: none" id="noMoreRecordDiv" class="no_more_record_bg">
 		<fmt:message key="COMMON_NOMORE_RECORD" />
 	</div>
 </body>

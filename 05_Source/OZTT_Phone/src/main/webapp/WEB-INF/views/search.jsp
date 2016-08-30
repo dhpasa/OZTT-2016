@@ -17,9 +17,6 @@
 				history.go(-1);
 			});
 			
-			$(".searchgroup").click(function(){
-				location.href="${ctx}/search/init?mode=1&searchcontent="+$("#searchcontent").val();
-			});
 		})
 		
 		function closeLoadingDiv(){
@@ -74,6 +71,12 @@
 			var temp10 = '    	<i class="main-hasBuy" style="float: left"></i>';
 			var temp11 = '		<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;';
 			var temp12 = '		<span class="">{0}&nbsp;/&nbsp;{1}</span>';
+			
+			var temp11_1 = '<span class="stock_1"><fmt:message key="COMMON_STOCK_1" /></span>';
+			var temp11_2 = '<span class="stock_2"><fmt:message key="COMMON_STOCK_2" /></span>';
+			var temp11_3 = '<span class="stock_3"><fmt:message key="COMMON_STOCK_3" /></span>';
+			var temp11_4 = '<span class="stock_4"><fmt:message key="COMMON_STOCK_4" /></span>';
+			
 			var temp13 = '    </div>';
 			var temp14 = '    <div class="countdown-time" data-seconds-left="{0}">';   	
 			var temp15 = '    </div>';
@@ -119,8 +122,24 @@
 								tempStr += temp8;
 								tempStr += temp9;
 								tempStr += temp10;
-								tempStr += temp11;
-								tempStr += temp12.replace('{0}',dataList[i].groupCurrent).replace('{1}',dataList[i].groupMax);
+								if (dataList[i].inStockLabel != '1') {
+									tempStr += temp11;
+									tempStr += temp12.replace('{0}',dataList[i].groupCurrent).replace('{1}',dataList[i].groupMax);
+								} else {
+									if (dataList[i].stockStatus == '1') {
+										tempStr += temp11_1;
+									}
+									if (dataList[i].stockStatus == '2') {
+										tempStr += temp11_2;								
+									}
+									if (dataList[i].stockStatus == '3') {
+										tempStr += temp11_3;
+									}
+									if (dataList[i].stockStatus == '4') {
+										tempStr += temp11_4;
+									}
+								}
+								
 								tempStr += temp13;
 								if (dataList[i].inStockLabel != '1') {
 									if (dataList[i].isOverGroup == '1') {
@@ -239,15 +258,18 @@
 <!-- Body BEGIN -->
 <body>
 <div id="main_goods">
+	<form action="${ctx}/search/init?mode=1">
     <div class="x-header x-header-gray border-1px-bottom">
 		<div class="x-header-btn ico-back"></div>
 		<div class="x-header-title">
-			<input type="text" value="${searchcontent}" id="searchcontent" onfocus="clearcontent(this)"/>
+			<input type="hidden" name="mode" value="1"/>
+			<input type="text" name="searchcontent" value="${searchcontent}" id="searchcontent" onfocus="clearcontent(this)"/>
 		</div>
-		<div class="x-header-btn searchgroup">
-			<fmt:message key="SEARCH_TITLE" />
+		<div class="x-header-btn">
+			<button type="submit" class="btn btn-default searchButtonClass"><fmt:message key="SEARCH_TITLE" /></button>
 		</div>
 	</div>
+	</form>
 	<div class="goods-search-horizon border-top-show">
 		 <ul class="nav nav-tabs">
 		 	<li <c:if test="${mode == '1'}">class="active"</c:if>><a onclick="searchGroup('1');return false;" data-toggle="tab"><fmt:message key="SEARCH_SALENUM" /></a></li>
@@ -272,8 +294,25 @@
 		                </div>
 		                <div class="main-hasbuy">
 		                	<i class="main-hasBuy" style="float: left"></i>	
-				   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
-				   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span>
+		                	<c:if test="${goodslist.inStockLabel != '1' }">
+		                		<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
+				   				<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span>
+		                	</c:if>
+		                	<c:if test="${goodslist.inStockLabel == '1' }">
+		                		<c:if test="${goodslist.stockStatus == '1' }">
+					   				<span class="stock_1"><fmt:message key="COMMON_STOCK_1" /></span>
+					   			</c:if>
+					   			<c:if test="${goodslist.stockStatus == '2' }">
+					   				<span class="stock_2"><fmt:message key="COMMON_STOCK_2" /></span>
+					   			</c:if>
+					   			<c:if test="${goodslist.stockStatus == '3' }">
+					   				<span class="stock_3"><fmt:message key="COMMON_STOCK_3" /></span>
+					   			</c:if>
+					   			<c:if test="${goodslist.stockStatus == '4' }">
+					   				<span class="stock_4"><fmt:message key="COMMON_STOCK_4" /></span>
+					   			</c:if>
+		                	</c:if>
+				   			
 		                </div>
 		                <c:if test="${goodslist.inStockLabel != '1' }">
 			                <c:if test="${goodslist.isOverGroup != '1' }">
@@ -345,10 +384,12 @@
     <input type="hidden" value="${mode}" id="hiddenmode"/>
     <input type="hidden" value="${classId}" id="hiddenclassId"/>
     
-    <div style="text-align: center;height:2rem;display: none" id="loadingDiv">
+    <div style="text-align: center;height:4rem;display:none" id="loadingDiv">
+    	<span style="display:inline-block;width: 100%;" id="hasMore"><fmt:message key="COMMON_PUSH" /></br><fmt:message key="COMMON_HASMORE" /></span>
 		<img src="${ctx}/images/loading.gif">
 	</div>
-	<div style="text-align: center;height:3rem;line-height:3rem;display: none" id="noMoreRecordDiv">
+	
+	<div style="display: none" id="noMoreRecordDiv" class="no_more_record_bg">
 		<fmt:message key="COMMON_NOMORE_RECORD" />
 	</div>
     <script type="text/javascript">

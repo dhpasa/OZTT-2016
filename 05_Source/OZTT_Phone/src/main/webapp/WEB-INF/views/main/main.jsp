@@ -386,8 +386,20 @@
 		                </div>
 		                <div class="main-hasbuy">
 		                	<i class="main-hasBuy" style="float: left"></i>
-				   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
-				   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span>
+<%-- 				   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp; --%>
+<%-- 				   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span> --%>
+				   			<c:if test="${goodslist.stockStatus == '1' }">
+				   				<span class="stock_1"><fmt:message key="COMMON_STOCK_1" /></span>
+				   			</c:if>
+				   			<c:if test="${goodslist.stockStatus == '2' }">
+				   				<span class="stock_2"><fmt:message key="COMMON_STOCK_2" /></span>
+				   			</c:if>
+				   			<c:if test="${goodslist.stockStatus == '3' }">
+				   				<span class="stock_3"><fmt:message key="COMMON_STOCK_3" /></span>
+				   			</c:if>
+				   			<c:if test="${goodslist.stockStatus == '4' }">
+				   				<span class="stock_4"><fmt:message key="COMMON_STOCK_4" /></span>
+				   			</c:if>
 		                </div>
 		                <%-- <c:if test="${goodslist.isOverGroup == '1' }">
 		                	<div class="main-overtime-div" style="display: inline-block;"><fmt:message key="COMMON_OVER_GROUP" /></div>
