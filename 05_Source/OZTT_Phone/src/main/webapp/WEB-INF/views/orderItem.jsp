@@ -96,10 +96,10 @@
 			<div class="paytitle"><fmt:message key="ORDER_ITEM_DELIVERYMETHOD" /></div>
 			<div class="paycontent">${ detailInfo.deliveryMethodView}</div>
 		</div>
-		<div class="order-item-payinfo top-padding">
-			<div class="paytitle"><fmt:message key="ORDER_ITEM_UNIFY" /></div>
-			<div class="paycontent">${ detailInfo.deliveryDate} ${ detailInfo.deleveryTime}</div>
-		</div>
+<!-- 		<div class="order-item-payinfo top-padding"> -->
+<%-- 			<div class="paytitle"><fmt:message key="ORDER_ITEM_UNIFY" /></div> --%>
+<%-- 			<div class="paycontent">${ detailInfo.deliveryDate} ${ detailInfo.deleveryTime}</div> --%>
+<!-- 		</div> -->
 		<div class="order-item-payinfo bottom-padding">
 			<div class="paytitle"><fmt:message key="ORDER_ITEM_FEIGHT" /></div>
 			<div class="paycontent">${ detailInfo.yunfei}</div>
