@@ -530,10 +530,11 @@
 				</div>
 				<div class="purchase-group-pro">
 					<span class="purchase-goodname">${cartsBody.goodsName }</span>
-					
-					<div class="purchase-good－picktime" style="display: none">
-						<fmt:message key="PURCHASE_DELIVERYTIME"/> ${cartsBody.deliveryDate }
-					</div>
+					<c:if test="${cartsBody.isStock != '1' }">
+						<div class="purchase-good－picktime" style="display: none">
+							<fmt:message key="PURCHASE_DELIVERYTIME"/> ${cartsBody.deliveryDate }
+						</div>
+					</c:if>
 				</div>
 				<div class="purchase-group-price">
 					<span><fmt:message key="COMMON_DOLLAR" />${cartsBody.goodsUnitPrice }</span>	
