@@ -101,7 +101,7 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
 
     @Resource
     private TTabIndexDao           tTabIndexDao;
-    
+
     @Resource
     private OrderService           orderService;
 
@@ -124,8 +124,9 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
     public TGoodsClassfication getGoodsClassficationByClassId(String classId) throws Exception {
         return tGoodsClassficationDao.getGoodsClassficationByClassId(classId);
     }
-    
-    public PagingResult<GroupItemDto> getGoodsByParamForPage(Pagination pagination, HttpSession session) throws Exception {
+
+    public PagingResult<GroupItemDto> getGoodsByParamForPage(Pagination pagination, HttpSession session)
+            throws Exception {
         Locale locale = (Locale) session.getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
         if (locale != null && "en".equals(locale.getLanguage())) {
             pagination.getParams().put("enShowFlg", "1");
@@ -134,31 +135,36 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
         if (!CollectionUtils.isEmpty(itemList.getResultList())) {
             for (GroupItemDto goods : itemList.getResultList()) {
                 if (StringUtils.isNotEmpty(goods.getSellOutInitQuantity())) {
-                    if (new BigDecimal(goods.getSellOutInitQuantity()).compareTo(new BigDecimal(goods.getGroupCurrent())) >= 0) {
+                    if (new BigDecimal(goods.getSellOutInitQuantity())
+                            .compareTo(new BigDecimal(goods.getGroupCurrent())) >= 0) {
                         goods.setSellOutFlg(CommonConstants.SELL_OUT_FLG);
                     }
                 }
-                if (CommonConstants.STOCK_50 > (Integer.valueOf(goods.getGroupMax()) - Integer.valueOf(goods.getGroupCurrent()))) {
+                if (CommonConstants.STOCK_50 > (Integer.valueOf(goods.getGroupMax()) - Integer.valueOf(goods
+                        .getGroupCurrent()))) {
                     // 库存紧张
                     goods.setStockStatus("1");
                 }
-                
-                if (CommonConstants.STOCK_50 <= (Integer.valueOf(goods.getGroupMax()) - Integer.valueOf(goods.getGroupCurrent()))
-                        && CommonConstants.STOCK_100 > (Integer.valueOf(goods.getGroupMax()) - Integer.valueOf(goods.getGroupCurrent()))) {
+
+                if (CommonConstants.STOCK_50 <= (Integer.valueOf(goods.getGroupMax()) - Integer.valueOf(goods
+                        .getGroupCurrent()))
+                        && CommonConstants.STOCK_100 > (Integer.valueOf(goods.getGroupMax()) - Integer.valueOf(goods
+                                .getGroupCurrent()))) {
                     // 库存有限
                     goods.setStockStatus("2");
                 }
-                
-                if (CommonConstants.STOCK_100 < (Integer.valueOf(goods.getGroupMax()) - Integer.valueOf(goods.getGroupCurrent()))) {
+
+                if (CommonConstants.STOCK_100 < (Integer.valueOf(goods.getGroupMax()) - Integer.valueOf(goods
+                        .getGroupCurrent()))) {
                     // 库存充足
                     goods.setStockStatus("3");
                 }
-                
+
                 if (Integer.valueOf(goods.getGroupMax()) - Integer.valueOf(goods.getGroupCurrent()) <= 0) {
                     // 暂时缺货
                     goods.setStockStatus("4");
                 }
-                
+
             }
         }
         return itemList;
@@ -278,9 +284,42 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
         goodItemDto.setCountdownTime(DateFormatUtils.getBetweenSecondTime(tGoodsGroup.getValidperiodend()));
         // 获取当前商品的标签属性
         goodItemDto.setGoodsTabs(tTabInfoDao.getTabsByGoods(goods.getGoodsid()));
+
+        // 库存状态
+        if (CommonConstants.STOCK_50 > (Integer.valueOf(goodItemDto.getGroupMax()) - Integer.valueOf(goodItemDto
+                .getGroupCurrent()))) {
+            // 库存紧张
+            goodItemDto.setStockStatus("1");
+        }
+
+        if (CommonConstants.STOCK_50 <= (Integer.valueOf(goodItemDto.getGroupMax()) - Integer.valueOf(goodItemDto
+                .getGroupCurrent()))
+                && CommonConstants.STOCK_100 > (Integer.valueOf(goodItemDto.getGroupMax()) - Integer
+                        .valueOf(goodItemDto.getGroupCurrent()))) {
+            // 库存有限
+            goodItemDto.setStockStatus("2");
+        }
+
+        if (CommonConstants.STOCK_100 < (Integer.valueOf(goodItemDto.getGroupMax()) - Integer.valueOf(goodItemDto
+                .getGroupCurrent()))) {
+            // 库存充足
+            goodItemDto.setStockStatus("3");
+        }
+
+        if (Integer.valueOf(goodItemDto.getGroupMax()) - Integer.valueOf(goodItemDto.getGroupCurrent()) <= 0) {
+            // 暂时缺货
+            goodItemDto.setStockStatus("4");
+        }
+        
+        // 是否是现货
+        goodItemDto.setIsStock(tGoodsGroup.getInstockflg());
+        
+        // 是否钻石商品
+        goodItemDto.setDiamondShowFlg(tGoodsGroup.getDiamondshowflg());
+
         return goodItemDto;
     }
-    
+
     @Override
     public GoodItemDto getGoodAllItemDtoForAdmin(String groupId) throws Exception {
 
@@ -1042,13 +1081,13 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
                     tConsCartDao.deleteByPrimaryKey(dto.getNo());
                     continue;
                 }
-                
+
                 // 判断是否已经满团，满团则删除
                 if (tGoodsGroup.getGroupcurrentquantity() >= tGoodsGroup.getGroupmaxquantity()) {
                     tConsCartDao.deleteByPrimaryKey(dto.getNo());
                     continue;
                 }
-                
+
                 // 判断是否加入购物车的数据，不符合现在最大可用数据，如果不符合更新成现在最多可购买的数量
                 //单个团购，单个客户已经购买的数量取得
                 Map<Object, Object> paramMap = new HashMap<Object, Object>();
@@ -1057,45 +1096,51 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
                 int alreadyPurchaseSum = orderService.getAleadyPurchaseCount(paramMap);
                 Long maxBuy = 0L;
                 if (dto.getQuantity() + tGoodsGroup.getGroupcurrentquantity() <= tGoodsGroup.getGroupmaxquantity()) {
-                } else {
+                }
+                else {
                     maxBuy = tGoodsGroup.getGroupmaxquantity() - tGoodsGroup.getGroupcurrentquantity();
                 }
-                
+
                 if (dto.getQuantity() > tGoodsGroup.getGroupquantitylimit()) {
-                    maxBuy = (maxBuy > tGoodsGroup.getGroupquantitylimit() || maxBuy == 0L) ? tGoodsGroup.getGroupquantitylimit() : maxBuy;
+                    maxBuy = (maxBuy > tGoodsGroup.getGroupquantitylimit() || maxBuy == 0L) ? tGoodsGroup
+                            .getGroupquantitylimit() : maxBuy;
                 }
-                
-                if(dto.getQuantity() + alreadyPurchaseSum > tGoodsGroup.getGroupquantitylimit()) {
-                    maxBuy = ((maxBuy + alreadyPurchaseSum) > tGoodsGroup.getGroupquantitylimit() || maxBuy == 0L) ? (tGoodsGroup.getGroupquantitylimit() - alreadyPurchaseSum) : maxBuy;
+
+                if (dto.getQuantity() + alreadyPurchaseSum > tGoodsGroup.getGroupquantitylimit()) {
+                    maxBuy = ((maxBuy + alreadyPurchaseSum) > tGoodsGroup.getGroupquantitylimit() || maxBuy == 0L) ? (tGoodsGroup
+                            .getGroupquantitylimit() - alreadyPurchaseSum) : maxBuy;
                 }
-                
-                if(maxBuy != 0 && maxBuy != dto.getQuantity()) {
+
+                if (maxBuy != 0 && maxBuy != dto.getQuantity()) {
                     // 更新购物车中的数据
                     dto.setQuantity(maxBuy);
                     tConsCartDao.updateByPrimaryKeySelective(dto);
                 }
-                 
+
             }
         }
     }
-	@Override
-	public PagingResult<OzTtAdGsListDto> getAllGoodsRInfoForAdmin(Pagination pagination) throws Exception {
-		PagingResult<OzTtAdGsListDto> dtoList = tGoodsGroupDao.getAllGoodsRInfoForAdmin(pagination);
-		if (dtoList.getResultList() != null && dtoList.getResultList().size() > 0) {
-			for (OzTtAdGsListDto detail : dtoList.getResultList()) {
-				detail.setHandleFlg(CommonEnum.OrderDetailHandleFlag.getEnumLabel(detail.getHandleFlg()));
-			}
-		}
-		return dtoList;
-	}
-	@Override
-	public int getProductsCount(Map<Object, Object> param) throws Exception {
-		Object o = tGoodsGroupDao.getProductsCount(param);
-		if (o != null) {
-			return (Integer) o;
-		} else {
-			return 0;
-		}
-	}
+
+    @Override
+    public PagingResult<OzTtAdGsListDto> getAllGoodsRInfoForAdmin(Pagination pagination) throws Exception {
+        PagingResult<OzTtAdGsListDto> dtoList = tGoodsGroupDao.getAllGoodsRInfoForAdmin(pagination);
+        if (dtoList.getResultList() != null && dtoList.getResultList().size() > 0) {
+            for (OzTtAdGsListDto detail : dtoList.getResultList()) {
+                detail.setHandleFlg(CommonEnum.OrderDetailHandleFlag.getEnumLabel(detail.getHandleFlg()));
+            }
+        }
+        return dtoList;
+    }
+
+    @Override
+    public int getProductsCount(Map<Object, Object> param) throws Exception {
+        Object o = tGoodsGroupDao.getProductsCount(param);
+        if (o != null) {
+            return (Integer) o;
+        }
+        else {
+            return 0;
+        }
+    }
 
 }

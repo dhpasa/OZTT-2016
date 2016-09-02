@@ -283,17 +283,34 @@
 	   		</div>
    		</c:if>
    		
-   		
+   		<c:if test="${goodItemDto.isStock == '1' || goodItemDto.diamondShowFlg == '1'}">
    		<div class="border-top-show height3">
-   			<span class="item-timeword forceFloatLeft"><fmt:message key="ITEM_TIME" /></span>
-   			<div class="cuntdown item-countdown" data-seconds-left="${goodItemDto.countdownTime}"></div>
+   			<c:if test="${goodItemDto.stockStatus == '1' }">
+				<span class="stock_1"><fmt:message key="COMMON_STOCK_1" /></span>
+			</c:if>
+			<c:if test="${goodItemDto.stockStatus == '2' }">
+				<span class="stock_2"><fmt:message key="COMMON_STOCK_2" /></span>
+			</c:if>
+			<c:if test="${goodItemDto.stockStatus == '3' }">
+				<span class="stock_3"><fmt:message key="COMMON_STOCK_3" /></span>
+			</c:if>
+			<c:if test="${goodItemDto.stockStatus == '4' }">
+				<span class="stock_4"><fmt:message key="COMMON_STOCK_4" /></span>
+			</c:if>
    		</div>
-   		
-   		<div class="border-top-show" style="padding:0.5rem 0">
-   			<i class="main-hasBuy" style="float: left"></i>
-   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
-   			<span class="">${goodItemDto.groupCurrent}&nbsp;/&nbsp;${goodItemDto.groupMax}</span>
-   		</div>
+   		</c:if>
+   		<c:if test="${goodItemDto.isStock != '1' && goodItemDto.diamondShowFlg != '1'}">
+   			<div class="border-top-show height3">
+	   			<span class="item-timeword forceFloatLeft"><fmt:message key="ITEM_TIME" /></span>
+	   			<div class="cuntdown item-countdown" data-seconds-left="${goodItemDto.countdownTime}"></div>
+	   		</div>
+	   		
+	   		<div class="border-top-show" style="padding:0.5rem 0">
+	   			<i class="main-hasBuy" style="float: left"></i>
+	   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
+	   			<span class="">${goodItemDto.groupCurrent}&nbsp;/&nbsp;${goodItemDto.groupMax}</span>
+	   		</div>
+   		</c:if>
    </div>
    
    <div class="product-page-content">
@@ -330,17 +347,27 @@
     	
     	<div class="item-btn-btn">
     		<c:if test="${goodItemDto.diamondShowFlg != '1'}">
-    			<c:if test="${IS_END == '1' }">
-		    		<a class="canNotBuy"><fmt:message key="ITEM_ISEND"/></a>
-		    	</c:if>
-		    	<c:if test="${IS_END != '1' }">
-		    		<c:if test="${IS_OVER != '1' }">
-		    			<a onclick="checktoItem('${goodItemDto.groupId}')" class="canBuy"><fmt:message key="ITEM_ADDTOCART"/></a>
+    			<c:if test="${goodItemDto.isStock != '1'}">
+    				<c:if test="${IS_END == '1' }">
+			    		<a class="canNotBuy"><fmt:message key="ITEM_ISEND"/></a>
 			    	</c:if>
-			    	<c:if test="${IS_OVER == '1' }">
-			    		<a class="canNotBuy"><fmt:message key="ITEM_ISOVER"/></a>
+			    	<c:if test="${IS_END != '1' }">
+			    		<c:if test="${IS_OVER != '1' }">
+			    			<a onclick="checktoItem('${goodItemDto.groupId}')" class="canBuy"><fmt:message key="ITEM_ADDTOCART"/></a>
+				    	</c:if>
+				    	<c:if test="${IS_OVER == '1' }">
+				    		<a class="canNotBuy"><fmt:message key="ITEM_ISOVER"/></a>
+				    	</c:if>
 			    	</c:if>
-		    	</c:if>
+    			</c:if>
+    			<c:if test="${goodItemDto.isStock == '1'}">
+    					<c:if test="${IS_OVER != '1' }">
+			    			<a onclick="checktoItem('${goodItemDto.groupId}')" class="canBuy"><fmt:message key="ITEM_ADDTOCART"/></a>
+				    	</c:if>
+				    	<c:if test="${IS_OVER == '1' }">
+				    		<a class="canNotBuy"><fmt:message key="COMMON_STOCK_4"/></a>
+				    	</c:if>
+    			</c:if>
     		</c:if>
     	</div>
     </div>

@@ -48,6 +48,12 @@ public class GoodItemDto {
 
     private String         diamondShowFlg;  //钻石会员显示
 
+    private String         stockStatus;     //库存状况
+
+    private String         isStock;         // 是现货
+
+    private String         isDiamond;       // 是钻石会员商品
+
     private List<TTabInfo> goodsTabs;       //商品标签       
 
     public TGoods getGoods() {
@@ -200,5 +206,29 @@ public class GoodItemDto {
 
     public void setDiamondShowFlg(String diamondShowFlg) {
         this.diamondShowFlg = diamondShowFlg;
+    }
+
+    public String getStockStatus() {
+        return stockStatus;
+    }
+
+    public void setStockStatus(String stockStatus) {
+        this.stockStatus = stockStatus;
+    }
+
+    public String getIsStock() {
+        return isStock;
+    }
+
+    public void setIsStock(String isStock) {
+        this.isStock = isStock;
+    }
+
+    public String getIsDiamond() {
+        return isDiamond;
+    }
+
+    public void setIsDiamond(String isDiamond) {
+        this.isDiamond = isDiamond;
     }
 }
