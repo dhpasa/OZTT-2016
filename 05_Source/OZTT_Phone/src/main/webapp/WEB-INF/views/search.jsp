@@ -121,8 +121,9 @@
 								tempStr += temp7.replace('{0}',fmoney(dataList[i].costprice,2));
 								tempStr += temp8;
 								tempStr += temp9;
-								tempStr += temp10;
+								
 								if (dataList[i].inStockLabel != '1') {
+									tempStr += temp10;
 									tempStr += temp11;
 									tempStr += temp12.replace('{0}',dataList[i].groupCurrent).replace('{1}',dataList[i].groupMax);
 								} else {
@@ -293,8 +294,9 @@
 							<span class="text-through"><fmt:message key="COMMON_DOLLAR" />${goodslist.costprice }</span>
 		                </div>
 		                <div class="main-hasbuy">
-		                	<i class="main-hasBuy" style="float: left"></i>	
+		                	
 		                	<c:if test="${goodslist.inStockLabel != '1' }">
+		                		<i class="main-hasBuy" style="float: left"></i>	
 		                		<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
 				   				<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span>
 		                	</c:if>

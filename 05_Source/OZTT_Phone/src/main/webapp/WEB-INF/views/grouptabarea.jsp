@@ -119,7 +119,7 @@
 								tempStr += temp7.replace('{0}',fmoney(dataList[i].costprice,2));
 								tempStr += temp8;
 								tempStr += temp9;
-								tempStr += temp10;
+								
 								if ('${tab}' == '3' || '${tab}' == '4') {
 									if (dataList[i].stockStatus == '1') {
 										tempStr += temp11_1;
@@ -134,6 +134,7 @@
 										tempStr += temp11_4;
 									}
 								} else {
+									tempStr += temp10;
 									tempStr += temp11;
 									tempStr += temp12.replace('{0}',dataList[i].groupCurrent).replace('{1}',dataList[i].groupMax);
 								}
@@ -264,8 +265,9 @@
 							<span class="text-through"><fmt:message key="COMMON_DOLLAR" />${goodslist.costprice }</span>
 		                </div>
 		                <div class="main-hasbuy">
-		                	<i class="main-hasBuy" style="float: left"></i>	
+		                	
 		                	<c:if test="${tab != '3' && tab != '4'}">
+		                		<i class="main-hasBuy" style="float: left"></i>	
 					   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
 					   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span>
 							</c:if>

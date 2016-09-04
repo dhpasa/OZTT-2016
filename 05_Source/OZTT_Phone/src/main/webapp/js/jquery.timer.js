@@ -199,6 +199,10 @@
     if(finalValues.length === 0){
       this.clearTimer(element);
       element.trigger('complete');
+      // 声明调用方法，由画面方法实现
+      if( typeof doComplete === 'function' ){
+    	  doComplete(element);
+      }
       return false;
     }
     element.find('.hours-1').text(finalValues.substring(0,1));

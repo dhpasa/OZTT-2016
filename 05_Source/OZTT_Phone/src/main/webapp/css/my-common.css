@@ -446,6 +446,7 @@ html{
 .main_goods{
 	display: inline-block;
 	margin-top: 1rem;
+	width: 100%;
 }
 
 .countdownDay{
@@ -669,10 +670,10 @@ html{
 
 .main-rushpur-area{
 	width: 100%;
-	display: inline-block;
-	margin-top: 1rem;
-	color: #ff0000;
-	background-color: #ffc0cb;
+    display: inline-block;
+    margin-top: 1rem;
+    color: #ffbc49;
+    background-color: #ffda9f;
 }
 .main-rushpur-area .rushtext{
 	width: 100%;
@@ -725,9 +726,9 @@ html{
 
 .main-nowsell-area{
 	width: 100%;
-	display: inline-block;
-	color: #08c9ab;
-	background-color: #d6f3ff;
+    display: inline-block;
+    color: #14a58e;
+    background-color: #77e3d0;
 }
 
 .main-nowsell-area .nowselltext{
@@ -757,18 +758,73 @@ html{
 
 .stock_1{
 	color:red;
+	display: inline-block;
+	height: 2rem;
+	line-height: 2rem;
+	width: 100%;
+	background-color: #e09d9d;
+	color: #FFFFF;
+	font-size: 1.3rem;
+	border-radius: 5px !important;
+	border: 0.5px solid #e09d9d;
+	text-align: center;
 }
 
 .stock_2{
 	color:#9ec548;
+	display: inline-block;
+	height: 2rem;
+	line-height: 2rem;
+	width: 100%;
+	background-color: #cdf96d;
+	color: #FFFFF;
+	font-size: 1.3rem;
+	border-radius: 5px !important;
+	border: 0.5px solid #cdf96d;
+	text-align: center;
 }
 
 .stock_3{
 	color:green;
+	display: inline-block;
+	height: 2rem;
+	line-height: 2rem;
+	width: 100%;
+	background-color: #84d084;
+	color: #FFFFF;
+	font-size: 1.3rem;
+	border-radius: 5px !important;
+	border: 0.5px solid #84d084;
+	text-align: center;
 }
 
 .stock_4{
 	color:#666;
+	display: inline-block;
+	height: 2rem;
+	line-height: 2rem;
+	width: 100%;
+	background-color: #D8D8D8;
+	color: #FFFFF;
+	font-size: 1.3rem;
+	border-radius: 5px !important;
+	border: 0.5px solid #D8D8D8;
+	text-align: center;
+}
+
+.main_rush_end{
+	color:#666;
+	display: inline-block;
+	height: 2rem;
+	line-height: 2rem;
+	width: 100%;
+	background-color: #D8D8D8;
+	color: #FFFFF;
+	font-size: 1.3rem;
+	border-radius: 5px !important;
+	border: 0.5px solid #D8D8D8;
+	text-align: center;
+	margin: 3px 0px;
 }
 
 /* ========================================我============================================== */
@@ -1007,7 +1063,6 @@ html{
 }
 
 .showusername img{
-	height: 5rem;
 	padding-left: 7%;
 	width: 33%;
     display: inline-block;
