@@ -27,6 +27,11 @@
   			location.href="${ctx}/main/grouptab?tab="+areaTab;
   		}
   		
+  		function doComplete(ele){
+  			$(ele).parent().parent().find(".main_rush_end").css("display","");
+  			$(ele).parent().remove();
+  		}
+  		
   		//在线客服
   		/* kefu = function(id, _top) {
   			var me = id.charAt ? document.getElementById(id) : id, d1 = document.body, d2 = document.documentElement;
@@ -169,13 +174,20 @@
 		<div class="newGoods-div" onclick="toItem('${newGoodsList.groupno }')">
 			<div class="newGoods-info">
 				<span class="newGoods-info-span font-xl clearMargin">${newGoodsList.goodsname }</span>
-				<span class="newGoods-info-span time">
+				<c:if test="${newGoodsList.isOverGroup == '1' }">
+					<span class="main_rush_end"><fmt:message key="MAIN_RUSHOVER" /></span>
+				</c:if>
+				<c:if test="${newGoodsList.isOverGroup != '1' }">
+					<span class="main_rush_end" style="display:none"><fmt:message key="MAIN_RUSHOVER" /></span>
+					<span class="newGoods-info-span time">
 					<div style="float:left;padding-right: 0.5rem;height: 1.7rem"><fmt:message key="MAIN_TIME" /></div>
 					<div class="countdownDay">${newGoodsList.countdownDay }<fmt:message key="COMMON_DAY" /></div>
 					<div id="cuntdown" class="cuntdown" data-seconds-left="${newGoodsList.countdownTime}" style="float:left;width: 100%;">
 					
 					</div>
 				</span>
+				</c:if>
+				
 				<span class="newGoods-info-span">
 					<div class="group-price-div">
 						<span class="group-price">
@@ -202,13 +214,20 @@
 			</div>
 			<div class="newGoods-info">
 				<span class="newGoods-info-span font-xl clearMargin">${newGoodsList.goodsname }</span>
-				<span class="newGoods-info-span time">
+				<c:if test="${newGoodsList.isOverGroup == '1' }">
+					<span class="main_rush_end"><fmt:message key="MAIN_RUSHOVER" /></span>
+				</c:if>
+				<c:if test="${newGoodsList.isOverGroup != '1' }">
+					<span class="main_rush_end" style="display:none"><fmt:message key="MAIN_RUSHOVER" /></span>
+					<span class="newGoods-info-span time">
 					<div style="float:left;padding-right: 0.5rem;height: 1.7rem"><fmt:message key="MAIN_TIME" /></div>
 					<div class="countdownDay">${newGoodsList.countdownDay }<fmt:message key="COMMON_DAY" /></div>
 					<div id="cuntdown" class="cuntdown" data-seconds-left="${newGoodsList.countdownTime}" style="float:left;width: 100%;">
 					
 					</div>
 				</span>
+				</c:if>
+				
 				<span class="newGoods-info-span">
 					<div class="group-price-div">
 						<span class="group-price">
@@ -251,7 +270,7 @@
 							<span class="text-through font-l"><fmt:message key="COMMON_DOLLAR" />${goodslist.costprice }</span>
 		                </div>
 		                <div class="main-hasbuy">
-		                	<i class="main-hasBuy" style="float: left"></i>
+<!-- 		                	<i class="main-hasBuy" style="float: left"></i> -->
 <%-- 				   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp; --%>
 <%-- 				   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span> --%>
 							<c:if test="${goodslist.stockStatus == '1' }">
@@ -397,7 +416,7 @@
 							<span class="text-through font-l"><fmt:message key="COMMON_DOLLAR" />${goodslist.costprice }</span>
 		                </div>
 		                <div class="main-hasbuy">
-		                	<i class="main-hasBuy" style="float: left"></i>
+<!-- 		                	<i class="main-hasBuy" style="float: left"></i> -->
 <%-- 				   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp; --%>
 <%-- 				   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span> --%>
 				   			<c:if test="${goodslist.stockStatus == '1' }">

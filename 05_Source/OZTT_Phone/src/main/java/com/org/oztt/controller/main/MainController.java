@@ -1,5 +1,6 @@
 package com.org.oztt.controller.main;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,8 +30,8 @@ import com.org.oztt.service.GoodsService;
 public class MainController extends BaseController {
 
     @Resource
-    private GoodsService goodsService;
-    
+    private GoodsService    goodsService;
+
     @Resource
     private CustomerService customerService;
 
@@ -61,8 +62,14 @@ public class MainController extends BaseController {
                             + goods.getGoodsthumbnail());
                     goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
                     goods.setCountdownDay(DateFormatUtils.getBetweenDayTime(goods.getValidEndTime()));
+
                     goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods
                             .getGroupMax()) ? CommonConstants.OVER_GROUP_YES : CommonConstants.OVER_GROUP_NO);
+
+                    if (new BigDecimal(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()))
+                            .compareTo(BigDecimal.ZERO) <= 0) {
+                        goods.setIsOverGroup(CommonConstants.OVER_GROUP_YES);
+                    }
                     // 商品的名称显示限购数量
                     goods.setGoodsname(goods.getGoodsname()
                             + super.getPageMessage("COMMON_LIMIT_QUANTITY_TEXT", session).replace(
@@ -117,20 +124,21 @@ public class MainController extends BaseController {
             }
             model.addAttribute("nowSellList", (pageInfoNow == null || pageInfoNow.getResultList() == null) ? null
                     : pageInfoNow.getResultList());
-            
+
             // 钻石用户区
             Object customerNo = session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
             if (!StringUtils.isEmpty(customerNo)) {
                 TCustomerMemberInfo memberInfo = customerService.getCustomerMemberInfo(customerNo.toString());
                 if (memberInfo != null) {
                     model.addAttribute(CommonConstants.SESSION_DIAMOND_CUSTOMER, memberInfo.getLevel());
-                    
+
                     // 钻石分区
                     pagination = new Pagination(1, Integer.parseInt(CommonConstants.MAIN_GOODS_LIST));
                     params = new HashMap<Object, Object>();
                     params.put("diamondShowFlg", "1");
                     pagination.setParams(params);
-                    PagingResult<GroupItemDto> pageInfoDiamond = goodsService.getGoodsByParamForPage(pagination, session);
+                    PagingResult<GroupItemDto> pageInfoDiamond = goodsService.getGoodsByParamForPage(pagination,
+                            session);
                     if (!CollectionUtils.isEmpty(pageInfoDiamond.getResultList())) {
                         for (GroupItemDto goods : pageInfoDiamond.getResultList()) {
                             goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT
@@ -144,12 +152,12 @@ public class MainController extends BaseController {
                             }
                         }
                     }
-                    model.addAttribute("diamondSellList", (pageInfoDiamond == null || pageInfoDiamond.getResultList() == null) ? null
-                            : pageInfoDiamond.getResultList());
+                    model.addAttribute("diamondSellList",
+                            (pageInfoDiamond == null || pageInfoDiamond.getResultList() == null) ? null
+                                    : pageInfoDiamond.getResultList());
                 }
-                
+
             }
-            
 
             // 获取session中的值
             model.addAttribute(CommonConstants.SESSION_CUSTOMERNO,

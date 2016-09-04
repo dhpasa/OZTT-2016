@@ -307,7 +307,7 @@
 	   		
 	   		<div class="border-top-show" style="padding:0.5rem 0">
 	   			<i class="main-hasBuy" style="float: left"></i>
-	   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
+	   			<span class="item-timeword"><fmt:message key="ITEM_HASRUSHBUY" /></span>&nbsp;
 	   			<span class="">${goodItemDto.groupCurrent}&nbsp;/&nbsp;${goodItemDto.groupMax}</span>
 	   		</div>
    		</c:if>
@@ -356,7 +356,7 @@
 			    			<a onclick="checktoItem('${goodItemDto.groupId}')" class="canBuy"><fmt:message key="ITEM_ADDTOCART"/></a>
 				    	</c:if>
 				    	<c:if test="${IS_OVER == '1' }">
-				    		<a class="canNotBuy"><fmt:message key="ITEM_ISOVER"/></a>
+				    		<a class="canNotBuy"><fmt:message key="ITEM_RUSHOVER"/></a>
 				    	</c:if>
 			    	</c:if>
     			</c:if>
