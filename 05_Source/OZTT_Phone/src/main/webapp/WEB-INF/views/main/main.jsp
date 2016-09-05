@@ -150,8 +150,9 @@
 	</div>
 	<div class="flexslider border-top-show">
   		<ul class="slides">
-  			<li><img src="${imgUrl}advertisement/pic_01.jpeg" /></li>
-  			<li><img src="${imgUrl}advertisement/pic_02.jpeg" /></li>
+  			<c:forEach var="advPic" items="${ advPicList }">
+  				<li><img src="${imgUrl}advertisement/${advPic}" /></li>
+  			</c:forEach>
   		</ul>
    </div>
    
@@ -174,15 +175,12 @@
 		<div class="newGoods-div" onclick="toItem('${newGoodsList.groupno }')">
 			<div class="newGoods-info">
 				<span class="newGoods-info-span font-xl clearMargin">${newGoodsList.goodsname }</span>
-				<c:if test="${newGoodsList.isOverGroup == '1' }">
-					<span class="main_rush_end"><fmt:message key="MAIN_RUSHOVER" /></span>
-				</c:if>
 				<c:if test="${newGoodsList.isOverGroup != '1' }">
 					<span class="main_rush_end" style="display:none"><fmt:message key="MAIN_RUSHOVER" /></span>
 					<span class="newGoods-info-span time">
 					<div style="float:left;padding-right: 0.5rem;height: 1.7rem"><fmt:message key="MAIN_TIME" /></div>
 					<div class="countdownDay">${newGoodsList.countdownDay }<fmt:message key="COMMON_DAY" /></div>
-					<div id="cuntdown" class="cuntdown" data-seconds-left="${newGoodsList.countdownTime}" style="float:left;width: 100%;">
+					<div id="cuntdown" class="cuntdown" data-seconds-left="${newGoodsList.countdownTime}" data-isrush="1" style="float:left;width: 100%;">
 					
 					</div>
 				</span>
@@ -201,6 +199,9 @@
 		   			<span class="item-timeword"><fmt:message key="COMMON_HAS_RUSH_PURCHASE" /></span>&nbsp;
 		   			<span class="">${newGoodsList.groupCurrent}&nbsp;/&nbsp;${newGoodsList.groupMax}</span>
                 </div>
+                <c:if test="${newGoodsList.isOverGroup == '1' }">
+					<span class="main_rush_end"><fmt:message key="MAIN_RUSHOVER" /></span>
+				</c:if>
 			</div>
 			<div class="newGoods-img">
 				<img src="${newGoodsList.goodsthumbnail }" class="padding-1rem">
@@ -214,15 +215,13 @@
 			</div>
 			<div class="newGoods-info">
 				<span class="newGoods-info-span font-xl clearMargin">${newGoodsList.goodsname }</span>
-				<c:if test="${newGoodsList.isOverGroup == '1' }">
-					<span class="main_rush_end"><fmt:message key="MAIN_RUSHOVER" /></span>
-				</c:if>
+				
 				<c:if test="${newGoodsList.isOverGroup != '1' }">
 					<span class="main_rush_end" style="display:none"><fmt:message key="MAIN_RUSHOVER" /></span>
 					<span class="newGoods-info-span time">
 					<div style="float:left;padding-right: 0.5rem;height: 1.7rem"><fmt:message key="MAIN_TIME" /></div>
 					<div class="countdownDay">${newGoodsList.countdownDay }<fmt:message key="COMMON_DAY" /></div>
-					<div id="cuntdown" class="cuntdown" data-seconds-left="${newGoodsList.countdownTime}" style="float:left;width: 100%;">
+					<div id="cuntdown" class="cuntdown" data-seconds-left="${newGoodsList.countdownTime}" data-isrush="1" style="float:left;width: 100%;">
 					
 					</div>
 				</span>
@@ -241,6 +240,9 @@
 		   			<span class="item-timeword"><fmt:message key="COMMON_HAS_RUSH_PURCHASE" /></span>&nbsp;
 		   			<span class="">${newGoodsList.groupCurrent}&nbsp;/&nbsp;${newGoodsList.groupMax}</span>
                 </div>
+                <c:if test="${newGoodsList.isOverGroup == '1' }">
+					<span class="main_rush_end"><fmt:message key="MAIN_RUSHOVER" /></span>
+				</c:if>
 			</div>
 		</div>
 	   </c:if>		

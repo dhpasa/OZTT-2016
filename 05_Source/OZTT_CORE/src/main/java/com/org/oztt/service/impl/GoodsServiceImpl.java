@@ -316,7 +316,8 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
         
         // 是否钻石商品
         goodItemDto.setDiamondShowFlg(tGoodsGroup.getDiamondshowflg());
-
+        // 是否秒杀产品
+        goodItemDto.setIsTopPage(tGoodsGroup.getToppageup());
         return goodItemDto;
     }
 

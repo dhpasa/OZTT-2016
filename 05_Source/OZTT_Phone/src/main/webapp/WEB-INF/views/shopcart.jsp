@@ -467,8 +467,7 @@ body {
 				<div class="check-icon"></div>
 			</div>
 			<div class="shopcart-overtime">
-				<i class="shopcart-i-time"></i>
-				<fmt:message key="CARTLIST_TIME"/>${cartsList.queryDay }<fmt:message key="COMMON_DAY"/>
+				<fmt:message key="COMMON_ALLCHECK"/>
 			</div>
 		</div>
 		<c:forEach var="cartsBody" items="${ cartsList.itemList }" varStatus="status">

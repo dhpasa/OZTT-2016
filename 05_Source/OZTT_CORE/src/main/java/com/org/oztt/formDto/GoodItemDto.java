@@ -51,6 +51,8 @@ public class GoodItemDto {
     private String         stockStatus;     //库存状况
 
     private String         isStock;         // 是现货
+    
+    private String         isTopPage;       // 秒杀
 
     private String         isDiamond;       // 是钻石会员商品
 
@@ -230,5 +232,13 @@ public class GoodItemDto {
 
     public void setIsDiamond(String isDiamond) {
         this.isDiamond = isDiamond;
+    }
+
+    public String getIsTopPage() {
+        return isTopPage;
+    }
+
+    public void setIsTopPage(String isTopPage) {
+        this.isTopPage = isTopPage;
     }
 }

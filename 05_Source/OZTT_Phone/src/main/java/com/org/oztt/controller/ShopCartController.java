@@ -59,49 +59,49 @@ public class ShopCartController extends BaseController {
                 }
 
                 // 取得购物车天数数据
-                String[] prostr = getShopCartPro();
+                //String[] prostr = getShopCartPro();
 
                 ContCartItemListDto contCartItemListDto = new ContCartItemListDto();
-                List<ContCartItemDto> timeDto = new ArrayList<ContCartItemDto>();
-                int q = 0;
-                for (int i = 0; i < prostr.length; i++) {
-                    contCartItemListDto = new ContCartItemListDto();
-                    timeDto = new ArrayList<ContCartItemDto>();
-                    for (ContCartItemDto dto : consCarts) {
-                        if (i == 0) {
-                            if (Integer.valueOf(prostr[i]) >= Integer.valueOf(dto.getCanbuyDay())) {
-                                timeDto.add(dto);
-                                q++;
-                            }
-                        }
-                        else {
-                            if (Integer.valueOf(prostr[i - 1]) < Integer.valueOf(dto.getCanbuyDay())
-                                    && Integer.valueOf(prostr[i]) >= Integer.valueOf(dto.getCanbuyDay())) {
-                                timeDto.add(dto);
-                                q++;
-                            }
-                        }
-
-                    }
-                    if (timeDto.size() > 0) {
-                        contCartItemListDto.setQueryDay(prostr[i]);
-                        contCartItemListDto.setItemList(timeDto);
-                        cartsList.add(contCartItemListDto);
-                    }
-
-                }
+                //List<ContCartItemDto> timeDto = new ArrayList<ContCartItemDto>();
+                //int q = 0;
+                //                for (int i = 0; i < prostr.length; i++) {
+                //                    contCartItemListDto = new ContCartItemListDto();
+                //                    timeDto = new ArrayList<ContCartItemDto>();
+                //                    for (ContCartItemDto dto : consCarts) {
+                //                        if (i == 0) {
+                //                            if (Integer.valueOf(prostr[i]) >= Integer.valueOf(dto.getCanbuyDay())) {
+                //                                timeDto.add(dto);
+                //                                q++;
+                //                            }
+                //                        }
+                //                        else {
+                //                            if (Integer.valueOf(prostr[i - 1]) < Integer.valueOf(dto.getCanbuyDay())
+                //                                    && Integer.valueOf(prostr[i]) >= Integer.valueOf(dto.getCanbuyDay())) {
+                //                                timeDto.add(dto);
+                //                                q++;
+                //                            }
+                //                        }
+                //
+                //                    }
+                //                    if (timeDto.size() > 0) {
+                //                        contCartItemListDto.setQueryDay(prostr[i]);
+                //                        contCartItemListDto.setItemList(timeDto);
+                //                        cartsList.add(contCartItemListDto);
+                //                    }
+                //
+                //                }
                 // 将剩余的购物的放入list中
-                contCartItemListDto = new ContCartItemListDto();
-                timeDto = new ArrayList<ContCartItemDto>();
-                for (int i = 0; i < consCarts.size(); i++) {
-                    if (i >= q) {
-                        timeDto.add(consCarts.get(i));
-                    }
-                }
+                //                contCartItemListDto = new ContCartItemListDto();
+                //                timeDto = new ArrayList<ContCartItemDto>();
+                //                for (int i = 0; i < consCarts.size(); i++) {
+                //                    if (i >= q) {
+                //                        timeDto.add(consCarts.get(i));
+                //                    }
+                //                }
 
-                if (timeDto.size() > 0) {
-                    contCartItemListDto.setQueryDay(super.getApplicationMessage("shopcart_other_time", session));
-                    contCartItemListDto.setItemList(timeDto);
+                if (consCarts.size() > 0) {
+                    //contCartItemListDto.setQueryDay(super.getApplicationMessage("shopcart_other_time", session));
+                    contCartItemListDto.setItemList(consCarts);
                     cartsList.add(contCartItemListDto);
                 }
 

@@ -128,7 +128,13 @@
   Timer.prototype.clearTimer = function(element){
 	element.find('.alltime').css("display","none");
 	element.find('.overtime').css("display","inline-block");
-	element.find('.overtime').text('秒杀结束');
+	var isrush = element.data('isrush');
+	if (isrush == '1') {
+		element.find('.overtime').text('秒杀结束');
+	} else {
+		element.find('.overtime').text('团购结束');
+	}
+	
 	
   };
 
