@@ -134,6 +134,7 @@ public class OzTtAdRlController extends BaseController {
                     tCustomerMemberInfo.setSumAmount(BigDecimal.ZERO);
                 }
                 tCustomerMemberInfo.setPoints(StringUtils.isEmpty(map.get("points")) ? 0 : Integer.valueOf(map.get("points")));
+                tCustomerMemberInfo.setLeftAmount(BigDecimal.ZERO);
                 tCustomerMemberInfo.setAddTimestamp(new Date());
                 tCustomerMemberInfo.setAddUserKey(CommonConstants.ADMIN_USERKEY);
                 customerService.saveTCustomerMemberInfo(tCustomerMemberInfo);
