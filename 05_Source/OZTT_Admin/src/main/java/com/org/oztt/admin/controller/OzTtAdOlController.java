@@ -36,6 +36,7 @@ import com.org.oztt.formDto.OzTtAdOdListDto;
 import com.org.oztt.formDto.OzTtAdOlDto;
 import com.org.oztt.formDto.OzTtAdOlListDto;
 import com.org.oztt.service.CommonService;
+import com.org.oztt.service.CustomerService;
 import com.org.oztt.service.GoodsService;
 import com.org.oztt.service.OrderService;
 
@@ -56,6 +57,9 @@ public class OzTtAdOlController extends BaseController {
 
     @Resource
     private GoodsService  goodsService;
+    
+    @Resource
+    private CustomerService customerService;
 
     /**
      * 订单一览画面
@@ -228,6 +232,7 @@ public class OzTtAdOlController extends BaseController {
                 else {
                     tConsOrder.setHandleflg(status);
                     orderService.updateOrderInfo(tConsOrder);
+                    customerService.updateCustomerPointsAndLevels(tConsOrder.getCustomerno(), tConsOrder.getOrderamount());
                 }
             }
             // 后台维护的时候提示让以逗号隔开
