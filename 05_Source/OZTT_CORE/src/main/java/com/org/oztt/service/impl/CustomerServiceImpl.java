@@ -253,6 +253,7 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
                 dto.setSex(CommonEnum.SexStatus.getEnumLabel(dto.getSex()));
                 dto.setMarriage(CommonEnum.MarriageStatus.getEnumLabel(dto.getMarriage()));
                 dto.setEducation(CommonEnum.EducationStatus.getEnumLabel(dto.getEducation()));
+                dto.setLevel(CommonEnum.CustomerLevel.getEnumLabel(dto.getLevel()));
             }
         }
         return page;

@@ -360,12 +360,16 @@
 		A.education,
 		A.occupation,
 		A.deleteFlg,
-		B.canLogin
+		B.canLogin,
+		D.points as point,
+		D.level
 		from t_customer_basic_info A
 		inner join t_customer_login_info B
 		on A.customerNo = B.customerNo
 		inner join t_customer_security_info C
 		on A.customerNo = C.customerNo
+		left join t_customer_member_info D
+		on A.customerNo = D.customerNo
 	</select>
 	
 	<select id="getAllCustomerInfoForAdminForPageCount" resultType="int">

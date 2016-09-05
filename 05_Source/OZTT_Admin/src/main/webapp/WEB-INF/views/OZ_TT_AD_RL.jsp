@@ -128,6 +128,12 @@
 							 <fmt:message key="OZ_TT_AD_RL_DE_nickName" />
 						</th>
 						<th scope="col">
+							 <fmt:message key="OZ_TT_AD_RL_DE_point" />
+						</th>
+						<th scope="col">
+							 <fmt:message key="OZ_TT_AD_RL_DE_level" />
+						</th>
+						<th scope="col">
 							 <fmt:message key="OZ_TT_AD_RL_DE_canlogin" />
 						</th>
 						<th scope="col">
@@ -174,6 +180,12 @@
 						</td>
 						<td>
 							 ${customerItem.nickName }
+						</td>
+						<td>
+							 ${customerItem.point }
+						</td>
+						<td>
+							 ${customerItem.level }
 						</td>
 						<td>
 							 <c:if test="${customerItem.canlogin == '0'}"> 	
