@@ -1,6 +1,7 @@
 package com.org.oztt.controller.main;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,19 +22,24 @@ import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.controller.BaseController;
 import com.org.oztt.entity.TCustomerMemberInfo;
+import com.org.oztt.entity.TSysConfig;
 import com.org.oztt.formDto.GroupItemDto;
 import com.org.oztt.service.CustomerService;
 import com.org.oztt.service.GoodsService;
+import com.org.oztt.service.SysConfigService;
 
 @Controller
 @RequestMapping("/main")
 public class MainController extends BaseController {
 
     @Resource
-    private GoodsService    goodsService;
+    private GoodsService     goodsService;
 
     @Resource
-    private CustomerService customerService;
+    private CustomerService  customerService;
+
+    @Resource
+    private SysConfigService sysConfigService;
 
     /**
      * 首页显示
@@ -157,6 +163,12 @@ public class MainController extends BaseController {
                                     : pageInfoDiamond.getResultList());
                 }
 
+            }
+
+            TSysConfig tSysConfig = sysConfigService.getTSysConfig();
+            String pageAllPic = tSysConfig.getToppageadpic();
+            if (!StringUtils.isEmpty(pageAllPic)) {
+                model.addAttribute("advPicList", Arrays.asList(pageAllPic.split(",")));
             }
 
             // 获取session中的值

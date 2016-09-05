@@ -771,16 +771,15 @@ html{
 }
 
 .stock_2{
-	color:#9ec548;
+	color: #c59835;
 	display: inline-block;
 	height: 2rem;
 	line-height: 2rem;
 	width: 100%;
-	background-color: #cdf96d;
-	color: #FFFFF;
+	background-color: #f9d860;
 	font-size: 1.3rem;
 	border-radius: 5px !important;
-	border: 0.5px solid #cdf96d;
+	border: 0.5px solid #f9d860;
 	text-align: center;
 }
 

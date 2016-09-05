@@ -45,6 +45,10 @@ public class OzTtAdRlListDto {
     private String detailNo;
     
     private String basicNo;
+    
+    private String point;
+    
+    private String level;
 
     public String getTelNo() {
 		return telNo;
@@ -205,4 +209,20 @@ public class OzTtAdRlListDto {
 	public void setBasicNo(String basicNo) {
 		this.basicNo = basicNo;
 	}
+
+    public String getPoint() {
+        return point;
+    }
+
+    public void setPoint(String point) {
+        this.point = point;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
 }

@@ -1743,7 +1743,7 @@ public final class CommonEnum {
      */
     public enum CustomerLevel implements IEnum {
         /** 默认 */
-        DEFAULT("默认", "0"),
+        DEFAULT("", "0"),
         /** 铜牌 */
         BRONZE("铜牌", "1"),
         /** 银牌 */
