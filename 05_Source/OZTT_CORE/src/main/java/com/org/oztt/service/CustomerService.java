@@ -82,6 +82,9 @@ public interface CustomerService {
      * @throws Exception
      */
     public void updateCustomerPointsAndLevels(String orderDetailNo, String customerNo) throws Exception;
+    
+    public void updateCustomerPointsAndLevelsBatch(String orderNo, String customerNo) throws Exception;
+    
 
     /**
      * 取得当前客户的会员信息

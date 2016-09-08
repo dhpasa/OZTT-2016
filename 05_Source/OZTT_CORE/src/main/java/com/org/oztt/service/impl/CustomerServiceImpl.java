@@ -3,6 +3,7 @@ package com.org.oztt.service.impl;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -36,7 +37,6 @@ import com.org.oztt.entity.TCustomerMemberInfo;
 import com.org.oztt.entity.TCustomerSecurityInfo;
 import com.org.oztt.entity.TGoodsGroup;
 import com.org.oztt.entity.TNoCustomer;
-import com.org.oztt.formDto.ContCartItemDto;
 import com.org.oztt.formDto.OzTtAdRlListDto;
 import com.org.oztt.formDto.OzTtTpFpDto;
 import com.org.oztt.formDto.OzTtTpReDto;
@@ -469,6 +469,15 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
     @Override
     public void updateTCustomerMemberInfo(TCustomerMemberInfo info) throws Exception {
         tCustomerMemberInfoDao.updateByPrimaryKeySelective(info);
+    }
+
+    @Override
+    public void updateCustomerPointsAndLevelsBatch(String orderNo, String customerNo) throws Exception {
+        
+        List<TConsOrderDetails> detailList = tConsOrderDetailsDao.selectDetailsByOrderId(orderNo);
+        for (TConsOrderDetails detail : detailList) {
+            this.updateCustomerPointsAndLevels(detail.getNo().toString(), customerNo);
+        }
     }
 
 }
