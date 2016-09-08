@@ -227,7 +227,6 @@
 						<!-- <button type="button" class="btn green mybtn" onclick="batchupdateOrder('1')"><i class="fa fa-info"></i><fmt:message key="OZ_TT_AD_OL_orderStatusBtn1" /></button> -->
 						<button type="button" class="btn green mybtn" onclick="batchupdateOrder('2')"><i class="fa fa-info"></i><fmt:message key="OZ_TT_AD_OL_orderStatusBtn2" /></button>
 						<button type="button" class="btn green mybtn" onclick="batchupdateOrder('3')"><i class="fa fa-info"></i><fmt:message key="OZ_TT_AD_OL_orderStatusBtn3" /></button>
-						<button type="button" class="btn green mybtn" onclick="batchupdateOrder('4')"><i class="fa fa-info"></i><fmt:message key="OZ_TT_AD_OL_orderStatusBtn4" /></button>
 						<button type="button" class="btn green mybtn" onclick="batchupdateOrder('9')"><i class="fa fa-info"></i><fmt:message key="OZ_TT_AD_OL_orderStatusBtn9" /></button>
 					</div>
 					<div style="width:30%;float:right;text-align: right">

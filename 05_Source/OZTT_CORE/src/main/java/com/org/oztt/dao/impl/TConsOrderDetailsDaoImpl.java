@@ -1,5 +1,6 @@
 package com.org.oztt.dao.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -67,6 +68,11 @@ public class TConsOrderDetailsDaoImpl extends BaseDao implements TConsOrderDetai
     public PagingResult<OzTtAdSuListDto> getAllOrderByUserPointForAdmin(Pagination pagination) {
         return selectPagination("com.org.oztt.dao.TConsOrderDetailsDao.getAllOrderByUserPointForAdmin",
                 "com.org.oztt.dao.TConsOrderDetailsDao.getAllOrderByUserPointForAdminCount", pagination);
+    }
+
+    @Override
+    public BigDecimal selectIsInStockGroupSumAmount(String customerNo) {
+        return selectOne("com.org.oztt.dao.TConsOrderDetailsDao.selectIsInStockGroupSumAmount", customerNo);
     }
 
 }

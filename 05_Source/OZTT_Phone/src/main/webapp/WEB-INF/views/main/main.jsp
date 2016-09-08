@@ -320,6 +320,17 @@
 		                	</c:if>
 		                </c:if>
 		                
+		                <c:if test="${goodslist.diamondLabel == '1' }">
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker goods-sticker-diaLabel"></div>
+		                	</c:if>
+		                	<c:if test="${languageSelf == 'en_US' }">
+		                		<div class="goods-sticker goods-sticker-diaLabel-en"></div>
+		                	</c:if>
+		                </c:if>
+		                
+		                
+		                
 					</div>
    				</li>
    				</c:forEach>

@@ -390,6 +390,9 @@
 				    	</c:if>
     			</c:if>
     		</c:if>
+    		<c:if test="${goodItemDto.diamondShowFlg == '1'}">
+    			<a class="canNotBuyDiamond"><fmt:message key="DIAMOND_CAN_NOT_BUY"/></a> 		
+    		</c:if>
     	</div>
     </div>
     

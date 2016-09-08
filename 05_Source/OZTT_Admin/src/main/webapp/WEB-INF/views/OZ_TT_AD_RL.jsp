@@ -137,30 +137,6 @@
 							 <fmt:message key="OZ_TT_AD_RL_DE_canlogin" />
 						</th>
 						<th scope="col">
-							 <fmt:message key="OZ_TT_AD_RL_DE_name" />
-						</th>
-						<th scope="col">
-							 <fmt:message key="OZ_TT_AD_RL_DE_idCardNo" />
-						</th>
-						<th scope="col">
-							 <fmt:message key="OZ_TT_AD_RL_DE_passportNo" />
-						</th>
-						<th scope="col">
-							 <fmt:message key="OZ_TT_AD_RL_DE_sex" />
-						</th>
-						<th scope="col">
-							 <fmt:message key="OZ_TT_AD_RL_DE_birthday" />
-						</th>
-						<th scope="col">
-							 <fmt:message key="OZ_TT_AD_RL_DE_marriage" />
-						</th>
-						<th scope="col">
-							 <fmt:message key="OZ_TT_AD_RL_DE_education" />
-						</th>
-						<th scope="col">
-							 <fmt:message key="OZ_TT_AD_RL_DE_occupation" />
-						</th>
-						<th scope="col">
 							 <fmt:message key="OZ_TT_AD_RL_DE_control" />
 						</th>
 						
@@ -194,31 +170,7 @@
 							 <c:if test="${customerItem.canlogin == '1'}">
 							 	<fmt:message key="COMMON_CAN" />
 							 </c:if>
-						</td>
-						<td>
-							 ${customerItem.cnSurname }${customerItem.cnGivenname }
-						</td>
-						<td>
-							 ${customerItem.idCardNo }
-						</td>
-						<td>
-							 ${customerItem.passportNo }
-						</td>
-						<td>
-							 ${customerItem.sex }
-						</td>
-						<td>
-							 ${customerItem.birthday }
-						</td>
-						<td>
-							 ${customerItem.marriage }
-						</td>
-						<td>
-							 ${customerItem.education }
-						</td>
-						<td>
-							 ${customerItem.occupation }
-						</td>
+						</td>			
 						<td>
 							 <button type="button" class="btn green mybtn" onclick="toDetail('${customerItem.customerNo}')">
 								<i class="fa fa-info"></i>&nbsp;<fmt:message key="COMMON_MODIFY" />

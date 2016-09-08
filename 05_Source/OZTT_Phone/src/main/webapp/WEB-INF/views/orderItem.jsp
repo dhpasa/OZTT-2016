@@ -81,6 +81,17 @@
 					<span>$${goodslist.goodsPrice }</span>	
 					<div class="order-item-group">X${goodslist.goodsQuantity }</div>		
 				</div>
+				
+				<c:if test="${goodslist.detailStatus == '1' }">
+					<div class="order-groupinfo-status"><a><fmt:message key="COMMON_ORDER_DETAIL_HANDLE_1" /></a></div>
+				</c:if>
+				<c:if test="${goodslist.detailStatus == '2' }">
+					<div class="order-groupinfo-status"><a><fmt:message key="COMMON_ORDER_DETAIL_HANDLE_2" /></a></div>
+				</c:if>
+				<c:if test="${goodslist.detailStatus == '3' }">
+					<div class="order-groupinfo-status"><a><fmt:message key="COMMON_ORDER_DETAIL_HANDLE_3" /></a></div>
+				</c:if>
+				
 			</div>
 		</div>
 		</c:forEach>

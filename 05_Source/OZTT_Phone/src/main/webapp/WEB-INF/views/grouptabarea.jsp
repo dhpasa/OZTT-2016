@@ -95,6 +95,9 @@
 			var temp28 = '<div class="goods-sticker-right goods-sticker-selloutLabel"></div>';
 			var temp29 = '<div class="goods-sticker-right goods-sticker-selloutLabel-en"></div>';
 			
+			var temp29_1 = '<div class="goods-sticker goods-sticker-diaLabel"></div>';
+			var temp29_2 = '<div class="goods-sticker goods-sticker-diaLabel-en"></div>';
+			
 			var temp16 = '</div>';
 			var temp17 = '</li>';
 			var url = '${ctx}/item/goodstabnext?pageNo='+pageNo+"&tabId="+${tabId};
@@ -178,6 +181,14 @@
 										tempStr += temp28;
 									} else if('${languageSelf}' == 'en_US') {
 										tempStr += temp29;
+									}
+								}
+								
+								if (dataList[i].diamondLabel == '1') {
+									if ('${languageSelf}' == 'zh_CN'){
+										tempStr += temp29_1;
+									} else if('${languageSelf}' == 'en_US') {
+										tempStr += temp29_2;
 									}
 								}
 
@@ -332,6 +343,14 @@
 		                	</c:if>
 		                	<c:if test="${languageSelf == 'en_US' }">
 		                		<div class="goods-sticker-right goods-sticker-selloutLabel-en"></div>
+		                	</c:if>
+		                </c:if>
+		                <c:if test="${goodslist.diamondLabel == '1' }">
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker goods-sticker-diaLabel"></div>
+		                	</c:if>
+		                	<c:if test="${languageSelf == 'en_US' }">
+		                		<div class="goods-sticker goods-sticker-diaLabel-en"></div>
 		                	</c:if>
 		                </c:if>
 					</div>

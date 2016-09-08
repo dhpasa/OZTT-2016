@@ -65,6 +65,7 @@
 		<result column="inStockLabel" property="inStockLabel" jdbcType="CHAR" />
 		<result column="hotLabel" property="hotLabel" jdbcType="CHAR" />
 		<result column="salesLabel" property="salesLabel" jdbcType="CHAR" />
+		<result column="diamondLabel" property="diamondLabel" jdbcType="CHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		no, goodsId, classId, goodsBrand, goodsName, goodsDesc, goodsComments,
@@ -485,6 +486,7 @@
 		c.inStockFlg as inStockLabel,
 		c.hotFlg as hotLabel,
 		c.topPageUp as salesLabel,
+		c.diamondShowFlg as diamondLabel,
 		c.sellOutInitQuantity as sellOutInitQuantity,
 		c.sellOutFlg as sellOutFlg,
 		c.groupQuantityLimit as groupQuantityLimit,

@@ -1,5 +1,6 @@
 package com.org.oztt.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.org.oztt.base.page.Pagination;
@@ -64,4 +65,14 @@ public interface TConsOrderDetailsDao {
      * @return
      */
     PagingResult<OzTtAdSuListDto> getAllOrderByUserPointForAdmin(Pagination pagination);
+    
+    
+    /**
+     * 取得现货的所有金额
+     * @param orderId
+     * @return
+     */
+    BigDecimal selectIsInStockGroupSumAmount(String customerNo);
+    
+    
 }
