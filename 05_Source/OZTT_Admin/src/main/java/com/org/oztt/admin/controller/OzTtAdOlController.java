@@ -232,8 +232,7 @@ public class OzTtAdOlController extends BaseController {
                 else {
                     tConsOrder.setHandleflg(status);
                     orderService.updateOrderInfo(tConsOrder);
-                    customerService.updateCustomerPointsAndLevels(tConsOrder.getOrderno(), tConsOrder.getCustomerno(),
-                            tConsOrder.getOrderamount());
+                    customerService.updateCustomerPointsAndLevelsBatch(tConsOrder.getOrderno(), tConsOrder.getCustomerno());
                 }
             }
             // 后台维护的时候提示让以逗号隔开
