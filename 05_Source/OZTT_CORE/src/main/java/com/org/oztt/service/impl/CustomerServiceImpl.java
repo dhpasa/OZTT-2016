@@ -3,7 +3,6 @@ package com.org.oztt.service.impl;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -21,19 +20,23 @@ import com.org.oztt.base.util.PasswordEncryptSaltUtils;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.contants.CommonEnum;
 import com.org.oztt.dao.TConsOrderDao;
+import com.org.oztt.dao.TConsOrderDetailsDao;
 import com.org.oztt.dao.TCustomerBasicInfoDao;
 import com.org.oztt.dao.TCustomerLoginHisDao;
 import com.org.oztt.dao.TCustomerLoginInfoDao;
 import com.org.oztt.dao.TCustomerMemberInfoDao;
 import com.org.oztt.dao.TCustomerSecurityInfoDao;
+import com.org.oztt.dao.TGoodsGroupDao;
 import com.org.oztt.dao.TNoCustomerDao;
+import com.org.oztt.entity.TConsOrderDetails;
 import com.org.oztt.entity.TCustomerBasicInfo;
 import com.org.oztt.entity.TCustomerLoginHis;
 import com.org.oztt.entity.TCustomerLoginInfo;
 import com.org.oztt.entity.TCustomerMemberInfo;
 import com.org.oztt.entity.TCustomerSecurityInfo;
+import com.org.oztt.entity.TGoodsGroup;
 import com.org.oztt.entity.TNoCustomer;
-import com.org.oztt.formDto.OzTtAdOlListDto;
+import com.org.oztt.formDto.ContCartItemDto;
 import com.org.oztt.formDto.OzTtAdRlListDto;
 import com.org.oztt.formDto.OzTtTpFpDto;
 import com.org.oztt.formDto.OzTtTpReDto;
@@ -62,7 +65,13 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
     private TConsOrderDao            tConsOrderDao;
 
     @Resource
+    private TConsOrderDetailsDao     tConsOrderDetailsDao;
+
+    @Resource
     private TCustomerMemberInfoDao   tCustomerMemberInfoDao;
+
+    @Resource
+    private TGoodsGroupDao           tGoodsGroupDao;
 
     public TCustomerLoginInfo userLogin(String loginId, String password) throws Exception {
         Map<String, String> paramMap = new HashMap<String, String>();
@@ -343,26 +352,31 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
     }
 
     @Override
-    public void updateCustomerPointsAndLevels(String customerNo, BigDecimal currentAmount) throws Exception {
-        // 获取指定用户所有完成的订单。
-        Map<Object, Object> params = new HashMap<Object, Object>();
-        params.put("orderStatus", CommonEnum.HandleFlag.COMPLATE.getCode());
-        params.put("customerNo", customerNo);
-        List<OzTtAdOlListDto> dtoList = tConsOrderDao.getAllOrderInfoForAdminAll(params);
-        BigDecimal countBuy = BigDecimal.ZERO;
+    public void updateCustomerPointsAndLevels(String orderDetailNo, String customerNo) throws Exception {
+        // 检索当前订单的产品
+        boolean hasCurrentGroup = false;
+        BigDecimal trueCurrentAmount = BigDecimal.ZERO;
+        TConsOrderDetails detailDto = tConsOrderDetailsDao.selectByPrimaryKey(Long.valueOf(orderDetailNo));
+
+        TGoodsGroup tGoodsGroup = new TGoodsGroup();
+        tGoodsGroup.setGroupno(detailDto.getGroupno());
+        tGoodsGroup = tGoodsGroupDao.selectByParams(tGoodsGroup);
+
+        if ("1".equals(tGoodsGroup.getInstockflg())) {
+            hasCurrentGroup = true;
+            trueCurrentAmount = trueCurrentAmount.add(detailDto.getSumamount());
+        }
+
+        if (!hasCurrentGroup)
+            return; // 没有现货就直接返回
+
+        // 获取指定用户所有现货商品的总金额。
+
+        BigDecimal countBuy = tConsOrderDetailsDao.selectIsInStockGroupSumAmount(customerNo);
         if (getTSysConfig() == null) {
             // 参数没有直接退出
             return;
         }
-        if (!CollectionUtils.isEmpty(dtoList)) {
-            // 抽取之前的数据
-            // 算出总共买了多少金额
-            for (OzTtAdOlListDto dto : dtoList) {
-                countBuy = countBuy.add(new BigDecimal(dto.getOrderAmount()));
-            }
-
-        }
-
         // 计算出积分有多少
         BigDecimal point = countBuy.divide(tSysConfig.getPointcalcamount(), 0, BigDecimal.ROUND_DOWN);
 
@@ -386,15 +400,18 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
         }
         else {
             // 更新
-            BigDecimal All = currentAmount.add(memberInfo.getLeftAmount());
+            BigDecimal All = trueCurrentAmount.add(memberInfo.getLeftAmount());
             memberInfo.setPoints(memberInfo.getPoints()
                     + All.divide(tSysConfig.getPointcalcamount(), 0, BigDecimal.ROUND_DOWN).intValue());
             memberInfo.setLeftAmount(All.subtract(All.divide(tSysConfig.getPointcalcamount(), 0, BigDecimal.ROUND_DOWN)
                     .multiply(tSysConfig.getPointcalcamount())));
             // 级别应该是
-            level = getLevel(memberInfo.getSumAmount().add(currentAmount), tSysConfig.getLevelsumamount().split(","));
-            memberInfo.setSumAmount(memberInfo.getSumAmount().add(currentAmount));
-            memberInfo.setLevel(level);
+            level = getLevel(memberInfo.getSumAmount().add(trueCurrentAmount), tSysConfig.getLevelsumamount()
+                    .split(","));
+            memberInfo.setSumAmount(memberInfo.getSumAmount().add(trueCurrentAmount));
+            if (!CommonEnum.CustomerLevel.DIAMOND.getCode().equals(memberInfo.getLevel())) {
+                memberInfo.setLevel(level);
+            }
             tCustomerMemberInfoDao.updateByPrimaryKeySelective(memberInfo);
         }
     }

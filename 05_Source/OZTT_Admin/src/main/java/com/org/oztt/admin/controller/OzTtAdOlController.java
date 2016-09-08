@@ -50,14 +50,14 @@ import com.org.oztt.service.OrderService;
 public class OzTtAdOlController extends BaseController {
 
     @Resource
-    private CommonService commonService;
+    private CommonService   commonService;
 
     @Resource
-    private OrderService  orderService;
+    private OrderService    orderService;
 
     @Resource
-    private GoodsService  goodsService;
-    
+    private GoodsService    goodsService;
+
     @Resource
     private CustomerService customerService;
 
@@ -217,7 +217,7 @@ public class OzTtAdOlController extends BaseController {
             String status = map.get("status");
             for (String str : orderIdArr) {
                 TConsOrder tConsOrder = orderService.selectByOrderId(str);
-                
+
                 tConsOrder.setUpdpgmid("OZ_TT_AD_GB");
                 tConsOrder.setUpdtimestamp(new Date());
                 tConsOrder.setUpduserkey(CommonConstants.ADMIN_USERKEY);
@@ -232,7 +232,8 @@ public class OzTtAdOlController extends BaseController {
                 else {
                     tConsOrder.setHandleflg(status);
                     orderService.updateOrderInfo(tConsOrder);
-                    customerService.updateCustomerPointsAndLevels(tConsOrder.getCustomerno(), tConsOrder.getOrderamount());
+                    customerService.updateCustomerPointsAndLevels(tConsOrder.getOrderno(), tConsOrder.getCustomerno(),
+                            tConsOrder.getOrderamount());
                 }
             }
             // 后台维护的时候提示让以逗号隔开
@@ -265,17 +266,19 @@ public class OzTtAdOlController extends BaseController {
             String canUpdate0 = "0";
             for (String str : orderIdArr) {
                 TConsOrder tConsOrder = orderService.selectByOrderId(str);
-                if(CommonEnum.HandleFlag.DELETED.getCode().equals(tConsOrder.getHandleflg())) {
-                	canUpdate0 = "1";
-                	break;
-                } else {
-                	canUpdate0 = "0";
+                if (CommonEnum.HandleFlag.DELETED.getCode().equals(tConsOrder.getHandleflg())) {
+                    canUpdate0 = "1";
+                    break;
+                }
+                else {
+                    canUpdate0 = "0";
                 }
                 // 只有订单是来店自提－到店付款或者送货上门－货到付款
                 if (CommonEnum.PaymentMethod.ONLINE_PAY_CWB.getCode().equals(tConsOrder.getPaymentmethod())) {
                     canUpdate = "1";
                     break;
-                } else {
+                }
+                else {
                     canUpdate = "0";
                 }
 

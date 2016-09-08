@@ -246,9 +246,11 @@
 	a.quantity as goodsQuantity,
 	a.unitPrice as goodsPrice, 
 	a.specifications as goodsPropertiesDB,
-	a.handleFlg as detailStatus
+	a.handleFlg as detailStatus,
+	c.inStockFlg as isStock
     from t_cons_order_details a
     inner join t_goods b on a.goodsId = b.goodsId
+    inner join t_goods_group c on a.groupNo = c.groupNo
     where a.orderNo = #{orderno,jdbcType=VARCHAR}
   </select>
   
@@ -329,5 +331,14 @@
  		and (A.handleFlg = '3')
  	</if>
    </select>
+   
+   <select id="selectIsInStockGroupSumAmount" resultType="java.math.BigDecimal" parameterType="java.lang.String" >
+    select 
+	sum(a.sumAmount)
+    from t_cons_order_details a
+    inner join t_goods_group b on a.groupNo = b.groupNo
+    where a.customerNo = #{customerNo,jdbcType=VARCHAR}
+    and b.inStockFlg = '1'
+  </select>
     
 </mapper>

@@ -1,7 +1,5 @@
 package com.org.oztt.service;
 
-import java.math.BigDecimal;
-
 import com.org.oztt.base.page.Pagination;
 import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.entity.TCustomerBasicInfo;
@@ -83,7 +81,7 @@ public interface CustomerService {
      * @param customerNo
      * @throws Exception
      */
-    public void updateCustomerPointsAndLevels(String customerNo, BigDecimal currentAmount) throws Exception;
+    public void updateCustomerPointsAndLevels(String orderDetailNo, String customerNo) throws Exception;
 
     /**
      * 取得当前客户的会员信息
@@ -93,8 +91,8 @@ public interface CustomerService {
      * @throws Exception
      */
     public TCustomerMemberInfo getCustomerMemberInfo(String customerNo) throws Exception;
-    
+
     public void saveTCustomerMemberInfo(TCustomerMemberInfo info) throws Exception;
-    
+
     public void updateTCustomerMemberInfo(TCustomerMemberInfo info) throws Exception;
 }

@@ -159,22 +159,38 @@
 			<div class="showusername">
 				<img alt="photo" src="${ctx}/images/head.png">
 				<span >${currentUserName}</span>
+				<div class="user_level_div">
 				<c:if test="${Level == '1' }">
 				 	<div class="userlevel userlevel_1"></div>
+				 	<span class="userlevelspan">
+						<fmt:message key="USER_LEVEL_1"/>
+					</span>
 				</c:if>
 				<c:if test="${Level == '2' }">
 					<div class="userlevel userlevel_2"></div>
+					<span class="userlevelspan">
+						<fmt:message key="USER_LEVEL_2"/>
+					</span>
 				</c:if>
 				<c:if test="${Level == '3' }">
 					<div class="userlevel userlevel_3"></div>
+					<span class="userlevelspan">
+						<fmt:message key="USER_LEVEL_3"/>
+					</span>
 				</c:if>
 				<c:if test="${Level == '4' }">
 					<div class="userlevel userlevel_4"></div>
+					<span class="userlevelspan">
+						<fmt:message key="USER_LEVEL_4"/>
+					</span>
 				</c:if>
 				<c:if test="${Level == '5' }">
 					<div class="userlevel userlevel_5"></div>
+					<span class="userlevelspan">
+						<fmt:message key="USER_LEVEL_5"/>
+					</span>
 				</c:if>
-				
+				</div>
 				<c:if test="${Points != null && Points != '' }">
 					<div class="userPoints">
 						<fmt:message key="USER_POINTS"/>${Points}

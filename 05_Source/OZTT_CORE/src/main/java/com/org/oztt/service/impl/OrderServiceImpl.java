@@ -1337,11 +1337,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             orderDetail.setUpduserkey(CommonConstants.ADMIN_USERKEY);
             orderDetail.setUpdtimestamp(DateFormatUtils.getSystemTimestamp());
             tConsOrderDetailsDao.updateByPrimaryKeySelective(orderDetail);
-        }
-        
-        //初始化数组，判断是否已经做过更新
-        List<String> orderNoList = new ArrayList<String>();
-        
+        }       
        
         // 更新父状态
         for(String detailId : orderDetailId) {
@@ -1385,19 +1381,14 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                     tConsOrder.setHandleflg(CommonEnum.HandleFlag.COMPLATE.getCode());
                     tConsOrder.setCommentsadmin(adminComment);
                     tConsOrderDao.updateByPrimaryKeySelective(tConsOrder);
-                    
-                    if (!orderNoList.contains(tConsOrder.getOrderno())) {
-                        // 更新当前的积分制度
-                        customerService.updateCustomerPointsAndLevels(tConsOrder.getCustomerno(), tConsOrder.getOrderamount());
-                        orderNoList.add(tConsOrder.getOrderno());
-                    }
-                    
-                    
                 } else {
                     tConsOrder.setHandleflg(CommonEnum.HandleFlag.PART_COMPLATE.getCode());
                     tConsOrder.setCommentsadmin(adminComment);
                     tConsOrderDao.updateByPrimaryKeySelective(tConsOrder);
                 }
+                
+                // 更新当前的积分制度
+                customerService.updateCustomerPointsAndLevels(detailId, tConsOrder.getCustomerno());
             }
             
         }
