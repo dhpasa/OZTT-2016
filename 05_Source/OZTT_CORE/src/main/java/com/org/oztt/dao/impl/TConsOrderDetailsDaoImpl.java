@@ -1,7 +1,9 @@
 package com.org.oztt.dao.impl;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -71,8 +73,11 @@ public class TConsOrderDetailsDaoImpl extends BaseDao implements TConsOrderDetai
     }
 
     @Override
-    public BigDecimal selectIsInStockGroupSumAmount(String customerNo) {
-        return selectOne("com.org.oztt.dao.TConsOrderDetailsDao.selectIsInStockGroupSumAmount", customerNo);
+    public BigDecimal selectIsInStockGroupSumAmount(String customerNo, String startDay) {
+        Map<String,String> param = new HashMap<String, String>();
+        param.put("customerNo", customerNo);
+        param.put("startDay", startDay);
+        return selectOne("com.org.oztt.dao.TConsOrderDetailsDao.selectIsInStockGroupSumAmount", param);
     }
 
 }
