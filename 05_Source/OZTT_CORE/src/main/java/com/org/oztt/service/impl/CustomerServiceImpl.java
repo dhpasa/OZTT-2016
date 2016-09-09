@@ -371,8 +371,8 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
             return; // 没有现货就直接返回
 
         // 获取指定用户所有现货商品的总金额。
-
-        BigDecimal countBuy = tConsOrderDetailsDao.selectIsInStockGroupSumAmount(customerNo);
+        String startDay = super.getApplicationMessage("cal_point_day", null);
+        BigDecimal countBuy = tConsOrderDetailsDao.selectIsInStockGroupSumAmount(customerNo, startDay);
         if (getTSysConfig() == null) {
             // 参数没有直接退出
             return;

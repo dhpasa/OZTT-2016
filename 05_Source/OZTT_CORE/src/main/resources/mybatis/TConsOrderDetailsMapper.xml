@@ -332,12 +332,15 @@
  	</if>
    </select>
    
-   <select id="selectIsInStockGroupSumAmount" resultType="java.math.BigDecimal" parameterType="java.lang.String" >
+   <select id="selectIsInStockGroupSumAmount" resultType="java.math.BigDecimal" parameterType="map" >
     select 
 	sum(a.sumAmount)
     from t_cons_order_details a
     inner join t_goods_group b on a.groupNo = b.groupNo
     where a.customerNo = #{customerNo,jdbcType=VARCHAR}
+    <if test="startDay != null and startDay != ''" >
+       	<![CDATA[and (DATE_FORMAT(a.addTimestamp,'%Y%m%d')) >= #{startDay,jdbcType=VARCHAR}]]>
+     </if>
     and b.inStockFlg = '1'
   </select>
     

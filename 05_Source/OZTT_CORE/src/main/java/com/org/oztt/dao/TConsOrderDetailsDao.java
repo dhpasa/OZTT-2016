@@ -72,7 +72,7 @@ public interface TConsOrderDetailsDao {
      * @param orderId
      * @return
      */
-    BigDecimal selectIsInStockGroupSumAmount(String customerNo);
+    BigDecimal selectIsInStockGroupSumAmount(String customerNo, String startDay);
     
     
 }
