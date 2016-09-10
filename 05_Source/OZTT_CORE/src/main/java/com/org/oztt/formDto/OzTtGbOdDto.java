@@ -41,6 +41,8 @@ public class OzTtGbOdDto {
     
     private String yunfei;
     
+    private String customerComment;
+    
     private String heji;
     
     private String deliveryMethod;
@@ -217,6 +219,14 @@ public class OzTtGbOdDto {
 
     public void setLeftTime(String leftTime) {
         this.leftTime = leftTime;
+    }
+
+    public String getCustomerComment() {
+        return customerComment;
+    }
+
+    public void setCustomerComment(String customerComment) {
+        this.customerComment = customerComment;
     }
     
     

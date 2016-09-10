@@ -111,9 +111,13 @@
 <%-- 			<div class="paytitle"><fmt:message key="ORDER_ITEM_UNIFY" /></div> --%>
 <%-- 			<div class="paycontent">${ detailInfo.deliveryDate} ${ detailInfo.deleveryTime}</div> --%>
 <!-- 		</div> -->
-		<div class="order-item-payinfo bottom-padding">
+		<div class="order-item-payinfo top-padding">
 			<div class="paytitle"><fmt:message key="ORDER_ITEM_FEIGHT" /></div>
 			<div class="paycontent">${ detailInfo.yunfei}</div>
+		</div>
+		<div class="order-item-payinfo bottom-padding">
+			<div class="paytitle"><fmt:message key="ORDER_ITEM_COMMENT" /></div>
+			<div class="paycontent">${ detailInfo.customerComment}</div>
 		</div>
 		
 	</div>

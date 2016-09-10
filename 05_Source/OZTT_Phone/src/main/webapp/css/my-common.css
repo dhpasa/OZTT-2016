@@ -1074,7 +1074,7 @@ html{
     color: #fff;
     font-size: 2.5rem;
     word-break: break-word;
-    width: 40%;
+    width: 60%;
     height: 100%;
     display: inline-block;
     float: left;
@@ -2435,7 +2435,7 @@ html{
 	width: 100%;
 	display: inline-block;
 	background-color: #fff;
-	height: 5rem;
+	height: 10rem;
 }
 
 .purchase-delivery-span{
@@ -2449,7 +2449,7 @@ html{
 .purchase-remarks-span{
 	display: inline-block;
 	float: left;
-	line-height: 5rem;
+	line-height: 3.5rem;
 	font-size: 1.5rem;
 	padding-left: 1rem;
 }
@@ -2457,7 +2457,7 @@ html{
 .purchase-remarks-input-div{
 	display: inline-block;
 	float: left;
-	height: 5rem;
+	height: 10rem;
     line-height: 5rem;
     margin-left: 1rem;
     width: 80%;
@@ -2465,10 +2465,11 @@ html{
 
 .purchase-remarks-input{
 	border:none;
-	height: 3.5rem;
-	line-height:3.5rem;
-	border-bottom:0.5px solid #F4F4F4;
+	height: 10rem;
+	line-height:2.5rem;
 	width: 95%;
+	padding: 6px 3px !important;
+	margin: 1px !important;
 }
 
 .purchase-method{
