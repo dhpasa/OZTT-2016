@@ -566,7 +566,8 @@
 	<div class="purchase-remarks margin-1rem-top">
 		<span class="purchase-remarks-span"><fmt:message key="PURCHASE_REMARKS"/></span>
 		<div class="purchase-remarks-input-div">
-			<input id="purchaseRemarks" type="text" class="purchase-remarks-input" maxlength="255" placeholder="<fmt:message key="PURCHASE_REMARKS_CONTENT"/>"/>
+			<textarea id="purchaseRemarks" rows="5" cols="" class="purchase-remarks-input form-control" maxlength="255" placeholder="<fmt:message key="PURCHASE_REMARKS_CONTENT"/>"></textarea>
+			<!-- <input id="purchaseRemarks" type="textarea" /> -->
 		</div>
 	</div>
 	
