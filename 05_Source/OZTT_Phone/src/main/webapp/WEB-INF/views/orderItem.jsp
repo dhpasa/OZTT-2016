@@ -81,7 +81,9 @@
 					<span>$${goodslist.goodsPrice }</span>	
 					<div class="order-item-group">X${goodslist.goodsQuantity }</div>		
 				</div>
-				
+				<c:if test="${goodslist.detailStatus == '0' }">
+					<div class="order-groupinfo-status"><a><fmt:message key="COMMON_ORDER_DETAIL_HANDLE_0" /></a></div>
+				</c:if>
 				<c:if test="${goodslist.detailStatus == '1' }">
 					<div class="order-groupinfo-status"><a><fmt:message key="COMMON_ORDER_DETAIL_HANDLE_1" /></a></div>
 				</c:if>

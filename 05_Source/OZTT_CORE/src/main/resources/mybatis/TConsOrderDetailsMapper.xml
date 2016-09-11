@@ -296,7 +296,7 @@
  		and C.telNo like concat('%',#{customerPhone,jdbcType=VARCHAR},'%')
  	</if>
  	<if test="detailHandFlg != null and detailHandFlg == 0" >
- 		and (A.handleFlg = '1' or A.handleFlg = '2')
+ 		and (A.handleFlg = '0' or A.handleFlg = '1' or A.handleFlg = '2')
  	</if>
  	<if test="detailHandFlg != null and detailHandFlg == 1" >
  		and (A.handleFlg = '3')
@@ -325,7 +325,7 @@
  		and C.telNo like concat('%',#{customerPhone,jdbcType=VARCHAR},'%')
  	</if>
  	<if test="detailHandFlg != null and detailHandFlg == 0" >
- 		and (A.handleFlg = '1' or A.handleFlg = '2')
+ 		and (A.handleFlg = '0' or A.handleFlg = '1' or A.handleFlg = '2')
  	</if>
  	<if test="detailHandFlg != null and detailHandFlg == 1" >
  		and (A.handleFlg = '3')

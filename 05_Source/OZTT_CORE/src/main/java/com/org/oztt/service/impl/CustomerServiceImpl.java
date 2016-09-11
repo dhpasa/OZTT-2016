@@ -377,9 +377,14 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
             // 参数没有直接退出
             return;
         }
+        // 如果抽出的数据为空或者为0，说明当前的产品计算时间点不能算作积分
+        if (countBuy == null || countBuy.compareTo(BigDecimal.ZERO) == 0) {
+            return;
+        }
+        
         // 计算出积分有多少
         BigDecimal point = countBuy.divide(tSysConfig.getPointcalcamount(), 0, BigDecimal.ROUND_DOWN);
-
+        
         // 级别是什么
         String level = getLevel(countBuy, tSysConfig.getLevelsumamount().split(","));
 
