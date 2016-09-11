@@ -34,7 +34,7 @@
 		var arrCookie=strCookie.split(";"); 
 		for(var i=0;i<arrCookie.length;i++){ 
 			var arr=arrCookie[i].split("="); 
-			if(arr[0]==name){
+			if(arr[0].trim()==name){
 				return unescape(arr[1]); 
 			}
 		} 
