@@ -1609,6 +1609,8 @@ public final class CommonEnum {
      */
     public enum OrderDetailHandleFlag implements IEnum {
         
+        /** 未付款 */
+        ORDER_NO_PAY("未付款", "0"),
         /** 下单成功 */
         PLACE_ORDER_SU("下单成功", "1"),
         /** 商品派送中 */

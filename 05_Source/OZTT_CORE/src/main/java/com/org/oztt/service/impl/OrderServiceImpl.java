@@ -194,7 +194,12 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                         + "00");
             }
             tConsOrderDetails.setAdduserkey(customerNo);
-            tConsOrderDetails.setHandleflg(CommonEnum.OrderDetailHandleFlag.PLACE_ORDER_SU.getCode());
+            if (CommonEnum.PaymentMethod.ONLINE_PAY_CWB.getCode().equals(payMethod)) {
+                tConsOrderDetails.setHandleflg(CommonEnum.HandleFlag.NOT_PAY.getCode());
+            }
+            else {
+                tConsOrderDetails.setHandleflg(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
+            }
             tConsOrderDetailsDao.insertSelective(tConsOrderDetails);
             orderAmount = orderAmount.add(tConsOrderDetails.getSumamount());
 

@@ -113,8 +113,9 @@
 									dataHtml += temp21.replace("{0}",orderdetail.goodsPrice);
 									dataHtml += temp22.replace("{0}",orderdetail.goodsQuantity);
 									dataHtml += temp23;
-									
-									if (orderdetail.detailStatus == '1') {
+									if (orderdetail.detailStatus == '0') {
+										dataHtml += temp51.replace("{0}",'<fmt:message key="COMMON_ORDER_DETAIL_HANDLE_0" />');
+									} else if (orderdetail.detailStatus == '1') {
 										dataHtml += temp51.replace("{0}",'<fmt:message key="COMMON_ORDER_DETAIL_HANDLE_1" />');
 									} else if (orderdetail.detailStatus == '2') {
 										dataHtml += temp51.replace("{0}",'<fmt:message key="COMMON_ORDER_DETAIL_HANDLE_2" />');
