@@ -438,7 +438,7 @@
 		    if (normalImagesStr != null && normalImagesStr != "" && imagesArr.length > 0) {
 		    	for (var i = 0; i < imagesArr.length; i++) {
 			    	var tempImg = '<img src="{0}" class="file-preview-image" style="width:auto;height:160px;"/>';
-			    	preList.push(tempImg.replace('{0}',saveImgUrl + goodsId + '/' + imagesArr[i]));
+			    	preList.push(tempImg.replace('{0}',saveImgUrl + 'advertisement' + '/' + imagesArr[i]));
 			    }
 		    	// 与上面 预览图片json数据组 对应的config数据  
 			    for ( var i = 0; i < imagesArr.length; i++) {
@@ -447,14 +447,14 @@
 			                    width: '120px',   
 			                    url: '${ctx}/COMMON/deleteFile', // 删除url  
 			                    key: array_element, // 删除是Ajax向后台传递的参数  
-			                    extra: {fileId: array_element, goodId:goodsId}  
+			                    extra: {fileId: array_element, goodId:'advertisement'}  
 			                    };  
 			        preConfigList.push(tjson);  
 			     }  
 		    }
 			
 			$("#fileNormalPic").fileinput({
-		        uploadUrl: '${pageContext.request.contextPath}/COMMON/uploadFile?goodId=toppage',
+		        uploadUrl: '${pageContext.request.contextPath}/COMMON/uploadFile?goodId=advertisement',
 		        allowedFileExtensions : ['jpg', 'png','gif'],
 		        uploadAsync:true,  
 				showCaption: true,  
