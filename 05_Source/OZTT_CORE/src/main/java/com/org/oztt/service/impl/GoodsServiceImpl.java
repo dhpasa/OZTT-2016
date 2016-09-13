@@ -154,7 +154,7 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
                     goods.setStockStatus("2");
                 }
 
-                if (CommonConstants.STOCK_100 < (Integer.valueOf(goods.getGroupMax()) - Integer.valueOf(goods
+                if (CommonConstants.STOCK_100 <= (Integer.valueOf(goods.getGroupMax()) - Integer.valueOf(goods
                         .getGroupCurrent()))) {
                     // 库存充足
                     goods.setStockStatus("3");
