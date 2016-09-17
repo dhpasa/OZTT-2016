@@ -69,6 +69,7 @@
 			var temp9 = '    <div class="main-hasbuy">';
 			var temp10 = '    	<i class="main-hasBuy" style="float: left"></i>';
 			var temp11 = '		<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;';
+			var temp11_91 = '		<span class="item-timeword"><fmt:message key="COMMON_HAS_RUSH_PURCHASE" /></span>&nbsp;';
 			var temp12 = '		<span class="">{0}&nbsp;/&nbsp;{1}</span>';
 			
 			var temp11_1 = '<span class="stock_1"><fmt:message key="COMMON_STOCK_1" /></span>';
@@ -77,7 +78,8 @@
 			var temp11_4 = '<span class="stock_4"><fmt:message key="COMMON_STOCK_4" /></span>';
 			
 			var temp13 = '    </div>';
-			var temp14 = '    <div class="countdown-time" data-seconds-left="{0}">';   	
+			var temp14 = '    <div class="countdown-time" data-seconds-left="{0}">';   
+			var temp14_1 = '    <div class="countdown-time" data-isrush="1" data-seconds-left="{0}">'; 
 			var temp15 = '    </div>';
 			var temp31 = '<div class="main-overtime-div" style="display: inline-block;"><fmt:message key="COMMON_OVER_GROUP" /></div>';
 			var temp32 = '<div class="main-onway-div" style="display: inline-block;"><fmt:message key="COMMON_GROUP_ONWAY" /></div>';
@@ -138,7 +140,12 @@
 									}
 								} else {
 									tempStr += temp10;
-									tempStr += temp11;
+									if ('${tab}' == '1') {
+										tempStr += temp11_91;
+									} else {
+										tempStr += temp11;
+									}
+
 									tempStr += temp12.replace('{0}',dataList[i].groupCurrent).replace('{1}',dataList[i].groupMax);
 								}
 								tempStr += temp13;
@@ -149,6 +156,11 @@
 										if (dataList[i].isOnWay == '1') {
 											tempStr += temp32;
 										} else {
+											if (dataList[i].preLabel == '1') {
+												tempStr += temp14_1.replace('{0}',dataList[i].countdownTime);
+											} else {
+												tempStr += temp14.replace('{0}',dataList[i].countdownTime);
+											}
 											tempStr += temp14.replace('{0}',dataList[i].countdownTime);
 											tempStr += temp15;
 										}
@@ -278,8 +290,14 @@
 		                <div class="main-hasbuy">
 		                	
 		                	<c:if test="${tab != '3' && tab != '4'}">
-		                		<i class="main-hasBuy" style="float: left"></i>	
-					   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
+		                		<i class="main-hasBuy" style="float: left"></i>
+		                		<c:if test="${tab == '1'}">
+		                			<span class="item-timeword"><fmt:message key="COMMON_HAS_RUSH_PURCHASE" /></span>&nbsp;
+		                		</c:if>	
+		                		<c:if test="${tab != '1'}">
+		                			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
+		                		</c:if>	
+					   			
 					   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span>
 							</c:if>
 							<c:if test="${tab == '3' || tab == '4'}">

@@ -530,7 +530,7 @@
 		<if test="hotFlg != null">
 			and c.hotFlg = #{hotFlg,jdbcType=VARCHAR}
 		</if>
-		order by c.sortOrder,
+		order by c.sortOrder desc,
 		<if test="mode == 1 ">
 			c.groupCurrentQuantity desc,
 		</if>
