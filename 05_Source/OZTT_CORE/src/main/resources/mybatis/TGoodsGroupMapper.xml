@@ -31,6 +31,7 @@
 		<result column="sellOutInitQuantity" property="selloutinitquantity" jdbcType="DECIMAL" />
 		<result column="sellOutFlg" property="selloutflg" jdbcType="CHAR" />
 		<result column="enShowFlg" property="enshowflg" jdbcType="CHAR" />
+		<result column="sortOrder" property="sortorder" jdbcType="INTEGER" />
 		<result column="addTimestamp" property="addtimestamp" jdbcType="TIMESTAMP" />
 		<result column="addUserKey" property="adduserkey" jdbcType="VARCHAR" />
 		<result column="updTimestamp" property="updtimestamp" jdbcType="TIMESTAMP" />
@@ -42,7 +43,7 @@
 		groupMaxQuantity, groupCurrentQuantity, groupQuantityLimit, groupComments,
 		groupDesc, comsumerReminder, shopperRules, openFlg, validPeriodStart,
 		validPeriodEnd, diamondShowFlg, sellOutInitQuantity, sellOutFlg, enShowFlg,
-		addTimestamp, addUserKey, updTimestamp, updUserKey, updPgmId
+		sortOrder, addTimestamp, addUserKey, updTimestamp, updUserKey, updPgmId
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Long">
@@ -64,7 +65,7 @@
 		validPeriodEnd, 
 		addTimestamp, addUserKey, diamondShowFlg, 
 		sellOutInitQuantity, sellOutFlg, enShowFlg,
-		updTimestamp, updUserKey, updPgmId
+		sortOrder, updTimestamp, updUserKey, updPgmId
 		)
 		values (#{no,jdbcType=BIGINT}, #{groupno,jdbcType=VARCHAR},
 		#{goodsid,jdbcType=VARCHAR}, #{toppageup,jdbcType=VARCHAR},
@@ -81,6 +82,7 @@
 		#{selloutinitquantity,jdbcType=DECIMAL},
 		#{selloutflg,jdbcType=CHAR},
 		#{enshowflg,jdbcType=CHAR},
+		#{sortorder,jdbcType=INTEGER},
 		#{addtimestamp,jdbcType=TIMESTAMP}, #{adduserkey,jdbcType=VARCHAR},
 		#{updtimestamp,jdbcType=TIMESTAMP}, #{upduserkey,jdbcType=VARCHAR},
 		#{updpgmid,jdbcType=VARCHAR}
@@ -154,6 +156,9 @@
 			</if>
 			<if test="enshowflg != null">
 				enShowFlg,
+			</if>
+			<if test="sortorder != null">
+				sortOrder,
 			</if>
 			<if test="addtimestamp != null">
 				addTimestamp,
@@ -238,6 +243,9 @@
 			<if test="enshowflg != null">
 				#{enshowflg,jdbcType=CHAR},
 			</if>
+			<if test="sortorder != null">
+				#{sortorder,jdbcType=INTEGER},
+			</if>
 			<if test="addtimestamp != null">
 				#{addtimestamp,jdbcType=TIMESTAMP},
 			</if>
@@ -321,6 +329,9 @@
 			<if test="enshowflg != null">
 				enShowFlg = #{enshowflg,jdbcType=CHAR},
 			</if>
+			<if test="sortorder != null">
+				sortOrder = #{sortorder,jdbcType=INTEGER},
+			</if>
 			<if test="addtimestamp != null">
 				addTimestamp = #{addtimestamp,jdbcType=TIMESTAMP},
 			</if>
@@ -362,6 +373,7 @@
 		sellOutInitQuantity = #{selloutinitquantity,jdbcType=DECIMAL},
 		sellOutFlg = #{selloutflg,jdbcType=CHAR},
 		enShowFlg = #{enshowflg,jdbcType=CHAR},
+		sortOrder = #{sortorder,jdbcType=INTEGER},
 		addTimestamp = #{addtimestamp,jdbcType=TIMESTAMP},
 		addUserKey = #{adduserkey,jdbcType=VARCHAR},
 		updTimestamp = #{updtimestamp,jdbcType=TIMESTAMP},
@@ -420,6 +432,7 @@
             A.hotFlg as isHot,
             A.diamondShowFlg as isDiamond,
             A.enShowFlg as isEn,
+            A.sortOrder as sortOrder,
 			DATE_FORMAT(A.validPeriodStart,'%Y/%m/%d %T') as validDateFrom,
 			DATE_FORMAT(A.validPeriodEnd,'%Y/%m/%d %T') as validDateTo,
 			B.goodsName as goodsName,
@@ -463,6 +476,7 @@
       	<if test="dateTo != null and dateTo != ''" >
         	<![CDATA[and (DATE_FORMAT(A.validPeriodEnd,'%Y/%m/%d')) <= #{dateTo,jdbcType=VARCHAR}]]>
       	</if>
+      	order by A.updTimestamp desc
 	</select>
 	
 	<select id="getAllGroupsInfoForAdminCount" resultType="int" parameterType="map">
@@ -507,6 +521,77 @@
         	<![CDATA[and (DATE_FORMAT(A.validPeriodEnd,'%Y/%m/%d')) <= #{dateTo,jdbcType=VARCHAR}]]>
       	</if>
 	</select>
-
+	<select id="searchGoodsView" resultType="com.org.oztt.formDto.OzTtAdGsListDto" parameterType="map">
+		select
+		a.orderNo,
+		b.goodsId,
+		c.nickName as customerName,
+		a.quantity,
+		a.handleFlg,
+		DATE_FORMAT(e.orderTimestamp,'%Y/%m/%d') as orderDate,
+		d.telNo as customerPhone
+		from t_cons_order_details a
+		inner join t_goods b on a.goodsId = b.goodsId
+		inner join t_customer_basic_info c on a.customerNo = c.customerNo
+		inner join t_customer_security_info d on a.customerNo = d.customerNo
+		left join t_cons_order e on a.orderNo = e.orderNo
+		where 1=1
+		<if test="goodsName != null and goodsName != ''">
+			and b.goodsName like concat('%',#{goodsName,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="dateFrom != null and dateFrom != ''" >
+        	<![CDATA[and (DATE_FORMAT(e.orderTimestamp,'%Y/%m/%d')) >= #{dateFrom,jdbcType=VARCHAR}]]>
+      	</if>
+      	<if test="dateTo != null and dateTo != ''" >
+        	<![CDATA[and (DATE_FORMAT(e.orderTimestamp,'%Y/%m/%d')) <= #{dateTo,jdbcType=VARCHAR}]]>
+      	</if>
+      	<if test="handleFlg != null and handleFlg != ''">
+        	and a.handleFlg = #{handleFlg,jdbcType=VARCHAR}
+      	</if>
+	</select>
+	<select id="searchGoodsViewCount" resultType="int" parameterType="map">
+		select
+		count(1)
+		from t_cons_order_details a
+		inner join t_goods b on a.goodsId = b.goodsId
+		inner join t_customer_basic_info c on a.customerNo = c.customerNo
+		inner join t_customer_security_info d on a.customerNo = d.customerNo
+		left join t_cons_order e on a.orderNo = e.orderNo
+		where 1=1
+		<if test="goodsName != null and goodsName != ''">
+			and b.goodsName like concat('%',#{goodsName,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="dateFrom != null and dateFrom != ''" >
+        	<![CDATA[and (DATE_FORMAT(e.orderTimestamp,'%Y/%m/%d')) >= #{dateFrom,jdbcType=VARCHAR}]]>
+      	</if>
+      	<if test="dateTo != null and dateTo != ''" >
+        	<![CDATA[and (DATE_FORMAT(e.orderTimestamp,'%Y/%m/%d')) <= #{dateTo,jdbcType=VARCHAR}]]>
+      	</if>
+      	<if test="handleFlg != null and handleFlg != ''">
+        	and a.handleFlg = #{handleFlg,jdbcType=VARCHAR}
+      	</if>
+	</select>
+	<select id="searchProductsCount" resultType="int" parameterType="map">
+		select
+		sum(a.quantity)
+		from t_cons_order_details a
+		inner join t_goods b on a.goodsId = b.goodsId
+		inner join t_customer_basic_info c on a.customerNo = c.customerNo
+		inner join t_customer_security_info d on a.customerNo = d.customerNo
+		left join t_cons_order e on a.orderNo = e.orderNo
+		where 1=1
+		<if test="goodsName != null and goodsName != ''">
+			and b.goodsName like concat('%',#{goodsName,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="dateFrom != null and dateFrom != ''" >
+        	<![CDATA[and (DATE_FORMAT(e.orderTimestamp,'%Y/%m/%d')) >= #{dateFrom,jdbcType=VARCHAR}]]>
+      	</if>
+      	<if test="dateTo != null and dateTo != ''" >
+        	<![CDATA[and (DATE_FORMAT(e.orderTimestamp,'%Y/%m/%d')) <= #{dateTo,jdbcType=VARCHAR}]]>
+      	</if>
+      	<if test="handleFlg != null and handleFlg != ''">
+        	and a.handleFlg = #{handleFlg,jdbcType=VARCHAR}
+      	</if>
+	</select>
 	
 </mapper>

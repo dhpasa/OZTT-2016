@@ -97,7 +97,7 @@ public class OzTtTpPlController extends BaseController {
             mapParam.put("classId", classId);
             pagination.setParams(mapParam);
 
-            PagingResult<GroupItemDto> pageInfo = goodsService.getGoodsByParamForPage(pagination);
+            PagingResult<GroupItemDto> pageInfo = goodsService.getGoodsByParamForPage(pagination, session);
 
             if (!CollectionUtils.isEmpty(pageInfo.getResultList())) {
                 for (GroupItemDto goods : pageInfo.getResultList()) {

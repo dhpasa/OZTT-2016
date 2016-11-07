@@ -31,12 +31,12 @@ import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.contants.CommonEnum;
 import com.org.oztt.entity.TConsOrder;
-import com.org.oztt.entity.TGoodsGroup;
 import com.org.oztt.formDto.OzTtAdOdDto;
 import com.org.oztt.formDto.OzTtAdOdListDto;
 import com.org.oztt.formDto.OzTtAdOlDto;
 import com.org.oztt.formDto.OzTtAdOlListDto;
 import com.org.oztt.service.CommonService;
+import com.org.oztt.service.CustomerService;
 import com.org.oztt.service.GoodsService;
 import com.org.oztt.service.OrderService;
 
@@ -50,13 +50,16 @@ import com.org.oztt.service.OrderService;
 public class OzTtAdOlController extends BaseController {
 
     @Resource
-    private CommonService commonService;
+    private CommonService   commonService;
 
     @Resource
-    private OrderService  orderService;
+    private OrderService    orderService;
 
     @Resource
-    private GoodsService  goodsService;
+    private GoodsService    goodsService;
+
+    @Resource
+    private CustomerService customerService;
 
     /**
      * 订单一览画面
@@ -214,7 +217,7 @@ public class OzTtAdOlController extends BaseController {
             String status = map.get("status");
             for (String str : orderIdArr) {
                 TConsOrder tConsOrder = orderService.selectByOrderId(str);
-                
+
                 tConsOrder.setUpdpgmid("OZ_TT_AD_GB");
                 tConsOrder.setUpdtimestamp(new Date());
                 tConsOrder.setUpduserkey(CommonConstants.ADMIN_USERKEY);
@@ -229,6 +232,7 @@ public class OzTtAdOlController extends BaseController {
                 else {
                     tConsOrder.setHandleflg(status);
                     orderService.updateOrderInfo(tConsOrder);
+                    customerService.updateCustomerPointsAndLevelsBatch(tConsOrder.getOrderno(), tConsOrder.getCustomerno());
                 }
             }
             // 后台维护的时候提示让以逗号隔开
@@ -261,17 +265,19 @@ public class OzTtAdOlController extends BaseController {
             String canUpdate0 = "0";
             for (String str : orderIdArr) {
                 TConsOrder tConsOrder = orderService.selectByOrderId(str);
-                if(CommonEnum.HandleFlag.DELETED.getCode().equals(tConsOrder.getHandleflg())) {
-                	canUpdate0 = "1";
-                	break;
-                } else {
-                	canUpdate0 = "0";
+                if (CommonEnum.HandleFlag.DELETED.getCode().equals(tConsOrder.getHandleflg())) {
+                    canUpdate0 = "1";
+                    break;
+                }
+                else {
+                    canUpdate0 = "0";
                 }
                 // 只有订单是来店自提－到店付款或者送货上门－货到付款
                 if (CommonEnum.PaymentMethod.ONLINE_PAY_CWB.getCode().equals(tConsOrder.getPaymentmethod())) {
                     canUpdate = "1";
                     break;
-                } else {
+                }
+                else {
                     canUpdate = "0";
                 }
 

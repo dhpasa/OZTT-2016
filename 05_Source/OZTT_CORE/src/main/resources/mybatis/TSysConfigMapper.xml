@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.org.oztt.dao.TSysConfigDao" >
+  <resultMap id="BaseResultMap" type="com.org.oztt.entity.TSysConfig" >
+    <id column="no" property="no" jdbcType="BIGINT" />
+    <result column="goodssearchkey1" property="goodssearchkey1" jdbcType="BIGINT" />
+    <result column="goodssearchvalue1" property="goodssearchvalue1" jdbcType="VARCHAR" />
+    <result column="goodssearchkey2" property="goodssearchkey2" jdbcType="BIGINT" />
+    <result column="goodssearchvalue2" property="goodssearchvalue2" jdbcType="VARCHAR" />
+    <result column="goodssearchkey3" property="goodssearchkey3" jdbcType="BIGINT" />
+    <result column="goodssearchvalue3" property="goodssearchvalue3" jdbcType="VARCHAR" />
+    <result column="toppageadpic" property="toppageadpic" jdbcType="VARCHAR" />
+    <result column="contactservice" property="contactservice" jdbcType="VARCHAR" />
+    <result column="shoppercooperation" property="shoppercooperation" jdbcType="VARCHAR" />
+    <result column="aboutus" property="aboutus" jdbcType="VARCHAR" />
+    <result column="levelsumamount" property="levelsumamount" jdbcType="VARCHAR" />
+    <result column="pointcalcamount" property="pointcalcamount" jdbcType="DECIMAL" />
+    <result column="discountrate" property="discountrate" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    no, goodssearchkey1, goodssearchvalue1, goodssearchkey2, goodssearchvalue2, goodssearchkey3, goodssearchvalue3, toppageadpic, 
+    contactservice, shoppercooperation, aboutus, levelsumamount, pointcalcamount, discountrate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sys_config
+    where no = #{no,jdbcType=BIGINT}
+  </select>
+  <select id="selectOne" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sys_config
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_sys_config
+    <if test="no != null" >
+    where no = #{no,jdbcType=BIGINT}
+    </if>
+  </delete>
+  <insert id="insertSelective" parameterType="com.org.oztt.entity.TSysConfig" >
+    insert into t_sys_config
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="no != null" >
+        no,
+      </if>
+      <if test="goodssearchkey1 != null" >
+        goodssearchkey1,
+      </if>
+      <if test="goodssearchvalue1 != null" >
+        goodssearchvalue1,
+      </if>
+      <if test="goodssearchkey2 != null" >
+        goodssearchkey2,
+      </if>
+      <if test="goodssearchvalue2 != null" >
+        goodssearchvalue2,
+      </if>
+      <if test="goodssearchkey3 != null" >
+        goodssearchkey3,
+      </if>
+      <if test="goodssearchvalue3 != null" >
+        goodssearchvalue3,
+      </if>
+      <if test="toppageadpic != null" >
+        toppageadpic,
+      </if>
+      <if test="contactservice != null" >
+        contactservice,
+      </if>
+      <if test="shoppercooperation != null" >
+        shoppercooperation,
+      </if>
+      <if test="aboutus != null" >
+        aboutus,
+      </if>
+      <if test="levelsumamount != null" >
+        levelsumamount,
+      </if>
+      <if test="pointcalcamount != null" >
+        pointcalcamount,
+      </if>
+      <if test="discountrate != null" >
+        discountrate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="no != null" >
+        #{no,jdbcType=BIGINT},
+      </if>
+      <if test="goodssearchkey1 != null" >
+        #{goodssearchkey1,jdbcType=BIGINT},
+      </if>
+      <if test="goodssearchvalue1 != null" >
+        #{goodssearchvalue1,jdbcType=VARCHAR},
+      </if>
+      <if test="goodssearchkey2 != null" >
+        #{goodssearchkey2,jdbcType=BIGINT},
+      </if>
+      <if test="goodssearchvalue2 != null" >
+        #{goodssearchvalue2,jdbcType=VARCHAR},
+      </if>
+      <if test="goodssearchkey3 != null" >
+        #{goodssearchkey3,jdbcType=BIGINT},
+      </if>
+      <if test="goodssearchvalue3 != null" >
+        #{goodssearchvalue3,jdbcType=VARCHAR},
+      </if>
+      <if test="toppageadpic != null" >
+        #{toppageadpic,jdbcType=VARCHAR},
+      </if>
+      <if test="contactservice != null" >
+        #{contactservice,jdbcType=VARCHAR},
+      </if>
+      <if test="shoppercooperation != null" >
+        #{shoppercooperation,jdbcType=VARCHAR},
+      </if>
+      <if test="aboutus != null" >
+        #{aboutus,jdbcType=VARCHAR},
+      </if>
+      <if test="levelsumamount != null" >
+        #{levelsumamount,jdbcType=VARCHAR},
+      </if>
+      <if test="pointcalcamount != null" >
+        #{pointcalcamount,jdbcType=DECIMAL},
+      </if>
+      <if test="discountrate != null" >
+        #{discountrate,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.org.oztt.entity.TSysConfig" >
+    update t_sys_config
+    <set >
+      <if test="goodssearchkey1 != null" >
+        goodssearchkey1 = #{goodssearchkey1,jdbcType=BIGINT},
+      </if>
+      <if test="goodssearchvalue1 != null" >
+        goodssearchvalue1 = #{goodssearchvalue1,jdbcType=VARCHAR},
+      </if>
+      <if test="goodssearchkey2 != null" >
+        goodssearchkey2 = #{goodssearchkey2,jdbcType=BIGINT},
+      </if>
+      <if test="goodssearchvalue2 != null" >
+        goodssearchvalue2 = #{goodssearchvalue2,jdbcType=VARCHAR},
+      </if>
+      <if test="goodssearchkey3 != null" >
+        goodssearchkey3 = #{goodssearchkey3,jdbcType=BIGINT},
+      </if>
+      <if test="goodssearchvalue3 != null" >
+        goodssearchvalue3 = #{goodssearchvalue3,jdbcType=VARCHAR},
+      </if>
+      <if test="toppageadpic != null" >
+        toppageadpic = #{toppageadpic,jdbcType=VARCHAR},
+      </if>
+      <if test="contactservice != null" >
+        contactservice = #{contactservice,jdbcType=VARCHAR},
+      </if>
+      <if test="shoppercooperation != null" >
+        shoppercooperation = #{shoppercooperation,jdbcType=VARCHAR},
+      </if>
+      <if test="aboutus != null" >
+        aboutus = #{aboutus,jdbcType=VARCHAR},
+      </if>
+      <if test="levelsumamount != null" >
+        levelsumamount = #{levelsumamount,jdbcType=VARCHAR},
+      </if>
+      <if test="pointcalcamount != null" >
+        pointcalcamount = #{pointcalcamount,jdbcType=DECIMAL},
+      </if>
+      <if test="discountrate != null" >
+        discountrate = #{discountrate,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where no = #{no,jdbcType=BIGINT}
+  </update>
+</mapper>

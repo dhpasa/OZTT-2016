@@ -44,7 +44,7 @@ public class SearchController extends BaseController {
             params.put("goodsName", searchcontent);
             params.put("classId", classId);
             pagination.setParams(params);
-            PagingResult<GroupItemDto> pageInfo = goodsService.getGoodsByParamForPage(pagination);
+            PagingResult<GroupItemDto> pageInfo = goodsService.getGoodsByParamForPage(pagination, session);
 
             if (!CollectionUtils.isEmpty(pageInfo.getResultList())) {
                 for (GroupItemDto goods : pageInfo.getResultList()) {
@@ -102,7 +102,7 @@ public class SearchController extends BaseController {
             params.put("mode", mode);
             params.put("goodsName", searchcontent);
             pagination.setParams(params);
-            PagingResult<GroupItemDto> pageInfo = goodsService.getGoodsByParamForPage(pagination);
+            PagingResult<GroupItemDto> pageInfo = goodsService.getGoodsByParamForPage(pagination, session);
 
             if (!CollectionUtils.isEmpty(pageInfo.getResultList())) {
                 for (GroupItemDto goods : pageInfo.getResultList()) {

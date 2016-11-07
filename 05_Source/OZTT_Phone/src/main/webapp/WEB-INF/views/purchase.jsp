@@ -530,10 +530,11 @@
 				</div>
 				<div class="purchase-group-pro">
 					<span class="purchase-goodname">${cartsBody.goodsName }</span>
-					
-					<div class="purchase-good－picktime" style="display: none">
-						<fmt:message key="PURCHASE_DELIVERYTIME"/> ${cartsBody.deliveryDate }
-					</div>
+<%-- 					<c:if test="${cartsBody.isStock != '1' }"> --%>
+<!-- 						<div class="purchase-good－picktime" style="display: none"> -->
+<%-- 							<fmt:message key="PURCHASE_DELIVERYTIME"/> ${cartsBody.deliveryDate } --%>
+<!-- 						</div> -->
+<%-- 					</c:if> --%>
 				</div>
 				<div class="purchase-group-price">
 					<span><fmt:message key="COMMON_DOLLAR" />${cartsBody.goodsUnitPrice }</span>	
@@ -565,7 +566,8 @@
 	<div class="purchase-remarks margin-1rem-top">
 		<span class="purchase-remarks-span"><fmt:message key="PURCHASE_REMARKS"/></span>
 		<div class="purchase-remarks-input-div">
-			<input id="purchaseRemarks" type="text" class="purchase-remarks-input" maxlength="255" placeholder="<fmt:message key="PURCHASE_REMARKS_CONTENT"/>"/>
+			<textarea id="purchaseRemarks" rows="5" cols="" class="purchase-remarks-input form-control" maxlength="255" placeholder="<fmt:message key="PURCHASE_REMARKS_CONTENT"/>"></textarea>
+			<!-- <input id="purchaseRemarks" type="textarea" /> -->
 		</div>
 	</div>
 	

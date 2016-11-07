@@ -27,6 +27,11 @@
   			location.href="${ctx}/main/grouptab?tab="+areaTab;
   		}
   		
+  		function doComplete(ele){
+  			$(ele).parent().parent().find(".main_rush_end").css("display","");
+  			$(ele).parent().remove();
+  		}
+  		
   		//在线客服
   		/* kefu = function(id, _top) {
   			var me = id.charAt ? document.getElementById(id) : id, d1 = document.body, d2 = document.documentElement;
@@ -145,8 +150,9 @@
 	</div>
 	<div class="flexslider border-top-show">
   		<ul class="slides">
-  			<li><img src="${imgUrl}advertisement/pic_01.jpeg" /></li>
-  			<li><img src="${imgUrl}advertisement/pic_02.jpeg" /></li>
+  			<c:forEach var="advPic" items="${ advPicList }">
+  				<li><img src="${imgUrl}advertisement/${advPic}" /></li>
+  			</c:forEach>
   		</ul>
    </div>
    
@@ -168,18 +174,18 @@
 	   <c:if test="${step.count%2 == 1 }">
 		<div class="newGoods-div" onclick="toItem('${newGoodsList.groupno }')">
 			<div class="newGoods-info">
-				<span class="newGoods-info-span miaosha">
-					<i class="goods-i-time"></i>
-					<fmt:message key="MAIN_MIAOSHAING" />
-				</span>
 				<span class="newGoods-info-span font-xl clearMargin">${newGoodsList.goodsname }</span>
-				<span class="newGoods-info-span time">
+				<c:if test="${newGoodsList.isOverGroup != '1' }">
+					<span class="main_rush_end" style="display:none"><fmt:message key="MAIN_RUSHOVER" /></span>
+					<span class="newGoods-info-span time">
 					<div style="float:left;padding-right: 0.5rem;height: 1.7rem"><fmt:message key="MAIN_TIME" /></div>
 					<div class="countdownDay">${newGoodsList.countdownDay }<fmt:message key="COMMON_DAY" /></div>
-					<div id="cuntdown" class="cuntdown" data-seconds-left="${newGoodsList.countdownTime}" style="float:left;width: 100%;">
+					<div id="cuntdown" class="cuntdown" data-seconds-left="${newGoodsList.countdownTime}" data-isrush="1" style="float:left;width: 100%;">
 					
 					</div>
 				</span>
+				</c:if>
+				
 				<span class="newGoods-info-span">
 					<div class="group-price-div">
 						<span class="group-price">
@@ -190,9 +196,12 @@
 				</span>
 				<div class="main-ms-hasBuy">
                 	<i class="main-hasBuy" style="float: left"></i>
-		   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
+		   			<span class="item-timeword"><fmt:message key="COMMON_HAS_RUSH_PURCHASE" /></span>&nbsp;
 		   			<span class="">${newGoodsList.groupCurrent}&nbsp;/&nbsp;${newGoodsList.groupMax}</span>
                 </div>
+                <c:if test="${newGoodsList.isOverGroup == '1' }">
+					<span class="main_rush_end"><fmt:message key="MAIN_RUSHOVER" /></span>
+				</c:if>
 			</div>
 			<div class="newGoods-img">
 				<img src="${newGoodsList.goodsthumbnail }" class="padding-1rem">
@@ -205,18 +214,19 @@
 				<img src="${newGoodsList.goodsthumbnail }" class="padding-1rem">
 			</div>
 			<div class="newGoods-info">
-				<span class="newGoods-info-span miaosha">
-					<i class="goods-i-time"></i>
-					<fmt:message key="MAIN_MIAOSHAING" />
-				</span>
 				<span class="newGoods-info-span font-xl clearMargin">${newGoodsList.goodsname }</span>
-				<span class="newGoods-info-span time">
+				
+				<c:if test="${newGoodsList.isOverGroup != '1' }">
+					<span class="main_rush_end" style="display:none"><fmt:message key="MAIN_RUSHOVER" /></span>
+					<span class="newGoods-info-span time">
 					<div style="float:left;padding-right: 0.5rem;height: 1.7rem"><fmt:message key="MAIN_TIME" /></div>
 					<div class="countdownDay">${newGoodsList.countdownDay }<fmt:message key="COMMON_DAY" /></div>
-					<div id="cuntdown" class="cuntdown" data-seconds-left="${newGoodsList.countdownTime}" style="float:left;width: 100%;">
+					<div id="cuntdown" class="cuntdown" data-seconds-left="${newGoodsList.countdownTime}" data-isrush="1" style="float:left;width: 100%;">
 					
 					</div>
 				</span>
+				</c:if>
+				
 				<span class="newGoods-info-span">
 					<div class="group-price-div">
 						<span class="group-price">
@@ -227,15 +237,108 @@
 				</span>
 				<div class="main-ms-hasBuy">
                 	<i class="main-hasBuy" style="float: left"></i>
-		   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
+		   			<span class="item-timeword"><fmt:message key="COMMON_HAS_RUSH_PURCHASE" /></span>&nbsp;
 		   			<span class="">${newGoodsList.groupCurrent}&nbsp;/&nbsp;${newGoodsList.groupMax}</span>
                 </div>
+                <c:if test="${newGoodsList.isOverGroup == '1' }">
+					<span class="main_rush_end"><fmt:message key="MAIN_RUSHOVER" /></span>
+				</c:if>
 			</div>
 		</div>
 	   </c:if>		
 		</c:forEach>
 	</div>
 	
+	<c:if test="${currentUserId != null && currentUserId != '' && sessionDiamondCustomer == '4' }">
+	<div class="main_goods">
+   	  <div class="main-presell-area">
+		<div class="preselltext">
+			<img alt="" src="${ctx}/images/Level_4.png" class="mian_icon_class">
+			<span><fmt:message key="MAIN_DIAMONDTEXT" /></span>
+		</div>
+		<div class="presellmore" onclick="toGroupArea('4')"><span><fmt:message key="MAIN_PRESELLMORE" /></span><i class="fa fa-angle-right"></i></div>
+   	  </div>
+      <div class="">
+   		<div class="jshop-product-two-column">
+   			<ul id="goodItemList">
+   				<c:forEach var="goodslist" items="${ diamondSellList }">
+   				<li class="main-goods-li">
+					<div class="jshop-item" onclick="toItem('${goodslist.groupno }')">
+						<img src="${goodslist.goodsthumbnail }" class="img-responsive padding-1rem">
+						<span class="main-goodsname">${goodslist.goodsname }</span>
+		                <div class="main-group-price">
+		                	<span class="group-price">
+		                		<span class="dollar-symbol2 font-xxl"><fmt:message key="COMMON_DOLLAR" /></span>${goodslist.disprice }</span>
+							<span class="text-through font-l"><fmt:message key="COMMON_DOLLAR" />${goodslist.costprice }</span>
+		                </div>
+		                <div class="main-hasbuy">
+<!-- 		                	<i class="main-hasBuy" style="float: left"></i> -->
+<%-- 				   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp; --%>
+<%-- 				   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span> --%>
+							<c:if test="${goodslist.stockStatus == '1' }">
+				   				<span class="stock_1"><fmt:message key="COMMON_STOCK_1" /></span>
+				   			</c:if>
+				   			<c:if test="${goodslist.stockStatus == '2' }">
+				   				<span class="stock_2"><fmt:message key="COMMON_STOCK_2" /></span>
+				   			</c:if>
+				   			<c:if test="${goodslist.stockStatus == '3' }">
+				   				<span class="stock_3"><fmt:message key="COMMON_STOCK_3" /></span>
+				   			</c:if>
+				   			<c:if test="${goodslist.stockStatus == '4' }">
+				   				<span class="stock_4"><fmt:message key="COMMON_STOCK_4" /></span>
+				   			</c:if>
+		                </div>
+		                <%-- <c:if test="${goodslist.isOverGroup == '1' }">
+		                	<div class="main-overtime-div" style="display: inline-block;"><fmt:message key="COMMON_OVER_GROUP" /></div>
+		                </c:if>
+		                <c:if test="${goodslist.isOverGroup != '1' }">
+		                	<c:if test="${goodslist.isOnWay == '1' }">
+		                		<div class="main-onway-div" style="display: inline-block;"><fmt:message key="COMMON_GROUP_ONWAY" /></div>
+		                	</c:if>
+		                	<c:if test="${goodslist.isOnWay != '1' }">
+		                		<div class="displaynone-time"></div>
+		                	</c:if>
+		                </c:if> --%>
+		                <div class="displaynone-time"></div>
+		                
+		                
+		                <c:if test="${goodslist.inStockLabel == '1' }">
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker goods-sticker-inStockLabel"></div>
+		                	</c:if>
+		                	<c:if test="${languageSelf == 'en_US' }">
+		                		<div class="goods-sticker goods-sticker-inStockLabel-en"></div>
+		                	</c:if>
+		                </c:if>
+		                
+		                <c:if test="${goodslist.sellOutFlg == '1' }">
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker-right goods-sticker-selloutLabel"></div>
+		                	</c:if>
+		                	<c:if test="${languageSelf == 'en_US' }">
+		                		<div class="goods-sticker-right goods-sticker-selloutLabel-en"></div>
+		                	</c:if>
+		                </c:if>
+		                
+		                <c:if test="${goodslist.diamondLabel == '1' }">
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker goods-sticker-diaLabel"></div>
+		                	</c:if>
+		                	<c:if test="${languageSelf == 'en_US' }">
+		                		<div class="goods-sticker goods-sticker-diaLabel-en"></div>
+		                	</c:if>
+		                </c:if>
+		                
+		                
+		                
+					</div>
+   				</li>
+   				</c:forEach>
+   			</ul>
+   		</div>   
+      </div>
+    </div>
+	</c:if>
 	
    
    <div class="main_goods">
@@ -326,9 +429,21 @@
 							<span class="text-through font-l"><fmt:message key="COMMON_DOLLAR" />${goodslist.costprice }</span>
 		                </div>
 		                <div class="main-hasbuy">
-		                	<i class="main-hasBuy" style="float: left"></i>
-				   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
-				   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span>
+<!-- 		                	<i class="main-hasBuy" style="float: left"></i> -->
+<%-- 				   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp; --%>
+<%-- 				   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span> --%>
+				   			<c:if test="${goodslist.stockStatus == '1' }">
+				   				<span class="stock_1"><fmt:message key="COMMON_STOCK_1" /></span>
+				   			</c:if>
+				   			<c:if test="${goodslist.stockStatus == '2' }">
+				   				<span class="stock_2"><fmt:message key="COMMON_STOCK_2" /></span>
+				   			</c:if>
+				   			<c:if test="${goodslist.stockStatus == '3' }">
+				   				<span class="stock_3"><fmt:message key="COMMON_STOCK_3" /></span>
+				   			</c:if>
+				   			<c:if test="${goodslist.stockStatus == '4' }">
+				   				<span class="stock_4"><fmt:message key="COMMON_STOCK_4" /></span>
+				   			</c:if>
 		                </div>
 		                <%-- <c:if test="${goodslist.isOverGroup == '1' }">
 		                	<div class="main-overtime-div" style="display: inline-block;"><fmt:message key="COMMON_OVER_GROUP" /></div>

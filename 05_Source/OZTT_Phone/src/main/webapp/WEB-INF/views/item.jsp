@@ -36,8 +36,8 @@
 		  
 		function itemFlyToCart() {
 			$("#purchase-credit-pop-up").modal('hide');
-			var offset = $("#navCart").offset();
-			var offsetAdd = $("#navCart").width();
+			var offset = $("#navCartIcon").offset();
+			var offsetAdd = $("#navCartIcon").width();
 			var img = $("#itemFlyImg").attr('src');
 			var flyer = $('<img class="u-flyer" src="'+img+'">');
 			flyer.fly({
@@ -158,7 +158,7 @@
 				}
 			});
 			
-			updateShopCart();
+			updateItemShopCart();
 			return true;
 
 		}
@@ -166,6 +166,28 @@
 		function toShowTabGoods(tabId) {
 			// 进入标签检索画面
 			location.href="${ctx}/item/goodstab?tabId="+tabId;
+		}
+		
+		function updateItemShopCart(){
+			$.ajax({
+				type : "GET",
+				contentType:'application/json',
+				url : '${pageContext.request.contextPath}/COMMON/getShopCartCount',
+				dataType : "json",
+				async : false,
+				data : '', 
+				success : function(data) {
+					if(!data.isException){
+						$("#itemShopCart").text(data.sccount)
+					} else {
+						// 同步购物车失败
+						return;
+					}
+				},
+				error : function(data) {
+					
+				}
+			});
 		}
   </script>
   <style type="text/css">
@@ -222,10 +244,14 @@
 <!-- Body BEGIN -->
 <body>
 
-    <div class="x-header x-header-gray border-1px-bottom">
+    <div class="x-header x-header-gray border-1px-bottom x-fixed">
+		<div class="x-header-btn"></div>
 		<div class="x-header-btn"></div>
 		<div class="x-header-title">
 			<span><fmt:message key="ITEM_TITLE" /></span>
+		</div>
+		<div class="x-header-btn icon-shopcart" id="navCartIcon" onclick="toShopCart()">
+			<span id="itemShopCart" style="display:none"></span>
 		</div>
 		<div class="x-header-btn icon-search"></div>
 	</div>
@@ -257,17 +283,45 @@
 	   		</div>
    		</c:if>
    		
-   		
+   		<c:if test="${goodItemDto.isStock == '1' || goodItemDto.diamondShowFlg == '1'}">
    		<div class="border-top-show height3">
-   			<span class="item-timeword forceFloatLeft"><fmt:message key="ITEM_TIME" /></span>
-   			<div class="cuntdown item-countdown" data-seconds-left="${goodItemDto.countdownTime}"></div>
+   			<c:if test="${goodItemDto.stockStatus == '1' }">
+				<span class="stock_1"><fmt:message key="COMMON_STOCK_1" /></span>
+			</c:if>
+			<c:if test="${goodItemDto.stockStatus == '2' }">
+				<span class="stock_2"><fmt:message key="COMMON_STOCK_2" /></span>
+			</c:if>
+			<c:if test="${goodItemDto.stockStatus == '3' }">
+				<span class="stock_3"><fmt:message key="COMMON_STOCK_3" /></span>
+			</c:if>
+			<c:if test="${goodItemDto.stockStatus == '4' }">
+				<span class="stock_4"><fmt:message key="COMMON_STOCK_4" /></span>
+			</c:if>
    		</div>
-   		
-   		<div class="border-top-show" style="padding:0.5rem 0">
-   			<i class="main-hasBuy" style="float: left"></i>
-   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
-   			<span class="">${goodItemDto.groupCurrent}&nbsp;/&nbsp;${goodItemDto.groupMax}</span>
-   		</div>
+   		</c:if>
+   		<c:if test="${goodItemDto.isStock != '1' && goodItemDto.diamondShowFlg != '1'}">
+   			<div class="border-top-show height3">
+	   			<span class="item-timeword forceFloatLeft"><fmt:message key="ITEM_TIME" /></span>
+	   			<c:if test="${goodItemDto.isTopPage == '1'}">
+	   				<div class="cuntdown item-countdown" data-seconds-left="${goodItemDto.countdownTime}" data-isrush="1"></div>
+	   			</c:if>
+	   			<c:if test="${goodItemDto.isTopPage != '1'}">
+	   				<div class="cuntdown item-countdown" data-seconds-left="${goodItemDto.countdownTime}"></div>
+	   			</c:if>
+	   			
+	   		</div>
+	   		
+	   		<div class="border-top-show" style="padding:0.5rem 0">
+	   			<i class="main-hasBuy" style="float: left"></i>
+	   			<c:if test="${goodItemDto.isTopPage == '1'}">
+	   				<span class="item-timeword"><fmt:message key="ITEM_HASRUSHBUY" /></span>&nbsp;
+	   			</c:if>
+	   			<c:if test="${goodItemDto.isTopPage != '1'}">
+	   				<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
+	   			</c:if>
+	   			<span class="">${goodItemDto.groupCurrent}&nbsp;/&nbsp;${goodItemDto.groupMax}</span>
+	   		</div>
+   		</c:if>
    </div>
    
    <div class="product-page-content">
@@ -290,19 +344,56 @@
     </div>
     
     <div class="item-btn">
-    	<c:if test="${IS_END == '1' }">
-    		<a class="canNotBuy"><fmt:message key="ITEM_ISEND"/></a>
-    	</c:if>
-    	<c:if test="${IS_END != '1' }">
-    		<c:if test="${IS_OVER != '1' }">
-    			<a onclick="checktoItem('${goodItemDto.groupId}')" class="canBuy"><fmt:message key="ITEM_ADDTOCART"/></a>
-	    	</c:if>
-	    	<c:if test="${IS_OVER == '1' }">
-	    		<a class="canNotBuy"><fmt:message key="ITEM_ISOVER"/></a>
-	    	</c:if>
-    	</c:if>
+    	<div class="item-btn-nav">
+    		<a href="${ctx}/main/init" class="main-nav-item main-nav-home main-nav-active">
+				<img alt="home" src="${ctx}/images/main.png">
+				<span><fmt:message key="DECORATOR_MAIN"/></span>
+			</a>
+    		<a href="${ctx}/user/init" class="main-nav-item main-nav-profile " style="position: relative;">
+				<img alt="me" src="${ctx}/images/me.png">
+				<span><fmt:message key="DECORATOR_ME"/></span>
+				<span class="notSuccessedOrder" id="notSuccessedOrder"></span>
+			</a>
+    	</div>
     	
-    	
+    	<div class="item-btn-btn">
+    		<c:if test="${goodItemDto.diamondShowFlg != '1'}">
+    			<c:if test="${goodItemDto.isStock != '1'}">
+    				<c:if test="${IS_END == '1' }">
+    					<c:if test="${goodItemDto.isTopPage == '1'}">					
+    						<a class="canNotBuy"><fmt:message key="ITEM_RUSHOVER"/></a>
+    					</c:if>
+    					<c:if test="${goodItemDto.isTopPage != '1'}">
+    						<a class="canNotBuy"><fmt:message key="ITEM_ISEND"/></a>
+    					</c:if>
+			    	</c:if>
+			    	<c:if test="${IS_END != '1' }">
+			    		<c:if test="${IS_OVER != '1' }">
+			    			<a onclick="checktoItem('${goodItemDto.groupId}')" class="canBuy"><fmt:message key="ITEM_ADDTOCART"/></a>
+				    	</c:if>
+				    	<c:if test="${IS_OVER == '1' }">
+				    		<c:if test="${goodItemDto.isTopPage == '1'}">					
+	    						<a class="canNotBuy"><fmt:message key="ITEM_RUSHOVER"/></a>
+	    					</c:if>
+	    					<c:if test="${goodItemDto.isTopPage != '1'}">
+	    						<a class="canNotBuy"><fmt:message key="ITEM_ISEND"/></a>
+	    					</c:if>
+				    	</c:if>
+			    	</c:if>
+    			</c:if>
+    			<c:if test="${goodItemDto.isStock == '1'}">
+    					<c:if test="${IS_OVER != '1' }">
+			    			<a onclick="checktoItem('${goodItemDto.groupId}')" class="canBuy"><fmt:message key="ITEM_ADDTOCART"/></a>
+				    	</c:if>
+				    	<c:if test="${IS_OVER == '1' }">
+				    		<a class="canNotBuy"><fmt:message key="COMMON_STOCK_4"/></a>
+				    	</c:if>
+    			</c:if>
+    		</c:if>
+    		<c:if test="${goodItemDto.diamondShowFlg == '1'}">
+    			<a class="canNotBuyDiamond"><fmt:message key="DIAMOND_CAN_NOT_BUY"/></a> 		
+    		</c:if>
+    	</div>
     </div>
     
     <div id="purchase-credit-pop-up" class="modal fade" role="dialog" aria-hidden="true" >
@@ -344,6 +435,12 @@
 		$('.cuntdown').startTimer({
     		
     	});
+		
+		var sessionUserId = '${currentUserId}';
+		if (sessionUserId != null && sessionUserId.length > 0) {
+			updateItemShopCart();
+			$("#itemShopCart").css("display","");
+		} 
 
 	</script>
 </body>

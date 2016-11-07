@@ -1,5 +1,7 @@
 package com.org.oztt.controller.main;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -18,15 +21,25 @@ import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.controller.BaseController;
+import com.org.oztt.entity.TCustomerMemberInfo;
+import com.org.oztt.entity.TSysConfig;
 import com.org.oztt.formDto.GroupItemDto;
+import com.org.oztt.service.CustomerService;
 import com.org.oztt.service.GoodsService;
+import com.org.oztt.service.SysConfigService;
 
 @Controller
 @RequestMapping("/main")
 public class MainController extends BaseController {
 
     @Resource
-    private GoodsService goodsService;
+    private GoodsService     goodsService;
+
+    @Resource
+    private CustomerService  customerService;
+
+    @Resource
+    private SysConfigService sysConfigService;
 
     /**
      * 首页显示
@@ -47,7 +60,7 @@ public class MainController extends BaseController {
             Map<Object, Object> params = new HashMap<Object, Object>();
             params.put("topPageUp", "1");
             pagination.setParams(params);
-            PagingResult<GroupItemDto> topPageGoodsList = goodsService.getGoodsByParamForPage(pagination);
+            PagingResult<GroupItemDto> topPageGoodsList = goodsService.getGoodsByParamForPage(pagination, session);
 
             if (!CollectionUtils.isEmpty(topPageGoodsList.getResultList())) {
                 for (GroupItemDto goods : topPageGoodsList.getResultList()) {
@@ -55,8 +68,18 @@ public class MainController extends BaseController {
                             + goods.getGoodsthumbnail());
                     goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
                     goods.setCountdownDay(DateFormatUtils.getBetweenDayTime(goods.getValidEndTime()));
+
                     goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods
                             .getGroupMax()) ? CommonConstants.OVER_GROUP_YES : CommonConstants.OVER_GROUP_NO);
+
+                    if (new BigDecimal(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()))
+                            .compareTo(BigDecimal.ZERO) <= 0) {
+                        goods.setIsOverGroup(CommonConstants.OVER_GROUP_YES);
+                    }
+                    // 商品的名称显示限购数量
+                    goods.setGoodsname(goods.getGoodsname()
+                            + super.getPageMessage("COMMON_LIMIT_QUANTITY_TEXT", session).replace(
+                                    CommonConstants.MESSAGE_PARAM_ONE, goods.getGroupQuantityLimit()));
                 }
             }
             model.addAttribute(
@@ -69,7 +92,7 @@ public class MainController extends BaseController {
             params = new HashMap<Object, Object>();
             params.put("preFlg", "1");
             pagination.setParams(params);
-            PagingResult<GroupItemDto> pageInfoPre = goodsService.getGoodsByParamForPage(pagination);
+            PagingResult<GroupItemDto> pageInfoPre = goodsService.getGoodsByParamForPage(pagination, session);
             if (!CollectionUtils.isEmpty(pageInfoPre.getResultList())) {
                 for (GroupItemDto goods : pageInfoPre.getResultList()) {
                     goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT
@@ -91,7 +114,7 @@ public class MainController extends BaseController {
             params = new HashMap<Object, Object>();
             params.put("inStockFlg", "1");
             pagination.setParams(params);
-            PagingResult<GroupItemDto> pageInfoNow = goodsService.getGoodsByParamForPage(pagination);
+            PagingResult<GroupItemDto> pageInfoNow = goodsService.getGoodsByParamForPage(pagination, session);
             if (!CollectionUtils.isEmpty(pageInfoNow.getResultList())) {
                 for (GroupItemDto goods : pageInfoNow.getResultList()) {
                     goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT
@@ -107,6 +130,46 @@ public class MainController extends BaseController {
             }
             model.addAttribute("nowSellList", (pageInfoNow == null || pageInfoNow.getResultList() == null) ? null
                     : pageInfoNow.getResultList());
+
+            // 钻石用户区
+            Object customerNo = session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            if (!StringUtils.isEmpty(customerNo)) {
+                TCustomerMemberInfo memberInfo = customerService.getCustomerMemberInfo(customerNo.toString());
+                if (memberInfo != null) {
+                    model.addAttribute(CommonConstants.SESSION_DIAMOND_CUSTOMER, memberInfo.getLevel());
+
+                    // 钻石分区
+                    pagination = new Pagination(1, Integer.parseInt(CommonConstants.MAIN_GOODS_LIST));
+                    params = new HashMap<Object, Object>();
+                    params.put("diamondShowFlg", "1");
+                    pagination.setParams(params);
+                    PagingResult<GroupItemDto> pageInfoDiamond = goodsService.getGoodsByParamForPage(pagination,
+                            session);
+                    if (!CollectionUtils.isEmpty(pageInfoDiamond.getResultList())) {
+                        for (GroupItemDto goods : pageInfoDiamond.getResultList()) {
+                            goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT
+                                    + goods.getGoodsthumbnail());
+                            goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
+                            goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods
+                                    .getGroupMax()) ? CommonConstants.OVER_GROUP_YES : CommonConstants.OVER_GROUP_NO);
+                            // 判断团购开始是否已经到
+                            if (goods.getValidStartTime().compareTo(DateFormatUtils.getCurrentDate()) > 0) {
+                                goods.setIsOnWay(CommonConstants.IS_ON_WAY);
+                            }
+                        }
+                    }
+                    model.addAttribute("diamondSellList",
+                            (pageInfoDiamond == null || pageInfoDiamond.getResultList() == null) ? null
+                                    : pageInfoDiamond.getResultList());
+                }
+
+            }
+
+            TSysConfig tSysConfig = sysConfigService.getTSysConfig();
+            String pageAllPic = tSysConfig.getToppageadpic();
+            if (!StringUtils.isEmpty(pageAllPic)) {
+                model.addAttribute("advPicList", Arrays.asList(pageAllPic.split(",")));
+            }
 
             // 获取session中的值
             model.addAttribute(CommonConstants.SESSION_CUSTOMERNO,
@@ -148,9 +211,13 @@ public class MainController extends BaseController {
             //现货
             params.put("inStockFlg", "1");
         }
+        else if ("4".equals(tab)) {
+            //钻石分区
+            params.put("diamondShowFlg", "1");
+        }
 
         pagination.setParams(params);
-        PagingResult<GroupItemDto> goodsList = goodsService.getGoodsByParamForPage(pagination);
+        PagingResult<GroupItemDto> goodsList = goodsService.getGoodsByParamForPage(pagination, session);
 
         if (!CollectionUtils.isEmpty(goodsList.getResultList())) {
             for (GroupItemDto goods : goodsList.getResultList()) {
@@ -158,8 +225,8 @@ public class MainController extends BaseController {
                         + goods.getGoodsthumbnail());
                 goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
                 goods.setCountdownDay(DateFormatUtils.getBetweenDayTime(goods.getValidEndTime()));
-                goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods
-                        .getGroupMax()) ? CommonConstants.OVER_GROUP_YES : CommonConstants.OVER_GROUP_NO);
+                goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods.getGroupMax()) ? CommonConstants.OVER_GROUP_YES
+                        : CommonConstants.OVER_GROUP_NO);
                 // 判断团购开始是否已经到
                 if (goods.getValidStartTime().compareTo(DateFormatUtils.getCurrentDate()) > 0) {
                     goods.setIsOnWay(CommonConstants.IS_ON_WAY);
@@ -200,9 +267,13 @@ public class MainController extends BaseController {
                 //现货
                 params.put("inStockFlg", "1");
             }
+            else if ("4".equals(tab)) {
+                //钻石分区
+                params.put("diamondShowFlg", "1");
+            }
 
             pagination.setParams(params);
-            PagingResult<GroupItemDto> goodsList = goodsService.getGoodsByParamForPage(pagination);
+            PagingResult<GroupItemDto> goodsList = goodsService.getGoodsByParamForPage(pagination, session);
 
             if (!CollectionUtils.isEmpty(goodsList.getResultList())) {
                 for (GroupItemDto goods : goodsList.getResultList()) {

@@ -26,6 +26,7 @@
 	  	
 	  	function setGroup(groupId,goodsId, obj) {
 	  		cleanFormError();
+	  		$("#modalTitle").text('<fmt:message key="OZ_TT_AD_GL_DIALOG_setGroup" />');
 	  		var nametd = $(obj).parent().parent().find('td')[2];
 	  		var nametd2 = $(obj).parent().parent().find('td')[3];
 	  		$("#goodGroupId").text($(nametd).text());
@@ -35,6 +36,8 @@
 	  		$("#goodsGroupPrice").val('');
 			$("#goodsGroupNumber").val('');
 			$("#goodsGroupLimit").val('');
+			$("#goodsGroupCurrent").val('');
+			$("#goodsGroupSortOrder").val('');
 			$("#dataFromGroup").val('');
 			$("#dataToGroup").val('');
 			$("#groupComment").val('');
@@ -64,6 +67,7 @@
   						$("#goodsGroupNumber").val(data.resMap.goodsGroupNumber);
   						$("#goodsGroupLimit").val(data.resMap.goodsGroupLimit);
   						$("#goodsGroupCurrent").val(data.resMap.goodsGroupCurrent);
+  						$("#goodsGroupSortOrder").val(data.resMap.goodsGroupSortOrder);
   						$("#dataFromGroup").val(data.resMap.dataFromGroup);
   						$("#dataToGroup").val(data.resMap.dataToGroup);
   						$("#groupComment").val(data.resMap.groupComment);
@@ -101,6 +105,7 @@
   	  						$("#goodsGroupNumber").removeAttr("disabled");
   	  					    $("#goodsGroupLimit").removeAttr("disabled");
   	  					    $("#goodsGroupCurrent").removeAttr("disabled");
+  	  					    $("#goodsGroupSortOrder").removeAttr("disabled");
   	  						$("#dataFromGroup").removeAttr("disabled");
   	  						$("#dataToGroup").removeAttr("disabled");
   	  						$("#groupComment").removeAttr("disabled");
@@ -119,26 +124,27 @@
   						} else if (data.resMap.openflg == '1'){
   							$("#saveBtn").css("display","none");
   							$("#deleteBtn").css("display","none");
-  							$("#submitBtn").css("display","none");
+  							$("#submitBtn").css("display","");
   							$("#unserBtn").css("display","");
-  						    $("#goodsGroupPrice").attr("disabled","disabled");
-  	  						$("#goodsGroupNumber").attr("disabled","disabled");
-  	  					    $("#goodsGroupLimit").attr("disabled","disabled");
+  						    //$("#goodsGroupPrice").attr("disabled","disabled");
+  	  						//$("#goodsGroupNumber").attr("disabled","disabled");
+  	  					    //$("#goodsGroupLimit").attr("disabled","disabled");
   	  					    $("#goodsGroupCurrent").attr("disabled","disabled");
-  	  						$("#dataFromGroup").attr("disabled","disabled");
-  	  						$("#dataToGroup").attr("disabled","disabled");
-  	  						$("#groupComment").attr("disabled","disabled");
-  	  						$("#groupDesc").attr("disabled","disabled");
-  	  						$("#groupReminder").attr("disabled","disabled");
-  	  						$("#groupRule").attr("disabled","disabled");
-  	  					    $("#isTopUpEdit").attr("disabled","disabled");
-  	  					    $("#isPreEdit").attr("disabled","disabled");
-  	  			            $("#isInStockEdit").attr("disabled","disabled");
-  	  			            $("#isHotEdit").attr("disabled","disabled");
-  	  			        	$("#sellOutInitQuantity").attr("disabled","disabled");
-	  			        	$("#sellOutFlg").attr("disabled","disabled");
-	  			        	$("#diamondShowFlg").attr("disabled","disabled");
-	  			        	$("#enShowFlg").attr("disabled","disabled");  
+  	  					    //$("#goodsGroupSortOrder").attr("disabled","disabled");
+  	  						//$("#dataFromGroup").attr("disabled","disabled");
+  	  						//$("#dataToGroup").attr("disabled","disabled");
+  	  						//$("#groupComment").attr("disabled","disabled");
+  	  						//$("#groupDesc").attr("disabled","disabled");
+  	  						//$("#groupReminder").attr("disabled","disabled");
+  	  						//$("#groupRule").attr("disabled","disabled");
+  	  					    //$("#isTopUpEdit").attr("disabled","disabled");
+  	  					    //$("#isPreEdit").attr("disabled","disabled");
+  	  			            //$("#isInStockEdit").attr("disabled","disabled");
+  	  			            //$("#isHotEdit").attr("disabled","disabled");
+  	  			        	//$("#sellOutInitQuantity").attr("disabled","disabled");
+	  			        	//$("#sellOutFlg").attr("disabled","disabled");
+	  			        	//$("#diamondShowFlg").attr("disabled","disabled");
+	  			        	//$("#enShowFlg").attr("disabled","disabled");
 			
   						} else if (data.resMap.openflg == '2'){
   							$("#saveBtn").css("display","");
@@ -188,6 +194,7 @@
 			var goodsGroupNumber = $("#goodsGroupNumber").val();
 			var goodsGroupLimit = $("#goodsGroupLimit").val();
 			var goodsGroupCurrent = $("#goodsGroupCurrent").val();
+			var goodsGroupSortOrder = $("#goodsGroupSortOrder").val();
 			var dataFromGroup = $("#dataFromGroup").val();
 			var dataToGroup = $("#dataToGroup").val();
 			var groupComment = $("#groupComment").val();
@@ -287,6 +294,7 @@
 				groupmaxquantity:goodsGroupNumber,
 				groupquantitylimit:goodsGroupLimit,
 				groupquantitycurrent:goodsGroupCurrent,
+				goodsgroupsortorder:goodsGroupSortOrder,
 				groupno:$("#hiddenGroupId").val(),
 				istopup:isTopUp,
 				ispre:isPre,
@@ -539,6 +547,38 @@
 	  		}
 	  		$(":checkbox").uniform({checkboxClass: 'myCheckClass'});
 	  	}
+	  	
+	  	function copyInsert(groupId,goodsId, obj) {
+			setGroup(groupId,goodsId, obj);
+			$("#hiddenGroupId").val('');
+			$("#modalTitle").text('<fmt:message key="OZ_TT_AD_GL_DIALOG_copyInsert" />');
+			$("#unserBtn").css("display","none");
+			$("#deleteBtn").css("display","none");
+			
+			$("#goodsGroupPrice").removeAttr("disabled");
+			$("#goodsGroupNumber").removeAttr("disabled");
+			$("#goodsGroupLimit").removeAttr("disabled");
+			$("#dataFromGroup").removeAttr("disabled");
+			$("#dataToGroup").removeAttr("disabled");
+			$("#groupComment").removeAttr("disabled");
+			$("#groupDesc").removeAttr("disabled");
+			$("#groupReminder").removeAttr("disabled");
+			$("#groupRule").removeAttr("disabled");
+			$("#isTopUpEdit").removeAttr("disabled");
+			$("#isPreEdit").removeAttr("disabled");
+			$("#isInStockEdit").removeAttr("disabled");
+			$("#isHotEdit").removeAttr("disabled");
+			$("#sellOutInitQuantity").removeAttr("disabled");
+			$("#sellOutFlg").removeAttr("disabled");
+			$("#diamondShowFlg").removeAttr("disabled");
+	        $("#enShowFlg").removeAttr("disabled");
+			$(":checkbox").uniform({checkboxClass: 'myCheckClass'});
+        }
+	  	
+	  	function toShowGoods(goodsId) {
+	  		var pageNo = $("#pageNo").val();
+			location.href = "${pageContext.request.contextPath}/OZ_TT_AD_PD/init?goodsId="+goodsId+"&pageNo="+pageNo+"&back=1";
+	  	}
   </script>
 </head>
 <body>
@@ -622,120 +662,20 @@
 					
 				</div>
 				<div class="form-group">
-					<label class="col-md-1 control-label"><fmt:message key="OZ_TT_AD_GL_topUp" /></label>
+					<label class="col-md-1 control-label">团购区域</label>
 					<div class="radio-list col-md-3">
-						<label class="radio-inline">
-						<form:radiobutton path="isTopUp" id="isTopUpId0" value="0"></form:radiobutton>
-						 <fmt:message key="COMMON_NO" />
-						 </label>
-						<label class="radio-inline">
-						<form:radiobutton path="isTopUp" id="isTopUpId1" value="1"></form:radiobutton>
-						 <fmt:message key="COMMON_YES" />
-						 </label>
-						 <label class="radio-inline">
-							<form:radiobutton path="isTopUp" value=""></form:radiobutton>
-						 	<fmt:message key="COMMON_ALL" />
-						 </label>
-					</div>
-			
-					<label class="col-md-1 control-label"><fmt:message key="OZ_TT_AD_GL_pre" /></label>
-					<div class="radio-list col-md-3">
-						<label class="radio-inline">
-						<form:radiobutton path="isPre" id="isPreId0" value="0"></form:radiobutton>
-						 <fmt:message key="COMMON_NO" />
-						 </label>
-						<label class="radio-inline">
-						<form:radiobutton path="isPre" id="isPreId1" value="1"></form:radiobutton>
-						 <fmt:message key="COMMON_YES" />
-						 </label>
-						 <label class="radio-inline">
-							<form:radiobutton path="isPre" value=""></form:radiobutton>
-						 	<fmt:message key="COMMON_ALL" />
-						 </label>
-					</div>
-					
-					<div class="col-md-4">
-						
-					</div>
-						
-				</div>
-				<div class="form-group">
-					<label class="col-md-1 control-label"><fmt:message key="OZ_TT_AD_GL_inStock" /></label>
-					<div class="radio-list col-md-3">
-						<label class="radio-inline">
-						<form:radiobutton path="isInStock" id="isInStockId0" value="0"></form:radiobutton>
-						 <fmt:message key="COMMON_NO" />
-						 </label>
-						<label class="radio-inline">
-						<form:radiobutton path="isInStock" id="isInStockId1" value="1"></form:radiobutton>
-						 <fmt:message key="COMMON_YES" />
-						 </label>
-						 <label class="radio-inline">
-							<form:radiobutton path="isInStock" value=""></form:radiobutton>
-						 	<fmt:message key="COMMON_ALL" />
-						 </label>
-					</div>
-			
-					<label class="col-md-1 control-label"><fmt:message key="OZ_TT_AD_GL_hot" /></label>
-					<div class="radio-list col-md-3">
-						<label class="radio-inline">
-						<form:radiobutton path="isHot" id="isHotId0" value="0"></form:radiobutton>
-						 <fmt:message key="COMMON_NO" />
-						 </label>
-						<label class="radio-inline">
-						<form:radiobutton path="isHot" id="isHotId1" value="1"></form:radiobutton>
-						 <fmt:message key="COMMON_YES" />
-						 </label>
-						 <label class="radio-inline">
-							<form:radiobutton path="isHot" value=""></form:radiobutton>
-						 	<fmt:message key="COMMON_ALL" />
-						 </label>
-					</div>
-					
-					<div class="col-md-4">
-						
-					</div>
-						
+						<form:select class="input-medium form-control" path="groupArea">
+	                 		<form:option value="0"><fmt:message key="COMMON_ALL" /></form:option>
+							<form:option value="1"><fmt:message key="OZ_TT_AD_GL_topUp" /></form:option>
+							<form:option value="2"><fmt:message key="OZ_TT_AD_GL_pre" /></form:option>
+							<form:option value="3"><fmt:message key="OZ_TT_AD_GL_inStock" /></form:option>
+							<form:option value="4"><fmt:message key="OZ_TT_AD_GL_hot" /></form:option>
+							<form:option value="5"><fmt:message key="OZ_TT_AD_GL_diamond" /></form:option>
+							<form:option value="6"><fmt:message key="OZ_TT_AD_GL_en" /></form:option>
+						</form:select>
+					</div>	
 				</div>
 				
-				<div class="form-group">
-					<label class="col-md-1 control-label"><fmt:message key="OZ_TT_AD_GL_diamond" /></label>
-					<div class="radio-list col-md-3">
-						<label class="radio-inline">
-						<form:radiobutton path="isDiamond" id="isDiamondId0" value="0"></form:radiobutton>
-						 <fmt:message key="COMMON_NO" />
-						 </label>
-						<label class="radio-inline">
-						<form:radiobutton path="isDiamond" id="isDiamondId1" value="1"></form:radiobutton>
-						 <fmt:message key="COMMON_YES" />
-						 </label>
-						 <label class="radio-inline">
-							<form:radiobutton path="isDiamond" value=""></form:radiobutton>
-						 	<fmt:message key="COMMON_ALL" />
-						 </label>
-					</div>
-			
-					<label class="col-md-1 control-label"><fmt:message key="OZ_TT_AD_GL_en" /></label>
-					<div class="radio-list col-md-3">
-						<label class="radio-inline">
-						<form:radiobutton path="isEn" id="isEnId0" value="0"></form:radiobutton>
-						 <fmt:message key="COMMON_NO" />
-						 </label>
-						<label class="radio-inline">
-						<form:radiobutton path="isEn" id="isEnId1" value="1"></form:radiobutton>
-						 <fmt:message key="COMMON_YES" />
-						 </label>
-						 <label class="radio-inline">
-							<form:radiobutton path="isEn" value=""></form:radiobutton>
-						 	<fmt:message key="COMMON_ALL" />
-						 </label>
-					</div>
-					
-					<div class="col-md-4">
-						
-					</div>
-						
-				</div>
 				
 				<div class="form-group textright">
 					<div style="width:85%;float:left;text-align: left;padding-left:3%">
@@ -827,7 +767,7 @@
 							 <input type="checkbox" value="${groupsItem.groupId }" class="orderSetClass"/>
 						</td>
 						<td>
-							 ${groupsItem.goodsId }
+							 <a href="#" onclick="toShowGoods('${groupsItem.goodsId}')">${groupsItem.goodsId }</a>
 						</td>
 						<td>
 							 ${groupsItem.goodsName }
@@ -876,6 +816,12 @@
 							<button type="button" class="btn green mybtn" onclick="previewGroup('${groupsItem.groupId}')">
 								<i class="fa fa-info"></i>&nbsp;<fmt:message key="COMMON_PREVIEW" />
 							</button>
+							<c:if test="${groupsItem.isOpenFlg == '2'}">
+								<button type="button" class="btn green mybtn" onclick="copyInsert('${groupsItem.groupId}','${groupsItem.goodsId}',this)">
+	                                <i class="fa fa-info"></i>&nbsp;<fmt:message key="COMMON_COPYINSERT" />
+	                            </button>
+							</c:if>
+							
 						</td>
 					</tr>
 					</c:forEach>
@@ -936,7 +882,7 @@
 			<div class="modal-content">
 				<div class="modal-header" style="text-align: center">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-					<h4 class="modal-title"><fmt:message key="OZ_TT_AD_GL_DIALOG_setGroup" /></h4>
+					<h4 class="modal-title" id="modalTitle"><fmt:message key="OZ_TT_AD_GL_DIALOG_setGroup" />
 				</div>
 				<div class="modal-body">
 					<form action="#" class="form-horizontal">
@@ -974,6 +920,12 @@
 							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_current" /></label>
 							<div class="col-md-3">
 								<input type="number" id="goodsGroupCurrent" class="input-small form-control textright"></input>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_sortOrder" /></label>
+							<div class="col-md-3">
+								<input type="number" id="goodsGroupSortOrder" class="input-small form-control textright"></input>
 							</div>
 						</div>
 						<div class="form-group">
@@ -1208,6 +1160,15 @@
 								<label class="radio-inline">
 									<input type="radio" name="isHotEdit_batch" value="0">
 									<fmt:message key="COMMON_NO" />
+								</label>
+							</div>
+						</div>
+						
+						<div class="form-group" id="maxnumber_batch_div" style="display:none">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_GL_DIALOG_number" /></label>
+							<div class="checkbox-list col-md-8">
+								<label class="checkbox-inline">
+									<input type="number"  id="maxnumber_batch" maxlength="3"></input>
 								</label>
 							</div>
 						</div>

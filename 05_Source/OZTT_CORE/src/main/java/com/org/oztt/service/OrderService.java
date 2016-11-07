@@ -11,6 +11,7 @@ import com.org.oztt.entity.TConsOrder;
 import com.org.oztt.formDto.OrderInfoDto;
 import com.org.oztt.formDto.OzTtAdOdDto;
 import com.org.oztt.formDto.OzTtAdOlListDto;
+import com.org.oztt.formDto.OzTtAdSuListDto;
 import com.org.oztt.formDto.OzTtGbOdDto;
 
 public interface OrderService {
@@ -163,4 +164,20 @@ public interface OrderService {
     public void deleteOrderInfoFormNotPay(TConsOrder tConsOrder) throws Exception;
 
     public int getAleadyPurchaseCount(Map<Object, Object> params) throws Exception;
+    
+    /**
+     * 后台管理－用户的维度查询产品的数据
+     * @param pagination
+     * @return
+     * @throws Exception
+     */
+    public PagingResult<OzTtAdSuListDto> getAllOrderByUserPointForAdmin(Pagination pagination) throws Exception;
+    
+    /**
+     * 部分更新
+     * @param orderDetailId
+     * @param status
+     * @throws Exception
+     */
+    public void updateOrderDetailStatus(String[] orderDetailId, String status, String adminComment) throws Exception;
 }

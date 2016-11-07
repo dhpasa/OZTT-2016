@@ -1,11 +1,13 @@
 package com.org.oztt.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.org.oztt.base.page.Pagination;
 import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.entity.TGoodsGroup;
 import com.org.oztt.formDto.OzTtAdGcListDto;
+import com.org.oztt.formDto.OzTtAdGsListDto;
 
 public interface TGoodsGroupDao {
     /**
@@ -65,4 +67,13 @@ public interface TGoodsGroupDao {
      * @return
      */
     List<OzTtAdGcListDto> getAllGroupsInfoForAdminNoPage();
+    
+    /**
+    *
+    * @param pagination
+    * @return
+    */
+   PagingResult<OzTtAdGsListDto> getAllGoodsRInfoForAdmin(Pagination pagination);
+   
+   Object getProductsCount(Map<Object, Object> param);
 }

@@ -1,5 +1,10 @@
 package com.org.oztt.admin.controller;
 
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -7,13 +12,20 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.org.oztt.base.page.Pagination;
 import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.contants.CommonConstants;
+import com.org.oztt.contants.CommonEnum;
+import com.org.oztt.entity.TCustomerMemberInfo;
 import com.org.oztt.formDto.OzTtAdRlListDto;
+import com.org.oztt.service.CommonService;
 import com.org.oztt.service.CustomerService;
+import com.org.oztt.service.SysConfigService;
 
 /**
  * 注册用户一览画面
@@ -23,10 +35,16 @@ import com.org.oztt.service.CustomerService;
 @Controller
 @RequestMapping("/OZ_TT_AD_RL")
 public class OzTtAdRlController extends BaseController {
-    
+
     @Resource
     private CustomerService customerService;
+
+    @Resource
+    private CommonService   commonService;
     
+    @Resource
+    private SysConfigService sysConfigService;
+
     /**
      * 注册用户检索画面
      * 
@@ -42,6 +60,7 @@ public class OzTtAdRlController extends BaseController {
             }
             Pagination pagination = new Pagination(Integer.valueOf(pageNo));
             PagingResult<OzTtAdRlListDto> pageInfo = customerService.getAllCustomerInfoForAdmin(pagination);
+            model.addAttribute("customerLevel", commonService.getCustomerLevel());
             model.addAttribute("pageInfo", pageInfo);
             return "OZ_TT_AD_RL";
         }
@@ -49,5 +68,109 @@ public class OzTtAdRlController extends BaseController {
             logger.error(e.getMessage());
             return CommonConstants.ERROR_PAGE;
         }
-    }   
+    }
+
+    /**
+     * 得到用户的积分和级别
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/getCustomerPointsAndLevel")
+    public Map<String, Object> getCustomerPointsAndLevel(HttpServletRequest request, HttpSession session,
+            @RequestParam String customerNo) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+
+            TCustomerMemberInfo tCustomerMemberInfo = customerService.getCustomerMemberInfo(customerNo);
+
+            // 后台维护的时候提示让以逗号隔开
+            mapReturn.put("tCustomerMemberInfo", tCustomerMemberInfo == null ? new TCustomerMemberInfo()
+                    : tCustomerMemberInfo);
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return null;
+        }
+    }
+    
+    
+    /**
+     * 积分和级别的保存
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/savePointAndLevel")
+    @ResponseBody
+    public Map<String, Object> savePointAndLevel(HttpServletRequest request, HttpSession session,
+            @RequestBody Map<String, String> map) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            TCustomerMemberInfo tCustomerMemberInfo = customerService.getCustomerMemberInfo(map.get("customerNo"));
+            
+            if (tCustomerMemberInfo == null) {
+                // 新增数据
+                tCustomerMemberInfo = new TCustomerMemberInfo();
+                tCustomerMemberInfo.setCustomerNo(map.get("customerNo"));
+                tCustomerMemberInfo.setLevel(map.get("level"));
+                String[] levelArr = sysConfigService.getTSysConfig().getLevelsumamount().split(",");
+                if (CommonEnum.CustomerLevel.BRONZE.getCode().equals(map.get("level"))) {
+                    tCustomerMemberInfo.setSumAmount(new BigDecimal(levelArr[0]));
+                } else if (CommonEnum.CustomerLevel.SLIVER.getCode().equals(map.get("level"))) {
+                    tCustomerMemberInfo.setSumAmount(new BigDecimal(levelArr[1])); 
+                } else if (CommonEnum.CustomerLevel.GOLD.getCode().equals(map.get("level"))) {
+                    tCustomerMemberInfo.setSumAmount(new BigDecimal(levelArr[2]));
+                } else if (CommonEnum.CustomerLevel.DIAMOND.getCode().equals(map.get("level"))) {
+                    tCustomerMemberInfo.setSumAmount(new BigDecimal(levelArr[3]));
+                } else if (CommonEnum.CustomerLevel.BLACK.getCode().equals(map.get("level"))) {
+                    
+                } else {
+                    tCustomerMemberInfo.setSumAmount(BigDecimal.ZERO);
+                }
+                tCustomerMemberInfo.setPoints(StringUtils.isEmpty(map.get("points")) ? 0 : Integer.valueOf(map.get("points")));
+                tCustomerMemberInfo.setLeftAmount(BigDecimal.ZERO);
+                tCustomerMemberInfo.setAddTimestamp(new Date());
+                tCustomerMemberInfo.setAddUserKey(CommonConstants.ADMIN_USERKEY);
+                customerService.saveTCustomerMemberInfo(tCustomerMemberInfo);
+            } else {
+                // 如果有变更
+                if (!map.get("level").equals(tCustomerMemberInfo.getLevel())) {
+                    String[] levelArr = sysConfigService.getTSysConfig().getLevelsumamount().split(",");
+                    if (CommonEnum.CustomerLevel.BRONZE.getCode().equals(map.get("level"))) {
+                        tCustomerMemberInfo.setSumAmount(new BigDecimal(levelArr[0]));
+                    } else if (CommonEnum.CustomerLevel.SLIVER.getCode().equals(map.get("level"))) {
+                        tCustomerMemberInfo.setSumAmount(new BigDecimal(levelArr[1])); 
+                    } else if (CommonEnum.CustomerLevel.GOLD.getCode().equals(map.get("level"))) {
+                        tCustomerMemberInfo.setSumAmount(new BigDecimal(levelArr[2]));
+                    } else if (CommonEnum.CustomerLevel.DIAMOND.getCode().equals(map.get("level"))) {
+                        tCustomerMemberInfo.setSumAmount(new BigDecimal(levelArr[3]));
+                    } else if (CommonEnum.CustomerLevel.BLACK.getCode().equals(map.get("level"))) {
+                        
+                    } else {
+                    }
+                }
+                // 更新数据
+                tCustomerMemberInfo.setLevel(map.get("level"));
+                tCustomerMemberInfo.setPoints(StringUtils.isEmpty(map.get("points")) ? 0 : Integer.valueOf(map.get("points")));
+                tCustomerMemberInfo.setUpdPgmId(CommonConstants.ADMIN_USERKEY);
+                tCustomerMemberInfo.setUpdTimestamp(new Date());
+                tCustomerMemberInfo.setUpdUserKey(CommonConstants.ADMIN_USERKEY);
+                customerService.updateTCustomerMemberInfo(tCustomerMemberInfo);
+            }
+            // 后台维护的时候提示让以逗号隔开
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return null;
+        }
+    }
 }

@@ -18,10 +18,11 @@
     <result column="updTimestamp" property="updtimestamp" jdbcType="TIMESTAMP" />
     <result column="updUserKey" property="upduserkey" jdbcType="VARCHAR" />
     <result column="updPgmId" property="updpgmid" jdbcType="VARCHAR" />
+    <result column="handleFlg" property="handleflg" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     no, orderNo, customerNo, goodsId, deliveryTime, specifications, quantity, groupNo, priceNo, unitPrice, 
-    sumAmount, addTimestamp, addUserKey, updTimestamp, updUserKey, updPgmId
+    sumAmount, addTimestamp, addUserKey, updTimestamp, updUserKey, updPgmId, handleFlg
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -38,13 +39,13 @@
       goodsId, deliveryTime, specifications, quantity, 
       groupNo, priceNo, unitPrice, 
       sumAmount, addTimestamp, addUserKey, 
-      updTimestamp, updUserKey, updPgmId
+      updTimestamp, updUserKey, updPgmId, handleFlg
       )
     values (#{no,jdbcType=BIGINT}, #{orderno,jdbcType=VARCHAR}, #{customerno,jdbcType=VARCHAR}, 
       #{goodsid,jdbcType=VARCHAR}, #{deliverytime,jdbcType=VARCHAR}, #{specifications,jdbcType=VARCHAR}, #{quantity,jdbcType=DECIMAL}, 
       #{groupno,jdbcType=VARCHAR}, #{priceno,jdbcType=VARCHAR}, #{unitprice,jdbcType=DECIMAL}, 
       #{sumamount,jdbcType=DECIMAL}, #{addtimestamp,jdbcType=TIMESTAMP}, #{adduserkey,jdbcType=VARCHAR}, 
-      #{updtimestamp,jdbcType=TIMESTAMP}, #{upduserkey,jdbcType=VARCHAR}, #{updpgmid,jdbcType=VARCHAR}
+      #{updtimestamp,jdbcType=TIMESTAMP}, #{upduserkey,jdbcType=VARCHAR}, #{updpgmid,jdbcType=VARCHAR}, #{handleflg,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.org.oztt.entity.TConsOrderDetails" >
@@ -98,6 +99,9 @@
       <if test="updpgmid != null" >
         updPgmId,
       </if>
+      <if test="handleflg != null" >
+        handleFlg,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="no != null" >
@@ -147,6 +151,9 @@
       </if>
       <if test="updpgmid != null" >
         #{updpgmid,jdbcType=VARCHAR},
+      </if>
+      <if test="handleflg != null" >
+        #{handleflg,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -198,6 +205,9 @@
       <if test="updpgmid != null" >
         updPgmId = #{updpgmid,jdbcType=VARCHAR},
       </if>
+      <if test="handleflg != null" >
+        handleFlg = #{handleflg,jdbcType=VARCHAR},
+      </if>
     </set>
     where no = #{no,jdbcType=BIGINT}
   </update>
@@ -217,7 +227,8 @@
       addUserKey = #{adduserkey,jdbcType=VARCHAR},
       updTimestamp = #{updtimestamp,jdbcType=TIMESTAMP},
       updUserKey = #{upduserkey,jdbcType=VARCHAR},
-      updPgmId = #{updpgmid,jdbcType=VARCHAR}
+      updPgmId = #{updpgmid,jdbcType=VARCHAR},
+      handleFlg = #{handleflg,jdbcType=VARCHAR}
     where no = #{no,jdbcType=BIGINT}
   </update>
   
@@ -234,9 +245,12 @@
 	b.goodsThumbnail as goodsImage,
 	a.quantity as goodsQuantity,
 	a.unitPrice as goodsPrice, 
-	a.specifications as goodsPropertiesDB
+	a.specifications as goodsPropertiesDB,
+	a.handleFlg as detailStatus,
+	c.inStockFlg as isStock
     from t_cons_order_details a
     inner join t_goods b on a.goodsId = b.goodsId
+    inner join t_goods_group c on a.groupNo = c.groupNo
     where a.orderNo = #{orderno,jdbcType=VARCHAR}
   </select>
   
@@ -247,5 +261,87 @@
     where orderNo = #{orderno,jdbcType=VARCHAR}
   </select>
   
-  
+   <select id="getAllOrderByUserPointForAdmin" resultType="com.org.oztt.formDto.OzTtAdSuListDto" parameterType="map" >
+     select
+     A.no as detailOrderNo,
+     D.goodsName as goodName,
+     A.quantity as goodQuantity,
+     A.unitPrice as goodUnitPrice,
+     A.sumAmount as detailAmount,
+     A.orderNo as orderNo,
+     (DATE_FORMAT(B.orderTimestamp,'%Y/%m/%d %T')) as orderTime,
+     (B.orderAmount + B.deliveryCost) as allAmount,
+     A.handleFlg as detailStatus,
+     B.handleFlg as orderStatus,
+     (DATE_FORMAT(A.updTimestamp,'%Y/%m/%d %T')) as completeTime,
+     B.commentsCustomer as orderComment,
+     B.commentsAdmin as orderCommentAdmin,
+     C.telNo as customerPhone
+     from t_cons_order_details A
+     inner join t_cons_order B on A.orderNo = B.orderNo
+     inner join t_customer_security_info C on B.customerNo = C.customerNo
+     inner join t_goods D on D.goodsId = A.goodsId
+    inner join t_customer_basic_info E on E.customerNo = B.customerNo
+     where 1=1
+     <if test="nickName != null and nickName != ''" >
+		and E.nickName like concat('%',#{nickName,jdbcType=VARCHAR},'%')
+ 	</if>
+ 	<if test="dataFrom != null and dataFrom != ''" >
+       	<![CDATA[and (DATE_FORMAT(B.orderTimestamp,'%Y/%m/%d')) >= #{dataFrom,jdbcType=VARCHAR}]]>
+     </if>
+     <if test="dataTo != null and dataTo != ''" >
+       	<![CDATA[and (DATE_FORMAT(B.orderTimestamp,'%Y/%m/%d')) <= #{dataTo,jdbcType=VARCHAR}]]>
+     </if>
+     <if test="customerPhone != null and customerPhone != ''" >
+ 		and C.telNo like concat('%',#{customerPhone,jdbcType=VARCHAR},'%')
+ 	</if>
+ 	<if test="detailHandFlg != null and detailHandFlg == 0" >
+ 		and (A.handleFlg = '0' or A.handleFlg = '1' or A.handleFlg = '2')
+ 	</if>
+ 	<if test="detailHandFlg != null and detailHandFlg == 1" >
+ 		and (A.handleFlg = '3')
+ 	</if>
+ 	order by orderNo desc,orderTime desc
+   </select>
+   
+     <select id="getAllOrderByUserPointForAdminCount" resultType="int" parameterType="map" >
+     select 
+     count(1)
+     from t_cons_order_details A
+     inner join t_cons_order B on A.orderNo = B.orderNo
+     inner join t_customer_security_info C on B.customerNo = C.customerNo
+     inner join t_customer_basic_info E on E.customerNo = B.customerNo
+     where 1=1
+     <if test="nickName != null and nickName != ''" >
+		and E.nickName like concat('%',#{nickName,jdbcType=VARCHAR},'%')
+ 	</if>
+ 	<if test="dataFrom != null and dataFrom != ''" >
+       	<![CDATA[and (DATE_FORMAT(B.orderTimestamp,'%Y/%m/%d')) >= #{dataFrom,jdbcType=VARCHAR}]]>
+     </if>
+     <if test="dataTo != null and dataTo != ''" >
+       	<![CDATA[and (DATE_FORMAT(B.orderTimestamp,'%Y/%m/%d')) <= #{dataTo,jdbcType=VARCHAR}]]>
+     </if>
+     <if test="customerPhone != null and customerPhone != ''" >
+ 		and C.telNo like concat('%',#{customerPhone,jdbcType=VARCHAR},'%')
+ 	</if>
+ 	<if test="detailHandFlg != null and detailHandFlg == 0" >
+ 		and (A.handleFlg = '0' or A.handleFlg = '1' or A.handleFlg = '2')
+ 	</if>
+ 	<if test="detailHandFlg != null and detailHandFlg == 1" >
+ 		and (A.handleFlg = '3')
+ 	</if>
+   </select>
+   
+   <select id="selectIsInStockGroupSumAmount" resultType="java.math.BigDecimal" parameterType="map" >
+    select 
+	sum(a.sumAmount)
+    from t_cons_order_details a
+    inner join t_goods_group b on a.groupNo = b.groupNo
+    where a.customerNo = #{customerNo,jdbcType=VARCHAR}
+    <if test="startDay != null and startDay != ''" >
+       	<![CDATA[and (DATE_FORMAT(a.addTimestamp,'%Y%m%d')) >= #{startDay,jdbcType=VARCHAR}]]>
+     </if>
+    and b.inStockFlg = '1'
+  </select>
+    
 </mapper>

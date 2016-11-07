@@ -1,9 +1,13 @@
 package com.org.oztt.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+import com.org.oztt.base.page.Pagination;
+import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.entity.TConsOrderDetails;
 import com.org.oztt.formDto.ContCartItemDto;
+import com.org.oztt.formDto.OzTtAdSuListDto;
 
 public interface TConsOrderDetailsDao {
     /**
@@ -54,4 +58,21 @@ public interface TConsOrderDetailsDao {
      * @return
      */
     List<TConsOrderDetails> selectDetailsByOrderId(String orderId);
+    
+    /**
+     * 分页获取订单信息(后台)
+     * @param pagination
+     * @return
+     */
+    PagingResult<OzTtAdSuListDto> getAllOrderByUserPointForAdmin(Pagination pagination);
+    
+    
+    /**
+     * 取得现货的所有金额
+     * @param orderId
+     * @return
+     */
+    BigDecimal selectIsInStockGroupSumAmount(String customerNo, String startDay);
+    
+    
 }

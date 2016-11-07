@@ -1,7 +1,9 @@
 package com.org.oztt.service.impl;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -18,15 +20,22 @@ import com.org.oztt.base.util.PasswordEncryptSalt;
 import com.org.oztt.base.util.PasswordEncryptSaltUtils;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.contants.CommonEnum;
+import com.org.oztt.dao.TConsOrderDao;
+import com.org.oztt.dao.TConsOrderDetailsDao;
 import com.org.oztt.dao.TCustomerBasicInfoDao;
 import com.org.oztt.dao.TCustomerLoginHisDao;
 import com.org.oztt.dao.TCustomerLoginInfoDao;
+import com.org.oztt.dao.TCustomerMemberInfoDao;
 import com.org.oztt.dao.TCustomerSecurityInfoDao;
+import com.org.oztt.dao.TGoodsGroupDao;
 import com.org.oztt.dao.TNoCustomerDao;
+import com.org.oztt.entity.TConsOrderDetails;
 import com.org.oztt.entity.TCustomerBasicInfo;
 import com.org.oztt.entity.TCustomerLoginHis;
 import com.org.oztt.entity.TCustomerLoginInfo;
+import com.org.oztt.entity.TCustomerMemberInfo;
 import com.org.oztt.entity.TCustomerSecurityInfo;
+import com.org.oztt.entity.TGoodsGroup;
 import com.org.oztt.entity.TNoCustomer;
 import com.org.oztt.formDto.OzTtAdRlListDto;
 import com.org.oztt.formDto.OzTtTpFpDto;
@@ -51,6 +60,18 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
 
     @Resource
     private TCustomerSecurityInfoDao tCustomerSecurityInfoDao;
+
+    @Resource
+    private TConsOrderDao            tConsOrderDao;
+
+    @Resource
+    private TConsOrderDetailsDao     tConsOrderDetailsDao;
+
+    @Resource
+    private TCustomerMemberInfoDao   tCustomerMemberInfoDao;
+
+    @Resource
+    private TGoodsGroupDao           tGoodsGroupDao;
 
     public TCustomerLoginInfo userLogin(String loginId, String password) throws Exception {
         Map<String, String> paramMap = new HashMap<String, String>();
@@ -130,7 +151,7 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
             }
         }
 
-        maxCustomer =  "CS" + maxCustomer;
+        maxCustomer = "CS" + maxCustomer;
         // 可用登录信息的保存
         TCustomerLoginInfo tCustomerLoginInfo = new TCustomerLoginInfo();
         tCustomerLoginInfo.setAddtimestamp(new Date());
@@ -197,7 +218,7 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
         TCustomerLoginInfo info = this.selectByCustomerNo(ozTtTpFpDto.getCustomerNo());
         PasswordEncryptSalt returnEnti = PasswordEncryptSaltUtils.encryptPassword(ozTtTpFpDto.getNewPassword());
         info.setLoginpass(returnEnti.getNewPassword());
-        info.setSalt(returnEnti.getSalt());        
+        info.setSalt(returnEnti.getSalt());
         info.setUpdtimestamp(new Date());
         info.setUpdpgmid("OZ_TT_TP_FP");
         info.setUpduserkey(ozTtTpFpDto.getCustomerNo());
@@ -241,6 +262,7 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
                 dto.setSex(CommonEnum.SexStatus.getEnumLabel(dto.getSex()));
                 dto.setMarriage(CommonEnum.MarriageStatus.getEnumLabel(dto.getMarriage()));
                 dto.setEducation(CommonEnum.EducationStatus.getEnumLabel(dto.getEducation()));
+                dto.setLevel(CommonEnum.CustomerLevel.getEnumLabel(dto.getLevel()));
             }
         }
         return page;
@@ -282,15 +304,17 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
                 else {
                     return null;
                 }
-            } else {
+            }
+            else {
                 // 不进行MD5加密处理
                 if (PassWordParseInMD5.Md5(password).equals(info.getLoginpass())) {
                     return info;
-                } else {
+                }
+                else {
                     return null;
                 }
             }
-            
+
         }
 
     }
@@ -307,6 +331,158 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
         TCustomerSecurityInfo param = new TCustomerSecurityInfo();
         param.setCustomerno(customerNo);
         return tCustomerSecurityInfoDao.selectByParam(param);
+    }
+
+    @Override
+    public OzTtAdRlListDto getCustomerInfoForAdmin(String customerNo) throws Exception {
+        OzTtAdRlListDto ozTtAdRlListDto = tCustomerBasicInfoDao.getCustomerInfoForAdmin(customerNo);
+        if (ozTtAdRlListDto != null) {
+            ozTtAdRlListDto
+                    .setBirthday(DateFormatUtils.date2StringWithFormat(DateFormatUtils.string2DateWithFormat(
+                            ozTtAdRlListDto.getBirthday(), DateFormatUtils.PATTEN_YMD_NO_SEPRATE),
+                            DateFormatUtils.PATTEN_YMD2));
+            ozTtAdRlListDto.setSex(CommonEnum.SexStatus.getEnumLabel(ozTtAdRlListDto.getSex()));
+            ozTtAdRlListDto.setMarriage(CommonEnum.MarriageStatus.getEnumLabel(ozTtAdRlListDto.getMarriage()));
+            ozTtAdRlListDto.setEducation(CommonEnum.EducationStatus.getEnumLabel(ozTtAdRlListDto.getEducation()));
+            return ozTtAdRlListDto;
+        }
+        else {
+            return null;
+        }
+    }
+
+    @Override
+    public void updateCustomerPointsAndLevels(String orderDetailNo, String customerNo) throws Exception {
+        // 检索当前订单的产品
+        boolean hasCurrentGroup = false;
+        BigDecimal trueCurrentAmount = BigDecimal.ZERO;
+        TConsOrderDetails detailDto = tConsOrderDetailsDao.selectByPrimaryKey(Long.valueOf(orderDetailNo));
+
+        TGoodsGroup tGoodsGroup = new TGoodsGroup();
+        tGoodsGroup.setGroupno(detailDto.getGroupno());
+        tGoodsGroup = tGoodsGroupDao.selectByParams(tGoodsGroup);
+
+        if ("1".equals(tGoodsGroup.getInstockflg())) {
+            hasCurrentGroup = true;
+            trueCurrentAmount = trueCurrentAmount.add(detailDto.getSumamount());
+        }
+
+        if (!hasCurrentGroup)
+            return; // 没有现货就直接返回
+
+        // 获取指定用户所有现货商品的总金额。
+        String startDay = super.getApplicationMessage("cal_point_day", null);
+        BigDecimal countBuy = tConsOrderDetailsDao.selectIsInStockGroupSumAmount(customerNo, startDay);
+        if (getTSysConfig() == null) {
+            // 参数没有直接退出
+            return;
+        }
+        // 如果抽出的数据为空或者为0，说明当前的产品计算时间点不能算作积分
+        if (countBuy == null || countBuy.compareTo(BigDecimal.ZERO) == 0) {
+            return;
+        }
+        
+        // 计算出积分有多少
+        BigDecimal point = countBuy.divide(tSysConfig.getPointcalcamount(), 0, BigDecimal.ROUND_DOWN);
+        
+        // 级别是什么
+        String level = getLevel(countBuy, tSysConfig.getLevelsumamount().split(","));
+
+        // 更新会员信息表
+        TCustomerMemberInfo memberInfo = tCustomerMemberInfoDao.selectByCustomerNo(customerNo);
+
+        if (memberInfo == null) {
+            // 插入
+            memberInfo = new TCustomerMemberInfo();
+            memberInfo.setAddTimestamp(new Date());
+            memberInfo.setAddUserKey(customerNo);
+            memberInfo.setCustomerNo(customerNo);
+            memberInfo.setPoints(point.intValue());
+            memberInfo.setLevel(level);
+            memberInfo.setLeftAmount(countBuy.subtract(point.multiply(tSysConfig.getPointcalcamount())));
+            memberInfo.setSumAmount(countBuy);
+            tCustomerMemberInfoDao.insertSelective(memberInfo);
+        }
+        else {
+            // 更新
+            BigDecimal All = trueCurrentAmount.add(memberInfo.getLeftAmount());
+            memberInfo.setPoints(memberInfo.getPoints()
+                    + All.divide(tSysConfig.getPointcalcamount(), 0, BigDecimal.ROUND_DOWN).intValue());
+            memberInfo.setLeftAmount(All.subtract(All.divide(tSysConfig.getPointcalcamount(), 0, BigDecimal.ROUND_DOWN)
+                    .multiply(tSysConfig.getPointcalcamount())));
+            // 级别应该是
+            level = getLevel(memberInfo.getSumAmount().add(trueCurrentAmount), tSysConfig.getLevelsumamount()
+                    .split(","));
+            memberInfo.setSumAmount(memberInfo.getSumAmount().add(trueCurrentAmount));
+            if (!CommonEnum.CustomerLevel.DIAMOND.getCode().equals(memberInfo.getLevel())) {
+                memberInfo.setLevel(level);
+            }
+            tCustomerMemberInfoDao.updateByPrimaryKeySelective(memberInfo);
+        }
+    }
+
+    /**
+     * 获取积分级别
+     * 
+     * @param point
+     * @param levelArr
+     * @return
+     */
+    private String getLevel(BigDecimal sumAmount, String[] levelArr) {
+        if (levelArr != null && levelArr.length > 0) {
+            String returnstr = "0";
+            for (int i = 0; i < levelArr.length; i++) {
+                if (i == 0) {
+                    // 第一个
+                    if (sumAmount.compareTo(new BigDecimal(levelArr[i])) < 0) {
+                        returnstr = "0";
+                        break;
+                    }
+                }
+                if (i < levelArr.length - 1 && sumAmount.compareTo(new BigDecimal(levelArr[i])) >= 0
+                        && sumAmount.compareTo(new BigDecimal(levelArr[i + 1])) < 0) {
+                    returnstr = String.valueOf(i + 1);
+                    break;
+                }
+                if (i == levelArr.length - 1) {
+                    // 最后一个
+                    if (sumAmount.compareTo(new BigDecimal(levelArr[i])) >= 0) {
+                        returnstr = "3";
+                        break;
+                    }
+                }
+
+            }
+            return returnstr;
+        }
+        else {
+            return "0";
+        }
+
+    }
+
+    @Override
+    public TCustomerMemberInfo getCustomerMemberInfo(String customerNo) throws Exception {
+        return tCustomerMemberInfoDao.selectByCustomerNo(customerNo);
+    }
+
+    @Override
+    public void saveTCustomerMemberInfo(TCustomerMemberInfo info) throws Exception {
+        tCustomerMemberInfoDao.insertSelective(info);
+    }
+
+    @Override
+    public void updateTCustomerMemberInfo(TCustomerMemberInfo info) throws Exception {
+        tCustomerMemberInfoDao.updateByPrimaryKeySelective(info);
+    }
+
+    @Override
+    public void updateCustomerPointsAndLevelsBatch(String orderNo, String customerNo) throws Exception {
+        
+        List<TConsOrderDetails> detailList = tConsOrderDetailsDao.selectDetailsByOrderId(orderNo);
+        for (TConsOrderDetails detail : detailList) {
+            this.updateCustomerPointsAndLevels(detail.getNo().toString(), customerNo);
+        }
     }
 
 }

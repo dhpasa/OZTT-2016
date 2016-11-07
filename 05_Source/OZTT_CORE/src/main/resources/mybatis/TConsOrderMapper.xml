@@ -314,7 +314,10 @@
 		<if test="orderNo != null" >
         	and A.orderNo = #{orderNo,jdbcType=VARCHAR}
       	</if>
-      	<if test="handleFlg != null" >
+      	<if test="handleFlg != null and handleFlg == 1" >
+        	and (A.handleFlg = '1' OR A.handleFlg = '2' OR A.handleFlg = '4')
+      	</if>
+      	<if test="handleFlg != null and handleFlg != 1" >
         	and A.handleFlg = #{handleFlg,jdbcType=VARCHAR}
       	</if>
       	order by addTimestamp desc
@@ -328,7 +331,10 @@
 		<if test="orderNo != null" >
         	and orderNo = #{orderNo,jdbcType=VARCHAR}
       	</if>
-      	<if test="handleFlg != null" >
+      	<if test="handleFlg != null and handleFlg == 1" >
+        	and (handleFlg = '1' OR handleFlg = '2' OR handleFlg = '4')
+      	</if>
+      	<if test="handleFlg != null and handleFlg != 1" >
         	and handleFlg = #{handleFlg,jdbcType=VARCHAR}
       	</if>
 	</select>
@@ -371,6 +377,7 @@
 		A.deliveryCost as deliveryCost,
 		A.homeDeliveryTime as atHomeTime,
 		A.commentsCustomer as commentsCustomer,
+		A.commentsAdmin as commentsAdmin,
 		B.receiver as receiver,
 		B.contactTel as contactTel,
 		Z.telNo as customerPhone,
@@ -392,6 +399,9 @@
       	</if>
 		<if test="orderStatus != null and orderStatus != ''" >
         	and A.handleFlg = #{orderStatus,jdbcType=VARCHAR}
+      	</if>
+      	<if test="customerNo != null and customerNo != ''" >
+        	and A.customerNo = #{customerNo,jdbcType=VARCHAR}
       	</if>
       	<if test="payment != null and payment != ''" >
         	and A.paymentMethod = #{payment,jdbcType=VARCHAR}
@@ -425,6 +435,9 @@
       	</if>
 		<if test="orderStatus != null and orderStatus != ''" >
         	and A.handleFlg = #{orderStatus,jdbcType=VARCHAR}
+      	</if>
+      	<if test="customerNo != null and customerNo != ''" >
+        	and A.customerNo = #{customerNo,jdbcType=VARCHAR}
       	</if>
       	<if test="payment != null and payment != ''" >
         	and A.paymentMethod = #{payment,jdbcType=VARCHAR}

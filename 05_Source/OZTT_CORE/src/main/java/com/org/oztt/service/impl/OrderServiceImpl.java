@@ -66,6 +66,7 @@ import com.org.oztt.formDto.OrderInfoDto;
 import com.org.oztt.formDto.OzTtAdOdDto;
 import com.org.oztt.formDto.OzTtAdOdListDto;
 import com.org.oztt.formDto.OzTtAdOlListDto;
+import com.org.oztt.formDto.OzTtAdSuListDto;
 import com.org.oztt.formDto.OzTtGbOdDto;
 import com.org.oztt.service.AddressService;
 import com.org.oztt.service.BaseService;
@@ -193,6 +194,12 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                         + "00");
             }
             tConsOrderDetails.setAdduserkey(customerNo);
+            if (CommonEnum.PaymentMethod.ONLINE_PAY_CWB.getCode().equals(payMethod)) {
+                tConsOrderDetails.setHandleflg(CommonEnum.HandleFlag.NOT_PAY.getCode());
+            }
+            else {
+                tConsOrderDetails.setHandleflg(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
+            }
             tConsOrderDetailsDao.insertSelective(tConsOrderDetails);
             orderAmount = orderAmount.add(tConsOrderDetails.getSumamount());
 
@@ -604,7 +611,17 @@ public class OrderServiceImpl extends BaseService implements OrderService {
     @Override
     public void updateOrderInfo(TConsOrder tConsOrder) throws Exception {
         tConsOrderDao.updateByPrimaryKeySelective(tConsOrder);
-
+        List<TConsOrderDetails> listTConsOrderDetails = new ArrayList<TConsOrderDetails>();
+        listTConsOrderDetails = tConsOrderDetailsDao.selectDetailsByOrderId(tConsOrder.getOrderno());
+        if((listTConsOrderDetails != null) && (listTConsOrderDetails.size() > 0)) {
+        	for(TConsOrderDetails tConsOrderDetails : listTConsOrderDetails) {
+                TConsOrderDetails orderDetail = tConsOrderDetailsDao.selectByPrimaryKey(tConsOrderDetails.getNo());
+                orderDetail.setHandleflg(tConsOrder.getHandleflg());
+                orderDetail.setUpduserkey(CommonConstants.ADMIN_USERKEY);
+                orderDetail.setUpdtimestamp(DateFormatUtils.getSystemTimestamp());
+                tConsOrderDetailsDao.updateByPrimaryKeySelective(orderDetail);
+            }
+        }
     }
 
     @Override
@@ -666,6 +683,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         // 设定小计合计等值
         formDto.setXiaoji(tConsOrder.getOrderamount().toString());
         formDto.setYunfei(tConsOrder.getDeliverycost().toString());
+        formDto.setCustomerComment(tConsOrder.getCommentscustomer());
         formDto.setHeji(tConsOrder.getOrderamount().add(tConsOrder.getDeliverycost()).toString());
         formDto.setLeftTime(DateFormatUtils.getTimeBetNowACreate(tConsOrder.getOrdertimestamp()));
         formDto.setGoodList(detailList);
@@ -760,6 +778,16 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         tConsOrder.setHandleflg(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
         tConsOrder.setTransactionno(maxTranctionNo);
         this.updateOrderInfo(tConsOrder);
+        
+        // 检索当前详细订单，更新状态下单成功
+        // 获取订单明细
+        List<TConsOrderDetails> detailList = tConsOrderDetailsDao.selectDetailsByOrderId(orderId);
+        for (TConsOrderDetails detail : detailList) {
+            detail.setHandleflg(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
+            tConsOrderDetailsDao.updateByPrimaryKeySelective(detail);
+        }
+        
+        tConsOrderDao.updateByPrimaryKeySelective(tConsOrder);
 
         TSysAccount tSysAccount = tSysAccountDao.selectByAccountNo("10000001"); 
         BigDecimal oldBalance = tSysAccount.getAccountbalance();
@@ -844,7 +872,9 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         dto.setDeliveryMethod(CommonEnum.DeliveryMethod.getEnumLabel(tConsOrder.getDeliverymethod()));
         dto.setInvoiceFlg(CommonEnum.InvoiceFlg.getEnumLabel(tConsOrder.getInvoiceflg()));
         dto.setOrderAmount(tConsOrder.getOrderamount().toString());
-
+        dto.setCommentsCustomer(tConsOrder.getCommentscustomer());
+        dto.setCommentsAdmin(tConsOrder.getCommentsadmin());
+        
         if (tConsOrder.getAddressid() != 0) {
             // 获取地址
             TAddressInfo tAddressInfo = tAddressInfoDao.selectByPrimaryKey(tConsOrder.getAddressid());
@@ -881,6 +911,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                 odDto.setGoodsQuantity(item.getGoodsQuantity());
                 odDto.setGoodsTotalAmount(new BigDecimal(item.getGoodsPrice()).multiply(
                         new BigDecimal(item.getGoodsQuantity())).toString());
+                odDto.setDetailStatus(item.getDetailStatus() == null ? " " : CommonEnum.DetailStatus.getEnumLabel(item.getDetailStatus()));
                 String deliveryTime = item.getDeliveryDate();
                 if (deliveryTime != null && deliveryTime.length() > 9) {
                     String dateD = DateFormatUtils.dateFormatFromTo(deliveryTime.substring(0, 8),
@@ -1286,5 +1317,86 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         int sum = tConsOrderDao.getAleadyPurchaseCount(params);
         return sum;
 
+    }
+
+    @Override
+    public PagingResult<OzTtAdSuListDto> getAllOrderByUserPointForAdmin(Pagination pagination) throws Exception {
+        PagingResult<OzTtAdSuListDto> dtoPage = tConsOrderDetailsDao.getAllOrderByUserPointForAdmin(pagination);
+        if (dtoPage.getResultList() != null && dtoPage.getResultList().size() > 0) {
+            int i = 0;
+            for (OzTtAdSuListDto detail : dtoPage.getResultList()) {
+                detail.setDetailNo(String.valueOf((dtoPage.getCurrentPage() - 1) * dtoPage.getPageSize() + ++i));
+                if (!StringUtils.isEmpty(detail.getDetailStatus())) {
+                    detail.setDetailStatusView(CommonEnum.OrderDetailHandleFlag.getEnumLabel(detail.getDetailStatus()));
+                }
+            }
+        }
+        return dtoPage;
+    }
+
+    @Override
+    public void updateOrderDetailStatus(String[] orderDetailId, String status, String adminComment) throws Exception {
+        // 将所有详细订单的状态更新
+        for(String detailId : orderDetailId) {
+            TConsOrderDetails orderDetail = tConsOrderDetailsDao.selectByPrimaryKey(Long.valueOf(detailId));
+            orderDetail.setHandleflg(status);
+            orderDetail.setUpduserkey(CommonConstants.ADMIN_USERKEY);
+            orderDetail.setUpdtimestamp(DateFormatUtils.getSystemTimestamp());
+            tConsOrderDetailsDao.updateByPrimaryKeySelective(orderDetail);
+        }       
+       
+        // 更新父状态
+        for(String detailId : orderDetailId) {
+            TConsOrderDetails orderDetail = tConsOrderDetailsDao.selectByPrimaryKey(Long.valueOf(detailId));
+            
+            // 获取订单明细
+            List<TConsOrderDetails> detailList = tConsOrderDetailsDao.selectDetailsByOrderId(orderDetail.getOrderno());
+            
+            if (CommonEnum.OrderDetailHandleFlag.SENDING.getCode().equals(status)) {
+                // 配送中
+                TConsOrder tConsOrder = tConsOrderDao.selectByOrderId(orderDetail.getOrderno());
+                tConsOrder.setHandleflg(CommonEnum.HandleFlag.SENDING.getCode());
+                tConsOrder.setCommentsadmin(adminComment);
+                // 判断是否有完成的订单
+                boolean hasComplete = false;
+                for (TConsOrderDetails detail : detailList) {
+                    if (CommonEnum.OrderDetailHandleFlag.COMPLATE.getCode().equals(detail.getHandleflg())) {
+                        // 完成
+                        hasComplete = true;
+                        break;
+                    }
+                }
+                if (hasComplete) {
+                    tConsOrder.setHandleflg(CommonEnum.HandleFlag.PART_COMPLATE.getCode());
+                }
+                tConsOrderDao.updateByPrimaryKeySelective(tConsOrder);
+                
+            } else if (CommonEnum.OrderDetailHandleFlag.COMPLATE.getCode().equals(status)) {
+                
+                // 完成
+                boolean isAllUpate = true;
+                for (TConsOrderDetails detail : detailList) {
+                    if (!CommonEnum.OrderDetailHandleFlag.COMPLATE.getCode().equals(detail.getHandleflg()) && orderDetail.getNo() != detail.getNo()) {
+                        // 非完成
+                        isAllUpate = false;
+                        break;
+                    } 
+                }
+                TConsOrder tConsOrder = tConsOrderDao.selectByOrderId(orderDetail.getOrderno());
+                if (isAllUpate) {
+                    tConsOrder.setHandleflg(CommonEnum.HandleFlag.COMPLATE.getCode());
+                    tConsOrder.setCommentsadmin(adminComment);
+                    tConsOrderDao.updateByPrimaryKeySelective(tConsOrder);
+                } else {
+                    tConsOrder.setHandleflg(CommonEnum.HandleFlag.PART_COMPLATE.getCode());
+                    tConsOrder.setCommentsadmin(adminComment);
+                    tConsOrderDao.updateByPrimaryKeySelective(tConsOrder);
+                }
+                
+                // 更新当前的积分制度
+                customerService.updateCustomerPointsAndLevels(detailId, tConsOrder.getCustomerno());
+            }
+            
+        }
     }
 }

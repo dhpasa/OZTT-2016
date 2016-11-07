@@ -50,4 +50,8 @@ public class TCustomerBasicInfoDaoImpl extends BaseDao implements TCustomerBasic
                 "com.org.oztt.dao.TCustomerBasicInfoDao.getAllCustomerInfoForAdminForPageCount", pagination);
     }
 
+    @Override
+    public OzTtAdRlListDto getCustomerInfoForAdmin(String customerNo) {
+        return selectOne("com.org.oztt.dao.TCustomerBasicInfoDao.getCustomerInfoForAdmin", customerNo);
+    }
 }

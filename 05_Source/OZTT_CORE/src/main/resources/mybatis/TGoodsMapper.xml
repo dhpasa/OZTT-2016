@@ -65,6 +65,7 @@
 		<result column="inStockLabel" property="inStockLabel" jdbcType="CHAR" />
 		<result column="hotLabel" property="hotLabel" jdbcType="CHAR" />
 		<result column="salesLabel" property="salesLabel" jdbcType="CHAR" />
+		<result column="diamondLabel" property="diamondLabel" jdbcType="CHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		no, goodsId, classId, goodsBrand, goodsName, goodsDesc, goodsComments,
@@ -485,8 +486,10 @@
 		c.inStockFlg as inStockLabel,
 		c.hotFlg as hotLabel,
 		c.topPageUp as salesLabel,
+		c.diamondShowFlg as diamondLabel,
 		c.sellOutInitQuantity as sellOutInitQuantity,
 		c.sellOutFlg as sellOutFlg,
+		c.groupQuantityLimit as groupQuantityLimit,
 		c.groupNo
 		from t_goods_group c 
 		inner join t_goods_price b on c.goodsId = b.goodsId
@@ -503,6 +506,9 @@
 		<if test="newSaleFlg != null">
 			and c.topPageUp = #{newSaleFlg,jdbcType=VARCHAR}
 		</if>
+		<if test="enShowFlg != null">
+			and c.enShowFlg = #{enShowFlg,jdbcType=VARCHAR}
+		</if>
 		<if test="goodsName != null and goodsName != '' ">
 			and a.goodsName like concat('%',#{goodsName},'%')
 		</if>
@@ -518,10 +524,13 @@
 		<if test="inStockFlg != null">
 			and c.inStockFlg = #{inStockFlg,jdbcType=VARCHAR}
 		</if>
+		<if test="diamondShowFlg != null">
+			and c.diamondShowFlg = #{diamondShowFlg,jdbcType=VARCHAR}
+		</if>
 		<if test="hotFlg != null">
 			and c.hotFlg = #{hotFlg,jdbcType=VARCHAR}
 		</if>
-		order by 
+		order by c.sortOrder desc,
 		<if test="mode == 1 ">
 			c.groupCurrentQuantity desc,
 		</if>
@@ -564,11 +573,17 @@
 		<if test="topPageUp != null">
 			and c.topPageUp = #{topPageUp,jdbcType=VARCHAR}
 		</if>
+		<if test="enShowFlg != null">
+			and c.enShowFlg = #{enShowFlg,jdbcType=VARCHAR}
+		</if>
 		<if test="preFlg != null">
 			and c.preFlg = #{preFlg,jdbcType=VARCHAR}
 		</if>
 		<if test="inStockFlg != null">
 			and c.inStockFlg = #{inStockFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="diamondShowFlg != null">
+			and c.diamondShowFlg = #{diamondShowFlg,jdbcType=VARCHAR}
 		</if>
 		<if test="hotFlg != null">
 			and c.hotFlg = #{hotFlg,jdbcType=VARCHAR}

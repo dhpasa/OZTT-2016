@@ -68,11 +68,17 @@ public class GroupItemDto {
 
     private String     salesLabel;         //秒杀
 
+    private String     diamondLabel;       //钻石
+
     private String     isOnWay;            //即将销售
-    
+
     private String     sellOutInitQuantity; // 即将售罄的数量
 
     private String     sellOutFlg;         //即将售罄
+
+    private String     groupQuantityLimit; //个人最大限购数
+
+    private String     stockStatus;        //库存状态
 
     public String getGoodsid() {
         return goodsid;
@@ -328,6 +334,30 @@ public class GroupItemDto {
 
     public void setSellOutInitQuantity(String sellOutInitQuantity) {
         this.sellOutInitQuantity = sellOutInitQuantity;
+    }
+
+    public String getGroupQuantityLimit() {
+        return groupQuantityLimit;
+    }
+
+    public void setGroupQuantityLimit(String groupQuantityLimit) {
+        this.groupQuantityLimit = groupQuantityLimit;
+    }
+
+    public String getStockStatus() {
+        return stockStatus;
+    }
+
+    public void setStockStatus(String stockStatus) {
+        this.stockStatus = stockStatus;
+    }
+
+    public String getDiamondLabel() {
+        return diamondLabel;
+    }
+
+    public void setDiamondLabel(String diamondLabel) {
+        this.diamondLabel = diamondLabel;
     }
 
 }

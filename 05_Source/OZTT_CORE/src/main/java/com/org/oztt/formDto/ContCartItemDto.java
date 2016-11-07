@@ -34,6 +34,10 @@ public class ContCartItemDto {
 
     private String                   deliveryDate;
 
+    private String                   detailStatus;
+
+    private String                   isStock; // 现货
+
     public String getGoodsId() {
         return goodsId;
     }
@@ -128,6 +132,22 @@ public class ContCartItemDto {
 
     public void setDeliveryDate(String deliveryDate) {
         this.deliveryDate = deliveryDate;
+    }
+
+    public String getDetailStatus() {
+        return detailStatus;
+    }
+
+    public void setDetailStatus(String detailStatus) {
+        this.detailStatus = detailStatus;
+    }
+
+    public String getIsStock() {
+        return isStock;
+    }
+
+    public void setIsStock(String isStock) {
+        this.isStock = isStock;
     }
 
 }

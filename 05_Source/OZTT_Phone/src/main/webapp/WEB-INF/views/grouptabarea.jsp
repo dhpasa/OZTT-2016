@@ -22,6 +22,9 @@
 		function closeLoadingDiv(){
 			$("#loadingDiv").css("display","none");
 		}
+	  	function closeNoMoreDiv(){
+	  		$("#noMoreRecordDiv").css("display","none");
+	  	}
 	  	var pageNo = 1;
 		function kTouch(contentId,way){
 		    var _start = 0,
@@ -42,6 +45,9 @@
 		    			pageNo += 1;
 		    			loadGoods();
 		    			closeLoadingDiv();
+		    			setTimeout(function(){
+		    				closeNoMoreDiv();
+		    			},1000);
 		            },1000);
 		    	}
 		    	
@@ -63,9 +69,17 @@
 			var temp9 = '    <div class="main-hasbuy">';
 			var temp10 = '    	<i class="main-hasBuy" style="float: left"></i>';
 			var temp11 = '		<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;';
+			var temp11_91 = '		<span class="item-timeword"><fmt:message key="COMMON_HAS_RUSH_PURCHASE" /></span>&nbsp;';
 			var temp12 = '		<span class="">{0}&nbsp;/&nbsp;{1}</span>';
+			
+			var temp11_1 = '<span class="stock_1"><fmt:message key="COMMON_STOCK_1" /></span>';
+			var temp11_2 = '<span class="stock_2"><fmt:message key="COMMON_STOCK_2" /></span>';
+			var temp11_3 = '<span class="stock_3"><fmt:message key="COMMON_STOCK_3" /></span>';
+			var temp11_4 = '<span class="stock_4"><fmt:message key="COMMON_STOCK_4" /></span>';
+			
 			var temp13 = '    </div>';
-			var temp14 = '    <div class="countdown-time" data-seconds-left="{0}">';   	
+			var temp14 = '    <div class="countdown-time" data-seconds-left="{0}">';   
+			var temp14_1 = '    <div class="countdown-time" data-isrush="1" data-seconds-left="{0}">'; 
 			var temp15 = '    </div>';
 			var temp31 = '<div class="main-overtime-div" style="display: inline-block;"><fmt:message key="COMMON_OVER_GROUP" /></div>';
 			var temp32 = '<div class="main-onway-div" style="display: inline-block;"><fmt:message key="COMMON_GROUP_ONWAY" /></div>';
@@ -82,6 +96,9 @@
 			
 			var temp28 = '<div class="goods-sticker-right goods-sticker-selloutLabel"></div>';
 			var temp29 = '<div class="goods-sticker-right goods-sticker-selloutLabel-en"></div>';
+			
+			var temp29_1 = '<div class="goods-sticker goods-sticker-diaLabel"></div>';
+			var temp29_2 = '<div class="goods-sticker goods-sticker-diaLabel-en"></div>';
 			
 			var temp16 = '</div>';
 			var temp17 = '</li>';
@@ -107,9 +124,30 @@
 								tempStr += temp7.replace('{0}',fmoney(dataList[i].costprice,2));
 								tempStr += temp8;
 								tempStr += temp9;
-								tempStr += temp10;
-								tempStr += temp11;
-								tempStr += temp12.replace('{0}',dataList[i].groupCurrent).replace('{1}',dataList[i].groupMax);
+								
+								if ('${tab}' == '3' || '${tab}' == '4') {
+									if (dataList[i].stockStatus == '1') {
+										tempStr += temp11_1;
+									}
+									if (dataList[i].stockStatus == '2') {
+										tempStr += temp11_2;								
+									}
+									if (dataList[i].stockStatus == '3') {
+										tempStr += temp11_3;
+									}
+									if (dataList[i].stockStatus == '4') {
+										tempStr += temp11_4;
+									}
+								} else {
+									tempStr += temp10;
+									if ('${tab}' == '1') {
+										tempStr += temp11_91;
+									} else {
+										tempStr += temp11;
+									}
+
+									tempStr += temp12.replace('{0}',dataList[i].groupCurrent).replace('{1}',dataList[i].groupMax);
+								}
 								tempStr += temp13;
 								if (dataList[i].inStockLabel != '1') {
 									if (dataList[i].isOverGroup == '1') {
@@ -118,6 +156,11 @@
 										if (dataList[i].isOnWay == '1') {
 											tempStr += temp32;
 										} else {
+											if (dataList[i].preLabel == '1') {
+												tempStr += temp14_1.replace('{0}',dataList[i].countdownTime);
+											} else {
+												tempStr += temp14.replace('{0}',dataList[i].countdownTime);
+											}
 											tempStr += temp14.replace('{0}',dataList[i].countdownTime);
 											tempStr += temp15;
 										}
@@ -152,11 +195,22 @@
 										tempStr += temp29;
 									}
 								}
+								
+								if (dataList[i].diamondLabel == '1') {
+									if ('${languageSelf}' == 'zh_CN'){
+										tempStr += temp29_1;
+									} else if('${languageSelf}' == 'en_US') {
+										tempStr += temp29_2;
+									}
+								}
 
 								tempStr += temp16;
 								tempStr += temp17;
 							}
 							$("#goodItemList").append(tempStr);
+						} else {
+							$("#noMoreRecordDiv").css("display","");
+							closeLoadingDiv();
 						}
 					} else {
 						
@@ -234,9 +288,32 @@
 							<span class="text-through"><fmt:message key="COMMON_DOLLAR" />${goodslist.costprice }</span>
 		                </div>
 		                <div class="main-hasbuy">
-		                	<i class="main-hasBuy" style="float: left"></i>	
-				   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
-				   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span>
+		                	
+		                	<c:if test="${tab != '3' && tab != '4'}">
+		                		<i class="main-hasBuy" style="float: left"></i>
+		                		<c:if test="${tab == '1'}">
+		                			<span class="item-timeword"><fmt:message key="COMMON_HAS_RUSH_PURCHASE" /></span>&nbsp;
+		                		</c:if>	
+		                		<c:if test="${tab != '1'}">
+		                			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
+		                		</c:if>	
+					   			
+					   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span>
+							</c:if>
+							<c:if test="${tab == '3' || tab == '4'}">
+					   			<c:if test="${goodslist.stockStatus == '1' }">
+					   				<span class="stock_1"><fmt:message key="COMMON_STOCK_1" /></span>
+					   			</c:if>
+					   			<c:if test="${goodslist.stockStatus == '2' }">
+					   				<span class="stock_2"><fmt:message key="COMMON_STOCK_2" /></span>
+					   			</c:if>
+					   			<c:if test="${goodslist.stockStatus == '3' }">
+					   				<span class="stock_3"><fmt:message key="COMMON_STOCK_3" /></span>
+					   			</c:if>
+					   			<c:if test="${goodslist.stockStatus == '4' }">
+					   				<span class="stock_4"><fmt:message key="COMMON_STOCK_4" /></span>
+					   			</c:if>
+				   			</c:if>
 		                </div>
 		                <c:if test="${goodslist.isOverGroup == '1' }">
 		                	<div class="main-overtime-div" style="display: inline-block;"><fmt:message key="COMMON_OVER_GROUP" /></div>
@@ -286,6 +363,14 @@
 		                		<div class="goods-sticker-right goods-sticker-selloutLabel-en"></div>
 		                	</c:if>
 		                </c:if>
+		                <c:if test="${goodslist.diamondLabel == '1' }">
+		                	<c:if test="${languageSelf == 'zh_CN' }">
+		                		<div class="goods-sticker goods-sticker-diaLabel"></div>
+		                	</c:if>
+		                	<c:if test="${languageSelf == 'en_US' }">
+		                		<div class="goods-sticker goods-sticker-diaLabel-en"></div>
+		                	</c:if>
+		                </c:if>
 					</div>
    				</li>
    				</c:forEach>
@@ -294,8 +379,12 @@
       </div>
     </div>
     
-    <div style="text-align: center;height:2rem;display: none" id="loadingDiv">
+	<div style="text-align: center;height:4rem;display:none" id="loadingDiv">
+    	<span style="display:inline-block;width: 100%;" id="hasMore"><fmt:message key="COMMON_PUSH" /></br><fmt:message key="COMMON_HASMORE" /></span>
 		<img src="${ctx}/images/loading.gif">
+	</div>
+	<div style="display: none" id="noMoreRecordDiv" class="no_more_record_bg">
+		<fmt:message key="COMMON_NOMORE_RECORD" />
 	</div>
     <script type="text/javascript">
 		$(function() {

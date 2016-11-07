@@ -35,12 +35,20 @@ public class OzTtAdRlListDto {
     private String education;
 
     private String occupation;
+    
+    private String comments;
 
     private String deleteFlg;
 
     private String canlogin;
     
     private String detailNo;
+    
+    private String basicNo;
+    
+    private String point;
+    
+    private String level;
 
     public String getTelNo() {
 		return telNo;
@@ -184,5 +192,37 @@ public class OzTtAdRlListDto {
 
     public void setDetailNo(String detailNo) {
         this.detailNo = detailNo;
+    }
+
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+
+	public String getBasicNo() {
+		return basicNo;
+	}
+
+	public void setBasicNo(String basicNo) {
+		this.basicNo = basicNo;
+	}
+
+    public String getPoint() {
+        return point;
+    }
+
+    public void setPoint(String point) {
+        this.point = point;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 }

@@ -24,6 +24,8 @@ public final class CommonEnum {
         SENDING("商品派送中", "2"),
         /** 订单已完成 */
         COMPLATE("订单已完成", "3"),
+        /** 订单部分完成 */
+        PART_COMPLATE("订单部分完成", "4"),
         /** 删除 */
         DELETED("订单已取消", "9");
 
@@ -147,6 +149,140 @@ public final class CommonEnum {
         }
     }
     
+    /**
+     * 订单详细状态
+     */
+    public enum DetailStatus implements IEnum {
+        /** 未付款 */
+        DE_NOT_PAY("未付款", "0"),
+        /** 下单成功 */
+        DE_PLACE_ORDER_SU("下单成功", "1"),
+        /** 商品派送中 */
+        DE_SENDING("商品派送中", "2"),
+        /** 完成 */
+        DE_COMPLATE("完成", "3"),
+        /** 删除 */
+        DE_DELETED("订单已取消", "9");
+
+        /** 值 */
+        private String label;
+
+        /** 键 */
+        private String code;
+
+        /**
+         * 取得枚举区分
+         * 
+         * @return String
+         */
+        public String getEnumName() {
+            return "DetailStatus";
+        }
+
+        /**
+         * 构造函数
+         * 
+         * @param label String
+         * @param code String
+         */
+        private DetailStatus(String label, String code)
+        {
+            this.label = label;
+            this.code = code;
+        }
+
+        /**
+         * 根据键取得值
+         * 
+         * @param code String
+         * @return String
+         */
+        public static String getEnumLabel(String code) {
+            for (DetailStatus c : DetailStatus.values()) {
+                if (c.getCode().equals(code)) {
+                    return c.label;
+                }
+            }
+            return null;
+        }
+
+        /**
+         * 根据值取得第一个匹配的键
+         * 
+         * @param label String
+         * @return String
+         */
+        public static String getEnumCode(String label) {
+            for (DetailStatus c : DetailStatus.values()) {
+                if (c.getLabel().equals(label)) {
+                    return c.code;
+                }
+            }
+            return null;
+        }
+
+        /**
+         * 取得下拉框列表
+         * 
+         * @return List
+         */
+        public static List<MyMap> getList() {
+            List<MyMap> resultList = new ArrayList<MyMap>();
+            for (DetailStatus c : DetailStatus.values()) {
+                MyMap dto = new MyMap();
+                dto.setKey(c.getCode());
+                dto.setValue(c.getLabel());
+                resultList.add(dto);
+            }
+            return resultList;
+        }
+
+        /**
+         * get
+         * 
+         * @return String
+         */
+        public String getLabel() {
+            return label;
+        }
+
+        /**
+         * set
+         * 
+         * @return String
+         */
+        public String getCode() {
+            return code;
+        }
+
+        /**
+         * String转换，中间加横杠
+         * 
+         * @return String
+         */
+        @Override
+        public String toString() {
+            return this.label;
+        }
+
+        /**
+         * 转换成value
+         * 
+         * @return String
+         */
+        public String toValueString() {
+            return String.valueOf(this.code);
+        }
+
+        /**
+         * 转换成label
+         * 
+         * @return String
+         */
+        public String toLabelString() {
+            return String.valueOf(this.label);
+        }
+    }
     
     /**
      * 运送方式
@@ -1468,4 +1604,276 @@ public final class CommonEnum {
         }
     }
     
+    /**
+     * 订单详细处理标志
+     */
+    public enum OrderDetailHandleFlag implements IEnum {
+        
+        /** 未付款 */
+        ORDER_NO_PAY("未付款", "0"),
+        /** 下单成功 */
+        PLACE_ORDER_SU("下单成功", "1"),
+        /** 商品派送中 */
+        SENDING("商品派送中", "2"),
+        /** 完成 */
+        COMPLATE("完成", "3"),
+        /** 取消 */
+        CANCEL("取消", "9");
+
+        /** 值 */
+        private String label;
+
+        /** 键 */
+        private String code;
+
+        /**
+         * 取得枚举区分
+         * 
+         * @return String
+         */
+        public String getEnumName() {
+            return "OrderDetailHandleFlag";
+        }
+
+        /**
+         * 构造函数
+         * 
+         * @param label String
+         * @param code String
+         */
+        private OrderDetailHandleFlag(String label, String code)
+        {
+            this.label = label;
+            this.code = code;
+        }
+
+        /**
+         * 根据键取得值
+         * 
+         * @param code String
+         * @return String
+         */
+        public static String getEnumLabel(String code) {
+            for (OrderDetailHandleFlag c : OrderDetailHandleFlag.values()) {
+                if (c.getCode().equals(code)) {
+                    return c.label;
+                }
+            }
+            return null;
+        }
+
+        /**
+         * 根据值取得第一个匹配的键
+         * 
+         * @param label String
+         * @return String
+         */
+        public static String getEnumCode(String label) {
+            for (OrderDetailHandleFlag c : OrderDetailHandleFlag.values()) {
+                if (c.getLabel().equals(label)) {
+                    return c.code;
+                }
+            }
+            return null;
+        }
+
+        /**
+         * 取得下拉框列表
+         * 
+         * @return List
+         */
+        public static List<MyMap> getList() {
+            List<MyMap> resultList = new ArrayList<MyMap>();
+            for (OrderDetailHandleFlag c : OrderDetailHandleFlag.values()) {
+                MyMap dto = new MyMap();
+                dto.setKey(c.getCode());
+                dto.setValue(c.getLabel());
+                resultList.add(dto);
+            }
+            return resultList;
+        }
+
+        /**
+         * get
+         * 
+         * @return String
+         */
+        public String getLabel() {
+            return label;
+        }
+
+        /**
+         * set
+         * 
+         * @return String
+         */
+        public String getCode() {
+            return code;
+        }
+
+        /**
+         * String转换，中间加横杠
+         * 
+         * @return String
+         */
+        @Override
+        public String toString() {
+            return this.label;
+        }
+
+        /**
+         * 转换成value
+         * 
+         * @return String
+         */
+        public String toValueString() {
+            return String.valueOf(this.code);
+        }
+
+        /**
+         * 转换成label
+         * 
+         * @return String
+         */
+        public String toLabelString() {
+            return String.valueOf(this.label);
+        }
+    }
+    
+    /**
+     * 用户级别
+     */
+    public enum CustomerLevel implements IEnum {
+        /** 默认 */
+        DEFAULT("", "0"),
+        /** 铜牌 */
+        BRONZE("铜牌", "1"),
+        /** 银牌 */
+        SLIVER("银牌", "2"),
+        /** 铜牌 */
+        GOLD("金牌", "3"),
+        /** 钻石 */
+        DIAMOND("钻石", "4"),
+        /** 黑名单 */
+        BLACK("黑名单", "5");
+
+        /** 值 */
+        private String label;
+
+        /** 键 */
+        private String code;
+
+        /**
+         * 取得枚举区分
+         * 
+         * @return String
+         */
+        public String getEnumName() {
+            return "CustomerLevel";
+        }
+
+        /**
+         * 构造函数
+         * 
+         * @param label String
+         * @param code String
+         */
+        private CustomerLevel(String label, String code)
+        {
+            this.label = label;
+            this.code = code;
+        }
+
+        /**
+         * 根据键取得值
+         * 
+         * @param code String
+         * @return String
+         */
+        public static String getEnumLabel(String code) {
+            for (CustomerLevel c : CustomerLevel.values()) {
+                if (c.getCode().equals(code)) {
+                    return c.label;
+                }
+            }
+            return null;
+        }
+
+        /**
+         * 根据值取得第一个匹配的键
+         * 
+         * @param label String
+         * @return String
+         */
+        public static String getEnumCode(String label) {
+            for (CustomerLevel c : CustomerLevel.values()) {
+                if (c.getLabel().equals(label)) {
+                    return c.code;
+                }
+            }
+            return null;
+        }
+
+        /**
+         * 取得下拉框列表
+         * 
+         * @return List
+         */
+        public static List<MyMap> getList() {
+            List<MyMap> resultList = new ArrayList<MyMap>();
+            for (CustomerLevel c : CustomerLevel.values()) {
+                MyMap dto = new MyMap();
+                dto.setKey(c.getCode());
+                dto.setValue(c.getLabel());
+                resultList.add(dto);
+            }
+            return resultList;
+        }
+
+        /**
+         * get
+         * 
+         * @return String
+         */
+        public String getLabel() {
+            return label;
+        }
+
+        /**
+         * set
+         * 
+         * @return String
+         */
+        public String getCode() {
+            return code;
+        }
+
+        /**
+         * String转换，中间加横杠
+         * 
+         * @return String
+         */
+        @Override
+        public String toString() {
+            return this.label;
+        }
+
+        /**
+         * 转换成value
+         * 
+         * @return String
+         */
+        public String toValueString() {
+            return String.valueOf(this.code);
+        }
+
+        /**
+         * 转换成label
+         * 
+         * @return String
+         */
+        public String toLabelString() {
+            return String.valueOf(this.label);
+        }
+    }
 }

@@ -34,7 +34,7 @@
 		var arrCookie=strCookie.split(";"); 
 		for(var i=0;i<arrCookie.length;i++){ 
 			var arr=arrCookie[i].split("="); 
-			if(arr[0]==name){
+			if(arr[0].trim()==name){
 				return unescape(arr[1]); 
 			}
 		} 
@@ -178,6 +178,10 @@
     <script type="text/javascript">
     var currentPath = window.location.pathname;
 	if (currentPath.indexOf("login/init") > 0) {
+		$("#main-nav-id").remove();
+	}
+	
+	if (currentPath.indexOf("item/getGoodsItem") > 0) {
 		$("#main-nav-id").remove();
 	}
 	

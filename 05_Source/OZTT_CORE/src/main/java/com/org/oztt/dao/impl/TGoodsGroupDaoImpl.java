@@ -2,6 +2,7 @@ package com.org.oztt.dao.impl;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +12,7 @@ import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.dao.TGoodsGroupDao;
 import com.org.oztt.entity.TGoodsGroup;
 import com.org.oztt.formDto.OzTtAdGcListDto;
+import com.org.oztt.formDto.OzTtAdGsListDto;
 
 @Repository
 public class TGoodsGroupDaoImpl extends BaseDao implements TGoodsGroupDao {
@@ -68,5 +70,13 @@ public class TGoodsGroupDaoImpl extends BaseDao implements TGoodsGroupDao {
     public List<OzTtAdGcListDto> getAllGroupsInfoForAdminNoPage() {
         return select("com.org.oztt.dao.TGoodsGroupDao.getAllGroupsInfoForAdmin", new HashMap<Object, Object>());
     }
-
+	@Override
+	public PagingResult<OzTtAdGsListDto> getAllGoodsRInfoForAdmin(Pagination pagination) {
+		 return selectPagination("com.org.oztt.dao.TGoodsGroupDao.searchGoodsView",
+	                "com.org.oztt.dao.TGoodsGroupDao.searchGoodsViewCount", pagination);
+	}
+	@Override
+	public Object getProductsCount(Map<Object, Object> param) {
+		return selectOne("com.org.oztt.dao.TGoodsGroupDao.searchProductsCount", param);
+	}
 }

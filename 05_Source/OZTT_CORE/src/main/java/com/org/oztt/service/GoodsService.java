@@ -3,6 +3,8 @@ package com.org.oztt.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import com.org.oztt.base.page.Pagination;
 import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.entity.TConsCart;
@@ -21,6 +23,7 @@ import com.org.oztt.formDto.GroupItemIdDto;
 import com.org.oztt.formDto.OzTtAdClDto;
 import com.org.oztt.formDto.OzTtAdGcListDto;
 import com.org.oztt.formDto.OzTtAdGlListDto;
+import com.org.oztt.formDto.OzTtAdGsListDto;
 import com.org.oztt.formDto.OzTtAdPlListDto;
 
 /**
@@ -105,7 +108,8 @@ public interface GoodsService {
      * @return
      * @throws Exception
      */
-    public PagingResult<GroupItemDto> getGoodsByParamForPage(Pagination pagination) throws Exception;
+    public PagingResult<GroupItemDto> getGoodsByParamForPage(Pagination pagination, HttpSession session) throws Exception;
+
     
     /**
      * 分页获取标签商品信息
@@ -537,4 +541,21 @@ public interface GoodsService {
      * @throws Exception
      */
     public void deleteCanNotBuyGoodsByCustomer(String customerNo) throws Exception;
+    
+    /**
+     * 产品维度查询
+     *
+     * @param pagination
+     * @return
+     * @throws Exception
+     */
+    public PagingResult<OzTtAdGsListDto> getAllGoodsRInfoForAdmin(Pagination pagination) throws Exception;
+    /**
+     * 产品维度查询
+     *
+     * @param pagination
+     * @return
+     * @throws Exception
+     */
+    public int getProductsCount(Map<Object, Object> param) throws Exception;
 }

@@ -280,6 +280,7 @@
 		      else  c.priceValue
 		      end )* a.quantity  as  goodsPrice, 
 		d.validPeriodEnd as validPeriodEnd,
+		d.inStockFlg as isStock,
 		a.goodsSpecifications as goodsPropertiesDB
 		from t_cons_cart a
 		inner join t_goods b on a.goodsId = b.goodsId

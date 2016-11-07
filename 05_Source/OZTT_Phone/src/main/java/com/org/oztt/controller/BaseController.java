@@ -35,7 +35,7 @@ public class BaseController {
             } else {
                 Locale locale = (Locale) session.getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
                 if (locale == null) {
-                    language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+                    language = "zh_CN";
                 } else {
                     language = locale.getLanguage() + "_" + locale.getCountry();
                 }
@@ -83,7 +83,7 @@ public class BaseController {
             } else {
                 Locale locale = (Locale) session.getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
                 if (locale == null) {
-                    language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+                    language = "zh_CN";
                 } else {
                     language = locale.getLanguage() + "_" + locale.getCountry();
                 }
@@ -131,7 +131,7 @@ public class BaseController {
             } else {
                 Locale locale = (Locale) session.getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
                 if (locale == null) {
-                    language = Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry();
+                    language = "zh_CN";
                 } else {
                     language = locale.getLanguage() + "_" + locale.getCountry();
                 }

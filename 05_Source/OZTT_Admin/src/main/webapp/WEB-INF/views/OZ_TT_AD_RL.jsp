@@ -10,6 +10,62 @@
   <title><fmt:message key="OZ_TT_AD_PL_title" /></title>
   
   <script type="text/javascript">
+		function toDetail(customerNo) {
+			location.href = "${pageContext.request.contextPath}/OZ_TT_AD_RD/detail?customerNo="+customerNo;
+		}
+		
+		function setLevelAndPoint(customerNo) {
+
+			$("#customerLevel").val("");
+			$("#customerPoints").val("");
+			$("#dialogCustomerNo").val(customerNo);
+	  		$.ajax({
+				type : "GET",
+				url : '${pageContext.request.contextPath}/OZ_TT_AD_RL/getCustomerPointsAndLevel?customerNo='+customerNo,
+				dataType : "json",
+				async:false,
+				success : function(data) {
+					if (data.tCustomerMemberInfo.points != null) {
+						$("#customerPoints").val(data.tCustomerMemberInfo.points);
+					}
+					if (data.tCustomerMemberInfo.level != null && data.tCustomerMemberInfo.level.length > 0) {
+						$("#customerLevel").val(data.tCustomerMemberInfo.level);
+					}
+				},
+				error : function(data) {
+					
+				}
+			});
+	  		
+	  		$('#setpointsandlevel_modal').modal('show');
+	  	}
+		
+		function UpdateLevelAndPoints(){
+			var jsonMap = {
+					customerNo:$("#dialogCustomerNo").val(),
+					points:$("#customerPoints").val(),
+					level:$("#customerLevel").val()
+				}
+				
+				$.ajax({
+					type : "POST",
+					contentType:'application/json',
+					url : '${pageContext.request.contextPath}/OZ_TT_AD_RL/savePointAndLevel',
+					dataType : "json",
+					async:false,
+					data : JSON.stringify(jsonMap), 
+					success : function(data) {
+						
+					},
+					error : function(data) {
+						
+					}
+				});
+				window.location.reload();
+		}
+  </script>
+  
+  <script type="text/javascript">
   	function pageSelected(pageNo){
 		var targetForm = document.forms['olForm'];
 		targetForm.action = "${pageContext.request.contextPath}/OZ_TT_AD_RL/search?pageNo="+pageNo;
@@ -72,31 +128,16 @@
 							 <fmt:message key="OZ_TT_AD_RL_DE_nickName" />
 						</th>
 						<th scope="col">
+							 <fmt:message key="OZ_TT_AD_RL_DE_point" />
+						</th>
+						<th scope="col">
+							 <fmt:message key="OZ_TT_AD_RL_DE_level" />
+						</th>
+						<th scope="col">
 							 <fmt:message key="OZ_TT_AD_RL_DE_canlogin" />
 						</th>
 						<th scope="col">
-							 <fmt:message key="OZ_TT_AD_RL_DE_name" />
-						</th>
-						<th scope="col">
-							 <fmt:message key="OZ_TT_AD_RL_DE_idCardNo" />
-						</th>
-						<th scope="col">
-							 <fmt:message key="OZ_TT_AD_RL_DE_passportNo" />
-						</th>
-						<th scope="col">
-							 <fmt:message key="OZ_TT_AD_RL_DE_sex" />
-						</th>
-						<th scope="col">
-							 <fmt:message key="OZ_TT_AD_RL_DE_birthday" />
-						</th>
-						<th scope="col">
-							 <fmt:message key="OZ_TT_AD_RL_DE_marriage" />
-						</th>
-						<th scope="col">
-							 <fmt:message key="OZ_TT_AD_RL_DE_education" />
-						</th>
-						<th scope="col">
-							 <fmt:message key="OZ_TT_AD_RL_DE_occupation" />
+							 <fmt:message key="OZ_TT_AD_RL_DE_control" />
 						</th>
 						
 					</tr>
@@ -117,36 +158,27 @@
 							 ${customerItem.nickName }
 						</td>
 						<td>
+							 ${customerItem.point }
+						</td>
+						<td>
+							 ${customerItem.level }
+						</td>
+						<td>
 							 <c:if test="${customerItem.canlogin == '0'}"> 	
 							 	<fmt:message key="COMMON_CANNOT" />
 							 </c:if>
 							 <c:if test="${customerItem.canlogin == '1'}">
 							 	<fmt:message key="COMMON_CAN" />
 							 </c:if>
-						</td>
+						</td>			
 						<td>
-							 ${customerItem.cnSurname }${customerItem.cnGivenname }
-						</td>
-						<td>
-							 ${customerItem.idCardNo }
-						</td>
-						<td>
-							 ${customerItem.passportNo }
-						</td>
-						<td>
-							 ${customerItem.sex }
-						</td>
-						<td>
-							 ${customerItem.birthday }
-						</td>
-						<td>
-							 ${customerItem.marriage }
-						</td>
-						<td>
-							 ${customerItem.education }
-						</td>
-						<td>
-							 ${customerItem.occupation }
+							 <button type="button" class="btn green mybtn" onclick="toDetail('${customerItem.customerNo}')">
+								<i class="fa fa-info"></i>&nbsp;<fmt:message key="COMMON_MODIFY" />
+							</button>
+							<button type="button" class="btn green mybtn" onclick="setLevelAndPoint('${customerItem.customerNo}')">
+								<i class="fa fa-info"></i>&nbsp;<fmt:message key="OZ_TT_AD_RL_DE_BTN_LEVEL" />
+							</button>
+							
 						</td>
 						
 					</tr>
@@ -202,5 +234,48 @@
 		</div>
 	</div>
 	<!-- END CONTENT -->
+	<!-- START DIALOG -->
+	<div id="setpointsandlevel_modal" class="modal fade" role="dialog" aria-hidden="true">
+		<div class="modal-dialog" style="width:1200px;">
+			<div class="modal-content">
+				<div class="modal-header" style="text-align: center">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+					<h4 class="modal-title"><fmt:message key="OZ_TT_AD_RL_DE_BTN_LEVEL" /></h4>
+				</div>
+				<div class="modal-body">
+					<form action="#" class="form-horizontal">
+						<div class="form-group" id="dataFromGroup_batch_div">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_RL_DIALOG_POINT" /></label>
+							<div class="col-md-7">
+								<div class="input-group input-large">
+									<input type="number" class="form-control" id="customerPoints"></input>
+								</div>
+							</div>
+						</div>
+						
+						<div class="form-group" id="dataFromGroup_batch_div">
+							<label class="control-label col-md-2"><fmt:message key="OZ_TT_AD_RL_DIALOG_LEVEL" /></label>
+							<div class="col-md-7">
+								<select class="form-control" id="customerLevel">
+									<option value=""></option>
+									<c:forEach var="seList" items="${ customerLevel }">
+		                   				<option value="${ seList.key }">${ seList.value }</option>
+		                   			</c:forEach>
+								</select>
+							</div>
+						</div>
+						
+						
+						<input type="hidden" value="" id="dialogCustomerNo"/>
+						
+						
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-success" onclick="UpdateLevelAndPoints()"><fmt:message key="COMMON_SUBMIT" /></button>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

@@ -190,6 +190,25 @@ a{
 	float: left !important;
 }
 
+.x-fixed{
+	width: 100%;
+    position: fixed !important;
+    top: 0rem;
+    z-index: 999;
+}
+
+.no_more_record_bg{
+	background-color: #FFEB3B;
+	text-align: center;
+	height:4rem;
+	line-height:4rem;
+}
+
+.searchButtonClass{
+	color: #666 !important;
+	border: 1px solid #FCAEB1 !important;
+	border-radius: 10px !important;
+}
 
 /* ========================================首页============================================== */
 html{
@@ -212,6 +231,25 @@ html{
 
 .icon-search {
     background: url(../images/search.png) center center/2rem 2rem no-repeat;
+}
+
+.icon-shopcart {
+    background: url(../images/cart.png) center center/3rem 3rem no-repeat;
+    position: relative;
+}
+
+.icon-shopcart span{
+	position: absolute;
+    top: 5px;
+    right: 1px;
+    line-height: 15px;
+    color: #fff;
+	width: 2rem;
+	padding: 0 3px;
+    height: 1.5rem;
+    text-align: center;
+    background-color: #FF9298;
+    border-radius: 10px !important;
 }
 
 .ico-back{
@@ -408,6 +446,7 @@ html{
 .main_goods{
 	display: inline-block;
 	margin-top: 1rem;
+	width: 100%;
 }
 
 .countdownDay{
@@ -510,6 +549,20 @@ html{
 	right: 0;
 }
 
+.goods-sticker-diaLabel {
+	background: url(../images/diamond_sell.png) no-repeat;
+	background-size: 4rem 4rem;
+	left: auto;
+	right: 0;
+}
+
+.goods-sticker-diaLabel-en {
+	background: url(../images/diamond_sell_en.png) no-repeat;
+	background-size: 4rem 4rem;
+	left: auto;
+	right: 0;
+}
+
 .goods-sticker-newLabel-en {
 	background: url(../images/newlabel_en.png) no-repeat;
 	background-size: 4rem 4rem;
@@ -555,10 +608,10 @@ html{
 
 .goods-sticker-right {
 	position: absolute;
-	top: 0;
-	right: 0;
-	width: 63px !important;
-	height: 63px;
+	top: 0.5rem;
+    right: 0;
+    width: 50px !important;
+    height: 50px;
 }
 
 .goods-sticker-selloutLabel {
@@ -631,33 +684,37 @@ html{
 
 .main-rushpur-area{
 	width: 100%;
-	display: inline-block;
-	margin-top: 1rem;
+    display: inline-block;
+    margin-top: 1rem;
+    color: #ffbc49;
+    background-color: #ffda9f;
 }
 .main-rushpur-area .rushtext{
 	width: 100%;
     float: left;
     text-align: center;
     padding: 0.5rem 1rem 0.5rem 1rem;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
 }
 .main-rushpur-area .rushmore{
 	width: 100%;
     float: left;
     text-align: right;
     padding: 0.5rem 1rem 0.5rem 1rem;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     position: absolute;
 }
 
 .main-rushpur-area .rushmore > i{
-	font-size: 1.5rem;
+	font-size: 1.8rem;
 	padding-left: 0.5rem;
 }
 
 .main-presell-area{
 	width: 100%;
 	display: inline-block;
+	color: #48beff;
+	background-color: #d6f3ff;
 }
 
 .main-presell-area .preselltext{
@@ -665,25 +722,27 @@ html{
 	float:left;
 	text-align: center;
 	padding: 0.5rem 1rem 0.5rem 1rem;
-	font-size: 1.5rem;
+	font-size: 1.8rem;
 }
 .main-presell-area .presellmore{
 	width: 100%;
     float: left;
     text-align: right;
     padding: 0.5rem 1rem 0.5rem 1rem;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     position: absolute;
 }
 
 .main-presell-area .presellmore > i{
-	font-size: 1.5rem;
+	font-size: 1.8rem;
 	padding-left: 0.5rem;
 }
 
 .main-nowsell-area{
 	width: 100%;
-	display: inline-block;
+    display: inline-block;
+    color: #14a58e;
+    background-color: #77e3d0;
 }
 
 .main-nowsell-area .nowselltext{
@@ -691,24 +750,94 @@ html{
     float: left;
     text-align: center;
     padding: 0.5rem 1rem 0.5rem 1rem;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
 }
 .main-nowsell-area .nowsellmore{
 	width: 100%;
     float: left;
     text-align: right;
     padding: 0.5rem 1rem 0.5rem 1rem;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     position: absolute;
 }
 
 .main-nowsell-area .nowsellmore > i{
-	font-size: 1.5rem;
+	font-size: 1.8rem;
 	padding-left: 0.5rem;
 }
 
 .mian_icon_class{
-	height: 1.48rem;
+	height: 1.8rem;
+}
+
+.stock_1{
+	color:red;
+	display: inline-block;
+	height: 2rem;
+	line-height: 2rem;
+	width: 100%;
+	background-color: #e09d9d;
+	color: #FFFFF;
+	font-size: 1.3rem;
+	border-radius: 5px !important;
+	border: 0.5px solid #e09d9d;
+	text-align: center;
+}
+
+.stock_2{
+	color: #c59835;
+	display: inline-block;
+	height: 2rem;
+	line-height: 2rem;
+	width: 100%;
+	background-color: #f9d860;
+	font-size: 1.3rem;
+	border-radius: 5px !important;
+	border: 0.5px solid #f9d860;
+	text-align: center;
+}
+
+.stock_3{
+	color:green;
+	display: inline-block;
+	height: 2rem;
+	line-height: 2rem;
+	width: 100%;
+	background-color: #84d084;
+	color: #FFFFF;
+	font-size: 1.3rem;
+	border-radius: 5px !important;
+	border: 0.5px solid #84d084;
+	text-align: center;
+}
+
+.stock_4{
+	color:#666;
+	display: inline-block;
+	height: 2rem;
+	line-height: 2rem;
+	width: 100%;
+	background-color: #D8D8D8;
+	color: #FFFFF;
+	font-size: 1.3rem;
+	border-radius: 5px !important;
+	border: 0.5px solid #D8D8D8;
+	text-align: center;
+}
+
+.main_rush_end{
+	color:#666;
+	display: inline-block;
+	height: 2rem;
+	line-height: 2rem;
+	width: 100%;
+	background-color: #D8D8D8;
+	color: #FFFFF;
+	font-size: 1.3rem;
+	border-radius: 5px !important;
+	border: 0.5px solid #D8D8D8;
+	text-align: center;
+	margin: 3px 0px;
 }
 
 /* ========================================我============================================== */
@@ -805,7 +934,7 @@ html{
 .order-nav a{
 	display: block;
     float: left;
-    width: 25%;
+    width: 33%;
     padding: 1rem 0rem; 
     text-align: center;
     position: relative;
@@ -881,22 +1010,83 @@ html{
 	padding:1rem 0;
 }
 
+.userlevel{
+	width: 3rem;
+    height: 3rem;
+    margin-top: 3rem;
+    float: left;
+}
+
+.userlevelspan{
+	display: block;
+    float: left;
+    margin-top: 3rem;
+    font-size: 2rem;
+    margin-left: 0.5rem;
+    color: #fff;
+}
+
+.userlevel_1 {
+	background: url(../images/Level_1.png) no-repeat;
+    background-size: 3rem 3rem;
+}
+
+.userlevel_2 {
+	background: url(../images/Level_2.png) no-repeat;
+    background-size: 3rem 3rem;
+}
+
+.userlevel_3 {
+	background: url(../images/Level_3.png) no-repeat;
+    background-size: 3rem 3rem;
+}
+
+.userlevel_4 {
+	background: url(../images/Level_4.png) no-repeat;
+    background-size: 3rem 3rem;
+}
+
+.userlevel_5 {
+	background: url(../images/Level_5.png) no-repeat;
+    background-size: 3rem 3rem;
+}
+
+.userPoints{
+	width: 100%;
+    color: #fff;
+    font-size: 1.5rem;
+    position: absolute;
+    text-align: right;
+    right: 1rem;
+    bottom: 1rem;
+}
+
 .showusername{
 	background-color: #FA6D72;
 	width: 100%;
     height: 100%;
+    position: relative;
 }
 
-.showusername span{
-	line-height: 9rem;
-	padding-left: 0rem;
-	color: #fff;
-	font-size: 2.5rem;
+.showusername > span{
+	line-height: 2rem;
+    padding-left: 0rem;
+    color: #fff;
+    font-size: 2.5rem;
+    word-break: break-word;
+    width: 60%;
+    height: 100%;
+    display: inline-block;
+    float: left;
+    padding-top: 3rem;
 }
 
 .showusername img{
-	height: 5rem;
-	padding-left: 10%;
+	padding-left: 7%;
+	width: 33%;
+    display: inline-block;
+    margin-top: 3rem;
+    float: left;
 }
 
 .user-language{
@@ -1541,8 +1731,24 @@ html{
 .item-btn{
 	width: 100%;
     position: fixed;
-    bottom: 5rem;
+    bottom: 0rem;
     z-index: 999;
+    background-color: #fff;
+}
+
+.item-btn .item-btn-nav{
+	width: 50%;
+	float:left;
+}
+
+.item-btn .item-btn-nav a{
+	width: 50%;
+	float:left;
+}
+
+.item-btn .item-btn-btn{
+	width: 50%;
+	float:left;
 }
 
 .item-btn .canBuy{
@@ -1566,6 +1772,18 @@ html{
     line-height: 5rem;
     text-align: center;
     font-size: 2rem;
+    color: #fff;
+}
+
+.item-btn .canNotBuyDiamond{
+	display: inline-block;
+    width: 100%;
+    height: 5rem;
+    background: #919191;
+    text-decoration: none;
+    line-height: 5rem;
+    text-align: center;
+    font-size: 1.5rem;
     color: #fff;
 }
 
@@ -1682,9 +1900,9 @@ html{
 }
 
 .item_flexslider .slides img{
-	width: 60% !important;
+	width: 50% !important;
     display: block;
-    margin: 0 auto !important;
+    margin: 5rem auto 0 auto !important;
 }
 
 /*==================================检索页=============================*/
@@ -1829,7 +2047,7 @@ html{
 .orderList-search-horizon .nav-tabs > li {
     float: left;
     margin-bottom: -1px;
-    width:25%;
+    width:33%;
     text-align: -webkit-center;
 }
 
@@ -2210,14 +2428,14 @@ html{
 	width: 100%;
 	display: inline-block;
 	background-color: #fff;
-	height: 5rem;
+/* 	height: 5rem; */
 }
 
 .purchase-remarks{
 	width: 100%;
 	display: inline-block;
 	background-color: #fff;
-	height: 5rem;
+	height: 10rem;
 }
 
 .purchase-delivery-span{
@@ -2231,7 +2449,7 @@ html{
 .purchase-remarks-span{
 	display: inline-block;
 	float: left;
-	line-height: 5rem;
+	line-height: 3.5rem;
 	font-size: 1.5rem;
 	padding-left: 1rem;
 }
@@ -2239,7 +2457,7 @@ html{
 .purchase-remarks-input-div{
 	display: inline-block;
 	float: left;
-	height: 5rem;
+	height: 10rem;
     line-height: 5rem;
     margin-left: 1rem;
     width: 80%;
@@ -2247,10 +2465,11 @@ html{
 
 .purchase-remarks-input{
 	border:none;
-	height: 3.5rem;
-	line-height:3.5rem;
-	border-bottom:0.5px solid #F4F4F4;
+	height: 10rem;
+	line-height:2.5rem;
 	width: 95%;
+	padding: 6px 3px !important;
+	margin: 1px !important;
 }
 
 .purchase-method{
@@ -2263,8 +2482,8 @@ html{
 .purchase-method > a {
     display: inline-block;
     line-height: 3rem;
-    width: 11.5rem;
-    margin-left: 1rem;
+    width: 10rem;
+    margin-left: 0.2rem;
     border-radius: 8px !important;
     font-size: 1.5rem;
     text-align: left;
@@ -2526,7 +2745,7 @@ html{
 .order-checkBlockBody{
 	display: inline-block;
     width: 100%;
-    height: 8rem;
+    height: 9rem;
 }
 
 .order-groupinfo{
@@ -2534,8 +2753,15 @@ html{
     padding: 10px;
     float: left;
     display: inline-block;
-    height: 8rem;
+    height: 9rem;
     border-bottom:0.5px solid #F4F4F4;
+}
+
+.order-groupinfo-status a{
+	color: #FF9298;
+    border-radius: 5px !important;
+    padding: 0px 5px;
+    float: right;
 }
 
 .order-groupinfo .order-group-img{
@@ -2887,4 +3113,12 @@ html{
 	display: inline-block;
     font-size: 1.3rem;
     margin-top: 0.5rem;
+}
+
+.user_level_div{
+	position: relative;
+    display: block;
+    width: 27%;
+    float: left;
+    height: 100%;
 }

@@ -43,12 +43,16 @@ public class CommonServiceImpl extends BaseService implements CommonService {
     private static List<MyMap>     suburbList          = null;
 
     private static List<MyMap>     orderStatusList     = null;
+    
+    private static List<MyMap>     orderDetailStatusList     = null;
 
     private static List<MyMap>     paymentList         = null;
 
     private static List<MyMap>     deliveryList        = null;
     
     private static List<MyMap>     openFlgList     = null;
+    
+    private static List<MyMap>     customerLevelList     = null;
 
     @Resource
     private TSysCodeDao            tSysCodeDao;
@@ -101,13 +105,28 @@ public class CommonServiceImpl extends BaseService implements CommonService {
         }
         return orderStatusList;
     }
-
+    @Override
+    public List<MyMap> getOrderDetailStatus() throws Exception {
+        if (orderDetailStatusList == null || orderDetailStatusList.size() == 0) {
+        	orderDetailStatusList = entityList2mapList(tSysCodeDao.selectByCodeId(SysCodeConstants.ORDER_DETAIL_STATUS));
+        }
+        return orderDetailStatusList;
+    }
+    
     @Override
     public List<MyMap> getPayment() throws Exception {
         if (paymentList == null) {
             paymentList = entityList2mapList(tSysCodeDao.selectByCodeId(SysCodeConstants.PAYMETHOD));
         }
         return paymentList;
+    }
+    
+    @Override
+    public List<MyMap> getCustomerLevel() throws Exception {
+        if (customerLevelList == null) {
+            customerLevelList = entityList2mapList(tSysCodeDao.selectByCodeId(SysCodeConstants.CUSTOMER_LEVEL));
+        }
+        return customerLevelList;
     }
 
     @Override

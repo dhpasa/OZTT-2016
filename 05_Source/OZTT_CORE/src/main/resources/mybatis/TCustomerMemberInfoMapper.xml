@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.org.oztt.dao.TCustomerMemberInfoDao" >
+  <resultMap id="BaseResultMap" type="com.org.oztt.entity.TCustomerMemberInfo" >
+    <id column="no" property="no" jdbcType="BIGINT" />
+    <result column="customerNo" property="customerNo" jdbcType="VARCHAR" />
+    <result column="memberCardNo" property="memberCardNo" jdbcType="VARCHAR" />
+    <result column="points" property="points" jdbcType="INTEGER" />
+    <result column="level" property="level" jdbcType="VARCHAR" />
+    <result column="sumAmount" property="sumAmount" jdbcType="DECIMAL" />
+    <result column="leftAmount" property="leftAmount" jdbcType="DECIMAL" />
+    <result column="addTimestamp" property="addTimestamp" jdbcType="TIMESTAMP" />
+    <result column="addUserKey" property="addUserKey" jdbcType="VARCHAR" />
+    <result column="updTimestamp" property="updTimestamp" jdbcType="TIMESTAMP" />
+    <result column="updUserKey" property="updUserKey" jdbcType="VARCHAR" />
+    <result column="updPgmId" property="updPgmId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    no, customerNo, memberCardNo, points, level, sumAmount, leftAmount, addTimestamp, addUserKey, updTimestamp, 
+    updUserKey, updPgmId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_customer_member_info
+    where no = #{no,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_customer_member_info
+    where no = #{no,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.org.oztt.entity.TCustomerMemberInfo" >
+    insert into t_customer_member_info (no, customerNo, memberCardNo, 
+      points, level, sumAmount, leftAmount, addTimestamp, 
+      addUserKey, updTimestamp, updUserKey, 
+      updPgmId)
+    values (#{no,jdbcType=BIGINT}, #{customerNo,jdbcType=VARCHAR}, #{memberCardNo,jdbcType=VARCHAR}, 
+      #{points,jdbcType=INTEGER}, #{level,jdbcType=VARCHAR}, #{sumAmount,jdbcType=DECIMAL}, 
+      #{leftAmount,jdbcType=DECIMAL}, #{addTimestamp,jdbcType=TIMESTAMP}, 
+      #{addUserKey,jdbcType=VARCHAR}, #{updTimestamp,jdbcType=TIMESTAMP}, #{updUserKey,jdbcType=VARCHAR}, 
+      #{updPgmId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.org.oztt.entity.TCustomerMemberInfo" >
+    insert into t_customer_member_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="no != null" >
+        no,
+      </if>
+      <if test="customerNo != null" >
+        customerNo,
+      </if>
+      <if test="memberCardNo != null" >
+        memberCardNo,
+      </if>
+      <if test="points != null" >
+        points,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="sumAmount != null" >
+        sumAmount,
+      </if>
+      <if test="leftAmount != null" >
+        leftAmount,
+      </if>
+      <if test="addTimestamp != null" >
+        addTimestamp,
+      </if>
+      <if test="addUserKey != null" >
+        addUserKey,
+      </if>
+      <if test="updTimestamp != null" >
+        updTimestamp,
+      </if>
+      <if test="updUserKey != null" >
+        updUserKey,
+      </if>
+      <if test="updPgmId != null" >
+        updPgmId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="no != null" >
+        #{no,jdbcType=BIGINT},
+      </if>
+      <if test="customerNo != null" >
+        #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="memberCardNo != null" >
+        #{memberCardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="points != null" >
+        #{points,jdbcType=INTEGER},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="sumAmount != null" >
+        #{sumAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="leftAmount != null" >
+        #{leftAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="addTimestamp != null" >
+        #{addTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addUserKey != null" >
+        #{addUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updTimestamp != null" >
+        #{updTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updUserKey != null" >
+        #{updUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updPgmId != null" >
+        #{updPgmId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.org.oztt.entity.TCustomerMemberInfo" >
+    update t_customer_member_info
+    <set >
+      <if test="customerNo != null" >
+        customerNo = #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="memberCardNo != null" >
+        memberCardNo = #{memberCardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="points != null" >
+        points = #{points,jdbcType=INTEGER},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="sumAmount != null" >
+        sumAmount = #{sumAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="leftAmount != null" >
+        leftAmount = #{leftAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="addTimestamp != null" >
+        addTimestamp = #{addTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addUserKey != null" >
+        addUserKey = #{addUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updTimestamp != null" >
+        updTimestamp = #{updTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updUserKey != null" >
+        updUserKey = #{updUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updPgmId != null" >
+        updPgmId = #{updPgmId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where no = #{no,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.org.oztt.entity.TCustomerMemberInfo" >
+    update t_customer_member_info
+    set customerNo = #{customerNo,jdbcType=VARCHAR},
+      memberCardNo = #{memberCardNo,jdbcType=VARCHAR},
+      points = #{points,jdbcType=INTEGER},
+      level = #{level,jdbcType=VARCHAR},
+      sumAmount = #{sumAmount,jdbcType=DECIMAL},
+      leftAmount = #{leftAmount,jdbcType=DECIMAL},
+      addTimestamp = #{addTimestamp,jdbcType=TIMESTAMP},
+      addUserKey = #{addUserKey,jdbcType=VARCHAR},
+      updTimestamp = #{updTimestamp,jdbcType=TIMESTAMP},
+      updUserKey = #{updUserKey,jdbcType=VARCHAR},
+      updPgmId = #{updPgmId,jdbcType=VARCHAR}
+    where no = #{no,jdbcType=BIGINT}
+  </update>
+  <select id="selectByCustomerNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_customer_member_info
+    where customerNo = #{customer,jdbcType=VARCHAR}
+  </select>
+</mapper>

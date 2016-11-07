@@ -81,6 +81,19 @@
 					<span>$${goodslist.goodsPrice }</span>	
 					<div class="order-item-group">X${goodslist.goodsQuantity }</div>		
 				</div>
+				<c:if test="${goodslist.detailStatus == '0' }">
+					<div class="order-groupinfo-status"><a><fmt:message key="COMMON_ORDER_DETAIL_HANDLE_0" /></a></div>
+				</c:if>
+				<c:if test="${goodslist.detailStatus == '1' }">
+					<div class="order-groupinfo-status"><a><fmt:message key="COMMON_ORDER_DETAIL_HANDLE_1" /></a></div>
+				</c:if>
+				<c:if test="${goodslist.detailStatus == '2' }">
+					<div class="order-groupinfo-status"><a><fmt:message key="COMMON_ORDER_DETAIL_HANDLE_2" /></a></div>
+				</c:if>
+				<c:if test="${goodslist.detailStatus == '3' }">
+					<div class="order-groupinfo-status"><a><fmt:message key="COMMON_ORDER_DETAIL_HANDLE_3" /></a></div>
+				</c:if>
+				
 			</div>
 		</div>
 		</c:forEach>
@@ -96,13 +109,17 @@
 			<div class="paytitle"><fmt:message key="ORDER_ITEM_DELIVERYMETHOD" /></div>
 			<div class="paycontent">${ detailInfo.deliveryMethodView}</div>
 		</div>
+<!-- 		<div class="order-item-payinfo top-padding"> -->
+<%-- 			<div class="paytitle"><fmt:message key="ORDER_ITEM_UNIFY" /></div> --%>
+<%-- 			<div class="paycontent">${ detailInfo.deliveryDate} ${ detailInfo.deleveryTime}</div> --%>
+<!-- 		</div> -->
 		<div class="order-item-payinfo top-padding">
-			<div class="paytitle"><fmt:message key="ORDER_ITEM_UNIFY" /></div>
-			<div class="paycontent">${ detailInfo.deliveryDate} ${ detailInfo.deleveryTime}</div>
-		</div>
-		<div class="order-item-payinfo bottom-padding">
 			<div class="paytitle"><fmt:message key="ORDER_ITEM_FEIGHT" /></div>
 			<div class="paycontent">${ detailInfo.yunfei}</div>
+		</div>
+		<div class="order-item-payinfo bottom-padding">
+			<div class="paytitle"><fmt:message key="ORDER_ITEM_COMMENT" /></div>
+			<div class="paycontent">${ detailInfo.customerComment}</div>
 		</div>
 		
 	</div>
