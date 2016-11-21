@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.org.oztt.dao.TPowderBoxMapper" >
+  <resultMap id="BaseResultMap" type="com.org.oztt.entity.TPowderBox" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="elecExpressNo" property="elecExpressNo" jdbcType="VARCHAR" />
+    <result column="expressDate" property="expressDate" jdbcType="VARCHAR" />
+    <result column="deliverId" property="deliverId" jdbcType="VARCHAR" />
+    <result column="senderId" property="senderId" jdbcType="VARCHAR" />
+    <result column="receiverId" property="receiverId" jdbcType="VARCHAR" />
+    <result column="ifRemarks" property="ifRemarks" jdbcType="CHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="ifMsg" property="ifMsg" jdbcType="CHAR" />
+    <result column="additionalCost" property="additionalCost" jdbcType="DECIMAL" />
+    <result column="sumAmount" property="sumAmount" jdbcType="DECIMAL" />
+    <result column="expressPhotoUrl" property="expressPhotoUrl" jdbcType="VARCHAR" />
+    <result column="boxPhotoUrls" property="boxPhotoUrls" jdbcType="VARCHAR" />
+    <result column="orderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="handleStatus" property="handleStatus" jdbcType="CHAR" />
+    <result column="addTimestamp" property="addTimestamp" jdbcType="TIMESTAMP" />
+    <result column="addUserKey" property="addUserKey" jdbcType="VARCHAR" />
+    <result column="updTimestamp" property="updTimestamp" jdbcType="TIMESTAMP" />
+    <result column="updUserKey" property="updUserKey" jdbcType="VARCHAR" />
+    <result column="updPgmId" property="updPgmId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, elecExpressNo, expressDate, deliverId, senderId, receiverId, ifRemarks, remarks, 
+    ifMsg, additionalCost, sumAmount, expressPhotoUrl, boxPhotoUrls, orderId, handleStatus, 
+    addTimestamp, addUserKey, updTimestamp, updUserKey, updPgmId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_powder_box
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_powder_box
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.org.oztt.entity.TPowderBox" >
+    insert into t_powder_box (id, elecExpressNo, expressDate, 
+      deliverId, senderId, receiverId, 
+      ifRemarks, remarks, ifMsg, 
+      additionalCost, sumAmount, expressPhotoUrl, 
+      boxPhotoUrls, orderId, handleStatus, 
+      addTimestamp, addUserKey, updTimestamp, 
+      updUserKey, updPgmId)
+    values (#{id,jdbcType=BIGINT}, #{elecExpressNo,jdbcType=VARCHAR}, #{expressDate,jdbcType=VARCHAR}, 
+      #{deliverId,jdbcType=VARCHAR}, #{senderId,jdbcType=VARCHAR}, #{receiverId,jdbcType=VARCHAR}, 
+      #{ifRemarks,jdbcType=CHAR}, #{remarks,jdbcType=VARCHAR}, #{ifMsg,jdbcType=CHAR}, 
+      #{additionalCost,jdbcType=DECIMAL}, #{sumAmount,jdbcType=DECIMAL}, #{expressPhotoUrl,jdbcType=VARCHAR}, 
+      #{boxPhotoUrls,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{handleStatus,jdbcType=CHAR}, 
+      #{addTimestamp,jdbcType=TIMESTAMP}, #{addUserKey,jdbcType=VARCHAR}, #{updTimestamp,jdbcType=TIMESTAMP}, 
+      #{updUserKey,jdbcType=VARCHAR}, #{updPgmId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.org.oztt.entity.TPowderBox" >
+    insert into t_powder_box
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="elecExpressNo != null" >
+        elecExpressNo,
+      </if>
+      <if test="expressDate != null" >
+        expressDate,
+      </if>
+      <if test="deliverId != null" >
+        deliverId,
+      </if>
+      <if test="senderId != null" >
+        senderId,
+      </if>
+      <if test="receiverId != null" >
+        receiverId,
+      </if>
+      <if test="ifRemarks != null" >
+        ifRemarks,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="ifMsg != null" >
+        ifMsg,
+      </if>
+      <if test="additionalCost != null" >
+        additionalCost,
+      </if>
+      <if test="sumAmount != null" >
+        sumAmount,
+      </if>
+      <if test="expressPhotoUrl != null" >
+        expressPhotoUrl,
+      </if>
+      <if test="boxPhotoUrls != null" >
+        boxPhotoUrls,
+      </if>
+      <if test="orderId != null" >
+        orderId,
+      </if>
+      <if test="handleStatus != null" >
+        handleStatus,
+      </if>
+      <if test="addTimestamp != null" >
+        addTimestamp,
+      </if>
+      <if test="addUserKey != null" >
+        addUserKey,
+      </if>
+      <if test="updTimestamp != null" >
+        updTimestamp,
+      </if>
+      <if test="updUserKey != null" >
+        updUserKey,
+      </if>
+      <if test="updPgmId != null" >
+        updPgmId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="elecExpressNo != null" >
+        #{elecExpressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="expressDate != null" >
+        #{expressDate,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverId != null" >
+        #{deliverId,jdbcType=VARCHAR},
+      </if>
+      <if test="senderId != null" >
+        #{senderId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null" >
+        #{receiverId,jdbcType=VARCHAR},
+      </if>
+      <if test="ifRemarks != null" >
+        #{ifRemarks,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="ifMsg != null" >
+        #{ifMsg,jdbcType=CHAR},
+      </if>
+      <if test="additionalCost != null" >
+        #{additionalCost,jdbcType=DECIMAL},
+      </if>
+      <if test="sumAmount != null" >
+        #{sumAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="expressPhotoUrl != null" >
+        #{expressPhotoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="boxPhotoUrls != null" >
+        #{boxPhotoUrls,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="handleStatus != null" >
+        #{handleStatus,jdbcType=CHAR},
+      </if>
+      <if test="addTimestamp != null" >
+        #{addTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addUserKey != null" >
+        #{addUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updTimestamp != null" >
+        #{updTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updUserKey != null" >
+        #{updUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updPgmId != null" >
+        #{updPgmId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.org.oztt.entity.TPowderBox" >
+    update t_powder_box
+    <set >
+      <if test="elecExpressNo != null" >
+        elecExpressNo = #{elecExpressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="expressDate != null" >
+        expressDate = #{expressDate,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverId != null" >
+        deliverId = #{deliverId,jdbcType=VARCHAR},
+      </if>
+      <if test="senderId != null" >
+        senderId = #{senderId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null" >
+        receiverId = #{receiverId,jdbcType=VARCHAR},
+      </if>
+      <if test="ifRemarks != null" >
+        ifRemarks = #{ifRemarks,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="ifMsg != null" >
+        ifMsg = #{ifMsg,jdbcType=CHAR},
+      </if>
+      <if test="additionalCost != null" >
+        additionalCost = #{additionalCost,jdbcType=DECIMAL},
+      </if>
+      <if test="sumAmount != null" >
+        sumAmount = #{sumAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="expressPhotoUrl != null" >
+        expressPhotoUrl = #{expressPhotoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="boxPhotoUrls != null" >
+        boxPhotoUrls = #{boxPhotoUrls,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        orderId = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="handleStatus != null" >
+        handleStatus = #{handleStatus,jdbcType=CHAR},
+      </if>
+      <if test="addTimestamp != null" >
+        addTimestamp = #{addTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addUserKey != null" >
+        addUserKey = #{addUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updTimestamp != null" >
+        updTimestamp = #{updTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updUserKey != null" >
+        updUserKey = #{updUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updPgmId != null" >
+        updPgmId = #{updPgmId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.org.oztt.entity.TPowderBox" >
+    update t_powder_box
+    set elecExpressNo = #{elecExpressNo,jdbcType=VARCHAR},
+      expressDate = #{expressDate,jdbcType=VARCHAR},
+      deliverId = #{deliverId,jdbcType=VARCHAR},
+      senderId = #{senderId,jdbcType=VARCHAR},
+      receiverId = #{receiverId,jdbcType=VARCHAR},
+      ifRemarks = #{ifRemarks,jdbcType=CHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      ifMsg = #{ifMsg,jdbcType=CHAR},
+      additionalCost = #{additionalCost,jdbcType=DECIMAL},
+      sumAmount = #{sumAmount,jdbcType=DECIMAL},
+      expressPhotoUrl = #{expressPhotoUrl,jdbcType=VARCHAR},
+      boxPhotoUrls = #{boxPhotoUrls,jdbcType=VARCHAR},
+      orderId = #{orderId,jdbcType=VARCHAR},
+      handleStatus = #{handleStatus,jdbcType=CHAR},
+      addTimestamp = #{addTimestamp,jdbcType=TIMESTAMP},
+      addUserKey = #{addUserKey,jdbcType=VARCHAR},
+      updTimestamp = #{updTimestamp,jdbcType=TIMESTAMP},
+      updUserKey = #{updUserKey,jdbcType=VARCHAR},
+      updPgmId = #{updPgmId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
