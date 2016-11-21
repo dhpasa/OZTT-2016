@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.org.oztt.dao.TSenderInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.org.oztt.entity.TSenderInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="senderName" property="senderName" jdbcType="VARCHAR" />
+    <result column="senderTel" property="senderTel" jdbcType="VARCHAR" />
+    <result column="customerId" property="customerId" jdbcType="VARCHAR" />
+    <result column="deleteFlg" property="deleteFlg" jdbcType="CHAR" />
+    <result column="addTimestamp" property="addTimestamp" jdbcType="TIMESTAMP" />
+    <result column="addUserKey" property="addUserKey" jdbcType="VARCHAR" />
+    <result column="updTimestamp" property="updTimestamp" jdbcType="TIMESTAMP" />
+    <result column="updUserKey" property="updUserKey" jdbcType="VARCHAR" />
+    <result column="updPgmId" property="updPgmId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, senderName, senderTel, customerId, deleteFlg, addTimestamp, addUserKey, updTimestamp, 
+    updUserKey, updPgmId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sender_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_sender_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.org.oztt.entity.TSenderInfo" >
+    insert into t_sender_info (id, senderName, senderTel, 
+      customerId, deleteFlg, addTimestamp, 
+      addUserKey, updTimestamp, updUserKey, 
+      updPgmId)
+    values (#{id,jdbcType=BIGINT}, #{senderName,jdbcType=VARCHAR}, #{senderTel,jdbcType=VARCHAR}, 
+      #{customerId,jdbcType=VARCHAR}, #{deleteFlg,jdbcType=CHAR}, #{addTimestamp,jdbcType=TIMESTAMP}, 
+      #{addUserKey,jdbcType=VARCHAR}, #{updTimestamp,jdbcType=TIMESTAMP}, #{updUserKey,jdbcType=VARCHAR}, 
+      #{updPgmId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.org.oztt.entity.TSenderInfo" >
+    insert into t_sender_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="senderName != null" >
+        senderName,
+      </if>
+      <if test="senderTel != null" >
+        senderTel,
+      </if>
+      <if test="customerId != null" >
+        customerId,
+      </if>
+      <if test="deleteFlg != null" >
+        deleteFlg,
+      </if>
+      <if test="addTimestamp != null" >
+        addTimestamp,
+      </if>
+      <if test="addUserKey != null" >
+        addUserKey,
+      </if>
+      <if test="updTimestamp != null" >
+        updTimestamp,
+      </if>
+      <if test="updUserKey != null" >
+        updUserKey,
+      </if>
+      <if test="updPgmId != null" >
+        updPgmId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="senderName != null" >
+        #{senderName,jdbcType=VARCHAR},
+      </if>
+      <if test="senderTel != null" >
+        #{senderTel,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlg != null" >
+        #{deleteFlg,jdbcType=CHAR},
+      </if>
+      <if test="addTimestamp != null" >
+        #{addTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addUserKey != null" >
+        #{addUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updTimestamp != null" >
+        #{updTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updUserKey != null" >
+        #{updUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updPgmId != null" >
+        #{updPgmId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.org.oztt.entity.TSenderInfo" >
+    update t_sender_info
+    <set >
+      <if test="senderName != null" >
+        senderName = #{senderName,jdbcType=VARCHAR},
+      </if>
+      <if test="senderTel != null" >
+        senderTel = #{senderTel,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        customerId = #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlg != null" >
+        deleteFlg = #{deleteFlg,jdbcType=CHAR},
+      </if>
+      <if test="addTimestamp != null" >
+        addTimestamp = #{addTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addUserKey != null" >
+        addUserKey = #{addUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updTimestamp != null" >
+        updTimestamp = #{updTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updUserKey != null" >
+        updUserKey = #{updUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updPgmId != null" >
+        updPgmId = #{updPgmId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.org.oztt.entity.TSenderInfo" >
+    update t_sender_info
+    set senderName = #{senderName,jdbcType=VARCHAR},
+      senderTel = #{senderTel,jdbcType=VARCHAR},
+      customerId = #{customerId,jdbcType=VARCHAR},
+      deleteFlg = #{deleteFlg,jdbcType=CHAR},
+      addTimestamp = #{addTimestamp,jdbcType=TIMESTAMP},
+      addUserKey = #{addUserKey,jdbcType=VARCHAR},
+      updTimestamp = #{updTimestamp,jdbcType=TIMESTAMP},
+      updUserKey = #{updUserKey,jdbcType=VARCHAR},
+      updPgmId = #{updPgmId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectSendInfoList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sender_info
+    where customerId = #{customerId,jdbcType=VARCHAR}
+  </select>
+</mapper>

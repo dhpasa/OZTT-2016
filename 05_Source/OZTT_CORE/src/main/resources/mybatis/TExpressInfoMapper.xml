@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.org.oztt.dao.TExpressInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.org.oztt.entity.TExpressInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="expressName" property="expressName" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="priceCoefficient" property="priceCoefficient" jdbcType="DECIMAL" />
+    <result column="deleteFlg" property="deleteFlg" jdbcType="CHAR" />
+    <result column="addTimestamp" property="addTimestamp" jdbcType="TIMESTAMP" />
+    <result column="addUserKey" property="addUserKey" jdbcType="VARCHAR" />
+    <result column="updTimestamp" property="updTimestamp" jdbcType="TIMESTAMP" />
+    <result column="updUserKey" property="updUserKey" jdbcType="VARCHAR" />
+    <result column="updPgmId" property="updPgmId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, expressName, remarks, priceCoefficient, deleteFlg, addTimestamp, addUserKey, 
+    updTimestamp, updUserKey, updPgmId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_express_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_express_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.org.oztt.entity.TExpressInfo" >
+    insert into t_express_info (id, expressName, remarks, 
+      priceCoefficient, deleteFlg, addTimestamp, 
+      addUserKey, updTimestamp, updUserKey, 
+      updPgmId)
+    values (#{id,jdbcType=BIGINT}, #{expressName,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{priceCoefficient,jdbcType=DECIMAL}, #{deleteFlg,jdbcType=CHAR}, #{addTimestamp,jdbcType=TIMESTAMP}, 
+      #{addUserKey,jdbcType=VARCHAR}, #{updTimestamp,jdbcType=TIMESTAMP}, #{updUserKey,jdbcType=VARCHAR}, 
+      #{updPgmId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.org.oztt.entity.TExpressInfo" >
+    insert into t_express_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="expressName != null" >
+        expressName,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="priceCoefficient != null" >
+        priceCoefficient,
+      </if>
+      <if test="deleteFlg != null" >
+        deleteFlg,
+      </if>
+      <if test="addTimestamp != null" >
+        addTimestamp,
+      </if>
+      <if test="addUserKey != null" >
+        addUserKey,
+      </if>
+      <if test="updTimestamp != null" >
+        updTimestamp,
+      </if>
+      <if test="updUserKey != null" >
+        updUserKey,
+      </if>
+      <if test="updPgmId != null" >
+        updPgmId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="expressName != null" >
+        #{expressName,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="priceCoefficient != null" >
+        #{priceCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="deleteFlg != null" >
+        #{deleteFlg,jdbcType=CHAR},
+      </if>
+      <if test="addTimestamp != null" >
+        #{addTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addUserKey != null" >
+        #{addUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updTimestamp != null" >
+        #{updTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updUserKey != null" >
+        #{updUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updPgmId != null" >
+        #{updPgmId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.org.oztt.entity.TExpressInfo" >
+    update t_express_info
+    <set >
+      <if test="expressName != null" >
+        expressName = #{expressName,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="priceCoefficient != null" >
+        priceCoefficient = #{priceCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="deleteFlg != null" >
+        deleteFlg = #{deleteFlg,jdbcType=CHAR},
+      </if>
+      <if test="addTimestamp != null" >
+        addTimestamp = #{addTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addUserKey != null" >
+        addUserKey = #{addUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updTimestamp != null" >
+        updTimestamp = #{updTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updUserKey != null" >
+        updUserKey = #{updUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updPgmId != null" >
+        updPgmId = #{updPgmId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.org.oztt.entity.TExpressInfo" >
+    update t_express_info
+    set expressName = #{expressName,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      priceCoefficient = #{priceCoefficient,jdbcType=DECIMAL},
+      deleteFlg = #{deleteFlg,jdbcType=CHAR},
+      addTimestamp = #{addTimestamp,jdbcType=TIMESTAMP},
+      addUserKey = #{addUserKey,jdbcType=VARCHAR},
+      updTimestamp = #{updTimestamp,jdbcType=TIMESTAMP},
+      updUserKey = #{updUserKey,jdbcType=VARCHAR},
+      updPgmId = #{updPgmId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  
+  <select id="selectAllExpressInfo" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_express_info
+    where deleteFlg = '0'
+  </select>
+</mapper>

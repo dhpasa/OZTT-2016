@@ -11,53 +11,53 @@ public class BaseEntity implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 1L;
 
-    private Date addtimestamp;
+    Date                      addtimestamp;
 
-    private String adduserkey;
+    String                    adduserkey;
 
-    private Date updtimestamp;
+    Date                      updtimestamp;
 
-    private String upduserkey;
+    String                    upduserkey;
 
-    private String updpgmid;
+    String                    updpgmid;
 
-	public Date getAddtimestamp() {
-		return addtimestamp;
-	}
+    public Date getAddtimestamp() {
+        return addtimestamp;
+    }
 
-	public void setAddtimestamp(Date addtimestamp) {
-		this.addtimestamp = addtimestamp;
-	}
+    public void setAddtimestamp(Date addtimestamp) {
+        this.addtimestamp = addtimestamp;
+    }
 
-	public String getAdduserkey() {
-		return adduserkey;
-	}
+    public String getAdduserkey() {
+        return adduserkey;
+    }
 
-	public void setAdduserkey(String adduserkey) {
-		this.adduserkey = adduserkey;
-	}
+    public void setAdduserkey(String adduserkey) {
+        this.adduserkey = adduserkey;
+    }
 
-	public Date getUpdtimestamp() {
-		return updtimestamp;
-	}
+    public Date getUpdtimestamp() {
+        return updtimestamp;
+    }
 
-	public void setUpdtimestamp(Date updtimestamp) {
-		this.updtimestamp = updtimestamp;
-	}
+    public void setUpdtimestamp(Date updtimestamp) {
+        this.updtimestamp = updtimestamp;
+    }
 
-	public String getUpduserkey() {
-		return upduserkey;
-	}
+    public String getUpduserkey() {
+        return upduserkey;
+    }
 
-	public void setUpduserkey(String upduserkey) {
-		this.upduserkey = upduserkey;
-	}
+    public void setUpduserkey(String upduserkey) {
+        this.upduserkey = upduserkey;
+    }
 
-	public String getUpdpgmid() {
-		return updpgmid;
-	}
+    public String getUpdpgmid() {
+        return updpgmid;
+    }
 
-	public void setUpdpgmid(String updpgmid) {
-		this.updpgmid = updpgmid;
-	}
+    public void setUpdpgmid(String updpgmid) {
+        this.updpgmid = updpgmid;
+    }
 }

@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
-<html>
+<html style="width:100%;height:100%;-webkit-overflow-scrolling:touch;">
 <head>
   <meta charset="utf-8">
   <title><sitemesh:write property='title' /></title>
@@ -21,6 +21,25 @@
 
 	  ga('create', 'UA-80000609-1', 'auto');
 	  ga('send', 'pageview');
+	  
+  jQuery.fn.slideLeftHide = function( speed, callback ) {  
+        this.animate({  
+            width : "hide",  
+            paddingLeft : "hide",  
+            paddingRight : "hide",  
+            marginLeft : "hide",  
+            marginRight : "hide"  
+        }, speed, callback );  
+    };  
+    jQuery.fn.slideLeftShow = function( speed, callback ) {  
+        this.animate({  
+            width : "show",  
+            paddingLeft : "show",  
+            paddingRight : "show",  
+            marginLeft : "show",  
+            marginRight : "show"  
+        }, speed, callback );  
+    };  
 	//添加COOKIE	
 	function addCookie(objName,objValue){
 	    var infostr = objName + '=' + escape(objValue);
@@ -182,6 +201,10 @@
 	}
 	
 	if (currentPath.indexOf("item/getGoodsItem") > 0) {
+		$("#main-nav-id").remove();
+	}
+	
+	if (currentPath.indexOf("milkPowderAutoPurchase") > 0) {
 		$("#main-nav-id").remove();
 	}
 	
