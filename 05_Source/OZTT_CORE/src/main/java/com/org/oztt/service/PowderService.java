@@ -3,9 +3,9 @@ package com.org.oztt.service;
 import java.util.List;
 
 import com.org.oztt.entity.TExpressInfo;
-import com.org.oztt.entity.TPowderInfo;
 import com.org.oztt.entity.TReceiverInfo;
 import com.org.oztt.entity.TSenderInfo;
+import com.org.oztt.formDto.PowderInfoViewDto;
 
 public interface PowderService {
 
@@ -21,7 +21,7 @@ public interface PowderService {
      * @return
      * @throws Exception
      */
-    public List<TPowderInfo> selectPowderInfo() throws Exception;
+    public List<PowderInfoViewDto> selectPowderInfo() throws Exception;
     
     /**
      * 检索当前客户收件信息
@@ -94,4 +94,12 @@ public interface PowderService {
      * @throws Exception
      */
     public TReceiverInfo getReveiverInfo(long id) throws Exception;
+    
+    /**
+     * 通过code获取品牌名称
+     * @param code
+     * @return
+     * @throws Exception
+     */
+    public String getBrandNameByCode(String code) throws Exception;
 }

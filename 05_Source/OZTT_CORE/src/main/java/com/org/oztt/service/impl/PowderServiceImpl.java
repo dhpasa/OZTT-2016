@@ -11,10 +11,12 @@ import com.org.oztt.dao.TPowderInfoDao;
 import com.org.oztt.dao.TReceiverInfoDao;
 import com.org.oztt.dao.TSenderInfoDao;
 import com.org.oztt.entity.TExpressInfo;
-import com.org.oztt.entity.TPowderInfo;
 import com.org.oztt.entity.TReceiverInfo;
 import com.org.oztt.entity.TSenderInfo;
+import com.org.oztt.entity.TSysCode;
+import com.org.oztt.formDto.PowderInfoViewDto;
 import com.org.oztt.service.BaseService;
+import com.org.oztt.service.CommonService;
 import com.org.oztt.service.PowderService;
 
 @Service
@@ -31,6 +33,9 @@ public class PowderServiceImpl extends BaseService implements PowderService {
     
     @Resource
     private TSenderInfoDao tSenderInfoDao;
+    
+    @Resource
+    private CommonService commonService;
 
     @Override
     public List<TExpressInfo> selectAllExpressInfo() throws Exception {
@@ -38,7 +43,7 @@ public class PowderServiceImpl extends BaseService implements PowderService {
     }
 
     @Override
-    public List<TPowderInfo> selectPowderInfo() throws Exception {
+    public List<PowderInfoViewDto> selectPowderInfo() throws Exception {
         return tPowderInfoDao.selectAllPowderInfoList();
     }
 
@@ -90,6 +95,20 @@ public class PowderServiceImpl extends BaseService implements PowderService {
     @Override
     public TReceiverInfo getReveiverInfo(long id) throws Exception {
         return tReceiverInfoDao.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public String getBrandNameByCode(String code) throws Exception {
+        List<TSysCode> codeList = commonService.getPowderStage();
+        String res = code;
+        if (codeList != null && codeList.size() > 0) {
+            for (TSysCode tSysCode : codeList) {
+                if (code.equals(tSysCode.getCodedetailid())) {
+                    res = tSysCode.getCodedetailname();
+                }
+            }
+        } 
+        return res;
     }
 
 }

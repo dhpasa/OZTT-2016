@@ -3,6 +3,7 @@ package com.org.oztt.dao;
 import java.util.List;
 
 import com.org.oztt.entity.TPowderInfo;
+import com.org.oztt.formDto.PowderInfoViewDto;
 
 public interface TPowderInfoDao {
     int deleteByPrimaryKey(Long id);
@@ -17,5 +18,5 @@ public interface TPowderInfoDao {
 
     int updateByPrimaryKey(TPowderInfo record);
     
-    List<TPowderInfo> selectAllPowderInfoList();
+    List<PowderInfoViewDto> selectAllPowderInfoList();
 }

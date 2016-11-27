@@ -32,27 +32,29 @@ import com.org.oztt.service.CommonService;
 @Service
 public class CommonServiceImpl extends BaseService implements CommonService {
 
-    private static List<MyMap>     sexMapList          = null;
+    private static List<MyMap>     sexMapList            = null;
 
-    private static List<MyMap>     educationMapList    = null;
+    private static List<MyMap>     educationMapList      = null;
 
-    private static List<MyMap>     marriageMapList     = null;
+    private static List<MyMap>     marriageMapList       = null;
 
-    private static List<MyMap>     deliveryTimeMapList = null;
+    private static List<MyMap>     deliveryTimeMapList   = null;
 
-    private static List<MyMap>     suburbList          = null;
+    private static List<MyMap>     suburbList            = null;
 
-    private static List<MyMap>     orderStatusList     = null;
-    
-    private static List<MyMap>     orderDetailStatusList     = null;
+    private static List<MyMap>     orderStatusList       = null;
 
-    private static List<MyMap>     paymentList         = null;
+    private static List<MyMap>     orderDetailStatusList = null;
 
-    private static List<MyMap>     deliveryList        = null;
-    
-    private static List<MyMap>     openFlgList     = null;
-    
+    private static List<MyMap>     paymentList           = null;
+
+    private static List<MyMap>     deliveryList          = null;
+
+    private static List<MyMap>     openFlgList           = null;
+
     private static List<MyMap>     customerLevelList     = null;
+
+    private static List<TSysCode>  powderStageList       = null;
 
     @Resource
     private TSysCodeDao            tSysCodeDao;
@@ -97,7 +99,7 @@ public class CommonServiceImpl extends BaseService implements CommonService {
         }
         return deliveryTimeMapList;
     }
-    
+
     @Override
     public List<MyMap> getOrderStatus() throws Exception {
         if (orderStatusList == null) {
@@ -105,14 +107,15 @@ public class CommonServiceImpl extends BaseService implements CommonService {
         }
         return orderStatusList;
     }
+
     @Override
     public List<MyMap> getOrderDetailStatus() throws Exception {
         if (orderDetailStatusList == null || orderDetailStatusList.size() == 0) {
-        	orderDetailStatusList = entityList2mapList(tSysCodeDao.selectByCodeId(SysCodeConstants.ORDER_DETAIL_STATUS));
+            orderDetailStatusList = entityList2mapList(tSysCodeDao.selectByCodeId(SysCodeConstants.ORDER_DETAIL_STATUS));
         }
         return orderDetailStatusList;
     }
-    
+
     @Override
     public List<MyMap> getPayment() throws Exception {
         if (paymentList == null) {
@@ -120,7 +123,7 @@ public class CommonServiceImpl extends BaseService implements CommonService {
         }
         return paymentList;
     }
-    
+
     @Override
     public List<MyMap> getCustomerLevel() throws Exception {
         if (customerLevelList == null) {
@@ -199,8 +202,9 @@ public class CommonServiceImpl extends BaseService implements CommonService {
         String random = CommonUtils.getRandomNum(6);
         logger.info(random);
         phone = phone.replaceAll(" ", "");
-        String sendPhone = phone.startsWith("0") ? "61"+phone.substring(1) : phone;
-        boolean sendStatus = SendSMS.SendMessages(CommonConstants.PHONEUNMER_FIRST + sendPhone, msg.replace(CommonConstants.MESSAGE_PARAM_ONE, random));
+        String sendPhone = phone.startsWith("0") ? "61" + phone.substring(1) : phone;
+        boolean sendStatus = SendSMS.SendMessages(CommonConstants.PHONEUNMER_FIRST + sendPhone,
+                msg.replace(CommonConstants.MESSAGE_PARAM_ONE, random));
         if (sendStatus) {
             // 发送正确则插入数据
             TSysValidateMessage tSysValidateMessage = tSysValidateMessageDao.getInfoByPhone(phone);
@@ -266,12 +270,20 @@ public class CommonServiceImpl extends BaseService implements CommonService {
         return suburbList;
     }
 
-	@Override
-	public List<MyMap> getOpenFlg() throws Exception {
+    @Override
+    public List<MyMap> getOpenFlg() throws Exception {
         if (openFlgList == null) {
-        	openFlgList = entityList2mapList(tSysCodeDao.selectByCodeId(SysCodeConstants.OPEN_FLG));
+            openFlgList = entityList2mapList(tSysCodeDao.selectByCodeId(SysCodeConstants.OPEN_FLG));
         }
         return openFlgList;
-	}
+    }
+
+    @Override
+    public List<TSysCode> getPowderStage() throws Exception {
+        if (powderStageList == null) {
+            powderStageList = tSysCodeDao.selectByCodeId(SysCodeConstants.POWDER_STAGE);
+        }
+        return powderStageList;
+    }
 
 }

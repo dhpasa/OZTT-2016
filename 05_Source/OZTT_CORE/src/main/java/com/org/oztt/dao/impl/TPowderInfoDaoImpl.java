@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.org.oztt.base.dao.BaseDao;
 import com.org.oztt.dao.TPowderInfoDao;
 import com.org.oztt.entity.TPowderInfo;
+import com.org.oztt.formDto.PowderInfoViewDto;
 
 @Repository
 public class TPowderInfoDaoImpl extends BaseDao implements TPowderInfoDao {
@@ -48,7 +49,7 @@ public class TPowderInfoDaoImpl extends BaseDao implements TPowderInfoDao {
     }
 
     @Override
-    public List<TPowderInfo> selectAllPowderInfoList() {
+    public List<PowderInfoViewDto> selectAllPowderInfoList() {
         return select("com.org.oztt.dao.TPowderInfoMapper.selectAllPowderInfoList", null);
     }
 

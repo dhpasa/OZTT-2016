@@ -187,11 +187,13 @@
   </update>
   
   
-  <select id="selectAllPowderInfoList" resultMap="BaseResultMap">
+  <select id="selectAllPowderInfoList" resultType="com.org.oztt.formDto.PowderInfoViewDto">
     select 
-    <include refid="Base_Column_List" />
-    from t_powder_info
-    where status = '1'
-    order by powderBrand,powderSpec
+    a.id, a.powderNo, a.powderType, a.powderBrand, b.brandName as powderBrandName, a.powderSpec, a.powderPrice, a.remarks, a.status, 
+    a.addTimestamp, a.addUserKey, a.updTimestamp, a.updUserKey, a.updPgmId
+    from t_powder_info a
+    inner join t_brand_info b on a.powderBrand = b.id
+    where a.status = '1'
+    order by a.powderBrand,a.powderSpec
   </select>
 </mapper>

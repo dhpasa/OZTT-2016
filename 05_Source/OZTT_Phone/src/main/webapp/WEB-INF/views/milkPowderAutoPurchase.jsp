@@ -549,7 +549,7 @@
 				<tbody>
 					<c:forEach var="powderList" items="${ PowderInfoList }" varStatus="status">
 					<tr>
-					    <td>${powderList.powderBrand }</td>
+					    <td>${powderList.powderBrandName }</td>
 					    <td>${powderList.powderSpec }</td>
 					    <td>${powderList.powderPrice }</td>
 				    </tr>

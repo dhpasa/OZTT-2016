@@ -32,4 +32,7 @@ public final class SysCodeConstants {
 
     // 订单明细状态
     public static final String ORDER_DETAIL_STATUS = "COM012";
+
+    // 奶粉段数
+    public static final String POWDER_STAGE        = "COM021";
 }

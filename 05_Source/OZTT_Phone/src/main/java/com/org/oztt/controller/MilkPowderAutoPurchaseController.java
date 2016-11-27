@@ -20,10 +20,10 @@ import com.alibaba.fastjson.JSON;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.entity.TCustomerBasicInfo;
 import com.org.oztt.entity.TExpressInfo;
-import com.org.oztt.entity.TPowderInfo;
 import com.org.oztt.entity.TReceiverInfo;
 import com.org.oztt.entity.TSenderInfo;
 import com.org.oztt.formDto.PowderCommonDto;
+import com.org.oztt.formDto.PowderInfoViewDto;
 import com.org.oztt.service.CustomerService;
 import com.org.oztt.service.PowderService;
 
@@ -48,13 +48,14 @@ public class MilkPowderAutoPurchaseController extends BaseController {
     public String init(Model model, HttpServletRequest request, HttpSession session) {
         try {
             // 取得奶粉信息
-            List<TPowderInfo> powderList = powderService.selectPowderInfo();
+            List<PowderInfoViewDto> powderList = powderService.selectPowderInfo();
             model.addAttribute("powderList", JSON.toJSONString(powderList));
-            List<TPowderInfo> powderListForView = new ArrayList<TPowderInfo>();
+            List<PowderInfoViewDto> powderListForView = new ArrayList<PowderInfoViewDto>();
             if (powderList != null && powderList.size() > 0) {
-                for (TPowderInfo detail : powderList) {
-                    TPowderInfo bean = new TPowderInfo();
+                for (PowderInfoViewDto detail : powderList) {
+                    PowderInfoViewDto bean = new PowderInfoViewDto();
                     PropertyUtils.copyProperties(bean, detail);
+                    bean.setPowderSpec(powderService.getBrandNameByCode(bean.getPowderSpec()));
                     bean.setPowderPrice(bean.getPowderPrice().multiply(CommonConstants.POWDER_NUMBER));
                     powderListForView.add(bean);
                 }
@@ -73,7 +74,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             PowderCommonDto specDto = new PowderCommonDto();
             List<PowderCommonDto> specDtoList = new ArrayList<PowderCommonDto>();
             if (powderList != null && powderList.size() > 0) {
-                for (TPowderInfo detail : powderList) {
+                for (PowderInfoViewDto detail : powderList) {
                     if (!StringUtils.isEmpty(powderBrand) && !powderBrand.equals(detail.getPowderBrand())) {
                         addDto.setChild(specDtoList);
                         powderJsonList.add(addDto);
@@ -81,7 +82,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
                         specDtoList = new ArrayList<PowderCommonDto>();
                     }
                     addDto.setId(detail.getPowderBrand());
-                    addDto.setName(detail.getPowderBrand());
+                    addDto.setName(detail.getPowderBrandName());
 
                     specDto = new PowderCommonDto();
                     specDto.setId(detail.getPowderSpec());
