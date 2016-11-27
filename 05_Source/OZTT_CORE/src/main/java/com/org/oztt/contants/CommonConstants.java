@@ -20,6 +20,8 @@ public final class CommonConstants {
 
     public static final String     SESSION_CUSTOMERNO         = "sessionUserId";                        // 用来保存的用户名
 
+    public static final String     SESSION_CUSTOMER_AUTOID    = "sessionAutoNo";                        // 用来保存的自增序列
+
     public static final String     SESSION_CUSTOMERNAME       = "sessionUserName";                      // 用来保存的用户名
 
     public static final String     SESSION_DIAMOND_CUSTOMER   = "sessionDiamondCustomer";               // 用来保存的用户名

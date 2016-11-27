@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.org.oztt.base.common.MyCategroy;
 import com.org.oztt.base.common.MyMap;
+import com.org.oztt.entity.TSysCode;
 
 /**
  * 共同模块的调用
@@ -31,6 +32,8 @@ public interface CommonService {
     public List<MyMap> getOpenFlg() throws Exception;
     
     public List<MyMap> getCustomerLevel() throws Exception;
+    
+    public List<TSysCode> getPowderStage() throws Exception;
 
     /**
      * 检索出菜单项目

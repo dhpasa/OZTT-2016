@@ -190,5 +190,6 @@
     <include refid="Base_Column_List" />
     from t_receiver_info
     where customerId = #{customerId,jdbcType=VARCHAR}
+    and deleteFlg = '0'
   </select>
 </mapper>
