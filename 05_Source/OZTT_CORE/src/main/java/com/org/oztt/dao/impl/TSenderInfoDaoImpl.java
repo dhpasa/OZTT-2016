@@ -13,8 +13,7 @@ public class TSenderInfoDaoImpl extends BaseDao implements TSenderInfoDao {
 
     @Override
     public int deleteByPrimaryKey(Long id) {
-        // TODO Auto-generated method stub
-        return 0;
+        return update("com.org.oztt.dao.TSenderInfoMapper.deleteByPrimaryKey", id);
     }
 
     @Override
@@ -25,20 +24,17 @@ public class TSenderInfoDaoImpl extends BaseDao implements TSenderInfoDao {
 
     @Override
     public int insertSelective(TSenderInfo record) {
-        // TODO Auto-generated method stub
-        return 0;
+        return insert("com.org.oztt.dao.TSenderInfoMapper.insertSelective", record);
     }
 
     @Override
     public TSenderInfo selectByPrimaryKey(Long id) {
-        // TODO Auto-generated method stub
-        return null;
+        return selectOne("com.org.oztt.dao.TSenderInfoMapper.selectByPrimaryKey", id);
     }
 
     @Override
     public int updateByPrimaryKeySelective(TSenderInfo record) {
-        // TODO Auto-generated method stub
-        return 0;
+        return update("com.org.oztt.dao.TSenderInfoMapper.updateByPrimaryKeySelective", record);
     }
 
     @Override

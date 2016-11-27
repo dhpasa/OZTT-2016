@@ -13,8 +13,7 @@ public class TReceiverInfoDaoImpl extends BaseDao implements TReceiverInfoDao {
 
     @Override
     public int deleteByPrimaryKey(Long id) {
-        // TODO Auto-generated method stub
-        return 0;
+        return update("com.org.oztt.dao.TReceiverInfoMapper.deleteByPrimaryKey", id);
     }
 
     @Override
@@ -25,20 +24,17 @@ public class TReceiverInfoDaoImpl extends BaseDao implements TReceiverInfoDao {
 
     @Override
     public int insertSelective(TReceiverInfo record) {
-        // TODO Auto-generated method stub
-        return 0;
+        return insert("com.org.oztt.dao.TReceiverInfoMapper.insertSelective", record);
     }
 
     @Override
     public TReceiverInfo selectByPrimaryKey(Long id) {
-        // TODO Auto-generated method stub
-        return null;
+        return selectOne("com.org.oztt.dao.TReceiverInfoMapper.selectByPrimaryKey", id);
     }
 
     @Override
     public int updateByPrimaryKeySelective(TReceiverInfo record) {
-        // TODO Auto-generated method stub
-        return 0;
+        return update("com.org.oztt.dao.TReceiverInfoMapper.updateByPrimaryKeySelective", record);
     }
 
     @Override

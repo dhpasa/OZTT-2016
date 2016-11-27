@@ -52,4 +52,44 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         return tSenderInfoDao.selectSendInfoList(customerNo);
     }
 
+    @Override
+    public void insertSendInfo(TSenderInfo tSenderInfo) throws Exception {
+        tSenderInfoDao.insertSelective(tSenderInfo);
+    }
+
+    @Override
+    public void insertReveiverInfo(TReceiverInfo tReceiverInfo) throws Exception {
+        tReceiverInfoDao.insertSelective(tReceiverInfo);
+    }
+
+    @Override
+    public void updateSendInfo(TSenderInfo tSenderInfo) throws Exception {
+        tSenderInfoDao.updateByPrimaryKeySelective(tSenderInfo);
+    }
+
+    @Override
+    public void updateReveiverInfo(TReceiverInfo tReceiverInfo) throws Exception {
+        tReceiverInfoDao.updateByPrimaryKeySelective(tReceiverInfo);
+    }
+
+    @Override
+    public void deleteSendInfo(long id) throws Exception {
+        tSenderInfoDao.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public void deleteReveiverInfo(long id) throws Exception {
+        tReceiverInfoDao.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public TSenderInfo getSendInfo(long id) throws Exception {
+        return tSenderInfoDao.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public TReceiverInfo getReveiverInfo(long id) throws Exception {
+        return tReceiverInfoDao.selectByPrimaryKey(id);
+    }
+
 }

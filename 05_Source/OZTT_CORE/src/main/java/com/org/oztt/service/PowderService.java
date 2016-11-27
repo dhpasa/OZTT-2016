@@ -38,4 +38,60 @@ public interface PowderService {
      * @throws Exception
      */
     public List<TSenderInfo> selectSenderInfoList(String customerNo) throws Exception;
+    
+    /**
+     * 登录发件人信息
+     * @param tSenderInfo
+     * @throws Exception
+     */
+    public void insertSendInfo(TSenderInfo tSenderInfo) throws Exception;
+    
+    /**
+     * 登录收件人信息
+     * @param tReceiverInfo
+     * @throws Exception
+     */
+    public void insertReveiverInfo(TReceiverInfo tReceiverInfo) throws Exception;
+    
+    /**
+     * 更新发件人信息
+     * @param tSenderInfo
+     * @throws Exception
+     */
+    public void updateSendInfo(TSenderInfo tSenderInfo) throws Exception;
+    
+    /**
+     * 更新收件人信息
+     * @param tReceiverInfo
+     * @throws Exception
+     */
+    public void updateReveiverInfo(TReceiverInfo tReceiverInfo) throws Exception;
+    
+    /**
+     * 删除发件人信息
+     * @param id
+     * @throws Exception
+     */
+    public void deleteSendInfo(long id) throws Exception;
+    
+    /**
+     * 删除收货人信息
+     * @param id
+     * @throws Exception
+     */
+    public void deleteReveiverInfo(long id) throws Exception;
+    
+    /**
+     * 检索发件人信息
+     * @param id
+     * @throws Exception
+     */
+    public TSenderInfo getSendInfo(long id) throws Exception;
+    
+    /**
+     * 检索收货人信息
+     * @param id
+     * @throws Exception
+     */
+    public TReceiverInfo getReveiverInfo(long id) throws Exception;
 }
