@@ -23,8 +23,7 @@ public class TPowderBoxDaoImpl extends BaseDao implements TPowderBoxDao {
 
     @Override
     public int insertSelective(TPowderBox record) {
-        // TODO Auto-generated method stub
-        return 0;
+        return insert("com.org.oztt.dao.TPowderBoxMapper.insertSelective", record);
     }
 
     @Override
@@ -43,6 +42,11 @@ public class TPowderBoxDaoImpl extends BaseDao implements TPowderBoxDao {
     public int updateByPrimaryKey(TPowderBox record) {
         // TODO Auto-generated method stub
         return 0;
+    }
+
+    @Override
+    public int selectAutoIncrement() {
+        return selectOne("com.org.oztt.dao.TPowderBoxMapper.selectAutoIncrement", null);
     }
 
 }

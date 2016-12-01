@@ -424,7 +424,9 @@ public final class CommonEnum {
         /** 货到付款 */
         COD("货到付款", "2"),  
         /** 来店付款 */
-        PAY_INSTORE("来店付款", "3");
+        PAY_INSTORE("来店付款", "3"),
+        /** 微信支付 */
+        WE_CHAT("微信支付", "4");
 
         /** 值 */
         private String label;

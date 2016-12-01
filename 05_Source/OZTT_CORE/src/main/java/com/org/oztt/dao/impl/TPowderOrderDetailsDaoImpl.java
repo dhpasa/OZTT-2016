@@ -23,8 +23,7 @@ public class TPowderOrderDetailsDaoImpl extends BaseDao implements TPowderOrderD
 
     @Override
     public int insertSelective(TPowderOrderDetails record) {
-        // TODO Auto-generated method stub
-        return 0;
+        return insert("com.org.oztt.dao.TPowderOrderDetailsMapper.insertSelective", record);
     }
 
     @Override

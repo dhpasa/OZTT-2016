@@ -3689,7 +3689,7 @@ html{
 .dialog-content {
     text-align: center;
     padding: 1em;
-    color: #666;
+    color: #fff;
     line-height: 200%;
     font-size: 14px;
 }
@@ -3723,6 +3723,27 @@ html{
     color: #fff;
 }
 
+.powder_purchase_select ul{
+	list-style: none;
+}
 
+.powder_purchase_select ul li{
+	padding: 10px 5px;
+}
 
+.powder_purchase_confirm{
+	width: 100%;
+	display: inline-block;
+}
 
+.powder_purchase_confirm a {
+    display: inline-block;
+    width: 100%;
+    height: 4rem;
+    background: #FF9298;
+    text-decoration: none;
+    line-height: 4rem;
+    text-align: center;
+    font-size: 1.5rem;
+    color: #fff;
+}

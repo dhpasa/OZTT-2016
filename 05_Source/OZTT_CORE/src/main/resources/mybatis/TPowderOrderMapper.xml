@@ -209,4 +209,21 @@
       updPgmId = #{updPgmId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  <select id="selectAutoIncrement" resultType="int">
+  	SELECT Auto_increment
+	FROM information_schema.`TABLES`
+	WHERE Table_Schema='oztt'
+	AND table_name = 't_powder_order'
+  </select>
+  
+  <select id="selectByParam" resultMap="BaseResultMap" parameterType="com.org.oztt.entity.TPowderOrder">
+  	select 
+    <include refid="Base_Column_List" />
+    from t_powder_order
+    where 1=1
+    <if test="ordreNo != null" >
+        and ordreNo = #{ordreNo,jdbcType=VARCHAR}
+    </if>
+  </select>
 </mapper>

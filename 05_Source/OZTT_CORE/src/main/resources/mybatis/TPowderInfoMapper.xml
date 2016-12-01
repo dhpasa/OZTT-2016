@@ -196,4 +196,17 @@
     where a.status = '1'
     order by a.powderBrand,a.powderSpec
   </select>
+  
+  <select id="selectByParam" resultMap="BaseResultMap" parameterType="com.org.oztt.entity.TPowderInfo" >
+  	select 
+    <include refid="Base_Column_List" />
+    from t_powder_info
+    where 1 = 1
+    <if test="powderBrand != null" >
+        and powderBrand = #{powderBrand,jdbcType=VARCHAR}
+      </if>
+      <if test="powderSpec != null" >
+        and powderSpec = #{powderSpec,jdbcType=CHAR}
+      </if>
+  </select>
 </mapper>
