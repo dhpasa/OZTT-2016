@@ -35,11 +35,6 @@
 				submitBoxInfo();
 			});
 			
-			$(".count_delete").click(function(){
-				// 将数据删除，后将画面的显示的部分删除。
-				$(this).parent().remove();
-			});
-			
 			// 监听用户选择发件人和收件人
 			$("#sendperson_div_id").click(function(){
 				// 将当前奶粉选择画面隐藏到，显示地址显示画面，首先需要load地址信息，这里默认发件人的识别flag
@@ -80,18 +75,186 @@
 					$("#mpas_address_select_div_id").show();
 				}
 				
-				
-				
+				if ($("#powder_purchase_section_id").css('display') == 'block') {
+					createConfirmDialog('reloadView()', '<fmt:message key="I0005" />');
+				}
 			});
 			
+			$("#more_package_a").click(function(){
+				// 点击再来一箱
+				clearDetailInfo();
+				$("#mpas_package_count_id").toggle("1500");
+				$("#mpas_package_detail_id").show();
+			});
+			
+			$("#pay_package_a").click(function(){
+				// 跳转支付画面
+				$("#purchase-credit-pop-up").modal('show');
+			});
+			
+			$("#save_order").click(function(){
+				submitPowderDate();
+				// 保存我的订单按钮点击
+				createInfoDialog('<fmt:message key="I0006" />', '1');
+				// 重新加载画面
+				reloadView();
+			});
+			
+			
 		});
+		
+		function gotoPurchase() {
+			// 首先保存信息。
+			submitPowderDate();
+			
+			// 点击确认支付后，看选择内容，分别进行支付操作
+			if ($("#radio-bank").attr("checked") == "checked") {
+				// 银行卡付款		
+				$('.payment_cuntdown').startOtherTimer({
+		    		
+		    	});
+
+				$("#purchase-credit-pop-up").modal('hide');
+				
+				$("#mpas_package_count_id").slideUp("1500");
+				$("#powder_purchase_section_id").show();
+				
+				
+			} else {
+				// 微信支付
+			}
+		}
+		
+		function submitPowderDate(){
+			// 判断有没有数据
+			if (powderData == null || powderData.length == 0) {
+				return;
+			}
+			// 将画面数据提交到后台。
+			$.ajax({
+				type : "POST",
+				contentType:'application/json',
+				url : '${ctx}/milkPowderAutoPurchase/submitPowderDate',
+				dataType : "json",
+				async : false,
+				data : JSON.stringify(powderData), 
+				success : function(data) {
+					// 返回当前的订单No
+					var resNo = data.orderNo;
+					var subAmount = data.subAmount;
+					$("#amount").append(fmoney(subAmount, 2));
+					$("#currentOrderNo").val(resNo);
+				},
+				error : function(data) {
+					
+				}
+			});
+		}
+		
+		function clearDetailInfo(){
+			$("#powder_box_index").val('0');
+			// 清空当前
+			$("#sendpersonId").val('');
+			$("#addresseepersonId").val('');
+			
+			$("#sendperson_user").html('<fmt:message key="MPAS_PACKAGE_DETAIL_DEFAULT_USER" />');
+			$("#sendperson_phone").html('<fmt:message key="MPAS_PACKAGE_DETAIL_DEFAULT_PHONE" />');
+			$("#addresseeperson_user").html('<fmt:message key="MPAS_PACKAGE_DETAIL_DEFAULT_USER" />');
+			$("#addresseeperson_phone").html('<fmt:message key="MPAS_PACKAGE_DETAIL_DEFAULT_PHONE" />');
+			$("#addresseeperson_address").html('<fmt:message key="MPAS_PACKAGE_DETAIL_ADDRESS" />');
+			
+			$('.mpas_powder_div_body').html($('.hidden_select_powder').prop('outerHTML'));
+			$('.mpas_powder_div_body').find('.select_powder_div').css('display','');
+			$('.mpas_powder_div_body').find('.select_powder_div').removeClass('hidden_select_powder');
+			bindSelectPowderEvent($('.mpas_powder_div_body').find('div ul'));
+			// 监听删除事件
+			doListenDelete();
+
+			$('.mpas_package_detail_receive_pic input[type="checkbox"]').iCheck('uncheck');
+			$('.mpas_package_detail_remark input[type="checkbox"]').iCheck('uncheck');
+		
+			$("#remarkData").val('');
+		}
+		
+		// 包装画面事件监听
+		function listenPackageDelete(){
+			$(".count_delete").click(function(){
+				// 将数据删除，后将画面的显示的部分删除。
+				var packcountIndex = $(this).parent().find('input')[0].value;
+				powderData.splice(packcountIndex - 1,1);
+				reloadPackData();
+			});
+			
+			$(".pack_count_info").click(function(){
+				clearDetailInfo();
+				$("#mpas_package_count_id").toggle("1500");
+				$("#mpas_package_detail_id").show();
+				// 明细显示当前的数据
+				var packcountIndex = $(this).parent().find('input')[0].value;
+				
+				$("#powder_box_index").val(packcountIndex);
+				
+				var powderDetailData = powderData[packcountIndex-1];
+				
+				// 快递信息
+				$('.mpas_express_div').find('li').removeClass('active');
+				$('.mpas_express_div').find('li').each(function(i, o){
+					if (powderDetailData.expressId == $(o).find('a').attr('class').split(",")[0]) {
+						$(o).addClass('active');
+					}
+				});
+				
+				// 奶粉信息
+				$('.mpas_powder_div_body').html('');
+				for (var i = 0; i < powderDetailData.selectpowderdetailinfo.length; i++) {
+					$('.mpas_powder_div_body').append($('.hidden_select_powder').prop('outerHTML'));
+					$('.mpas_powder_div_body').find('div ul').last().find('input')[0].value = powderDetailData.selectpowderdetailinfo[i];
+					$('.mpas_powder_div_body').find('div ul').last().find('li span').each(function(j, o){
+						$(o).text(powderDetailData.selectPowderDetailNameInfo[i].split(',')[j]);
+					})
+					
+				}
+				$('.mpas_powder_div_body').find('.select_powder_div').css('display','');
+				$('.mpas_powder_div_body').find('.select_powder_div').removeClass('hidden_select_powder');
+				bindSelectPowderEvent($('.mpas_powder_div_body').find('div ul'));
+				// 监听删除事件
+				doListenDelete();
+
+				//收发件人的信息
+				$("#sendpersonId").val(powderDetailData.sendpersonId);
+				$("#addresseepersonId").val(powderDetailData.addresseepersonId);
+				
+				$("#sendperson_user").html(powderDetailData.sendpersonUser);
+				$("#sendperson_phone").html(powderDetailData.sendpersonPhone);
+				$("#addresseeperson_user").html(powderDetailData.addresseepersonUser);
+				$("#addresseeperson_phone").html(powderDetailData.addresseepersonPhone);
+				$("#addresseeperson_address").html(powderDetailData.addresseepersonAddress);
+				
+				// 格外信息
+				if (powderDetailData.isReceivePicFlg == "1") {
+					$('.mpas_package_detail_receive_pic input[type="checkbox"]').iCheck('check');
+				} else {
+					$('.mpas_package_detail_receive_pic input[type="checkbox"]').iCheck('uncheck');
+				}
+				
+				if (powderDetailData.isRemarkFlg == '1') {
+					$('.mpas_package_detail_remark input[type="checkbox"]').iCheck('check');
+				} else {
+					$('.mpas_package_detail_remark input[type="checkbox"]').iCheck('uncheck');
+				}
+				
+				$("#remarkData").val(powderDetailData.remarkData);
+				
+				
+			})
+		}
 		
 		function reloadView(){
 			location.reload();
 		}
 		
 		// 画面总的奶粉数据
-		var powderDate = [];
+		var powderData = [];
 		
 		var powderList = JSON.parse('${powderList}');
 
@@ -149,6 +312,8 @@
 					$(e.target).parent().remove();
 				} 
 				
+				// 重新计算总金额
+				showAllAmount();
 			});
 		}
 		
@@ -224,9 +389,20 @@
 			
 			// 判断当前画面所选择的奶粉
 			var keycontain = "";
+			var selectPowderDetailInfo = [];
+			var selectPowderDetailNameInfo = [];
 			var allNumber = 0;
 			var powdeIsTrue = true;
 			$('.mpas_powder_div_body').find('.select_powder_div').each(function(i, o){
+				var selectStr = $(o).find('input')[0].value;
+				var selectNameStr = "";
+				$(o).find('li span').each(function(j, p){
+					if (j == 0) {
+						selectNameStr += $(p).html();
+					} else {
+						selectNameStr += ',' + $(p).html();
+					}	
+				});
 				var selectValue = $(o).find('input')[0].value.split(',');
 				var brandId = $(o).find('input')[0].value.split(',')[0];
 				var specId = $(o).find('input')[0].value.split(',')[1];
@@ -238,7 +414,7 @@
 					return false;
 				}
 				// 奶粉总数量
-				allNumber = allNumber+number;
+				allNumber = allNumber+parseFloat(number);
 				if (allNumber > 3) {
 					$('#errormsg_content').text(E0017);
 		  			$('#errormsg-pop-up').modal('show');
@@ -255,14 +431,56 @@
 					// 没有选择过当前品牌
 					keycontain = keycontain + '[' +brandId +']';
 				}
-
-				
+				selectPowderDetailInfo.push(selectStr);
+				selectPowderDetailNameInfo.push(selectNameStr);
 			})
 			
 			if (!powdeIsTrue) {
 				return;
 			}
+			// 下面开始整理数据
+			// 运费系数
+			var expressRate = 0;
+			var expressName = "";
+			var expressId = "";
+			$('.mpas_express_div').find('li').each(function(i, o){
+				if ($(o).hasClass('active')){
+					expressRate = parseFloat($(o).find('a').attr('class').split(",")[1]);
+					expressId = parseFloat($(o).find('a').attr('class').split(",")[0]);
+					expressName = $(o).find('a').html();
+				}
+			});
 			
+			var isReceivePicData = $("#isReceivePic").attr("checked") == "checked" ? "1" : "0";
+			var isRemarkData = $("#isRemark").attr("checked") == "checked" ? "1" : "0";
+			
+			var powderDetailInfo = {
+					expressId:expressId,/** 快递ID */
+					express:expressRate,/** 快递信息 */
+					expressName : expressName, /** 快递名称 */
+					selectpowderdetailinfo : selectPowderDetailInfo, /** 奶粉信息 */
+					selectPowderDetailNameInfo : selectPowderDetailNameInfo,/** 所选奶粉名称信息 */
+					sendpersonId:$("#sendpersonId").val(), /** 发件人信息 */
+					sendpersonUser:$("#sendperson_user").html(), /** 发件人名 */
+					sendpersonPhone:$("#sendperson_phone").html(), /** 发件人电话 */
+					addresseepersonId:$("#addresseepersonId").val(), /** 收件人信息 */
+					addresseepersonUser:$("#addresseeperson_user").html(), /** 收件人名 */
+					addresseepersonPhone:$("#addresseeperson_phone").html(), /** 收件人电话 */
+					addresseepersonAddress:$("#addresseeperson_address").html(), /** 收件人地址 */
+					isReceivePicFlg:isReceivePicData, /** 接收彩信 */
+					isRemarkFlg:isRemarkData, /** 做标记 */
+					remarkData:$("#remarkData").val()
+			}
+			
+			if (powderBoxIndex == "" || powderBoxIndex == '0') {
+				// 说明当前的信息是新增的信息
+				powderData.push(powderDetailInfo);
+			} else {
+				// 需要更新装箱信息
+				powderData[powderBoxIndex-1] = powderDetailInfo;
+			}
+			
+			reloadPackData();
 			
 			$("#mpas_package_detail_id").toggle("1500");
 			$("#mpas_package_count_id").show();
@@ -270,10 +488,46 @@
 			
 		}
 		
+		// 加载最后多个箱子画面
+		function reloadPackData(){
+			var temp1 = '<div class="mpas_package_count_detail clearfix">';
+			var temp2 = ' <span class="count_no_span">No.{0}</span>';
+			var temp3 = ' <i class="fa fa-info pack_count_info"></i>';
+			var temp4 = ' <span class="mpas_package_detail_info">{0}</span>';
+			var temp5 = ' <i class="fa fa-minus count_delete"></i>';
+			var temp6 = ' <input type="hidden" value="{0}">';
+			var temp7 = '</div>';
+			var tempHtml = "";
+			for (var i= 0; i < powderData.length; i++) {
+				tempHtml += temp1;
+				tempHtml += temp2.replace('{0}',i+1);
+				var powderInfoArr = powderData[i].selectpowderdetailinfo[0].split(',');
+				tempHtml += temp3;
+				tempHtml += temp4.replace('{0}',getBrandNameByCode(powderInfoArr[0], powderInfoArr[2]) + "&nbsp;&nbsp;" + powderData[i].expressName + "&nbsp;&nbsp;" + powderData[i].sendpersonUser);
+				tempHtml += temp5;
+				tempHtml += temp6.replace('{0}',i+1);
+				tempHtml += temp7;
+			}
+			
+			$('.mpas_package_count_div').html('');
+			$('.mpas_package_count_div').html(tempHtml);
+			// 事件监听
+			listenPackageDelete();
+			
+		}
 		
-		
-		
-		
+		// 取得购买的品牌信息
+		function getBrandNameByCode(code, count){	
+			var brandNameInfo = "";
+			for (var i = 0; i < powderList.length; i++) {
+				if (powderList[i].powderBrand == code){
+					brandNameInfo = powderList[i].powderBrandName;
+					break;
+				}
+			}
+			return brandNameInfo + "X" + count;
+		}
+
 		// 新增地址画面
 		function newAddress(){
 			clearAddressInfo();
@@ -513,9 +767,127 @@
 		$('body').append(strHtml);
 	}
 	
+	// 创建信息提示框
+	function createInfoDialog(msg, type) {
+		var strHtml = '<div class="dialog-container">';
+		strHtml += '<div class="dialog-window">';
+		strHtml += '<div class="dialog-content">'+msg+'</div>';
+		strHtml += '<div class="dialog-footer">';
+		strHtml += '</div>';
+		strHtml += '</div>';
+		strHtml += '</div>';
+		$('body').append(strHtml);
+		if (type == '1') {
+			// 并在5秒后消失
+			setTimeout(function() {
+				$('.dialog-container').remove();
+			}, 3000);
+		}
+	}
+	
+	// 创建信息提示框
+	function createErrorInfoDialog(msg) {
+		var strHtml = '<div class="dialog-container">';
+		strHtml += '<div class="dialog-window">';
+		strHtml += '<div class="dialog-content" style="color:red">'+msg+'</div>';
+		strHtml += '<div class="dialog-footer">';
+		strHtml += '</div>';
+		strHtml += '</div>';
+		strHtml += '</div>';
+		$('body').append(strHtml);
+		// 并在5秒后消失
+		setTimeout(function() {
+			$('.dialog-container').remove();
+		}, 3000);
+	}
+	
 	function closeTheConfirm(str) {
 		$(str).parent().parent().parent().remove();
 	}
+	
+	function clearVpcInfo(){
+		$("#vpc_CardNum").val('');
+		$("#vpc_CardExp").val('');
+		$("#vpc_CardSecurityCode").val('');
+	}
+	
+		function checkShowBtn(){
+  			if ($("#vpc_CardNum").val() == "" || 
+  					$("#vpc_CardExp").val() == "" || 
+  					$("#vpc_CardSecurityCode").val() == ""){
+  				$("#payBtn").css({
+  					"background" : "#D4D4D4",
+  				});
+  				$("#payBtn").attr("onclick", "");
+  			} else {
+  				$("#payBtn").css({
+  					"background" : "#FA6D72",
+  				});
+  				$("#payBtn").attr("onclick", "toPay()");
+  			}
+  		}
+  		
+  		function toPay(){
+  			$("#payBtn").attr("onclick", "");
+  			var paramData = {
+					"vpc_CardNum":$("#vpc_CardNum").val(),
+					"vpc_CardExp":$("#vpc_CardExp").val(),
+					"vpc_CardSecurityCode":$("#vpc_CardSecurityCode").val(),
+					"orderNo":$("#currentOrderNo").val()
+			}
+	  		$.ajax({
+				type : "POST",
+				contentType:'application/json',
+				url : '${ctx}/milkPowderAutoPurchase/toPay',
+				dataType : "json",
+				async : false,
+				data : JSON.stringify(paramData), 
+				success : function(data) {
+					if (!data.isException) {
+						// 货到付款
+						createInfoDialog('<fmt:message key="I0007"/>','1');
+					} else {
+						// 付款失败
+						createErrorInfoDialog('<fmt:message key="E0021"/>');
+					}
+					
+				},
+				error : function(data) {
+					
+				}
+			});
+  			$("#payBtn").attr("onclick", "toPay()");
+  		}
+  		
+  		
+  		function blurCardExp(){
+  			var cardexp = $("#vpc_CardExp").val();
+  			if (cardexp == null || cardexp.length == 0) {
+  				return;
+  			}
+  			if (cardexp.length < 4){
+  				checkShowBtn();
+  				return;
+  			}
+  			if (cardexp.length == 5 && cardexp.indexOf("/") == -1) {
+  				$("#vpc_CardExp").val("");
+  				checkShowBtn();
+  				return;
+  			}
+  			
+  			if (cardexp.length == 4){
+  				if (isNaN(cardexp)) {
+  					$("#vpc_CardExp").val("");
+  	  				checkShowBtn();
+  	  				return;
+  				} else {
+  					$("#vpc_CardExp").val(cardexp.substring(0,2) + "/" + cardexp.substring(2))
+  					checkShowBtn();
+  	  				return;
+  				}
+  			}
+  		}
+	
   </script>
 </head>
 
@@ -648,7 +1020,7 @@
 				<div class="mpas_package_detail_remark">
 					<input type="checkbox" style="display:none" id="isRemark">
 					<label for="isRemark"><fmt:message key="MPAS_PACKAGE_DETAIL_REMARK" /></label>
-					<input type="text" placeholder="<fmt:message key="MPAS_PACKAGE_DETAIL_YOURWORDS" />"></input>
+					<input type="text" placeholder="<fmt:message key="MPAS_PACKAGE_DETAIL_YOURWORDS" />" id="remarkData"></input>
 					<script>
 					$(document).ready(function(){
 						$('.mpas_package_detail_remark input[type="checkbox"]').css('display','');
@@ -705,26 +1077,26 @@
 
 	<div class="mpas_package_count clearfix" style="display:none" id="mpas_package_count_id">
 		<div class="mpas_package_count_div clearfix">
-			<div class="mpas_package_count_detail clearfix">
+			<!-- <div class="mpas_package_count_detail clearfix">
 				<span class="count_no_span">No.1</span>
 				<i class="fa fa-info"></i>
-				<span class="mpas_package_detail_info">爱他美三段*3 蓝天快递 六元</span>
+				<span class="mpas_package_detail_info"></span>
 				<i class="fa fa-minus count_delete"></i>
 				<input type="hidden">
-			</div>
+			</div> -->
 		</div>
 		<div class="mpas_package_count_control clearfix">
 			<div class="more_package_div">
-				<a class="more_package"><fmt:message key="MPAS_PACKAGE_COUNT_MORE_PACKAGE" /></a>
+				<a class="more_package" id="more_package_a"><fmt:message key="MPAS_PACKAGE_COUNT_MORE_PACKAGE" /></a>
 			</div>
 			<div class="pay_package_div">
-				<a class="pay_package"><fmt:message key="MPAS_PACKAGE_COUNT_PAY_PACKAGE" /></a>
+				<a class="pay_package" id="pay_package_a"><fmt:message key="MPAS_PACKAGE_COUNT_PAY_PACKAGE" /></a>
 			</div>
 			
 		</div>
 		
 		<div class="pas_package_count_create_order">
-			<a><fmt:message key="MPAS_PACKAGE_COUNT_SAVE_ORDER" /></a>
+			<a id="save_order"><fmt:message key="MPAS_PACKAGE_COUNT_SAVE_ORDER" /></a>
 		</div>
 	</div>
 	
@@ -732,9 +1104,9 @@
 		
 		<div class="mpas_address_list">
 			<!-- <div class="clearfix mpas_address_details" onclick="selectAddressInfo('addressId')">
-				<span class="address_person_name">linliuan</span>
-				<span class="address_person_phone">+8615298870452</span>
-				<span class="address_person_address">中国 苏州 姑苏区 友新新村 8幢 808室</span>
+				<span class="address_person_name"></span>
+				<span class="address_person_phone"></span>
+				<span class="address_person_address"></span>
 				<i class="fa fa-edit mpas_address_modify"></i>
 				<i class="fa fa-times mpas_address_delete"></i>
 			</div> -->
@@ -766,6 +1138,89 @@
 	<script type="text/javascript">
 		showAllAmount();
 	</script>
+	
+	<div id="purchase-credit-pop-up" class="modal fade" role="dialog" aria-hidden="true" >
+    	<div class="modal-dialog item-dialog">
+	      <div class="modal-content">
+	         
+	         <div class="modal-body">
+	         	<div class="powder_purchase_select">
+					<ul>
+			            <li>
+			              <input type="radio" id="radio-bank" name="purchase-radio">
+			              <label for="radio-bank"><fmt:message key="POWDER_PURCHASE_COMMON_WEALTH" /></label>
+			            </li>
+			            <li>
+			              <input type="radio" id="radio-wechat" name="purchase-radio" checked>
+			              <label for="radio-wechat"><fmt:message key="POWDER_PURCHASE_WECHAT" /></label>
+			            </li>
+			          </ul>
+	           	</div>
+	           	<div class="powder_purchase_confirm">
+		            <a id="gotoPurchaseBtn" onclick="gotoPurchase()"><fmt:message key="COMMON_CONFIRM_PAY"/></a>
+	           	</div>
+	           	<script>
+					$(document).ready(function(){
+						$('.powder_purchase_select input[type="radio"]').css('display','');
+					  	$('.powder_purchase_select input[type="radio"]').iCheck({
+			              checkboxClass: 'icheckbox_square-blue',
+			              radioClass: 'iradio_square-blue',
+			              increaseArea: '20%'
+			            });
+					});
+					</script>
+	           	
+	         </div>
+	      </div>
+    	</div>
+    </div>
+    
+    <div class="powder_purchase_section" id="powder_purchase_section_id" style="display:none">
+    	<div class="banklogodiv">
+		 	<img alt="logo" src="${ctx}/images/banklogo.png">
+		 </div>
+		<div class="logincontain">
+			<div class="input_username" style="text-align: center">
+				<span class="payment_dingdan"><fmt:message key="COMMON_30MIN_PAY" /></span>
+				<span class="payment_cuntdown" data-seconds-left="1800">
+						
+				</span>
+				</br>
+				
+				<span id="dingdanhao" class="payment_dingdan"><fmt:message key="PAYMENT_ORDER" /></span>
+				<span id="amount" class="payment_amount"><fmt:message key="COMMON_DOLLAR" /></span>
+			</div>
+	        <div class="input_username">
+	        	<input class="txt-input" type="text" autocomplete="off" placeholder="Card Holder">
+	        </div>
+	        <div class="input-password">
+	            <input class="txt-input" type="text" autocomplete="off" placeholder="Card Number" id="vpc_CardNum" onchange="checkShowBtn()">
+	        </div>
+	        <div class="input-password">
+	            <input class="txt-input" type="text" autocomplete="off" maxlength="5" placeholder="Card Expiry Date (MM/YY)" id="vpc_CardExp" onchange="checkShowBtn()" onblur="blurCardExp()">
+	        </div>
+	        <div class="input-password">
+	            <input class="txt-input" type="text" autocomplete="off" placeholder="Card Security Code (CSC)" id="vpc_CardSecurityCode" onchange="checkShowBtn()">
+	        </div>
+	        
+	        <div class="errormsg">
+				<span id="errormsg"></span>
+			</div>
+	        
+	        
+	        <div class="loginBtn">
+	            <a href="#" onclick="toPay()" id="payBtn"><fmt:message key="PAYMENT_BTN" /></a>
+	        </div>
+	        
+	        <div class="payment_power">
+	        	<fmt:message key="PAYMENT_POWER_BY" />
+	        </div>
+	        
+	        <input type="hidden" id="currentOrderNo"/>
+	        
+		</div>
+    
+    </div>
     
 </body>
 <!-- END BODY -->

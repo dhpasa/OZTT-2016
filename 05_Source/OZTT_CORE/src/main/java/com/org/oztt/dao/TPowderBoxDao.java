@@ -14,4 +14,6 @@ public interface TPowderBoxDao {
     int updateByPrimaryKeySelective(TPowderBox record);
 
     int updateByPrimaryKey(TPowderBox record);
+    
+    int selectAutoIncrement();
 }

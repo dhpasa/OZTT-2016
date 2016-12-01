@@ -14,4 +14,8 @@ public interface TPowderOrderDao {
     int updateByPrimaryKeySelective(TPowderOrder record);
 
     int updateByPrimaryKey(TPowderOrder record);
+    
+    int selectAutoIncrement();
+    
+    TPowderOrder selectByParam(TPowderOrder record);
 }

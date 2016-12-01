@@ -267,4 +267,12 @@
       updPgmId = #{updPgmId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  
+  <select id="selectAutoIncrement" resultType="int">
+  	SELECT Auto_increment
+	FROM information_schema.`TABLES`
+	WHERE Table_Schema='oztt'
+	AND table_name = 't_powder_box'
+  </select>
 </mapper>

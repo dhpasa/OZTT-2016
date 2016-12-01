@@ -17,6 +17,8 @@ public interface TPowderInfoDao {
     int updateByPrimaryKeySelective(TPowderInfo record);
 
     int updateByPrimaryKey(TPowderInfo record);
-    
+
     List<PowderInfoViewDto> selectAllPowderInfoList();
+
+    TPowderInfo selectByParam(TPowderInfo record);
 }

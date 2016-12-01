@@ -26,7 +26,6 @@ public class TPowderInfoDaoImpl extends BaseDao implements TPowderInfoDao {
 
     @Override
     public int insertSelective(TPowderInfo record) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -51,6 +50,11 @@ public class TPowderInfoDaoImpl extends BaseDao implements TPowderInfoDao {
     @Override
     public List<PowderInfoViewDto> selectAllPowderInfoList() {
         return select("com.org.oztt.dao.TPowderInfoMapper.selectAllPowderInfoList", null);
+    }
+
+    @Override
+    public TPowderInfo selectByParam(TPowderInfo record) {
+        return selectOne("com.org.oztt.dao.TPowderInfoMapper.selectByParam", record);
     }
 
 }
