@@ -13,6 +13,8 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import com.org.oztt.base.page.Pagination;
+import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.contants.CommonEnum;
@@ -37,7 +39,10 @@ import com.org.oztt.entity.TPowderOrderDetails;
 import com.org.oztt.entity.TReceiverInfo;
 import com.org.oztt.entity.TSenderInfo;
 import com.org.oztt.entity.TSysCode;
+import com.org.oztt.formDto.PowderBoxInfo;
 import com.org.oztt.formDto.PowderInfoViewDto;
+import com.org.oztt.formDto.PowderMilkInfo;
+import com.org.oztt.formDto.PowderOrderInfo;
 import com.org.oztt.service.BaseService;
 import com.org.oztt.service.CommonService;
 import com.org.oztt.service.PowderService;
@@ -225,7 +230,7 @@ public class PowderServiceImpl extends BaseService implements PowderService {
             }
 
             TPowderBox tPowderBox = new TPowderBox();
-            tPowderBox.setElecExpressNo("ELE0001");//TODO
+            tPowderBox.setElecExpressNo("");
             tPowderBox.setExpressDate(nowDateString);
             tPowderBox.setDeliverId(powderBoxRes.get("expressId").toString());
             tPowderBox.setSenderId(powderBoxRes.get("sendpersonId").toString());
@@ -248,6 +253,9 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         tPowderOrder.setOrderDate(nowDateString);
         tPowderOrder.setCustomerId(customerId);
         tPowderOrder.setSumAmount(sumTotal);
+        // 保存奶粉订单的时候一定是没有付款的
+        tPowderOrder.setPaymentStatus(CommonEnum.HandleFlag.NOT_PAY.getCode());
+        tPowderOrder.setStatus(CommonEnum.HandleFlag.NOT_PAY.getCode());
         tPowderOrderDao.insertSelective(tPowderOrder);
 
         resMap.put("orderNo", maxOrderNo);
@@ -357,5 +365,89 @@ public class PowderServiceImpl extends BaseService implements PowderService {
     @Override
     public void updatePowderOrder(TPowderOrder tPowderOrder) throws Exception {
         tPowderOrderDao.updateByPrimaryKeySelective(tPowderOrder);
+    }
+
+    @Override
+    public List<TPowderOrder> getTPowderOrderInfoList(TPowderOrder tPowderOrder) throws Exception {
+        return tPowderOrderDao.getTPowderOrderInfoList(tPowderOrder);
+    }
+
+    @Override
+    public PagingResult<PowderOrderInfo> getPowderOrderPageInfo(Pagination pagination) throws Exception {
+        PagingResult<PowderOrderInfo> orderList = tPowderOrderDao.getPowderOrderPageInfo(pagination);
+        if (orderList != null && orderList.getResultList() != null && orderList.getResultList().size() > 0) {
+            for (PowderOrderInfo orderInfo : orderList.getResultList()) {
+                // 添加装箱信息
+                TPowderBox param = new TPowderBox();
+                param.setOrderId(orderInfo.getOrderId());
+                List<PowderBoxInfo> powderBoxList = tPowderBoxDao.selectTPowderList(param);
+                if (powderBoxList != null && powderBoxList.size() > 0) {
+                    for (PowderBoxInfo pbi : powderBoxList) {
+                        TPowderOrderDetails detailParam = new TPowderOrderDetails();
+                        detailParam.setPowderBoxId(pbi.getBoxId());
+                        pbi.setPowderMikeList(tPowderOrderDetailsDao.selectPowderDetailList(detailParam));
+                    }
+                }
+                orderInfo.setOrderDate(DateFormatUtils.date2StringWithFormat(DateFormatUtils.string2DateWithFormat(
+                        orderInfo.getOrderDate(), DateFormatUtils.PATTEN_YMD_NO_SEPRATE), DateFormatUtils.PATTEN_YMD));
+                orderInfo.setBoxList(powderBoxList);
+            }
+        }
+        return orderList;
+    }
+
+    @Override
+    public PowderBoxInfo getPowderInfoById(long id) throws Exception {
+        TPowderBox tPowderBox = tPowderBoxDao.selectByPrimaryKey(id);
+        PowderBoxInfo powderBoxInfo = new PowderBoxInfo();
+        powderBoxInfo.setBoxId(String.valueOf(id));
+        powderBoxInfo.setBoxPhotoUrls(tPowderBox.getBoxPhotoUrls());
+        TExpressInfo tExpressInfo = tExpressInfoDao.selectByPrimaryKey(Long.valueOf(tPowderBox.getDeliverId()));
+
+        powderBoxInfo.setExpressName(tExpressInfo.getExpressName());
+        powderBoxInfo.setExpressPhotoUrl(tPowderBox.getExpressPhotoUrl());
+        powderBoxInfo.setIfMsg(tPowderBox.getIfMsg());
+        powderBoxInfo.setIfRemarks(tPowderBox.getIfRemarks());
+
+        TReceiverInfo tReceiverInfo = tReceiverInfoDao.selectByPrimaryKey(Long.valueOf(tPowderBox.getReceiverId()));
+        powderBoxInfo.setReceiveAddress(tReceiverInfo.getReceiverAddr());
+        powderBoxInfo.setReceiveName(tReceiverInfo.getReceiverName());
+        powderBoxInfo.setReceivePhone(tReceiverInfo.getReceiverTel());
+        powderBoxInfo.setRemarks(tPowderBox.getRemarks());
+
+        TSenderInfo tSenderInfo = tSenderInfoDao.selectByPrimaryKey(Long.valueOf(tPowderBox.getSenderId()));
+        powderBoxInfo.setSenderName(tSenderInfo.getSenderName());
+        powderBoxInfo.setSenderPhone(tSenderInfo.getSenderTel());
+        powderBoxInfo.setStatus(tPowderBox.getHandleStatus());
+        powderBoxInfo.setTotalAmount(tPowderBox.getSumAmount().toString());
+
+        TPowderOrderDetails detailParam = new TPowderOrderDetails();
+        detailParam.setPowderBoxId(powderBoxInfo.getBoxId());
+
+        List<PowderMilkInfo> detailList = tPowderOrderDetailsDao.selectPowderDetailList(detailParam);
+        powderBoxInfo.setPowderMikeList(detailList);
+        BigDecimal priceCount = BigDecimal.ZERO;
+        if (detailList != null && detailList.size() > 0) {
+            for (PowderMilkInfo milk : detailList) {
+                priceCount = priceCount.add(new BigDecimal(milk.getPowderPrice()));
+            }
+        }
+
+        powderBoxInfo.setPricecount(priceCount.toString());
+        // 状态
+        powderBoxInfo.setOrderStatusView(CommonEnum.HandleFlag.getEnumLabel(powderBoxInfo.getStatus()));
+        
+        if (StringUtils.isNotEmpty(tPowderBox.getExpressPhotoUrl())) {
+            powderBoxInfo.setExpressPhotoUrlExitFlg("1");
+        }
+        if (StringUtils.isNotEmpty(tPowderBox.getBoxPhotoUrls())) {
+            powderBoxInfo.setBoxPhotoUrlsExitFlg("1");
+        }
+        return powderBoxInfo;
+    }
+
+    @Override
+    public void deleteNotPayPowderOrderLimitTime() throws Exception {
+        tPowderOrderDao.deleteNoPayOrder();
     }
 }

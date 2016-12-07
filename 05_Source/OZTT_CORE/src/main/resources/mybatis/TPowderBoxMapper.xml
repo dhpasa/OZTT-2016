@@ -275,4 +275,18 @@
 	WHERE Table_Schema='oztt'
 	AND table_name = 't_powder_box'
   </select>
+  
+  <select id="selectTPowderList" resultType="com.org.oztt.formDto.PowderBoxInfo" parameterType="com.org.oztt.entity.TPowderBox">
+  		select 
+  		a.id as boxId,
+	    b.receiverName as receiveName,
+	    a.elecExpressNo	
+	    from t_powder_box a
+	    inner join t_receiver_info b on a.receiverId = b.id
+	    where 1=1
+	    <if test="orderId != null" >
+        and orderId = #{orderId,jdbcType=VARCHAR}
+      	</if>
+  
+  </select>
 </mapper>

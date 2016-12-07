@@ -111,6 +111,50 @@
 		});
 	}
   	
+  	function updatePowderNotPay(){
+		$.ajax({
+			type : "GET",
+			contentType:'application/json',
+			url : '${pageContext.request.contextPath}/milkPowderAutoPurchase/getNotPayCount',
+			dataType : "json",
+			async : false,
+			data : '', 
+			success : function(data) {
+				if(!data.isException){
+					$("#powderOrderNotPay").text(data.sccount)
+				} else {
+					// 同步购物车失败
+					return;
+				}
+			},
+			error : function(data) {
+				
+			}
+		});
+	}
+  	
+  	function updatePowderNotDeliver(){
+		$.ajax({
+			type : "GET",
+			contentType:'application/json',
+			url : '${pageContext.request.contextPath}/milkPowderAutoPurchase/getNotDeliverCount',
+			dataType : "json",
+			async : false,
+			data : '', 
+			success : function(data) {
+				if(!data.isException){
+					$("#powderOrderNotDeliver").text(data.sccount)
+				} else {
+					// 同步购物车失败
+					return;
+				}
+			},
+			error : function(data) {
+				
+			}
+		});
+	}
+  	
   	function updateDelivering(){
 		$.ajax({
 			type : "GET",
@@ -226,6 +270,30 @@
 		</div>
 	</div>
 	
+	<div class="order p-item">
+		<a href="${ctx}/powderOrder/init?tab=0" class="p-link padding-1rem-top">
+			<span class="user-order-img"></span>
+			<div class="myorder"><fmt:message key="POWDER_ORDER_USER_MYORDER"/></div>
+			<div class="viewallorder"><fmt:message key="USER_SEEALLORDER"/>&nbsp;<i class="fa fa-angle-right"></i></div>
+		</a>
+		<div class="order-nav padding-1rem-top">
+			<a href="${ctx}/powderOrder/init?tab=0">
+				<i class="await-pays"></i>
+				<div><fmt:message key="USER_ORDER_NOTPAY"/></div>
+				<span class="order_not_pay" id="powderOrderNotPay"></span>
+			</a>
+			<a href="${ctx}/powderOrder/init?tab=1">
+				<i class="await-wait"></i>
+				<div><fmt:message key="USER_ORDER_INCONTROLLER"/></div>
+				<span class="order_not_pay" id="powderOrderNotDeliver"></span>
+			</a>
+			<a href="${ctx}/powderOrder/init?tab=3">
+				<i class="await_received"></i>
+				<div><fmt:message key="USER_ORDER_OVER"/></div>
+			</a>
+		</div>
+	</div>
+	
 	<div class="order p-item user-item">
 		<a onclick="manageAddress()" class="adsmana padding-1rem-top">
 			<span class="user-adsmanage-img"></span>
@@ -291,10 +359,14 @@
     		// 没有登录
     		$("#orderNotPay").remove();
     		$("#orderNotDeliver").remove();
+    		$("#powderOrderNotPay").remove();
+    		$("#powderOrderNotDeliver").remove();
     		$("#orderDelivering").remove();
     	} else {
     		updateNotPay();
     		updateNotDeliver();
+    		updatePowderNotPay();
+    		updatePowderNotDeliver();
     		updateDelivering();
     	}
     </script>

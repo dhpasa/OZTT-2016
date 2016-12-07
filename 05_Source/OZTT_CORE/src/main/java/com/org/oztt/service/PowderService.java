@@ -5,11 +5,15 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import com.org.oztt.base.page.Pagination;
+import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.entity.TExpressInfo;
 import com.org.oztt.entity.TPowderOrder;
 import com.org.oztt.entity.TReceiverInfo;
 import com.org.oztt.entity.TSenderInfo;
+import com.org.oztt.formDto.PowderBoxInfo;
 import com.org.oztt.formDto.PowderInfoViewDto;
+import com.org.oztt.formDto.PowderOrderInfo;
 
 public interface PowderService {
 
@@ -150,6 +154,37 @@ public interface PowderService {
      * @param tPowderOrder
      */
     public void updatePowderOrder(TPowderOrder tPowderOrder) throws Exception;
+    
+    /**
+     * 通过参数获取
+     * @param orderNo
+     * @return
+     * @throws Exception
+     */
+    public List<TPowderOrder> getTPowderOrderInfoList(TPowderOrder tPowderOrder) throws Exception;
+    
+    /**
+     * 
+     * @param tPowderOrder
+     * @return
+     * @throws Exception
+     */
+    public PagingResult<PowderOrderInfo> getPowderOrderPageInfo(Pagination pagination) throws Exception;
+    
+    /**
+     * 通过ID获取装箱信息
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    public PowderBoxInfo getPowderInfoById(long id) throws Exception;
+    
+    /**
+     * 删除三十分钟之内没有付款的订单
+     * @return
+     * @throws Exception
+     */
+    public void deleteNotPayPowderOrderLimitTime() throws Exception;
     
     
 }

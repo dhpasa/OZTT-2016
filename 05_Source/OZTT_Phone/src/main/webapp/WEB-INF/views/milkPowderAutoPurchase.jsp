@@ -122,6 +122,8 @@
 				
 			} else {
 				// 微信支付
+				$("#purchase-credit-pop-up").modal('hide');
+				createInfoDialog('微信支付开发中......','1');
 			}
 		}
 		

@@ -9,6 +9,10 @@ a{
 	color: #666; 
 }
 
+a:-webkit-any-link{
+    cursor: auto;
+}
+
 .logo_min{
 	height: 2.5rem;
 }
@@ -1970,7 +1974,7 @@ html{
 .shopcart-checkBlockBody{
 	display: inline-block;
 	width: 100%;
-	height: 9rem;
+	height: 12rem;
 }
 
 .head-blockcheck{
@@ -2755,7 +2759,7 @@ html{
 .order-checkBlockBody{
 	display: inline-block;
     width: 100%;
-    height: 9rem;
+    height: 12rem;
 }
 
 .order-groupinfo{
@@ -2763,7 +2767,7 @@ html{
     padding: 10px;
     float: left;
     display: inline-block;
-    height: 9rem;
+    height: 12rem;
     border-bottom:0.5px solid #F4F4F4;
 }
 
@@ -3747,3 +3751,185 @@ html{
     font-size: 1.5rem;
     color: #fff;
 }
+
+.order-bottom-content .powderorder-all-amount{
+	text-align: right;
+	padding: 0.5rem 1rem;
+	border-top: 0.5px solid #F4F4F4;
+}
+
+.powderorder-box-slide{
+    height: 100%;
+    border: 0.5px solid rgba(187, 187, 187, 0.15);
+    padding: 5px;
+    border-radius: 5px !important;
+    float: left;
+    margin: 0px 5px;
+}
+
+.powderorder-box-slide span{
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+    width: 100%;
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.powderorder-box-slide span.receivename{
+    font-size: 1rem;
+    padding: 2px 0px
+}
+
+.powderorder-box-slide span.elecExpressNo{
+    font-size: 1rem;
+    padding: 1px 0px
+}
+
+.powderorder-box-slide span.powderInfo{
+    font-size: 0.8rem;
+}
+
+.powder-orderlist-section{
+	display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    text-align: left;
+    overFlow-x: scroll;
+	overFlow-y: hidden;   
+}
+
+.powder-orderlist-section > ul{
+	transform: translate3d(0px, 0px, 0px);
+    transition: none;
+    display: table;
+    list-style: none;
+}
+
+.powder-orderlist-section > ul > li{
+	display: table-cell;
+    list-style: none;
+}
+
+.powderorder-overflow{
+	overflow-y: hidden;
+    overflow-x: auto;
+}
+
+.powderorder-box{
+	border-bottom: none;
+}
+	
+.powder_detail_box_info{
+	padding: 3px;
+}
+
+.powder_detail_item{
+	padding: 5px 25% 5px 0px;
+	border-bottom: 1px solid rgba(187, 187, 187, 0.15);
+	margin: 0px 10px;
+}
+
+.powder_detail_item span.powderName{
+	width: 50%;
+	text-align: center;
+	display: block;
+    float: left;
+}
+
+.powder_detail_item span.powderSpec{
+	width: 25%;
+	text-align: center;
+	display: block;
+    float: left;
+}
+
+.powder_detail_item span.powderNumber{
+	width: 25%;
+	text-align: right;
+	padding-right:10px;
+	display: block;
+    float: left;
+}
+
+.powder_detail_box_info .detail_count{
+	padding: 5px 10px;
+	text-align: right;
+}
+
+.powder_detail_box_info .detail_express{
+	padding: 5px 10px;
+	text-align: right;
+}
+
+.powder_detail_box_info .total_amount{
+	padding: 5px 10px;
+	text-align: right;
+}
+
+.powder_info_item{
+	border-top: 1px solid rgba(187, 187, 187, 0.15);
+}
+
+.powder_info_item .item_head_inf{
+	display: block;
+	font-size: 1.5rem;
+	padding: 5px 10px;
+}
+
+.powder_info_item .info_name{
+	display: block;
+	width: 40%;
+	padding:3px 25px;
+	float:left;
+	text-align: left;
+}
+
+.powder_info_item .info_phone{
+	display: block;
+	width: 60%;
+	padding:3px 25px;
+	float:left;
+	text-align: left;
+}
+
+.powder_info_item .info_address{
+	display: block;
+	width: 100%;
+	text-align: left;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding:3px 25px;
+}
+
+.powder_info_item .info_ifMsg{
+	display: block;
+	width: 100%;
+	text-align: left;
+    padding:3px 25px;
+}
+
+.powder_info_item .info_ifRemarks{
+	display: block;
+	width: 100%;
+	text-align: left;
+    padding:3px 25px;
+}
+
+.powder_info_item img{
+	width:90%;
+	margin: 15px auto;
+	display: block;
+	border:1px solid #883d96;
+}
+
+.bottom_margin{
+	margin-bottom: 7rem;
+}
+
+
+
+
+

@@ -1,10 +1,13 @@
 package com.org.oztt.dao.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.org.oztt.base.dao.BaseDao;
 import com.org.oztt.dao.TPowderBoxDao;
 import com.org.oztt.entity.TPowderBox;
+import com.org.oztt.formDto.PowderBoxInfo;
 
 @Repository
 public class TPowderBoxDaoImpl extends BaseDao implements TPowderBoxDao {
@@ -28,8 +31,7 @@ public class TPowderBoxDaoImpl extends BaseDao implements TPowderBoxDao {
 
     @Override
     public TPowderBox selectByPrimaryKey(Long id) {
-        // TODO Auto-generated method stub
-        return null;
+        return selectOne("com.org.oztt.dao.TPowderBoxMapper.selectByPrimaryKey", id);
     }
 
     @Override
@@ -47,6 +49,11 @@ public class TPowderBoxDaoImpl extends BaseDao implements TPowderBoxDao {
     @Override
     public int selectAutoIncrement() {
         return selectOne("com.org.oztt.dao.TPowderBoxMapper.selectAutoIncrement", null);
+    }
+
+    @Override
+    public List<PowderBoxInfo> selectTPowderList(TPowderBox record) {
+        return select("com.org.oztt.dao.TPowderBoxMapper.selectTPowderList", record);
     }
 
 }
