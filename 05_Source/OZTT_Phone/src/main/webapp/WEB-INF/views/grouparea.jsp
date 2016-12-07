@@ -43,14 +43,14 @@
 		    }
 		    function touchEnd(event){
 		    	if (($("#main_goods").height() - 200) <= $(window).scrollTop() + $(window).height() && _end > 0) {
-		    		$("#loadingDiv").css("display","");
+		    		//$("#loadingDiv").css("display","");
 		    		setTimeout(function(){
 		    			pageNo += 1;
 		    			loadGoods();
-		    			closeLoadingDiv();
-		    			setTimeout(function(){
+		    			//closeLoadingDiv();
+		    			/* setTimeout(function(){
 		    				closeNoMoreDiv();
-		    			},1000);
+		    			},1000); */
 		            },1000);
 		    	}
 		    	

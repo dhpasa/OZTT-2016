@@ -31,8 +31,7 @@ public class TExpressInfoDaoImpl extends BaseDao implements TExpressInfoDao {
 
     @Override
     public TExpressInfo selectByPrimaryKey(Long id) {
-        // TODO Auto-generated method stub
-        return null;
+        return selectOne("com.org.oztt.dao.TExpressInfoMapper.selectByPrimaryKey", id);
     }
 
     @Override

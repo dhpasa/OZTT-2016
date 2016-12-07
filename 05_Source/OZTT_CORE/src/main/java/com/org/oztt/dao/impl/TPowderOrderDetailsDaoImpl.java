@@ -1,10 +1,13 @@
 package com.org.oztt.dao.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.org.oztt.base.dao.BaseDao;
 import com.org.oztt.dao.TPowderOrderDetailsDao;
 import com.org.oztt.entity.TPowderOrderDetails;
+import com.org.oztt.formDto.PowderMilkInfo;
 
 @Repository
 public class TPowderOrderDetailsDaoImpl extends BaseDao implements TPowderOrderDetailsDao {
@@ -42,6 +45,11 @@ public class TPowderOrderDetailsDaoImpl extends BaseDao implements TPowderOrderD
     public int updateByPrimaryKey(TPowderOrderDetails record) {
         // TODO Auto-generated method stub
         return 0;
+    }
+
+    @Override
+    public List<PowderMilkInfo> selectPowderDetailList(TPowderOrderDetails record) {
+        return select("com.org.oztt.dao.TPowderOrderDetailsMapper.selectPowderDetailList", record);
     }
 
 }

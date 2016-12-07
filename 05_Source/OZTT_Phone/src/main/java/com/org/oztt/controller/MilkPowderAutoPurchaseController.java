@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.org.oztt.base.util.MessageUtils;
@@ -380,6 +381,80 @@ public class MilkPowderAutoPurchaseController extends BaseController {
         }
         catch (Exception e) {
             e.printStackTrace();
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+    
+    /**
+     * 获取未付款的订单
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/getNotPayCount")
+    @ResponseBody
+    public Map<String, Object> getNotPayCount(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            //
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            TCustomerBasicInfo customerBaseInfo = customerService.selectBaseInfoByCustomerNo(customerNo);
+            if (customerNo == null) {
+                return mapReturn;
+            }
+            // 获取未付款的订单
+            TPowderOrder tPowderOrder = new TPowderOrder();
+            tPowderOrder.setCustomerId(customerBaseInfo.getNo().toString());
+            tPowderOrder.setPaymentStatus(CommonEnum.HandleFlag.NOT_PAY.getCode());
+            List<TPowderOrder> orderList = powderService.getTPowderOrderInfoList(tPowderOrder);
+            
+            mapReturn.put("sccount", orderList == null ? 0 : orderList.size());
+            // 后台维护的时候提示让以逗号隔开
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+    
+    /**
+     * 获取待发货的订单
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/getNotDeliverCount")
+    @ResponseBody
+    public Map<String, Object> getNotDeliverCount(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            //
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            TCustomerBasicInfo customerBaseInfo = customerService.selectBaseInfoByCustomerNo(customerNo);
+            if (customerNo == null) {
+                return mapReturn;
+            }
+            // 获取待发货的订单
+            TPowderOrder tPowderOrder = new TPowderOrder();
+            tPowderOrder.setCustomerId(customerBaseInfo.getNo().toString());
+            tPowderOrder.setPaymentStatus(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
+            List<TPowderOrder> orderList = powderService.getTPowderOrderInfoList(tPowderOrder);
+            
+            mapReturn.put("sccount", orderList == null ? 0 : orderList.size());
+            // 后台维护的时候提示让以逗号隔开
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
             logger.error(e.getMessage());
             mapReturn.put("isException", true);
             return mapReturn;
