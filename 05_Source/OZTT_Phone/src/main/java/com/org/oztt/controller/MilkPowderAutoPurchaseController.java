@@ -17,9 +17,11 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.org.oztt.base.util.CommonUtils;
 import com.org.oztt.base.util.MessageUtils;
 import com.org.oztt.base.util.VpcHttpPayUtils;
 import com.org.oztt.contants.CommonConstants;
@@ -93,7 +95,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
 
                     specDto = new PowderCommonDto();
                     specDto.setId(detail.getPowderSpec());
-                    specDto.setName(detail.getPowderSpec());
+                    specDto.setName(powderService.getBrandNameByCode(detail.getPowderSpec()));
                     specDto.setChild(new PowderCommonDto(3).getChild());
                     specDtoList.add(specDto);
 
@@ -311,13 +313,14 @@ public class MilkPowderAutoPurchaseController extends BaseController {
      */
     @RequestMapping(value = "/submitPowderDate")
     public Map<String, Object> submitPowderDate(HttpServletRequest request, HttpSession session,
-            @RequestBody List<Map<String, Object>> requestList) {
+            @RequestBody List<Map<String, Object>> requestList, String payType) {
         Map<String, Object> mapReturn = new HashMap<String, Object>();
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
             TCustomerBasicInfo customerBaseInfo = customerService.selectBaseInfoByCustomerNo(customerNo);
             // 保存订单信息
-            Map<String, String> resMap = powderService.insertPowderInfo(requestList, customerBaseInfo.getNo().toString());
+            Map<String, String> resMap = powderService.insertPowderInfo(requestList, customerBaseInfo.getNo()
+                    .toString(), payType);
             mapReturn.put("orderNo", resMap.get("orderNo"));
             mapReturn.put("subAmount", resMap.get("subAmount"));
             mapReturn.put("isException", false);
@@ -330,7 +333,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             return mapReturn;
         }
     }
-    
+
     /**
      * 付款
      * 
@@ -347,7 +350,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
 
             TPowderOrder tPowderOrder = powderService.getTPowderOrderByOrderNo(orderNo);
             // 优先更新付款方式
-            tPowderOrder.setPaymentMethod(CommonEnum.PaymentMethod.WE_CHAT.getCode());
+            tPowderOrder.setPaymentMethod(CommonEnum.PaymentMethod.ONLINE_PAY_CWB.getCode());
             powderService.updatePowderOrder(tPowderOrder);
             BigDecimal amount = tPowderOrder.getSumAmount();
             Map<String, String> payMap = new HashMap<String, String>();
@@ -371,7 +374,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             Map<String, String> resMap = VpcHttpPayUtils.http("https://migs.mastercard.com.au/vpcdps", payMap);
             if (resMap != null && "0".equals(resMap.get(VpcHttpPayUtils.VPC_TXNRESPONSECODE))) {
                 String serialNo = resMap.get(CommonConstants.TRANSACTION_SERIAL_NO);
-                powderService.updateOrderAfterPay(orderNo, customerNo, session, serialNo);
+                powderService.updateOrderAfterPay(orderNo, customerNo, session, serialNo, CommonConstants.TRANSACTION_OBJECT);
                 mapReturn.put("isException", false);
             }
             else {
@@ -386,7 +389,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             return mapReturn;
         }
     }
-    
+
     /**
      * 获取未付款的订单
      * 
@@ -411,7 +414,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             tPowderOrder.setCustomerId(customerBaseInfo.getNo().toString());
             tPowderOrder.setPaymentStatus(CommonEnum.HandleFlag.NOT_PAY.getCode());
             List<TPowderOrder> orderList = powderService.getTPowderOrderInfoList(tPowderOrder);
-            
+
             mapReturn.put("sccount", orderList == null ? 0 : orderList.size());
             // 后台维护的时候提示让以逗号隔开
             mapReturn.put("isException", false);
@@ -423,7 +426,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             return mapReturn;
         }
     }
-    
+
     /**
      * 获取待发货的订单
      * 
@@ -448,7 +451,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             tPowderOrder.setCustomerId(customerBaseInfo.getNo().toString());
             tPowderOrder.setPaymentStatus(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
             List<TPowderOrder> orderList = powderService.getTPowderOrderInfoList(tPowderOrder);
-            
+
             mapReturn.put("sccount", orderList == null ? 0 : orderList.size());
             // 后台维护的时候提示让以逗号隔开
             mapReturn.put("isException", false);
@@ -458,6 +461,80 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             logger.error(e.getMessage());
             mapReturn.put("isException", true);
             return mapReturn;
+        }
+    }
+
+    /**
+     * 获取待发货的订单
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/getSign")
+    @ResponseBody
+    public Map<String, Object> getSign(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+            @RequestBody Map<String, String> map) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            String strSrc = map.get("source");
+            String encName = map.get("type");
+            String signString = CommonUtils.Encrypt(strSrc, encName);
+            mapReturn.put("encrypt", signString);
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+    
+    
+    /**
+     * 微信支付通知画面
+     * @param model
+     * @param request
+     * @param orderId
+     * @return
+     */
+    @RequestMapping(value = "/notify", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> notify(Model model, HttpServletRequest request, String orderId) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+    
+    /**
+     * 微信支付成功画面
+     * @param model
+     * @param request
+     * @param orderId
+     * @return
+     */
+    @RequestMapping(value = "/redirect", method = RequestMethod.GET)
+    @ResponseBody
+    public String redirect(Model model, HttpServletRequest request, HttpSession session, String orderId) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            powderService.updateOrderAfterPay(orderId, customerNo, session, "000010000", CommonConstants.TRANSACTION_OBJECT);
+            mapReturn.put("isException", false);
+            return "redirect:/user/init";
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return CommonConstants.ERROR_PAGE;
         }
     }
 }

@@ -86,6 +86,8 @@ public final class CommonConstants {
 
     public static final String     TRANSACTION_OBJECT         = "CommonWealth";                         // CommonWealth定植
 
+    public static final String     TRANSACTION_OBJECT_WECHAT  = "WECHAT";                               // WECHAT定植
+
     public static final String     TRANSACTION_SERIAL_NO      = "vpc_ReceiptNo";                        // 收据号
 
     public static final String     TRANSACTION_SERIAL_NO_MOCK = "00000-00000";                          // 模拟收据号
@@ -133,5 +135,9 @@ public final class CommonConstants {
     public static final int        STOCK_100                  = 100;
 
     public static final BigDecimal POWDER_NUMBER              = new BigDecimal(3);
+
+    public static final String     ID_CARD                    = "IDCARD";
+
+    public static final String     IMG_TYPE_PNG               = ".PNG";
 
 }

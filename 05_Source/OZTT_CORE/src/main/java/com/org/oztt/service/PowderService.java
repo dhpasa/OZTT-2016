@@ -129,7 +129,7 @@ public interface PowderService {
      * @param resList
      * @throws Exception
      */
-    public Map<String, String> insertPowderInfo(List<Map<String, Object>> resList, String customerId) throws Exception;
+    public Map<String, String> insertPowderInfo(List<Map<String, Object>> resList, String customerId, String payType) throws Exception;
     
     /**
      * 通过订单号获取奶粉订单信息
@@ -147,7 +147,7 @@ public interface PowderService {
      * @param serialNo
      * @throws Exception
      */
-    public void updateOrderAfterPay(String orderId, String customerNo, HttpSession session, String serialNo) throws Exception;
+    public void updateOrderAfterPay(String orderId, String customerNo, HttpSession session, String serialNo, String transactionType) throws Exception;
     
     /**
      * 更新奶粉订单数据

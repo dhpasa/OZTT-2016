@@ -34,10 +34,12 @@
 			$("#purchase-credit-pop-up").modal('show');
 		} else {
 			if (payMethod == '1') {
-				// commonwealth支付
-				
+				// commonwealth支付画面
+				location.href="/OZTT_Phone/powderOrder/toCWLPay?orderId="+orderId;
 			} else if (payMethod == '4'){
 				// 微信支付
+				$("#purchase-credit-pop-up").modal('hide');
+				createInfoDialog('微信支付开发中......','1');
 			}
 		}
 	}
@@ -75,7 +77,7 @@
 						var temp16 = '				<span><fmt:message key="POWDER_ORDER_TOTAL_AMOUNT" />{0}</span>';
 						var temp17 = '			</div>';
 						var temp18 = '		</div>';
-						var temp19 = '		<div class="order-canpay"><a onclick="toShowPay(\'{0}\',\'{1}\')"><fmt:message key="ORDERLIST_TOPAY" /></a></div>';
+						var temp19 = '		<div class="order-canpay clearfix"><a onclick="toShowPay(\'{0}\',\'{1}\')"><fmt:message key="ORDERLIST_TOPAY" /></a></div>';
 						var temp20 = '	</div>';
 						var temp21 = '</div>';
 					
@@ -217,7 +219,7 @@
 			// 并在5秒后消失
 			setTimeout(function() {
 				$('.dialog-container').remove();
-			}, 3000);
+			}, 1000);
 		}
 	}
 </script>

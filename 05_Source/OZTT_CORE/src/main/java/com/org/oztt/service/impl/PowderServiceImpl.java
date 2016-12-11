@@ -159,7 +159,7 @@ public class PowderServiceImpl extends BaseService implements PowderService {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, String> insertPowderInfo(List<Map<String, Object>> resList, String customerId) throws Exception {
+    public Map<String, String> insertPowderInfo(List<Map<String, Object>> resList, String customerId, String payType) throws Exception {
         Map<String, String> resMap = new HashMap<String, String>();
 
         // 产生订单号
@@ -232,19 +232,22 @@ public class PowderServiceImpl extends BaseService implements PowderService {
             TPowderBox tPowderBox = new TPowderBox();
             tPowderBox.setElecExpressNo("");
             tPowderBox.setExpressDate(nowDateString);
+            
+            // 快递
+            TExpressInfo expressInfo = tExpressInfoDao.selectByPrimaryKey(Long.valueOf(powderBoxRes.get("expressId").toString()));
             tPowderBox.setDeliverId(powderBoxRes.get("expressId").toString());
             tPowderBox.setSenderId(powderBoxRes.get("sendpersonId").toString());
             tPowderBox.setReceiverId(powderBoxRes.get("addresseepersonId").toString());
             tPowderBox.setIfRemarks(powderBoxRes.get("isRemarkFlg").toString());
             tPowderBox.setRemarks(powderBoxRes.get("remarkData").toString());
             tPowderBox.setIfMsg(powderBoxRes.get("isReceivePicFlg").toString());
-            tPowderBox.setAdditionalCost(new BigDecimal("123"));//TODO
+            tPowderBox.setAdditionalCost(expressInfo.getPriceCoefficient());
             tPowderBox.setSumAmount(sum);
             tPowderBox.setOrderId(String.valueOf(orderIncrement));
             tPowderBox.setHandleStatus(CommonEnum.HandleFlag.NOT_PAY.getCode());
             tPowderBoxDao.insertSelective(tPowderBox);
 
-            sumTotal = sumTotal.add(sum);
+            sumTotal = sumTotal.add(sum).add(expressInfo.getPriceCoefficient());
         }
 
         // 奶粉订单
@@ -256,6 +259,9 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         // 保存奶粉订单的时候一定是没有付款的
         tPowderOrder.setPaymentStatus(CommonEnum.HandleFlag.NOT_PAY.getCode());
         tPowderOrder.setStatus(CommonEnum.HandleFlag.NOT_PAY.getCode());
+        if (StringUtils.isNotEmpty(payType)){
+            tPowderOrder.setPaymentMethod(payType);
+        }
         tPowderOrderDao.insertSelective(tPowderOrder);
 
         resMap.put("orderNo", maxOrderNo);
@@ -271,7 +277,7 @@ public class PowderServiceImpl extends BaseService implements PowderService {
     }
 
     @Override
-    public void updateOrderAfterPay(String orderId, String customerNo, HttpSession session, String serialNo)
+    public void updateOrderAfterPay(String orderId, String customerNo, HttpSession session, String serialNo, String transactionType)
             throws Exception {
 
         TPowderOrder tPowderOrder = this.getTPowderOrderByOrderNo(orderId);
@@ -324,7 +330,7 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         tConsTransaction.setAdduserkey(customerNo);
         tConsTransaction.setCustomerno(customerNo);
         tConsTransaction.setTransactionserialno(serialNo);
-        tConsTransaction.setTransactionobject(CommonConstants.TRANSACTION_OBJECT);
+        tConsTransaction.setTransactionobject(transactionType);
         tConsTransaction.setTransactioncomments("");
         tConsTransaction.setTransactionno(maxTranctionNo);
         tConsTransaction.setTransactionmethod(tPowderOrder.getPaymentMethod());
@@ -359,6 +365,17 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         tPowderOrder.setStatus(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
         tPowderOrder.setPaymentDate(nowDateString);
         this.updatePowderOrder(tPowderOrder);
+        
+        // 更新订单下面的装箱flag
+        TPowderBox param = new TPowderBox();
+        param.setOrderId(tPowderOrder.getId().toString());
+        List<TPowderBox> powderBoxList = tPowderBoxDao.selectTPowderBoxList(param);
+        if (powderBoxList != null) {
+            for (TPowderBox boxInfo : powderBoxList){
+                boxInfo.setHandleStatus(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
+                tPowderBoxDao.updateByPrimaryKeySelective(boxInfo);
+            }
+        }
 
     }
 
@@ -403,40 +420,50 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         powderBoxInfo.setBoxId(String.valueOf(id));
         powderBoxInfo.setBoxPhotoUrls(tPowderBox.getBoxPhotoUrls());
         TExpressInfo tExpressInfo = tExpressInfoDao.selectByPrimaryKey(Long.valueOf(tPowderBox.getDeliverId()));
-
+        powderBoxInfo.setExpressAmount(tExpressInfo.getPriceCoefficient().toString());
         powderBoxInfo.setExpressName(tExpressInfo.getExpressName());
         powderBoxInfo.setExpressPhotoUrl(tPowderBox.getExpressPhotoUrl());
         powderBoxInfo.setIfMsg(tPowderBox.getIfMsg());
         powderBoxInfo.setIfRemarks(tPowderBox.getIfRemarks());
 
         TReceiverInfo tReceiverInfo = tReceiverInfoDao.selectByPrimaryKey(Long.valueOf(tPowderBox.getReceiverId()));
+        powderBoxInfo.setReceiveId(tReceiverInfo.getId().toString());
         powderBoxInfo.setReceiveAddress(tReceiverInfo.getReceiverAddr());
         powderBoxInfo.setReceiveName(tReceiverInfo.getReceiverName());
         powderBoxInfo.setReceivePhone(tReceiverInfo.getReceiverTel());
+        powderBoxInfo.setReceiveIdCard(tReceiverInfo.getReceiverIdCardNo());
+        if (!StringUtils.isEmpty(tReceiverInfo.getReceiverIdCardPhotoUrls())) {
+            String[] idCardPhotoArr = tReceiverInfo.getReceiverIdCardPhotoUrls().split(",");
+            powderBoxInfo.setReceiveCardPhoneBe((idCardPhotoArr[0] == null || StringUtils.isEmpty(idCardPhotoArr[0].trim())) ? "" : (super.getApplicationMessage(
+                    "saveImgUrl", null) + CommonConstants.ID_CARD + CommonConstants.PATH_SPLIT + idCardPhotoArr[0]));
+            powderBoxInfo.setReceiveCardPhoneAf((idCardPhotoArr[1] == null || StringUtils.isEmpty(idCardPhotoArr[1].trim())) ? "" : (super.getApplicationMessage(
+                    "saveImgUrl", null) + CommonConstants.ID_CARD + CommonConstants.PATH_SPLIT + idCardPhotoArr[1]));
+        }
+        else {
+            powderBoxInfo.setReceiveCardPhoneAf("");
+            powderBoxInfo.setReceiveCardPhoneBe("");
+        }
+
         powderBoxInfo.setRemarks(tPowderBox.getRemarks());
 
         TSenderInfo tSenderInfo = tSenderInfoDao.selectByPrimaryKey(Long.valueOf(tPowderBox.getSenderId()));
+        powderBoxInfo.setSenderId(tSenderInfo.getId().toString());
         powderBoxInfo.setSenderName(tSenderInfo.getSenderName());
         powderBoxInfo.setSenderPhone(tSenderInfo.getSenderTel());
         powderBoxInfo.setStatus(tPowderBox.getHandleStatus());
-        powderBoxInfo.setTotalAmount(tPowderBox.getSumAmount().toString());
+        powderBoxInfo.setTotalAmount(tPowderBox.getSumAmount().add(tPowderBox.getAdditionalCost()).toString());
 
         TPowderOrderDetails detailParam = new TPowderOrderDetails();
         detailParam.setPowderBoxId(powderBoxInfo.getBoxId());
 
         List<PowderMilkInfo> detailList = tPowderOrderDetailsDao.selectPowderDetailList(detailParam);
         powderBoxInfo.setPowderMikeList(detailList);
-        BigDecimal priceCount = BigDecimal.ZERO;
-        if (detailList != null && detailList.size() > 0) {
-            for (PowderMilkInfo milk : detailList) {
-                priceCount = priceCount.add(new BigDecimal(milk.getPowderPrice()));
-            }
-        }
 
-        powderBoxInfo.setPricecount(priceCount.toString());
+
+        powderBoxInfo.setPricecount(tPowderBox.getSumAmount().toString());
         // 状态
         powderBoxInfo.setOrderStatusView(CommonEnum.HandleFlag.getEnumLabel(powderBoxInfo.getStatus()));
-        
+
         if (StringUtils.isNotEmpty(tPowderBox.getExpressPhotoUrl())) {
             powderBoxInfo.setExpressPhotoUrlExitFlg("1");
         }
