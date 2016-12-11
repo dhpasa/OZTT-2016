@@ -371,16 +371,15 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             payMap.put("vpc_CardSecurityCode", map.get("vpc_CardSecurityCode"));
             payMap.put("vpc_CSCLevel", MessageUtils.getApplicationMessage("vpc_CSCLevel", session));
             payMap.put("vpc_TicketNo", "");
-//            Map<String, String> resMap = VpcHttpPayUtils.http("https://migs.mastercard.com.au/vpcdps", payMap);
-//            if (resMap != null && "0".equals(resMap.get(VpcHttpPayUtils.VPC_TXNRESPONSECODE))) {
-//                String serialNo = resMap.get(CommonConstants.TRANSACTION_SERIAL_NO);
-//                powderService.updateOrderAfterPay(orderNo, customerNo, session, serialNo, CommonConstants.TRANSACTION_OBJECT);
-//                mapReturn.put("isException", false);
-//            }
-//            else {
-//                mapReturn.put("isException", true);
-//            }
-            powderService.updateOrderAfterPay(orderNo, customerNo, session, "3210980", CommonConstants.TRANSACTION_OBJECT);
+            Map<String, String> resMap = VpcHttpPayUtils.http("https://migs.mastercard.com.au/vpcdps", payMap);
+            if (resMap != null && "0".equals(resMap.get(VpcHttpPayUtils.VPC_TXNRESPONSECODE))) {
+                String serialNo = resMap.get(CommonConstants.TRANSACTION_SERIAL_NO);
+                powderService.updateOrderAfterPay(orderNo, customerNo, session, serialNo, CommonConstants.TRANSACTION_OBJECT);
+                mapReturn.put("isException", false);
+            }
+            else {
+                mapReturn.put("isException", true);
+            }
             return mapReturn;
         }
         catch (Exception e) {
