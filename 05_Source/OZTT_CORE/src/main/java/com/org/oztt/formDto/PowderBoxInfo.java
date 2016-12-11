@@ -21,11 +21,21 @@ public class PowderBoxInfo {
 
     private String               totalAmount;
 
+    private String               receiveId;
+
     private String               receiveName;
 
     private String               receivePhone;
 
     private String               receiveAddress;
+
+    private String               receiveIdCard;
+
+    private String               receiveCardPhoneBe;
+
+    private String               receiveCardPhoneAf;
+
+    private String               senderId;
 
     private String               senderName;
 
@@ -223,5 +233,45 @@ public class PowderBoxInfo {
 
     public void setElecExpressNo(String elecExpressNo) {
         this.elecExpressNo = elecExpressNo;
+    }
+
+    public String getReceiveId() {
+        return receiveId;
+    }
+
+    public void setReceiveId(String receiveId) {
+        this.receiveId = receiveId;
+    }
+
+    public String getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
+    }
+
+    public String getReceiveIdCard() {
+        return receiveIdCard;
+    }
+
+    public void setReceiveIdCard(String receiveIdCard) {
+        this.receiveIdCard = receiveIdCard;
+    }
+
+    public String getReceiveCardPhoneBe() {
+        return receiveCardPhoneBe;
+    }
+
+    public void setReceiveCardPhoneBe(String receiveCardPhoneBe) {
+        this.receiveCardPhoneBe = receiveCardPhoneBe;
+    }
+
+    public String getReceiveCardPhoneAf() {
+        return receiveCardPhoneAf;
+    }
+
+    public void setReceiveCardPhoneAf(String receiveCardPhoneAf) {
+        this.receiveCardPhoneAf = receiveCardPhoneAf;
     }
 }

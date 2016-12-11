@@ -56,6 +56,15 @@
 			});
 			
 			$('.powder_back').click(function(){
+				// 初始画面展示时
+				if ($("#mpas_today_prive_id").css('display') == 'block') {
+					location.href = "${ctx}/main/init"
+				}
+				// 箱子详细画面
+				if ($("#mpas_package_detail_id").css('display') == 'block') {
+					createConfirmDialog('reloadView()', '<fmt:message key="I0005" />');
+				}
+				
 				// 返回按钮
 				// 地址选择画面
 				if ($(".mpas_address_select_div").css('display') == 'block') {
@@ -76,7 +85,7 @@
 				}
 				
 				if ($("#powder_purchase_section_id").css('display') == 'block') {
-					createConfirmDialog('reloadView()', '<fmt:message key="I0005" />');
+					createConfirmDialog('reloadView()', '<fmt:message key="I0008" />');
 				}
 			});
 			
@@ -93,11 +102,14 @@
 			});
 			
 			$("#save_order").click(function(){
-				submitPowderDate();
+				submitPowderDate('');
 				// 保存我的订单按钮点击
 				createInfoDialog('<fmt:message key="I0006" />', '1');
 				// 重新加载画面
-				reloadView();
+				setTimeout(function() {
+					reloadView();
+				}, 1000);
+				
 			});
 			
 			
@@ -105,7 +117,13 @@
 		
 		function gotoPurchase() {
 			// 首先保存信息。
-			submitPowderDate();
+			var payType = '';
+			if ($("#radio-bank").attr("checked") == "checked") {
+				payType = '1';
+			} else {
+				payType = '4';
+			}
+			submitPowderDate(payType);
 			
 			// 点击确认支付后，看选择内容，分别进行支付操作
 			if ($("#radio-bank").attr("checked") == "checked") {
@@ -123,11 +141,59 @@
 			} else {
 				// 微信支付
 				$("#purchase-credit-pop-up").modal('hide');
-				createInfoDialog('微信支付开发中......','1');
+				toWebCatPay();
+				
 			}
 		}
 		
-		function submitPowderDate(){
+		function toWebCatPay(){
+			createInfoDialog('微信支付开发中......','1');
+			/* var dTime = new Date().getTime();
+			var uu = getUuid();
+			var orderId = $("#currentOrderNo").val();
+			var notify_url = '${ctx}/milkPowderAutoPurchase/notify?orderId='+orderId;
+			var redirect = '${ctx}/milkPowderAutoPurchase/redirect?orderId='+orderId;
+			var paramData = {
+					description : '<fmt:message key="POWDER_ORDER_USER_MYORDER" />',
+					price : 200,
+					device_id:getDevice(),
+					notify_url : notify_url,
+					operator: 'oztt_phone'
+			};
+			var sign = getSign(createWechatSign('OZTT', 'GDmQUaWrmhae0EpNBMUmCsD3PJhh049Y', uu, dTime));
+			var url = 'https://mpay.royalpay.com.au/api/v1.0/wechat_jsapi_gateway/partners/OZTT/orders/'+orderId;
+			url += "?time="+dTime+"&nonce_str="+uu+"&sign="+sign;
+			$.ajax({
+				type : "PUT",
+				contentType:'application/json',
+				url : url,
+				dataType : "json",
+				async : false,
+				data : JSON.stringify(paramData), 
+				success : function(data) {
+					if (data.return_code == "200") {
+						// 重新签名
+						var signagain = getSign(createWechatSign('OZTT', 'GDmQUaWrmhae0EpNBMUmCsD3PJhh049Y', uu, dTime));
+						var payUrl = data.pay_url + "?redirect="+redirect+"&directpay=false";
+						payUrl += "&time="+dTime+"&nonce_str="+uu+"&sign="+signagain;
+						location.href = data.pay_url;
+					} else {
+						createErrorInfoDialog('<fmt:message key="E0022" />');
+						setTimeout(function() {
+							location.href = "${ctx}/user/init"
+						}, 1000);
+					}					
+				},
+				error : function(data) {
+					createErrorInfoDialog('<fmt:message key="E0022" />');
+					setTimeout(function() {
+						location.href = "${ctx}/user/init"
+					}, 1000);
+				}
+			}); */
+		}
+		
+		function submitPowderDate(payType){
 			// 判断有没有数据
 			if (powderData == null || powderData.length == 0) {
 				return;
@@ -136,7 +202,7 @@
 			$.ajax({
 				type : "POST",
 				contentType:'application/json',
-				url : '${ctx}/milkPowderAutoPurchase/submitPowderDate',
+				url : '${ctx}/milkPowderAutoPurchase/submitPowderDate?payType='+payType,
 				dataType : "json",
 				async : false,
 				data : JSON.stringify(powderData), 
@@ -287,7 +353,7 @@
 				doListenDelete();
 			}
 			// 总金额的显示
-			showAllAmount();
+			showAllAmount('');
 		}
 		
 		function bindSelectPowderEvent(str){
@@ -315,20 +381,24 @@
 				} 
 				
 				// 重新计算总金额
-				showAllAmount();
+				showAllAmount('');
 			});
 		}
 		
 		// 计算总金额显示在画面上，如果选择的为错误那就显示0.0
-		function showAllAmount() {
+		function showAllAmount(expressRateParam) {
 			
 			// 运费系数
 			var expressRate = 0;
-			$('.mpas_express_div').find('li').each(function(i, o){
-				if ($(o).hasClass('active')){
-					expressRate = parseFloat($(o).find('a').attr('class').split(",")[1])
-				}
-			});
+			if (expressRateParam == '') {
+				$('.mpas_express_div').find('li').each(function(i, o){
+					if ($(o).hasClass('active')){
+						expressRate = parseFloat($(o).find('a').attr('class').split(",")[1])
+					}
+				});
+			} else {
+				expressRate = expressRateParam;
+			}
 			
 			var powderAmount = 0;
 			// 奶粉总金额
@@ -357,13 +427,13 @@
 			if (powderAmount == 0) {
 				$('#moneycount').text('0.00');
 			} else {
-				powderAmount = powderAmount + powderAmount*expressRate;
+				powderAmount = parseFloat(powderAmount) + parseFloat(expressRate);
 				$('#moneycount').text(fmoney(powderAmount,2));
 			}
 		}
 		
-		function reloadMoney(){
-			showAllAmount();
+		function reloadMoney(expressRate){
+			showAllAmount(expressRate);
 		}
 		
 		var E0015 = '<fmt:message key="E0015" />';
@@ -780,10 +850,10 @@
 		strHtml += '</div>';
 		$('body').append(strHtml);
 		if (type == '1') {
-			// 并在5秒后消失
+			// 并在3秒后消失
 			setTimeout(function() {
 				$('.dialog-container').remove();
-			}, 3000);
+			}, 1000);
 		}
 	}
 	
@@ -800,7 +870,7 @@
 		// 并在5秒后消失
 		setTimeout(function() {
 			$('.dialog-container').remove();
-		}, 3000);
+		}, 1000);
 	}
 	
 	function closeTheConfirm(str) {
@@ -848,6 +918,9 @@
 					if (!data.isException) {
 						// 货到付款
 						createInfoDialog('<fmt:message key="I0007"/>','1');
+						setTimeout(function() {
+							location.href = "${ctx}/user/init";
+						}, 1000);
 					} else {
 						// 付款失败
 						createErrorInfoDialog('<fmt:message key="E0021"/>');
@@ -889,6 +962,33 @@
   				}
   			}
   		}
+  		
+  		function getSign(str) {
+  			var paramData = {
+  					source:str,
+  					type:"SHA-256"
+  			}
+  			
+  			var restr = "";
+  			$.ajax({
+				type : "POST",
+				contentType:'application/json',
+				url : '${ctx}/milkPowderAutoPurchase/getSign',
+				dataType : "json",
+				async : false,
+				data : JSON.stringify(paramData), 
+				success : function(data) {
+					if (!data.isException) {
+						restr = data.encrypt;
+					}
+					
+				},
+				error : function(data) {
+					
+				}
+			});
+  			return restr;
+  		}
 	
   </script>
 </head>
@@ -898,7 +998,7 @@
 <body>
     <div class="x-header x-header-gray border-1px-bottom x-fixed border-bottom-show-bold">
 		<div class="x-header-btn">
-			<i class="fa fa-angle-left font-xxxl powder_back" style="display:none"></i>
+			<i class="fa fa-angle-left font-xxxl powder_back"></i>
 		</div>
 		<div class="x-header-title">
 			<span class="mpas_head_color"><fmt:message key="POWDER_TITLE" /></span>
@@ -943,7 +1043,7 @@
 				
 				<c:forEach var="expressList" items="${ ExpressList }" varStatus="status">
 					<li <c:if test="${status.index == 0}">class="active"</c:if>>
-						<a onclick="reloadMoney();return false;" data-toggle="tab" class="${expressList.id },${expressList.priceCoefficient }">${expressList.expressName }</a>
+						<a onclick="reloadMoney('${expressList.priceCoefficient }');return false;" data-toggle="tab" class="${expressList.id },${expressList.priceCoefficient }">${expressList.expressName }</a>
 					</li>
 				</c:forEach>
 			</ul>
@@ -1138,7 +1238,7 @@
 	</div>
 	
 	<script type="text/javascript">
-		showAllAmount();
+		showAllAmount('');
 	</script>
 	
 	<div id="purchase-credit-pop-up" class="modal fade" role="dialog" aria-hidden="true" >

@@ -21,4 +21,6 @@ public interface TPowderBoxDao {
     int selectAutoIncrement();
     
     List<PowderBoxInfo> selectTPowderList(TPowderBox record);
+    
+    List<TPowderBox> selectTPowderBoxList(TPowderBox record);
 }

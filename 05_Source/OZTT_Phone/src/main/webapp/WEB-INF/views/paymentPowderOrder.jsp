@@ -40,7 +40,7 @@
 					"vpc_CardNum":$("#vpc_CardNum").val(),
 					"vpc_CardExp":$("#vpc_CardExp").val(),
 					"vpc_CardSecurityCode":$("#vpc_CardSecurityCode").val(),
-					"orderNo":$("#currentOrderNo").val()
+					"orderNo":$("#orderNo").val()
 			}
 	  		$.ajax({
 				type : "POST",
@@ -53,6 +53,9 @@
 					if (!data.isException) {
 						// 付款成功
 						createInfoDialog('<fmt:message key="I0007"/>','1');
+						setTimeout(function() {
+							location.href = "${ctx}/user/init";
+						}, 1000);
 					} else {
 						// 付款失败
 						createErrorInfoDialog('<fmt:message key="E0021"/>');
@@ -94,6 +97,40 @@
   			}
   		}
   		
+  	// 创建信息提示框
+  		function createInfoDialog(msg, type) {
+  			var strHtml = '<div class="dialog-container">';
+  			strHtml += '<div class="dialog-window">';
+  			strHtml += '<div class="dialog-content">'+msg+'</div>';
+  			strHtml += '<div class="dialog-footer">';
+  			strHtml += '</div>';
+  			strHtml += '</div>';
+  			strHtml += '</div>';
+  			$('body').append(strHtml);
+  			if (type == '1') {
+  				// 并在3秒后消失
+  				setTimeout(function() {
+  					$('.dialog-container').remove();
+  				}, 1000);
+  			}
+  		}
+  		
+  		// 创建信息提示框
+  		function createErrorInfoDialog(msg) {
+  			var strHtml = '<div class="dialog-container">';
+  			strHtml += '<div class="dialog-window">';
+  			strHtml += '<div class="dialog-content" style="color:red">'+msg+'</div>';
+  			strHtml += '<div class="dialog-footer">';
+  			strHtml += '</div>';
+  			strHtml += '</div>';
+  			strHtml += '</div>';
+  			$('body').append(strHtml);
+  			// 并在5秒后消失
+  			setTimeout(function() {
+  				$('.dialog-container').remove();
+  			}, 1000);
+  		}
+  		
   		
   </script>
 </head>
@@ -113,7 +150,7 @@
 	<div class="banklogodiv">
 	 	<img alt="logo" src="${ctx}/images/banklogo.png">
 	 </div>
-	<div class="logincontain">
+	<div class="logincontain" style="margin-bottom: 5rem;">
 		<div class="input_username" style="text-align: center">
 			<span class="payment_dingdan"><fmt:message key="COMMON_30MIN_PAY" /></span>
 			<span class="payment_cuntdown" data-seconds-left="${leftTime}">

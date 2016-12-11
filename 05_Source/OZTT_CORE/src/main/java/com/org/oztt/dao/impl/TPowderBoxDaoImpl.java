@@ -36,8 +36,7 @@ public class TPowderBoxDaoImpl extends BaseDao implements TPowderBoxDao {
 
     @Override
     public int updateByPrimaryKeySelective(TPowderBox record) {
-        // TODO Auto-generated method stub
-        return 0;
+        return update("com.org.oztt.dao.TPowderBoxMapper.updateByPrimaryKeySelective", record);
     }
 
     @Override
@@ -54,6 +53,11 @@ public class TPowderBoxDaoImpl extends BaseDao implements TPowderBoxDao {
     @Override
     public List<PowderBoxInfo> selectTPowderList(TPowderBox record) {
         return select("com.org.oztt.dao.TPowderBoxMapper.selectTPowderList", record);
+    }
+
+    @Override
+    public List<TPowderBox> selectTPowderBoxList(TPowderBox record) {
+        return select("com.org.oztt.dao.TPowderBoxMapper.selectTPowderBoxList", record);
     }
 
 }

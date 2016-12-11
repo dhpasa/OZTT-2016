@@ -24,7 +24,7 @@ public class PowderCommonDto {
             number--;
             PowderCommonDto d = new PowderCommonDto();
             d.setId(String.valueOf(++i));
-            d.setName(d.getId());
+            d.setName(d.getId() + "罐");
             re.add(d);
         }
         

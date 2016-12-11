@@ -158,8 +158,8 @@
     a.quantity as number,
     c.powderPrice as powderPrice
     from t_powder_order_details a
-    inner join t_brand_info b on a.powderId = b.id
     inner join t_powder_info c on a.powderId = c.id
+    inner join t_brand_info b on c.powderBrand = b.id
     inner join t_sys_code d on d.codeDetailId = c.powderSpec and d.codeId = 'COM021'
     where a.powderBoxId = #{powderBoxId,jdbcType=VARCHAR}
   </select>

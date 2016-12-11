@@ -289,4 +289,16 @@
       	</if>
   
   </select>
+  
+  <select id="selectTPowderBoxList" resultMap="BaseResultMap" parameterType="com.org.oztt.entity.TPowderBox">
+  	select 
+    <include refid="Base_Column_List" />
+    from t_powder_box
+   	where 1=1
+    <if test="orderId != null" >
+       and orderId = #{orderId,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  
 </mapper>
