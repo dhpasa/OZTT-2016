@@ -3929,6 +3929,7 @@ html{
 
 .bottom_margin{
 	margin-bottom: 7rem;
+	background-color: #fff;
 }
 
 .idCard{
@@ -3987,9 +3988,38 @@ html{
     padding: 5px 0px 5px 0px;
 }
 
+.powder_detail_box_info .express_show{
+	text-align: right;
+}
 
+.powder_detail_box_info .express_show a{
+	display: inline-block;
+    width: 20%;
+    height: 2rem;
+    border-radius: 3px !important;
+    border: 0.5px solid rgba(187, 187, 187, 0.5);
+    background: #fff;
+    text-decoration: none;
+    line-height: 2rem;
+    text-align: center;
+    color: #666;
+    margin-right: 10px;
+}
 
+.express_info_div{
+	overflow: auto;
+    height: 300px;
+}
 
+.main_loading{
+	position: absolute;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+}
 
-
-
+.main_loading img{
+	position: absolute;
+    top: 50%;
+    left: 44%;
+}

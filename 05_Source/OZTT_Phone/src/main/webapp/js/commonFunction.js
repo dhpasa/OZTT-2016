@@ -136,4 +136,23 @@ function getDevice(){
 	
 }
 
+// 创建等待提示
+function createLoading(type) {
+	var strHtml = '<div id="main_loading" class="main_loading">';
+	strHtml += '<img src="../images/loading.gif">';
+	strHtml += '</div>';
+
+	$('body').append(strHtml);
+	if (type == '1') {
+		// 并在3秒后消失
+		setTimeout(function() {
+			$('#main_loading').remove();
+		}, 3000);
+	}
+}
+
+function removeLoading(){
+	$('#main_loading').remove();
+}
+
 

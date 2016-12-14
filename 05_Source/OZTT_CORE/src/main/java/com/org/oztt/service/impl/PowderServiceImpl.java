@@ -47,8 +47,6 @@ import com.org.oztt.service.BaseService;
 import com.org.oztt.service.CommonService;
 import com.org.oztt.service.PowderService;
 
-import deliveryPicGenerator.DeliveryPicOperation;
-
 @Service
 public class PowderServiceImpl extends BaseService implements PowderService {
 

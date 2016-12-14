@@ -153,6 +153,7 @@
 				createInfoDialog('<fmt:message key="I0009" />', '1');
 				return;
 			}
+			createLoading(0);
 			var orderId = $("#currentOrderNo").val();
 			var paramData = {
 					description : '<fmt:message key="POWDER_ORDER_USER_MYORDER" />',
@@ -173,6 +174,7 @@
 						// 重新签名
 						location.href = data.payUrl;
 					} else {
+						removeLoading();
 						createErrorInfoDialog('<fmt:message key="E0022" />');
 						setTimeout(function() {
 							location.href = "${ctx}/user/init"
@@ -180,6 +182,7 @@
 					}					
 				},
 				error : function(data) {
+					removeLoading();
 					createErrorInfoDialog('<fmt:message key="E0022" />');
 					setTimeout(function() {
 						location.href = "${ctx}/user/init"

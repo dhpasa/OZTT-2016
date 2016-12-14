@@ -6,7 +6,9 @@ package com.org.oztt.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -246,6 +248,39 @@ public class PowderOrderListControler extends BaseController {
             }
             resp.put("isException", false);
 
+            return resp;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            resp.put("isException", true);
+            return resp;
+        }
+    }
+    
+    
+    /**
+     * 更新身份证信息
+     * @param request
+     * @param session
+     * @param type
+     * @param receiveId
+     * @param dataMap
+     * @return
+     */
+    @RequestMapping(value = "/getExpressInfo")
+    public Map<String, Object> getExpressInfo(HttpServletRequest request, HttpSession session, String expressEleNo) {
+        Map<String, Object> resp = new HashMap<String, Object>();
+        try {
+            List<String> strList = new ArrayList<String>();
+            strList.add("货物从布里斯班发出");
+            strList.add("被海盗劫持");
+            strList.add("从海盗手中收回");
+            strList.add("到达上海");
+            strList.add("等待送达......");
+            // 将物流信息返回画面
+            resp.put("expressInfo", strList);
+            resp.put("isException", false);
             return resp;
         }
         catch (Exception e) {
