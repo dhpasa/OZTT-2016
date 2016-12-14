@@ -2,9 +2,11 @@ package com.org.oztt.controller;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.org.oztt.base.util.CommonUtils;
+import com.org.oztt.base.util.HttpRequest;
 import com.org.oztt.base.util.MessageUtils;
 import com.org.oztt.base.util.VpcHttpPayUtils;
 import com.org.oztt.contants.CommonConstants;
@@ -56,6 +60,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
     @RequestMapping(value = "/init")
     public String init(Model model, HttpServletRequest request, HttpSession session) {
         try {
+           
             // 取得奶粉信息
             List<PowderInfoViewDto> powderList = powderService.selectPowderInfo();
             model.addAttribute("powderList", JSON.toJSONString(powderList));
@@ -374,7 +379,8 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             Map<String, String> resMap = VpcHttpPayUtils.http("https://migs.mastercard.com.au/vpcdps", payMap);
             if (resMap != null && "0".equals(resMap.get(VpcHttpPayUtils.VPC_TXNRESPONSECODE))) {
                 String serialNo = resMap.get(CommonConstants.TRANSACTION_SERIAL_NO);
-                powderService.updateOrderAfterPay(orderNo, customerNo, session, serialNo, CommonConstants.TRANSACTION_OBJECT);
+                powderService.updateOrderAfterPay(orderNo, customerNo, session, serialNo,
+                        CommonConstants.TRANSACTION_OBJECT);
                 mapReturn.put("isException", false);
             }
             else {
@@ -465,35 +471,8 @@ public class MilkPowderAutoPurchaseController extends BaseController {
     }
 
     /**
-     * 获取待发货的订单
-     * 
-     * @param request
-     * @param session
-     * @return
-     */
-    @RequestMapping(value = "/getSign")
-    @ResponseBody
-    public Map<String, Object> getSign(HttpServletRequest request, HttpServletResponse response, HttpSession session,
-            @RequestBody Map<String, String> map) {
-        Map<String, Object> mapReturn = new HashMap<String, Object>();
-        try {
-            String strSrc = map.get("source");
-            String encName = map.get("type");
-            String signString = CommonUtils.Encrypt(strSrc, encName);
-            mapReturn.put("encrypt", signString);
-            mapReturn.put("isException", false);
-            return mapReturn;
-        }
-        catch (Exception e) {
-            logger.error(e.getMessage());
-            mapReturn.put("isException", true);
-            return mapReturn;
-        }
-    }
-    
-    
-    /**
      * 微信支付通知画面
+     * 
      * @param model
      * @param request
      * @param orderId
@@ -513,21 +492,22 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             return mapReturn;
         }
     }
-    
+
     /**
      * 微信支付成功画面
+     * 
      * @param model
      * @param request
      * @param orderId
      * @return
      */
     @RequestMapping(value = "/redirect", method = RequestMethod.GET)
-    @ResponseBody
     public String redirect(Model model, HttpServletRequest request, HttpSession session, String orderId) {
         Map<String, Object> mapReturn = new HashMap<String, Object>();
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
-            powderService.updateOrderAfterPay(orderId, customerNo, session, "000010000", CommonConstants.TRANSACTION_OBJECT);
+            powderService.updateOrderAfterPay(orderId, customerNo, session, "000010000",
+                    CommonConstants.TRANSACTION_OBJECT);
             mapReturn.put("isException", false);
             return "redirect:/user/init";
         }
@@ -537,4 +517,104 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             return CommonConstants.ERROR_PAGE;
         }
     }
+
+    /**
+     * 获取微信支付URL
+     * 
+     * @param model
+     * @param request
+     * @param orderId
+     * @return
+     */
+    @RequestMapping(value = "/getWeChatPayUrl")
+    @ResponseBody
+    public Map<String, Object> getWeChatPayUrl(Model model, HttpServletRequest request, HttpSession session,
+            String orderId, @RequestBody String paraMap) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            String dTime = String.valueOf(new Date().getTime());
+            String uu = UUID.randomUUID().toString().replace("-", "");
+            String parterCode = super.getApplicationMessage("partner_code", session);
+            String credentialCode = super.getApplicationMessage("credential_code", session);
+
+            String signOrigin = parterCode + "&" + dTime + "&" + uu + "&" + credentialCode;
+            String signDes = CommonUtils.sign(signOrigin, "SHA-256");
+
+            String url = "https://mpay.royalpay.com.au/api/v1.0/wechat_jsapi_gateway/partners/OZTT/orders/" + orderId;
+            url = url + "?time=" + dTime + "&nonce_str=" + uu + "&sign=" + signDes;
+
+            String notify_url = super.getApplicationMessage("wechat_notify_url", session) + orderId;
+
+            String redirect_url = super.getApplicationMessage("wechat_redirect", session) + orderId;
+
+            TPowderOrder tPowderOrder = powderService.getTPowderOrderByOrderNo(orderId);
+            JSONObject paramJson = (JSONObject) JSONObject.parse(paraMap);
+            //paramJson.put("price", tPowderOrder.getSumAmount().multiply(new BigDecimal(100)).intValue());
+            paramJson.put("price", 1);
+            paramJson.put("notify_url", notify_url);
+
+            String doputInfo = HttpRequest.doPut(url, paramJson.toJSONString());
+
+            String returnUrl = "";
+            if (!StringUtils.isEmpty(doputInfo)) {
+                dTime = String.valueOf(new Date().getTime());
+                uu = UUID.randomUUID().toString().replace("-", "");
+                signOrigin = parterCode + "&" + dTime + "&" + uu + "&" + credentialCode;
+
+                String signAgain = CommonUtils.sign(signOrigin, "SHA-256");
+                JSONObject putResJson = (JSONObject) JSONObject.parse(doputInfo);
+                returnUrl = putResJson.getString("pay_url") + "?redirect=" + redirect_url + "&directpay=false";
+                returnUrl += "&time=" + dTime + "&nonce_str=" + uu + "&sign=" + signAgain;
+            }
+
+            mapReturn.put("payUrl", returnUrl);
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+
+    /**
+     * 获取微信支付已经URL
+     * 
+     * @param model
+     * @param request
+     * @param orderId
+     * @return
+     */
+    @RequestMapping(value = "/getWeChatPayUrlHasCreate")
+    @ResponseBody
+    public Map<String, Object> getWeChatPayUrlHasCreate(Model model, HttpServletRequest request, HttpSession session,
+            String orderId) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            String dTime = String.valueOf(new Date().getTime());
+            String uu = UUID.randomUUID().toString().replace("-", "");
+            String parterCode = super.getApplicationMessage("partner_code", session);
+            String credentialCode = super.getApplicationMessage("credential_code", session);
+            
+            String redirect_url = super.getApplicationMessage("wechat_redirect", session) + orderId;
+
+            String signOrigin = parterCode + "&" + dTime + "&" + uu + "&" + credentialCode;
+            String signDes = CommonUtils.sign(signOrigin, "SHA-256");
+            
+            String url = "https://mpay.royalpay.com.au/api/v1.0/wechat_jsapi_gateway/partners/OZTT_order_"+orderId;
+            url += "?redirect=" + redirect_url + "&directpay=false";
+            url += "&time=" + dTime + "&nonce_str=" + uu + "&sign=" + signDes;
+
+            mapReturn.put("payUrl", url);
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+
 }

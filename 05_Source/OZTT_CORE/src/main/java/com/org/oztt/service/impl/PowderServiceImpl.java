@@ -47,6 +47,8 @@ import com.org.oztt.service.BaseService;
 import com.org.oztt.service.CommonService;
 import com.org.oztt.service.PowderService;
 
+import deliveryPicGenerator.DeliveryPicOperation;
+
 @Service
 public class PowderServiceImpl extends BaseService implements PowderService {
 
@@ -476,5 +478,11 @@ public class PowderServiceImpl extends BaseService implements PowderService {
     @Override
     public void deleteNotPayPowderOrderLimitTime() throws Exception {
         tPowderOrderDao.deleteNoPayOrder();
+    }
+
+    @Override
+    public void createExpressPhotoUrl(String orderNo) throws Exception {
+        // TODO Auto-generated method stub
+        
     }
 }

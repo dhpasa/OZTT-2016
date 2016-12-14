@@ -147,36 +147,31 @@
 		}
 		
 		function toWebCatPay(){
-			createInfoDialog('微信支付开发中......','1');
-			/* var dTime = new Date().getTime();
-			var uu = getUuid();
+			//createInfoDialog('微信支付开发中......','1');
+			if (!isWeiXin()){
+				// 不是微信，则跳出提示
+				createInfoDialog('<fmt:message key="I0009" />', '1');
+				return;
+			}
 			var orderId = $("#currentOrderNo").val();
-			var notify_url = '${ctx}/milkPowderAutoPurchase/notify?orderId='+orderId;
-			var redirect = '${ctx}/milkPowderAutoPurchase/redirect?orderId='+orderId;
 			var paramData = {
 					description : '<fmt:message key="POWDER_ORDER_USER_MYORDER" />',
-					price : 200,
 					device_id:getDevice(),
-					notify_url : notify_url,
 					operator: 'oztt_phone'
 			};
-			var sign = getSign(createWechatSign('OZTT', 'GDmQUaWrmhae0EpNBMUmCsD3PJhh049Y', uu, dTime));
-			var url = 'https://mpay.royalpay.com.au/api/v1.0/wechat_jsapi_gateway/partners/OZTT/orders/'+orderId;
-			url += "?time="+dTime+"&nonce_str="+uu+"&sign="+sign;
+
 			$.ajax({
 				type : "PUT",
+				timeout : 10000, //超时时间设置，单位毫秒
 				contentType:'application/json',
-				url : url,
+				url : '${ctx}/milkPowderAutoPurchase/getWeChatPayUrl?orderId='+orderId,
 				dataType : "json",
 				async : false,
 				data : JSON.stringify(paramData), 
 				success : function(data) {
-					if (data.return_code == "200") {
+					if (data.payUrl != null && data.payUrl != "") {
 						// 重新签名
-						var signagain = getSign(createWechatSign('OZTT', 'GDmQUaWrmhae0EpNBMUmCsD3PJhh049Y', uu, dTime));
-						var payUrl = data.pay_url + "?redirect="+redirect+"&directpay=false";
-						payUrl += "&time="+dTime+"&nonce_str="+uu+"&sign="+signagain;
-						location.href = data.pay_url;
+						location.href = data.payUrl;
 					} else {
 						createErrorInfoDialog('<fmt:message key="E0022" />');
 						setTimeout(function() {
@@ -190,7 +185,7 @@
 						location.href = "${ctx}/user/init"
 					}, 1000);
 				}
-			}); */
+			});
 		}
 		
 		function submitPowderDate(payType){
@@ -963,31 +958,13 @@
   			}
   		}
   		
-  		function getSign(str) {
-  			var paramData = {
-  					source:str,
-  					type:"SHA-256"
-  			}
-  			
-  			var restr = "";
-  			$.ajax({
-				type : "POST",
-				contentType:'application/json',
-				url : '${ctx}/milkPowderAutoPurchase/getSign',
-				dataType : "json",
-				async : false,
-				data : JSON.stringify(paramData), 
-				success : function(data) {
-					if (!data.isException) {
-						restr = data.encrypt;
-					}
-					
-				},
-				error : function(data) {
-					
-				}
-			});
-  			return restr;
+  		function isWeiXin(){
+  		    var ua = window.navigator.userAgent.toLowerCase();
+  		    if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+  		        return true;
+  		    }else{
+  		        return false;
+  		    }
   		}
 	
   </script>
