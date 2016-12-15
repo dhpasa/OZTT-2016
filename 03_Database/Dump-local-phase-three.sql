@@ -554,7 +554,8 @@ CREATE TABLE `t_express_info` (
   `updTimestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updUserKey` varchar(40) DEFAULT NULL,
   `updPgmId` varchar(30) DEFAULT NULL,
-  `kiloCost` decimal(12,2) DEFAULT NULL,
+  `babyKiloCost` decimal(12,2) DEFAULT NULL,
+  `instantKiloCost` decimal(12,2) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -565,7 +566,7 @@ CREATE TABLE `t_express_info` (
 
 LOCK TABLES `t_express_info` WRITE;
 /*!40000 ALTER TABLE `t_express_info` DISABLE KEYS */;
-INSERT INTO `t_express_info` VALUES (1,'蓝天','7',0.00,'0','2016-11-27 13:25:56','admin','2016-11-27 13:30:32','admin','admin',NULL),(2,'B快递',NULL,20.00,'0','2016-11-27 13:25:56','admin','2016-11-27 13:30:32','admin','admin',NULL),(3,'C快递',NULL,30.00,'0','2016-11-27 13:25:56','admin','2016-11-27 13:30:32','admin','admin',NULL),(4,'D快递','嘻嘻嘻',12.00,'0','2016-12-13 06:05:02','admin','2016-12-13 06:05:02',NULL,'desktop',NULL),(6,'ADW快递','awd',13.00,'0','2016-12-13 08:01:03','admin','2016-12-13 08:01:03','admin','desktop',NULL);
+INSERT INTO `t_express_info` VALUES (1,'蓝天','7',0.00,'0','2016-11-27 13:25:56','admin','2016-11-27 13:30:32','admin','admin',NULL,NULL),(2,'B快递',NULL,20.00,'0','2016-11-27 13:25:56','admin','2016-11-27 13:30:32','admin','admin',NULL,NULL),(3,'C快递',NULL,30.00,'0','2016-11-27 13:25:56','admin','2016-11-27 13:30:32','admin','admin',NULL,NULL),(4,'D快递','嘻嘻嘻',12.00,'0','2016-12-13 06:05:02','admin','2016-12-13 06:05:02',NULL,'desktop',NULL,NULL),(6,'ADW快递','awd',13.00,'0','2016-12-13 08:01:03','admin','2016-12-13 08:01:03','admin','desktop',NULL,NULL);
 /*!40000 ALTER TABLE `t_express_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1573,4 +1574,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-12-15 13:12:16
+-- Dump completed on 2016-12-15 14:53:03
