@@ -186,5 +186,12 @@ public interface PowderService {
      */
     public void deleteNotPayPowderOrderLimitTime() throws Exception;
     
+    /**
+     * 生成快递单照片
+     * @param orderNo 订单号码
+     * @throws Exception
+     */
+    public void createExpressPhotoUrl(String orderNo) throws Exception;
+    
     
 }
