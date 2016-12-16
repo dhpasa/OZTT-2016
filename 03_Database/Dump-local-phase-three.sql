@@ -554,6 +554,8 @@ CREATE TABLE `t_express_info` (
   `updTimestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updUserKey` varchar(40) DEFAULT NULL,
   `updPgmId` varchar(30) DEFAULT NULL,
+  `babyKiloCost` decimal(12,2) DEFAULT NULL,
+  `instantKiloCost` decimal(12,2) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -564,7 +566,7 @@ CREATE TABLE `t_express_info` (
 
 LOCK TABLES `t_express_info` WRITE;
 /*!40000 ALTER TABLE `t_express_info` DISABLE KEYS */;
-INSERT INTO `t_express_info` VALUES (1,'蓝天','7',0.00,'0','2016-11-27 13:25:56','admin','2016-11-27 13:30:32','admin','admin'),(2,'B快递',NULL,20.00,'0','2016-11-27 13:25:56','admin','2016-11-27 13:30:32','admin','admin'),(3,'C快递',NULL,30.00,'0','2016-11-27 13:25:56','admin','2016-11-27 13:30:32','admin','admin'),(4,'D快递','嘻嘻嘻',12.00,'0','2016-12-13 06:05:02','admin','2016-12-13 06:05:02',NULL,'desktop'),(6,'ADW快递','awd',13.00,'0','2016-12-13 08:01:03','admin','2016-12-13 08:01:03','admin','desktop');
+INSERT INTO `t_express_info` VALUES (1,'蓝天','7',0.00,'0','2016-11-27 13:25:56','admin','2016-11-27 13:30:32','admin','admin',NULL,NULL),(2,'B快递',NULL,20.00,'0','2016-11-27 13:25:56','admin','2016-11-27 13:30:32','admin','admin',NULL,NULL),(3,'C快递',NULL,30.00,'0','2016-11-27 13:25:56','admin','2016-11-27 13:30:32','admin','admin',NULL,NULL),(4,'D快递','嘻嘻嘻',12.00,'0','2016-12-13 06:05:02','admin','2016-12-13 06:05:02',NULL,'desktop',NULL,NULL),(6,'ADW快递','awd',13.00,'0','2016-12-13 08:01:03','admin','2016-12-13 08:01:03','admin','desktop',NULL,NULL);
 /*!40000 ALTER TABLE `t_express_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1100,6 +1102,8 @@ CREATE TABLE `t_powder_info` (
   `updTimestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updUserKey` varchar(40) DEFAULT NULL,
   `updPgmId` varchar(30) DEFAULT NULL,
+  `weight` decimal(12,2) DEFAULT NULL,
+  `freeDeliveryParameter` decimal(12,2) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1110,7 +1114,7 @@ CREATE TABLE `t_powder_info` (
 
 LOCK TABLES `t_powder_info` WRITE;
 /*!40000 ALTER TABLE `t_powder_info` DISABLE KEYS */;
-INSERT INTO `t_powder_info` VALUES (1,'P01','1','3','1',200.00,NULL,'1','2016-11-27 13:25:56','admin','2016-12-12 13:24:35','admin','admin'),(2,'P02','1','2','1',180.00,NULL,'1','2016-11-27 13:25:56','admin','2016-11-27 13:31:16','admin','admin'),(3,'P01','1','3','2',210.00,NULL,'1','2016-11-27 13:25:56','admin','2016-12-12 13:25:07','admin',NULL);
+INSERT INTO `t_powder_info` VALUES (1,'P01','1','3','1',200.00,NULL,'1','2016-11-27 13:25:56','admin','2016-12-12 13:24:35','admin','admin',NULL,NULL),(2,'P02','1','2','1',180.00,NULL,'1','2016-11-27 13:25:56','admin','2016-11-27 13:31:16','admin','admin',NULL,NULL),(3,'P01','1','3','2',210.00,NULL,'1','2016-11-27 13:25:56','admin','2016-12-12 13:25:07','admin',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `t_powder_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1349,7 +1353,7 @@ CREATE TABLE `t_sys_code` (
   `codeName` varchar(100) NOT NULL,
   `codeDetailName` varchar(100) NOT NULL,
   PRIMARY KEY (`no`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1358,7 +1362,7 @@ CREATE TABLE `t_sys_code` (
 
 LOCK TABLES `t_sys_code` WRITE;
 /*!40000 ALTER TABLE `t_sys_code` DISABLE KEYS */;
-INSERT INTO `t_sys_code` VALUES (1,'COM001','1','性别','男'),(2,'COM001','2','性别','女'),(3,'COM001','9','性别','保密'),(4,'COM002','0','婚姻状况','未婚'),(5,'COM002','1','婚姻状况','已婚'),(6,'COM002','9','婚姻状况','保密'),(7,'COM003','10','教育程度','初中'),(8,'COM003','20','教育程度','高中'),(9,'COM003','30','教育程度','中专'),(10,'COM003','40','教育程度','大专'),(11,'COM003','50','教育程度','本科'),(12,'COM003','60','教育程度','硕士'),(13,'COM003','70','教育程度','博士'),(14,'COM003','80','教育程度','其他'),(15,'COM004','0','订单状态','未付款'),(16,'COM004','1','订单状态','下单成功'),(17,'COM004','2','订单状态','商品派送中'),(18,'COM004','3','订单状态','订单已完成'),(19,'COM004','9','订单状态','订单已取消'),(20,'COM005','1','付款方式','在线支付'),(21,'COM005','2','付款方式','货到付款'),(22,'COM005','3','付款方式','来店付款'),(23,'COM006','1','交易类型','订单支付'),(24,'COM006','2','交易类型','手续费收取'),(25,'COM007','0','交易状态','处理中'),(26,'COM007','1','交易状态','处理成功'),(27,'COM007','9','交易状态','处理失败'),(28,'COM008','1','运送方式','送货上门'),(29,'COM008','2','运送方式','来店自提'),(30,'COM009','01','送货上门时间段','9:00～～12:00'),(31,'COM009','02','送货上门时间段','12:00～～15:00'),(32,'COM009','03','送货上门时间段','15:00～～18:00'),(33,'COM010','0','开放标识','未发布'),(34,'COM010','1','开放标识','团购中'),(35,'COM010','2','开放标识','下架'),(36,'COM004','4','订单状态','订单部分完成'),(37,'COM012','0','订单详细状态','未付款'),(38,'COM012','1','订单详细状态','下单成功'),(39,'COM012','2','订单详细状态','商品派送中'),(40,'COM012','3','订单详细状态','完成'),(41,'COM012','9','订单详细状态','取消'),(42,'COM011','1','用户等级','铜牌'),(43,'COM011','2','用户等级','银牌'),(44,'COM011','3','用户等级','金牌'),(45,'COM011','4','用户等级','钻石'),(46,'COM011','5','用户等级','黑名单'),(47,'COM021','1','奶粉规格','1段'),(48,'COM021','2','奶粉规格','2段'),(49,'COM021','3','奶粉规格','3段');
+INSERT INTO `t_sys_code` VALUES (1,'COM001','1','性别','男'),(2,'COM001','2','性别','女'),(3,'COM001','9','性别','保密'),(4,'COM002','0','婚姻状况','未婚'),(5,'COM002','1','婚姻状况','已婚'),(6,'COM002','9','婚姻状况','保密'),(7,'COM003','10','教育程度','初中'),(8,'COM003','20','教育程度','高中'),(9,'COM003','30','教育程度','中专'),(10,'COM003','40','教育程度','大专'),(11,'COM003','50','教育程度','本科'),(12,'COM003','60','教育程度','硕士'),(13,'COM003','70','教育程度','博士'),(14,'COM003','80','教育程度','其他'),(15,'COM004','0','订单状态','未付款'),(16,'COM004','1','订单状态','下单成功'),(17,'COM004','2','订单状态','商品派送中'),(18,'COM004','3','订单状态','订单已完成'),(19,'COM004','9','订单状态','订单已取消'),(20,'COM005','1','付款方式','在线支付'),(21,'COM005','2','付款方式','货到付款'),(22,'COM005','3','付款方式','来店付款'),(23,'COM006','1','交易类型','订单支付'),(24,'COM006','2','交易类型','手续费收取'),(25,'COM007','0','交易状态','处理中'),(26,'COM007','1','交易状态','处理成功'),(27,'COM007','9','交易状态','处理失败'),(28,'COM008','1','运送方式','送货上门'),(29,'COM008','2','运送方式','来店自提'),(30,'COM009','01','送货上门时间段','9:00～～12:00'),(31,'COM009','02','送货上门时间段','12:00～～15:00'),(32,'COM009','03','送货上门时间段','15:00～～18:00'),(33,'COM010','0','开放标识','未发布'),(34,'COM010','1','开放标识','团购中'),(35,'COM010','2','开放标识','下架'),(36,'COM004','4','订单状态','订单部分完成'),(37,'COM012','0','订单详细状态','未付款'),(38,'COM012','1','订单详细状态','下单成功'),(39,'COM012','2','订单详细状态','商品派送中'),(40,'COM012','3','订单详细状态','完成'),(41,'COM012','9','订单详细状态','取消'),(42,'COM011','1','用户等级','铜牌'),(43,'COM011','2','用户等级','银牌'),(44,'COM011','3','用户等级','金牌'),(45,'COM011','4','用户等级','钻石'),(46,'COM011','5','用户等级','黑名单'),(47,'COM021','1','奶粉规格','1段'),(48,'COM021','2','奶粉规格','2段'),(49,'COM021','3','奶粉规格','3段'),(50,'COM021','4','奶粉规格','全脂'),(51,'COM021','5','奶粉规格','脱脂'),(52,'COM022','1','奶粉类型','婴儿奶粉'),(53,'COM022','2','奶粉类型','成人奶粉');
 /*!40000 ALTER TABLE `t_sys_code` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1570,4 +1574,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-12-13 19:53:53
+-- Dump completed on 2016-12-15 14:53:03
