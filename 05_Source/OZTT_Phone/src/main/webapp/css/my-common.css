@@ -3190,7 +3190,7 @@ html{
 
 .mpas_today_price_body table thead tr td:first-child{
 	display: block;
-	width:27%;
+	width:35%;
 	float: left;
 }
 
@@ -3202,7 +3202,7 @@ html{
 
 .mpas_today_price_body table thead tr td:last-child{
 	display: block;
-	width:48%;
+	width:40%;
 	float: left;
 }
 
@@ -3219,7 +3219,7 @@ html{
 
 .mpas_today_price_body table tbody tr td:first-child{
 	display: block;
-	width:27%;
+	width:35%;
 	float: left;
 }
 
@@ -3231,7 +3231,7 @@ html{
 
 .mpas_today_price_body table tbody tr td:last-child{
 	display: block;
-	width:48%;
+	width:40%;
 	float: left;
 }
 

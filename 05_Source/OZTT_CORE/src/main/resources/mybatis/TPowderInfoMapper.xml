@@ -6,7 +6,7 @@
     <result column="powderNo" property="powderNo" jdbcType="VARCHAR" />
     <result column="powderType" property="powderType" jdbcType="CHAR" />
     <result column="powderBrand" property="powderBrand" jdbcType="VARCHAR" />
-    <result column="powderSpec" property="powderSpec" jdbcType="CHAR" />
+    <result column="powderSpec" property="powderSpec" jdbcType="VARCHAR" />
     <result column="powderPrice" property="powderPrice" jdbcType="DECIMAL" />
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="CHAR" />
@@ -15,10 +15,12 @@
     <result column="updTimestamp" property="updTimestamp" jdbcType="TIMESTAMP" />
     <result column="updUserKey" property="updUserKey" jdbcType="VARCHAR" />
     <result column="updPgmId" property="updPgmId" jdbcType="VARCHAR" />
+    <result column="weight" property="weight" jdbcType="DECIMAL" />
+    <result column="freeDeliveryParameter" property="freeDeliveryParameter" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, powderNo, powderType, powderBrand, powderSpec, powderPrice, remarks, status, 
-    addTimestamp, addUserKey, updTimestamp, updUserKey, updPgmId
+    addTimestamp, addUserKey, updTimestamp, updUserKey, updPgmId, weight, freeDeliveryParameter
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -35,12 +37,14 @@
       powderBrand, powderSpec, powderPrice, 
       remarks, status, addTimestamp, 
       addUserKey, updTimestamp, updUserKey, 
-      updPgmId)
+      updPgmId, weight, freeDeliveryParameter
+      )
     values (#{id,jdbcType=BIGINT}, #{powderNo,jdbcType=VARCHAR}, #{powderType,jdbcType=CHAR}, 
-      #{powderBrand,jdbcType=VARCHAR}, #{powderSpec,jdbcType=CHAR}, #{powderPrice,jdbcType=DECIMAL}, 
+      #{powderBrand,jdbcType=VARCHAR}, #{powderSpec,jdbcType=VARCHAR}, #{powderPrice,jdbcType=DECIMAL}, 
       #{remarks,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{addTimestamp,jdbcType=TIMESTAMP}, 
       #{addUserKey,jdbcType=VARCHAR}, #{updTimestamp,jdbcType=TIMESTAMP}, #{updUserKey,jdbcType=VARCHAR}, 
-      #{updPgmId,jdbcType=VARCHAR})
+      #{updPgmId,jdbcType=VARCHAR}, #{weight,jdbcType=DECIMAL}, #{freeDeliveryParameter,jdbcType=DECIMAL}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.org.oztt.entity.TPowderInfo" >
     insert into t_powder_info
@@ -84,6 +88,12 @@
       <if test="updPgmId != null" >
         updPgmId,
       </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="freeDeliveryParameter != null" >
+        freeDeliveryParameter,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -99,7 +109,7 @@
         #{powderBrand,jdbcType=VARCHAR},
       </if>
       <if test="powderSpec != null" >
-        #{powderSpec,jdbcType=CHAR},
+        #{powderSpec,jdbcType=VARCHAR},
       </if>
       <if test="powderPrice != null" >
         #{powderPrice,jdbcType=DECIMAL},
@@ -125,6 +135,12 @@
       <if test="updPgmId != null" >
         #{updPgmId,jdbcType=VARCHAR},
       </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="freeDeliveryParameter != null" >
+        #{freeDeliveryParameter,jdbcType=DECIMAL},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.org.oztt.entity.TPowderInfo" >
@@ -140,7 +156,7 @@
         powderBrand = #{powderBrand,jdbcType=VARCHAR},
       </if>
       <if test="powderSpec != null" >
-        powderSpec = #{powderSpec,jdbcType=CHAR},
+        powderSpec = #{powderSpec,jdbcType=VARCHAR},
       </if>
       <if test="powderPrice != null" >
         powderPrice = #{powderPrice,jdbcType=DECIMAL},
@@ -166,6 +182,12 @@
       <if test="updPgmId != null" >
         updPgmId = #{updPgmId,jdbcType=VARCHAR},
       </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="freeDeliveryParameter != null" >
+        freeDeliveryParameter = #{freeDeliveryParameter,jdbcType=DECIMAL},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -174,7 +196,7 @@
     set powderNo = #{powderNo,jdbcType=VARCHAR},
       powderType = #{powderType,jdbcType=CHAR},
       powderBrand = #{powderBrand,jdbcType=VARCHAR},
-      powderSpec = #{powderSpec,jdbcType=CHAR},
+      powderSpec = #{powderSpec,jdbcType=VARCHAR},
       powderPrice = #{powderPrice,jdbcType=DECIMAL},
       remarks = #{remarks,jdbcType=VARCHAR},
       status = #{status,jdbcType=CHAR},
@@ -182,15 +204,30 @@
       addUserKey = #{addUserKey,jdbcType=VARCHAR},
       updTimestamp = #{updTimestamp,jdbcType=TIMESTAMP},
       updUserKey = #{updUserKey,jdbcType=VARCHAR},
-      updPgmId = #{updPgmId,jdbcType=VARCHAR}
+      updPgmId = #{updPgmId,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=DECIMAL},
+      freeDeliveryParameter = #{freeDeliveryParameter,jdbcType=DECIMAL}
     where id = #{id,jdbcType=BIGINT}
   </update>
   
-  
   <select id="selectAllPowderInfoList" resultType="com.org.oztt.formDto.PowderInfoViewDto">
     select 
-    a.id, a.powderNo, a.powderType, a.powderBrand, b.brandName as powderBrandName, a.powderSpec, a.powderPrice, a.remarks, a.status, 
-    a.addTimestamp, a.addUserKey, a.updTimestamp, a.updUserKey, a.updPgmId
+    a.id, 
+    a.powderNo, 
+    a.powderType, 
+    a.powderBrand, 
+    b.brandName as powderBrandName, 
+    a.powderSpec, 
+    a.powderPrice, 
+    a.weight,
+    a.freeDeliveryParameter,
+    a.remarks, 
+    a.status, 
+    a.addTimestamp, 
+    a.addUserKey, 
+    a.updTimestamp, 
+    a.updUserKey, 
+    a.updPgmId
     from t_powder_info a
     inner join t_brand_info b on a.powderBrand = b.id
     where a.status = '1'

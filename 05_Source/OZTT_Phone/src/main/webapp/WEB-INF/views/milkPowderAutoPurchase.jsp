@@ -351,7 +351,7 @@
 				doListenDelete();
 			}
 			// 总金额的显示
-			showAllAmount('');
+			showAllAmount('','','');
 		}
 		
 		function bindSelectPowderEvent(str){
@@ -379,23 +379,29 @@
 				} 
 				
 				// 重新计算总金额
-				showAllAmount('');
+				showAllAmount('','','');
 			});
 		}
 		
 		// 计算总金额显示在画面上，如果选择的为错误那就显示0.0
-		function showAllAmount(expressRateParam) {
+		function showAllAmount(expressRateParam, babyKiloCost, instantKiloCost) {
 			
 			// 运费系数
 			var expressRate = 0;
+			var babyKiloCostRate = 0;
+			var instantKiloCostRate = 0;
 			if (expressRateParam == '') {
 				$('.mpas_express_div').find('li').each(function(i, o){
 					if ($(o).hasClass('active')){
 						expressRate = parseFloat($(o).find('a').attr('class').split(",")[1])
+						babyKiloCostRate = parseFloat($(o).find('a').attr('class').split(",")[2])
+						instantKiloCostRate = parseFloat($(o).find('a').attr('class').split(",")[3])
 					}
 				});
 			} else {
 				expressRate = expressRateParam;
+				babyKiloCostRate = babyKiloCost;
+				instantKiloCostRate = instantKiloCost;
 			}
 			
 			var powderAmount = 0;
@@ -411,27 +417,50 @@
 				}
 				// 获取选择当前奶粉的单价
 				var unitprice = 0;
+				// 获取选择当前奶粉的重量
+				var unitweight = 0;
+				// 获取选择当前奶粉的包邮调整系数
+				var unitfreeDelivery = 0;
+				// 是否是成人奶粉 1:婴儿奶粉 2:成人奶粉
+				var powderType = 0;
+				
 				for(var i=0; i<powderList.length; i++){
 					if (powderList[i].powderBrand == brandId && powderList[i].powderSpec == specId){
 						unitprice = powderList[i].powderPrice;
+						unitweight = powderList[i].weight;
+						unitfreeDelivery = powderList[i].freeDeliveryParameter;
+						powderType = powderList[i].powderType;
 						break;
 					}
 				}
+				// 每公斤运费 分婴儿奶粉和成人奶粉
+				var perKgDelivery = 0;
+				if (powderType == "1") {
+					perKgDelivery = babyKiloCostRate;
+				} else {
+					perKgDelivery = instantKiloCostRate;
+				}
 				
-				powderAmount = powderAmount + number*unitprice;
+				// 单价*数量 + 重量 * 数量 * 快递每公斤运费 + 快递价格系数 * 数量 
+				powderAmount = powderAmount + number*unitprice + number*unitweight*perKgDelivery + expressRate*number;
+				
+				// 数量=3的时候减去包邮调整系数
+				if (number == 3) {
+					powderAmount = powderAmount + unitfreeDelivery;
+				}
 				
 			})
 			
 			if (powderAmount == 0) {
 				$('#moneycount').text('0.00');
 			} else {
-				powderAmount = parseFloat(powderAmount) + parseFloat(expressRate);
+				powderAmount = parseFloat(powderAmount);
 				$('#moneycount').text(fmoney(powderAmount,2));
 			}
 		}
 		
-		function reloadMoney(expressRate){
-			showAllAmount(expressRate);
+		function reloadMoney(expressRate, babyKiloCost, instantKiloCost){
+			showAllAmount(expressRate, babyKiloCost, instantKiloCost);
 		}
 		
 		var E0015 = '<fmt:message key="E0015" />';
@@ -1023,7 +1052,10 @@
 				
 				<c:forEach var="expressList" items="${ ExpressList }" varStatus="status">
 					<li <c:if test="${status.index == 0}">class="active"</c:if>>
-						<a onclick="reloadMoney('${expressList.priceCoefficient }');return false;" data-toggle="tab" class="${expressList.id },${expressList.priceCoefficient }">${expressList.expressName }</a>
+						<a onclick="reloadMoney('${expressList.priceCoefficient }','${expressList.babyKiloCost }','${expressList.instantKiloCost }');return false;" data-toggle="tab" 
+						class="${expressList.id },${expressList.priceCoefficient },${expressList.babyKiloCost },${expressList.instantKiloCost }">
+						${expressList.expressName }
+						</a>
 					</li>
 				</c:forEach>
 			</ul>
@@ -1218,7 +1250,7 @@
 	</div>
 	
 	<script type="text/javascript">
-		showAllAmount('');
+		showAllAmount('','','');
 	</script>
 	
 	<div id="purchase-credit-pop-up" class="modal fade" role="dialog" aria-hidden="true" >

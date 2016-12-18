@@ -8,8 +8,10 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -31,6 +33,7 @@ import sun.misc.BASE64Decoder;
 import com.org.oztt.base.page.Pagination;
 import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.base.util.DateFormatUtils;
+import com.org.oztt.base.util.DeliveryInfoCrawler;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.entity.TCustomerBasicInfo;
 import com.org.oztt.entity.TPowderOrder;
@@ -260,7 +263,7 @@ public class PowderOrderListControler extends BaseController {
     
     
     /**
-     * 更新身份证信息
+     * 获取物流信息
      * @param request
      * @param session
      * @param type
@@ -269,15 +272,24 @@ public class PowderOrderListControler extends BaseController {
      * @return
      */
     @RequestMapping(value = "/getExpressInfo")
-    public Map<String, Object> getExpressInfo(HttpServletRequest request, HttpSession session, String expressEleNo) {
+    public Map<String, Object> getExpressInfo(HttpServletRequest request, HttpSession session, String expressEleNo, String boxId) {
         Map<String, Object> resp = new HashMap<String, Object>();
         try {
             List<String> strList = new ArrayList<String>();
-            strList.add("货物从布里斯班发出");
-            strList.add("被海盗劫持");
-            strList.add("从海盗手中收回");
-            strList.add("到达上海");
-            strList.add("等待送达......");
+            String s = PowderOrderListControler.class.getResource("/").getPath().toString();
+            s = java.net.URLDecoder.decode(s, "UTF-8");
+            PowderBoxInfo boxInfo = powderService.getPowderInfoById(Long.valueOf(boxId));
+            DeliveryInfoCrawler diCrawler = null;
+            if (CommonConstants.EXPRESS_BLUE_SKY.equals(boxInfo.getDeliverId())) {
+                diCrawler = new DeliveryInfoCrawler(s + "bluesky.properties");
+            } else {
+                diCrawler = new DeliveryInfoCrawler(s + "freakyquick.properties");
+            }
+            //LinkedHashMap<String, String> infos = diCrawler.getDeliveryInfo(expressEleNo);
+            LinkedHashMap<String, String> infos = diCrawler.getDeliveryInfo("BQ134635");
+            for (Entry<String, String> info : infos.entrySet()) {
+                strList.add(info.getValue());
+            }
             // 将物流信息返回画面
             resp.put("expressInfo", strList);
             resp.put("isException", false);

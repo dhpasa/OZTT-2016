@@ -140,4 +140,12 @@ public final class CommonConstants {
 
     public static final String     IMG_TYPE_PNG               = ".PNG";
 
+    public static final String     EXPRESS_BLUE_SKY           = "1";                                    // 蓝天物流的ID
+
+    public static final String     EXPRESS_FREAK_QUICK        = "2";                                    // 狂派物流的ID
+
+    public static final String     EXPRESS_ELE_NO             = "TT120101";                             // 物流的电子快递单号
+
+    public static final String     POWDER_TYPE_BABY           = "1";                                     // 婴儿奶粉
+
 }
