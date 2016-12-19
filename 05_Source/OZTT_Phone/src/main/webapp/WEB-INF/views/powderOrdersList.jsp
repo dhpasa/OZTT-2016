@@ -39,6 +39,11 @@
 			} else if (payMethod == '4'){
 				// 微信支付
 				$("#purchase-credit-pop-up").modal('hide');
+				if (!isWeiXin()){
+					// 不是微信，则跳出提示
+					createInfoDialog('<fmt:message key="I0009" />', '1');
+					return;
+				}
 				createLoading(0);
 				$.ajax({
 					type : "GET",
@@ -276,6 +281,15 @@
 				$('.dialog-container').remove();
 			}, 1000);
 		}
+	}
+	
+	function isWeiXin(){
+	    var ua = window.navigator.userAgent.toLowerCase();
+	    if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+	        return true;
+	    }else{
+	        return false;
+	    }
 	}
 </script>
 <style>
