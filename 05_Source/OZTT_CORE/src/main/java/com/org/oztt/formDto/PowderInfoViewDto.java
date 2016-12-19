@@ -37,6 +37,10 @@ public class PowderInfoViewDto implements Serializable {
      *  
      */
     private BigDecimal        powderPrice;
+    
+    private BigDecimal        weight; // 重量
+    
+    private BigDecimal        freeDeliveryParameter; // 包邮调整系数
 
     /**
      *  
@@ -168,6 +172,22 @@ public class PowderInfoViewDto implements Serializable {
 
     public void setPowderBrandName(String powderBrandName) {
         this.powderBrandName = powderBrandName;
+    }
+
+    public BigDecimal getWeight() {
+        return weight;
+    }
+
+    public void setWeight(BigDecimal weight) {
+        this.weight = weight;
+    }
+
+    public BigDecimal getFreeDeliveryParameter() {
+        return freeDeliveryParameter;
+    }
+
+    public void setFreeDeliveryParameter(BigDecimal freeDeliveryParameter) {
+        this.freeDeliveryParameter = freeDeliveryParameter;
     }
 
     

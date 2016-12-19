@@ -156,6 +156,8 @@
     b.brandName as powderBrand,
     d.codeDetailName as powderSpec,
     a.quantity as number,
+    c.weight,
+    c.freeDeliveryParameter,
     c.powderPrice as powderPrice
     from t_powder_order_details a
     inner join t_powder_info c on a.powderId = c.id

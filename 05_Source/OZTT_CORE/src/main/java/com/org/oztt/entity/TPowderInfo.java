@@ -36,6 +36,10 @@ public class TPowderInfo implements Serializable {
      *  
      */
     private BigDecimal        powderPrice;
+    
+    private BigDecimal        weight;
+    
+    private BigDecimal        freeDeliveryParameter;
 
     /**
      *  
@@ -159,6 +163,22 @@ public class TPowderInfo implements Serializable {
 
     public void setUpdPgmId(String updPgmId) {
         this.updPgmId = updPgmId;
+    }
+
+    public BigDecimal getWeight() {
+        return weight;
+    }
+
+    public void setWeight(BigDecimal weight) {
+        this.weight = weight;
+    }
+
+    public BigDecimal getFreeDeliveryParameter() {
+        return freeDeliveryParameter;
+    }
+
+    public void setFreeDeliveryParameter(BigDecimal freeDeliveryParameter) {
+        this.freeDeliveryParameter = freeDeliveryParameter;
     }
 
     

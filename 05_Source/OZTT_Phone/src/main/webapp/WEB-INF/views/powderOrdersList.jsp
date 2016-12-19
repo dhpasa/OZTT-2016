@@ -39,6 +39,7 @@
 			} else if (payMethod == '4'){
 				// 微信支付
 				$("#purchase-credit-pop-up").modal('hide');
+				createLoading(0);
 				$.ajax({
 					type : "GET",
 					contentType:'application/json',
@@ -51,10 +52,12 @@
 							// 重新加载画面
 							location.href = data.payUrl;
 						} else {
+							removeLoading();
 							createErrorInfoDialog('<fmt:message key="E0022" />');
 						}					
 					},
 					error : function(data) {
+						removeLoading();
 						createErrorInfoDialog('<fmt:message key="E0022" />');
 					}
 				});
