@@ -70,7 +70,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
                     PowderInfoViewDto bean = new PowderInfoViewDto();
                     PropertyUtils.copyProperties(bean, detail);
                     bean.setPowderSpec(powderService.getBrandNameByCode(bean.getPowderSpec()));
-                    bean.setPowderPrice(bean.getPowderPrice().multiply(CommonConstants.POWDER_NUMBER));
+                    bean.setPowderPrice(bean.getPowderPrice().multiply(CommonConstants.POWDER_NUMBER).add(detail.getFreeDeliveryParameter()));
                     powderListForView.add(bean);
                 }
             }
