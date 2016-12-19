@@ -59,6 +59,8 @@ public class PowderBoxInfo {
 
     private String               elecExpressNo;
 
+    private String               deliverId;
+
     public String getStatus() {
         return status;
     }
@@ -273,5 +275,13 @@ public class PowderBoxInfo {
 
     public void setReceiveCardPhoneAf(String receiveCardPhoneAf) {
         this.receiveCardPhoneAf = receiveCardPhoneAf;
+    }
+
+    public String getDeliverId() {
+        return deliverId;
+    }
+
+    public void setDeliverId(String deliverId) {
+        this.deliverId = deliverId;
     }
 }

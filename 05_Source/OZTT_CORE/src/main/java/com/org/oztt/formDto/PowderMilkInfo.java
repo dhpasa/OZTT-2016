@@ -1,5 +1,7 @@
 package com.org.oztt.formDto;
 
+import java.math.BigDecimal;
+
 public class PowderMilkInfo {
 
     private String powderBrand;
@@ -9,6 +11,10 @@ public class PowderMilkInfo {
     private String number;
     
     private String powderPrice;
+    
+    private BigDecimal weight;
+    
+    private BigDecimal freeDeliveryParameter;
 
     public String getPowderBrand() {
         return powderBrand;
@@ -40,5 +46,21 @@ public class PowderMilkInfo {
 
     public void setPowderPrice(String powderPrice) {
         this.powderPrice = powderPrice;
+    }
+
+    public BigDecimal getWeight() {
+        return weight;
+    }
+
+    public void setWeight(BigDecimal weight) {
+        this.weight = weight;
+    }
+
+    public BigDecimal getFreeDeliveryParameter() {
+        return freeDeliveryParameter;
+    }
+
+    public void setFreeDeliveryParameter(BigDecimal freeDeliveryParameter) {
+        this.freeDeliveryParameter = freeDeliveryParameter;
     }
 }

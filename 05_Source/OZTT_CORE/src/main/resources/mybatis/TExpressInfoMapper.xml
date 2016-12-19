@@ -12,10 +12,12 @@
     <result column="updTimestamp" property="updTimestamp" jdbcType="TIMESTAMP" />
     <result column="updUserKey" property="updUserKey" jdbcType="VARCHAR" />
     <result column="updPgmId" property="updPgmId" jdbcType="VARCHAR" />
+    <result column="babyKiloCost" property="babyKiloCost" jdbcType="DECIMAL" />
+    <result column="instantKiloCost" property="instantKiloCost" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, expressName, remarks, priceCoefficient, deleteFlg, addTimestamp, addUserKey, 
-    updTimestamp, updUserKey, updPgmId
+    updTimestamp, updUserKey, updPgmId, babyKiloCost, instantKiloCost
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -31,11 +33,13 @@
     insert into t_express_info (id, expressName, remarks, 
       priceCoefficient, deleteFlg, addTimestamp, 
       addUserKey, updTimestamp, updUserKey, 
-      updPgmId)
+      updPgmId, babyKiloCost, instantKiloCost
+      )
     values (#{id,jdbcType=BIGINT}, #{expressName,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
       #{priceCoefficient,jdbcType=DECIMAL}, #{deleteFlg,jdbcType=CHAR}, #{addTimestamp,jdbcType=TIMESTAMP}, 
       #{addUserKey,jdbcType=VARCHAR}, #{updTimestamp,jdbcType=TIMESTAMP}, #{updUserKey,jdbcType=VARCHAR}, 
-      #{updPgmId,jdbcType=VARCHAR})
+      #{updPgmId,jdbcType=VARCHAR}, #{babyKiloCost,jdbcType=DECIMAL}, #{instantKiloCost,jdbcType=DECIMAL}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.org.oztt.entity.TExpressInfo" >
     insert into t_express_info
@@ -70,6 +74,12 @@
       <if test="updPgmId != null" >
         updPgmId,
       </if>
+      <if test="babyKiloCost != null" >
+        babyKiloCost,
+      </if>
+      <if test="instantKiloCost != null" >
+        instantKiloCost,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -101,6 +111,12 @@
       </if>
       <if test="updPgmId != null" >
         #{updPgmId,jdbcType=VARCHAR},
+      </if>
+      <if test="babyKiloCost != null" >
+        #{babyKiloCost,jdbcType=DECIMAL},
+      </if>
+      <if test="instantKiloCost != null" >
+        #{instantKiloCost,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -134,6 +150,12 @@
       <if test="updPgmId != null" >
         updPgmId = #{updPgmId,jdbcType=VARCHAR},
       </if>
+      <if test="babyKiloCost != null" >
+        babyKiloCost = #{babyKiloCost,jdbcType=DECIMAL},
+      </if>
+      <if test="instantKiloCost != null" >
+        instantKiloCost = #{instantKiloCost,jdbcType=DECIMAL},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -147,11 +169,11 @@
       addUserKey = #{addUserKey,jdbcType=VARCHAR},
       updTimestamp = #{updTimestamp,jdbcType=TIMESTAMP},
       updUserKey = #{updUserKey,jdbcType=VARCHAR},
-      updPgmId = #{updPgmId,jdbcType=VARCHAR}
+      updPgmId = #{updPgmId,jdbcType=VARCHAR},
+      babyKiloCost = #{babyKiloCost,jdbcType=DECIMAL},
+      instantKiloCost = #{instantKiloCost,jdbcType=DECIMAL}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  
-  
   <select id="selectAllExpressInfo" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />

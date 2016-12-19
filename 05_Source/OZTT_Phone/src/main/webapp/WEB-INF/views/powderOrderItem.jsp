@@ -16,6 +16,34 @@
 			location.href="${ctx}/powderOrder/init?tab="+'${tab}';
 		});
 		
+		$("#showExpress").click(function(){
+			var expressElcNo = $("#hiddenElecExpressNo").val();
+			var hiddenBoxId = $("#hiddenBoxId").val();
+			$.ajax({
+				type : "GET",
+				contentType:'application/json',
+				url : '${pageContext.request.contextPath}/powderOrder/getExpressInfo?expressEleNo='+expressElcNo+'&boxId='+hiddenBoxId,
+				dataType : "json",
+				async : false,
+				data : "", 
+				success : function(data) {
+					var expressHtml = "";
+					var expressInfo = data.expressInfo;
+					for (var i = 0; i < expressInfo.length; i++) {
+						expressHtml += "<li>"+expressInfo[i]+"</li>"
+					}
+					
+					$("#expressInfoUL").html(expressHtml);
+					// 弹出画面
+					$("#expressinfo-pop-up").modal('show');
+					
+				},
+				error : function(data) {
+					
+				}
+			});
+		});
+		
 		$("#editCard").click(function(){
 			$("#cardnumberLabel").css('display','none');
 			$("#editCard").css('display','none');
@@ -226,8 +254,13 @@
 		</div>
 		</c:forEach>
 		<div class="detail_count"><fmt:message key="POWDER_DETAIL_LT" />${ detailInfo.pricecount }</div>
-		<div class="detail_express"><fmt:message key="POWDER_DETAIL_EXPRESSNAME" />${ detailInfo.expressName }&nbsp;&nbsp;${ detailInfo.expressAmount }</div>
+		<div class="detail_express">
+			<fmt:message key="POWDER_DETAIL_EXPRESSNAME" />${ detailInfo.expressName }&nbsp;&nbsp;
+		</div>
 		<div class="total_amount"><fmt:message key="POWDER_DETAIL_TOTALAMOUNT" />${ detailInfo.totalAmount }</div>
+		<div class="express_show">
+			<a id="showExpress"><fmt:message key="POWDER_DETAIL_EXPRESS_INFO" /></a>
+		</div>
 	</div>
 	
 	<div class="powder_info_item clearfix">
@@ -292,19 +325,39 @@
 	<c:if test="${detailInfo.expressPhotoUrlExitFlg == '1' }">
 		<div class="powder_info_item">
 			<span class="item_head_inf"><fmt:message key="POWDER_DETAIL_EXPRESS_URL" /></span>
-			<img alt="expressImg" src="${ctx}/images/main-c1.png" class="expressImg">
+			<img alt="expressImg" src="${detailInfo.expressPhotoUrl}" class="expressImg">
 		</div>
 	</c:if>
-	<c:if test="${detailInfo.expressPhotoUrlExitFlg == '1' }">
+	<c:if test="${detailInfo.boxPhotoUrlsExitFlg == '1' }">
 		<div class="powder_info_item">
 			<span class="item_head_inf"><fmt:message key="POWDER_DETAIL_BOX_URL" /></span>
-			<img alt="expressImg" src="${ctx}/images/main-c1.png" class="expressImg">
+			<img alt="expressImg" src="${detailInfo.boxPhotoUrls}" class="expressImg">
 		</div>
 	</c:if>
 	
 	<input type="hidden" value="${detailInfo.receiveId}" id="hiddenReceiveId">
 	
 	<input type="hidden" value="${detailInfo.receiveIdCard}" id="hiddenCardNo">
+	
+	<input type="hidden" value="${detailInfo.boxId}" id="hiddenBoxId">
+	
+	<input type="hidden" value="${detailInfo.elecExpressNo}" id="hiddenElecExpressNo">
+	
+	
+	<div id="expressinfo-pop-up" class="modal fade" role="dialog" aria-hidden="true" >
+    	<div class="modal-dialog item-dialog">
+	      <div class="modal-content">
+	         
+	         <div class="modal-body">
+	         	<div class="powder_purchase_select express_info_div">
+					<ul id="expressInfoUL">
+			            
+			         </ul>
+	           	</div>
+	         </div>
+	      </div>
+    	</div>
+    </div>
 	</div>
 </body>
 <!-- END BODY -->

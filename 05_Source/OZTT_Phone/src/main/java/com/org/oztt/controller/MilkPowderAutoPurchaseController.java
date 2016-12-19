@@ -503,17 +503,14 @@ public class MilkPowderAutoPurchaseController extends BaseController {
      */
     @RequestMapping(value = "/redirect", method = RequestMethod.GET)
     public String redirect(Model model, HttpServletRequest request, HttpSession session, String orderId) {
-        Map<String, Object> mapReturn = new HashMap<String, Object>();
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
             powderService.updateOrderAfterPay(orderId, customerNo, session, "000010000",
                     CommonConstants.TRANSACTION_OBJECT);
-            mapReturn.put("isException", false);
             return "redirect:/user/init";
         }
         catch (Exception e) {
             logger.error(e.getMessage());
-            mapReturn.put("isException", true);
             return CommonConstants.ERROR_PAGE;
         }
     }

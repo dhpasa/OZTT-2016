@@ -4,33 +4,37 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class TExpressInfo  implements Serializable {
+public class TExpressInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
      *  
      */
-    private Long id;
+    private Long              id;
 
     /**
      *  
      */
-    private String expressName;
+    private String            expressName;
 
     /**
      *  
      */
-    private String remarks;
+    private String            remarks;
 
     /**
      *  
      */
-    private BigDecimal priceCoefficient;
+    private BigDecimal        priceCoefficient;
+
+    private BigDecimal        babyKiloCost;         //婴儿奶粉每公斤运费
+
+    private BigDecimal        instantKiloCost;      // 成人奶粉每公斤运费
 
     /**
      *  
      */
-    private String deleteFlg;
+    private String            deleteFlg;
 
     private Date              addTimestamp;
 
@@ -120,5 +124,21 @@ public class TExpressInfo  implements Serializable {
 
     public void setUpdPgmId(String updPgmId) {
         this.updPgmId = updPgmId;
+    }
+
+    public BigDecimal getBabyKiloCost() {
+        return babyKiloCost;
+    }
+
+    public void setBabyKiloCost(BigDecimal babyKiloCost) {
+        this.babyKiloCost = babyKiloCost;
+    }
+
+    public BigDecimal getInstantKiloCost() {
+        return instantKiloCost;
+    }
+
+    public void setInstantKiloCost(BigDecimal instantKiloCost) {
+        this.instantKiloCost = instantKiloCost;
     }
 }
