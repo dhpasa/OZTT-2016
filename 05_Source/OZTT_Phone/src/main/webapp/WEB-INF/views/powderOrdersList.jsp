@@ -47,6 +47,7 @@
 				createLoading(0);
 				$.ajax({
 					type : "GET",
+					timeout : 60000, //超时时间设置，单位毫秒
 					contentType:'application/json',
 					url : '${ctx}/milkPowderAutoPurchase/getWeChatPayUrlHasCreate?orderId='+orderId,
 					dataType : "json",
@@ -58,12 +59,12 @@
 							location.href = data.payUrl;
 						} else {
 							removeLoading();
-							createErrorInfoDialog('<fmt:message key="E0022" />');
+							createErrorInfoDialog('<fmt:message key="E0023" />');
 						}					
 					},
 					error : function(data) {
 						removeLoading();
-						createErrorInfoDialog('<fmt:message key="E0022" />');
+						createErrorInfoDialog('<fmt:message key="E0023" />');
 					}
 				});
 				
@@ -234,8 +235,8 @@
 				createInfoDialog('<fmt:message key="I0009" />', '1');
 				return;
 			}
+			createLoading(0);
 			// 需要将微信
-			var orderId = $("#currentOrderNo").val();
 			var paramData = {
 					description : '<fmt:message key="POWDER_ORDER_USER_MYORDER" />',
 					device_id:getDevice(),
@@ -244,7 +245,7 @@
 
 			$.ajax({
 				type : "PUT",
-				timeout : 10000,
+				timeout : 60000,
 				contentType:'application/json',
 				url : '${ctx}/milkPowderAutoPurchase/getWeChatPayUrl?orderId='+orderId,
 				dataType : "json",
@@ -255,11 +256,13 @@
 						// 进入微信支付画面
 						location.href = data.payUrl;
 					} else {
-						createErrorInfoDialog('<fmt:message key="E0022" />');
+						removeLoading();
+						createErrorInfoDialog('<fmt:message key="E0023" />');
 					}					
 				},
 				error : function(data) {
-					createErrorInfoDialog('<fmt:message key="E0022" />');
+					removeLoading();
+					createErrorInfoDialog('<fmt:message key="E0023" />');
 				}
 			});
 		}
@@ -281,6 +284,22 @@
 				$('.dialog-container').remove();
 			}, 1000);
 		}
+	}
+	
+	// 创建信息提示框
+	function createErrorInfoDialog(msg) {
+		var strHtml = '<div class="dialog-container">';
+		strHtml += '<div class="dialog-window">';
+		strHtml += '<div class="dialog-content" style="color:red">'+msg+'</div>';
+		strHtml += '<div class="dialog-footer">';
+		strHtml += '</div>';
+		strHtml += '</div>';
+		strHtml += '</div>';
+		$('body').append(strHtml);
+		// 并在5秒后消失
+		setTimeout(function() {
+			$('.dialog-container').remove();
+		}, 1000);
 	}
 	
 	function isWeiXin(){
@@ -352,7 +371,7 @@
 			          </ul>
 	           	</div>
 	           	<div class="powder_purchase_confirm">
-		            <a id="gotoPurchaseBtn" onclick="gotoPurchase('')"><fmt:message key="COMMON_CONFIRM_PAY"/></a>
+		            <a id="gotoPurchaseBtn" onclick="gotoPurchase(''); return false;"><fmt:message key="COMMON_CONFIRM_PAY"/></a>
 	           	</div>
 	           	<script>
 					$(document).ready(function(){
@@ -368,6 +387,9 @@
 	         </div>
 	      </div>
     	</div>
+    </div>
+    <div style="height:0rem;">
+    	&nbsp;
     </div>
 </body>
 <!-- END BODY -->
