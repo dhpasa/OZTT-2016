@@ -163,7 +163,7 @@
 
 			$.ajax({
 				type : "PUT",
-				timeout : 10000, //超时时间设置，单位毫秒
+				timeout : 60000, //超时时间设置，单位毫秒
 				contentType:'application/json',
 				url : '${ctx}/milkPowderAutoPurchase/getWeChatPayUrl?orderId='+orderId,
 				dataType : "json",
