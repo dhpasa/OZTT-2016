@@ -28,7 +28,11 @@
 	}
 	
 	function toShowPay(orderId,payMethod) {
-		if (payMethod == null || payMethod == "" || payMethod == "null") {
+		// 跳转支付画面
+		$("#gotoPurchaseBtn").attr('onclick',"gotoPurchase('"+orderId+"','"+payMethod+"')");
+		$("#purchase-credit-pop-up").modal('show');
+		return;
+		/* if (payMethod == null || payMethod == "" || payMethod == "null") {
 			// 跳转支付画面
 			$("#gotoPurchaseBtn").attr('onclick',"gotoPurchase('"+orderId+"')");
 			$("#purchase-credit-pop-up").modal('show');
@@ -37,39 +41,10 @@
 				// commonwealth支付画面
 				location.href="/OZTT_Phone/powderOrder/toCWLPay?orderId="+orderId;
 			} else if (payMethod == '4'){
-				// 微信支付
-				$("#purchase-credit-pop-up").modal('hide');
-				if (!isWeiXin()){
-					// 不是微信，则跳出提示
-					createInfoDialog('<fmt:message key="I0009" />', '1');
-					return;
-				}
-				createLoading(0);
-				$.ajax({
-					type : "GET",
-					timeout : 60000, //超时时间设置，单位毫秒
-					contentType:'application/json',
-					url : '${ctx}/milkPowderAutoPurchase/getWeChatPayUrlHasCreate?orderId='+orderId,
-					dataType : "json",
-					async : false,
-					data : "", 
-					success : function(data) {
-						if (data.payUrl != null && data.payUrl != "") {
-							// 重新加载画面
-							location.href = data.payUrl;
-						} else {
-							removeLoading();
-							createErrorInfoDialog('<fmt:message key="E0023" />');
-						}					
-					},
-					error : function(data) {
-						removeLoading();
-						createErrorInfoDialog('<fmt:message key="E0023" />');
-					}
-				});
+				
 				
 			}
-		}
+		} */
 	}
 	
 	var pageNo = 1;
@@ -219,52 +194,92 @@
 		initList(tab);
 	}
 	
-	function gotoPurchase(orderId) {
+	function gotoPurchase(orderId, payMethod) {
 		if (orderId == null || orderId == "") {
 			return;
 		}
+		
 		if ($("#radio-bank").attr("checked") == "checked") {
 			// commonwealth支付画面
 			location.href="${ctx}/powderOrder/toCWLPay?orderId="+orderId;
 		} else {
-			// 微信支付
-			$("#purchase-credit-pop-up").modal('hide');
-			//createInfoDialog('微信支付开发中......','1');
-			if (!isWeiXin()){
-				// 不是微信，则跳出提示
-				createInfoDialog('<fmt:message key="I0009" />', '1');
-				return;
-			}
-			createLoading(0);
-			// 需要将微信
-			var paramData = {
-					description : '<fmt:message key="POWDER_ORDER_USER_MYORDER" />',
-					device_id:getDevice(),
-					operator: 'oztt_phone'
-			};
-
-			$.ajax({
-				type : "PUT",
-				timeout : 60000,
-				contentType:'application/json',
-				url : '${ctx}/milkPowderAutoPurchase/getWeChatPayUrl?orderId='+orderId,
-				dataType : "json",
-				async : false,
-				data : JSON.stringify(paramData), 
-				success : function(data) {
-					if (data.payUrl != null && data.payUrl != "") {
-						// 进入微信支付画面
-						location.href = data.payUrl;
-					} else {
+			
+			if (payMethod != null && payMethod != "" && payMethod == '4') {
+				// 说明已经得到过微信订单信息了，只需要获取URL就可以了。
+				// 微信支付
+				$("#purchase-credit-pop-up").modal('hide');
+				if (!isWeiXin()){
+					// 不是微信，则跳出提示
+					createInfoDialog('<fmt:message key="I0009" />', '1');
+					return;
+				}
+				createLoading(0);
+				$.ajax({
+					type : "GET",
+					timeout : 60000, //超时时间设置，单位毫秒
+					contentType:'application/json',
+					url : '${ctx}/milkPowderAutoPurchase/getWeChatPayUrlHasCreate?orderId='+orderId,
+					dataType : "json",
+					async : false,
+					data : "", 
+					success : function(data) {
+						if (data.payUrl != null && data.payUrl != "") {
+							// 重新加载画面
+							location.href = data.payUrl;
+						} else {
+							removeLoading();
+							createErrorInfoDialog('<fmt:message key="E0023" />');
+						}					
+					},
+					error : function(data) {
 						removeLoading();
 						createErrorInfoDialog('<fmt:message key="E0023" />');
-					}					
-				},
-				error : function(data) {
-					removeLoading();
-					createErrorInfoDialog('<fmt:message key="E0023" />');
+					}
+				});
+				
+				
+				
+				
+			} else {
+				// 微信支付
+				$("#purchase-credit-pop-up").modal('hide');
+				if (!isWeiXin()){
+					// 不是微信，则跳出提示
+					createInfoDialog('<fmt:message key="I0009" />', '1');
+					return;
 				}
-			});
+				createLoading(0);
+				// 需要将微信
+				var paramData = {
+						description : '<fmt:message key="POWDER_ORDER_USER_MYORDER" />',
+						device_id:getDevice(),
+						operator: 'oztt_phone'
+				};
+
+				$.ajax({
+					type : "PUT",
+					timeout : 60000,
+					contentType:'application/json',
+					url : '${ctx}/milkPowderAutoPurchase/getWeChatPayUrl?orderId='+orderId,
+					dataType : "json",
+					async : false,
+					data : JSON.stringify(paramData), 
+					success : function(data) {
+						if (data.payUrl != null && data.payUrl != "") {
+							// 进入微信支付画面
+							location.href = data.payUrl;
+						} else {
+							removeLoading();
+							createErrorInfoDialog('<fmt:message key="E0023" />');
+						}					
+					},
+					error : function(data) {
+						removeLoading();
+						createErrorInfoDialog('<fmt:message key="E0023" />');
+					}
+				});
+			}
+			
 		}
 	}
 	

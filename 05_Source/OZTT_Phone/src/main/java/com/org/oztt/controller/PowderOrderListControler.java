@@ -285,10 +285,9 @@ public class PowderOrderListControler extends BaseController {
             } else {
                 diCrawler = new DeliveryInfoCrawler(s + "freakyquick.properties");
             }
-            //LinkedHashMap<String, String> infos = diCrawler.getDeliveryInfo(expressEleNo);
-            LinkedHashMap<String, String> infos = diCrawler.getDeliveryInfo("BQ134635");
+            LinkedHashMap<String, String> infos = diCrawler.getDeliveryInfo(expressEleNo);
             for (Entry<String, String> info : infos.entrySet()) {
-                strList.add(info.getValue());
+                strList.add(info.getKey() + "   " + info.getValue());
             }
             // 将物流信息返回画面
             resp.put("expressInfo", strList);
