@@ -52,6 +52,21 @@
 				$("#method_cod").addClass("method-default");
 				$("#method_ldfk").removeClass("method-check");
 				$("#method_ldfk").addClass("method-default");
+				$("#method_wechat").removeClass("method-check");
+				$("#method_wechat").addClass("method-default");
+				judgeAll();
+				
+			});
+			
+			$("#method_wechat").click(function(){
+				$(this).removeClass("method-default");
+				$(this).addClass("method-check");
+				$("#method_cod").removeClass("method-check");
+				$("#method_cod").addClass("method-default");
+				$("#method_ldfk").removeClass("method-check");
+				$("#method_ldfk").addClass("method-default");
+				$("#method_online").removeClass("method-check");
+				$("#method_online").addClass("method-default");
 				judgeAll();
 				
 			});
@@ -63,6 +78,8 @@
 				$("#method_online").addClass("method-default");
 				$("#method_ldfk").removeClass("method-check");
 				$("#method_ldfk").addClass("method-default");
+				$("#method_wechat").removeClass("method-check");
+				$("#method_wechat").addClass("method-default");
 				judgeAll();
 			});
 			
@@ -73,6 +90,8 @@
 				$("#method_online").addClass("method-default");
 				$("#method_cod").removeClass("method-check");
 				$("#method_cod").addClass("method-default");
+				$("#method_wechat").removeClass("method-check");
+				$("#method_wechat").addClass("method-default");
 				judgeAll();
 			});
 
@@ -94,6 +113,8 @@
 	  			
 	  			$("#method_online").removeClass("method-check");
 				$("#method_online").addClass("method-default");
+				$("#method_wechat").removeClass("method-check");
+				$("#method_wechat").addClass("method-default");
 				$("#method_cod").removeClass("method-default");
 				$("#method_cod").addClass("method-check");
 				$("#method_ldfk").removeClass("method-check");
@@ -113,6 +134,8 @@
 				$("#method_ldfk").addClass("method-check");
 	  			$("#method_online").removeClass("method-check");
 				$("#method_online").addClass("method-default");
+				$("#method_wechat").removeClass("method-check");
+				$("#method_wechat").addClass("method-default");
 				$("#method_cod").removeClass("method-check");
 				$("#method_cod").addClass("method-default");
 				
@@ -150,9 +173,12 @@
 	  		} else if ($("#method_cod").hasClass("method-check")){
 	  			// 货到付款
 	  			payMethod = "2";
-	  		} else {
+	  		} else if ($("#method_ldfk").hasClass("method-check")){
 	  			// 来店付款
 	  			payMethod = "3";
+	  		} else if ($("#method_wechat").hasClass("method-check")){
+	  			// 微信支付
+	  			payMethod = "4";
 	  		}
 	  		location.href = "${ctx}/addressIDUS/list?fromMode=1&isUnify="+isUnify+"&deliveryTime="+deliveryTime+"&deliverySelect="+deliverySelect+"&payMethod="+payMethod;
 	  	}
@@ -225,10 +251,13 @@
 	  			// 货到付款
 	  			payMethod = "2";
 	  			$("#gotobuy").text('<fmt:message key="PURCHASE_COMMITORDER"/>');
-	  		} else {
+	  		} else if ($("#method_ldfk").hasClass("method-check")){
 	  			// 来店付款
 	  			payMethod = "3";
 	  			$("#gotobuy").text('<fmt:message key="PURCHASE_COMMITORDER"/>');
+	  		} else if ($("#method_wechat").hasClass("method-check")){
+	  			payMethod = "4";
+	  			$("#gotobuy").text('<fmt:message key="PURCHASE_IMMEPAY"/>');
 	  		}
 	  		
 	  		// 开始计算运费和合计费用
@@ -321,10 +350,23 @@
 	  		} else if ($("#method_cod").hasClass("method-check")){
 	  			// 货到付款
 	  			payMethod = "2";
-	  		} else {
+	  		} else if ($("#method_ldfk").hasClass("method-check")){
 	  			// 来店付款
 	  			payMethod = "3";
+	  		} else if ($("#method_wechat").hasClass("method-check")){
+	  			// 微信支付
+	  			payMethod = "4";
 	  		}
+	  		
+	  		if (payMethod = "4") {
+	  			// 判断是否是微信浏览器
+	  			if (!isWeiXin()) {
+	  				// 不是微信，则跳出提示
+					createInfoDialog('<fmt:message key="I0009" />', '1');
+					return;
+	  			}
+	  		}
+	  			
 	  		
 	  		// 是否需要发票
 	  		var needInvoice = "0";
@@ -366,6 +408,9 @@
 						} else {
 							location.href = "${ctx}/Pay/init?orderNo="+data.orderNo;
 						}
+					} else if (payMethod == "4"){
+						// 微信支付
+						weixinPurchase(data.orderNo);
 					} else {
 						// 货到付款 来店付款
 						location.href = "${ctx}/Notice/paysuccess"
@@ -410,13 +455,82 @@
 		  		} else if (payMethod == "2") {
 		  			// 货到付款
 		  			$("#method_cod").addClass("method-check");
-		  		} else {
+		  		} else if (payMethod == "3") {
 		  			// 来店付款
 		  			$("#method_ldfk").addClass("method-check");
+		  		} else if (payMethod == "4") {
+		  			// 微信支付
+		  			$("#method_wechat").addClass("method-check");
 		  		}
 		  		
 	  		}
 	  	}
+	  	
+	  	function isWeiXin(){
+  		    var ua = window.navigator.userAgent.toLowerCase();
+  		    if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+  		        return true;
+  		    }else{
+  		        return false;
+  		    }
+  		}
+	  	
+		// 创建信息提示框
+		function createInfoDialog(msg, type) {
+			var strHtml = '<div class="dialog-container">';
+			strHtml += '<div class="dialog-window">';
+			strHtml += '<div class="dialog-content">'+msg+'</div>';
+			strHtml += '<div class="dialog-footer">';
+			strHtml += '</div>';
+			strHtml += '</div>';
+			strHtml += '</div>';
+			$('body').append(strHtml);
+			if (type == '1') {
+				// 并在3秒后消失
+				setTimeout(function() {
+					$('.dialog-container').remove();
+				}, 1000);
+			}
+		}
+		
+		function weixinPurchase(orderId){
+			
+			createLoading(0);
+			var paramData = {
+					description : '<fmt:message key="TUANTUAN_DINGDAN" />',
+					device_id:getDevice(),
+					operator: 'oztt_phone'
+			};
+
+			$.ajax({
+				type : "PUT",
+				timeout : 60000, //超时时间设置，单位毫秒
+				contentType:'application/json',
+				url : '${ctx}/purchase/getWeChatPayUrl?orderId='+orderId,
+				dataType : "json",
+				async : false,
+				data : JSON.stringify(paramData), 
+				success : function(data) {
+					if (data.payUrl != null && data.payUrl != "") {
+						// 重新签名
+						location.href = data.payUrl;
+					} else {
+						removeLoading();
+						createErrorInfoDialog('<fmt:message key="E0022" />');
+						setTimeout(function() {
+							location.href = "${ctx}/user/init"
+						}, 1000);
+					}					
+				},
+				error : function(data) {
+					removeLoading();
+					createErrorInfoDialog('<fmt:message key="E0022" />');
+					setTimeout(function() {
+						location.href = "${ctx}/user/init"
+					}, 1000);
+				}
+			});
+		}
   </script>
   <style type="text/css">
 		body {
@@ -550,7 +664,9 @@
 		<div class="purchase-method">
 			<a class="method-check purchase_paymoth_width" id="method_online">
 				<img src="${ctx}/images/banklogo_trans.png" style="height:2.5rem;">
-				<fmt:message key="PURCHASE_ONLINEBUY"/>
+			</a>
+			<a class="method-default purchase_paymoth_width webchat_method" id="method_wechat">
+				<img src="${ctx}/images/wechat.jpeg" style="height:2.5rem;">
 			</a>
 			<a class="method-default" id="method_cod">
 				<i class="fa fa-check"></i>
