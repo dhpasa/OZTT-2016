@@ -306,6 +306,7 @@
 		A.orderAmount as orderAmount,
 		A.deliveryMethod,
 		A.deliveryCost,
+		A.paymentMethod as paymentMethod,
 		B.receiver as consignee
 		from t_cons_order A
 		left join t_address_info B on B.id = A.addressId
