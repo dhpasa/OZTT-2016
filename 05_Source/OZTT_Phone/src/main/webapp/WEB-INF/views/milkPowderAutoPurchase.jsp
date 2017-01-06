@@ -112,6 +112,10 @@
 				
 			});
 			
+			$("#see_no_pay").click(function(){
+				location.href = "${ctx}/powderOrder/init?tab=0";
+			});
+			
 			
 		});
 		
@@ -172,7 +176,11 @@
 				success : function(data) {
 					if (data.payUrl != null && data.payUrl != "") {
 						// 重新签名
-						location.href = data.payUrl;
+						createInfoDialog('<fmt:message key="I0010"/>','1');
+						setTimeout(function() {
+							location.href = data.payUrl;
+						}, 1000);
+						
 					} else {
 						removeLoading();
 						createErrorInfoDialog('<fmt:message key="E0022" />');
@@ -238,7 +246,7 @@
 
 			$('.mpas_package_detail_receive_pic input[type="checkbox"]').iCheck('uncheck');
 			$('.mpas_package_detail_remark input[type="checkbox"]').iCheck('uncheck');
-		
+			$('#remarkData').attr("disabled","disabled");
 			$("#remarkData").val('');
 		}
 		
@@ -248,6 +256,13 @@
 				// 将数据删除，后将画面的显示的部分删除。
 				var packcountIndex = $(this).parent().find('input')[0].value;
 				powderData.splice(packcountIndex - 1,1);
+				reloadPackData();
+			});
+			
+			$(".count_copy").click(function(){
+				// 复制数据到
+				var packcountIndex = $(this).parent().find('input')[0].value;
+				powderData.push(powderData[packcountIndex - 1]);
 				reloadPackData();
 			});
 			
@@ -305,8 +320,10 @@
 				
 				if (powderDetailData.isRemarkFlg == '1') {
 					$('.mpas_package_detail_remark input[type="checkbox"]').iCheck('check');
+					$('#remarkData').removeAttr("disabled");
 				} else {
 					$('.mpas_package_detail_remark input[type="checkbox"]').iCheck('uncheck');
+					$('#remarkData').attr("disabled","disabled");
 				}
 				
 				$("#remarkData").val(powderDetailData.remarkData);
@@ -339,8 +356,8 @@
 					hasEmptyBox = true;
 				}
 			});
-			// 当前的奶粉数量不超过3个，并且选择的是有值的情况
-			if (allNumber < 3 && currentNumber != 0 && !hasEmptyBox) {
+			// 当前的奶粉数量不超过6个，并且选择的是有值的情况
+			if (allNumber < 6 && currentNumber != 0 && !hasEmptyBox) {
 				// 添加新的盒子
 				var addHtml = $('.hidden_select_powder').prop('outerHTML');
 				str.parent().parent().append(addHtml);
@@ -444,23 +461,49 @@
 				// 单价*数量 + 重量 * 数量 * 快递每公斤运费 + 快递价格系数 * 数量 
 				powderAmount = powderAmount + number*unitprice + number*unitweight*perKgDelivery + expressRate*number;
 				
-				// 数量=3的时候减去包邮调整系数
+				// 婴儿奶粉数量=3的时候减去包邮调整系数，成人奶粉则是6罐时候减去包邮调整系数
 				if (number == 3) {
 					powderAmount = powderAmount + unitfreeDelivery;
 				}
 				
 			})
 			
+			// 判断是否有奶粉附加费产生
+			var isReceivePicMoney = 0;
+			if ($("#isReceivePic").attr("checked") == "checked") {
+				isReceivePicMoney = '${sysconfig.messageFee}' == '' ? 0 : fmoney('${sysconfig.messageFee}',2);
+			}
+			
+			var isRemarkMoney = 0;
+			if ($("#isRemark").attr("checked") == "checked") {
+				isRemarkMoney = '${sysconfig.remarkFee}' == '' ? 0 : fmoney('${sysconfig.remarkFee}',2);
+			}
+			
 			if (powderAmount == 0) {
 				$('#moneycount').text('0.00');
 			} else {
 				powderAmount = parseFloat(powderAmount);
-				$('#moneycount').text(fmoney(powderAmount,2));
+				isReceivePicMoney = parseFloat(isReceivePicMoney);
+				isRemarkMoney = parseFloat(isRemarkMoney);
+				$('#moneycount').text(fmoney(powderAmount + isReceivePicMoney + isRemarkMoney,2));
 			}
 		}
 		
 		function reloadMoney(expressRate, babyKiloCost, instantKiloCost){
 			showAllAmount(expressRate, babyKiloCost, instantKiloCost);
+		}
+		
+		function getPowderType(brandId, specId){
+			// 是否是成人奶粉 1:婴儿奶粉 2:成人奶粉
+			var powderType = 0;
+			
+			for(var i=0; i<powderList.length; i++){
+				if (powderList[i].powderBrand == brandId && powderList[i].powderSpec == specId){
+					powderType = powderList[i].powderType;
+					break;
+				}
+			}
+			return powderType;
 		}
 		
 		var E0015 = '<fmt:message key="E0015" />';
@@ -469,6 +512,9 @@
 		var E0018 = '<fmt:message key="E0018" />';
 		var E0019 = '<fmt:message key="E0019" />';
 		var E0020 = '<fmt:message key="E0020" />';
+		var E0024 = '<fmt:message key="E0024" />';
+		var E0025 = '<fmt:message key="E0025" />';
+		var E0026 = '<fmt:message key="E0026" />';
 		
 		function submitBoxInfo(){
 			// 保存或者更新数据到总计的画面
@@ -491,6 +537,7 @@
 			var selectPowderDetailInfo = [];
 			var selectPowderDetailNameInfo = [];
 			var allNumber = 0;
+			var powderType = "";
 			var powdeIsTrue = true;
 			$('.mpas_powder_div_body').find('.select_powder_div').each(function(i, o){
 				var selectStr = $(o).find('input')[0].value;
@@ -514,12 +561,7 @@
 				}
 				// 奶粉总数量
 				allNumber = allNumber+parseFloat(number);
-				if (allNumber > 3) {
-					$('#errormsg_content').text(E0017);
-		  			$('#errormsg-pop-up').modal('show');
-		  			powdeIsTrue = false;
-					return false;
-				}
+				
 				// 判断有没有选择过当前品牌
 				if (keycontain.indexOf('['+brandId+']') != -1) {
 					$('#errormsg_content').text(E0018);
@@ -530,9 +572,43 @@
 					// 没有选择过当前品牌
 					keycontain = keycontain + '[' +brandId +']';
 				}
+				// 判断是否混装
+				if (powderType != "" && powderType != getPowderType(brandId, specId)) {
+					// 混装的情况
+					$('#errormsg_content').text(E0024);
+		  			$('#errormsg-pop-up').modal('show');
+		  			powdeIsTrue = false;
+					return false;
+				}
+				powderType = getPowderType(brandId, specId);
 				selectPowderDetailInfo.push(selectStr);
 				selectPowderDetailNameInfo.push(selectNameStr);
 			})
+			
+			if (powdeIsTrue) {
+				// 婴儿奶粉最多3罐，成人奶粉最多6罐
+				if (powderType == "1") {
+					// 婴儿奶粉
+					if (allNumber > 3) {
+						// 混装的情况
+						$('#errormsg_content').text(E0025);
+			  			$('#errormsg-pop-up').modal('show');
+			  			powdeIsTrue = false;
+						return;
+					}
+					
+				} else if (powderType == "2") {
+					// 成人奶粉
+					if (allNumber > 6) {
+						// 混装的情况
+						$('#errormsg_content').text(E0026);
+			  			$('#errormsg-pop-up').modal('show');
+			  			powdeIsTrue = false;
+						return;
+					}
+				}
+			}
+			
 			
 			if (!powdeIsTrue) {
 				return;
@@ -590,22 +666,26 @@
 		// 加载最后多个箱子画面
 		function reloadPackData(){
 			var temp1 = '<div class="mpas_package_count_detail clearfix">';
-			var temp2 = ' <span class="count_no_span">No.{0}</span>';
-			var temp3 = ' <i class="fa fa-info pack_count_info"></i>';
+			var temp2 = '<div class="pack_count_info">';
+			var temp3 = ' <span class="count_no_span">No.{0}</span>';
 			var temp4 = ' <span class="mpas_package_detail_info">{0}</span>';
-			var temp5 = ' <i class="fa fa-minus count_delete"></i>';
-			var temp6 = ' <input type="hidden" value="{0}">';
-			var temp7 = '</div>';
+			var temp5 = ' <input type="hidden" value="{0}">';
+			var temp6 = '</div>';
+			var temp7 = ' <span class="count_copy"><fmt:message key="POWDER_DETAIL_BOX_COPY"/></span>';
+			var temp8 = ' <i class="fa fa-minus count_delete"></i>';
+			var temp9 = '</div>';
 			var tempHtml = "";
 			for (var i= 0; i < powderData.length; i++) {
 				tempHtml += temp1;
-				tempHtml += temp2.replace('{0}',i+1);
+				tempHtml += temp2;
+				tempHtml += temp3.replace('{0}',i+1);
 				var powderInfoArr = powderData[i].selectpowderdetailinfo[0].split(',');
-				tempHtml += temp3;
 				tempHtml += temp4.replace('{0}',getBrandNameByCode(powderInfoArr[0], powderInfoArr[2]) + "&nbsp;&nbsp;" + powderData[i].expressName + "&nbsp;&nbsp;" + powderData[i].sendpersonUser);
-				tempHtml += temp5;
-				tempHtml += temp6.replace('{0}',i+1);
+				tempHtml += temp5.replace('{0}',i+1);
+				tempHtml += temp6;
 				tempHtml += temp7;
+				tempHtml += temp8;
+				tempHtml += temp9;
 			}
 			
 			$('.mpas_package_count_div').html('');
@@ -1122,11 +1202,19 @@
 					<script>
 					$(document).ready(function(){
 						$('.mpas_package_detail_receive_pic input[type="checkbox"]').css('display','');
-						  $('.mpas_package_detail_receive_pic input[type="checkbox"]').iCheck({
+						$('.mpas_package_detail_receive_pic input[type="checkbox"]').iCheck({
 			              checkboxClass: 'icheckbox_square-blue',
 			              radioClass: 'iradio_square-blue',
 			              increaseArea: '20%'
 			            });
+						$('.mpas_package_detail_receive_pic input[type="checkbox"]').on('ifChecked', function(event){
+							// 重新计算总金额
+							showAllAmount('','','');
+						});
+					  	$('.mpas_package_detail_receive_pic input[type="checkbox"]').on('ifUnchecked', function(event){
+					  	// 重新计算总金额
+							showAllAmount('','','');
+						});
 					});
 					</script>
 				</div>
@@ -1134,15 +1222,26 @@
 				<div class="mpas_package_detail_remark">
 					<input type="checkbox" style="display:none" id="isRemark">
 					<label for="isRemark"><fmt:message key="MPAS_PACKAGE_DETAIL_REMARK" /></label>
-					<input type="text" placeholder="<fmt:message key="MPAS_PACKAGE_DETAIL_YOURWORDS" />" id="remarkData"></input>
+					<input type="text" placeholder="<fmt:message key="MPAS_PACKAGE_DETAIL_YOURWORDS" />" id="remarkData" disabled="disabled"></input>
 					<script>
 					$(document).ready(function(){
 						$('.mpas_package_detail_remark input[type="checkbox"]').css('display','');
-					  $('.mpas_package_detail_remark input[type="checkbox"]').iCheck({
+					  	$('.mpas_package_detail_remark input[type="checkbox"]').iCheck({
 			              checkboxClass: 'icheckbox_square-blue',
 			              radioClass: 'iradio_square-blue',
 			              increaseArea: '20%'
 			            });
+					  	$('.mpas_package_detail_remark input[type="checkbox"]').on('ifChecked', function(event){
+					  		$('#remarkData').removeAttr("disabled");
+					  		// 重新计算总金额
+							showAllAmount('','','');
+						});
+					  	$('.mpas_package_detail_remark input[type="checkbox"]').on('ifUnchecked', function(event){
+					  		$('#remarkData').attr("disabled","disabled");
+					  		$('#remarkData').val("");
+					  		// 重新计算总金额
+							showAllAmount('','','');
+						});
 					});
 					</script>
 				</div>
@@ -1210,7 +1309,9 @@
 		</div>
 		
 		<div class="pas_package_count_create_order">
-			<a id="save_order"><fmt:message key="MPAS_PACKAGE_COUNT_SAVE_ORDER" /></a>
+			<a id="save_order" class="save_order"><fmt:message key="MPAS_PACKAGE_COUNT_SAVE_ORDER" /></a>
+			
+			<a id="see_no_pay" class="see_no_pay"><fmt:message key="MPAS_PACKAGE_COUNT_SEE_NO_PAY" /></a>
 		</div>
 	</div>
 	
@@ -1335,6 +1436,18 @@
 		</div>
     
     </div>
+    
+    <script type="text/javascript">
+    	var mode = '${mode}';
+    	if (mode == 1) {
+    		// 开始展示第二个画面
+			// 第一个画面隐藏
+			$("#mpas_today_prive_id").toggle("1500");
+			$("#mpas_package_detail_id").show();
+    	}
+    
+    
+    </script>
     
 </body>
 <!-- END BODY -->

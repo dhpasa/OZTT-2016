@@ -155,6 +155,11 @@
   			
   		}
   	}
+  	
+  	function toMilkPowderAutoPurchaseSecond(){
+  		// 进入奶粉代发系统第二个画面
+  		location.href = "${ctx}/milkPowderAutoPurchase/init?mode=1";
+  	}
 </script>
 
 <!-- Body BEGIN -->
@@ -162,7 +167,7 @@
 	<sitemesh:write property='body' />
 
     <!-- BEGIN FOOTER -->
-    <div class="main-nav" id="main-nav-id">
+    <div class="main-nav" id="main-nav-id" style="display:none">
 		<a href="${ctx}/main/init" class="main-nav-item main-nav-home main-nav-active">
 			<img alt="home" src="${ctx}/images/main.png">
 			<span><fmt:message key="DECORATOR_MAIN"/></span>
@@ -180,6 +185,25 @@
 			<img alt="me" src="${ctx}/images/me.png">
 			<span><fmt:message key="DECORATOR_ME"/></span>
 			<span class="notSuccessedOrder" id="notSuccessedOrder"></span>
+		</a>
+	</div>
+	
+	<div class="main-nav" id="powder-send-nav-id" style="display:none">
+		<a href="${ctx}/main/init" class="main-nav-item main-nav-home main-nav-active">
+			<i class="glyphicon glyphicon-home powder-icon-main"></i>
+			<span><fmt:message key="POWDER_BAR_MAIN"/></span>
+		</a>
+		<a href="${ctx}/milkPowderAutoPurchase/init" class="main-nav-item main-nav-cat ">
+			<i class="glyphicon glyphicon-list powder-icon-main"></i>
+			<span><fmt:message key="POWDER_BAR_PRICELIST"/></span>
+		</a>
+		<a href="#" onclick="toMilkPowderAutoPurchaseSecond()" class="main-nav-item main-nav-cart " id="navCart">
+			<i class="glyphicon glyphicon-send powder-icon-main"></i>
+			<span><fmt:message key="POWDER_BAR_SEND"/></span>
+		</a>
+		<a href="${ctx}/user/init" class="main-nav-item main-nav-profile ">
+			<i class="glyphicon glyphicon-user powder-icon-main"></i>
+			<span><fmt:message key="POWDER_BAR_ME"/></span>
 		</a>
 	</div>
 	
@@ -206,6 +230,11 @@
 	
 	if (currentPath.indexOf("milkPowderAutoPurchase") > 0) {
 		$("#main-nav-id").remove();
+		$("#powder-send-nav-id").css("display","");
+	}
+	
+	if ($("#main-nav-id")) {
+		$("#main-nav-id").css("display","");
 	}
 	
 	var sessionUserId = '${currentUserId}';
