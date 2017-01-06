@@ -35,20 +35,25 @@ import com.org.oztt.entity.TExpressInfo;
 import com.org.oztt.entity.TPowderOrder;
 import com.org.oztt.entity.TReceiverInfo;
 import com.org.oztt.entity.TSenderInfo;
+import com.org.oztt.entity.TSysConfig;
 import com.org.oztt.formDto.PowderCommonDto;
 import com.org.oztt.formDto.PowderInfoViewDto;
 import com.org.oztt.service.CustomerService;
 import com.org.oztt.service.PowderService;
+import com.org.oztt.service.SysConfigService;
 
 @Controller
 @RequestMapping("/milkPowderAutoPurchase")
 public class MilkPowderAutoPurchaseController extends BaseController {
 
     @Resource
-    private PowderService   powderService;
+    private PowderService    powderService;
 
     @Resource
-    private CustomerService customerService;
+    private CustomerService  customerService;
+
+    @Resource
+    private SysConfigService sysConfigService;
 
     /**
      * 奶粉订单系统
@@ -58,9 +63,9 @@ public class MilkPowderAutoPurchaseController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/init")
-    public String init(Model model, HttpServletRequest request, HttpSession session) {
+    public String init(Model model, HttpServletRequest request, HttpSession session, String mode) {
         try {
-           
+
             // 取得奶粉信息
             List<PowderInfoViewDto> powderList = powderService.selectPowderInfo();
             model.addAttribute("powderList", JSON.toJSONString(powderList));
@@ -70,7 +75,14 @@ public class MilkPowderAutoPurchaseController extends BaseController {
                     PowderInfoViewDto bean = new PowderInfoViewDto();
                     PropertyUtils.copyProperties(bean, detail);
                     bean.setPowderSpec(powderService.getBrandNameByCode(bean.getPowderSpec()));
-                    bean.setPowderPrice(bean.getPowderPrice().multiply(CommonConstants.POWDER_NUMBER).add(detail.getFreeDeliveryParameter()));
+                    if (CommonConstants.POWDER_TYPE_BABY.equals(detail.getPowderType())) {
+                        bean.setPowderPrice(bean.getPowderPrice().multiply(CommonConstants.BOBY_POWDER_NUMBER)
+                                .add(detail.getFreeDeliveryParameter()));
+                    }
+                    else {
+                        bean.setPowderPrice(bean.getPowderPrice().multiply(CommonConstants.ADULT_POWDER_NUMBER)
+                                .add(detail.getFreeDeliveryParameter()));
+                    }
                     powderListForView.add(bean);
                 }
             }
@@ -101,7 +113,11 @@ public class MilkPowderAutoPurchaseController extends BaseController {
                     specDto = new PowderCommonDto();
                     specDto.setId(detail.getPowderSpec());
                     specDto.setName(powderService.getBrandNameByCode(detail.getPowderSpec()));
-                    specDto.setChild(new PowderCommonDto(3).getChild());
+                    if (CommonConstants.POWDER_TYPE_BABY.equals(detail.getPowderType())) {
+                        specDto.setChild(new PowderCommonDto(3).getChild());
+                    } else {
+                        specDto.setChild(new PowderCommonDto(6).getChild());
+                    }
                     specDtoList.add(specDto);
 
                     powderBrand = detail.getPowderBrand();
@@ -109,7 +125,11 @@ public class MilkPowderAutoPurchaseController extends BaseController {
                 addDto.setChild(specDtoList);
                 powderJsonList.add(addDto);
             }
+            // 获取奶粉的附加费用信息
+            TSysConfig tSysConfig = sysConfigService.getTSysConfig();
+            model.addAttribute("sysconfig", tSysConfig);
             model.addAttribute("powderJson", JSON.toJSONString(powderJsonList));
+            model.addAttribute("mode", mode);
             return "milkPowderAutoPurchase";
         }
         catch (Exception e) {
@@ -593,13 +613,13 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             String uu = UUID.randomUUID().toString().replace("-", "");
             String parterCode = super.getApplicationMessage("partner_code", session);
             String credentialCode = super.getApplicationMessage("credential_code", session);
-            
+
             String redirect_url = super.getApplicationMessage("wechat_redirect", session) + orderId;
 
             String signOrigin = parterCode + "&" + dTime + "&" + uu + "&" + credentialCode;
             String signDes = CommonUtils.sign(signOrigin, "SHA-256");
-            
-            String url = "https://mpay.royalpay.com.au/api/v1.0/wechat_jsapi_gateway/partners/OZTT_order_"+orderId;
+
+            String url = "https://mpay.royalpay.com.au/api/v1.0/wechat_jsapi_gateway/partners/OZTT_order_" + orderId;
             url += "?redirect=" + redirect_url + "&directpay=false";
             url += "&time=" + dTime + "&nonce_str=" + uu + "&sign=" + signDes;
 

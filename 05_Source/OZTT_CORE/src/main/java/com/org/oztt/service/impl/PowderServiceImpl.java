@@ -55,6 +55,7 @@ import com.org.oztt.formDto.PowderOrderInfo;
 import com.org.oztt.service.BaseService;
 import com.org.oztt.service.CommonService;
 import com.org.oztt.service.PowderService;
+import com.org.oztt.service.SysConfigService;
 
 @Service
 public class PowderServiceImpl extends BaseService implements PowderService {
@@ -91,6 +92,9 @@ public class PowderServiceImpl extends BaseService implements PowderService {
 
     @Resource
     private TNoTransactionDao      tNoTransactionDao;
+    
+    @Resource
+    private SysConfigService       sysConfigService;
 
     @Override
     public List<TExpressInfo> selectAllExpressInfo() throws Exception {
@@ -170,6 +174,8 @@ public class PowderServiceImpl extends BaseService implements PowderService {
     @Override
     public Map<String, String> insertPowderInfo(List<Map<String, Object>> resList, String customerId, String payType)
             throws Exception {
+        
+        
         Map<String, String> resMap = new HashMap<String, String>();
 
         // 产生订单号
@@ -271,15 +277,28 @@ public class PowderServiceImpl extends BaseService implements PowderService {
             tPowderBox.setIfRemarks(powderBoxRes.get("isRemarkFlg").toString());
             tPowderBox.setRemarks(powderBoxRes.get("remarkData").toString());
             tPowderBox.setIfMsg(powderBoxRes.get("isReceivePicFlg").toString());
-            tPowderBox.setAdditionalCost(expressInfo.getPriceCoefficient());
-            tPowderBox.setSumAmount(sum);
+            BigDecimal additional = BigDecimal.ZERO;
+                    
+            // 接收彩信
+            if ("1".equals(tPowderBox.getIfMsg())) {
+                additional = additional.add(sysConfigService.getTSysConfig().getMessageFee());
+            }
+            // 做标记
+            if ("1".equals(tPowderBox.getIfRemarks())) {
+                additional = additional.add(sysConfigService.getTSysConfig().getRemarkFee());
+            }
+            
+            
+            tPowderBox.setAdditionalCost(additional);
+            tPowderBox.setSumAmount(sum.add(additional));
             tPowderBox.setOrderId(String.valueOf(orderIncrement));
-            tPowderBox.setHandleStatus(CommonEnum.HandleFlag.NOT_PAY.getCode());
+            tPowderBox.setHandleStatus(CommonEnum.PowderBoxFlag.NOT_PACKED.getCode());
             tPowderBoxDao.insertSelective(tPowderBox);
 
-            sumTotal = sumTotal.add(sum);
+            sumTotal = sumTotal.add(tPowderBox.getSumAmount());
+     
         }
-
+        
         // 奶粉订单
         TPowderOrder tPowderOrder = new TPowderOrder();
         tPowderOrder.setOrdreNo(maxOrderNo);
@@ -400,12 +419,12 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         TPowderBox param = new TPowderBox();
         param.setOrderId(tPowderOrder.getId().toString());
         List<TPowderBox> powderBoxList = tPowderBoxDao.selectTPowderBoxList(param);
-        if (powderBoxList != null) {
-            for (TPowderBox boxInfo : powderBoxList) {
-                boxInfo.setHandleStatus(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
-                tPowderBoxDao.updateByPrimaryKeySelective(boxInfo);
-            }
-        }
+//        if (powderBoxList != null) {
+//            for (TPowderBox boxInfo : powderBoxList) {
+//                boxInfo.setHandleStatus(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
+//                tPowderBoxDao.updateByPrimaryKeySelective(boxInfo);
+//            }
+//        }
 
         // 付款成功之后，生成快递单照片和快递信息,一个快递单多个订单号
         String eleExpressNo = getExpressEleNo();
@@ -544,7 +563,7 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         }
         powderBoxInfo.setPricecount(priceCount.toString());
         // 状态
-        powderBoxInfo.setOrderStatusView(CommonEnum.HandleFlag.getEnumLabel(powderBoxInfo.getStatus()));
+        powderBoxInfo.setOrderStatusView(CommonEnum.PowderBoxFlag.getEnumLabel(powderBoxInfo.getStatus()));
 
         if (StringUtils.isNotEmpty(tPowderBox.getExpressPhotoUrl())) {
             powderBoxInfo.setExpressPhotoUrlExitFlg("1");

@@ -15,11 +15,15 @@
     <result column="aboutus" property="aboutus" jdbcType="VARCHAR" />
     <result column="levelsumamount" property="levelsumamount" jdbcType="VARCHAR" />
     <result column="pointcalcamount" property="pointcalcamount" jdbcType="DECIMAL" />
+    <result column="messageFee" property="messageFee" jdbcType="DECIMAL" />
+    <result column="remarkFee" property="remarkFee" jdbcType="DECIMAL" />
     <result column="discountrate" property="discountrate" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Base_Column_List" >
     no, goodssearchkey1, goodssearchvalue1, goodssearchkey2, goodssearchvalue2, goodssearchkey3, goodssearchvalue3, toppageadpic, 
-    contactservice, shoppercooperation, aboutus, levelsumamount, pointcalcamount, discountrate
+    contactservice, shoppercooperation, aboutus, levelsumamount, pointcalcamount, 
+    messageFee,remarkFee,
+    discountrate
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -80,6 +84,12 @@
       <if test="pointcalcamount != null" >
         pointcalcamount,
       </if>
+      <if test="messageFee != null" >
+        messageFee,
+      </if>
+      <if test="remarkFee != null" >
+        remarkFee,
+      </if>
       <if test="discountrate != null" >
         discountrate,
       </if>
@@ -124,6 +134,12 @@
       <if test="pointcalcamount != null" >
         #{pointcalcamount,jdbcType=DECIMAL},
       </if>
+      <if test="messageFee != null" >
+        #{messageFee,jdbcType=DECIMAL},
+      </if>
+      <if test="remarkFee != null" >
+        #{remarkFee,jdbcType=DECIMAL},
+      </if>
       <if test="discountrate != null" >
         #{discountrate,jdbcType=DECIMAL},
       </if>
@@ -167,6 +183,12 @@
       </if>
       <if test="pointcalcamount != null" >
         pointcalcamount = #{pointcalcamount,jdbcType=DECIMAL},
+      </if>
+      <if test="messageFee != null" >
+        messageFee = #{messageFee,jdbcType=DECIMAL},
+      </if>
+      <if test="remarkFee != null" >
+        remarkFee = #{remarkFee,jdbcType=DECIMAL},
       </if>
       <if test="discountrate != null" >
         discountrate = #{discountrate,jdbcType=DECIMAL},

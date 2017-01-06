@@ -44,9 +44,10 @@
 			});
 		});
 		
-		$("#editCard").click(function(){
+		$("#editCard,#editCardMsg").click(function(){
 			$("#cardnumberLabel").css('display','none');
 			$("#editCard").css('display','none');
+			$("#editCardMsg").css('display','none');
 			
 			$("#cardInput").css('display','');
 			$("#confirmCard").css('display','');
@@ -83,6 +84,7 @@
 			$("#cardnumberLabel").text(updateCardNo);
 			$("#cardnumberLabel").css('display','');
 			$("#editCard").css('display','');
+			$("#editCardMsg").css('display','');
 		});
 		
 		$("#clearCard").click(function(){
@@ -97,6 +99,7 @@
 			$("#cardnumberLabel").text(cardNo);
 			$("#cardnumberLabel").css('display','');
 			$("#editCard").css('display','');
+			$("#editCardMsg").css('display','');
 		});
 		
 		document.getElementById('imgBe').addEventListener('change', function () {
@@ -261,6 +264,7 @@
 		<div class="express_show">
 			<a id="showExpress"><fmt:message key="POWDER_DETAIL_EXPRESS_INFO" /></a>
 		</div>
+		
 	</div>
 	
 	<div class="powder_info_item clearfix">
@@ -276,6 +280,7 @@
 			<span class="idCard"><fmt:message key="POWDER_ITEM_RECEIVE_CARDNO" /></span>
 			<span id="cardnumberLabel" class="cardnumberLabel">${detailInfo.receiveIdCard}</span>
 			<i class="glyphicon glyphicon-wrench cardEdit" id="editCard"></i>
+			<span class="idCardInMsg" id="editCardMsg"><fmt:message key="POWDER_ITEM_RECEIVE_POINT_INPUT" /></span>
 			
 			<input placeholder="<fmt:message key="POWDER_ITEM_RECEIVE_PLACEHLODER" />" id="cardInput" style="display:none" value="${detailInfo.receiveIdCard}"/>
 			<i class="glyphicon glyphicon-ok cardConfirm" id="confirmCard" style="display:none"></i>
@@ -322,18 +327,29 @@
 		</div>
 	</c:if>
 
-	<c:if test="${detailInfo.expressPhotoUrlExitFlg == '1' }">
-		<div class="powder_info_item">
-			<span class="item_head_inf"><fmt:message key="POWDER_DETAIL_EXPRESS_URL" /></span>
+	<div class="powder_info_item">
+		<span class="item_head_inf"><fmt:message key="POWDER_DETAIL_EXPRESS_URL" /></span>
+		<c:if test="${detailInfo.expressPhotoUrlExitFlg == '1' }">
 			<img alt="expressImg" src="${detailInfo.expressPhotoUrl}" class="expressImg">
-		</div>
-	</c:if>
-	<c:if test="${detailInfo.boxPhotoUrlsExitFlg == '1' }">
-		<div class="powder_info_item">
-			<span class="item_head_inf"><fmt:message key="POWDER_DETAIL_BOX_URL" /></span>
+		</c:if>
+		<c:if test="${detailInfo.expressPhotoUrlExitFlg != '1' }">
+			<span class="phone_none">暂时快递单照片</span>
+		</c:if>
+	</div>
+	
+	
+	
+	<div class="powder_info_item">
+		<span class="item_head_inf"><fmt:message key="POWDER_DETAIL_BOX_URL" /></span>
+		<c:if test="${detailInfo.boxPhotoUrlsExitFlg == '1' }">
 			<img alt="expressImg" src="${detailInfo.boxPhotoUrls}" class="expressImg">
-		</div>
-	</c:if>
+		</c:if>
+		<c:if test="${detailInfo.boxPhotoUrlsExitFlg != '1' }">
+			<span class="phone_none">暂时无打包照片</span>
+		</c:if>
+	</div>
+	
+	
 	
 	<input type="hidden" value="${detailInfo.receiveId}" id="hiddenReceiveId">
 	

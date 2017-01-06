@@ -358,7 +358,7 @@
 	  			payMethod = "4";
 	  		}
 	  		
-	  		if (payMethod = "4") {
+	  		if (payMethod == "4") {
 	  			// 判断是否是微信浏览器
 	  			if (!isWeiXin()) {
 	  				// 不是微信，则跳出提示
@@ -513,7 +513,11 @@
 				success : function(data) {
 					if (data.payUrl != null && data.payUrl != "") {
 						// 重新签名
-						location.href = data.payUrl;
+						createInfoDialog('<fmt:message key="I0010"/>','1');
+						setTimeout(function() {
+							location.href = data.payUrl;
+						}, 1000);
+						
 					} else {
 						removeLoading();
 						createErrorInfoDialog('<fmt:message key="E0022" />');
@@ -665,9 +669,9 @@
 			<a class="method-check purchase_paymoth_width" id="method_online">
 				<img src="${ctx}/images/banklogo_trans.png" style="height:2.5rem;">
 			</a>
-			<a class="method-default purchase_paymoth_width webchat_method" id="method_wechat">
+			<!-- <a class="method-default purchase_paymoth_width webchat_method" id="method_wechat">
 				<img src="${ctx}/images/wechat.jpeg" style="height:2.5rem;">
-			</a>
+			</a> -->
 			<a class="method-default" id="method_cod">
 				<i class="fa fa-check"></i>
 				<fmt:message key="PURCHASE_COD"/>

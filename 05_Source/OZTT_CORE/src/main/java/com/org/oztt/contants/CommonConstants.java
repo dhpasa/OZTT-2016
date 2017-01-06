@@ -134,7 +134,9 @@ public final class CommonConstants {
 
     public static final int        STOCK_100                  = 100;
 
-    public static final BigDecimal POWDER_NUMBER              = new BigDecimal(3);
+    public static final BigDecimal BOBY_POWDER_NUMBER         = new BigDecimal(3);
+
+    public static final BigDecimal ADULT_POWDER_NUMBER        = new BigDecimal(6);
 
     public static final String     ID_CARD                    = "IDCARD";
 
@@ -146,6 +148,6 @@ public final class CommonConstants {
 
     public static final String     EXPRESS_ELE_NO             = "TT120101";                             // 物流的电子快递单号
 
-    public static final String     POWDER_TYPE_BABY           = "1";                                     // 婴儿奶粉
+    public static final String     POWDER_TYPE_BABY           = "1";                                    // 婴儿奶粉
 
 }
