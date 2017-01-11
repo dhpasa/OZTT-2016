@@ -233,6 +233,11 @@
 		$("#powder-send-nav-id").css("display","");
 	}
 	
+	if (currentPath.indexOf("powderOrder") > 0) {
+		$("#main-nav-id").remove();
+		$("#powder-send-nav-id").css("display","");
+	}
+	
 	if ($("#main-nav-id")) {
 		$("#main-nav-id").css("display","");
 	}

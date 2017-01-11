@@ -33,6 +33,8 @@
 			$("#complete").click(function(){
 				// 提交画面内容，并进行check
 				submitBoxInfo();
+				// 重新展示购物车
+				showShopcartNumber();
 			});
 			
 			// 监听用户选择发件人和收件人
@@ -98,10 +100,18 @@
 			
 			$("#pay_package_a").click(function(){
 				// 跳转支付画面
+				if (powderData.length == 0) {
+					createInfoDialog('<fmt:message key="E0027" />', '1');
+					return;
+				}
 				$("#purchase-credit-pop-up").modal('show');
 			});
 			
 			$("#save_order").click(function(){
+				if (powderData.length == 0) {
+					createInfoDialog('<fmt:message key="E0027" />', '1');
+					return;
+				}
 				submitPowderDate('');
 				// 保存我的订单按钮点击
 				createInfoDialog('<fmt:message key="I0006" />', '1');
@@ -116,7 +126,14 @@
 				location.href = "${ctx}/powderOrder/init?tab=0";
 			});
 			
-			
+			$(".mpas_icon-shopcart").click(function(){
+				reloadPackData();
+				$('#powder_purchase_section_id').css('display','none');
+				$('#mpas_today_prive_id').css('display','none');
+				$('#mpas_package_detail_id').css('display','none');
+				$("#mpas_package_count_id").show();
+				$('.powder_back').css('display','');
+			});
 		});
 		
 		function gotoPurchase() {
@@ -223,6 +240,11 @@
 					
 				}
 			});
+			
+			// 提交玩内容之后，更新数据。
+			powderData = [];
+			// 更新右上叫信息。
+			showShopcartNumber();
 		}
 		
 		function clearDetailInfo(){
@@ -248,6 +270,8 @@
 			$('.mpas_package_detail_remark input[type="checkbox"]').iCheck('uncheck');
 			$('#remarkData').attr("disabled","disabled");
 			$("#remarkData").val('');
+			// 清空一下金额
+			$('#moneycount').text('0.00');
 		}
 		
 		// 包装画面事件监听
@@ -257,6 +281,8 @@
 				var packcountIndex = $(this).parent().find('input')[0].value;
 				powderData.splice(packcountIndex - 1,1);
 				reloadPackData();
+				// 重新展示购物车
+				showShopcartNumber();
 			});
 			
 			$(".count_copy").click(function(){
@@ -264,6 +290,8 @@
 				var packcountIndex = $(this).parent().find('input')[0].value;
 				powderData.push(powderData[packcountIndex - 1]);
 				reloadPackData();
+				// 重新展示购物车
+				showShopcartNumber();
 			});
 			
 			$(".pack_count_info").click(function(){
@@ -293,11 +321,12 @@
 					$('.mpas_powder_div_body').find('div ul').last().find('li span').each(function(j, o){
 						$(o).text(powderDetailData.selectPowderDetailNameInfo[i].split(',')[j]);
 					})
+					bindSelectPowderEvent($('.mpas_powder_div_body').find('div ul').last());
 					
 				}
 				$('.mpas_powder_div_body').find('.select_powder_div').css('display','');
 				$('.mpas_powder_div_body').find('.select_powder_div').removeClass('hidden_select_powder');
-				bindSelectPowderEvent($('.mpas_powder_div_body').find('div ul'));
+				
 				// 监听删除事件
 				doListenDelete();
 
@@ -428,10 +457,10 @@
 				var brandId = $(o).find('input')[0].value.split(',')[0];
 				var specId = $(o).find('input')[0].value.split(',')[1];
 				var number = $(o).find('input')[0].value.split(',')[2];
-				if (number == 0) {
-					powderAmount = 0;
-					return false;
-				}
+				//if (number == 0) {
+					//powderAmount = 0;
+					//return false;
+				//}
 				// 获取选择当前奶粉的单价
 				var unitprice = 0;
 				// 获取选择当前奶粉的重量
@@ -553,36 +582,39 @@
 				var brandId = $(o).find('input')[0].value.split(',')[0];
 				var specId = $(o).find('input')[0].value.split(',')[1];
 				var number = $(o).find('input')[0].value.split(',')[2];
-				if (number == 0) {
-					$('#errormsg_content').text(E0019);
-		  			$('#errormsg-pop-up').modal('show');
-		  			powdeIsTrue = false;
-					return false;
+// 				if (number == 0) {
+// 					$('#errormsg_content').text(E0019);
+// 		  			$('#errormsg-pop-up').modal('show');
+// 		  			powdeIsTrue = false;
+// 					return false;
+// 				}
+				if (number > 0) {
+					// 奶粉总数量
+					allNumber = allNumber+parseFloat(number);
+					
+					// 判断有没有选择过当前品牌
+					if (keycontain.indexOf('['+brandId+specId+']') != -1) {
+						$('#errormsg_content').text(E0018);
+			  			$('#errormsg-pop-up').modal('show');
+			  			powdeIsTrue = false;
+						return false;
+					} else {
+						// 没有选择过当前品牌
+						keycontain = keycontain + '[' +brandId+specId +']';
+					}
+					// 判断是否混装
+					if (powderType != "" && powderType != getPowderType(brandId, specId)) {
+						// 混装的情况
+						$('#errormsg_content').text(E0024);
+			  			$('#errormsg-pop-up').modal('show');
+			  			powdeIsTrue = false;
+						return false;
+					}
+					powderType = getPowderType(brandId, specId);
+					selectPowderDetailInfo.push(selectStr);
+					selectPowderDetailNameInfo.push(selectNameStr);
 				}
-				// 奶粉总数量
-				allNumber = allNumber+parseFloat(number);
 				
-				// 判断有没有选择过当前品牌
-				if (keycontain.indexOf('['+brandId+']') != -1) {
-					$('#errormsg_content').text(E0018);
-		  			$('#errormsg-pop-up').modal('show');
-		  			powdeIsTrue = false;
-					return false;
-				} else {
-					// 没有选择过当前品牌
-					keycontain = keycontain + '[' +brandId +']';
-				}
-				// 判断是否混装
-				if (powderType != "" && powderType != getPowderType(brandId, specId)) {
-					// 混装的情况
-					$('#errormsg_content').text(E0024);
-		  			$('#errormsg-pop-up').modal('show');
-		  			powdeIsTrue = false;
-					return false;
-				}
-				powderType = getPowderType(brandId, specId);
-				selectPowderDetailInfo.push(selectStr);
-				selectPowderDetailNameInfo.push(selectNameStr);
 			})
 			
 			if (powdeIsTrue) {
@@ -1078,6 +1110,10 @@
   		        return false;
   		    }
   		}
+  		
+  		function showShopcartNumber(){
+  			$("#shopcartNumber").text(powderData.length);
+  		}
 	
   </script>
 </head>
@@ -1092,7 +1128,9 @@
 		<div class="x-header-title">
 			<span class="mpas_head_color"><fmt:message key="POWDER_TITLE" /></span>
 		</div>
-		<div class="x-header-btn"></div>
+		<div class="x-header-btn mpas_icon-shopcart">
+			<span id="shopcartNumber">8</span>
+		</div>
 	</div>
 	
 	<div class="mpas_today_price" id="mpas_today_prive_id">
@@ -1127,6 +1165,9 @@
 	</div>
 	
 	<div class="mpas_package_detail" style="display:none" id="mpas_package_detail_id">
+		<div class="mpas_select_info">
+			<span><fmt:message key="MPAS_SELECT_INFO_MSG"/></span>
+		</div>
 		<div class="mpas_express_div">
 			<ul class="nav nav-tabs">
 				
@@ -1289,6 +1330,9 @@
 </script>
 
 	<div class="mpas_package_count clearfix" style="display:none" id="mpas_package_count_id">
+		<div class="mpas_package_shopcart">
+			<span><fmt:message key="MPAS_SHOPCART" /></span>
+		</div>
 		<div class="mpas_package_count_div clearfix">
 			<!-- <div class="mpas_package_count_detail clearfix">
 				<span class="count_no_span">No.1</span>
@@ -1436,6 +1480,9 @@
 		</div>
     
     </div>
+    <div style="height:7rem;">
+    	&nbsp;
+    </div>
     
     <script type="text/javascript">
     	var mode = '${mode}';
@@ -1445,8 +1492,8 @@
 			$("#mpas_today_prive_id").toggle("1500");
 			$("#mpas_package_detail_id").show();
     	}
-    
-    
+    	
+    	showShopcartNumber();
     </script>
     
 </body>
