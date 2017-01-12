@@ -225,7 +225,7 @@ public class PowderOrderListControler extends BaseController {
                             // 将前面的替换掉
                             phoneArr[0] = desFileName;
                             tReceiverInfo.setReceiverIdCardPhotoUrls(org.apache.commons.lang.StringUtils.join(phoneArr,
-                                    ','));
+                                    '|'));
                             powderService.updateReveiverInfo(tReceiverInfo);
                         }
                         else {
