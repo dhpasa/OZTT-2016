@@ -149,8 +149,9 @@
 
   	        cvs.width = img.width;
   	        cvs.height = img.height;
-
-  	        ctx.clearRect(0, 0, cvs.width, cvs.height);
+  	      	ctx.fillStyle = "#fff";
+  	        ctx.fillRect(0, 0, cvs.width, cvs.height);
+  	        //ctx.clearRect(0, 0, cvs.width, cvs.height);
   	        ctx.drawImage(img, 0, 0, img.width, img.height);
 
   	        var compressRate = getCompressRate(1,fileSize);
@@ -183,10 +184,8 @@
   	function uploadImg(imgBase64Data, type) {
 
         var pos = imgBase64Data.indexOf("4") + 2;
-        imgBase64Data = imgBase64Data.substring(pos, imgBase64Data.length - pos);//去掉Base64:开头的标识字符
-        
+        imgBase64Data = imgBase64Data.substring(pos, imgBase64Data.length);//去掉Base64:开头的标识字符   
         var paramData = { 'base64StrImgData': imgBase64Data};
-        
         $.ajax({
 			type : "POST",
 			contentType:'application/json',

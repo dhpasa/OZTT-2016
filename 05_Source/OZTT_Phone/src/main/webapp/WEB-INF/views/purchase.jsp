@@ -669,9 +669,9 @@
 			<a class="method-check purchase_paymoth_width" id="method_online">
 				<img src="${ctx}/images/banklogo_trans.png" style="height:2.5rem;">
 			</a>
-			<!-- <a class="method-default purchase_paymoth_width webchat_method" id="method_wechat">
+			<a class="method-default purchase_paymoth_width webchat_method" id="method_wechat">
 				<img src="${ctx}/images/wechat.jpeg" style="height:2.5rem;">
-			</a> -->
+			</a>
 			<a class="method-default" id="method_cod">
 				<i class="fa fa-check"></i>
 				<fmt:message key="PURCHASE_COD"/>

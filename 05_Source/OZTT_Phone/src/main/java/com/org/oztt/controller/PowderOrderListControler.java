@@ -217,7 +217,7 @@ public class PowderOrderListControler extends BaseController {
                 TReceiverInfo tReceiverInfo = powderService.getReveiverInfo(Long.valueOf(receiveId));
                 if (tReceiverInfo != null) {
                     String phoneUrl = tReceiverInfo.getReceiverIdCardPhotoUrls() == null ? "" : tReceiverInfo.getReceiverIdCardPhotoUrls();
-                    String[] phoneArr = phoneUrl.split(",");
+                    String[] phoneArr = phoneUrl.split("\\|");
                     int cardLength = phoneUrl == null ? 0 : phoneArr.length;
                     if ("0".equals(type)) {
                         // 将身份证前面的照片路径替换掉
@@ -225,11 +225,11 @@ public class PowderOrderListControler extends BaseController {
                             // 将前面的替换掉
                             phoneArr[0] = desFileName;
                             tReceiverInfo.setReceiverIdCardPhotoUrls(org.apache.commons.lang.StringUtils.join(phoneArr,
-                                    ','));
+                                    '|'));
                             powderService.updateReveiverInfo(tReceiverInfo);
                         }
                         else {
-                            tReceiverInfo.setReceiverIdCardPhotoUrls(desFileName + ", ");
+                            tReceiverInfo.setReceiverIdCardPhotoUrls(desFileName + "| ");
                             powderService.updateReveiverInfo(tReceiverInfo);
                         }
                     }
@@ -239,11 +239,11 @@ public class PowderOrderListControler extends BaseController {
                             // 将前面的替换掉
                             phoneArr[1] = desFileName;
                             tReceiverInfo.setReceiverIdCardPhotoUrls(org.apache.commons.lang.StringUtils.join(phoneArr,
-                                    ','));
+                                    '|'));
                             powderService.updateReveiverInfo(tReceiverInfo);
                         }
                         else {
-                            tReceiverInfo.setReceiverIdCardPhotoUrls(" ," + desFileName);
+                            tReceiverInfo.setReceiverIdCardPhotoUrls(" |" + desFileName);
                             powderService.updateReveiverInfo(tReceiverInfo);
                         }
                     }

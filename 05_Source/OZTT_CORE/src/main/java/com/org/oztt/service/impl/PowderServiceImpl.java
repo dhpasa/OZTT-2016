@@ -183,6 +183,7 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         // 获取最大的客户号
         TNoOrder maxTNoOrder = tNoOrderDao.getMaxOrderNo();
         String nowDateString = DateFormatUtils.getNowTimeFormat("yyyyMMdd");
+        String nowDateStringFull = DateFormatUtils.getNowTimeFormat("yyyy/MM/dd HH:mm:ss");
         Integer len = CommonConstants.FIRST_NUMBER.length();
         if (maxTNoOrder == null) {
             maxOrderNo = nowDateString + CommonConstants.FIRST_NUMBER;
@@ -302,7 +303,7 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         // 奶粉订单
         TPowderOrder tPowderOrder = new TPowderOrder();
         tPowderOrder.setOrdreNo(maxOrderNo);
-        tPowderOrder.setOrderDate(nowDateString);
+        tPowderOrder.setOrderDate(nowDateStringFull);
         tPowderOrder.setCustomerId(customerId);
         tPowderOrder.setSumAmount(sumTotal);
         // 保存奶粉订单的时候一定是没有付款的
@@ -340,6 +341,7 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         // 获取最大的客户号
         TNoTransaction maxTNoTransaction = tNoTransactionDao.getMaxTransactionNo();
         String nowDateString = DateFormatUtils.getNowTimeFormat("yyyyMMdd");
+        String nowDateStringFull = DateFormatUtils.getNowTimeFormat("yyyy/MM/dd HH:mm:ss");
         Integer len = CommonConstants.FIRST_NUMBER.length();
         if (maxTNoTransaction == null) {
             maxTranctionNo = nowDateString + CommonConstants.FIRST_NUMBER;
@@ -412,7 +414,7 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         // 检索当前订单，更新状态为已经付款
         tPowderOrder.setPaymentStatus(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
         tPowderOrder.setStatus(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
-        tPowderOrder.setPaymentDate(nowDateString);
+        tPowderOrder.setPaymentDate(nowDateStringFull);
         this.updatePowderOrder(tPowderOrder);
 
         // 更新订单下面的装箱flag
@@ -444,6 +446,7 @@ public class PowderServiceImpl extends BaseService implements PowderService {
                     // 狂派物流
                     dpOperation = new DeliveryPicOperation(s + "/freakyquick.properties");
                 }
+                String eleExpressUrl = "";
                 if (dpOperation != null) {
                     HashMap<String, Integer> products = new HashMap<String, Integer>();
                     if (powderInfo.getPowderMikeList() != null) {
@@ -455,15 +458,15 @@ public class PowderServiceImpl extends BaseService implements PowderService {
                     }
 
                     String outputPathImg = super.getApplicationMessage("DistImgPath", null) + "EXPRESS"
-                            + CommonConstants.PATH_SPLIT + eleExpressNo + ".jpg";
-                    dpOperation.createDeliveryPic(outputPathImg, eleExpressNo, powderInfo.getSenderName(),
+                            + CommonConstants.PATH_SPLIT;
+                    eleExpressUrl = dpOperation.createDeliveryPic(outputPathImg, eleExpressNo, powderInfo.getSenderName(),
                             powderInfo.getSenderPhone(), super.getApplicationMessage("sender_address", null),
                             powderInfo.getReceiveName(), powderInfo.getReceivePhone(), powderInfo.getReceiveAddress(),
                             products, weightAll.toString(), new Date());
 
                 }
 
-                boxInfo.setExpressPhotoUrl(eleExpressNo + ".jpg");
+                boxInfo.setExpressPhotoUrl(eleExpressUrl);
                 boxInfo.setElecExpressNo(eleExpressNo);
                 tPowderBoxDao.updateByPrimaryKeySelective(boxInfo);
             }
@@ -496,8 +499,8 @@ public class PowderServiceImpl extends BaseService implements PowderService {
                         pbi.setPowderMikeList(tPowderOrderDetailsDao.selectPowderDetailList(detailParam));
                     }
                 }
-                orderInfo.setOrderDate(DateFormatUtils.date2StringWithFormat(DateFormatUtils.string2DateWithFormat(
-                        orderInfo.getOrderDate(), DateFormatUtils.PATTEN_YMD_NO_SEPRATE), DateFormatUtils.PATTEN_YMD));
+//                orderInfo.setOrderDate(DateFormatUtils.date2StringWithFormat(DateFormatUtils.string2DateWithFormat(
+//                        orderInfo.getOrderDate(), DateFormatUtils.PATTEN2_HMS), DateFormatUtils.PATTEN_HMS));
                 orderInfo.setBoxList(powderBoxList);
             }
         }
@@ -526,7 +529,7 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         powderBoxInfo.setReceivePhone(tReceiverInfo.getReceiverTel());
         powderBoxInfo.setReceiveIdCard(tReceiverInfo.getReceiverIdCardNo());
         if (!StringUtils.isEmpty(tReceiverInfo.getReceiverIdCardPhotoUrls())) {
-            String[] idCardPhotoArr = tReceiverInfo.getReceiverIdCardPhotoUrls().split(",");
+            String[] idCardPhotoArr = tReceiverInfo.getReceiverIdCardPhotoUrls().split("\\|");
             powderBoxInfo.setReceiveCardPhoneBe((idCardPhotoArr[0] == null || StringUtils.isEmpty(idCardPhotoArr[0]
                     .trim())) ? "" : (super.getApplicationMessage("saveImgUrl", null) + CommonConstants.ID_CARD
                     + CommonConstants.PATH_SPLIT + idCardPhotoArr[0]));

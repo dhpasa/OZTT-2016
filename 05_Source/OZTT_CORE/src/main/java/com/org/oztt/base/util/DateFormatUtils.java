@@ -29,6 +29,11 @@ public class DateFormatUtils {
      * 日期时间 格式 yyyy-MM-dd HH:mm:ss
      */
     public static String       PATTEN_HMS                      = "yyyy-MM-dd HH:mm:ss";
+    
+    /**
+     * 日期时间 格式 yyyy-MM-dd HH:mm:ss
+     */
+    public static String       PATTEN2_HMS                      = "yyyy/MM/dd HH:mm:ss";
 
     /**
      * 日期时间 格式 yyyy/MM/dd HH:mm
