@@ -25,6 +25,8 @@ import com.org.oztt.base.page.Pagination;
 import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.base.util.DeliveryPicOperation;
+import com.org.oztt.base.util.SMSUtil;
+import com.org.oztt.base.util.ShortUrlUtil;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.contants.CommonEnum;
 import com.org.oztt.dao.TConsTransactionDao;
@@ -54,6 +56,7 @@ import com.org.oztt.formDto.PowderMilkInfo;
 import com.org.oztt.formDto.PowderOrderInfo;
 import com.org.oztt.service.BaseService;
 import com.org.oztt.service.CommonService;
+import com.org.oztt.service.CustomerService;
 import com.org.oztt.service.PowderService;
 import com.org.oztt.service.SysConfigService;
 
@@ -92,9 +95,12 @@ public class PowderServiceImpl extends BaseService implements PowderService {
 
     @Resource
     private TNoTransactionDao      tNoTransactionDao;
-    
+
     @Resource
     private SysConfigService       sysConfigService;
+
+    @Resource
+    private CustomerService        customerService;
 
     @Override
     public List<TExpressInfo> selectAllExpressInfo() throws Exception {
@@ -174,8 +180,7 @@ public class PowderServiceImpl extends BaseService implements PowderService {
     @Override
     public Map<String, String> insertPowderInfo(List<Map<String, Object>> resList, String customerId, String payType)
             throws Exception {
-        
-        
+
         Map<String, String> resMap = new HashMap<String, String>();
 
         // 产生订单号
@@ -228,7 +233,7 @@ public class PowderServiceImpl extends BaseService implements PowderService {
             // 快递
             TExpressInfo expressInfo = tExpressInfoDao.selectByPrimaryKey(Long.valueOf(powderBoxRes.get("expressId")
                     .toString()));
-
+            BigDecimal allQuantity = BigDecimal.ZERO;
             for (String powderDetailRes : (List<String>) powderBoxRes.get("selectpowderdetailinfo")) {
                 String brandId = powderDetailRes.split(",")[0];
                 String powderSpec = powderDetailRes.split(",")[1];
@@ -240,6 +245,8 @@ public class PowderServiceImpl extends BaseService implements PowderService {
                 tPowderInfo = tPowderInfoDao.selectByParam(tPowderInfo);
                 TPowderOrderDetails tPowderOrderDetails = new TPowderOrderDetails();
                 tPowderOrderDetails.setPowderId(tPowderInfo.getId().toString());
+
+                allQuantity = allQuantity.add(new BigDecimal(powderNumber));
                 tPowderOrderDetails.setQuantity(Long.valueOf(powderNumber));
                 tPowderOrderDetails.setUnitPrice(tPowderInfo.getPowderPrice());
                 tPowderOrderDetails.setPowderBoxId(String.valueOf(increment));
@@ -279,17 +286,16 @@ public class PowderServiceImpl extends BaseService implements PowderService {
             tPowderBox.setRemarks(powderBoxRes.get("remarkData").toString());
             tPowderBox.setIfMsg(powderBoxRes.get("isReceivePicFlg").toString());
             BigDecimal additional = BigDecimal.ZERO;
-                    
+
             // 接收彩信
             if ("1".equals(tPowderBox.getIfMsg())) {
                 additional = additional.add(sysConfigService.getTSysConfig().getMessageFee());
             }
             // 做标记
             if ("1".equals(tPowderBox.getIfRemarks())) {
-                additional = additional.add(sysConfigService.getTSysConfig().getRemarkFee());
+                additional = additional.add(sysConfigService.getTSysConfig().getRemarkFee().multiply(allQuantity));
             }
-            
-            
+
             tPowderBox.setAdditionalCost(additional);
             tPowderBox.setSumAmount(sum.add(additional));
             tPowderBox.setOrderId(String.valueOf(orderIncrement));
@@ -297,9 +303,9 @@ public class PowderServiceImpl extends BaseService implements PowderService {
             tPowderBoxDao.insertSelective(tPowderBox);
 
             sumTotal = sumTotal.add(tPowderBox.getSumAmount());
-     
+
         }
-        
+
         // 奶粉订单
         TPowderOrder tPowderOrder = new TPowderOrder();
         tPowderOrder.setOrdreNo(maxOrderNo);
@@ -421,12 +427,12 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         TPowderBox param = new TPowderBox();
         param.setOrderId(tPowderOrder.getId().toString());
         List<TPowderBox> powderBoxList = tPowderBoxDao.selectTPowderBoxList(param);
-//        if (powderBoxList != null) {
-//            for (TPowderBox boxInfo : powderBoxList) {
-//                boxInfo.setHandleStatus(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
-//                tPowderBoxDao.updateByPrimaryKeySelective(boxInfo);
-//            }
-//        }
+        //        if (powderBoxList != null) {
+        //            for (TPowderBox boxInfo : powderBoxList) {
+        //                boxInfo.setHandleStatus(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
+        //                tPowderBoxDao.updateByPrimaryKeySelective(boxInfo);
+        //            }
+        //        }
 
         // 付款成功之后，生成快递单照片和快递信息,一个快递单多个订单号
         String eleExpressNo = getExpressEleNo();
@@ -459,10 +465,11 @@ public class PowderServiceImpl extends BaseService implements PowderService {
 
                     String outputPathImg = super.getApplicationMessage("DistImgPath", null) + "EXPRESS"
                             + CommonConstants.PATH_SPLIT;
-                    eleExpressUrl = dpOperation.createDeliveryPic(outputPathImg, eleExpressNo, powderInfo.getSenderName(),
-                            powderInfo.getSenderPhone(), super.getApplicationMessage("sender_address", null),
-                            powderInfo.getReceiveName(), powderInfo.getReceivePhone(), powderInfo.getReceiveAddress(),
-                            products, weightAll.toString(), new Date());
+                    eleExpressUrl = dpOperation.createDeliveryPic(outputPathImg, eleExpressNo,
+                            powderInfo.getSenderName(), powderInfo.getSenderPhone(),
+                            super.getApplicationMessage("sender_address", null), powderInfo.getReceiveName(),
+                            powderInfo.getReceivePhone(), powderInfo.getReceiveAddress(), products,
+                            weightAll.toString(), new Date());
 
                 }
 
@@ -471,6 +478,10 @@ public class PowderServiceImpl extends BaseService implements PowderService {
                 tPowderBoxDao.updateByPrimaryKeySelective(boxInfo);
             }
         }
+
+        // 最后发送短信
+        this.sendMsgOnNewOrder(customerService.getCustomerSecurityByCustomerNo(customerNo).getTelno(), powderBoxList);
+
     }
 
     @Override
@@ -499,8 +510,8 @@ public class PowderServiceImpl extends BaseService implements PowderService {
                         pbi.setPowderMikeList(tPowderOrderDetailsDao.selectPowderDetailList(detailParam));
                     }
                 }
-//                orderInfo.setOrderDate(DateFormatUtils.date2StringWithFormat(DateFormatUtils.string2DateWithFormat(
-//                        orderInfo.getOrderDate(), DateFormatUtils.PATTEN2_HMS), DateFormatUtils.PATTEN_HMS));
+                //                orderInfo.setOrderDate(DateFormatUtils.date2StringWithFormat(DateFormatUtils.string2DateWithFormat(
+                //                        orderInfo.getOrderDate(), DateFormatUtils.PATTEN2_HMS), DateFormatUtils.PATTEN_HMS));
                 orderInfo.setBoxList(powderBoxList);
             }
         }
@@ -648,5 +659,32 @@ public class PowderServiceImpl extends BaseService implements PowderService {
             }
         }
 
+    }
+
+    @Override
+    public void sendMsgOnNewOrder(String phone, List<TPowderBox> boxList) throws Exception {
+        String outputPathImg = super.getApplicationMessage("saveImgUrl", null) + "EXPRESS"
+                + CommonConstants.PATH_SPLIT;
+        int count = 0;
+        String msg = super.getMessage("I0011", null);
+
+        for (TPowderBox detail : boxList) {
+            if ("1".equals(detail.getIfMsg()))
+                continue;
+            count++;
+            String url = outputPathImg + detail.getExpressPhotoUrl();
+            try {
+                url = ShortUrlUtil.getShortUrl(url);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+            msg += detail.getElecExpressNo() + ":" + url + "，";
+        }
+        msg += super.getMessage("I0012", null);
+
+        if (count > 0) {
+            SMSUtil.sendMessage(phone, msg);
+        }
     }
 }
