@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import com.org.oztt.base.page.Pagination;
 import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.entity.TExpressInfo;
+import com.org.oztt.entity.TPowderBox;
 import com.org.oztt.entity.TPowderOrder;
 import com.org.oztt.entity.TReceiverInfo;
 import com.org.oztt.entity.TSenderInfo;
@@ -193,5 +194,10 @@ public interface PowderService {
      */
     public void createExpressPhotoUrl(String orderNo) throws Exception;
     
-    
+    /**
+     * 发送信息
+     * @param powderOrder
+     * @throws Exception
+     */
+    public void sendMsgOnNewOrder(String phone, List<TPowderBox> boxList) throws Exception;
 }

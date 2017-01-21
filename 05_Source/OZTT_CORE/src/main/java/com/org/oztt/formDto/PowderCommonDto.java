@@ -19,13 +19,12 @@ public class PowderCommonDto {
     public PowderCommonDto(int number)
     {
         List<PowderCommonDto> re = new ArrayList<PowderCommonDto>();
-        int i = 0;
         while (number > 0) {
-            number--;
             PowderCommonDto d = new PowderCommonDto();
-            d.setId(String.valueOf(++i));
+            d.setId(String.valueOf(number));
             d.setName(d.getId() + "罐");
             re.add(d);
+            number--;
         }
         
         child = re;
