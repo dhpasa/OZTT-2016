@@ -274,6 +274,7 @@
 					success : function(data) {
 						if (data.payUrl != null && data.payUrl != "") {
 							// 进入微信支付画面
+							removeLoading();
 							createInfoDialog('<fmt:message key="I0010"/>','1');
 							setTimeout(function() {
 								location.href = data.payUrl;
