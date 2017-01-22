@@ -15,6 +15,10 @@
 		$(".ico-back").click(function(){
 			location.href="${ctx}/powderOrder/init?tab="+'${tab}';
 		});
+		$(".mpas_icon-shopcart").click(function(){
+			// 进入奶粉代发系统第三个画面
+	  		location.href = "${ctx}/milkPowderAutoPurchase/init?mode=2";
+		});
 		
 		$("#showExpress").click(function(){
 			var expressElcNo = $("#hiddenElecExpressNo").val();
@@ -240,7 +244,9 @@
 		<div class="x-header-title">
 			<span><fmt:message key="ORDERLIST_TITLE" /></span>
 		</div>
-		<div class="x-header-btn"></div>
+		<div class="x-header-btn mpas_icon-shopcart">
+			<span id="shopcartNumber">0</span>
+		</div>
 	</div>
 	<div class="order-item-status border-top-show">
 		${ detailInfo.orderStatusView }
@@ -377,6 +383,13 @@
 	 <div style="height:0rem;">
     	&nbsp;
     </div>
+    <script type="text/javascript">
+    	var powderData = JSON.parse(getCookie("powderData"));
+    	if (powderData && powderData.length > 0) {
+    		$("#shopcartNumber").text(powderData.length);
+    	}
+    	
+    </script>
 </body>
 <!-- END BODY -->
 </html>

@@ -357,7 +357,8 @@
 				
 				$("#remarkData").val(powderDetailData.remarkData);
 				
-				
+				// 重新计算总金额
+				showAllAmount('','','');
 			})
 		}
 		
@@ -451,6 +452,7 @@
 			}
 			
 			var powderAmount = 0;
+			var numberAll = 0;
 			// 奶粉总金额
 			$('.mpas_powder_div_body').find('.select_powder_div').each(function(i, o){
 				var selectValue = $(o).find('input')[0].value.split(',');
@@ -495,6 +497,8 @@
 					powderAmount = powderAmount + unitfreeDelivery;
 				}
 				
+				numberAll = numberAll + number;
+				
 			})
 			
 			// 判断是否有奶粉附加费产生
@@ -514,7 +518,7 @@
 				powderAmount = parseFloat(powderAmount);
 				isReceivePicMoney = parseFloat(isReceivePicMoney);
 				isRemarkMoney = parseFloat(isRemarkMoney);
-				$('#moneycount').text(fmoney(powderAmount + isReceivePicMoney + isRemarkMoney,2));
+				$('#moneycount').text(fmoney(powderAmount + isReceivePicMoney + (isRemarkMoney * numberAll),2));
 			}
 		}
 		
@@ -1112,6 +1116,9 @@
   		}
   		
   		function showShopcartNumber(){
+  			// 清空cookie 然后在重新加入cookie
+  			delCookie("powderData");
+  			addCookie("powderData",JSON.stringify(powderData));
   			$("#shopcartNumber").text(powderData.length);
   		}
 	
@@ -1129,7 +1136,7 @@
 			<span class="mpas_head_color"><fmt:message key="POWDER_TITLE" /></span>
 		</div>
 		<div class="x-header-btn mpas_icon-shopcart">
-			<span id="shopcartNumber">8</span>
+			<span id="shopcartNumber">0</span>
 		</div>
 	</div>
 	
@@ -1486,13 +1493,19 @@
     
     <script type="text/javascript">
     	var mode = '${mode}';
+    	powderData = JSON.parse(getCookie("powderData"));	
     	if (mode == 1) {
     		// 开始展示第二个画面
 			// 第一个画面隐藏
 			$("#mpas_today_prive_id").toggle("1500");
 			$("#mpas_package_detail_id").show();
+    	} else if (mode == 2) {
+    		// 开始展示第三个画面
+    		// 第一个画面隐藏
+    		reloadPackData();
+			$("#mpas_today_prive_id").toggle("1500");
+			$("#mpas_package_count_id").show();
     	}
-    	
     	showShopcartNumber();
     </script>
     
