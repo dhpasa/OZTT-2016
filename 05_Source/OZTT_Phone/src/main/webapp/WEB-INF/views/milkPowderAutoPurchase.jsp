@@ -174,6 +174,8 @@
 				createInfoDialog('<fmt:message key="I0009" />', '1');
 				return;
 			}
+			// 现将但钱的dialog隐藏掉
+			$("#purchase-credit-pop-up").modal('hide');
 			createLoading(0);
 			var orderId = $("#currentOrderNo").val();
 			var paramData = {
@@ -181,7 +183,6 @@
 					device_id:getDevice(),
 					operator: 'oztt_phone'
 			};
-
 			$.ajax({
 				type : "PUT",
 				timeout : 60000, //超时时间设置，单位毫秒
@@ -193,6 +194,7 @@
 				success : function(data) {
 					if (data.payUrl != null && data.payUrl != "") {
 						// 重新签名
+						removeLoading();
 						createInfoDialog('<fmt:message key="I0010"/>','1');
 						setTimeout(function() {
 							location.href = data.payUrl;
