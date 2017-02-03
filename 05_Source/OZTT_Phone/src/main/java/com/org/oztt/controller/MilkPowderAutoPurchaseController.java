@@ -566,8 +566,9 @@ public class MilkPowderAutoPurchaseController extends BaseController {
 
             TPowderOrder tPowderOrder = powderService.getTPowderOrderByOrderNo(orderId);
             JSONObject paramJson = (JSONObject) JSONObject.parse(paraMap);
-            //paramJson.put("price", tPowderOrder.getSumAmount().multiply(new BigDecimal(100)).intValue());
-            paramJson.put("price", 1);
+            paramJson.put("price", tPowderOrder.getSumAmount().multiply(new BigDecimal(100)).intValue());
+            //Staging Test
+            //paramJson.put("price", 1);
             paramJson.put("notify_url", notify_url);
 
             String doputInfo = HttpRequest.doPut(url, paramJson.toJSONString());
