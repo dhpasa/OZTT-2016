@@ -687,4 +687,9 @@ public class PowderServiceImpl extends BaseService implements PowderService {
             SMSUtil.sendMessage(phone, msg);
         }
     }
+
+    @Override
+    public TExpressInfo selectExpressInfo(long expressId) throws Exception {
+        return tExpressInfoDao.selectByPrimaryKey(expressId);
+    }
 }

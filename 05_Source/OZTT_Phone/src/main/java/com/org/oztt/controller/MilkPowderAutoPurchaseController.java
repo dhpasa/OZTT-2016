@@ -65,7 +65,8 @@ public class MilkPowderAutoPurchaseController extends BaseController {
     @RequestMapping(value = "/init")
     public String init(Model model, HttpServletRequest request, HttpSession session, String mode) {
         try {
-
+            // 获取蓝天快递的信息
+            TExpressInfo tExpressInfo = powderService.selectExpressInfo(Long.valueOf(CommonConstants.EXPRESS_BLUE_SKY));
             // 取得奶粉信息
             List<PowderInfoViewDto> powderList = powderService.selectPowderInfo();
             model.addAttribute("powderList", JSON.toJSONString(powderList));
@@ -76,12 +77,26 @@ public class MilkPowderAutoPurchaseController extends BaseController {
                     PropertyUtils.copyProperties(bean, detail);
                     bean.setPowderSpec(powderService.getBrandNameByCode(bean.getPowderSpec()));
                     if (CommonConstants.POWDER_TYPE_BABY.equals(detail.getPowderType())) {
-                        bean.setPowderPrice(bean.getPowderPrice().multiply(CommonConstants.BOBY_POWDER_NUMBER)
+                        BigDecimal showprice = tExpressInfo
+                                .getPriceCoefficient()
+                                .multiply(CommonConstants.BOBY_POWDER_NUMBER)
+                                .add(detail.getWeight().multiply(CommonConstants.BOBY_POWDER_NUMBER)
+                                        .multiply(tExpressInfo.getBabyKiloCost())
+                                        .setScale(2, BigDecimal.ROUND_HALF_UP));
+                        showprice = showprice.add(bean.getPowderPrice().multiply(CommonConstants.BOBY_POWDER_NUMBER)
                                 .add(detail.getFreeDeliveryParameter()));
+                        bean.setPowderPrice(showprice);
                     }
                     else {
-                        bean.setPowderPrice(bean.getPowderPrice().multiply(CommonConstants.ADULT_POWDER_NUMBER)
+                        BigDecimal showprice = tExpressInfo
+                                .getPriceCoefficient()
+                                .multiply(CommonConstants.ADULT_POWDER_NUMBER)
+                                .add(detail.getWeight().multiply(CommonConstants.ADULT_POWDER_NUMBER)
+                                        .multiply(tExpressInfo.getInstantKiloCost())
+                                        .setScale(2, BigDecimal.ROUND_HALF_UP));
+                        showprice = showprice.add(bean.getPowderPrice().multiply(CommonConstants.ADULT_POWDER_NUMBER)
                                 .add(detail.getFreeDeliveryParameter()));
+                        bean.setPowderPrice(showprice);
                     }
                     powderListForView.add(bean);
                 }
@@ -115,7 +130,8 @@ public class MilkPowderAutoPurchaseController extends BaseController {
                     specDto.setName(powderService.getBrandNameByCode(detail.getPowderSpec()));
                     if (CommonConstants.POWDER_TYPE_BABY.equals(detail.getPowderType())) {
                         specDto.setChild(new PowderCommonDto(3).getChild());
-                    } else {
+                    }
+                    else {
                         specDto.setChild(new PowderCommonDto(6).getChild());
                     }
                     specDtoList.add(specDto);
@@ -567,7 +583,6 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             TPowderOrder tPowderOrder = powderService.getTPowderOrderByOrderNo(orderId);
             JSONObject paramJson = (JSONObject) JSONObject.parse(paraMap);
             paramJson.put("price", tPowderOrder.getSumAmount().multiply(new BigDecimal(100)).intValue());
-            //Staging Test
             //paramJson.put("price", 1);
             paramJson.put("notify_url", notify_url);
 
