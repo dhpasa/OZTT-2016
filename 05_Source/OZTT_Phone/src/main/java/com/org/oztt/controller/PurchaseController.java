@@ -192,7 +192,6 @@ public class PurchaseController extends BaseController {
             TConsOrder tConsOrder = orderService.selectByOrderId(orderId);
             JSONObject paramJson = (JSONObject) JSONObject.parse(paraMap);
             paramJson.put("price", tConsOrder.getOrderamount().multiply(new BigDecimal(100)).intValue());
-            //Staging Test
             //paramJson.put("price", 1);
             paramJson.put("notify_url", notify_url);
 

@@ -25,6 +25,14 @@ public interface PowderService {
      * @throws Exception
      */
     public List<TExpressInfo> selectAllExpressInfo() throws Exception;
+    
+    /**
+     * 获取快递信息
+     * 
+     * @return
+     * @throws Exception
+     */
+    public TExpressInfo selectExpressInfo(long expressId) throws Exception;
 
     /**
      * 获取奶粉信息
