@@ -233,7 +233,9 @@
           <a href="#" onclick="register()"><fmt:message key="REGISTER_SAVE" /></a>
       </div>
 	
-
+<div style="height:2rem;">
+   	&nbsp;
+</div>
 </body>
 <!-- END BODY -->
 </html>

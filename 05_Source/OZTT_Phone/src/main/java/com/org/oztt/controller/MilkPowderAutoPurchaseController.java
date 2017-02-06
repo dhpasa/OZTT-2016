@@ -454,7 +454,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             // 获取未付款的订单
             TPowderOrder tPowderOrder = new TPowderOrder();
             tPowderOrder.setCustomerId(customerBaseInfo.getNo().toString());
-            tPowderOrder.setPaymentStatus(CommonEnum.HandleFlag.NOT_PAY.getCode());
+            tPowderOrder.setStatus(CommonEnum.HandleFlag.NOT_PAY.getCode());
             List<TPowderOrder> orderList = powderService.getTPowderOrderInfoList(tPowderOrder);
 
             mapReturn.put("sccount", orderList == null ? 0 : orderList.size());
@@ -488,10 +488,10 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             if (customerNo == null) {
                 return mapReturn;
             }
-            // 获取待发货的订单
+            // 获取处理中订单
             TPowderOrder tPowderOrder = new TPowderOrder();
             tPowderOrder.setCustomerId(customerBaseInfo.getNo().toString());
-            tPowderOrder.setPaymentStatus(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
+            tPowderOrder.setStatus(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
             List<TPowderOrder> orderList = powderService.getTPowderOrderInfoList(tPowderOrder);
 
             mapReturn.put("sccount", orderList == null ? 0 : orderList.size());
