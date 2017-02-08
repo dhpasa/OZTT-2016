@@ -167,13 +167,10 @@
    </div>
    
    <div class="main-category">
+   		<a id="milkpowder"><img src="${ctx}/images/powderSysIcon.jpeg" /></a>
   		<a onclick="toGroupArea('1')"><img src="${ctx}/images/main-c1.png" /></a>
   		<a onclick="toGroupArea('2')"><img src="${ctx}/images/main-c2.png" /></a>
   		<a onclick="toGroupArea('3')"><img src="${ctx}/images/main-c3.png" /></a>
-   </div>
-   
-   <div id="milkpowder">
-		奶粉自助下单系统
    </div>
    
    <div class="newgoods-parent-div">

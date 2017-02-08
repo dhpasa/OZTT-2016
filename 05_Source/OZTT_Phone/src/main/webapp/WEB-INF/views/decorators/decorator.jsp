@@ -190,19 +190,19 @@
 	
 	<div class="main-nav" id="powder-send-nav-id" style="display:none">
 		<a href="${ctx}/main/init" class="main-nav-item main-nav-home main-nav-active">
-			<i class="glyphicon glyphicon-home powder-icon-main"></i>
+			<img alt="powderMain" src="${ctx}/images/powderMain.jpg">
 			<span><fmt:message key="POWDER_BAR_MAIN"/></span>
 		</a>
 		<a href="${ctx}/milkPowderAutoPurchase/init" class="main-nav-item main-nav-cat ">
-			<i class="glyphicon glyphicon-list powder-icon-main"></i>
+			<img alt="powderList" src="${ctx}/images/powderList.jpg">
 			<span><fmt:message key="POWDER_BAR_PRICELIST"/></span>
 		</a>
 		<a href="#" onclick="toMilkPowderAutoPurchaseSecond()" class="main-nav-item main-nav-cart " id="navCart">
-			<i class="glyphicon glyphicon-send powder-icon-main"></i>
+			<img alt="powderSend" src="${ctx}/images/powderSend.jpg">
 			<span><fmt:message key="POWDER_BAR_SEND"/></span>
 		</a>
 		<a href="${ctx}/user/init" class="main-nav-item main-nav-profile ">
-			<i class="glyphicon glyphicon-user powder-icon-main"></i>
+			<img alt="powderHome" src="${ctx}/images/powderHome.jpg">
 			<span><fmt:message key="POWDER_BAR_ME"/></span>
 		</a>
 	</div>

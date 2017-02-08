@@ -245,5 +245,6 @@
       <if test="powderSpec != null" >
         and powderSpec = #{powderSpec,jdbcType=CHAR}
       </if>
+      and status = '1'
   </select>
 </mapper>

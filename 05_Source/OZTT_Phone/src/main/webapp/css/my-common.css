@@ -691,7 +691,7 @@ html{
 
 .main-category img{
 	display: inline-block;
-    width: 33.33%;
+    width: 25%;
     float: left;
 }
 
@@ -3142,12 +3142,6 @@ html{
 }
 
 /* =======奶粉代发系统======== */
-#milkpowder{
-	text-align: center;
-	padding:10px 10px;
-	color:#ff7f00;
-	font-size: 2rem;
-}
 .milo-down{
 	position: absolute;
     right: 5px;
