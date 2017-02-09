@@ -513,7 +513,7 @@
 				success : function(data) {
 					if (data.payUrl != null && data.payUrl != "") {
 						// 重新签名
-						createInfoDialog('<fmt:message key="I0010"/>','1');
+						createInfoDialog('<fmt:message key="I0010"/>','3');
 						setTimeout(function() {
 							location.href = data.payUrl;
 						}, 1000);
