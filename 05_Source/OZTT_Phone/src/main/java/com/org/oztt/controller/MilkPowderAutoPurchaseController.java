@@ -65,6 +65,11 @@ public class MilkPowderAutoPurchaseController extends BaseController {
     @RequestMapping(value = "/init")
     public String init(Model model, HttpServletRequest request, HttpSession session, String mode) {
         try {
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            // 奶粉订单系统，必需登录才可以进入
+            if (StringUtils.isEmpty(customerNo)) {
+                return "redirect:/user/init";
+            }
             // 获取蓝天快递的信息
             TExpressInfo tExpressInfo = powderService.selectExpressInfo(Long.valueOf(CommonConstants.EXPRESS_BLUE_SKY));
             // 取得奶粉信息

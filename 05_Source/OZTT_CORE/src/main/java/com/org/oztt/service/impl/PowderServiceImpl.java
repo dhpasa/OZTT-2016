@@ -669,7 +669,7 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         String msg = super.getMessage("I0011", null);
 
         for (TPowderBox detail : boxList) {
-            if ("1".equals(detail.getIfMsg()))
+            if ("0".equals(detail.getIfMsg()))
                 continue;
             count++;
             String url = outputPathImg + detail.getExpressPhotoUrl();
