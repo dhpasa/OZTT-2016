@@ -229,7 +229,7 @@
 					success : function(data) {
 						if (data.payUrl != null && data.payUrl != "") {
 							// 重新加载画面
-							createInfoDialog('<fmt:message key="I0010"/>','1');
+							createInfoDialog('<fmt:message key="I0010"/>','3');
 							setTimeout(function() {
 								location.href = data.payUrl;
 							}, 1000);
@@ -275,7 +275,7 @@
 						if (data.payUrl != null && data.payUrl != "") {
 							// 进入微信支付画面
 							removeLoading();
-							createInfoDialog('<fmt:message key="I0010"/>','1');
+							createInfoDialog('<fmt:message key="I0010"/>','3');
 							setTimeout(function() {
 								location.href = data.payUrl;
 							}, 1000);

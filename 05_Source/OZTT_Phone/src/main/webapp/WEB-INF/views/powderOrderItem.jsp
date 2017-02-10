@@ -338,7 +338,7 @@
 			<img alt="expressImg" src="${detailInfo.expressPhotoUrl}" class="expressImg">
 		</c:if>
 		<c:if test="${detailInfo.expressPhotoUrlExitFlg != '1' }">
-			<span class="phone_none">暂时快递单照片</span>
+			<span class="phone_none">暂无快递单照片</span>
 		</c:if>
 	</div>
 	
@@ -347,10 +347,12 @@
 	<div class="powder_info_item">
 		<span class="item_head_inf"><fmt:message key="POWDER_DETAIL_BOX_URL" /></span>
 		<c:if test="${detailInfo.boxPhotoUrlsExitFlg == '1' }">
-			<img alt="expressImg" src="${detailInfo.boxPhotoUrls}" class="expressImg">
+			<c:forEach var="boxPhotoUrl" items="${ detailInfo.boxPhotoUrls }">
+				<img alt="expressImg" src="${boxPhotoUrl}" class="expressImg">
+			</c:forEach>
 		</c:if>
 		<c:if test="${detailInfo.boxPhotoUrlsExitFlg != '1' }">
-			<span class="phone_none">暂时无打包照片</span>
+			<span class="phone_none">暂无打包照片</span>
 		</c:if>
 	</div>
 	

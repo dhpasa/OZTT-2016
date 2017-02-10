@@ -53,7 +53,7 @@ public class PowderBoxInfo {
 
     private String               expressPhotoUrl;
 
-    private String               boxPhotoUrls;
+    private List<String>         boxPhotoUrls   = new ArrayList<String>();         ;
 
     private String               boxPhotoUrlsExitFlg;
 
@@ -181,11 +181,11 @@ public class PowderBoxInfo {
         this.expressPhotoUrl = expressPhotoUrl;
     }
 
-    public String getBoxPhotoUrls() {
+    public List<String> getBoxPhotoUrls() {
         return boxPhotoUrls;
     }
 
-    public void setBoxPhotoUrls(String boxPhotoUrls) {
+    public void setBoxPhotoUrls(List<String> boxPhotoUrls) {
         this.boxPhotoUrls = boxPhotoUrls;
     }
 
