@@ -8,6 +8,7 @@ import java.io.RandomAccessFile;
 import java.math.BigDecimal;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -523,8 +524,17 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         TPowderBox tPowderBox = tPowderBoxDao.selectByPrimaryKey(id);
         PowderBoxInfo powderBoxInfo = new PowderBoxInfo();
         powderBoxInfo.setBoxId(String.valueOf(id));
-        powderBoxInfo.setBoxPhotoUrls(super.getApplicationMessage("saveImgUrl", null) + "EXPRESS"
-                + CommonConstants.PATH_SPLIT + tPowderBox.getBoxPhotoUrls());
+        List<String> urlList = new ArrayList<String>();
+        if (StringUtils.isNotEmpty(tPowderBox.getBoxPhotoUrls())) {
+            // 装箱照片
+            String[] str = tPowderBox.getBoxPhotoUrls().split("\\|");
+            for(int i = 0; i < str.length; i++) {
+                urlList.add(super.getApplicationMessage("saveImgUrl", null) + "EXPRESS"
+                        + CommonConstants.PATH_SPLIT + str[i]);
+            }
+        }       
+        powderBoxInfo.setBoxPhotoUrls(urlList);
+        
         TExpressInfo tExpressInfo = tExpressInfoDao.selectByPrimaryKey(Long.valueOf(tPowderBox.getDeliverId()));
         powderBoxInfo.setExpressAmount(tExpressInfo.getPriceCoefficient().toString());
         powderBoxInfo.setExpressName(tExpressInfo.getExpressName());
