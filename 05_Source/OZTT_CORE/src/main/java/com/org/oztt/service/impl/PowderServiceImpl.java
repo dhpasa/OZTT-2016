@@ -436,11 +436,13 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         //        }
 
         // 付款成功之后，生成快递单照片和快递信息,一个快递单多个订单号
-        String eleExpressNo = getExpressEleNo();
+        
         String s = PowderServiceImpl.class.getResource("/").getPath().toString();
         s = java.net.URLDecoder.decode(s, "UTF-8");
         if (powderBoxList != null) {
             for (TPowderBox boxInfo : powderBoxList) {
+                // 获取电子订单号
+                String eleExpressNo = getExpressEleNo();
                 PowderBoxInfo powderInfo = this.getPowderInfoById(boxInfo.getId());
 
                 BigDecimal weightAll = BigDecimal.ZERO;

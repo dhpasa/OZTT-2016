@@ -53,6 +53,7 @@
 	
 	var pageNo = 1;
 	function initList(idd) {
+		$("#hiddenStatus").val(idd);
 		$.ajax({
 			type : "GET",
 			contentType:'application/json',
@@ -169,7 +170,7 @@
 	    		//$("#loadingDiv").css("display","");
 	    		setTimeout(function(){
 	    			pageNo += 1;
-	    			initList();
+	    			initList($("#hiddenStatus").val());
 	    			//closeLoadingDiv();
 	    			/* setTimeout(function(){
 	    				closeNoMoreDiv();
@@ -419,6 +420,8 @@
     <div style="height:0rem;">
     	&nbsp;
     </div>
+    
+    <input type="hidden" value="" id="hiddenStatus"/>
     
     <script type="text/javascript">
     	var powderData = JSON.parse(getCookie("powderData"));
