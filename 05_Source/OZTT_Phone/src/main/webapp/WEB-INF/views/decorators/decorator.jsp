@@ -190,7 +190,7 @@
 	
 	<div class="main-nav" id="powder-send-nav-id" style="display:none">
 		<a href="${ctx}/main/init" class="main-nav-item main-nav-home main-nav-active">
-			<img alt="powderMain" src="${ctx}/images/powderMain.jpg">
+			<img alt="powderHome" src="${ctx}/images/powderHome.jpg">
 			<span><fmt:message key="POWDER_BAR_MAIN"/></span>
 		</a>
 		<a href="${ctx}/milkPowderAutoPurchase/init" class="main-nav-item main-nav-cat ">
@@ -202,7 +202,7 @@
 			<span><fmt:message key="POWDER_BAR_SEND"/></span>
 		</a>
 		<a href="${ctx}/user/init" class="main-nav-item main-nav-profile ">
-			<img alt="powderHome" src="${ctx}/images/powderHome.jpg">
+			<img alt="powderMain" src="${ctx}/images/powderMain.jpg">
 			<span><fmt:message key="POWDER_BAR_ME"/></span>
 		</a>
 	</div>
