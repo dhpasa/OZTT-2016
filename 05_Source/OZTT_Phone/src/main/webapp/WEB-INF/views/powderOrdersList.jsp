@@ -193,8 +193,8 @@
 	
 	var selectTab = '${tab}';
 	function reloadtab(tab){
-		$("#ordersList").text('');
-		pageNo = 0;
+		$("#ordersList").html('');
+		pageNo = 1;
 		selectTab = tab;
 		initList(tab);
 	}
