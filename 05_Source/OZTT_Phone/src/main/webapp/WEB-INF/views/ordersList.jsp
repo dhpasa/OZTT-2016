@@ -31,7 +31,7 @@
 			// 新增的微信支付
 			if (!isWeiXin()){
 				// 不是微信，则跳出提示
-				createInfoDialog('<fmt:message key="I0009" />', '1');
+				createInfoDialog('<fmt:message key="I0009" />', '3');
 				return;
 			}
 			createLoading(0);
