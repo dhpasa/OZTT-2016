@@ -193,8 +193,8 @@
 	
 	var selectTab = '${tab}';
 	function reloadtab(tab){
-		$("#ordersList").text('');
-		pageNo = 0;
+		$("#ordersList").html('');
+		pageNo = 1;
 		selectTab = tab;
 		initList(tab);
 	}
@@ -215,7 +215,7 @@
 				$("#purchase-credit-pop-up").modal('hide');
 				if (!isWeiXin()){
 					// 不是微信，则跳出提示
-					createInfoDialog('<fmt:message key="I0009" />', '1');
+					createInfoDialog('<fmt:message key="I0009" />', '3');
 					return;
 				}
 				createLoading(0);
@@ -253,7 +253,7 @@
 				$("#purchase-credit-pop-up").modal('hide');
 				if (!isWeiXin()){
 					// 不是微信，则跳出提示
-					createInfoDialog('<fmt:message key="I0009" />', '1');
+					createInfoDialog('<fmt:message key="I0009" />', '3');
 					return;
 				}
 				createLoading(0);

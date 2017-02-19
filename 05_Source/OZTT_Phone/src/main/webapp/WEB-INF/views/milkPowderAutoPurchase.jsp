@@ -64,7 +64,8 @@
 				}
 				// 箱子详细画面
 				if ($("#mpas_package_detail_id").css('display') == 'block') {
-					createConfirmDialog('reloadView()', '<fmt:message key="I0005" />');
+					//createConfirmDialog('reloadView()', '<fmt:message key="I0005" />');
+					reloadView();
 				}
 				
 				// 返回按钮
@@ -77,7 +78,8 @@
 				
 				// 在订单保存画面返回这跳出确认，重新load当前画面
 				if ($(".mpas_package_count").css('display') == 'block') {
-					createConfirmDialog('reloadView()', '<fmt:message key="I0005" />');
+					//createConfirmDialog('reloadView()', '<fmt:message key="I0005" />');
+					reloadView();
 				}
 				
 				// 地址输入画面
@@ -149,7 +151,7 @@
 				if (!isWeiXin()){
 					// 不是微信，则跳出提示
 					$("#purchase-credit-pop-up").modal('hide');
-					createInfoDialog('<fmt:message key="I0009" />', '1');
+					createInfoDialog('<fmt:message key="I0009" />', '3');
 					return;
 				}
 			}
@@ -180,7 +182,7 @@
 			//createInfoDialog('微信支付开发中......','1');
 			if (!isWeiXin()){
 				// 不是微信，则跳出提示
-				createInfoDialog('<fmt:message key="I0009" />', '1');
+				createInfoDialog('<fmt:message key="I0009" />', '3');
 				return;
 			}
 			// 现将但钱的dialog隐藏掉

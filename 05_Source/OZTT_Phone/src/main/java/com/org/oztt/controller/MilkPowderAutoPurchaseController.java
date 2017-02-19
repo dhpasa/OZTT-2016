@@ -546,6 +546,11 @@ public class MilkPowderAutoPurchaseController extends BaseController {
     public String redirect(Model model, HttpServletRequest request, HttpSession session, String orderId) {
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            TPowderOrder tPowderOrder = powderService.getTPowderOrderByOrderNo(orderId);
+            // 优先更新付款方式
+            tPowderOrder.setPaymentMethod(CommonEnum.PaymentMethod.WE_CHAT.getCode());
+            powderService.updatePowderOrder(tPowderOrder);
+            
             powderService.updateOrderAfterPay(orderId, customerNo, session, "000010000",
                     CommonConstants.TRANSACTION_OBJECT);
             return "redirect:/user/init";
