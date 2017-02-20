@@ -531,7 +531,7 @@
 				powderAmount = parseFloat(powderAmount);
 				isReceivePicMoney = parseFloat(isReceivePicMoney);
 				isRemarkMoney = parseFloat(isRemarkMoney);
-				$('#moneycount').text(fmoney(powderAmount + isReceivePicMoney + (isRemarkMoney * numberAll),2));
+				$('#moneycount').text(fmoney(powderAmount + isReceivePicMoney + isRemarkMoney,2));
 			}
 		}
 		
