@@ -3426,6 +3426,7 @@ html{
 
 .mpas_powder_input_submit{
 	margin: 10px 0px;
+	text-align: center;
 }
 
 .mpas_powder_input_submit a{
@@ -3440,8 +3441,6 @@ html{
     text-align: center;
     font-size: 1.5rem;
     color: #fff;
-    float: right;
-    margin-right: 25px;
 }
 
 .mpas_package_detail_remark > input[type="text"]{

@@ -294,7 +294,7 @@ public class PowderServiceImpl extends BaseService implements PowderService {
             }
             // 做标记
             if ("1".equals(tPowderBox.getIfRemarks())) {
-                additional = additional.add(sysConfigService.getTSysConfig().getRemarkFee().multiply(allQuantity));
+                additional = additional.add(sysConfigService.getTSysConfig().getRemarkFee());
             }
 
             tPowderBox.setAdditionalCost(additional);
