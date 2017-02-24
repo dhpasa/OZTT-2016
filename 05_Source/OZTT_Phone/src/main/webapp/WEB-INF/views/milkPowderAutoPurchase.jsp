@@ -147,15 +147,16 @@
 				payType = '4';
 			}
 			
+			submitPowderDate(payType);
+			
 			if (payType == '4') {
 				if (!isWeiXin()){
 					// 不是微信，则跳出提示
 					$("#purchase-credit-pop-up").modal('hide');
-					createInfoDialog('<fmt:message key="I0009" />', '3');
+					createInfoDialog('<fmt:message key="I0013" />', '1', 3000);
 					return;
 				}
 			}
-			submitPowderDate(payType);
 			
 			// 点击确认支付后，看选择内容，分别进行支付操作
 			if ($("#radio-bank").attr("checked") == "checked") {
@@ -182,7 +183,7 @@
 			//createInfoDialog('微信支付开发中......','1');
 			if (!isWeiXin()){
 				// 不是微信，则跳出提示
-				createInfoDialog('<fmt:message key="I0009" />', '3');
+				createInfoDialog('<fmt:message key="I0009" />', '1', 3000);
 				return;
 			}
 			// 现将但钱的dialog隐藏掉
@@ -206,7 +207,7 @@
 					if (data.payUrl != null && data.payUrl != "") {
 						// 重新签名
 						removeLoading();
-						createInfoDialog('<fmt:message key="I0010"/>','3');
+						createInfoDialog('<fmt:message key="I0010"/>','1', 3000);
 						setTimeout(function() {
 							location.href = data.payUrl;
 						}, 1000);
@@ -1010,6 +1011,23 @@
 			setTimeout(function() {
 				$('.dialog-container').remove();
 			}, 1000);
+		}
+	}
+	
+	function createInfoDialog(msg, type, time) {
+		var strHtml = '<div class="dialog-container">';
+		strHtml += '<div class="dialog-window">';
+		strHtml += '<div class="dialog-content">'+msg+'</div>';
+		strHtml += '<div class="dialog-footer">';
+		strHtml += '</div>';
+		strHtml += '</div>';
+		strHtml += '</div>';
+		$('body').append(strHtml);
+		if (type == '1') {
+			// 并在3秒后消失
+			setTimeout(function() {
+				$('.dialog-container').remove();
+			}, time);
 		}
 	}
 	
