@@ -470,7 +470,8 @@ public class PowderServiceImpl extends BaseService implements PowderService {
                             + CommonConstants.PATH_SPLIT;
                     eleExpressUrl = dpOperation.createDeliveryPic(outputPathImg, eleExpressNo,
                             powderInfo.getSenderName(), powderInfo.getSenderPhone(),
-                            super.getApplicationMessage("sender_address", null), powderInfo.getReceiveName(),
+                            //super.getApplicationMessage("sender_address", null), powderInfo.getReceiveName(),
+                            "", powderInfo.getReceiveName(),
                             powderInfo.getReceivePhone(), powderInfo.getReceiveAddress(), products,
                             weightAll.toString(), new Date());
 
