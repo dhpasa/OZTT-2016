@@ -397,6 +397,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             TPowderOrder tPowderOrder = powderService.getTPowderOrderByOrderNo(orderNo);
             // 优先更新付款方式
             tPowderOrder.setPaymentMethod(CommonEnum.PaymentMethod.ONLINE_PAY_CWB.getCode());
+            tPowderOrder.setPaymentStatus(CommonConstants.PAY_STATUS_ING);
             powderService.updatePowderOrder(tPowderOrder);
             BigDecimal amount = tPowderOrder.getSumAmount();
             Map<String, String> payMap = new HashMap<String, String>();
@@ -591,6 +592,10 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             String redirect_url = super.getApplicationMessage("wechat_redirect", session) + orderId;
 
             TPowderOrder tPowderOrder = powderService.getTPowderOrderByOrderNo(orderId);
+            tPowderOrder.setPaymentStatus(CommonConstants.PAY_STATUS_ING);
+            powderService.updatePowderOrder(tPowderOrder);
+            
+            
             JSONObject paramJson = (JSONObject) JSONObject.parse(paraMap);
             paramJson.put("price", tPowderOrder.getSumAmount().multiply(new BigDecimal(100)).intValue());
             //paramJson.put("price", 1);
