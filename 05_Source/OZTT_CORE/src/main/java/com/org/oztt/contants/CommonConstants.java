@@ -154,4 +154,6 @@ public final class CommonConstants {
 
     public static final String     POWDER_TYPE_BABY           = "1";                                    // 婴儿奶粉
 
+    public static final String     PAY_STATUS_ING             = "2";                                    // 支付进行中
+
 }
