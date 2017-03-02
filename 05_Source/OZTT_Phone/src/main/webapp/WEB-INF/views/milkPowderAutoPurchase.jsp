@@ -146,16 +146,17 @@
 			} else {
 				payType = '4';
 			}
-			
-			submitPowderDate(payType);
-			
+
 			if (payType == '4') {
+				submitPowderDate('');
 				if (!isWeiXin()){
 					// 不是微信，则跳出提示
 					$("#purchase-credit-pop-up").modal('hide');
 					createInfoDialog('<fmt:message key="I0013" />', '1', 3000);
 					return;
 				}
+			} else {
+				submitPowderDate(payType);
 			}
 			
 			// 点击确认支付后，看选择内容，分别进行支付操作

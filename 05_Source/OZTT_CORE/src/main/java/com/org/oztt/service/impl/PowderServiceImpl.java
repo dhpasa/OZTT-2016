@@ -455,6 +455,14 @@ public class PowderServiceImpl extends BaseService implements PowderService {
                     // 狂派物流
                     dpOperation = new DeliveryPicOperation(s + "/freakyquick.properties");
                 }
+                else if (CommonConstants.EXPRESS_LONGMEN.equals(boxInfo.getDeliverId())) {
+                    // 龙门物流
+                    dpOperation = new DeliveryPicOperation(s + "/longmen.properties");
+                }
+                else if (CommonConstants.EXPRESS_SUPIN.equals(boxInfo.getDeliverId())) {
+                    // 速品物流
+                    dpOperation = new DeliveryPicOperation(s + "/supin.properties");
+                }
                 String eleExpressUrl = "";
                 if (dpOperation != null) {
                     HashMap<String, Integer> products = new HashMap<String, Integer>();
