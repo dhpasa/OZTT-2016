@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class DateFormatUtils {
 
@@ -650,6 +651,8 @@ public class DateFormatUtils {
      * 得到当前时间 yyyy-MM-dd
      */
     public static String getNowTimeFormat(String format) {
+      	//获取东10区的时间
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT+10"));
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(c.getTime());
@@ -958,5 +961,18 @@ public class DateFormatUtils {
     public static String getBetweenDayTime(Date date) {
         long time = (date.getTime() - new Date().getTime()) / 1000 / 60 / 60 / 24;
         return String.valueOf(time);
+    }
+    
+    public String getNowTimeFormatTest(String format) {
+  	//获取东10区的时间
+      TimeZone.setDefault(TimeZone.getTimeZone("GMT+10"));
+      Calendar c = Calendar.getInstance();
+      SimpleDateFormat sdf = new SimpleDateFormat(format);
+      return sdf.format(c.getTime());
+    }
+    
+    public static void main(String[] args) {
+    	DateFormatUtils df = new DateFormatUtils();
+    	System.out.println(df.getNowTimeFormatTest("yyyy/MM/dd HH:mm:ss"));
     }
 }
