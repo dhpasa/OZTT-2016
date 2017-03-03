@@ -221,6 +221,10 @@
 	      <img alt="pcinfo" src="${ctx}/images/pcInfo.jpeg">
     </div>
     
+    <div id="main_loading" class="main_loading" style="display:none">
+		<img src="../images/loading.gif">
+	</div>
+    
     <!-- END FOOTER -->
     <input type="hidden" value="${currentUserId}" id="currentUserId">
     

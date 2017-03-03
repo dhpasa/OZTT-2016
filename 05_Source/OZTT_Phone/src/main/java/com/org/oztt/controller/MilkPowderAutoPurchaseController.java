@@ -558,6 +558,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
         }
         catch (Exception e) {
             logger.error(e.getMessage());
+            logger.error("meesage", e);
             return CommonConstants.ERROR_PAGE;
         }
     }

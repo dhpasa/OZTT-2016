@@ -146,12 +146,16 @@
 			} else {
 				payType = '4';
 			}
+			
+			// 将选择付款方式的dialog隐藏掉
+			$("#purchase-credit-pop-up").modal('hide');
+			// 出现等待画面
+			createLoading(0);
 
 			if (payType == '4') {
 				submitPowderDate('');
 				if (!isWeiXin()){
 					// 不是微信，则跳出提示
-					$("#purchase-credit-pop-up").modal('hide');
 					createInfoDialog('<fmt:message key="I0013" />', '1', 3000);
 					return;
 				}
@@ -161,12 +165,12 @@
 			
 			// 点击确认支付后，看选择内容，分别进行支付操作
 			if ($("#radio-bank").attr("checked") == "checked") {
+				// 删除等待的画面
+				removeLoading();
 				// 银行卡付款		
 				$('.payment_cuntdown').startOtherTimer({
 		    		
 		    	});
-
-				$("#purchase-credit-pop-up").modal('hide');
 				
 				$("#mpas_package_count_id").slideUp("1500");
 				$("#powder_purchase_section_id").show();
@@ -174,7 +178,6 @@
 				
 			} else {
 				// 微信支付
-				$("#purchase-credit-pop-up").modal('hide');
 				toWebCatPay();
 				
 			}
@@ -188,8 +191,6 @@
 				return;
 			}
 			// 现将但钱的dialog隐藏掉
-			$("#purchase-credit-pop-up").modal('hide');
-			createLoading(0);
 			var orderId = $("#currentOrderNo").val();
 			var paramData = {
 					description : '<fmt:message key="POWDER_ORDER_USER_MYORDER" />',
@@ -202,7 +203,7 @@
 				contentType:'application/json',
 				url : '${ctx}/milkPowderAutoPurchase/getWeChatPayUrl?orderId='+orderId,
 				dataType : "json",
-				async : false,
+				//async : false,
 				data : JSON.stringify(paramData), 
 				success : function(data) {
 					if (data.payUrl != null && data.payUrl != "") {
