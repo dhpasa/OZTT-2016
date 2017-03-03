@@ -206,8 +206,8 @@
 			<span><fmt:message key="POWDER_BAR_ME"/></span>
 		</a>
 	</div>
-	
-	<div id="errormsg-pop-up" class="modal fade" role="dialog" aria-hidden="true" >
+    
+    <div id="errormsg-pop-up" class="modal fade" role="dialog" aria-hidden="true" >
     	<div class="modal-dialog errormsg-dialog">
 	      <div class="modal-content">
 	         <div class="errormsg-modal-body clearborder" id="errormsg_content">
@@ -215,6 +215,12 @@
 	      </div>
     	</div>
     </div>
+    
+    	
+	<div id="pcinfo-pop-up" class="pc_info_div" style="display:none">
+	      <img alt="pcinfo" src="${ctx}/images/pcInfo.jpeg">
+    </div>
+    
     <!-- END FOOTER -->
     <input type="hidden" value="${currentUserId}" id="currentUserId">
     
@@ -253,6 +259,34 @@
 	}
     
 	judgeIsOverTime();
+	
+	var browser={
+		versions:function(){
+			var u = navigator.userAgent, app = navigator.appVersion;
+			return {
+				trident: u.indexOf('Trident') > -1, //IE内核
+				presto: u.indexOf('Presto') > -1, //opera内核
+				webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+				gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1,//火狐内核
+				mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+				ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+				android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+				iPhone: u.indexOf('iPhone') > -1 , //是否为iPhone或者QQHD浏览器
+				iPad: u.indexOf('iPad') > -1, //是否iPad
+				webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+			};
+		}(),
+		language:(navigator.browserLanguage || navigator.language).toLowerCase()//检测浏览器语言
+	}
+	
+	if(browser.versions.mobile||browser.versions.android||browser.versions.ios){
+		// 移动端
+	} else {
+		// PC端
+		$("#pcinfo-pop-up").css("display","");
+		$("#mpas_today_prive_id").css("margin-top","0rem");
+		//$("#main-nav-id").remove();
+	}
     </script>
 </body>
 <!-- END BODY -->
