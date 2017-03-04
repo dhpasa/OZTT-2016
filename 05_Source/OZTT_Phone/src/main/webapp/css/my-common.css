@@ -4124,12 +4124,6 @@ html{
 }
 
 .pc_info_div{
-	position: absolute;
-    top: 0px;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(102, 102, 102, 0.85);
-    z-index: 1009;
 }
 
 .pc_info_div img{

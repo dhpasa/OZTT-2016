@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
-<html style="width:100%;height:100%;-webkit-overflow-scrolling:touch;">
+<html style="height:100%;width:100%;-webkit-overflow-scrolling:touch;">
 <head>
   <meta charset="utf-8">
   <title><sitemesh:write property='title' /></title>
@@ -160,6 +160,37 @@
   		// 进入奶粉代发系统第二个画面
   		location.href = "${ctx}/milkPowderAutoPurchase/init?mode=1";
   	}
+  	
+  	var browser={
+  			versions:function(){
+  				var u = navigator.userAgent, app = navigator.appVersion;
+  				return {
+  					trident: u.indexOf('Trident') > -1, //IE内核
+  					presto: u.indexOf('Presto') > -1, //opera内核
+  					webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+  					gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1,//火狐内核
+  					mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+  					ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+  					android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+  					iPhone: u.indexOf('iPhone') > -1 , //是否为iPhone或者QQHD浏览器
+  					iPad: u.indexOf('iPad') > -1, //是否iPad
+  					webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+  				};
+  			}(),
+  			language:(navigator.browserLanguage || navigator.language).toLowerCase()//检测浏览器语言
+  		}
+  		
+  		if(browser.versions.mobile||browser.versions.android||browser.versions.ios){
+  			// 移动端
+  		} else {
+  			// PC端
+  			var currentLocalPath = window.location.pathname;
+  			if (currentLocalPath.indexOf("toPcInfoJsp") < 0) {
+  				window.location.href = "${ctx}/main/toPcInfoJsp";
+  			}
+  		}
+  	
+	
 </script>
 
 <!-- Body BEGIN -->
@@ -216,11 +247,6 @@
     	</div>
     </div>
     
-    	
-	<div id="pcinfo-pop-up" class="pc_info_div" style="display:none">
-	      <img alt="pcinfo" src="${ctx}/images/pcInfo.jpeg">
-    </div>
-    
     <div id="main_loading" class="main_loading" style="display:none">
 		<img src="../images/loading.gif">
 	</div>
@@ -264,33 +290,13 @@
     
 	judgeIsOverTime();
 	
-	var browser={
-		versions:function(){
-			var u = navigator.userAgent, app = navigator.appVersion;
-			return {
-				trident: u.indexOf('Trident') > -1, //IE内核
-				presto: u.indexOf('Presto') > -1, //opera内核
-				webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
-				gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1,//火狐内核
-				mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
-				ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-				android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
-				iPhone: u.indexOf('iPhone') > -1 , //是否为iPhone或者QQHD浏览器
-				iPad: u.indexOf('iPad') > -1, //是否iPad
-				webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
-			};
-		}(),
-		language:(navigator.browserLanguage || navigator.language).toLowerCase()//检测浏览器语言
-	}
-	
 	if(browser.versions.mobile||browser.versions.android||browser.versions.ios){
-		// 移动端
-	} else {
-		// PC端
-		$("#pcinfo-pop-up").css("display","");
-		$("#mpas_today_prive_id").css("margin-top","0rem");
-		//$("#main-nav-id").remove();
-	}
+			// 移动端
+		} else {
+			// PC端
+			$("#main-nav-id").remove();
+		}
+	
     </script>
 </body>
 <!-- END BODY -->

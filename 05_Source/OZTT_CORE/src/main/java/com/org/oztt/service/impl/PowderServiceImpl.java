@@ -417,13 +417,13 @@ public class PowderServiceImpl extends BaseService implements PowderService {
                 tConsTransactionOut.getTransactionamount()));
         tConsTransactionOut.setTransactiontype("2");// 交易类型（订单支付还是手续费收取）
         tConsTransactionDao.insertSelective(tConsTransactionOut);
-
+        logger.error("付款成功后，更新入出账记录成功。订单号为：" + orderId);
         // 检索当前订单，更新状态为已经付款
         tPowderOrder.setPaymentStatus(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
         tPowderOrder.setStatus(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
         tPowderOrder.setPaymentDate(nowDateStringFull);
         this.updatePowderOrder(tPowderOrder);
-
+        logger.error("付款成功后，更新订单支付状态为1(下单成功),订单状态为1(下单成功)。订单号为：" + orderId);
         // 更新订单下面的装箱flag
         TPowderBox param = new TPowderBox();
         param.setOrderId(tPowderOrder.getId().toString());
@@ -490,9 +490,12 @@ public class PowderServiceImpl extends BaseService implements PowderService {
                 tPowderBoxDao.updateByPrimaryKeySelective(boxInfo);
             }
         }
+        logger.error("付款成功后，更新订单Box的电子订单号和制定电子订单路径。订单号为：" + orderId);
 
         // 最后发送短信
         this.sendMsgOnNewOrder(customerService.getCustomerSecurityByCustomerNo(customerNo).getTelno(), powderBoxList);
+        
+        logger.error("付款成功后，如果有需要发短信的则发送短信成功。订单号为：" + orderId);
 
     }
 
