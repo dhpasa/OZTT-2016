@@ -393,12 +393,13 @@ public class MilkPowderAutoPurchaseController extends BaseController {
         String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
         try {
             String orderNo = map.get("orderNo");
-
+            
             TPowderOrder tPowderOrder = powderService.getTPowderOrderByOrderNo(orderNo);
             // 优先更新付款方式
             tPowderOrder.setPaymentMethod(CommonEnum.PaymentMethod.ONLINE_PAY_CWB.getCode());
             tPowderOrder.setPaymentStatus(CommonConstants.PAY_STATUS_ING);
             powderService.updatePowderOrder(tPowderOrder);
+            logger.error("信用卡付款，优先更新付款方式和付款状态=2(付款进行中)。订单号为：" + orderNo);
             BigDecimal amount = tPowderOrder.getSumAmount();
             Map<String, String> payMap = new HashMap<String, String>();
             payMap.put("vpc_Version", MessageUtils.getApplicationMessage("vpc_Version", session));
@@ -421,6 +422,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             Map<String, String> resMap = VpcHttpPayUtils.http("https://migs.mastercard.com.au/vpcdps", payMap);
             if (resMap != null && "0".equals(resMap.get(VpcHttpPayUtils.VPC_TXNRESPONSECODE))) {
                 String serialNo = resMap.get(CommonConstants.TRANSACTION_SERIAL_NO);
+                logger.error("信用卡付款，付款成功下面开始进行付款成功后的操作。订单号为：" + orderNo);
                 powderService.updateOrderAfterPay(orderNo, customerNo, session, serialNo,
                         CommonConstants.TRANSACTION_OBJECT);
                 mapReturn.put("isException", false);
@@ -432,6 +434,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
         }
         catch (Exception e) {
             e.printStackTrace();
+            logger.error("message",e);
             logger.error(e.getMessage());
             mapReturn.put("isException", true);
             return mapReturn;
@@ -546,18 +549,21 @@ public class MilkPowderAutoPurchaseController extends BaseController {
     @RequestMapping(value = "/redirect", method = RequestMethod.GET)
     public String redirect(Model model, HttpServletRequest request, HttpSession session, String orderId) {
         try {
+            logger.error("微信付款成功之后开始调用接口，订单号为：" + orderId);
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
             TPowderOrder tPowderOrder = powderService.getTPowderOrderByOrderNo(orderId);
             // 优先更新付款方式
             tPowderOrder.setPaymentMethod(CommonEnum.PaymentMethod.WE_CHAT.getCode());
             powderService.updatePowderOrder(tPowderOrder);
-            
+            logger.error("先将支付方式设置为微信付款，订单号为：" + orderId);
             powderService.updateOrderAfterPay(orderId, customerNo, session, "000010000",
                     CommonConstants.TRANSACTION_OBJECT);
+            logger.error("微信付款成功，并且更新状态，快递单，发短信都成功后跳转画面，订单号为：" + orderId);
             return "redirect:/user/init";
         }
         catch (Exception e) {
             logger.error(e.getMessage());
+            logger.error("meesage", e);
             return CommonConstants.ERROR_PAGE;
         }
     }
@@ -583,7 +589,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
 
             String signOrigin = parterCode + "&" + dTime + "&" + uu + "&" + credentialCode;
             String signDes = CommonUtils.sign(signOrigin, "SHA-256");
-
+            logger.error("微信付款，开始调用接口，注册订单信息，订单号为：" + orderId);
             String url = "https://mpay.royalpay.com.au/api/v1.0/wechat_jsapi_gateway/partners/OZTT/orders/" + orderId;
             url = url + "?time=" + dTime + "&nonce_str=" + uu + "&sign=" + signDes;
 
@@ -594,7 +600,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             TPowderOrder tPowderOrder = powderService.getTPowderOrderByOrderNo(orderId);
             tPowderOrder.setPaymentStatus(CommonConstants.PAY_STATUS_ING);
             powderService.updatePowderOrder(tPowderOrder);
-            
+            logger.error("微信付款，更新付款状态为2(正在付款中)，订单号为：" + orderId);
             
             JSONObject paramJson = (JSONObject) JSONObject.parse(paraMap);
             paramJson.put("price", tPowderOrder.getSumAmount().multiply(new BigDecimal(100)).intValue());
@@ -613,6 +619,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
                 JSONObject putResJson = (JSONObject) JSONObject.parse(doputInfo);
                 returnUrl = putResJson.getString("pay_url") + "?redirect=" + redirect_url + "&directpay=false";
                 returnUrl += "&time=" + dTime + "&nonce_str=" + uu + "&sign=" + signAgain;
+                logger.error("微信付款，订单注册成功，订单号为：" + orderId);
             }
 
             mapReturn.put("payUrl", returnUrl);
@@ -649,7 +656,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
 
             String signOrigin = parterCode + "&" + dTime + "&" + uu + "&" + credentialCode;
             String signDes = CommonUtils.sign(signOrigin, "SHA-256");
-
+            logger.error("微信付款，订单已经注册成功，直接进行付款。订单号为：" + orderId);
             String url = "https://mpay.royalpay.com.au/api/v1.0/wechat_jsapi_gateway/partners/OZTT_order_" + orderId;
             url += "?redirect=" + redirect_url + "&directpay=false";
             url += "&time=" + dTime + "&nonce_str=" + uu + "&sign=" + signDes;
