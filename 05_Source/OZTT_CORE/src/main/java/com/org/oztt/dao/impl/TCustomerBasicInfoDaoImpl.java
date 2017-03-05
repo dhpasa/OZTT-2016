@@ -26,8 +26,7 @@ public class TCustomerBasicInfoDaoImpl extends BaseDao implements TCustomerBasic
     }
 
     public TCustomerBasicInfo selectByPrimaryKey(Long no) {
-        // TODO Auto-generated method stub
-        return null;
+        return selectOne("com.org.oztt.dao.TCustomerBasicInfoDao.selectByPrimaryKey", no);
     }
 
     public int updateByPrimaryKeySelective(TCustomerBasicInfo record) {

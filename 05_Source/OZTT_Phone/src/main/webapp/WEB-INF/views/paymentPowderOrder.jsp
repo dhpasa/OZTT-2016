@@ -189,6 +189,9 @@
         
         <input type="hidden" value="${orderNo }" id="orderNo"/>
 	</div>
+	<div style="height:3rem;">
+    	&nbsp;
+    </div>
 	
 	<script type="text/javascript">
 		$("#dingdanhao").append("${orderNo }");

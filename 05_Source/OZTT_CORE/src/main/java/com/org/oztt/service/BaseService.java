@@ -10,8 +10,8 @@ import java.util.Properties;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import com.org.oztt.contants.CommonEnum;
@@ -27,7 +27,7 @@ public class BaseService {
     @Resource
     private TSysConfigDao         tSysConfigDao;
 
-    protected static final Logger logger     = LoggerFactory.getLogger(BaseService.class);
+    protected static final Log logger     = LogFactory.getLog(BaseService.class);
 
     public TSysConfig             tSysConfig = null;
 

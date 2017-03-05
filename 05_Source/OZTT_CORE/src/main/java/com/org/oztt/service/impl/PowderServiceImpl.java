@@ -19,7 +19,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import com.org.oztt.base.page.Pagination;
@@ -31,6 +30,7 @@ import com.org.oztt.base.util.ShortUrlUtil;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.contants.CommonEnum;
 import com.org.oztt.dao.TConsTransactionDao;
+import com.org.oztt.dao.TCustomerBasicInfoDao;
 import com.org.oztt.dao.TExpressInfoDao;
 import com.org.oztt.dao.TNoOrderDao;
 import com.org.oztt.dao.TNoTransactionDao;
@@ -40,10 +40,9 @@ import com.org.oztt.dao.TPowderOrderDao;
 import com.org.oztt.dao.TPowderOrderDetailsDao;
 import com.org.oztt.dao.TReceiverInfoDao;
 import com.org.oztt.dao.TSenderInfoDao;
-import com.org.oztt.entity.TConsTransaction;
+import com.org.oztt.entity.TCustomerBasicInfo;
 import com.org.oztt.entity.TExpressInfo;
 import com.org.oztt.entity.TNoOrder;
-import com.org.oztt.entity.TNoTransaction;
 import com.org.oztt.entity.TPowderBox;
 import com.org.oztt.entity.TPowderInfo;
 import com.org.oztt.entity.TPowderOrder;
@@ -102,6 +101,9 @@ public class PowderServiceImpl extends BaseService implements PowderService {
 
     @Resource
     private CustomerService        customerService;
+    
+    @Resource
+    private TCustomerBasicInfoDao    tCustomerBasicInfoDao;
 
     @Override
     public List<TExpressInfo> selectAllExpressInfo() throws Exception {
@@ -340,84 +342,84 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         TPowderOrder tPowderOrder = this.getTPowderOrderByOrderNo(orderId);
         // 生成入出账记录
         // 取得最新的入出账记录
-        TConsTransaction tConsTransactionLast = tConsTransactionDao.selectLastTransaction();
+        //TConsTransaction tConsTransactionLast = tConsTransactionDao.selectLastTransaction();
 
         // 生成发票数据
         // 产生入出账号
-        String maxTranctionNo = "";
+        //String maxTranctionNo = "";
         // 获取最大的客户号
-        TNoTransaction maxTNoTransaction = tNoTransactionDao.getMaxTransactionNo();
-        String nowDateString = DateFormatUtils.getNowTimeFormat("yyyyMMdd");
+        //        TNoTransaction maxTNoTransaction = tNoTransactionDao.getMaxTransactionNo();
+        //        String nowDateString = DateFormatUtils.getNowTimeFormat("yyyyMMdd");
         String nowDateStringFull = DateFormatUtils.getNowTimeFormat("yyyy/MM/dd HH:mm:ss");
-        Integer len = CommonConstants.FIRST_NUMBER.length();
-        if (maxTNoTransaction == null) {
-            maxTranctionNo = nowDateString + CommonConstants.FIRST_NUMBER;
-            // 入出账号号最大值的保存
-            TNoTransaction tNoTransaction = new TNoTransaction();
-            tNoTransaction.setDate(DateFormatUtils.getNowTimeFormat("yyyyMMdd"));
-            tNoTransaction.setMaxno(maxTranctionNo);
-            tNoTransactionDao.insertSelective(tNoTransaction);
-        }
-        else {
-            if (DateFormatUtils.getDateFormatStr(DateFormatUtils.PATTEN_YMD_NO_SEPRATE).equals(
-                    maxTNoTransaction.getDate())) {
-                // 属于同一天
-                // 入出账号号最大值的保存
-                maxTranctionNo = nowDateString
-                        + StringUtils.leftPad(
-                                String.valueOf(Integer.valueOf(maxTNoTransaction.getMaxno().substring(8)) + 1), len,
-                                "0");
-                maxTNoTransaction.setMaxno(maxTranctionNo);
-                tNoTransactionDao.updateByPrimaryKeySelective(maxTNoTransaction);
-            }
-            else {
-                maxTranctionNo = nowDateString + CommonConstants.FIRST_NUMBER;
-                // 入出账号最大值的保存
-                TNoTransaction tNoTransaction = new TNoTransaction();
-                tNoTransaction.setDate(DateFormatUtils.getNowTimeFormat("yyyyMMdd"));
-                tNoTransaction.setMaxno(maxTranctionNo);
-                tNoTransactionDao.insertSelective(tNoTransaction);
-            }
-        }
+        //        Integer len = CommonConstants.FIRST_NUMBER.length();
+        //        if (maxTNoTransaction == null) {
+        //            maxTranctionNo = nowDateString + CommonConstants.FIRST_NUMBER;
+        //            // 入出账号号最大值的保存
+        //            TNoTransaction tNoTransaction = new TNoTransaction();
+        //            tNoTransaction.setDate(DateFormatUtils.getNowTimeFormat("yyyyMMdd"));
+        //            tNoTransaction.setMaxno(maxTranctionNo);
+        //            tNoTransactionDao.insertSelective(tNoTransaction);
+        //        }
+        //        else {
+        //            if (DateFormatUtils.getDateFormatStr(DateFormatUtils.PATTEN_YMD_NO_SEPRATE).equals(
+        //                    maxTNoTransaction.getDate())) {
+        //                // 属于同一天
+        //                // 入出账号号最大值的保存
+        //                maxTranctionNo = nowDateString
+        //                        + StringUtils.leftPad(
+        //                                String.valueOf(Integer.valueOf(maxTNoTransaction.getMaxno().substring(8)) + 1), len,
+        //                                "0");
+        //                maxTNoTransaction.setMaxno(maxTranctionNo);
+        //                tNoTransactionDao.updateByPrimaryKeySelective(maxTNoTransaction);
+        //            }
+        //            else {
+        //                maxTranctionNo = nowDateString + CommonConstants.FIRST_NUMBER;
+        //                // 入出账号最大值的保存
+        //                TNoTransaction tNoTransaction = new TNoTransaction();
+        //                tNoTransaction.setDate(DateFormatUtils.getNowTimeFormat("yyyyMMdd"));
+        //                tNoTransaction.setMaxno(maxTranctionNo);
+        //                tNoTransactionDao.insertSelective(tNoTransaction);
+        //            }
+        //        }
 
-        maxTranctionNo = "TS" + maxTranctionNo;
+        //maxTranctionNo = "TS" + maxTranctionNo;
         // 第一次生成入出账记录
-        TConsTransaction tConsTransaction = new TConsTransaction();
-        tConsTransaction.setAccountno("");
-        tConsTransaction.setAddtimestamp(new Date());
-        tConsTransaction.setAdduserkey(customerNo);
-        tConsTransaction.setCustomerno(customerNo);
-        tConsTransaction.setTransactionserialno(serialNo);
-        tConsTransaction.setTransactionobject(transactionType);
-        tConsTransaction.setTransactioncomments("");
-        tConsTransaction.setTransactionno(maxTranctionNo);
-        tConsTransaction.setTransactionmethod(tPowderOrder.getPaymentMethod());
-        tConsTransaction.setTransactionoperator(customerNo);
-        tConsTransaction.setTransactionstatus("1");// 处理成功
-        tConsTransaction.setTransactiontimestamp(new Date());
-
-        TConsTransaction tConsTransactionIn = new TConsTransaction();
-        BeanUtils.copyProperties(tConsTransaction, tConsTransactionIn);
-        // 入账记录
-        tConsTransactionIn.setInoutflg("1");//入账
-        tConsTransactionIn.setTransactionamount(tPowderOrder.getSumAmount());
-        tConsTransactionIn.setTransactionbeforeamount(tConsTransactionLast == null ? BigDecimal.ZERO
-                : tConsTransactionLast.getTransactionafteramount());
-        tConsTransactionIn.setTransactionafteramount(tPowderOrder.getSumAmount().add(
-                tConsTransactionIn.getTransactionbeforeamount()));
-        tConsTransactionIn.setTransactiontype("1");// 交易类型（订单支付还是手续费收取）
-        tConsTransactionDao.insertSelective(tConsTransactionIn);
-        // 出账记录
-        TConsTransaction tConsTransactionOut = new TConsTransaction();
-        BeanUtils.copyProperties(tConsTransaction, tConsTransactionOut);
-        tConsTransactionOut.setInoutflg("2");//入账
-        tConsTransactionOut.setTransactionbeforeamount(tConsTransactionIn.getTransactionafteramount());
-        tConsTransactionOut.setTransactionamount(BigDecimal.ZERO);
-        tConsTransactionOut.setTransactionafteramount(tConsTransactionIn.getTransactionafteramount().subtract(
-                tConsTransactionOut.getTransactionamount()));
-        tConsTransactionOut.setTransactiontype("2");// 交易类型（订单支付还是手续费收取）
-        tConsTransactionDao.insertSelective(tConsTransactionOut);
-        logger.error("付款成功后，更新入出账记录成功。订单号为：" + orderId);
+        //        TConsTransaction tConsTransaction = new TConsTransaction();
+        //        tConsTransaction.setAccountno("");
+        //        tConsTransaction.setAddtimestamp(new Date());
+        //        tConsTransaction.setAdduserkey(customerNo);
+        //        tConsTransaction.setCustomerno(customerNo);
+        //        tConsTransaction.setTransactionserialno(serialNo);
+        //        tConsTransaction.setTransactionobject(transactionType);
+        //        tConsTransaction.setTransactioncomments("");
+        //        tConsTransaction.setTransactionno(maxTranctionNo);
+        //        tConsTransaction.setTransactionmethod(tPowderOrder.getPaymentMethod());
+        //        tConsTransaction.setTransactionoperator(customerNo);
+        //        tConsTransaction.setTransactionstatus("1");// 处理成功
+        //        tConsTransaction.setTransactiontimestamp(new Date());
+        //
+        //        TConsTransaction tConsTransactionIn = new TConsTransaction();
+        //        BeanUtils.copyProperties(tConsTransaction, tConsTransactionIn);
+        //        // 入账记录
+        //        tConsTransactionIn.setInoutflg("1");//入账
+        //        tConsTransactionIn.setTransactionamount(tPowderOrder.getSumAmount());
+        //        tConsTransactionIn.setTransactionbeforeamount(tConsTransactionLast == null ? BigDecimal.ZERO
+        //                : tConsTransactionLast.getTransactionafteramount());
+        //        tConsTransactionIn.setTransactionafteramount(tPowderOrder.getSumAmount().add(
+        //                tConsTransactionIn.getTransactionbeforeamount()));
+        //        tConsTransactionIn.setTransactiontype("1");// 交易类型（订单支付还是手续费收取）
+        //        tConsTransactionDao.insertSelective(tConsTransactionIn);
+        //        // 出账记录
+        //        TConsTransaction tConsTransactionOut = new TConsTransaction();
+        //        BeanUtils.copyProperties(tConsTransaction, tConsTransactionOut);
+        //        tConsTransactionOut.setInoutflg("2");//入账
+        //        tConsTransactionOut.setTransactionbeforeamount(tConsTransactionIn.getTransactionafteramount());
+        //        tConsTransactionOut.setTransactionamount(BigDecimal.ZERO);
+        //        tConsTransactionOut.setTransactionafteramount(tConsTransactionIn.getTransactionafteramount().subtract(
+        //                tConsTransactionOut.getTransactionamount()));
+        //        tConsTransactionOut.setTransactiontype("2");// 交易类型（订单支付还是手续费收取）
+        //        tConsTransactionDao.insertSelective(tConsTransactionOut);
+        //        logger.error("付款成功后，更新入出账记录成功。订单号为：" + orderId);
         // 检索当前订单，更新状态为已经付款
         tPowderOrder.setPaymentStatus(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
         tPowderOrder.setStatus(CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
@@ -436,7 +438,7 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         //        }
 
         // 付款成功之后，生成快递单照片和快递信息,一个快递单多个订单号
-        
+
         String s = PowderServiceImpl.class.getResource("/").getPath().toString();
         s = java.net.URLDecoder.decode(s, "UTF-8");
         if (powderBoxList != null) {
@@ -479,9 +481,8 @@ public class PowderServiceImpl extends BaseService implements PowderService {
                     eleExpressUrl = dpOperation.createDeliveryPic(outputPathImg, eleExpressNo,
                             powderInfo.getSenderName(), powderInfo.getSenderPhone(),
                             //super.getApplicationMessage("sender_address", null), powderInfo.getReceiveName(),
-                            "", powderInfo.getReceiveName(),
-                            powderInfo.getReceivePhone(), powderInfo.getReceiveAddress(), products,
-                            weightAll.toString(), new Date());
+                            "", powderInfo.getReceiveName(), powderInfo.getReceivePhone(),
+                            powderInfo.getReceiveAddress(), products, weightAll.toString(), new Date());
 
                 }
 
@@ -493,8 +494,9 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         logger.error("付款成功后，更新订单Box的电子订单号和制定电子订单路径。订单号为：" + orderId);
 
         // 最后发送短信
-        this.sendMsgOnNewOrder(customerService.getCustomerSecurityByCustomerNo(customerNo).getTelno(), powderBoxList);
-        
+        TCustomerBasicInfo cusomterBasicInfo = tCustomerBasicInfoDao.selectByPrimaryKey(Long.valueOf(tPowderOrder.getCustomerId()));
+        this.sendMsgOnNewOrder(customerService.getCustomerSecurityByCustomerNo(cusomterBasicInfo.getCustomerno()).getTelno(), powderBoxList);
+
         logger.error("付款成功后，如果有需要发短信的则发送短信成功。订单号为：" + orderId);
 
     }
@@ -542,13 +544,13 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         if (StringUtils.isNotEmpty(tPowderBox.getBoxPhotoUrls())) {
             // 装箱照片
             String[] str = tPowderBox.getBoxPhotoUrls().split("\\|");
-            for(int i = 0; i < str.length; i++) {
-                urlList.add(super.getApplicationMessage("saveImgUrl", null) + "EXPRESS"
-                        + CommonConstants.PATH_SPLIT + str[i]);
+            for (int i = 0; i < str.length; i++) {
+                urlList.add(super.getApplicationMessage("saveImgUrl", null) + "EXPRESS" + CommonConstants.PATH_SPLIT
+                        + str[i]);
             }
-        }       
+        }
         powderBoxInfo.setBoxPhotoUrls(urlList);
-        
+
         TExpressInfo tExpressInfo = tExpressInfoDao.selectByPrimaryKey(Long.valueOf(tPowderBox.getDeliverId()));
         powderBoxInfo.setExpressAmount(tExpressInfo.getPriceCoefficient().toString());
         powderBoxInfo.setExpressName(tExpressInfo.getExpressName());
@@ -687,29 +689,34 @@ public class PowderServiceImpl extends BaseService implements PowderService {
 
     @Override
     public void sendMsgOnNewOrder(String phone, List<TPowderBox> boxList) throws Exception {
-        String outputPathImg = super.getApplicationMessage("saveImgUrl", null) + "EXPRESS"
-                + CommonConstants.PATH_SPLIT;
-        int count = 0;
-        String msg = super.getMessage("I0011", null);
+        try {
+            String outputPathImg = super.getApplicationMessage("saveImgUrl", null) + "EXPRESS" + CommonConstants.PATH_SPLIT;
+            int count = 0;
+            String msg = super.getMessage("I0011", null);
 
-        for (TPowderBox detail : boxList) {
-            if ("0".equals(detail.getIfMsg()))
-                continue;
-            count++;
-            String url = outputPathImg + detail.getExpressPhotoUrl();
-            try {
-                url = ShortUrlUtil.getShortUrl(url);
+            for (TPowderBox detail : boxList) {
+                if ("0".equals(detail.getIfMsg()))
+                    continue;
+                count++;
+                String url = outputPathImg + detail.getExpressPhotoUrl();
+                try {
+                    url = ShortUrlUtil.getShortUrl(url);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+                msg += detail.getElecExpressNo() + ":" + url + "，";
             }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-            msg += detail.getElecExpressNo() + ":" + url + "，";
-        }
-        msg += super.getMessage("I0012", null);
+            msg += super.getMessage("I0012", null);
 
-        if (count > 0) {
-            SMSUtil.sendMessage(phone, msg);
+            if (count > 0) {
+                SMSUtil.sendMessage(phone, msg);
+            }
         }
+        catch (Exception e) {
+            logger.error("message", e);
+        }
+        
     }
 
     @Override
