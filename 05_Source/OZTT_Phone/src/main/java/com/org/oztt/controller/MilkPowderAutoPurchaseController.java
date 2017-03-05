@@ -523,7 +523,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
      * @param orderId
      * @return
      */
-    @RequestMapping(value = "/notify", method = RequestMethod.GET)
+    @RequestMapping(value = "/notify", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> notify(Model model, HttpServletRequest request, String orderId) {
         Map<String, Object> mapReturn = new HashMap<String, Object>();
@@ -555,7 +555,8 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             // 优先更新付款方式
             tPowderOrder.setPaymentMethod(CommonEnum.PaymentMethod.WE_CHAT.getCode());
             powderService.updatePowderOrder(tPowderOrder);
-            logger.error("先将支付方式设置为微信付款，订单号为：" + orderId);
+            logger.error("微信付款成功之后,先将支付方式设置为微信付款，订单号为：" + orderId);
+            logger.error("微信付款成功之后,调用更新接口传的参数分别为订单号：" + orderId + "用户号：" + customerNo);
             powderService.updateOrderAfterPay(orderId, customerNo, session, "000010000",
                     CommonConstants.TRANSACTION_OBJECT);
             logger.error("微信付款成功，并且更新状态，快递单，发短信都成功后跳转画面，订单号为：" + orderId);
@@ -628,6 +629,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
         }
         catch (Exception e) {
             logger.error(e.getMessage());
+            logger.error("meesage", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }

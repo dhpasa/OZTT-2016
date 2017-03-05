@@ -145,10 +145,13 @@ public class HttpRequest {
             //            log.info(statusCode);  
             if (statusCode != HttpStatus.SC_OK) {
                 log.error("Method failed: " + putMethod.getStatusLine());
+                byte[] responseBody = putMethod.getResponseBody();
+                log.error(new String(responseBody, ENCODE));
                 return null;
             }
             byte[] responseBody = putMethod.getResponseBody();
             resStr = new String(responseBody, ENCODE);
+            log.error(new String(responseBody, ENCODE));
         }
         catch (Exception e) {
             e.printStackTrace();
