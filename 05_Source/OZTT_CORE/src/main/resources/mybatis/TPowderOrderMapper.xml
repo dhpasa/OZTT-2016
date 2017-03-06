@@ -289,19 +289,25 @@
 	(select id from t_powder_box
 	where orderId in
 	(select id from t_powder_order where TIMESTAMPDIFF(MINUTE, updTimestamp, now()) > 30
-	and status = '0' and paymentStatus = '0' and paymentMethod is not null and paymentMethod <![CDATA[ <> ]]> ''));
+	and status = '0' and paymentMethod is not null and paymentMethod <![CDATA[ <> ]]> ''));
   </delete>
   
   <delete id="deleteNoPayOrderBox">
   	delete from t_powder_box
 	where orderId in
 	(select id from t_powder_order where TIMESTAMPDIFF(MINUTE, updTimestamp, now()) > 30
-	and status = '0' and paymentStatus = '0' and paymentMethod is not null and paymentMethod <![CDATA[ <> ]]> '');
+	and status = '0' and paymentMethod is not null and paymentMethod <![CDATA[ <> ]]> '');
   </delete>
   
   <delete id="deleteNoPayOrder">
   	delete from t_powder_order where TIMESTAMPDIFF(MINUTE, updTimestamp, now()) > 30
-	and status = '0' and paymentStatus = '0' and paymentMethod is not null and paymentMethod <![CDATA[ <> ]]> '';
+	and status = '0' and paymentMethod is not null and paymentMethod <![CDATA[ <> ]]> '';
   </delete>
+  
+  <update id="updateNoPayOrder"  >
+  	update t_powder_order
+    set status = '9' 
+    where TIMESTAMPDIFF(MINUTE, updTimestamp, now()) > 30 and paymentStatus = '2' 
+  </update>
 
 </mapper>
