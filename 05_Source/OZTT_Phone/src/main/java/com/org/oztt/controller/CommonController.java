@@ -89,7 +89,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -121,7 +121,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -153,7 +153,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -184,7 +184,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -209,7 +209,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -239,7 +239,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -292,7 +292,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -345,7 +345,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -402,7 +402,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -429,7 +429,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -466,7 +466,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -504,7 +504,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -534,7 +534,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -562,7 +562,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -624,7 +624,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -695,7 +695,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -795,7 +795,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -852,7 +852,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -885,7 +885,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -922,7 +922,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -949,7 +949,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -982,7 +982,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -1019,7 +1019,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -1055,7 +1055,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -1091,7 +1091,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -1126,7 +1126,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -1168,7 +1168,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
