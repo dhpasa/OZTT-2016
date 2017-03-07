@@ -95,7 +95,7 @@ public class PowderOrderListControler extends BaseController {
         }
         catch (Exception e) {
             e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.error("message", e);
             resp.put("isException", true);
             return resp;
         }
@@ -113,7 +113,7 @@ public class PowderOrderListControler extends BaseController {
         }
         catch (Exception e) {
             e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.error("message", e);
         }
         return "/powderOrderItem";
     }
@@ -137,7 +137,7 @@ public class PowderOrderListControler extends BaseController {
         }
         catch (Exception e) {
             e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.error("message", e);
             return CommonConstants.ERROR_PAGE;
         }
     }
@@ -167,7 +167,7 @@ public class PowderOrderListControler extends BaseController {
         }
         catch (Exception e) {
             e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.error("message", e);
             resp.put("isException", true);
             return resp;
         }
@@ -255,7 +255,7 @@ public class PowderOrderListControler extends BaseController {
         }
         catch (Exception e) {
             e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.error("message", e);
             resp.put("isException", true);
             return resp;
         }
@@ -300,7 +300,7 @@ public class PowderOrderListControler extends BaseController {
         }
         catch (Exception e) {
             e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.error("message", e);
             resp.put("isException", true);
             return resp;
         }

@@ -1083,6 +1083,8 @@
 					"vpc_CardSecurityCode":$("#vpc_CardSecurityCode").val(),
 					"orderNo":$("#currentOrderNo").val()
 			}
+  			// 出现等待画面
+			createLoading(0);
 	  		$.ajax({
 				type : "POST",
 				contentType:'application/json',
@@ -1091,6 +1093,8 @@
 				async : false,
 				data : JSON.stringify(paramData), 
 				success : function(data) {
+					// 删除等待的画面
+					removeLoading();
 					if (!data.isException) {
 						// 货到付款
 						createInfoDialog('<fmt:message key="I0007"/>','1');
@@ -1100,14 +1104,17 @@
 					} else {
 						// 付款失败
 						createErrorInfoDialog('<fmt:message key="E0021"/>');
+						$("#payBtn").attr("onclick", "toPay()");
 					}
 					
 				},
 				error : function(data) {
-					
+					// 删除等待的画面
+					removeLoading();
+					$("#payBtn").attr("onclick", "toPay()");
 				}
 			});
-  			$("#payBtn").attr("onclick", "toPay()");
+  			
   		}
   		
   		

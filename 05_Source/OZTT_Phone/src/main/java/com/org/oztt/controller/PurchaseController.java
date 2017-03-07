@@ -114,7 +114,7 @@ public class PurchaseController extends BaseController {
         }
         catch (Exception e) {
             e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.error("message", e);
             return CommonConstants.ERROR_PAGE;
         }
     }
@@ -154,7 +154,7 @@ public class PurchaseController extends BaseController {
         }
         catch (Exception e) {
             e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -214,7 +214,7 @@ public class PurchaseController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -253,7 +253,7 @@ public class PurchaseController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -276,7 +276,7 @@ public class PurchaseController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -298,7 +298,7 @@ public class PurchaseController extends BaseController {
             return "redirect:/user/init";
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             return CommonConstants.ERROR_PAGE;
         }
     }

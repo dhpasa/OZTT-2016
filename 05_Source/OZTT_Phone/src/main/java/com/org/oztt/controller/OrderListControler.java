@@ -69,7 +69,7 @@ public class OrderListControler extends BaseController {
         }
         catch (Exception e) {
             e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.error("message", e);
             resp.put("isException", true);
             return resp;
         }
@@ -87,7 +87,7 @@ public class OrderListControler extends BaseController {
         }
         catch (Exception e) {
             e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.error("message", e);
         }
         return "/orderItem";
     }

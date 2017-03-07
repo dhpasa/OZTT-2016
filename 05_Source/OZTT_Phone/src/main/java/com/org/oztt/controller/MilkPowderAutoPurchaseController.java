@@ -155,7 +155,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
         }
         catch (Exception e) {
             e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.error("message", e);
             return CommonConstants.ERROR_PAGE;
         }
     }
@@ -181,7 +181,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -208,7 +208,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -280,7 +280,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -314,7 +314,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -344,7 +344,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -374,7 +374,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
         }
         catch (Exception e) {
             e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -435,7 +435,6 @@ public class MilkPowderAutoPurchaseController extends BaseController {
         catch (Exception e) {
             e.printStackTrace();
             logger.error("message",e);
-            logger.error(e.getMessage());
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -472,7 +471,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -509,7 +508,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -532,7 +531,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -563,8 +562,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             return "redirect:/user/init";
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
-            logger.error("meesage", e);
+            logger.error("message", e);
             return CommonConstants.ERROR_PAGE;
         }
     }
@@ -628,8 +626,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
-            logger.error("meesage", e);
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -668,7 +665,7 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
