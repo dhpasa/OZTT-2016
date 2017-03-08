@@ -271,11 +271,19 @@ public class PowderServiceImpl extends BaseService implements PowderService {
                 // 快递价格系数 * 数量 
                 sum = sum.add(expressInfo.getPriceCoefficient().multiply(
                         new BigDecimal(tPowderOrderDetails.getQuantity())));
-
-                if (tPowderOrderDetails.getQuantity() == 3) {
-                    // 数量为3的时候 包邮调整系数
-                    sum = sum.add(tPowderInfo.getFreeDeliveryParameter());
+                
+                if (CommonConstants.POWDER_TYPE_BABY.equals(tPowderInfo.getPowderType())) {
+                    if (tPowderOrderDetails.getQuantity() == 3) {
+                        // 数量为3的时候 包邮调整系数 ,婴儿奶粉
+                        sum = sum.add(tPowderInfo.getFreeDeliveryParameter());
+                    }
+                } else {
+                    if (tPowderOrderDetails.getQuantity() == 6) {
+                        // 数量为3的时候 包邮调整系数，成人奶粉
+                        sum = sum.add(tPowderInfo.getFreeDeliveryParameter());
+                    }
                 }
+                
             }
 
             TPowderBox tPowderBox = new TPowderBox();

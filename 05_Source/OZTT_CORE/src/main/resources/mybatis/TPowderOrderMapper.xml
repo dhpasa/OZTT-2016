@@ -265,6 +265,7 @@
     <if test="status != null and status != 1 " >
         and status = #{status,jdbcType=CHAR}
     </if>
+    order by orderDate desc
   </select>
   
   <select id="getOrderByParamForPageCount" resultType="int" parameterType="map">
