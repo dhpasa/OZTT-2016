@@ -509,9 +509,18 @@
 				powderAmount = powderAmount + number*unitprice + number*unitweight*perKgDelivery + expressRate*number;
 				
 				// 婴儿奶粉数量=3的时候减去包邮调整系数，成人奶粉则是6罐时候减去包邮调整系数
-				if (number == 3) {
-					powderAmount = powderAmount + unitfreeDelivery;
+				if (powderType == "1") {
+					// 婴儿奶粉
+					if (number == 3) {
+						powderAmount = powderAmount + unitfreeDelivery;
+					}
+				} else {
+					// 成人奶粉
+					if (number == 6) {
+						powderAmount = powderAmount + unitfreeDelivery;
+					}
 				}
+				
 				
 				numberAll = numberAll + number;
 				

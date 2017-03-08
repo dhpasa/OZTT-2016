@@ -53,6 +53,10 @@
 	
 	var pageNo = 1;
 	function initList(idd) {
+		var sessionUserId = '${currentUserId}';
+		if (sessionUserId == null || sessionUserId == "") {
+			return;
+		}
 		$("#hiddenStatus").val(idd);
 		$.ajax({
 			type : "GET",
