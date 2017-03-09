@@ -62,6 +62,11 @@
 	}
 	var pageNo = 1;
 	function initList(idd) {
+		var sessionUserId = '${currentUserId}';
+		if (sessionUserId == null || sessionUserId == "") {
+			return;
+		}
+		$("#hiddenStatus").val(idd);
 		$.ajax({
 			type : "GET",
 			contentType:'application/json',
@@ -221,7 +226,7 @@
 	    		$("#loadingDiv").css("display","");
 	    		setTimeout(function(){
 	    			pageNo += 1;
-	    			initList();
+	    			initList($("#hiddenStatus").val());
 	    			closeLoadingDiv();
 	    			setTimeout(function(){
 	    				closeNoMoreDiv();
@@ -296,6 +301,8 @@
 	<div id="ordersList">
 		
 	</div>
+	
+	<input type="hidden" value="" id="hiddenStatus"/>
 	<div style="text-align: center;height:4rem;display:none" id="loadingDiv">
     	<span style="display:inline-block;width: 100%;" id="hasMore"><fmt:message key="COMMON_PUSH" /></br><fmt:message key="COMMON_HASMORE" /></span>
 		<img src="${ctx}/images/loading.gif">

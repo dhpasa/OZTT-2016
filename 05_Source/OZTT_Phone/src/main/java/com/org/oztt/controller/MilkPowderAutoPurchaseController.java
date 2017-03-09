@@ -522,17 +522,24 @@ public class MilkPowderAutoPurchaseController extends BaseController {
      * @param orderId
      * @return
      */
-    @RequestMapping(value = "/notify", method = RequestMethod.POST)
+    @RequestMapping(value = "/notify")
     @ResponseBody
-    public Map<String, Object> notify(Model model, HttpServletRequest request, String orderId) {
+    public Map<String, Object> notify(Model model, HttpServletRequest request, HttpSession session, @RequestBody Map<String, String> requestMap) {
         Map<String, Object> mapReturn = new HashMap<String, Object>();
         try {
-            mapReturn.put("isException", false);
+            if (requestMap != null) {
+                String orderId = requestMap.get("partner_order_id");
+                logger.error("微信通知调用接口，订单号为：" + orderId);
+                if (!StringUtils.isEmpty(orderId)) {
+                    
+                }
+            }
+            mapReturn.put("return_code", "200");
             return mapReturn;
         }
         catch (Exception e) {
             logger.error("message", e);
-            mapReturn.put("isException", true);
+            mapReturn.put("return_code", "404");
             return mapReturn;
         }
     }
