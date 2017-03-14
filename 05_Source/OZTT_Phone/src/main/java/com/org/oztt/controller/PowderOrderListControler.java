@@ -76,6 +76,10 @@ public class PowderOrderListControler extends BaseController {
         Map<String, Object> resp = new HashMap<String, Object>();
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            if (StringUtils.isEmpty(customerNo)) {
+                resp.put("isException", true);
+                return resp;
+            }
             TCustomerBasicInfo customerBaseInfo = customerService.selectBaseInfoByCustomerNo(customerNo);
             String status = request.getParameter("orderStatus");
             if (StringUtils.isEmpty(pageNo)) {

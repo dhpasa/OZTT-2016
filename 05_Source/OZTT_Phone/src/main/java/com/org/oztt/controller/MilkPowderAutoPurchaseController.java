@@ -172,6 +172,10 @@ public class MilkPowderAutoPurchaseController extends BaseController {
         Map<String, Object> mapReturn = new HashMap<String, Object>();
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            if (StringUtils.isEmpty(customerNo)) {
+                mapReturn.put("isException", true);
+                return mapReturn;
+            }
             TCustomerBasicInfo customerBaseInfo = customerService.selectBaseInfoByCustomerNo(customerNo);
             List<TSenderInfo> sendList = powderService.selectSenderInfoList(customerBaseInfo.getNo().toString());
 
@@ -199,6 +203,10 @@ public class MilkPowderAutoPurchaseController extends BaseController {
         Map<String, Object> mapReturn = new HashMap<String, Object>();
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            if (StringUtils.isEmpty(customerNo)) {
+                mapReturn.put("isException", true);
+                return mapReturn;
+            }
             TCustomerBasicInfo customerBaseInfo = customerService.selectBaseInfoByCustomerNo(customerNo);
             List<TReceiverInfo> receiveList = powderService.selectReceiverInfoList(customerBaseInfo.getNo().toString());
 
@@ -227,6 +235,10 @@ public class MilkPowderAutoPurchaseController extends BaseController {
         Map<String, Object> mapReturn = new HashMap<String, Object>();
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            if (StringUtils.isEmpty(customerNo)) {
+                mapReturn.put("isException", true);
+                return mapReturn;
+            }
             TCustomerBasicInfo customerBaseInfo = customerService.selectBaseInfoByCustomerNo(customerNo);
             // 提交当前的地址信息
             String updateType = map.get("updateType");
@@ -363,6 +375,10 @@ public class MilkPowderAutoPurchaseController extends BaseController {
         Map<String, Object> mapReturn = new HashMap<String, Object>();
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            if (StringUtils.isEmpty(customerNo)) {
+                mapReturn.put("isException", true);
+                return mapReturn;
+            }
             TCustomerBasicInfo customerBaseInfo = customerService.selectBaseInfoByCustomerNo(customerNo);
             // 保存订单信息
             Map<String, String> resMap = powderService.insertPowderInfo(requestList, customerBaseInfo.getNo()
@@ -531,7 +547,16 @@ public class MilkPowderAutoPurchaseController extends BaseController {
                 String orderId = requestMap.get("partner_order_id");
                 logger.error("微信通知调用接口，订单号为：" + orderId);
                 if (!StringUtils.isEmpty(orderId)) {
-                    
+                    logger.error("微信付款成功之后开始调用接口，订单号为：" + orderId);
+                    TPowderOrder tPowderOrder = powderService.getTPowderOrderByOrderNo(orderId);
+                    // 优先更新付款方式
+                    tPowderOrder.setPaymentMethod(CommonEnum.PaymentMethod.WE_CHAT.getCode());
+                    powderService.updatePowderOrder(tPowderOrder);
+                    logger.error("微信付款成功之后,先将支付方式设置为微信付款，订单号为：" + orderId);
+                    logger.error("微信付款成功之后,调用更新接口传的参数分别为订单号：" + orderId );
+                    powderService.updateOrderAfterPay(orderId, null, session, "000010000",
+                            CommonConstants.TRANSACTION_OBJECT);
+                    logger.error("微信付款成功，并且更新状态，快递单，发短信都成功后跳转画面，订单号为：" + orderId);
                 }
             }
             mapReturn.put("return_code", "200");
@@ -555,17 +580,17 @@ public class MilkPowderAutoPurchaseController extends BaseController {
     @RequestMapping(value = "/redirect", method = RequestMethod.GET)
     public String redirect(Model model, HttpServletRequest request, HttpSession session, String orderId) {
         try {
-            logger.error("微信付款成功之后开始调用接口，订单号为：" + orderId);
-            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
-            TPowderOrder tPowderOrder = powderService.getTPowderOrderByOrderNo(orderId);
-            // 优先更新付款方式
-            tPowderOrder.setPaymentMethod(CommonEnum.PaymentMethod.WE_CHAT.getCode());
-            powderService.updatePowderOrder(tPowderOrder);
-            logger.error("微信付款成功之后,先将支付方式设置为微信付款，订单号为：" + orderId);
-            logger.error("微信付款成功之后,调用更新接口传的参数分别为订单号：" + orderId + "用户号：" + customerNo);
-            powderService.updateOrderAfterPay(orderId, customerNo, session, "000010000",
-                    CommonConstants.TRANSACTION_OBJECT);
-            logger.error("微信付款成功，并且更新状态，快递单，发短信都成功后跳转画面，订单号为：" + orderId);
+//            logger.error("微信付款成功之后开始调用接口，订单号为：" + orderId);
+//            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+//            TPowderOrder tPowderOrder = powderService.getTPowderOrderByOrderNo(orderId);
+//            // 优先更新付款方式
+//            tPowderOrder.setPaymentMethod(CommonEnum.PaymentMethod.WE_CHAT.getCode());
+//            powderService.updatePowderOrder(tPowderOrder);
+//            logger.error("微信付款成功之后,先将支付方式设置为微信付款，订单号为：" + orderId);
+//            logger.error("微信付款成功之后,调用更新接口传的参数分别为订单号：" + orderId + "用户号：" + customerNo);
+//            powderService.updateOrderAfterPay(orderId, customerNo, session, "000010000",
+//                    CommonConstants.TRANSACTION_OBJECT);
+//            logger.error("微信付款成功，并且更新状态，快递单，发短信都成功后跳转画面，订单号为：" + orderId);
             return "redirect:/user/init";
         }
         catch (Exception e) {

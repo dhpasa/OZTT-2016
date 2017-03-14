@@ -51,6 +51,10 @@ public class OrderListControler extends BaseController {
         Map<String, Object> resp = new HashMap<String, Object>();
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            if (StringUtils.isEmpty(customerNo)) {
+                resp.put("isException", true);
+                return resp;
+            }
             String handleFlg = request.getParameter("orderStatus");
             if (StringUtils.isEmpty(pageNo)) {
                 pageNo = "1";
