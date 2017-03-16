@@ -549,6 +549,9 @@ public class MilkPowderAutoPurchaseController extends BaseController {
                 if (!StringUtils.isEmpty(orderId)) {
                     logger.error("微信付款成功之后开始调用接口，订单号为：" + orderId);
                     TPowderOrder tPowderOrder = powderService.getTPowderOrderByOrderNo(orderId);
+                    if (tPowderOrder == null || CommonEnum.HandleFlag.PLACE_ORDER_SU.equals(tPowderOrder.getPaymentStatus())) {
+                        return mapReturn;
+                    }
                     // 优先更新付款方式
                     tPowderOrder.setPaymentMethod(CommonEnum.PaymentMethod.WE_CHAT.getCode());
                     powderService.updatePowderOrder(tPowderOrder);
