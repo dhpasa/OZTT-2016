@@ -147,12 +147,18 @@ public class PowderServiceImpl extends BaseService implements PowderService {
 
     @Override
     public void deleteSendInfo(long id) throws Exception {
-        tSenderInfoDao.deleteByPrimaryKey(id);
+        TSenderInfo tSenderInfo = tSenderInfoDao.selectByPrimaryKey(id);
+        tSenderInfo.setDeleteFlg(CommonConstants.IS_DELETE);
+        tSenderInfoDao.updateByPrimaryKeySelective(tSenderInfo);
+        //tSenderInfoDao.deleteByPrimaryKey(id);
     }
 
     @Override
     public void deleteReveiverInfo(long id) throws Exception {
-        tReceiverInfoDao.deleteByPrimaryKey(id);
+        TReceiverInfo tReceiverInfo = tReceiverInfoDao.selectByPrimaryKey(id);
+        tReceiverInfo.setDeleteFlg(CommonConstants.IS_DELETE);
+        tReceiverInfoDao.updateByPrimaryKeySelective(tReceiverInfo);
+        //tReceiverInfoDao.deleteByPrimaryKey(id);
     }
 
     @Override
@@ -348,6 +354,9 @@ public class PowderServiceImpl extends BaseService implements PowderService {
             String transactionType) throws Exception {
 
         TPowderOrder tPowderOrder = this.getTPowderOrderByOrderNo(orderId);
+        
+        // 订单状态
+        String statusPre = tPowderOrder.getStatus();
         // 生成入出账记录
         // 取得最新的入出账记录
         //TConsTransaction tConsTransactionLast = tConsTransactionDao.selectLastTransaction();
@@ -454,6 +463,11 @@ public class PowderServiceImpl extends BaseService implements PowderService {
                 // 获取电子订单号
                 String eleExpressNo = getExpressEleNo();
                 PowderBoxInfo powderInfo = this.getPowderInfoById(boxInfo.getId());
+                
+                // 如果已经分配了快递单号就不再更新快递单号
+                if (StringUtils.isNotEmpty(powderInfo.getElecExpressNo())) {
+                    continue;
+                }
 
                 BigDecimal weightAll = BigDecimal.ZERO;
                 DeliveryPicOperation dpOperation = null;
@@ -501,12 +515,15 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         }
         logger.error("付款成功后，更新订单Box的电子订单号和制定电子订单路径。订单号为：" + orderId);
 
-        // 最后发送短信
-        TCustomerBasicInfo cusomterBasicInfo = tCustomerBasicInfoDao.selectByPrimaryKey(Long.valueOf(tPowderOrder.getCustomerId()));
-        this.sendMsgOnNewOrder(customerService.getCustomerSecurityByCustomerNo(cusomterBasicInfo.getCustomerno()).getTelno(), powderBoxList);
-
-        logger.error("付款成功后，如果有需要发短信的则发送短信成功。订单号为：" + orderId);
-
+        if (!CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode().equals(statusPre)) {
+            // 最后开线程发送短信
+            SendMsgThread sendMsg = new SendMsgThread();
+            sendMsg.orderId = orderId;
+            sendMsg.customerId = tPowderOrder.getCustomerId();
+            sendMsg.powderBoxList = powderBoxList;
+            sendMsg.start(); 
+        }
+        
     }
 
     @Override
@@ -730,5 +747,32 @@ public class PowderServiceImpl extends BaseService implements PowderService {
     @Override
     public TExpressInfo selectExpressInfo(long expressId) throws Exception {
         return tExpressInfoDao.selectByPrimaryKey(expressId);
+    }
+    
+    /**
+     * 发送短信的线程
+     * @author linliuan
+     *
+     */
+    class SendMsgThread extends Thread {
+
+        public String      customerId;
+
+        public List<TPowderBox>      powderBoxList;
+        
+        public String orderId;
+
+        public void run() {
+            try {
+                TCustomerBasicInfo cusomterBasicInfo = tCustomerBasicInfoDao.selectByPrimaryKey(Long.valueOf(customerId));
+                sendMsgOnNewOrder(customerService.getCustomerSecurityByCustomerNo(cusomterBasicInfo.getCustomerno()).getTelno(), powderBoxList);  
+                logger.error("付款成功后，如果有需要发短信的则发送短信成功。订单号为：" + orderId);
+            }
+            catch (Exception e) {
+                logger.error("message", e);
+            }
+        }
+
+        
     }
 }

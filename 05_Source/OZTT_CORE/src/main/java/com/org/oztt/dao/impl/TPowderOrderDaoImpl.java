@@ -71,7 +71,7 @@ public class TPowderOrderDaoImpl extends BaseDao implements TPowderOrderDao {
 
     @Override
     public void deleteNoPayOrder() {
-        update("com.org.oztt.dao.TPowderOrderMapper.updateNoPayOrder",null);
+        //update("com.org.oztt.dao.TPowderOrderMapper.updateNoPayOrder",null);
         delete("com.org.oztt.dao.TPowderOrderMapper.deleteNoPayOrderDetail", null);
         delete("com.org.oztt.dao.TPowderOrderMapper.deleteNoPayOrderBox", null);
         delete("com.org.oztt.dao.TPowderOrderMapper.deleteNoPayOrder", null);
