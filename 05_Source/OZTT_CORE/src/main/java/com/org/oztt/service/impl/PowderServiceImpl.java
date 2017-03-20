@@ -460,14 +460,16 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         s = java.net.URLDecoder.decode(s, "UTF-8");
         if (powderBoxList != null) {
             for (TPowderBox boxInfo : powderBoxList) {
-                // 获取电子订单号
-                String eleExpressNo = getExpressEleNo();
+                
                 PowderBoxInfo powderInfo = this.getPowderInfoById(boxInfo.getId());
                 
                 // 如果已经分配了快递单号就不再更新快递单号
                 if (StringUtils.isNotEmpty(powderInfo.getElecExpressNo())) {
                     continue;
                 }
+                
+                // 获取电子订单号
+                String eleExpressNo = getExpressEleNo();
 
                 BigDecimal weightAll = BigDecimal.ZERO;
                 DeliveryPicOperation dpOperation = null;
