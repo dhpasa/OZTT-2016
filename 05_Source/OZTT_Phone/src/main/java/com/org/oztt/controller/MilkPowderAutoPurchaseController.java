@@ -551,12 +551,12 @@ public class MilkPowderAutoPurchaseController extends BaseController {
                     TPowderOrder tPowderOrder = powderService.getTPowderOrderByOrderNo(orderId);
                     if (tPowderOrder == null 
                             || CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode().equals(tPowderOrder.getPaymentStatus()) 
-                            || "7".equals(tPowderOrder.getPaymentStatus())) {
+                            || CommonConstants.PAYMENT_STATUS_HANDLE_ING.equals(tPowderOrder.getPaymentStatus())) {
                         return mapReturn;
                     }
                     // 优先更新付款方式
                     tPowderOrder.setPaymentMethod(CommonEnum.PaymentMethod.WE_CHAT.getCode());
-                    tPowderOrder.setPaymentStatus("7");//微信支付完成，状态和信息变更中......
+                    tPowderOrder.setPaymentStatus(CommonConstants.PAYMENT_STATUS_HANDLE_ING);//微信支付完成，状态和信息变更中......
                     powderService.updatePowderOrder(tPowderOrder);
                     logger.error("微信付款成功之后,先将支付方式设置为微信付款，订单号为：" + orderId);
                     logger.error("微信付款成功之后,调用更新接口传的参数分别为订单号：" + orderId );

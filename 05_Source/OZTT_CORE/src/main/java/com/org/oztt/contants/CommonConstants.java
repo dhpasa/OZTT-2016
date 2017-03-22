@@ -156,4 +156,6 @@ public final class CommonConstants {
 
     public static final String     PAY_STATUS_ING             = "2";                                    // 支付进行中
 
+    public static final String     PAYMENT_STATUS_HANDLE_ING  = "7";                                    // 微信支付完成，状态和信息变更中......
+
 }
