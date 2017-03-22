@@ -308,7 +308,7 @@
   <update id="updateNoPayOrder"  >
   	update t_powder_order
     set status = '9' 
-    where TIMESTAMPDIFF(MINUTE, updTimestamp, now()) > 30 and paymentStatus = '2' 
+    where TIMESTAMPDIFF(MINUTE, updTimestamp, now()) > 480 and status = '0'
   </update>
 
 </mapper>
