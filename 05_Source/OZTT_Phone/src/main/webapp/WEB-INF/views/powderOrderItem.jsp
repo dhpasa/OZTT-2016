@@ -293,7 +293,7 @@
 		</div>
 		<div class="clearfix">
 			<div class="wrapper">
-				<input type="file" accept="image/*;" capture="camera" id= "imgBe" class="input-upload-image">
+				<input type="file" accept="image/*;" id= "imgBe" class="input-upload-image">
 				<c:if test="${ detailInfo.receiveCardPhoneBe == ''}">
 					<img class="upload-btn events-pointer-none" src="${ctx}/images/img_upload.png" id="imgInfoBe">
 				</c:if>
@@ -302,7 +302,7 @@
 				</c:if>
 			</div>
 			<div class="wrapper">
-				<input type="file" accept="image/*;" capture="camera" id= "imgAf" class="input-upload-image">
+				<input type="file" accept="image/*;" id= "imgAf" class="input-upload-image">
 				<c:if test="${ detailInfo.receiveCardPhoneAf == ''}">
 					<img class="upload-btn events-pointer-none" src="${ctx}/images/img_upload.png" id="imgInfoAf">
 				</c:if>
