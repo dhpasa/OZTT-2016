@@ -27,5 +27,6 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/mysql-connector-java-commercial-5.1.30-bin.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/m4uapi.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/STXIHEI.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jcaptcha-all-1.0-RC6.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

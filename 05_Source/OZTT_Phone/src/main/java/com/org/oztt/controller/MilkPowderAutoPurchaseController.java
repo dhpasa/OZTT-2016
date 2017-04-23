@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.org.oztt.base.shiro.JCaptcha.JCaptcha;
 import com.org.oztt.base.util.CommonUtils;
 import com.org.oztt.base.util.HttpRequest;
 import com.org.oztt.base.util.MessageUtils;
@@ -385,6 +386,13 @@ public class MilkPowderAutoPurchaseController extends BaseController {
                     .toString(), payType);
             mapReturn.put("orderNo", resMap.get("orderNo"));
             mapReturn.put("subAmount", resMap.get("subAmount"));
+            TSysConfig sysconfig = sysConfigService.getTSysConfigInRealTime();
+            
+            if (sysconfig != null && sysconfig.getMasterCardFee() != null) {
+                String amountStr = resMap.get("subAmount");
+                amountStr = new BigDecimal(amountStr).add(new BigDecimal(amountStr).multiply(sysconfig.getMasterCardFee()).setScale(2, BigDecimal.ROUND_HALF_UP)).toString();
+                mapReturn.put("subAmount", amountStr);
+            }
             mapReturn.put("isException", false);
             return mapReturn;
         }
@@ -403,12 +411,22 @@ public class MilkPowderAutoPurchaseController extends BaseController {
      * @return
      */
     @RequestMapping(value = "toPay")
-    public Map<String, Object> toPay(Model model, HttpServletResponse response, HttpSession session,
+    public Map<String, Object> toPay(Model model, HttpServletRequest request, 
+            HttpServletResponse response, HttpSession session,
             @RequestBody Map<String, String> map) {
         Map<String, Object> mapReturn = new HashMap<String, Object>();
         String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
         try {
             String orderNo = map.get("orderNo");
+            // 验证是不是输入了正确的验证码
+            String responseas = map.get("jcaptchaCode");
+            boolean isResponseCorrect = JCaptcha.validateResponse(request, responseas);
+            if (!isResponseCorrect) {
+                // 如果验证不正确则返回消息
+                mapReturn.put("flgMsg", "1");
+                mapReturn.put("isException", true);
+                return mapReturn;
+            }
             
             TPowderOrder tPowderOrder = powderService.getTPowderOrderByOrderNo(orderNo);
             // 优先更新付款方式
@@ -417,6 +435,10 @@ public class MilkPowderAutoPurchaseController extends BaseController {
             powderService.updatePowderOrder(tPowderOrder);
             logger.error("信用卡付款，优先更新付款方式和付款状态=2(付款进行中)。订单号为：" + orderNo);
             BigDecimal amount = tPowderOrder.getSumAmount();
+            TSysConfig sysconfig = sysConfigService.getTSysConfigInRealTime();
+            if (sysconfig != null && sysconfig.getMasterCardFee() != null) {
+                amount = amount.add(amount.multiply(sysconfig.getMasterCardFee()).setScale(2, BigDecimal.ROUND_HALF_UP));
+            }
             Map<String, String> payMap = new HashMap<String, String>();
             payMap.put("vpc_Version", MessageUtils.getApplicationMessage("vpc_Version", session));
             payMap.put("vpc_Command", MessageUtils.getApplicationMessage("vpc_Command", session));

@@ -18,12 +18,14 @@
     <result column="messageFee" property="messageFee" jdbcType="DECIMAL" />
     <result column="remarkFee" property="remarkFee" jdbcType="DECIMAL" />
     <result column="discountrate" property="discountrate" jdbcType="DECIMAL" />
+    <result column="masterCardFee" property="masterCardFee" jdbcType="DECIMAL" />
+    
   </resultMap>
   <sql id="Base_Column_List" >
     no, goodssearchkey1, goodssearchvalue1, goodssearchkey2, goodssearchvalue2, goodssearchkey3, goodssearchvalue3, toppageadpic, 
     contactservice, shoppercooperation, aboutus, levelsumamount, pointcalcamount, 
     messageFee,remarkFee,
-    discountrate
+    discountrate,masterCardFee
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 

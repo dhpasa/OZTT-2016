@@ -76,6 +76,17 @@
 		<url-pattern>/servlet/Upload</url-pattern>
 	</servlet-mapping>
 	
+	<filter>
+		<filter-name>JCaptchaFilter</filter-name>
+		<filter-class>
+			com.org.oztt.base.shiro.JCaptcha.JCaptchaFilter
+		</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>JCaptchaFilter</filter-name>
+		<url-pattern>/jcaptcha.jpg</url-pattern>
+	</filter-mapping>
+	
 	<!--start 静态资源不进行过滤 -->
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>

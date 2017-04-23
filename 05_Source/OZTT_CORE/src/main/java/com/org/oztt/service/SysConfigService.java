@@ -33,4 +33,10 @@ public interface SysConfigService {
 	public void update(OzTtAdScDto ozTtAdScDto);
 	
 	public TSysConfig getTSysConfig();
+	
+	/**
+	 * 实时获取数据
+	 * @return
+	 */
+	public TSysConfig getTSysConfigInRealTime();
 }
