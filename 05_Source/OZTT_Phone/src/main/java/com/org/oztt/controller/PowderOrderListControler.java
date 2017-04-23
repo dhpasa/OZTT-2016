@@ -6,6 +6,7 @@ package com.org.oztt.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -38,11 +39,13 @@ import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.entity.TCustomerBasicInfo;
 import com.org.oztt.entity.TPowderOrder;
 import com.org.oztt.entity.TReceiverInfo;
+import com.org.oztt.entity.TSysConfig;
 import com.org.oztt.formDto.PowderBoxInfo;
 import com.org.oztt.formDto.PowderOrderInfo;
 import com.org.oztt.service.CustomerService;
 import com.org.oztt.service.OrderService;
 import com.org.oztt.service.PowderService;
+import com.org.oztt.service.SysConfigService;
 
 /**
  * @author la-lin
@@ -60,6 +63,9 @@ public class PowderOrderListControler extends BaseController {
 
     @Resource
     private OrderService    orderService;
+    
+    @Resource
+    private SysConfigService sysConfigService;
 
     @RequestMapping(value = "/init", method = RequestMethod.GET)
     public String orders(Model model, HttpServletRequest request) throws Exception {
@@ -136,6 +142,12 @@ public class PowderOrderListControler extends BaseController {
             TPowderOrder detail = powderService.getTPowderOrderByOrderNo(orderId);
             String amount = detail.getSumAmount().toString();
             model.addAttribute("amount", amount);
+            TSysConfig sysconfig = sysConfigService.getTSysConfigInRealTime();
+            
+            if (sysconfig != null && sysconfig.getMasterCardFee() != null) {
+                model.addAttribute("amount",detail.getSumAmount().add(detail.getSumAmount().multiply(sysconfig.getMasterCardFee()).setScale(2, BigDecimal.ROUND_HALF_UP)).toString());
+            }
+            
             model.addAttribute("leftTime", DateFormatUtils.getTimeBetNowACreate(detail.getUpdTimestamp()));
             return "paymentPowderOrder";
         }

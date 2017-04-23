@@ -37,6 +37,8 @@ public class TSysConfig implements Serializable {
     private BigDecimal remarkFee;
     
     private BigDecimal discountrate;
+    
+    private BigDecimal masterCardFee;
 
 	public Long getNo() {
 		return no;
@@ -164,6 +166,14 @@ public class TSysConfig implements Serializable {
 
     public void setRemarkFee(BigDecimal remarkFee) {
         this.remarkFee = remarkFee;
+    }
+
+    public BigDecimal getMasterCardFee() {
+        return masterCardFee;
+    }
+
+    public void setMasterCardFee(BigDecimal masterCardFee) {
+        this.masterCardFee = masterCardFee;
     }
 
 }

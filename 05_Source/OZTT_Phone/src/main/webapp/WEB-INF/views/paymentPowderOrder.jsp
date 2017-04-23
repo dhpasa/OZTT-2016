@@ -40,7 +40,8 @@
 					"vpc_CardNum":$("#vpc_CardNum").val(),
 					"vpc_CardExp":$("#vpc_CardExp").val(),
 					"vpc_CardSecurityCode":$("#vpc_CardSecurityCode").val(),
-					"orderNo":$("#orderNo").val()
+					"orderNo":$("#orderNo").val(),
+					"jcaptchaCode":$("#jcaptchaCodeInput").val()
 			}
 	  		$.ajax({
 				type : "POST",
@@ -58,7 +59,12 @@
 						}, 1000);
 					} else {
 						// 付款失败
-						createErrorInfoDialog('<fmt:message key="E0021"/>');
+						if (data.flgMsg == "1") {
+							createErrorInfoDialog('<fmt:message key="E0028"/>');
+						} else {
+							createErrorInfoDialog('<fmt:message key="E0021"/>');
+						}
+						
 					}
 					
 				},
@@ -173,6 +179,11 @@
         <div class="input-password">
             <input class="txt-input" type="text" autocomplete="off" placeholder="Card Security Code (CSC)" id="vpc_CardSecurityCode" onchange="checkShowBtn()">
         </div>
+        <div class="input-password">
+        	<input type="text" name="jcaptchaCode" id="jcaptchaCodeInput" class="txt-input" style="width:200px;height:3rem;" placeholder="Verify Code" > 
+			<img class="jcaptcha-btn jcaptcha-img" style="height:3rem;margin-top:-5px"
+				src="${pageContext.request.contextPath}/jcaptcha.jpg" >
+		</div>
         
         <div class="errormsg">
 			<span id="errormsg"></span>
@@ -200,6 +211,9 @@
 		$('.payment_cuntdown').startOtherTimer({
     		
     	});
+		$(".jcaptcha-btn").click(function() {
+	        $(".jcaptcha-img").attr("src", '${pageContext.request.contextPath}/jcaptcha.jpg?'+new Date().getTime());
+	    });
 	</script>
 </body>
 <!-- END BODY -->
