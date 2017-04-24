@@ -489,6 +489,10 @@ public class PowderServiceImpl extends BaseService implements PowderService {
                     // 速品物流
                     dpOperation = new DeliveryPicOperation(s + "/supin.properties");
                 }
+                else if (CommonConstants.EXPRESS_XINGSUDI.equals(boxInfo.getDeliverId())) {
+                    // 速品物流
+                    dpOperation = new DeliveryPicOperation(s + "/xingsudi.properties");
+                }
                 String eleExpressUrl = "";
                 if (dpOperation != null) {
                     HashMap<String, Integer> products = new HashMap<String, Integer>();
