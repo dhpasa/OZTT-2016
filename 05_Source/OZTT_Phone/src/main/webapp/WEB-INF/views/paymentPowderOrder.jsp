@@ -64,6 +64,7 @@
 						} else {
 							createErrorInfoDialog('<fmt:message key="E0021"/>');
 						}
+						$(".jcaptcha-img").attr("src", '${pageContext.request.contextPath}/jcaptcha.jpg?'+new Date().getTime());
 						
 					}
 					

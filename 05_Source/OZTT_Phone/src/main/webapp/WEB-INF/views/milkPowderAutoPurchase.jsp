@@ -1066,12 +1066,14 @@
 		$("#vpc_CardNum").val('');
 		$("#vpc_CardExp").val('');
 		$("#vpc_CardSecurityCode").val('');
+		$("#jcaptchaCodeInput").val('');
 	}
 	
 		function checkShowBtn(){
   			if ($("#vpc_CardNum").val() == "" || 
   					$("#vpc_CardExp").val() == "" || 
-  					$("#vpc_CardSecurityCode").val() == ""){
+  					$("#vpc_CardSecurityCode").val() == "" ||
+  					$("#jcaptchaCodeInput").val() == ""){
   				$("#payBtn").css({
   					"background" : "#D4D4D4",
   				});
@@ -1119,6 +1121,7 @@
 						} else{
 							createErrorInfoDialog('<fmt:message key="E0021"/>');
 						}
+						$(".jcaptcha-img").attr("src", '${pageContext.request.contextPath}/jcaptcha.jpg?'+new Date().getTime());
 						
 						$("#payBtn").attr("onclick", "toPay()");
 					}
