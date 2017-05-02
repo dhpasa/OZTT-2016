@@ -62,7 +62,7 @@
 						} else {
 							$("#errormsg").text(E0007);
 						}
-						
+						$(".jcaptcha-img").attr("src", '${pageContext.request.contextPath}/jcaptcha.jpg?'+new Date().getTime());
 					}
 					
 				},
