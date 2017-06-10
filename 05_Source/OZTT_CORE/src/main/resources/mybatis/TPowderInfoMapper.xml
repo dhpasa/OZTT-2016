@@ -17,10 +17,11 @@
     <result column="updPgmId" property="updPgmId" jdbcType="VARCHAR" />
     <result column="weight" property="weight" jdbcType="DECIMAL" />
     <result column="freeDeliveryParameter" property="freeDeliveryParameter" jdbcType="DECIMAL" />
+    <result column="freeDeliveryParameter2" property="freeDeliveryParameter2" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, powderNo, powderType, powderBrand, powderSpec, powderPrice, remarks, status, 
-    addTimestamp, addUserKey, updTimestamp, updUserKey, updPgmId, weight, freeDeliveryParameter
+    addTimestamp, addUserKey, updTimestamp, updUserKey, updPgmId, weight, freeDeliveryParameter, freeDeliveryParameter2
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -221,6 +222,7 @@
     a.powderPrice, 
     a.weight,
     a.freeDeliveryParameter,
+    a.freeDeliveryParameter2,
     a.remarks, 
     a.status, 
     a.addTimestamp, 

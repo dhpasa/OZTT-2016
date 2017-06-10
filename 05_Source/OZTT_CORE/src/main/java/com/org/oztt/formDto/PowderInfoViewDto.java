@@ -41,6 +41,8 @@ public class PowderInfoViewDto implements Serializable {
     private BigDecimal        weight; // 重量
     
     private BigDecimal        freeDeliveryParameter; // 包邮调整系数
+    
+    private BigDecimal        freeDeliveryParameter2; // 包邮调整系数
 
     /**
      *  
@@ -188,6 +190,14 @@ public class PowderInfoViewDto implements Serializable {
 
     public void setFreeDeliveryParameter(BigDecimal freeDeliveryParameter) {
         this.freeDeliveryParameter = freeDeliveryParameter;
+    }
+
+    public BigDecimal getFreeDeliveryParameter2() {
+        return freeDeliveryParameter2;
+    }
+
+    public void setFreeDeliveryParameter2(BigDecimal freeDeliveryParameter2) {
+        this.freeDeliveryParameter2 = freeDeliveryParameter2;
     }
 
     
