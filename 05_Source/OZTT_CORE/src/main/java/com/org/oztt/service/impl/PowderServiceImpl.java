@@ -283,10 +283,18 @@ public class PowderServiceImpl extends BaseService implements PowderService {
                         // 数量为3的时候 包邮调整系数 ,婴儿奶粉
                         sum = sum.add(tPowderInfo.getFreeDeliveryParameter());
                     }
+                    if (tPowderOrderDetails.getQuantity() == 6) {
+                        // 数量为6的时候 包邮调整系数 ,婴儿奶粉
+                        sum = sum.add(tPowderInfo.getFreeDeliveryParameter2());
+                    }
                 } else {
                     if (tPowderOrderDetails.getQuantity() == 6) {
                         // 数量为3的时候 包邮调整系数，成人奶粉
                         sum = sum.add(tPowderInfo.getFreeDeliveryParameter());
+                    }
+                    if (tPowderOrderDetails.getQuantity() == 8) {
+                        // 数量为8的时候 包邮调整系数 ,婴儿奶粉
+                        sum = sum.add(tPowderInfo.getFreeDeliveryParameter2());
                     }
                 }
                 

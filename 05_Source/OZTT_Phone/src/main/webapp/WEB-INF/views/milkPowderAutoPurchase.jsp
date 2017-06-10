@@ -417,6 +417,42 @@
 			showAllAmount('','','');
 		}
 		
+		// 判断当前的快递信息来现实奶粉装配情况
+		function reloadPowderJsonInfo(){
+			
+			var jsonTemp = JSON.parse(JSON.stringify(json));
+			var babyOriginalBoxFlg,instantOriginalBoxFlg;
+			$('.mpas_express_div').find('li').each(function(i, o){
+				if ($(o).hasClass('active')){
+					// 婴儿奶粉6罐是否显示
+					babyOriginalBoxFlg = parseFloat($(o).find('a').attr('class').split(",")[4]);
+					// 成人奶粉8罐是否显示
+					instantOriginalBoxFlg = parseFloat($(o).find('a').attr('class').split(",")[5]);
+				}
+			});
+			
+			var powderType = 0;
+			for (var j=0; j<jsonTemp.length; j++){
+				for (var k=0; k<jsonTemp[j].child.length; k++){
+					for(var i=0; i<powderList.length; i++){
+						if (powderList[i].powderBrand == jsonTemp[j].id && powderList[i].powderSpec == jsonTemp[j].child[k].id){
+							// 婴儿奶粉
+							if ("1" == powderList[i].powderType && "0" == babyOriginalBoxFlg){
+								jsonTemp[j].child[k].child.pop();
+							}
+							// 成人奶粉
+							if ("2" == powderList[i].powderType && "0" == instantOriginalBoxFlg){
+								jsonTemp[j].child[k].child.pop();
+							}
+						}
+					}
+				}
+			}
+			
+			return jsonTemp;
+		}
+		
+		
 		function bindSelectPowderEvent(str){
 			var selectArea = new MobileSelectArea();
 			var result = [];
@@ -425,7 +461,7 @@
 			});
 			selectArea.init({
 				trigger : str,
-				data : json,
+				data : reloadPowderJsonInfo(),
 				text: result,
 				value : $(str).find('input')[0].value,
 				default:0,
@@ -485,6 +521,7 @@
 				var unitweight = 0;
 				// 获取选择当前奶粉的包邮调整系数
 				var unitfreeDelivery = 0;
+				var unitfreeDelivery2 = 0; // 20170609 特殊运送方式添加的
 				// 是否是成人奶粉 1:婴儿奶粉 2:成人奶粉
 				var powderType = 0;
 				
@@ -493,6 +530,7 @@
 						unitprice = powderList[i].powderPrice;
 						unitweight = powderList[i].weight;
 						unitfreeDelivery = powderList[i].freeDeliveryParameter;
+						unitfreeDelivery2 = powderList[i].freeDeliveryParameter2;
 						powderType = powderList[i].powderType;
 						break;
 					}
@@ -514,10 +552,16 @@
 					if (number == 3) {
 						powderAmount = powderAmount + unitfreeDelivery;
 					}
+					if (number == 6) {
+						powderAmount = powderAmount + unitfreeDelivery2;
+					}
 				} else {
 					// 成人奶粉
 					if (number == 6) {
 						powderAmount = powderAmount + unitfreeDelivery;
+					}
+					if (number == 8) {
+						powderAmount = powderAmount + unitfreeDelivery2;
 					}
 				}
 				
@@ -548,7 +592,20 @@
 		}
 		
 		function reloadMoney(expressRate, babyKiloCost, instantKiloCost){
-			showAllAmount(expressRate, babyKiloCost, instantKiloCost);
+			setTimeout(
+				function(){
+					// 重新加载奶粉选择区域
+					$('.mpas_powder_div_body').html($('.hidden_select_powder').prop('outerHTML'));
+					$('.mpas_powder_div_body').find('.select_powder_div').css('display','');
+					$('.mpas_powder_div_body').find('.select_powder_div').removeClass('hidden_select_powder');
+					bindSelectPowderEvent($('.mpas_powder_div_body').find('div ul'));
+					// 监听删除事件
+					doListenDelete();
+					// 重新计算价格
+					showAllAmount(expressRate, babyKiloCost, instantKiloCost);
+				}, 100	
+			)
+			
 		}
 		
 		function getPowderType(brandId, specId){
@@ -574,6 +631,9 @@
 		var E0025 = '<fmt:message key="E0025" />';
 		var E0026 = '<fmt:message key="E0026" />';
 		
+		var E0029 = '<fmt:message key="E0029" />';
+		var E0030 = '<fmt:message key="E0030" />';
+		
 		function submitBoxInfo(){
 			// 保存或者更新数据到总计的画面
 			var powderBoxIndex = $("#powder_box_index").val();
@@ -597,6 +657,9 @@
 			var allNumber = 0;
 			var powderType = "";
 			var powdeIsTrue = true;
+			// 是否是单一奶粉
+			var isSinglePowder = true;
+			var brandIdAndSpecIdForCheckSingle = null; 
 			$('.mpas_powder_div_body').find('.select_powder_div').each(function(i, o){
 				var selectStr = $(o).find('input')[0].value;
 				var selectNameStr = "";
@@ -611,6 +674,12 @@
 				var brandId = $(o).find('input')[0].value.split(',')[0];
 				var specId = $(o).find('input')[0].value.split(',')[1];
 				var number = $(o).find('input')[0].value.split(',')[2];
+				
+				if (brandIdAndSpecIdForCheckSingle != null && brandIdAndSpecIdForCheckSingle != (brandId + "," + specId)) {
+					isSinglePowder = false;
+				}
+				brandIdAndSpecIdForCheckSingle = (brandId + "," + specId);
+				
 // 				if (number == 0) {
 // 					$('#errormsg_content').text(E0019);
 // 		  			$('#errormsg-pop-up').modal('show');
@@ -650,26 +719,40 @@
 				// 婴儿奶粉最多3罐，成人奶粉最多6罐
 				if (powderType == "1") {
 					// 婴儿奶粉
-					if (allNumber > 3) {
-						// 混装的情况
+					if (allNumber > 6) {
+						// 超额的情况
 						$('#errormsg_content').text(E0025);
 			  			$('#errormsg-pop-up').modal('show');
 			  			powdeIsTrue = false;
 						return;
+					} else if (allNumber == 6) {
+						if (!isSinglePowder){
+							$('#errormsg_content').text(E0029);
+				  			$('#errormsg-pop-up').modal('show');
+				  			powdeIsTrue = false;
+							return;
+						}
 					}
 					
 				} else if (powderType == "2") {
 					// 成人奶粉
-					if (allNumber > 6) {
-						// 混装的情况
+					if (allNumber > 8) {
+						// 超额的情况
 						$('#errormsg_content').text(E0026);
 			  			$('#errormsg-pop-up').modal('show');
 			  			powdeIsTrue = false;
 						return;
+					} else if (allNumber == 8) {
+						if (!isSinglePowder){
+							$('#errormsg_content').text(E0030);
+				  			$('#errormsg-pop-up').modal('show');
+				  			powdeIsTrue = false;
+							return;
+						}
 					}
 				}
+				
 			}
-			
 			
 			if (!powdeIsTrue) {
 				return;
@@ -1240,7 +1323,7 @@
 				<c:forEach var="expressList" items="${ ExpressList }" varStatus="status">
 					<li <c:if test="${status.index == 0}">class="active"</c:if>>
 						<a onclick="reloadMoney('${expressList.priceCoefficient }','${expressList.babyKiloCost }','${expressList.instantKiloCost }');return false;" data-toggle="tab" 
-						class="${expressList.id },${expressList.priceCoefficient },${expressList.babyKiloCost },${expressList.instantKiloCost }">
+						class="${expressList.id },${expressList.priceCoefficient },${expressList.babyKiloCost },${expressList.instantKiloCost },${expressList.babyOriginalBoxFlg },${expressList.instantOriginalBoxFlg }">
 						${expressList.expressName }
 						</a>
 					</li>
