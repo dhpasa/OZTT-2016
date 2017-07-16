@@ -66,5 +66,20 @@ public interface CommonService {
      */
     public List<MyMap> getSuburbList() throws Exception;
     
+    /**
+     * 通过分类ID获取自分类的项目
+     * @param categoryId
+     * @return
+     * @throws Exception
+     */
+    public List<MyCategroy> getSubCategory(String categoryId) throws Exception;
+    
+    /**
+     * 获取首页的分类项目
+     * @return
+     * @throws Exception
+     */
+    public List<MyCategroy> getMainCategory() throws Exception;
+    
 
 }

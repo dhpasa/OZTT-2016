@@ -1,8 +1,9 @@
 package com.org.oztt.controller.main;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -15,15 +16,19 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.org.oztt.base.common.MyCategroy;
 import com.org.oztt.base.page.Pagination;
 import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.controller.BaseController;
-import com.org.oztt.entity.TCustomerMemberInfo;
 import com.org.oztt.entity.TSysConfig;
+import com.org.oztt.formDto.GoodItemDto;
 import com.org.oztt.formDto.GroupItemDto;
+import com.org.oztt.formDto.MainCategoryDto;
 import com.org.oztt.service.CustomerService;
 import com.org.oztt.service.GoodsService;
 import com.org.oztt.service.SysConfigService;
@@ -50,13 +55,43 @@ public class MainController extends BaseController {
     @RequestMapping(value = "init", method = RequestMethod.GET)
     public String gotoMain(Model model, HttpSession session) {
         try {
-            // 获取目录
-            //List<MyCategroy> myCategroyList = super.commonService.getMyCategroy();
-            //List<String> tabList = goodsService.getMainSearchTab();
             String imgUrl = super.getApplicationMessage("saveImgUrl", session);
             model.addAttribute("imgUrl", imgUrl);
-            // 获取秒杀的商品
-            Pagination pagination = new Pagination(1, Integer.parseInt(CommonConstants.MAIN_TOPPAGE_LIST));
+
+
+            TSysConfig tSysConfig = sysConfigService.getTSysConfig();
+            String pageAllPic = tSysConfig.getToppageadpic();
+            if (!StringUtils.isEmpty(pageAllPic)) {
+                model.addAttribute("advPicList", Arrays.asList(pageAllPic.split(",")));
+            }
+            
+            List<MyCategroy> categoryList = commonService.getMainCategory();
+            
+            // 将所有的分区整合成一个数据集
+            List<MainCategoryDto> groupItemPageList = new ArrayList<MainCategoryDto>();
+            
+            for (MyCategroy category : categoryList) {
+                Pagination pagination = new Pagination(1, Integer.parseInt(CommonConstants.MAIN_GOODS_LIST));
+                HashMap<Object, Object> params = new HashMap<Object, Object>();
+                params.put("categoryList", super.commonService.getSubCategory(category.getFatherClass().getClassid()));
+                pagination.setParams(params);
+                PagingResult<GroupItemDto> goodsCategoryList = goodsService.getGoodsByParamForPageFor3(pagination);
+                if (!CollectionUtils.isEmpty(goodsCategoryList.getResultList())) {
+                    for (GroupItemDto goods : goodsCategoryList.getResultList()) {
+                        goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT
+                                + goods.getGoodsthumbnail());
+                    }
+                }
+                MainCategoryDto mainCategoryDto = new MainCategoryDto();
+                mainCategoryDto.setMyCategroy(category);
+                mainCategoryDto.setGroupItemDtoList(goodsCategoryList.getResultList());
+                groupItemPageList.add(mainCategoryDto);
+            }
+            
+            model.addAttribute("mainCategoryList", groupItemPageList);
+            
+            //本期团购topPageUp
+            Pagination pagination = new Pagination(1, Integer.parseInt(CommonConstants.MAIN_GOODS_LIST));
             Map<Object, Object> params = new HashMap<Object, Object>();
             params.put("topPageUp", "1");
             pagination.setParams(params);
@@ -66,110 +101,30 @@ public class MainController extends BaseController {
                 for (GroupItemDto goods : topPageGoodsList.getResultList()) {
                     goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT
                             + goods.getGoodsthumbnail());
-                    goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
-                    goods.setCountdownDay(DateFormatUtils.getBetweenDayTime(goods.getValidEndTime()));
-
-                    goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods
-                            .getGroupMax()) ? CommonConstants.OVER_GROUP_YES : CommonConstants.OVER_GROUP_NO);
-
-                    if (new BigDecimal(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()))
-                            .compareTo(BigDecimal.ZERO) <= 0) {
-                        goods.setIsOverGroup(CommonConstants.OVER_GROUP_YES);
-                    }
-                    // 商品的名称显示限购数量
-                    goods.setGoodsname(goods.getGoodsname()
-                            + super.getPageMessage("COMMON_LIMIT_QUANTITY_TEXT", session).replace(
-                                    CommonConstants.MESSAGE_PARAM_ONE, goods.getGroupQuantityLimit()));
                 }
             }
             model.addAttribute(
                     "topPageSellList",
                     (topPageGoodsList == null || topPageGoodsList.getResultList() == null) ? null : topPageGoodsList
                             .getResultList());
-
-            // 预售
+            
+            //新品推荐hotFlg 
             pagination = new Pagination(1, Integer.parseInt(CommonConstants.MAIN_GOODS_LIST));
             params = new HashMap<Object, Object>();
-            params.put("preFlg", "1");
+            params.put("hotFlg", "1");
             pagination.setParams(params);
-            PagingResult<GroupItemDto> pageInfoPre = goodsService.getGoodsByParamForPage(pagination, session);
-            if (!CollectionUtils.isEmpty(pageInfoPre.getResultList())) {
-                for (GroupItemDto goods : pageInfoPre.getResultList()) {
+            PagingResult<GroupItemDto> hotFlgGoodsList = goodsService.getGoodsByParamForPage(pagination, session);
+
+            if (!CollectionUtils.isEmpty(hotFlgGoodsList.getResultList())) {
+                for (GroupItemDto goods : hotFlgGoodsList.getResultList()) {
                     goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT
                             + goods.getGoodsthumbnail());
-                    goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
-                    goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods
-                            .getGroupMax()) ? CommonConstants.OVER_GROUP_YES : CommonConstants.OVER_GROUP_NO);
-                    // 判断团购开始是否已经到
-                    if (goods.getValidStartTime().compareTo(DateFormatUtils.getCurrentDate()) > 0) {
-                        goods.setIsOnWay(CommonConstants.IS_ON_WAY);
-                    }
                 }
             }
-            model.addAttribute("preSellList", (pageInfoPre == null || pageInfoPre.getResultList() == null) ? null
-                    : pageInfoPre.getResultList());
-
-            // 现货
-            pagination = new Pagination(1, Integer.parseInt(CommonConstants.MAIN_GOODS_LIST));
-            params = new HashMap<Object, Object>();
-            params.put("inStockFlg", "1");
-            pagination.setParams(params);
-            PagingResult<GroupItemDto> pageInfoNow = goodsService.getGoodsByParamForPage(pagination, session);
-            if (!CollectionUtils.isEmpty(pageInfoNow.getResultList())) {
-                for (GroupItemDto goods : pageInfoNow.getResultList()) {
-                    goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT
-                            + goods.getGoodsthumbnail());
-                    goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
-                    goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods
-                            .getGroupMax()) ? CommonConstants.OVER_GROUP_YES : CommonConstants.OVER_GROUP_NO);
-                    // 判断团购开始是否已经到
-                    if (goods.getValidStartTime().compareTo(DateFormatUtils.getCurrentDate()) > 0) {
-                        goods.setIsOnWay(CommonConstants.IS_ON_WAY);
-                    }
-                }
-            }
-            model.addAttribute("nowSellList", (pageInfoNow == null || pageInfoNow.getResultList() == null) ? null
-                    : pageInfoNow.getResultList());
-
-            // 钻石用户区
-            Object customerNo = session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
-            if (!StringUtils.isEmpty(customerNo)) {
-                TCustomerMemberInfo memberInfo = customerService.getCustomerMemberInfo(customerNo.toString());
-                if (memberInfo != null) {
-                    model.addAttribute(CommonConstants.SESSION_DIAMOND_CUSTOMER, memberInfo.getLevel());
-
-                    // 钻石分区
-                    pagination = new Pagination(1, Integer.parseInt(CommonConstants.MAIN_GOODS_LIST));
-                    params = new HashMap<Object, Object>();
-                    params.put("diamondShowFlg", "1");
-                    pagination.setParams(params);
-                    PagingResult<GroupItemDto> pageInfoDiamond = goodsService.getGoodsByParamForPage(pagination,
-                            session);
-                    if (!CollectionUtils.isEmpty(pageInfoDiamond.getResultList())) {
-                        for (GroupItemDto goods : pageInfoDiamond.getResultList()) {
-                            goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT
-                                    + goods.getGoodsthumbnail());
-                            goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
-                            goods.setIsOverGroup(Integer.valueOf(goods.getGroupCurrent()) >= Integer.valueOf(goods
-                                    .getGroupMax()) ? CommonConstants.OVER_GROUP_YES : CommonConstants.OVER_GROUP_NO);
-                            // 判断团购开始是否已经到
-                            if (goods.getValidStartTime().compareTo(DateFormatUtils.getCurrentDate()) > 0) {
-                                goods.setIsOnWay(CommonConstants.IS_ON_WAY);
-                            }
-                        }
-                    }
-                    model.addAttribute("diamondSellList",
-                            (pageInfoDiamond == null || pageInfoDiamond.getResultList() == null) ? null
-                                    : pageInfoDiamond.getResultList());
-                }
-
-            }
-
-            TSysConfig tSysConfig = sysConfigService.getTSysConfig();
-            String pageAllPic = tSysConfig.getToppageadpic();
-            if (!StringUtils.isEmpty(pageAllPic)) {
-                model.addAttribute("advPicList", Arrays.asList(pageAllPic.split(",")));
-            }
+            model.addAttribute(
+                    "hotFlgSellList",
+                    (hotFlgGoodsList == null || hotFlgGoodsList.getResultList() == null) ? null : hotFlgGoodsList
+                            .getResultList());
 
             // 获取session中的值
             model.addAttribute(CommonConstants.SESSION_CUSTOMERNO,
@@ -184,8 +139,64 @@ public class MainController extends BaseController {
             logger.error("message", e);
             return CommonConstants.ERROR_PAGE;
         }
-
     }
+    
+    
+    /**
+     * 得到团购产品信息
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/searchJson")
+    @ResponseBody
+    public Map<String, Object> searchJson(HttpServletRequest request, HttpSession session, String searchcontent) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+
+            Pagination pagination = new Pagination(1, Integer.parseInt(CommonConstants.MAIN_LIST_COUNT));
+            Map<Object, Object> params = new HashMap<Object, Object>();
+            params.put("goodsName", searchcontent);
+            
+            pagination.setParams(params);
+            PagingResult<GroupItemDto> pageInfo = goodsService.getGoodsByParamForPage(pagination, session);
+
+            if (!CollectionUtils.isEmpty(pageInfo.getResultList())) {
+                for (GroupItemDto goods : pageInfo.getResultList()) {
+                    goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT
+                            + goods.getGoodsthumbnail());
+                }
+            }
+
+            // 后台维护的时候提示让以逗号隔开
+            mapReturn.put("itemInfo", (pageInfo == null || pageInfo.getResultList() == null) ? null : pageInfo
+                    .getResultList());
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error("message", e);
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     /**
      * 显示商品更多的信息

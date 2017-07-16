@@ -96,34 +96,6 @@
 			
 		});
 		
-		$('.valuemius').click(function(){
-			var curObj = $(this).parent().parent().find('.txt').find("input[type='text']")[0];
-			var currentqty = $(this).parent().parent().find('.txt').find("input[type='text']").val();
-			if (currentqty == 1) {
-				return;
-			} else {
-				$(this).parent().parent().find('.txt').find("input[type='text']").val(currentqty - 1);
-				addShopCart($(this).parent().parent().find("input[type='hidden']")[0].value, currentqty, false, curObj, -1);
-				$(this).parent().parent().find('.txt').find("input[type='text']").defaultValue = currentqty - 1;
-				
-				canBuyAndShowAllMoney();
-			}
-			
-			
-		});
-		
-		$('.valueplus').click(function(){
-			var curObj = $(this).parent().parent().find('.txt').find("input[type='text']")[0];
-			var currentqty = $(this).parent().parent().find('.txt').find("input[type='text']").val();
-			if (currentqty == 9999) {
-				return;
-			} else {
-				$(this).parent().parent().find('.txt').find("input[type='text']").val(parseFloat(currentqty) + 1);
-				addShopCart($(this).parent().parent().find("input[type='hidden']")[0].value, parseFloat(currentqty) + 1, true, curObj, 1);
-				$(this).parent().parent().find('.txt').find("input[type='text']").defaultValue = parseFloat(currentqty) + 1;
-				canBuyAndShowAllMoney();
-			}
-		});
 		
 		
 		$('.buy-check-icon').click(function(){
@@ -424,25 +396,242 @@
 	
 </script>
 <style type="text/css">
-body {
-	    color: #3e4d5c;
-	    direction: ltr;
-	    font: 400 13px 'Open Sans', Arial, sans-serif;
-	    background: #f9f9f9;
-	    overflow-x: hidden;
-	    padding-bottom: 9.5rem;
-	}
 
-
-#surebuy{
-	background: #D4D4D4;
-}
 </style>
 </head>
 
 <!-- Body BEGIN -->
 <body>
-	<div class="x-header x-header-gray border-1px-bottom">
+    <!--头部开始-->
+<div class="head_fix">
+    <div class="head user_head clearfix">
+        <a href="javascript:history.back(-1)" class="head_back"></a>
+        购物车
+        <div class="daohang">
+    <em></em>
+    <ul class="daohang_yin">
+        <span class="sj"></span>
+        <li>
+            <a href="/Mobile" class="clearfix">
+                <img src="${ctx}/images/head_menu_shouye.png" /> 首页
+            </a>
+        </li>
+        <li>
+            <a href="/Mobile/Category" class="clearfix">
+                <img src="${ctx}/images/head_menu_fenlei.png" /> 分类
+            </a>
+        </li>
+        <li>
+            <a href="/Mobile/User" class="clearfix">
+                <img src="${ctx}/images/head_menu_zhanghu.png" /> 我的账户
+            </a>
+        </li>
+        <li>
+            <a href="/Mobile/Order?orderStatus=0" class="clearfix">
+                <img src="${ctx}/images/head_menu_dingdan.png" /> 我的订单
+            </a>
+        </li>
+    </ul>
+</div>
+    </div>
+</div>
+
+
+<div class="main car_main">
+        <!--内容开始-->
+        <div class="clearfix car_top">
+            <div class="checkboxFive left">
+                <input type="checkbox" id="checkboxInputTop" name="checkname">
+                <label for="checkboxInputTop"></label>
+            </div>
+            <span class="left">全选</span>
+        </div>   
+			<ul class="car_ul">
+					<c:forEach var="cart" items="${ cartsList }" varStatus="status">
+                    <li data-id="${cart.groupId }">
+                        <div class="car_li">
+                            <input data-val="true" id="Items_0__ProductId" name="Items[0].ProductId" type="hidden" value="${cart.groupId }" />
+                            <div class="car_li_checkbox">
+                                <div class="checkboxFive car_check">
+                                    <input productid="${cart.groupId }" data-val="true" id="checkbox191" type="checkbox" value="value="${cart.groupId }"">
+                                    <label productid="${cart.groupId }" for="labelCheck"> </label> 
+                                </div>
+                            </div>
+                            <div class="car_li_con clearfix">
+                                <div class="car_li_img left">
+                                    <a href="/Mobile/Product/a2-step-3-900g" class="left car_pro">
+                                        <img src="${cart.goodsImage }" />
+                                    </a>
+                                </div>
+                                <div class="right car_li_con_rt">
+                                    <p class="car_li_tl">
+                                        <a href="/Mobile/Product/a2-step-3-900g" data-outstock="False" class="stockstatus">
+                                            ${cart.goodsName }
+                                        </a>
+                                    </p>
+                                    <div class="clearfix car_li_do">
+                                        <span class="left color_red">$${cart.goodsPrice }</span>
+                                        <div class="right clearfix">
+                                            <div class="clearfix sum left">
+                                                <a data-id="${cart.groupId }" class="min left"></a>
+                                                <input class="text_box left text-box single-line" pattern="[0-9]*" id="itemNumber" maxlength="2" size="4" type="text" value="${cart.goodsQuantity }" />
+                                                <a data-id="${cart.groupId }" class="add left"></a>
+                                                <input type="hidden" value="${cart.groupId }" />
+                                            </div>
+                                            <em class="left dele" data-id="${cart.groupId }"></em>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    </c:forEach>
+            </ul>
+		<div class="clearfix car_result">
+            <p>选中商品：<span id="item_count"></span> 件</p>
+            <!-- <p>邮寄总重：<span id="item_weight"></span> kg</p> -->
+        </div>
+        <!--结算-->
+        <div class="jiesuan clearfix">
+            <div class="left jiesuan_lf">
+                <div class="jiesuan_xuan clearfix">
+                    <div class="left checkboxFive">
+                        <input type="checkbox" id="checkboxInputBottom" name="checkname">
+                        <label for="checkboxInputBottom"></label>
+                    </div>
+                    <span class="left">全选</span>
+                </div>
+                <div class="jiesuan_mess">
+                    总计：AU$ <span id="totalPrice" class="color_red">155.80</span><br />
+                    不含运费
+                </div>
+            </div>
+            <input form="cart_form" id="cart_input" type="submit" value="去结算" class="right btn_blue jiesuanbtn">
+        </div>
+
+</div>
+
+    <!--弹窗开始-->
+<div class="clearfix" style="margin-bottom: 100px;" id="outsideAlertView">
+    <div class="verify out_alert alert">
+        <div class="alert_btn">
+            <b><a href="javascript:void(0)" id="alertConfirm" class="verify_btn color_red"></a></b>
+        </div>
+    </div>
+    <!--加载中-->
+    <div class="alert_bg"></div>
+    <div class="loading">
+        <div class="loading_con">
+            <img src="/Areas/Mobile/images/loading.png" />
+            <p>
+                玩命加载中……
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="out_alert alert" id="deleteAlert">
+    <p class="alert_tl">确认删除</p>
+    <div class="alert_text">
+        是否从购物车删除该产品？
+    </div>
+    <div class="alert_btn">
+        <a href="javascript:void(0);" class="quxiao" id="delCancel">取消</a>
+        <a href="javascript:void(0);" id="delConfirm" class="btn_red">删除</a>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+var delProductId;
+
+$(document).ready(function () {
+    
+
+    $("a.min").click(function () {
+    	var curObj = $(this).parent().find("input[type='text']")[0];
+		var currentqty = $(this).parent().find("input[type='text']").val();
+		if (currentqty == 1) {
+			return;
+		} else {
+			$(this).parent().find("input[type='text']").val(currentqty - 1);
+			addShopCart($(this).parent().find("input[type='hidden']")[0].value, currentqty, false, curObj, -1);
+			$(this).parent().find("input[type='text']").defaultValue = currentqty - 1;
+			
+			//canBuyAndShowAllMoney();
+		}
+    });
+
+    $("a.add").click(function () {
+    	var curObj = $(this).parent().find("input[type='text']")[0];
+		var currentqty = $(this).parent().find("input[type='text']").val();
+		if (currentqty == 9999) {
+			return;
+		} else {
+			$(this).parent().find("input[type='text']").val(parseFloat(currentqty) + 1);
+			addShopCart($(this).parent().find("input[type='hidden']")[0].value, parseFloat(currentqty) + 1, true, curObj, 1);
+			$(this).parent().find("input[type='text']").defaultValue = parseFloat(currentqty) + 1;
+			//canBuyAndShowAllMoney();
+		}
+    });
+   
+
+    $('.text_box.left').change(function () {
+    	checkGoodsNum(this);
+    });
+    
+
+    $(".dele").click(function () {
+        delProductId = $(this).attr("data-id");
+        $(".alert").show();
+        $(".alert_bg").show();
+    });
+
+    $("#delCancel").click(function () {
+        $(".alert").hide();
+        $(".alert_bg").hide();
+    });
+
+    $("#delConfirm").click(function () {
+        $.ajax({
+            url: "/Mobile/Purchase/DeleteCartItem",
+            type: "POST",
+        	data: { itemId: delProductId },
+            success: function (data) {
+                location.reload();
+                /*$("div[data-id=" + delProductId + "]").hide();
+                $("#del").toggle();
+                $(".heibg").toggle();*/
+            }
+        });
+    });
+    
+    // 两个全选
+    $("label[for=checkboxInputTop]").click(function () {
+        var checked = $("input[id=checkboxInputTop]").prop("checked");
+        updateCheckedProducts(checked);
+        $("input[id=checkboxInputTop]").prop("checked", checked);
+    });
+
+    $("label[for=checkboxInputBottom]").click(function () {
+        var checked = $("input[id=checkboxInputBottom]").prop("checked");
+        updateCheckedProducts(checked);
+        $("input[id=checkboxInputBottom]").prop("checked", checked);
+    });
+    
+    function updateCheckedProducts(checked)
+    {
+        $(':checkbox').each(function () {
+        	$(this).prop("checked");
+        });
+    }
+
+    
+});
+
+</script>
+
+	<%-- <div class="x-header x-header-gray border-1px-bottom">
 		<div class="x-header-btn"></div>
 		<div class="x-header-title">
 			<span>
@@ -535,7 +724,7 @@ body {
 		}
 		canBuyAndShowAllMoney();
     
-    </script>
+    </script> --%>
     
 </body>
 </html>

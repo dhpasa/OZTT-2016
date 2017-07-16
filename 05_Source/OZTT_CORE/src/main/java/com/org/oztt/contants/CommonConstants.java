@@ -151,7 +151,7 @@ public final class CommonConstants {
     public static final String     EXPRESS_SUPIN              = "4";                                    // 速品物流的ID
 
     public static final String     EXPRESS_XINGSUDI           = "5";                                    // 星速递物流的ID
-    
+
     public static final String     EXPRESS_ELE_NO             = "TT120101";                             // 物流的电子快递单号
 
     public static final String     POWDER_TYPE_BABY           = "1";                                    // 婴儿奶粉
@@ -159,5 +159,13 @@ public final class CommonConstants {
     public static final String     PAY_STATUS_ING             = "2";                                    // 支付进行中
 
     public static final String     PAYMENT_STATUS_HANDLE_ING  = "7";                                    // 微信支付完成，状态和信息变更中......
+
+    public static final int        COMMON_LIST_COUNT          = 10;                                     // 通常的一览条数
+
+    public static final String     VIEW_TOPPAGEUP             = "本期团购";                                 // 
+
+    public static final String     VIEW_HOTFLG                = "新品推荐";                                 // 
+
+    public static final String     VIEW_INSTOCKFLG            = "特价产品";                                 // 
 
 }

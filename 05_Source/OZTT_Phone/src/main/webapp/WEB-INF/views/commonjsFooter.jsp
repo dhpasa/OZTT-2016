@@ -1,55 +1,35 @@
-<!-- Load javascripts at bottom, this will reduce page load time -->
-    <!-- BEGIN CORE PLUGINS (REQUIRED FOR ALL PAGES) -->
-    <!--[if lt IE 9]>
-    <script src="${ctx}/assets/plugins/respond.min.js"></script>  
-    <![endif]-->  
-    <script src="${ctx}/assets/plugins/jquery-1.10.2.min.js" type="text/javascript"></script>
-    <script src="${ctx}/assets/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
-    <script src="${ctx}/assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>      
-    <script type="text/javascript" src="${ctx}/assets/plugins/back-to-top.js"></script>
-    <script type="text/javascript" src="${ctx}/assets/plugins/jQuery-slimScroll/jquery.slimscroll.min.js"></script>     
-    <!-- END CORE PLUGINS -->
 
-    <!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->
-    <script type="text/javascript" src="${ctx}/assets/plugins/fancybox/source/jquery.fancybox.pack.js"></script><!-- pop up -->
-    <script type="text/javascript" src="${ctx}/assets/plugins/bxslider/jquery.bxslider.min.js"></script><!-- slider for products -->
-    <script src="${ctx}/assets/plugins/bootstrap-touchspin/bootstrap.touchspin.js" type="text/javascript"></script><!-- Quantity -->
-    <script src="${ctx}/assets/plugins/rateit/src/jquery.rateit.js" type="text/javascript"></script>
-    <script type="text/javascript" src='${ctx}/assets/plugins/zoom/jquery.zoom.min.js'></script><!-- product zoom -->
+    <script type="text/javascript" src="${ctx}/js/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="${ctx}/js/jquery-ui-1.12.1.min.js"></script>
+    <script type="text/javascript" src="${ctx}/js/jquery.flexslider-min.js"></script>
+    <script type="text/javascript" src="${ctx}/js/mobileredirect.js"></script>
+    <script type="text/javascript" src="${ctx}/js/bootstrap.js"></script>
+    <script type="text/javascript" src="${ctx}/js/jquery.fly.min.js"></script>
+    <script type="text/javascript" src="${ctx}/js/functions.js"></script>
+    <script type="text/javascript" src="${ctx}/js/self.js"></script>
     
-    <script src="${ctx}/js/jquery-ui.js"></script><!-- for slider-range -->
-    <%-- <script src="${ctx}/assets/plugins/uniform/jquery.uniform.min.js" type="text/javascript" ></script>  --%>
-    
-    <script src="${ctx}/assets/plugins/bootstrap-touchspin/bootstrap.touchspin.js" type="text/javascript"></script><!-- Quantity -->
-    
-    <!-- BEGIN LayerSlider -->
-    <script src="${ctx}/assets/plugins/layerslider/jQuery/jquery-easing-1.3.js" type="text/javascript"></script>
-    <script src="${ctx}/assets/plugins/layerslider/jQuery/jquery-transit-modified.js" type="text/javascript"></script>
-    <script src="${ctx}/assets/plugins/layerslider/js/layerslider.transitions.js" type="text/javascript"></script>
-    <script src="${ctx}/assets/plugins/layerslider/js/layerslider.kreaturamedia.jquery.js" type="text/javascript"></script>
-    <!-- END LayerSlider -->
-    <script src="${ctx}/js/jquery.flexslider-min.js" type="text/javascript"></script>
-    <script src="${ctx}/js/jquery.simple.timer.js" type="text/javascript"></script>
-    <script src="${ctx}/js/jquery.timer.js" type="text/javascript"></script>
-
-    <script type="text/javascript" src="${ctx}/assets/scripts/app.js"></script>
-    <script type="text/javascript" src="${ctx}/assets/scripts/index.js"></script>
-    <script type="text/javascript" src="${ctx}/js/user-common.js"></script>
-    <script type="text/javascript" src="${ctx}/js/common_validate.js"></script>
-   <script src="${ctx}/js/bootstrap-datepicker.js" type="text/javascript"></script>
-   <script src="${ctx}/js/commonFunction.js" type="text/javascript"></script>
-   <script src="${ctx}/js/jquery.fly.min.js" type="text/javascript"></script>
-    
+    <!--Start of Tawk.to Script-->
     <script type="text/javascript">
-        jQuery(document).ready(function() {
-            App.init();    
-            App.initBxSlider();
-            App.initImageZoom();
-            App.initSliderRange();
-            App.initUniform();
-            Index.initLayerSlider();
-            App.initImageZoom();
-            App.initTouchspin();
-        });
+    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+    (function () {
+        var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+        s1.async = true;
+        s1.src = 'https://embed.tawk.to/5768107cb57c0500209794b6/1arrsi0jq';
+        s1.charset = 'UTF-8';
+        s1.setAttribute('crossorigin', '*');
+        s0.parentNode.insertBefore(s1, s0);
+    })();
     </script>
-    <!-- END PAGE LEVEL JAVASCRIPTS -->
+    <!--End of Tawk.to Script-->
+
+	<!--Start of Google Analytics Script-->
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	
+	  ga('create', 'UA-80632807-1', 'auto');
+	  ga('send', 'pageview');
+	
+	</script>

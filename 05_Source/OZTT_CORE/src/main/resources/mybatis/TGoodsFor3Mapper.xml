@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.org.oztt.dao.TGoodsDao">
+		<select id="getGoodsByParamForPageFor3" resultMap="GroupInfoMap" parameterType="map">
+		select
+		a.no, a.goodsId, a.classId, a.goodsBrand, a.goodsName, a.goodsDesc, a.goodsComments,
+		a.goodsThumbnail,
+		a.goodsSmallPic, a.goodsNormalPic, a.onSaleFlg, a.hotSaleFlg, a.newSaleFlg, 
+		c.groupPrice as  disPrice, 
+		b.priceValue as  costPrice, 
+		a.sortOrder, a.tabs,
+		a.deleteFlg, 
+		c.validPeriodStart as validStartTime,
+		c.validPeriodEnd as validEndTime,
+		c.groupMaxQuantity as groupMax,
+		IF(c.groupCurrentQuantity > c.groupMaxQuantity,c.groupMaxQuantity,c.groupCurrentQuantity) as groupCurrent,
+		c.preFlg as preLabel,
+		c.inStockFlg as inStockLabel,
+		c.hotFlg as hotLabel,
+		c.topPageUp as salesLabel,
+		c.diamondShowFlg as diamondLabel,
+		c.sellOutInitQuantity as sellOutInitQuantity,
+		c.sellOutFlg as sellOutFlg,
+		c.groupQuantityLimit as groupQuantityLimit,
+		c.groupNo
+		from t_goods_group c 
+		inner join t_goods_price b on c.goodsId = b.goodsId
+		and (b.pricePolicy = '0' and b.openFlg = '0')
+		inner join t_goods a on c.goodsId = a.goodsId
+		where a.onSaleFlg= '1'
+		and (c.openFlg = '1')
+		<if test="classId != null and classId != '' ">
+			and a.classId = #{classId,jdbcType=VARCHAR}
+		</if>
+		<if test="hotSaleFlg != null">
+			and a.hotSaleFlg = #{hotSaleFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="newSaleFlg != null">
+			and c.topPageUp = #{newSaleFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="enShowFlg != null">
+			and c.enShowFlg = #{enShowFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="goodsName != null and goodsName != '' ">
+			and a.goodsName like concat('%',#{goodsName},'%')
+		</if>
+		<if test="daySearch != null and daySearch != '' ">
+			and DATEDIFF(c.validPeriodEnd,NOW()) <![CDATA[ <= ]]> #{daySearch}
+		</if>
+		<if test="topPageUp != null">
+			and c.topPageUp = #{topPageUp,jdbcType=VARCHAR}
+		</if>
+		<if test="preFlg != null">
+			and c.preFlg = #{preFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="inStockFlg != null">
+			and c.inStockFlg = #{inStockFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="diamondShowFlg != null">
+			and c.diamondShowFlg = #{diamondShowFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="hotFlg != null">
+			and c.hotFlg = #{hotFlg,jdbcType=VARCHAR}
+		</if>
+		order by c.sortOrder desc,
+		<if test="mode == 1 ">
+			c.groupCurrentQuantity desc,
+		</if>
+		<if test="mode == 2 ">
+			c.groupNo desc,
+		</if>
+		<if test="mode == 3 ">
+			c.groupPrice,
+		</if>
+		<if test="mode == 4 ">
+			a.classId,
+		</if>
+		c.addTimestamp desc
+		<!-- c.validPeriodEnd, c.groupNo -->
+	</select>
+	
+	<select id="getGoodsByParamForPageCountFor3" resultType="int" parameterType="map">
+		SELECT count(1)
+		from t_goods_group c 
+		inner join t_goods_price b on c.goodsId = b.goodsId
+		and (b.pricePolicy = '0' and b.openFlg = '0')
+		inner join t_goods a on c.goodsId = a.goodsId
+		where a.onSaleFlg= '1'
+		and (c.openFlg = '1')
+		<if test="classId != null and classId != '' ">
+			and classId = #{classId,jdbcType=VARCHAR}
+		</if>
+		<if test="hotSaleFlg != null">
+			and a.hotSaleFlg = #{hotSaleFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="newSaleFlg != null">
+			and c.topPageUp = #{newSaleFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="goodsName != null and goodsName != '' ">
+			and a.goodsName like concat('%',#{goodsName},'%')
+		</if>
+		<if test="daySearch != null and daySearch != '' ">
+			and DATEDIFF(c.validPeriodEnd,NOW()) <![CDATA[ <= ]]> #{daySearch}
+		</if>
+		<if test="topPageUp != null">
+			and c.topPageUp = #{topPageUp,jdbcType=VARCHAR}
+		</if>
+		<if test="enShowFlg != null">
+			and c.enShowFlg = #{enShowFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="preFlg != null">
+			and c.preFlg = #{preFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="inStockFlg != null">
+			and c.inStockFlg = #{inStockFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="diamondShowFlg != null">
+			and c.diamondShowFlg = #{diamondShowFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="hotFlg != null">
+			and c.hotFlg = #{hotFlg,jdbcType=VARCHAR}
+		</if>
+	</select>
+</mapper>

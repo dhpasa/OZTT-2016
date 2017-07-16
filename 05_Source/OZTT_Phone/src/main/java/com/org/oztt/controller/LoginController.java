@@ -106,12 +106,11 @@ public class LoginController extends BaseController {
      * @param session
      * @return
      */
-    @RequestMapping("logout")
-    @ResponseBody
+    @RequestMapping("/logout")
     public String logout(Model model, HttpServletRequest request, HttpSession session) {
         session.removeAttribute(CommonConstants.SESSION_CUSTOMERNO);
         session.removeAttribute(CommonConstants.SESSION_CUSTOMERNAME);
         session.invalidate();
-        return null;
+        return "redirect:/login/init";
     }
 }

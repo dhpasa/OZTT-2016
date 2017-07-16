@@ -119,4 +119,10 @@ public class TGoodsDaoImpl extends BaseDao implements TGoodsDao {
         return select("com.org.oztt.dao.TGoodsDao.getTopPage");
     }
 
+    @Override
+    public PagingResult<GroupItemDto> getGoodsByParamForPageFor3(Pagination pagination) {
+        return selectPagination("com.org.oztt.dao.TGoodsDao.getGoodsByParamForPageFor3",
+                "com.org.oztt.dao.TGoodsDao.getGoodsByParamForPageCountFor3", pagination);
+    }
+
 }

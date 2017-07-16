@@ -2,6 +2,8 @@ package com.org.oztt.dao;
 
 import java.util.List;
 
+import com.org.oztt.base.page.Pagination;
+import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.entity.TSenderInfo;
 
 public interface TSenderInfoDao {
@@ -18,4 +20,6 @@ public interface TSenderInfoDao {
     int updateByPrimaryKey(TSenderInfo record);
     
     List<TSenderInfo> selectSendInfoList(String customerId);
+    
+    PagingResult<TSenderInfo> selectSendInfoPageList(Pagination pagination);
 }

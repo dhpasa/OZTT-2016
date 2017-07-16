@@ -15,8 +15,6 @@ import com.org.oztt.base.common.MyMap;
 import com.org.oztt.base.util.CommonUtils;
 import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.base.util.MessageUtils;
-import com.org.oztt.base.util.SendSMS;
-import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.contants.SysCodeConstants;
 import com.org.oztt.dao.TGoodsClassficationDao;
 import com.org.oztt.dao.TSuburbDeliverFeeDao;
@@ -203,8 +201,9 @@ public class CommonServiceImpl extends BaseService implements CommonService {
         logger.info(random);
         phone = phone.replaceAll(" ", "");
         String sendPhone = phone.startsWith("0") ? "61" + phone.substring(1) : phone;
-        boolean sendStatus = SendSMS.SendMessages(CommonConstants.PHONEUNMER_FIRST + sendPhone,
-                msg.replace(CommonConstants.MESSAGE_PARAM_ONE, random));
+        //boolean sendStatus = SendSMS.SendMessages(CommonConstants.PHONEUNMER_FIRST + sendPhone,
+        //        msg.replace(CommonConstants.MESSAGE_PARAM_ONE, random));
+        boolean sendStatus = true;
         if (sendStatus) {
             // 发送正确则插入数据
             TSysValidateMessage tSysValidateMessage = tSysValidateMessageDao.getInfoByPhone(phone);
@@ -284,6 +283,23 @@ public class CommonServiceImpl extends BaseService implements CommonService {
             powderStageList = tSysCodeDao.selectByCodeId(SysCodeConstants.POWDER_STAGE);
         }
         return powderStageList;
+    }
+
+    @Override
+    public List<MyCategroy> getSubCategory(String categoryId) throws Exception {
+        getMyCategroy();
+        List<MyCategroy> subItemList = new ArrayList<MyCategroy>();
+        for (MyCategroy categoryItem : categoryList) {
+            if (categoryId.equals(categoryItem.getFatherClass().getClassid())) {
+                subItemList.add(categoryItem);
+            }
+        }
+        return subItemList;
+    }
+
+    @Override
+    public List<MyCategroy> getMainCategory() throws Exception {
+        return getMyCategroy();
     }
 
 }

@@ -152,5 +152,15 @@ public interface TGoodsDao {
      * @return
      */
     GroupItemIdDto getGroupItemId(String groupId);
+    
+//=======================================================================================================================================
+    
+    /**
+     * 分页获取商品信息
+     * 
+     * @param pagination
+     * @return
+     */
+    PagingResult<GroupItemDto> getGoodsByParamForPageFor3(Pagination pagination);
 
 }

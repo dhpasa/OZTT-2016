@@ -1,0 +1,81 @@
+/**==================================错误信息画面============================================**/
+.errormsg-dialog{
+	position: fixed;
+    top: 40%;
+    width: 70%;
+    margin-left: 15%;
+}
+
+.errormsg-modal-body{
+	text-align: center;
+    color: red;
+    background-color: #fff;
+    padding: 5px 10px;
+}
+
+
+/**==================================404 page============================================**/
+.page-404 {
+ 	text-align: center;
+ 	padding-top: 60px;
+ 	padding-bottom: 125px;
+}
+.page-404 .number {
+	position: relative;
+	top: 35px;
+	display: inline-block;
+	letter-spacing: -10px;
+	margin-top: 0px;
+	margin-bottom: 10px;
+	line-height: 128px;
+	font-size: 128px;
+	font-weight: 300;
+	color: #E02222;
+	text-align: right;
+}
+.page-404 .details {
+	margin-left: 40px;
+	display: inline-block;
+	padding-top: 0px;
+	text-align: left;
+	top: 15px;
+	position: relative;
+}
+
+/**==================================首页==========================**/
+.main_index_pro_tl {
+	padding:0;	
+    color: #333333;
+}
+
+.main_index_pro_tl a {
+    color: #333333;
+    display: inline-block;
+    background: url(../images/more.jpg) no-repeat right center;
+    background-size: 10px 10px;
+    padding-right: 15px;
+    margin: 8px 15px;
+    line-height: 19px;
+    font-size: 12px;
+    background-color: white;
+}
+
+button, input, optgroup, select, textarea {
+    margin: 0;
+    font: 11px system-ui;
+    color: inherit;
+}
+
+ul, ol {
+    margin-top: 0;
+    margin-bottom: 0px;
+}
+
+.u-flyer {
+	display: block;
+	width: 50px;
+	height: 50px;
+	border-radius: 50px;
+	position: fixed;
+	z-index: 9999;
+}

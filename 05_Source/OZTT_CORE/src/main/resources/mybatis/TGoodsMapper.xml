@@ -500,13 +500,13 @@
 		<if test="classId != null and classId != '' ">
 			and a.classId = #{classId,jdbcType=VARCHAR}
 		</if>
-		<if test="hotSaleFlg != null">
+		<if test="hotSaleFlg != null and hotSaleFlg != '' ">
 			and a.hotSaleFlg = #{hotSaleFlg,jdbcType=VARCHAR}
 		</if>
-		<if test="newSaleFlg != null">
+		<if test="newSaleFlg != null and newSaleFlg != '' ">
 			and c.topPageUp = #{newSaleFlg,jdbcType=VARCHAR}
 		</if>
-		<if test="enShowFlg != null">
+		<if test="enShowFlg != null and enShowFlg != '' ">
 			and c.enShowFlg = #{enShowFlg,jdbcType=VARCHAR}
 		</if>
 		<if test="goodsName != null and goodsName != '' ">
@@ -515,19 +515,19 @@
 		<if test="daySearch != null and daySearch != '' ">
 			and DATEDIFF(c.validPeriodEnd,NOW()) <![CDATA[ <= ]]> #{daySearch}
 		</if>
-		<if test="topPageUp != null">
+		<if test="topPageUp != null and topPageUp != '' ">
 			and c.topPageUp = #{topPageUp,jdbcType=VARCHAR}
 		</if>
-		<if test="preFlg != null">
+		<if test="preFlg != null and preFlg != '' ">
 			and c.preFlg = #{preFlg,jdbcType=VARCHAR}
 		</if>
-		<if test="inStockFlg != null">
+		<if test="inStockFlg != null and inStockFlg != '' ">
 			and c.inStockFlg = #{inStockFlg,jdbcType=VARCHAR}
 		</if>
-		<if test="diamondShowFlg != null">
+		<if test="diamondShowFlg != null and diamondShowFlg != '' ">
 			and c.diamondShowFlg = #{diamondShowFlg,jdbcType=VARCHAR}
 		</if>
-		<if test="hotFlg != null">
+		<if test="hotFlg != null and hotFlg != '' ">
 			and c.hotFlg = #{hotFlg,jdbcType=VARCHAR}
 		</if>
 		order by c.sortOrder desc,
@@ -556,13 +556,16 @@
 		where a.onSaleFlg= '1'
 		and (c.openFlg = '1')
 		<if test="classId != null and classId != '' ">
-			and classId = #{classId,jdbcType=VARCHAR}
+			and a.classId = #{classId,jdbcType=VARCHAR}
 		</if>
-		<if test="hotSaleFlg != null">
+		<if test="hotSaleFlg != null and hotSaleFlg != '' ">
 			and a.hotSaleFlg = #{hotSaleFlg,jdbcType=VARCHAR}
 		</if>
-		<if test="newSaleFlg != null">
+		<if test="newSaleFlg != null and newSaleFlg != '' ">
 			and c.topPageUp = #{newSaleFlg,jdbcType=VARCHAR}
+		</if>
+		<if test="enShowFlg != null and enShowFlg != '' ">
+			and c.enShowFlg = #{enShowFlg,jdbcType=VARCHAR}
 		</if>
 		<if test="goodsName != null and goodsName != '' ">
 			and a.goodsName like concat('%',#{goodsName},'%')
@@ -570,22 +573,19 @@
 		<if test="daySearch != null and daySearch != '' ">
 			and DATEDIFF(c.validPeriodEnd,NOW()) <![CDATA[ <= ]]> #{daySearch}
 		</if>
-		<if test="topPageUp != null">
+		<if test="topPageUp != null and topPageUp != '' ">
 			and c.topPageUp = #{topPageUp,jdbcType=VARCHAR}
 		</if>
-		<if test="enShowFlg != null">
-			and c.enShowFlg = #{enShowFlg,jdbcType=VARCHAR}
-		</if>
-		<if test="preFlg != null">
+		<if test="preFlg != null and preFlg != '' ">
 			and c.preFlg = #{preFlg,jdbcType=VARCHAR}
 		</if>
-		<if test="inStockFlg != null">
+		<if test="inStockFlg != null and inStockFlg != '' ">
 			and c.inStockFlg = #{inStockFlg,jdbcType=VARCHAR}
 		</if>
-		<if test="diamondShowFlg != null">
+		<if test="diamondShowFlg != null and diamondShowFlg != '' ">
 			and c.diamondShowFlg = #{diamondShowFlg,jdbcType=VARCHAR}
 		</if>
-		<if test="hotFlg != null">
+		<if test="hotFlg != null and hotFlg != '' ">
 			and c.hotFlg = #{hotFlg,jdbcType=VARCHAR}
 		</if>
 	</select>
