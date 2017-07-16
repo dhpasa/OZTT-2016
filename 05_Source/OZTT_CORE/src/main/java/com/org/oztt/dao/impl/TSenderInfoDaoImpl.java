@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.org.oztt.base.dao.BaseDao;
+import com.org.oztt.base.page.Pagination;
+import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.dao.TSenderInfoDao;
 import com.org.oztt.entity.TSenderInfo;
 
@@ -46,6 +48,12 @@ public class TSenderInfoDaoImpl extends BaseDao implements TSenderInfoDao {
     @Override
     public List<TSenderInfo> selectSendInfoList(String customerId) {
         return select("com.org.oztt.dao.TSenderInfoMapper.selectSendInfoList", customerId);
+    }
+
+    @Override
+    public PagingResult<TSenderInfo> selectSendInfoPageList(Pagination pagination) {
+        return selectPagination("com.org.oztt.dao.TSenderInfoMapper.selectSendInfoNewList",
+                "com.org.oztt.dao.TSenderInfoMapper.selectSendInfoNewListCount", pagination);
     }
 
 }

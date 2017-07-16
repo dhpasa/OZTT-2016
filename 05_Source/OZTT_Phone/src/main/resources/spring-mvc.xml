@@ -88,6 +88,6 @@
 	
 	</mvc:interceptors>
 	
-	<import resource="spring-mvc-shiro.xml"/>
+<!-- 	<import resource="spring-mvc-shiro.xml"/> -->
 
 </beans>

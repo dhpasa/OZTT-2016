@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.org.oztt.base.dao.BaseDao;
+import com.org.oztt.base.page.Pagination;
+import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.dao.TReceiverInfoDao;
 import com.org.oztt.entity.TReceiverInfo;
 
@@ -46,6 +48,12 @@ public class TReceiverInfoDaoImpl extends BaseDao implements TReceiverInfoDao {
     @Override
     public List<TReceiverInfo> selectReceiveList(String customerId) {
         return select("com.org.oztt.dao.TReceiverInfoMapper.selectReceiveList", customerId);
+    }
+
+    @Override
+    public PagingResult<TReceiverInfo> selectReceivePageList(Pagination pagination) {
+        return selectPagination("com.org.oztt.dao.TReceiverInfoMapper.selectReceiveNewList",
+                "com.org.oztt.dao.TReceiverInfoMapper.selectReceiveNewListCount", pagination);
     }
 
 }

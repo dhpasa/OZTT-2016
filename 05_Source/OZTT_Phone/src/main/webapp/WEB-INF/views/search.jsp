@@ -10,442 +10,256 @@
   <title><fmt:message key="SEARCH_TITLE"/></title>
   <!-- Head END -->
   <script>
-	  	$(function(){
-			kTouch('main_goods', 'y');
+	  	function beforepage(){
+			var hiddencurpage = $("#hiddencurpage").val();
+			var hiddentotalPage = $("#hiddentotalPage").val();
+			var hiddensearchcontent = $("#hiddensearchcontent").val();
+			var hiddenclassId = $("#hiddenclassId").val();
+			if (hiddencurpage > 1) {
+				var page = hiddencurpage -1;
+				var addParam = "&topPageUp="+$("#hiddentopPageUp").val() + "&hotFlg="+$("#hiddenhotFlg").val() + "&inStockFlg="+$("#hiddeninStockFlg").val();
+				location.href = "${ctx}/search/init?classId="+hiddenclassId+"&searchcontent="+hiddensearchcontent+"&page="+page+addParam;
+			}
 			
-			$(".ico-back").click(function(){
-				history.go(-1);
-			});
-			
-		})
-		
-		function closeLoadingDiv(){
-			$("#loadingDiv").css("display","none");
-		}
-	  	
-	  	function closeNoMoreDiv(){
-	  		$("#noMoreRecordDiv").css("display","none");
 	  	}
-	  	var pageNo = 1;
-		function kTouch(contentId,way){
-		    var _start = 0,
-		        _end = 0,
-		        _content = document.getElementById(contentId);
-		    function touchStart(event){
-		        var touch = event.targetTouches[0];
-		        _start = touch.pageY;
-		    }
-		    function touchMove(event){
-		        var touch = event.targetTouches[0];
-		        _end = _start - touch.pageY;
-		    }
-		    function touchEnd(event){
-		    	if (($("#main_goods").height() - 200) <= $(window).scrollTop() + $(window).height() && _end > 0) {
-		    		$("#loadingDiv").css("display","");
-		    		setTimeout(function(){
-		    			pageNo += 1;
-		    			loadGoods();
-		    			closeLoadingDiv();
-		    			setTimeout(function(){
-		    				closeNoMoreDiv();
-		    			},1000);
-		            },1000);
-		    	}
-		    	
-		    }
-		    _content.addEventListener('touchend',touchEnd,false);
-		    _content.addEventListener('touchstart',touchStart,false);
-		    _content.addEventListener('touchmove',touchMove,false);
+		function nextpage(){
+			var hiddencurpage = $("#hiddencurpage").val();
+			var hiddentotalPage = $("#hiddentotalPage").val();
+			var hiddensearchcontent = $("#hiddensearchcontent").val();
+			var hiddenclassId = $("#hiddenclassId").val();
+			if (hiddencurpage < hiddentotalPage) {
+				var page = parseInt(hiddencurpage) + 1;
+				var addParam = "&topPageUp="+$("#hiddentopPageUp").val() + "&hotFlg="+$("#hiddenhotFlg").val() + "&inStockFlg="+$("#hiddeninStockFlg").val();
+				location.href = "${ctx}/search/init?classId="+hiddenclassId+"&searchcontent="+hiddensearchcontent+"&page="+page+addParam;
+			}	
+		}
+		function changepage(str){
+			var selectPage = $(str).val();
+			var hiddencurpage = $("#hiddencurpage").val();
+			var hiddentotalPage = $("#hiddentotalPage").val();
+			var hiddensearchcontent = $("#hiddensearchcontent").val();
+			var hiddenclassId = $("#hiddenclassId").val();
+			var addParam = "&topPageUp="+$("#hiddentopPageUp").val() + "&hotFlg="+$("#hiddenhotFlg").val() + "&inStockFlg="+$("#hiddeninStockFlg").val();
+			location.href = "${ctx}/search/init?classId="+hiddenclassId+"&searchcontent="+hiddensearchcontent+"&page="+selectPage+addParam;
 		}
 		
-		function loadGoods(){
-			var temp1 = '<li class="main-goods-li">';
-			var temp2 = '<div class="jshop-item" onclick="toItem(\'{0}\')">';
-			var temp3 = '	<img src="{0}" class="img-responsive">';
-			var temp4 = '	<span class="main-goodsname">{0}</span>';
-			var temp5 = '    <div class="main-group-price">';
-			var temp6 = '    	<span class="dollar-symbol2"><fmt:message key="COMMON_DOLLAR" /></span><span class="group-price">{0}</span>';
-			var temp7 = '		<span class="text-through"><fmt:message key="COMMON_DOLLAR" />{0}</span>';
-			var temp8 = '    </div>';
-			var temp9 = '    <div class="main-hasbuy">';
-			var temp10 = '    	<i class="main-hasBuy" style="float: left"></i>';
-			var temp11 = '		<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;';
-			var temp11_91 = '		<span class="item-timeword"><fmt:message key="COMMON_HAS_RUSH_PURCHASE" /></span>&nbsp;';
-			var temp12 = '		<span class="">{0}&nbsp;/&nbsp;{1}</span>';
-			
-			var temp11_1 = '<span class="stock_1"><fmt:message key="COMMON_STOCK_1" /></span>';
-			var temp11_2 = '<span class="stock_2"><fmt:message key="COMMON_STOCK_2" /></span>';
-			var temp11_3 = '<span class="stock_3"><fmt:message key="COMMON_STOCK_3" /></span>';
-			var temp11_4 = '<span class="stock_4"><fmt:message key="COMMON_STOCK_4" /></span>';
-			
-			var temp13 = '    </div>';
-			var temp14 = '    <div class="countdown-time" data-seconds-left="{0}">';   
-			var temp14_1 = '    <div class="countdown-time" data-isrush="1" data-seconds-left="{0}">'; 
-			var temp15 = '    </div>';
-			var temp31 = '<div class="main-overtime-div" style="display: inline-block;"><fmt:message key="COMMON_OVER_GROUP" /></div>';
-			var temp32 = '<div class="main-onway-div" style="display: inline-block;"><fmt:message key="COMMON_GROUP_ONWAY" /></div>';
-			var temp33 = '<div class="displaynone-time"></div>';
-			
-			var temp20 = '<div class="goods-sticker goods-sticker-preLabel"></div>';
-			var temp21 = '<div class="goods-sticker goods-sticker-inStockLabel"></div>';
-			var temp22 = '<div class="goods-sticker goods-sticker-hotLabel"></div>';
-			var temp23 = '<div class="goods-sticker goods-sticker-salesLabel"></div>';
-			
-			var temp24 = '<div class="goods-sticker goods-sticker-preLabel-en"></div>';
-			var temp25 = '<div class="goods-sticker goods-sticker-inStockLabel-en"></div>';
-			var temp26 = '<div class="goods-sticker goods-sticker-hotLabel-en"></div>';
-			var temp27 = '<div class="goods-sticker goods-sticker-salesLabel-en"></div>';
-			
-			var temp28 = '<div class="goods-sticker-right goods-sticker-selloutLabel"></div>';
-			var temp29 = '<div class="goods-sticker-right goods-sticker-selloutLabel-en"></div>';
-			
-			var temp29_1 = '<div class="goods-sticker goods-sticker-diaLabel"></div>';
-			var temp29_2 = '<div class="goods-sticker goods-sticker-diaLabel-en"></div>';
-			
-			var temp16 = '</div>';
-			var temp17 = '</li>';
-			var url = '${ctx}/search/next?pageNo='+pageNo+"&mode="+$("#hiddenmode").val()+"&searchcontent="+$("#searchcontent").val()+"&classId="+$("#hiddenclassId").val();
-	    	$.ajax({
-				type : "GET",
-				url : url,
-				dataType : "json",
-				async:false,
-				data : '', 
-				success : function(data) {
-					if(!data.isException){
-						var dataList = data.goodsList;
-						if (dataList != null && dataList.length > 0) {
-							var tempStr = "";
-							for (var i =0; i < dataList.length; i++) {
-								tempStr += temp1;
-								tempStr += temp2.replace('{0}',dataList[i].groupno);
-								tempStr += temp3.replace('{0}',dataList[i].goodsthumbnail);
-								tempStr += temp4.replace('{0}',dataList[i].goodsname);
-								tempStr += temp5;
-								tempStr += temp6.replace('{0}',fmoney(dataList[i].disprice,2));
-								tempStr += temp7.replace('{0}',fmoney(dataList[i].costprice,2));
-								tempStr += temp8;
-								tempStr += temp9;
-								
-								if (dataList[i].inStockLabel != '1') {
-									tempStr += temp10;
-									if (dataList[i].salesLabel == '1') {
-										tempStr += temp11_91;
-									} else {
-										tempStr += temp11;
-									}
-									
-									tempStr += temp12.replace('{0}',dataList[i].groupCurrent).replace('{1}',dataList[i].groupMax);
-								} else {
-									if (dataList[i].stockStatus == '1') {
-										tempStr += temp11_1;
-									}
-									if (dataList[i].stockStatus == '2') {
-										tempStr += temp11_2;								
-									}
-									if (dataList[i].stockStatus == '3') {
-										tempStr += temp11_3;
-									}
-									if (dataList[i].stockStatus == '4') {
-										tempStr += temp11_4;
-									}
-								}
-								
-								tempStr += temp13;
-								if (dataList[i].inStockLabel != '1') {
-									if (dataList[i].isOverGroup == '1') {
-										tempStr += temp31;
-									} else {
-										if (dataList[i].isOnWay == '1') {
-											tempStr += temp32;
-										} else {
-											if (dataList[i].salesLabel == '1') {
-												tempStr += temp14_1.replace('{0}',dataList[i].countdownTime);
-											} else {
-												tempStr += temp14.replace('{0}',dataList[i].countdownTime);
-											}
-											
-											tempStr += temp15;
-										}
-									}
-								} else {
-									tempStr += temp33;
-								}
-								if (dataList[i].preLabel == '1') {
-									if ('${languageSelf}' == 'zh_CN'){
-										tempStr += temp20;
-									} else if('${languageSelf}' == 'en_US') {
-										tempStr += temp24;
-									}
-								}
-								if (dataList[i].inStockLabel == '1') {
-									if ('${languageSelf}' == 'zh_CN'){
-										tempStr += temp21;
-									} else if('${languageSelf}' == 'en_US') {
-										tempStr += temp25;
-									}
-								}
-								if (dataList[i].hotLabel == '1') {
-									if ('${languageSelf}' == 'zh_CN'){
-										tempStr += temp22;
-									} else if('${languageSelf}' == 'en_US') {
-										tempStr += temp26;
-									}
-								}
-								if (dataList[i].salesLabel == '1') {
-									if ('${languageSelf}' == 'zh_CN'){
-										tempStr += temp23;
-									} else if('${languageSelf}' == 'en_US') {
-										tempStr += temp27;
-									}
-								}
-								if (dataList[i].sellOutFlg == '1') {
-									if ('${languageSelf}' == 'zh_CN'){
-										tempStr += temp28;
-									} else if('${languageSelf}' == 'en_US') {
-										tempStr += temp29;
-									}
-								}
-								
-								if (dataList[i].diamondLabel == '1') {
-									if ('${languageSelf}' == 'zh_CN'){
-										tempStr += temp29_1;
-									} else if('${languageSelf}' == 'en_US') {
-										tempStr += temp29_2;
-									}
-								}
-								
-								tempStr += temp16;
-								tempStr += temp17;
-							}
-							$("#goodItemList").append(tempStr);
-						} else {
-							$("#noMoreRecordDiv").css("display","");
-							closeLoadingDiv();
-						}
-					} else {
-						
-					}
-				},
-				error : function(data) {
-					
-				}
-			});
-	    	
-	    	$(".countdown-time").each(function(){
-	    		if ($(this).find(".alltime").length == 0) {
-	    			$(this).startTimer({
-	    	    		
-	    	    	});
-	    		}
-	    	});
-		}
+		function itemFlyToCart(itemNumberObj) {
+  	  		// flg 为1的时候，选择的是主页形式的
+  			var offset = $("#bottomCart").offset();
+  			var offsetAdd = $("#bottomCart").width();
+  			var img = $(itemNumberObj).parent().parent().parent().parent().find("img").attr('src');
+  			
+  			var imgOffset = $(itemNumberObj).parent().parent().parent().parent().find("img").offset();
+  			var startLeft = imgOffset.left;
+  			var locationTop = imgOffset.top;
+  			var bodyScrollTop = $("body").scrollTop();
+  			var flyer = $('<img class="u-flyer" src="'+img+'">');
+  			flyer.fly({
+  				start: {
+  					left: startLeft,
+  					top: (locationTop-bodyScrollTop)
+  				},
+  				end: {
+  					//left: offset.left+offsetAdd/2+(offset.left-startLeft),
+  					left: offset.left+offsetAdd/2,
+  					top: offset.top+offsetAdd/2,
+  					width: 0,
+  					height: 0
+  				},
+  				onEnd: function(){
+  					this.destory();
+  				}
+  			});
+  		}
 		
-		function searchGroup(mode){
-			pageNo = 1;
-			$("#hiddenmode").val(mode);
-			$("#goodItemList").empty();
-			$("#searchcontent").val('');
-			loadGoods();
+	  	function checktoCart(groupId, currentObj){
+			if ('${currentUserId}' == '') {
+				location.href = "${ctx}/login/init";
+			} else {
+				addToCart(groupId, $(currentObj).parent().find("input[type='text']"));
+			}
 		}
-		
-		function clearcontent(str){
-			$(str).val('');
-		}
-		
-		function toItem(groupNo){
-			location.href="${ctx}/item/getGoodsItem?groupId="+groupNo;
-		}
-		
 		
 		
   </script>
   <style type="text/css">
 	
-	.clearDiv {
-		clear: both;
-	}
-	
-	.countdown-time{
-		text-align: center;
-	}
-	
-	#searchcontent{
-		font-size:1.5rem;
-		padding-left: 20px;
-	}
+
 	
   </style>
 </head>
 
-
 <!-- Body BEGIN -->
 <body>
-<div id="main_goods">
-	<form action="${ctx}/search/init?mode=1">
-    <div class="x-header x-header-gray border-1px-bottom">
-		<div class="x-header-btn ico-back"></div>
-		<div class="x-header-title">
-			<input type="hidden" name="mode" value="1"/>
-			<input type="text" name="searchcontent" value="${searchcontent}" id="searchcontent" onfocus="clearcontent(this)"/>
-		</div>
-		<div class="x-header-btn">
-			<button type="submit" class="btn btn-default searchButtonClass"><fmt:message key="SEARCH_TITLE" /></button>
-		</div>
+    <!--头部开始-->
+	<div class="head_fix">
+	    <div class="head user_head clearfix">
+	        <a href="javascript:history.back(-1)" class="head_back"></a>
+	        ${viewcontent}
+	        <div class="daohang">
+	    <em></em>
+	    <ul class="daohang_yin">
+	        <span class="sj"></span>
+	        <li>
+	            <a href="/Mobile" class="clearfix">
+	                <img src="${ctx}/picture/head_menu_shouye.png" /> 首页
+	            </a>
+	        </li>
+	        <li>
+	            <a href="/Mobile/Category/Index/1" class="clearfix">
+	                <img src="${ctx}/picture/head_menu_fenlei.png" /> 分类
+	            </a>
+	        </li>
+	        <li>
+	            <a href="/Mobile/User" class="clearfix">
+	                <img src="${ctx}/picture/head_menu_zhanghu.png" /> 我的账户
+	            </a>
+	        </li>
+	        <li>
+	            <a href="/Mobile/Order?orderStatus=0" class="clearfix">
+	                <img src="${ctx}/picture/head_menu_dingdan.png" /> 我的订单
+	            </a>
+	        </li>
+	    </ul>
 	</div>
-	</form>
-	<div class="goods-search-horizon border-top-show">
-		 <ul class="nav nav-tabs">
-		 	<li <c:if test="${mode == '1'}">class="active"</c:if>><a onclick="searchGroup('1');return false;" data-toggle="tab"><fmt:message key="SEARCH_SALENUM" /></a></li>
-		 	<li <c:if test="${mode == '2'}">class="active"</c:if>><a onclick="searchGroup('2');return false;" data-toggle="tab"><fmt:message key="SEARCH_NEW" /></a></li>
-		 	<li <c:if test="${mode == '3'}">class="active"</c:if>><a onclick="searchGroup('3');return false;" data-toggle="tab"><fmt:message key="SEARCH_PRICE" /></a></li>
-	        <li <c:if test="${mode == '4'}">class="active"</c:if>><a onclick="searchGroup('4');return false;" data-toggle="tab"><fmt:message key="SEARCH_CLASS" /></a></li>
-	      </ul>
+	    </div>
 	</div>
-	 
-    <div class="main_goods">
-      <div class="">
-   		<div class="jshop-product-two-column">
-   			<ul id="goodItemList">
-   				<c:forEach var="goodslist" items="${ goodsList }">
-   				<li class="main-goods-li">					
-					<div class="jshop-item" onclick="toItem('${goodslist.groupno }')">
-						<img src="${goodslist.goodsthumbnail }" class="img-responsive padding-1rem">
-						<span class="main-goodsname">${goodslist.goodsname }</span>
-		                <div class="main-group-price">
-		                	<span class="dollar-symbol2"><fmt:message key="COMMON_DOLLAR" /></span><span class="group-price">${goodslist.disprice }</span>
-							<span class="text-through"><fmt:message key="COMMON_DOLLAR" />${goodslist.costprice }</span>
-		                </div>
-		                <div class="main-hasbuy">
-		                	
-		                	<c:if test="${goodslist.inStockLabel != '1' }">
-		                		<i class="main-hasBuy" style="float: left"></i>	
-		                		<c:if test="${goodslist.salesLabel == '1' }">
-		                			<span class="item-timeword"><fmt:message key="COMMON_HAS_RUSH_PURCHASE" /></span>&nbsp;
-		                		</c:if>
-		                		<c:if test="${goodslist.salesLabel != '1' }">
-		                			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
-		                		</c:if>
-		                		
-				   				<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span>
-		                	</c:if>
-		                	<c:if test="${goodslist.inStockLabel == '1' }">
-		                		<c:if test="${goodslist.stockStatus == '1' }">
-					   				<span class="stock_1"><fmt:message key="COMMON_STOCK_1" /></span>
-					   			</c:if>
-					   			<c:if test="${goodslist.stockStatus == '2' }">
-					   				<span class="stock_2"><fmt:message key="COMMON_STOCK_2" /></span>
-					   			</c:if>
-					   			<c:if test="${goodslist.stockStatus == '3' }">
-					   				<span class="stock_3"><fmt:message key="COMMON_STOCK_3" /></span>
-					   			</c:if>
-					   			<c:if test="${goodslist.stockStatus == '4' }">
-					   				<span class="stock_4"><fmt:message key="COMMON_STOCK_4" /></span>
-					   			</c:if>
-		                	</c:if>
-				   			
-		                </div>
-		                <c:if test="${goodslist.inStockLabel != '1' }">
-			                <c:if test="${goodslist.isOverGroup != '1' }">
-			                	<c:if test="${goodslist.isOnWay == '1' }">
-			                		<div class="main-onway-div" style="display: inline-block;"><fmt:message key="COMMON_GROUP_ONWAY" /></div>
-			                	</c:if>
-			                	<c:if test="${goodslist.isOnWay != '1' }">
-			                		<c:if test="${goodslist.salesLabel == '1' }">
-			                			<div class="countdown-time" data-isrush="1" data-seconds-left="${goodslist.countdownTime}">
-			                			</div>
-			                		</c:if>
-			                		<c:if test="${goodslist.salesLabel != '1' }">
-			                			<div class="countdown-time" data-seconds-left="${goodslist.countdownTime}">
-			                			</div>
-			                		</c:if>
-			                		
-			                	</c:if>
-			                </c:if>
-			                <c:if test="${goodslist.isOverGroup == '1' }">
-			                	<div class="main-overtime-div" style="display: inline-block;"><fmt:message key="COMMON_OVER_GROUP" /></div>
-			                </c:if>
-		                </c:if>
-		                <c:if test="${goodslist.inStockLabel == '1' }">
-		                	<div class="displaynone-time"></div>
-		                </c:if>
-		                <c:if test="${goodslist.preLabel == '1' }">
-		                	<c:if test="${languageSelf == 'zh_CN' }">
-		                		<div class="goods-sticker goods-sticker-preLabel"></div>
-		                	</c:if>
-		                	<c:if test="${languageSelf == 'en_US' }">
-		                		<div class="goods-sticker goods-sticker-preLabel-en"></div>
-		                	</c:if>
-		                </c:if>
-		                <c:if test="${goodslist.inStockLabel == '1' }">
-		                	<c:if test="${languageSelf == 'zh_CN' }">
-		                		<div class="goods-sticker goods-sticker-inStockLabel"></div>
-		                	</c:if>
-		                	<c:if test="${languageSelf == 'en_US' }">
-		                		<div class="goods-sticker goods-sticker-inStockLabel-en"></div>
-		                	</c:if>
-		                </c:if>
-		                <c:if test="${goodslist.hotLabel == '1' }">
-		                	<c:if test="${languageSelf == 'zh_CN' }">
-		                		<div class="goods-sticker goods-sticker-hotLabel"></div>
-							</c:if>
-							<c:if test="${languageSelf == 'en_US' }">
-								<div class="goods-sticker goods-sticker-hotLabel-en"></div>
-							</c:if>
-		                </c:if>
-		                <c:if test="${goodslist.salesLabel == '1' }">
-		                	
-		                	<c:if test="${languageSelf == 'zh_CN' }">
-		                		<div class="goods-sticker goods-sticker-salesLabel"></div>
-							</c:if>
-							<c:if test="${languageSelf == 'en_US' }">
-								<div class="goods-sticker goods-sticker-salesLabel-en"></div>
-							</c:if>
-		                </c:if>
-		                
-		                <c:if test="${goodslist.sellOutFlg == '1' }">
-		                	<c:if test="${languageSelf == 'zh_CN' }">
-		                		<div class="goods-sticker-right goods-sticker-selloutLabel"></div>
-		                	</c:if>
-		                	<c:if test="${languageSelf == 'en_US' }">
-		                		<div class="goods-sticker-right goods-sticker-selloutLabel-en"></div>
-		                	</c:if>
-		                </c:if>
-		                <c:if test="${goodslist.diamondLabel == '1' }">
-		                	<c:if test="${languageSelf == 'zh_CN' }">
-		                		<div class="goods-sticker goods-sticker-diaLabel"></div>
-		                	</c:if>
-		                	<c:if test="${languageSelf == 'en_US' }">
-		                		<div class="goods-sticker goods-sticker-diaLabel-en"></div>
-		                	</c:if>
-		                </c:if>
-					</div>
-   				</li>
-   				</c:forEach>
-   			</ul>
-   		</div>   
-      </div>
-    </div>
-    
-    <input type="hidden" value="${mode}" id="hiddenmode"/>
-    <input type="hidden" value="${classId}" id="hiddenclassId"/>
-    
-    <div style="text-align: center;height:4rem;display:none" id="loadingDiv">
-    	<span style="display:inline-block;width: 100%;" id="hasMore"><fmt:message key="COMMON_PUSH" /></br><fmt:message key="COMMON_HASMORE" /></span>
-		<img src="${ctx}/images/loading.gif">
-	</div>
+	<div class="main">
+	    <div style="margin-bottom:10px;">
+	        <!--内容开始-->
+	        <div class="index_pro_tl clearfix big_fenlei_tl one_tl">
+	            <span class="left">${viewcontent}</span>
+	        </div>
+	        <ul class="big_fenlei_ul clearfix">
+	        		<c:forEach var="subClassfication" items="${ SubClassficationList }">
+	                <li>
+	                    <a href="${ctx}/search/init?classId=${subClassfication.classid}" title="">
+	                        <img src="${imgUrl}/category/${subClassfication.classid}.png" />
+	                        <p>${subClassfication.classname }</p>
+	                    </a>
+	                </li>
+	                </c:forEach>
+	        </ul>
+	    </div>
 	
-	<div style="display: none" id="noMoreRecordDiv" class="no_more_record_bg">
-		<fmt:message key="COMMON_NOMORE_RECORD" />
+	    <div>
+	        <div class="index_pro_tl clearfix big_fenlei_tl one_tl">
+	            <span class="left">商品</span>
+	        </div>
+	        <div>
+	            <ul class="clearfix search_main_ul">
+	            		<c:forEach var="goods" items="${ goodsList.resultList }">
+	                    <li>
+	                        <div class="clearfix search_main_ul_main">
+	                            <div class="search_main_img_con">
+	                                <a href="${ctx}/item/getGoodsItem?groupId=${goods.groupno}" class="search_main_img">
+	                                    <img src="${goods.goodsthumbnail}" />
+	                                </a>
+	                            </div>
+	                            <div class="search_main_text">
+	                                <p class="search_main_tl">
+	                                    <a href="${ctx}/item/getGoodsItem?groupId=${goods.groupno}">
+	                                        ${goods.goodsname }
+	                                    </a>
+	                                </p>
+	                                <div class="clearfix search_bt">
+	                                    <span class="left search_main_price color_red">
+	                                        ${goods.disprice }
+	                                    </span>
+	                                    <div class="clearfix sum left">
+	                                        <button class="min left" data-id="${goods.groupno}"></button>
+	                                        <input class="text_box left" id="number_798" data-id="${goods.groupno}" name="" type="text" value="1" pattern="[0-9]*" maxlength="2" size="4"/>
+	                                        <button class="add left" data-id="${goods.groupno}"></button>
+	                                    </div>
+	                                        <a href="javascript:void(0);" onclick="checktoCart('${goods.groupno}',this)" class="buy_ico right gouwuico" data-id="${goods.groupno}"></a>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </li>
+	                    </c:forEach>
+	            </ul>
+	        </div>
+	        <input type="hidden" value="${searchcontent}" id="hiddensearchcontent"/>
+	        <input type="hidden" value="${classId}" id="hiddenclassId"/>
+	        
+	        <input type="hidden" value="${topPageUp}" id="hiddentopPageUp"/>
+	        <input type="hidden" value="${hotFlg}" id="hiddenhotFlg"/>
+	        <input type="hidden" value="${inStockFlg}" id="hiddeninStockFlg"/>
+	        
+	        <c:if test="${goodsList.totalPage > 1 }">
+	        <div style="" class="pagenav-wrapper" id="J_PageNavWrap">
+	                <div class="pagenav-content">
+	                    <div class="pagenav" id="J_PageNav">
+	                        <div class="p-prev p-gray">
+	                                <a href="#" onclick="beforepage()">上一页</a>
+	                        </div>
+	                        <div class="pagenav-cur" style="vertical-align:bottom">
+	                            <div class="pagenav-text">
+	                            	<span> ${goodsList.currentPage } / ${goodsList.totalPage } </span><i></i> 
+	                            </div>
+	                            <select class="pagenav-select" onchange="changepage(this)">
+	                            	<c:forEach begin="1" end="${goodsList.totalPage }" step="1" varStatus="status">
+	                            		<c:if test="${status.count == goodsList.currentPage }">
+	                            			<option selected="selected" value="${status.count }">第 ${status.count } 页</option>
+	                            		</c:if>
+	                            		<c:if test="${status.count != goodsList.currentPage }">
+	                            			<option value="${status.count }">第 ${status.count } 页</option>
+	                            		</c:if>
+	                            	</c:forEach>
+	                            </select>
+	                        </div>
+	                        <div class="p-next">
+	                                <a href="#" title="下一页" onclick="nextpage()">下一页</a>
+	                        </div>
+	                        <input type="hidden" value="${goodsList.currentPage}" id="hiddencurpage"/>
+	                        <input type="hidden" value="${goodsList.totalPage}" id="hiddentotalPage"/>
+	                        
+	                    </div>
+	                </div>
+	        </div>
+	        </c:if>
+	    </div>
+	</div>  
+	<!--弹窗开始-->
+	<div class="clearfix" style="margin-bottom: 100px;" id="outsideAlertView">
+	    <div class="verify out_alert alert">
+	        <div class="alert_btn">
+	            <b><a href="javascript:void(0)" id="alertConfirm" class="verify_btn color_red"></a></b>
+	        </div>
+	    </div>
+	    <!--加载中-->
+	    <div class="alert_bg"></div>
+	    <div class="loading">
+	        <div class="loading_con">
+	            <img src="picture/loading.png" />
+	            <p>
+	                玩命加载中……
+	            </p>
+	        </div>
+	    </div>
 	</div>
-    <script type="text/javascript">
-		$(function() {
-	    	$('.countdown-time').startTimer({
-	    		
-	    	});
-		});	
+	<script type="text/javascript">
+	    $(document).ready(function () {
+	        
+	        $(".add").click(function () {
+	            productId = $(this).attr("data-id");
+	            textInput = $("input[data-id=" + productId + "]");
+	
+	            quantity = isNaN(textInput.val()) ? 1 : parseInt(textInput.val());
+	            textInput.val(quantity + 1);
+	        })
+	        $(".min").click(function () {
+	            productId = $(this).attr("data-id");
+	            textInput = $("input[data-id=" + productId + "]");
+	
+	            quantity = isNaN(textInput.val()) ? 1 : parseInt(textInput.val());
+	            textInput.val(quantity - 1);
+	            if (parseInt(textInput.val()) < 0) {
+	                textInput.val(0);
+	            }
+	        })
+	    })
 	</script>
-</div>    
 </body>
 <!-- END BODY -->
 </html>

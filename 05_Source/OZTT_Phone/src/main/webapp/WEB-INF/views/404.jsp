@@ -9,8 +9,8 @@
 <head>
 <meta charset="utf-8">
 <title>404</title>
-<%@ include file="./commoncssHead.jsp"%>
-
+<link rel="stylesheet" type="text/css" href="${ctx}/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="${ctx}/css/self.css">
 </head>
 <!-- Head END -->
 

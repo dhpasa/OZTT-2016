@@ -9,22 +9,17 @@
 <head>
   <meta charset="utf-8">
   <title><fmt:message key="FORGET_PASSWORD_TITLE" /></title>
+  
   <script type="text/javascript">
   var wait = 60;
   function getVerifyCode(){
-		$("#personInfo").text("");
-		$("#personInfo").css("color", "#111");
 		var phone = $("#phone").val();
 		if (phone == "") {
-/* 			$("#personInfo").text('<fmt:message key="W0002" />');
-			$("#personInfo").css("color", "red"); */
 			$('#errormsg_content').text('<fmt:message key="W0002" />');
   			$('#errormsg-pop-up').modal('show');
 			return false;
 		}
 		if (!checkMobilePhoneForOztt(phone)){
-			/* $("#personInfo").text('<fmt:message key="E0002" />');
-			$("#personInfo").css("color", "red"); */
 			$('#errormsg_content').text('<fmt:message key="E0002" />');
   			$('#errormsg-pop-up').modal('show');
 			return false;
@@ -66,7 +61,7 @@
 	}
 	
 	function updatePassword() {
-		// 确认注册
+		// 更新密码
 		var paramData = validateForm();
 		if (paramData == "") return;
 		$.ajax({
@@ -79,20 +74,16 @@
 				if(!data.isException) {
 					if (data.verifyCodeError) {
 						// 验证码错误
-						/* $("#personInfo").text('<fmt:message key="E0003" />');
-						$("#personInfo").css("color", "red"); */
 						$('#errormsg_content').text('<fmt:message key="E0003" />');
 			  			$('#errormsg-pop-up').modal('show');
 					} else if (data.hasNotRegister){
 						// 手机没有注册
-						/* $("#personInfo").text('<fmt:message key="E0008" />');
-						$("#personInfo").css("color", "red"); */
 						$('#errormsg_content').text('<fmt:message key="E0008" />');
 			  			$('#errormsg-pop-up').modal('show');
 					} else {
 						// 正确登录
 						// 正确登录
-						location.href = "${ctx}/Notice/updatepasswordsuccess";
+						location.href = "${ctx}/main/init";
 					}
 				}
 			},
@@ -103,27 +94,19 @@
 	}
 	
 	function validateForm(){
-		$("#personInfo").text("");
-		$("#personInfo").css("color", "#111");
 		var phone = $("#phone").val();
 		if (phone == "") {
-			/* $("#personInfo").text('<fmt:message key="W0002" />');
-			$("#personInfo").css("color", "red"); */
 			$('#errormsg_content').text('<fmt:message key="W0002" />');
   			$('#errormsg-pop-up').modal('show');
 			return "";
 		}
 		var verifycode = $("#verifycode").val();
 		if (verifycode == "") {
-			/* $("#personInfo").text('<fmt:message key="W0004" />');
-			$("#personInfo").css("color", "red"); */
 			$('#errormsg_content').text('<fmt:message key="W0004" />');
   			$('#errormsg-pop-up').modal('show');
 			return "";
 		}
 		if (!checkMobilePhoneForOztt(phone)){
-			/* $("#personInfo").text('<fmt:message key="E0002" />');
-			$("#personInfo").css("color", "red"); */
 			$('#errormsg_content').text('<fmt:message key="E0002" />');
   			$('#errormsg-pop-up').modal('show');
 			return "";
@@ -132,23 +115,17 @@
 		var password = $("#password").val();
 		var confirmpwd = $("#confirmpwd").val();
 		if (password == "") {
-			/* $("#personInfo").text('<fmt:message key="W0005" />');
-			$("#personInfo").css("color", "red"); */
 			$('#errormsg_content').text('<fmt:message key="W0005" />');
   			$('#errormsg-pop-up').modal('show');
 			return "";
 		}
 		if (confirmpwd == "") {
-			/* $("#personInfo").text('<fmt:message key="W0006" />');
-			$("#personInfo").css("color", "red"); */
 			$('#errormsg_content').text('<fmt:message key="W0006" />');
   			$('#errormsg-pop-up').modal('show');
 			return "";
 		}
 		
 		if (password != confirmpwd) {
-			/* $("#personInfo").text('<fmt:message key="W0007" />');
-			$("#personInfo").css("color", "red"); */
 			$('#errormsg_content').text('<fmt:message key="W0007" />');
   			$('#errormsg-pop-up').modal('show');
 			return "";
@@ -168,52 +145,32 @@
 
 
 <!-- Body BEGIN -->
-<body>
-	<!-- <div class="x-header x-header-gray border-1px-bottom">
-		<div class="x-header-btn ico-back">
-		</div>
-		<div class="x-header-title">
-			<span>忘记密码</span>
-		</div>
-		<div class="x-header-btn"></div>
-	</div> -->
-	<div class="logodiv logobackgroud">
-	 	<img alt="logo" src="${ctx}/images/logo_login.png">
-	 </div>
+<body data-pinterest-extension-installed="ff1.37.9">
 	
-	<div class="infohead">
-		<span id="personInfo"></span>
+	<!--头部开始-->
+	<div class="head user_head">
+	    <a href="javascript:history.back(-1)" class="head_back"></a>
+	    忘记密码
 	</div>
 	
-	<div class="registercontain">
-       <div class="">
-            <!-- <span class="required">*</span> --><input class="requiredinput " type="number" placeholder="请输入您的手机号"  autofocus="" maxlength="13" id="phone">
-            <span class="registericon"><i class="fa fa-mobile-phone"></i></span>
+	<div class="reg_main">
+        <div class="reg_gp">
+            <input class="c-form-txt-normal text-box single-line"  id="phone" name="phone" placeholder="手机号码 (042x xxx xxx)" type="text" value="" />
         </div>
-        <div class="">
-            <!-- <span class="required">*</span> --><input class="requiredinput " type="number" placeholder="请输入短信验证码"  autofocus="" maxlength="6" id="verifycode">
-        	<span class="verifycodeBtn">
-        	<button type="button" class="btn btn-primary" onclick="getVerifyCode()" id="buttonCode"><fmt:message key="COMMON_GETVIERIFY" /></button>
-        	</span>
+        <div class="reg_gp">
+            <input class="c-form-txt-normal text-box single-line password"  id="password" name="password" placeholder="密码" type="password" value="" />
         </div>
-	</div>
-	
-	<div class="registercontain registerpwd">
-        <div class="">
-            <!-- <span class="required">*</span> --><input class="requiredinput " type="password" placeholder="请输入密码"  autofocus="" maxlength="13" id="password" required="required">
-        	<span class="registericon"><i class="fa fa-lock"></i></span>
+        <div class="reg_gp">
+            <input class="c-form-txt-normal text-box single-line password"  id="confirmpwd" name="confirmpwd" placeholder="确认密码" type="password" value="" />
         </div>
-        <div class="">
-            <!-- <span class="required">*</span> --><input class="requiredinput " type="password" placeholder="请确认密码"  autofocus="" maxlength="13" id="confirmpwd" required="true">
-        	<span class="registericon"><i class="fa fa-lock"></i></span>
+        <div class="reg_gp clearfix yanzheng">
+            <input class="left text-box single-line"  id="verifycode" name="verifycode" placeholder="手机验证码" type="number" value="" />
+            <a href="#" id="buttonCode" class="right btn_red" onclick="getVerifyCode()">获取手机验证码</a>
         </div>
-	</div>
-	
-	<div class="registerBtn">
-          <a href="#" onclick="updatePassword()"><fmt:message key="FORGET_PASSWORD_BTN" /></a>
-      </div>
-	
 
+        <input type="button" class="btn btn_blue loginbtn mt10" value="<fmt:message key="FORGET_PASSWORD_BTN" />" onclick="updatePassword()"/>
+	</div>
+	
 </body>
 <!-- END BODY -->
 </html>

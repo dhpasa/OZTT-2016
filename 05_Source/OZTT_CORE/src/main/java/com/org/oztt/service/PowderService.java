@@ -59,6 +59,24 @@ public interface PowderService {
      * @throws Exception
      */
     public List<TSenderInfo> selectSenderInfoList(String customerNo) throws Exception;
+    
+    /**
+     * 检索当前客户收件信息
+     * 
+     * @param customerNo 客户号
+     * @return
+     * @throws Exception
+     */
+    public PagingResult<TReceiverInfo> selectReceiverInfoPageList(Pagination pagination) throws Exception;
+
+    /**
+     * 检索当前客户送件信息
+     * 
+     * @param customerNo
+     * @return
+     * @throws Exception
+     */
+    public PagingResult<TSenderInfo> selectSenderInfoPageList(Pagination pagination) throws Exception;
 
     /**
      * 登录发件人信息

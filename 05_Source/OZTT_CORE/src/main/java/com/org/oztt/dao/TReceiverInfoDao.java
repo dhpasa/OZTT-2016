@@ -2,6 +2,8 @@ package com.org.oztt.dao;
 
 import java.util.List;
 
+import com.org.oztt.base.page.Pagination;
+import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.entity.TReceiverInfo;
 
 public interface TReceiverInfoDao {
@@ -18,4 +20,7 @@ public interface TReceiverInfoDao {
     int updateByPrimaryKey(TReceiverInfo record);
     
     List<TReceiverInfo> selectReceiveList(String customerId);
+    
+    PagingResult<TReceiverInfo> selectReceivePageList(Pagination pagination);
+    
 }

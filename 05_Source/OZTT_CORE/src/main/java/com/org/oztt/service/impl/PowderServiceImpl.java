@@ -124,6 +124,16 @@ public class PowderServiceImpl extends BaseService implements PowderService {
     public List<TSenderInfo> selectSenderInfoList(String customerNo) throws Exception {
         return tSenderInfoDao.selectSendInfoList(customerNo);
     }
+    
+    @Override
+    public PagingResult<TReceiverInfo> selectReceiverInfoPageList(Pagination pagination) throws Exception {
+        return tReceiverInfoDao.selectReceivePageList(pagination);
+    }
+
+    @Override
+    public PagingResult<TSenderInfo> selectSenderInfoPageList(Pagination pagination) throws Exception {
+        return tSenderInfoDao.selectSendInfoPageList(pagination);
+    }
 
     @Override
     public void insertSendInfo(TSenderInfo tSenderInfo) throws Exception {

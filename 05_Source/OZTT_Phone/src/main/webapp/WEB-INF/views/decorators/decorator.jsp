@@ -84,7 +84,7 @@
 			data : '', 
 			success : function(data) {
 				if(!data.isException){
-					$("#decoratorShopCart").text(data.sccount)
+					$("#ecsCartInfo").text(data.sccount)
 				} else {
 					// 同步购物车失败
 					return;
@@ -190,6 +190,93 @@
   			}
   		}
   	
+  	function addToCart(groupId, itemNumberObj){
+		if (addItemToCart(groupId, itemNumberObj)) {
+			itemFlyToCart(itemNumberObj);
+		}
+	}
+  	
+  	
+  	var E0006 = '<fmt:message key="E0006" />';
+	var E0010 = '<fmt:message key="E0010" />';
+	function addItemToCart(groupId, itemNumberObj) {
+		// 取得商品的属性
+		//var goodsName = $("#item-goodsname-id").text();
+		//var goodsPrice = $("#item-disprice-id").text();
+		var oneGoodPropertiesList = [];
+		var quantityInput = $(itemNumberObj).val();
+		if (isNaN(quantityInput) || parseFloat(quantityInput) <= 0) {
+			$('#errormsg_content').text(E0010);
+			$('#errormsg-pop-up').modal('show');
+			return;
+		}
+		var properties = {
+				"groupId":groupId,
+				"goodsQuantity":$(itemNumberObj).val(),
+				"goodsProperties":JSON.stringify(oneGoodPropertiesList)
+		}
+		
+		var checkGroup = [];
+		checkGroup.push(properties);
+		var checkOver = true;
+		$.ajax({
+			type : "POST",
+			contentType:'application/json',
+			url : '${pageContext.request.contextPath}/COMMON/checkIsOverGroup',
+			dataType : "json",
+			async : false,
+			data : JSON.stringify(checkGroup), 
+			success : function(data) {
+				if(!data.isException){
+					// 同步购物车成功
+					if (data.isOver) {
+						$('#errormsg_content').text(E0006.replace("{0}", data.maxBuy));
+		  				$('#errormsg-pop-up').modal('show');
+						checkOver = true;
+						$($(itemNumberObj)).val(data.maxBuy);
+						return false;
+					} else {
+						checkOver = false;
+					}
+				} else {
+					// 同步购物车失败
+					return false;
+				}
+			},
+			error : function(data) {
+				
+			}
+		});
+		
+		if (checkOver) return false;
+		
+		var inputList = [];
+		inputList.push(properties);
+		$.ajax({
+			type : "POST",
+			contentType:'application/json',
+			url : '${pageContext.request.contextPath}/COMMON/addConsCart',
+			dataType : "json",
+			async : false,
+			data : JSON.stringify(inputList), 
+			success : function(data) {
+				if(!data.isException){
+					// 同步购物车成功
+					
+				} else {
+					// 同步购物车失败
+				}
+			},
+			error : function(data) {
+				
+			}
+		});
+		
+		updateShopCart();
+		return true;
+
+	}
+  	
 	
 </script>
 
@@ -197,7 +284,7 @@
 <body id="container">
 	<sitemesh:write property='body' />
 
-    <!-- BEGIN FOOTER -->
+<%--     <!-- BEGIN FOOTER -->
     <div class="main-nav" id="main-nav-id" style="display:none">
 		<a href="${ctx}/main/init" class="main-nav-item main-nav-home main-nav-active">
 			<img alt="home" src="${ctx}/images/main.png">
@@ -217,6 +304,57 @@
 			<span><fmt:message key="DECORATOR_ME"/></span>
 			<span class="notSuccessedOrder" id="notSuccessedOrder"></span>
 		</a>
+	</div> --%>
+	
+	<!--尾部-->
+	<div class="footer" id="main-nav-id" style="display:none">
+	    <ul class="clearfix footer_ul">
+	        <li>
+	            <a href="${ctx}/main/init">
+	                <div class="footer_img">
+	                    <img src="${ctx}/picture/shouye_ico.png" class="img_q" />
+	                    <img src="${ctx}/picture/shouye_icoh.png" class="img_h" />
+	                </div>
+	                <p>
+	                    首页
+	                </p>
+	            </a>
+	        </li>
+	        <li>
+	            <a href="javascript:void(Tawk_API.toggle())">
+	                <div class="footer_img">
+	                    <img src="${ctx}/picture/footer_kefu.png" class="img_q" />
+	                    <img src="${ctx}/picture/footer_kefuh.png" class="img_h" />
+	                </div>
+	                <p>
+	                    客服
+	                </p>
+	            </a>
+	        </li>
+	        <li>
+	            <a href="${ctx}/shopcart/init" class="gouwuche" id="bottomCart">
+	                <div class="footer_img" >
+	                    <img src="${ctx}/picture/gouwudai.png" class="img_q" />
+	                    <img src="${ctx}/picture/gouwudaih.png" class="img_h" />
+	                    <span class="num" id="ecsCartInfo"></span>
+	                </div>
+	                <p>
+	                    购物袋
+	                </p>
+	            </a>
+	        </li>
+	        <li>
+	            <a href="${ctx}/user/init">
+	                <div class="footer_img">
+	                    <img src="${ctx}/picture/mine.png" class="img_q" />
+	                    <img src="${ctx}/picture/mineh.png" class="img_h" />
+	                </div>
+	                <p>
+	                    我的
+	                </p>
+	            </a>
+	        </li>
+	    </ul>
 	</div>
 	
 	<div class="main-nav" id="powder-send-nav-id" style="display:none">
@@ -254,9 +392,15 @@
     <!-- END FOOTER -->
     <input type="hidden" value="${currentUserId}" id="currentUserId">
     
+    <div>
+    	&nbsp;
+    </div>
+    
     <script type="text/javascript">
     var currentPath = window.location.pathname;
-	if (currentPath.indexOf("login/init") > 0) {
+	if (currentPath.indexOf("login/init") > 0 ||
+		currentPath.indexOf("register/init") > 0 ||
+		currentPath.indexOf("forgetPassword/init") > 0) {
 		$("#main-nav-id").remove();
 	}
 	

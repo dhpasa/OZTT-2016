@@ -192,4 +192,26 @@
     where customerId = #{customerId,jdbcType=VARCHAR}
     and deleteFlg = '0'
   </select>
+  
+  <select id="selectReceiveNewList" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_receiver_info
+    where customerId = #{customerId,jdbcType=VARCHAR}
+    <if test="keywords != null and keywords != '' ">
+			and (receiverName like concat('%',#{keywords},'%') or receiverTel like concat(#{keywords},'%'))
+	</if>
+    and deleteFlg = '0'
+  </select>
+  
+  <select id="selectReceiveNewListCount" resultType="int" parameterType="map" >
+    select 
+    count(1)
+    from t_receiver_info
+    where customerId = #{customerId,jdbcType=VARCHAR}
+    <if test="keywords != null and keywords != '' ">
+			and (receiverName like concat('%',#{keywords},'%') or receiverTel like concat(#{keywords},'%'))
+	</if>
+    and deleteFlg = '0'
+  </select>
 </mapper>

@@ -8,243 +8,269 @@
 <head>
   <meta charset="utf-8">
   <title><fmt:message key="ITEM_TITLE"/></title>
+  
   <!-- Head END -->
   <script>	
-		  $(function(){
-			  $('.valuemius').click(function(){
-					var currentqty = $(this).parent().parent().find('.txt').find('input').val();
-					if (currentqty == 1) {
-						return;
-					} else {
-						$(this).parent().parent().find('.txt').find('input').val(currentqty - 1);
-					}
-				});
-				
-				$('.valueplus').click(function(){
-					var currentqty = $(this).parent().parent().find('.txt').find('input').val();
-					if (currentqty == 9999) {
-						return;
-					} else {
-						$(this).parent().parent().find('.txt').find('input').val(parseFloat(currentqty) + 1);
-					}
-				});
-				
-				$(".icon-search").click(function(){
-	  				location.href="${ctx}/search/init?mode=1";
+
+		  function itemFlyToCart(itemNumberObj) {
+	  			var offset = $(".pro_footer_car").offset();
+	  			var offsetAdd = $(".pro_footer_car").width();
+	  			var img = $(".shangpin_img").find("img").attr('src');
+	  			
+	  			var imgOffset = $(".shangpin_img").find("img").offset();
+	  			var startLeft = imgOffset.left;
+	  			var locationTop = imgOffset.top;
+	  			var bodyScrollTop = $("body").scrollTop();
+	  			var flyer = $('<img class="u-flyer" src="'+img+'">');
+	  			flyer.fly({
+	  				start: {
+	  					left: startLeft,
+	  					top: (locationTop-bodyScrollTop)
+	  				},
+	  				end: {
+	  					left: offset.left+offsetAdd/2+(offset.left-startLeft),
+	  					//left: offset.left+offsetAdd/2,
+	  					top: offset.top+offsetAdd/2,
+	  					width: 0,
+	  					height: 0
+	  				},
+	  				onEnd: function(){
+	  					this.destory();
+	  				}
 	  			});
-		  });
-		  
-		function itemFlyToCart() {
-			$("#purchase-credit-pop-up").modal('hide');
-			var offset = $("#navCartIcon").offset();
-			var offsetAdd = $("#navCartIcon").width();
-			var img = $("#itemFlyImg").attr('src');
-			var flyer = $('<img class="u-flyer" src="'+img+'">');
-			flyer.fly({
-				start: {
-					left: 100,
-					top: 200
-				},
-				end: {
-					left: offset.left+offsetAdd/2,
-					top: offset.top+offsetAdd/2,
-					width: 0,
-					height: 0
-				},
-				onEnd: function(){
-					this.destory();
-				}
-			});
-		}
+	  		}
 		
-		function checktoItem(groudId){
-			if ('${currentUserId}' == '') {
-				location.href = "${ctx}/login/init";
-			} else {
-				$("#purchase-credit-pop-up").modal('show');
-				$("#topcontrol").css("display","none");
-			}
-		}
 		
 		function checkGoodsNum(str) {
 			if ($(str).val().trim() == "" || isNaN($(str).val())) {
 				$(str).val("1");
 			}
 		}
-  
-	
-		function addToCart(groupId){
-			if (addItemToCart(groupId)) {
-				itemFlyToCart();
+		
+		function checktoCart(groupId, currentObj){
+			if ('${currentUserId}' == '') {
+				location.href = "${ctx}/login/init";
+			} else {
+				addToCart(groupId, $("#item_number"));
 			}
 		}
 		
-		var E0006 = '<fmt:message key="E0006" />';
-		var E0010 = '<fmt:message key="E0010" />';
-		function addItemToCart(groupId) {
-			// 取得商品的属性
-			var goodsName = $("#item-goodsname-id").text();
-			var goodsImage = $("#item-disprice-id").text();
-			var goodsPrice = $("#item-disprice-id").text();
-			var oneGoodPropertiesList = [];
-			
-			var quantityInput = $("#itemNumber").val();
-			if (isNaN(quantityInput) || parseFloat(quantityInput) <= 0) {
-				$('#errormsg_content').text(E0010);
-  				$('#errormsg-pop-up').modal('show');
-				return;
-			}
-			var properties = {
-					"groupId":groupId,
-					"goodsName":goodsName,
-					"goodsQuantity":$("#itemNumber").val(),
-					"goodsPrice":goodsPrice,
-					"goodsProperties":JSON.stringify(oneGoodPropertiesList)
-			}
-			
-			var checkGroup = [];
-			checkGroup.push(properties);
-			var checkOver = true;
-			$.ajax({
-				type : "POST",
-				contentType:'application/json',
-				url : '${pageContext.request.contextPath}/COMMON/checkIsOverGroup',
-				dataType : "json",
-				async : false,
-				data : JSON.stringify(checkGroup), 
-				success : function(data) {
-					if(!data.isException){
-						// 同步购物车成功
-						if (data.isOver) {
-							$('#errormsg_content').text(E0006.replace("{0}", data.maxBuy));
-			  				$('#errormsg-pop-up').modal('show');
-							checkOver = true;
-							$("#itemNumber").val(data.maxBuy);
-							return false;
-						} else {
-							checkOver = false;
-						}
-					} else {
-						// 同步购物车失败
-						return false;
-					}
-				},
-				error : function(data) {
-					
-				}
-			});
-			
-			if (checkOver) return false;
-			
-			var inputList = [];
-			inputList.push(properties);
-			$.ajax({
-				type : "POST",
-				contentType:'application/json',
-				url : '${pageContext.request.contextPath}/COMMON/addConsCart',
-				dataType : "json",
-				async : false,
-				data : JSON.stringify(inputList), 
-				success : function(data) {
-					if(!data.isException){
-						// 同步购物车成功
-						
-					} else {
-						// 同步购物车失败
-					}
-				},
-				error : function(data) {
-					
-				}
-			});
-			
-			updateItemShopCart();
-			return true;
-
-		}
 		
-		function toShowTabGoods(tabId) {
-			// 进入标签检索画面
-			location.href="${ctx}/item/goodstab?tabId="+tabId;
-		}
 		
-		function updateItemShopCart(){
-			$.ajax({
-				type : "GET",
-				contentType:'application/json',
-				url : '${pageContext.request.contextPath}/COMMON/getShopCartCount',
-				dataType : "json",
-				async : false,
-				data : '', 
-				success : function(data) {
-					if(!data.isException){
-						$("#itemShopCart").text(data.sccount)
-					} else {
-						// 同步购物车失败
-						return;
-					}
-				},
-				error : function(data) {
-					
-				}
-			});
-		}
   </script>
   <style type="text/css">
-  	.flex-control-nav {
-	    width: 100%;
-	    position: absolute;
-	    bottom: -30px;
-	    text-align: center;
-	    z-index: 11;
-	}
+  	
 	
-	.flex-control-paging li a {
-	    width: 8px;
-	    height: 8px;
-	}
 	
-	body {
-	    color: #666;
-	    direction: ltr;
-	    font: 400 13px 'Open Sans', Arial, sans-serif;
-	    background: #f9f9f9;
-	    overflow-x: hidden;
-	    padding-bottom: 10rem;
-	}
-	
-	.alltime {
-	    display: inline-block;
-	    height: 2rem;
-	    line-height: 2rem;
-	    width: 15rem;
-	    background-color: #FFE4E8;
-	    color: #FF9298;
-	    font-size: 1.3rem;
-	    border-radius: 3px !important;
-	    text-align: center;
-	}
-	
-	.overtime {
-	    display: none;
-	    height: 2rem;
-	    line-height: 2rem;
-	    width: 15rem;
-	    background-color: #D8D8D8;
-	    color: #FFFFF;
-	    font-size: 1.3rem;
-	    border-radius: 5px !important;
-	    border: 0.5px solid #D8D8D8;
-	    text-align: center;
-	}
   </style>
 </head>
 
 
 <!-- Body BEGIN -->
-<body>
+<body data-pinterest-extension-installed="ff1.37.9">
 
-    <div class="x-header x-header-gray border-1px-bottom x-fixed">
+	<div class="head_fix">
+	    <!--头部开始-->
+	    <div class="head user_head clearfix">
+	        <a href="javascript:history.back(-1)" class="head_back"></a>
+	        <div class="pro_menu">
+	            <div class="pro_menu_main" style="margin-left:0px; margin-right: 0px;">
+	                <a href="javascript:;" class="ahover">商品</a>
+	                <a href="javascript:;">详情</a>
+	            </div>
+	        </div>
+	        <div class="daohang">
+	    <em></em>
+	    <ul class="daohang_yin">
+	        <span class="sj"></span>
+	        <li>
+	            <a href="/Mobile" class="clearfix">
+	                <img src="${ctx}/picture/head_menu_shouye.png" /> 首页
+	            </a>
+	        </li>
+	        <li>
+	            <a href="/Mobile/Category/Index" class="clearfix">
+	                <img src="${ctx}/picture/head_menu_fenlei.png" /> 分类
+	            </a>
+	        </li>
+	        <li>
+	            <a href="/Mobile/User" class="clearfix">
+	                <img src="${ctx}/picture/head_menu_zhanghu.png" /> 我的账户
+	            </a>
+	        </li>
+	        <li>
+	            <a href="/Mobile/Order?orderStatus=0" class="clearfix">
+	                <img src="${ctx}/picture/head_menu_dingdan.png" /> 我的订单
+	            </a>
+	        </li>
+	    </ul>
+		</div>
+	    </div>
+		<form action="${ctx}/search/init" method="post">        
+			<div class="search_top">
+		            <div class="search_top_main clearfix">
+		                <input type="text" id="keyword" name="searchcontent" class="search_top_main_lf" placeholder="请输入搜索的相关产品名" />
+		                <input type="submit" class="right search_top_main_btn" value="" />
+		            </div>
+		        </div>
+		</form>
+		</div>
+		
+		<div class="main" style="padding-top: 80px;padding-bottom:0px;">
+    <!--内容开始-->
+    <div class="pro_main">
+        <div class="pro_qiehuan active">
+            <div class="shangpin_img">
+                <img src="${goodItemDto.firstImg }" />
+            </div>
+            <div class="caixian"></div>
+            <div class="shangpin_tl">
+                <div class="shangpin_tl_main">
+                    <div class="shangpin_tl_con">
+                        ${goodItemDto.goods.goodsname }
+                        <input type="hidden" id="productId" value="1510" />
+                    </div>
+                </div>
+                
+            </div>
+            <div class="shangpin_mess">
+                <div class="shangpin_mess_text">
+                    ${goodItemDto.goods.goodsname }
+                </div>
+                <div class="shangpin_mess_price">
+                        <p>
+                            <span class="shangpin_mess_price_name">售价：</span>
+                            <span class="color_red price">$ ${goodItemDto.nowPrice }</span>
+                        </p>
+                </div>
+            </div>
+            <div class="shangpin_buy">
+                <div class="shangpin_zhongliang">
+                    <!-- <span>重量：1.7370 克</span> -->
+                    <c:if test="${goodItemDto.stockStatus != '4'}">
+                    	<span>可售库存：有货</span>
+                    </c:if>
+                    <c:if test="${goodItemDto.stockStatus == '4'}">
+                    	<span>可售库存：缺货</span>
+                    </c:if>
+                    <!-- <span>可获积分：20</span> -->
+                </div>
+                <div class="shangpin_do clearfix">
+                    <div class="right clearfix">
+                        <span class="left">最大购买：${goodItemDto.groupMax-goodItemDto.groupCurrent }</span>
+                        <div class="left clearfix shangpin_jiajian">
+                            <span class="left">数量</span>
+                            <div class="clearfix sum left">
+                                <button class="min left" data-id="1510"></button>
+                                <input class="text_box left" id="item_number" data-id="1510" name="" type="text" value="1" pattern="[0-9]*" maxlength="2" size="4">
+                                <button class="add left" data-id="1510"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="pro_desc" class="pro_qiehuan">
+            <div class="pro_tl clearfix">
+                <span class="left">商品信息</span>
+                
+            </div>
+            <div class="pro_con">
+                <table id="product-attribute-specs-table" class="table">
+				<tbody>
+				<tr class="additional-tr">
+				<th class="data product-table-column" style="width: 81px;">品牌国</th>
+				<td class="data product-table-value">澳大利亚</td>
+				<tr class="additional-tr">
+				<th class="data product-table-column" style="width: 81px;">产品英文名</th>
+				<td class="data product-table-value">${goodItemDto.goods.goodsname }</td>
+				</tr>
+				<c:if test='${goodItemDto.goods.goodsnameen != null && goodItemDto.goods.goodsnameen != "" }'>
+					<tr class="additional-tr">
+					<th class="data product-table-column" style="width: 81px;">品牌英文名</th>
+					<td class="data product-table-value">${goodItemDto.goods.goodsnameen }</td>
+					</tr>
+				</c:if>
+				
+				</tbody>
+				</table>
+
+				${goodItemDto.productDesc}
+            </div>
+        </div>
+        <div class="pro_qiehuan">
+
+            <div class="pengyouquan">
+                
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--产品详情底部-->
+<div class="pro_footer clearfix">
+    <div class="left pro_footer_lf">
+        <!-- <span class="pro_footer_lf_main clearfix">
+            <a href="javascript:void(Tawk_API.toggle());" class="pro_kefu left"></a>
+            <span class="pro_footer_line left"></span>
+            <a href="javascript:void(0);" class="pro_weibu left"></a>
+        </span> -->
+        <a href="${ctx}/shopcart/init" class="pro_footer_car">
+            <div class="pro_footer_car_main">
+                <img src="${ctx}/picture/gouwudai.png" />
+                <span class="num" id="ecsCartInfo"></span>
+            </div>
+        </a>
+    </div>
+    <a href="javascript:void(0);" style="width:50%;" class="left btn_red pro_footer_a" id="addtocart" onclick="checktoCart('${goodItemDto.groupId}',this)" >加入购物袋</a>
+    
+</div>
+<script type="text/javascript" src="${ctx}/js/qin.js"></script>
+    <!--弹窗开始-->
+<div class="clearfix" style="margin-bottom: 100px;" id="outsideAlertView">
+    <div class="verify out_alert alert">
+        <div class="alert_btn">
+            <b><a href="javascript:void(0)" id="alertConfirm" class="verify_btn color_red"></a></b>
+        </div>
+    </div>
+    <!--加载中-->
+    <div class="alert_bg"></div>
+    <div class="loading">
+        <div class="loading_con">
+            <img src="picture/loading.png" />
+            <p>
+                玩命加载中……
+            </p>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    //lazy load description images
+    $(function () {
+        $(".pro_con").css("min-height", function () {
+            return $(window).height() + 1;
+        });
+        $(".img-product-desc").unveil();
+        var observer = new MutationObserver(function (mutations) {
+            $('html, body').animate({ scrollTop: 1 }, "fast");
+            $('html, body').animate({ scrollTop: 0 }, "fast");
+        });
+        var target = document.querySelector('#pro_desc');
+        observer.observe(target, {
+            attributes: true
+        });
+    });
+</script>
+
+    <script type="text/javascript">
+        
+    </script>
+	
+    <%-- <div class="x-header x-header-gray border-1px-bottom x-fixed">
 		<div class="x-header-btn"></div>
 		<div class="x-header-btn"></div>
 		<div class="x-header-title">
@@ -442,7 +468,7 @@
 			$("#itemShopCart").css("display","");
 		} 
 
-	</script>
+	</script> --%>
 </body>
 <!-- END BODY -->
 </html>

@@ -558,4 +558,14 @@ public interface GoodsService {
      * @throws Exception
      */
     public int getProductsCount(Map<Object, Object> param) throws Exception;
+    
+    /**
+     * 分页获取商品信息
+     * 
+     * @param pagination
+     * @return
+     * @throws Exception
+     */
+    public PagingResult<GroupItemDto> getGoodsByParamForPageFor3(Pagination pagination) throws Exception;
+    
 }

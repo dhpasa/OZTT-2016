@@ -108,8 +108,8 @@
 	
 	<bean class="com.org.oztt.base.shiro.spring.SpringUtils"/>
 
-    <import resource="classpath:spring-config-cache.xml"/>
-    <import resource="classpath:spring-config-shiro.xml"/>
+    <!-- <import resource="classpath:spring-config-cache.xml"/> -->
+    <!-- <import resource="classpath:spring-config-shiro.xml"/> -->
     
     
     <bean id="dataSourceProxy" class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy">

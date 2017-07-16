@@ -6,9 +6,9 @@ import java.io.IOException;
 
 class ApiTester {
     // Testing parameters
-    private final static String m4uUser = "VTESTITALITYORIGI00TEST3";
+    private final static String m4uUser = "VITALITYORIGI003";
 
-    private final static String m4uPass = "fTEST7FTCyWTESTy";
+    private final static String m4uPass = "Liuyuan19830808";
 
     //private final static String testPhone = "+61452176840";  // phone number to receive test messages (start with a + in international format)
     private final static String testPhone = "+8615298870452";  // phone number to receive test messages (start with a + in international format)

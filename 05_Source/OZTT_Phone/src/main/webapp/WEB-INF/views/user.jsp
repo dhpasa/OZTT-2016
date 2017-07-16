@@ -183,9 +183,132 @@
 
 
 <!-- Body BEGIN -->
-<body>
+<body data-pinterest-extension-installed="ff1.37.9">
+
+<div class="head_fix">
+<!--头部开始-->
+    <div class="head user_head">
+	        <a href="javascript:history.back(-1)" class="head_back"></a>
+	        用户中心
+	    </div>
+	</div>	
 	
-	<div class="profile">
+	<div class="main">
+    <!--用户中心banner开始-->
+    <div class="user_ban">
+        <img src="${ctx}/images/user/userban.jpg" />
+        <a href="#" class="user_name">
+            <span>Hi, ${currentUserName}</span>
+            <em></em>
+        </a>
+    </div>
+    <!--我的订单开始-->
+    <div class="user_order_tl clearfix">
+        <span class="left">我的订单</span>
+        <a href="/Mobile/Order?orderStatus=0" class="right">查看全部交易订单></a>
+    </div>
+    <!-- 用户菜单-->
+    <ul class="user_menu clearfix">
+        <li>
+            <a href="/Mobile/Order?orderStatus=1">
+                <div class="user_menu_img">
+                     <span class="num">0</span>
+                    <img src="${ctx}/images/user/user_daiqueren.png" />
+                </div>
+                <p>待付款</p>
+            </a>
+        </li>
+        <li>
+            <a href="/Mobile/Order?orderStatus=2">
+                <div class="user_menu_img">
+                    <span class="num">0</span>
+                    <img src="${ctx}/images/user/user_peihuo.png" />
+                </div>
+                <p>处理中</p>
+            </a>
+        </li>
+        <!--<li>
+            <a href="/Mobile/Order?orderStatus=3">
+                <div class="user_menu_img">
+                    <span class="num">1</span>
+                    <img src="images/user/user_daijiekuan.png" />
+                </div>
+                <p>待结款 </p>
+            </a>
+        </li>-->
+        <li>
+            <a href="/Mobile/Order?orderStatus=4">
+                <div class="user_menu_img">
+                    <img src="${ctx}/images/user/user_yifahuo.png" />
+                </div>
+                <p>已发货</p>
+            </a>
+        </li>
+    </ul>
+
+    <!--用户选项-->
+    <div class="user_choice">
+        <ul>
+            <li>
+                <a href="/Mobile/Order?orderStatus=0" class="clearfix">
+                    <img src="${ctx}/images/user/user_quanbudingdan.png" class="left" />
+                    <div class="user_choice_rt clearfix">
+                        <span class="left">全部订单</span>
+                        <em class="right"></em>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="/Mobile/User/UserProfile?orderStatus=1" class="clearfix">
+                    <img src="${ctx}/images/user/user_huiyuan.png" class="left" />
+                    <div class="user_choice_rt clearfix">
+                        <span class="left">会员信息</span>
+                        <em class="right"></em>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="${ctx}/address/receiveList" class="clearfix">
+                    <img src="${ctx}/images/user/user_shoujianren.png" class="left" />
+                    <div class="user_choice_rt clearfix">
+                        <span class="left">收件人管理</span>
+                        <em class="right"></em>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="${ctx}/address/sendList" class="clearfix">
+                    <img src="${ctx}/images/user/user_fajianren.png" class="left" />
+                    <div class="user_choice_rt clearfix">
+                        <span class="left">寄件人管理</span>
+                        <em class="right"></em>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+	    <!--退出-->
+	    <a href="javascript:void(0);" class="btn btn_red out">退出</a>
+	</div>
+
+	<!--弹窗开始-->
+	<div class="alert_bg"></div>
+	<div class="alert out_alert">
+	    <p class="alert_tl">确认退出</p>
+	    <div class="alert_text">
+	        您确定要退出当前用户？
+	    </div>
+	    <div class="alert_btn">
+	        <a href="javascript:void(0);" class="quxiao">取消</a>
+	        <a href="javascript:document.getElementById('logoutform').submit()" class="btn_red">退出</a>
+	    </div>
+	</div>
+	<form action="${ctx}/login/logout" id="logoutform" method="post">
+	</form>
+	<script type="text/javascript" src="${ctx}/js/qin.js"></script>
+
+
+<%-- 	<div class="profile">
 		<c:if test="${currentUserId == null || currentUserId == ''}">
 		<a href="../login/init">	
 		<div class="profile-content">
@@ -203,7 +326,7 @@
 			<div class="showusername">
 				<img alt="photo" src="${ctx}/images/head.png">
 				<span >${currentUserName}</span>
-				<%-- <div class="user_level_div">
+				<div class="user_level_div">
 					<c:if test="${Level == '1' }">
 					 	<div class="userlevel userlevel_1"></div>
 					 	<span class="userlevelspan">
@@ -239,7 +362,7 @@
 					<div class="userPoints">
 						<fmt:message key="USER_POINTS"/>${Points}
 					</div>
-				</c:if> --%>
+				</c:if>
 			</div>
 			
 		</c:if>
@@ -352,6 +475,7 @@
 	<div class="loginOutBtn">
             <a href="#" onclick="loginOut()"><fmt:message key="LOGIN_OUT_BTN" /></a>
     </div>
+    --%>
         
     <script type="text/javascript">
         var sessionUserId = '${currentUserId}';
@@ -369,7 +493,7 @@
     		updatePowderNotDeliver();
     		updateDelivering();
     	}
-    </script>
+    </script> 
 </body>
 <!-- END BODY -->
 </html>

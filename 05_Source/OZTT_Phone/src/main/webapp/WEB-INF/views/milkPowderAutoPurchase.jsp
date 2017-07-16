@@ -8,9 +8,27 @@
 <head>
   <meta charset="utf-8">
   <title><fmt:message key="POWDER_TITLE" /></title>
+  
+  <!-- Global styles START -->          
+  <link href="<c:url value='/assets/plugins/font-awesome/css/font-awesome.min.css' />" rel="stylesheet" type="text/css">
+  <link href="<c:url value='/assets/plugins/bootstrap/css/bootstrap.css' />" rel="stylesheet" type="text/css">
+  <!-- Global styles END  -->
+   
+  <!-- Page level plugin styles START -->
+  <link href="<c:url value='/assets/plugins/fancybox/source/jquery.fancybox.css' />" rel="stylesheet">  
+  <link rel="stylesheet" href="${ctx}/css/jquery-ui.css"><!-- for slider-range -->
+              
+  <link href="<c:url value='/css/my-common.css' />" rel="stylesheet" type="text/css">
+  
   <link rel="stylesheet" type="text/css" href="${ctx}/css/mobile-select-area.css">
   <link rel="stylesheet" type="text/css" href="${ctx}/css/dialog.css">
   <link rel="stylesheet" type="text/css" href="${ctx}/css/blue.css">
+  
+    <script type="text/javascript" src="${ctx}/js/user-common.js"></script>
+    <script type="text/javascript" src="${ctx}/js/common_validate.js"></script>
+   <script src="${ctx}/js/commonFunction.js" type="text/javascript"></script>
+
+  
   <script type="text/javascript" src="${ctx}/js/dialog.js"></script>
   <script type="text/javascript" src="${ctx}/js/mobile-select-area.js"></script>
   <script type="text/javascript" src="${ctx}/js/icheck.js"></script>

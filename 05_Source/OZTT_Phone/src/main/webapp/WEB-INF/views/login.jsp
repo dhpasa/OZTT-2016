@@ -9,14 +9,15 @@
 <head>
   <meta charset="utf-8">
   <title><fmt:message key="LOGIN_TITLE" /></title>
+  
   <script type="text/javascript">
   	var W0001 = '<fmt:message key="W0001" />';
   	var E0001 = '<fmt:message key="E0001" />';
   	var I0001 = '<fmt:message key="I0001" />';
   	function login(){
   		$("#errormsg").text("");
-  		var phone = $("#phone").val();
-  		var password = $("#password").val();
+  		var phone = $("#Username").val();
+  		var password = $("#Password").val();
   		if (phone == "" || password == "") {
   			$('#errormsg_content').text(W0001);
   			$('#errormsg-pop-up').modal('show');
@@ -54,7 +55,7 @@
   	}
   	
   	function hrefLoginSuccess(){
-  		location.href = "${ctx}/Notice/loginsuccess";
+  		location.href = "${ctx}/main/init";
   	}
   
   </script>
@@ -63,61 +64,51 @@
 
 
 <!-- Body BEGIN -->
-<body>
-	<div class="login_bg" id="login-main-div">
-	 <div class="logodiv">
-	 	<img alt="logo" src="${ctx}/images/logo_login.png">
-	 </div>
-	<div class="errormsg">
-		<span id="errormsg"></span>
-	</div>
-	
-	<div class="logincontain">
-        <div class="input_username">
-            <input class="txt-input " type="text" placeholder="请输入手机号"  autofocus="" maxlength="13" id="phone">
-        </div>
-        <div class="input-password">
-            <input class="txt-input" type="password" autocomplete="off" placeholder="请输入密码" maxlength="13" id="password">
-        </div>
-        <div class="loginBtn">
-            <a href="#" onclick="login()"><fmt:message key="LOGIN_BTN" /></a>
-        </div>
-        <div class="login_option">
-            <span class="register">
-                <a href="../register/init" onclick="" class=""><fmt:message key="LOGIN_TOREGISTER" /></a>
-            </span>
-            <span class="find_pw">
-                <a href="../forgetPassword/init" onclick="" class=""><fmt:message key="LOGIN_FORGETPWD" /></a>
-            </span>
-        </div>
-        <!-- 
-        <div class="login_other">
-            <div>
-                <div class="login-other-info">
-                	<span><fmt:message key="LOGIN_OTHER" /></span>
-                </div>
-                <div class="login-other-centent">
-                    <a href="" onclick="" class="wechat"><span><fmt:message key="LOGIN_WECHAT" /></span></a>
-                </div>
+<body data-pinterest-extension-installed="ff1.37.9">
+<div class="login_bg"></div>
+<div class="login_main">
+    <!--头部开始-->
+    <div class="head user_head">
+        <a href="javascript:history.back(-1)" class="head_back"></a>
+        用户登录
+    </div>
+    <div class="login_logo">
+        <img src="${ctx}/picture/login_logo.png" />
+    </div>
+
+    <!--登录内容-->
+    <div class="login_con">
+	<div class="erro_mess"></div>
+        <div class="login_group clearfix">
+            <div class="left login_group_name">
+                <img src="${ctx}/picture/login_phone.png" />
+            </div>
+            <div class="login_rt">
+                <input class="text-box single-line" data-val="true" data-val-regex="手机号格式错误。" data-val-regex-pattern="(^04\d{8}$)|(^1[3-8]\d{9}$)|(^[uU]?\d{2,5}$)" id="Username" name="Username" placeholder="请输入手机号" type="text" value="" />
             </div>
         </div>
-         -->
-        <br/>
-        <br/>
-        <div class="login_guangguang">
-        	<a href="${ctx}/main/init"><fmt:message key="LOGIN_SUIBIAN_GUANGGUANG" /></a>
-        </div>
-	</div>
-	
-	</div>
-	<script type="text/javascript">
-
-	//这里重新加载画面的高度
-	var viewHeight = window.screen.height ;
-	if ($("#login-main-div").height() < viewHeight) {
-		$("#login-main-div").height(viewHeight);
-	}
-	</script>   
+        
+		<div class="login_group clearfix">
+			<div class="left login_group_name">
+				<img src="${ctx}/picture/login_yaoshi.png" />
+			</div>
+			<div class="login_rt">
+				<input class="f" data-val="true" id="Password" name="Password" placeholder="请输入密码" type="password" />
+			</div>
+		</div>
+		
+        <input type="button" class="btn btn_blue loginbtn mt12" value="<fmt:message key="LOGIN_BTN" />" onclick="login()">
+		<div class="clearfix loginb">
+			<div class="left clearfix login_zidong">
+				<input checked="checked" class="check-box" data-val="true" data-val-required="The 记住密码 field is required." id="RememberMe" name="RememberMe" type="checkbox" value="true" /><input name="RememberMe" type="hidden" value="false" /> &nbsp;自动登录
+			</div>
+			<div class="right">
+				<a href="../register/init"><fmt:message key="LOGIN_TOREGISTER" /></a>
+				<a href="../forgetPassword/init"><fmt:message key="LOGIN_FORGETPWD" /></a>
+			</div>
+		</div> 
+		</div>
+		</div>
 </body>
 <!-- END BODY -->
 </html>

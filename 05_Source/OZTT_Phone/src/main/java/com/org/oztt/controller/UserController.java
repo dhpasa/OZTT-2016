@@ -36,6 +36,9 @@ public class UserController extends BaseController {
         try {
             TSysConfig tSysConfig = sysConfigService.getTSysConfig();
             Object customerNo = request.getSession().getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            if (StringUtils.isEmpty(customerNo)) {
+                return "redirect:/login/init";
+            }
             if (!StringUtils.isEmpty(customerNo)) {
                 //已经登录的场合取得，当前用户的积分和级别
                 TCustomerMemberInfo memberInfo = customerService.getCustomerMemberInfo(customerNo.toString());

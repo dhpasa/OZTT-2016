@@ -76,4 +76,5 @@ public interface TGoodsGroupDao {
    PagingResult<OzTtAdGsListDto> getAllGoodsRInfoForAdmin(Pagination pagination);
    
    Object getProductsCount(Map<Object, Object> param);
+  
 }

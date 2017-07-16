@@ -96,9 +96,7 @@ public class PagingResult<T> {
 			return this.totalPage;
 		}
 		this.totalPage = this.totalSize / this.pageSize;
-		if((this.totalSize % this.pageSize) > 0) {
-			this.totalPage += 1;
-		}
+		this.totalPage += 1; 
 		return totalPage;
 	}
 

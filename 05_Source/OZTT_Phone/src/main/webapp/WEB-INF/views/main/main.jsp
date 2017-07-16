@@ -8,6 +8,7 @@
 <head>
   <meta charset="utf-8">
   <title><fmt:message key="MAIN_TITLE"/></title>
+  
   <!-- Head END -->
   <script>	
   		$(function(){
@@ -18,17 +19,16 @@
   			$("#main_wechat").click(function(){
   				$('#main_qrcode').modal('show');
   			});
-  			
-  			$("#milkpowder").click(function(){
-  				var currentUserId = $("#currentUserId").val();
-  				if (currentUserId == null || currentUserId.length == 0) {
-  					location.href = "${ctx}/login/init";
-  				} else {
-  					location.href="${ctx}/milkPowderAutoPurchase/init";
-  				}
-  				
-  			});
   		})
+  		function toMilkPowder(){
+			var currentUserId = $("#currentUserId").val();
+			if (currentUserId == null || currentUserId.length == 0) {
+				window.location.href="${ctx}/login/init";
+			} else {
+				window.location.href="${ctx}/milkPowderAutoPurchase/init";
+			}
+		}
+  			
 		function toItem(groupNo){
 			location.href="${ctx}/item/getGoodsItem?groupId="+groupNo;
 		}
@@ -41,6 +41,44 @@
   			$(ele).parent().parent().find(".main_rush_end").css("display","");
   			$(ele).parent().remove();
   		}
+  		
+  	  	function checktoCart(groupId, currentObj){
+  			if ('${currentUserId}' == '') {
+  				location.href = "${ctx}/login/init";
+  			} else {
+  				addToCart(groupId, $(currentObj).parent().find("input[type='text']"));
+  			}
+  		}
+  		
+  		function itemFlyToCart(itemNumberObj) {
+  			var offset = $("#bottomCart").offset();
+  			var offsetAdd = $("#bottomCart").width();
+  			var img = $(itemNumberObj).parent().parent().parent().parent().find("img").attr('src');
+  			
+  			var imgOffset = $(itemNumberObj).parent().parent().parent().parent().find("img").offset();
+  			var startLeft = imgOffset.left;
+  			var locationTop = imgOffset.top;
+  			var bodyScrollTop = $("body").scrollTop();
+  			var flyer = $('<img class="u-flyer" src="'+img+'">');
+  			flyer.fly({
+  				start: {
+  					left: startLeft,
+  					top: (locationTop-bodyScrollTop)
+  				},
+  				end: {
+  					left: offset.left+offsetAdd/2+(offset.left-startLeft),
+  					//left: offset.left+offsetAdd/2,
+  					top: offset.top+offsetAdd/2,
+  					width: 0,
+  					height: 0
+  				},
+  				onEnd: function(){
+  					this.destory();
+  				}
+  			});
+  		}
+  		
+  	
   		
   		//在线客服
   		/* kefu = function(id, _top) {
@@ -64,477 +102,347 @@
   		
   		
   </script>
-  <style type="text/css">
-	.hours-1 {
-		float: left;
-		background-color:#333;
-		color:#fff;
-		margin-right: 3px;
-		width: 1rem;
-		text-align: center;
-		border-radius: 1px !important;
-	}
-	.hours-2 {
-		float: left;
-		background-color:#333;
-		color:#fff;
-		margin-right: 3px;
-		width: 1rem;
-		text-align: center;
-		border-radius: 1px !important;
-	}
-	.minutes-1 {
-		float: left;
-		background-color:#333;
-		color:#fff;
-		margin-right: 3px;
-		width: 1rem;
-		text-align: center;
-		border-radius: 1px !important;
-	}
-	.minutes-2 {
-		float: left;
-		background-color:#333;
-		color:#fff;
-		margin-right: 3px;
-		width: 1rem;
-		text-align: center;
-		border-radius: 1px !important;
-	}
-	.seconds-1 {
-		float: left;
-		background-color:#333;
-		color:#fff;
-		margin-right: 3px;
-		width: 1rem;
-		text-align: center;
-		border-radius: 1px !important;
-	}
-	.seconds-2 {
-		float: left;
-		background-color:#333;
-		color:#fff;
-		margin-right: 3px;
-		width: 1rem;
-		text-align: center;
-		border-radius: 1px !important;
-	}
-	.splitTime-1{
-		float: left;
-		background-color:#fff;
-		color:#111;
-		margin-right: 3px;
-		text-align: center;
-	}
-	.splitTime-2{
-		float: left;
-		background-color:#fff;
-		color:#111;
-		margin-right: 3px;
-		text-align: center;
-	}
-	
-	.clearDiv {
-		clear: both;
-	}
-	
-	.countdown-time{
-		text-align: center;
-	}
-	
-  </style>
+
 </head>
 
 
 <!-- Body BEGIN -->
-<body>
-<div id="main_goods">
-    <div class="x-header x-header-gray border-1px-bottom">
-		<div class="x-header-btn"></div>
-		<div class="x-header-title">
-			<span>
-				<img alt="" src="${ctx}/images/logo.png" style="height: 3.5rem;">
-			</span>
-		</div>
-		<div class="x-header-btn icon-search"></div>
+<body data-pinterest-extension-installed="ff1.37.9">
+<!--头部开始-->
+<div class="head_fix">
+    <div id="searchcontainer" class="head index_head">          
+		<div class="head_logo"><img src="${ctx}/picture/logo.png" width="75" /></div>
+        <div class="head_search">
+             <div class="head_search_main clearfix">
+                 <input id="searchbox" type="text" name="keyword" class="left head_search_main_lf" placeholder="搜索商品品牌 名称 功效" />
+                 <input value="" class="head_search_btn right" type="submit" id="main_search_icon">
+             </div>
+        </div>
+       	<a href="${ctx}/category/init" class="index_head_fenlei"></a>
 	</div>
-	<div class="flexslider border-top-show">
-  		<ul class="slides">
-  			<c:forEach var="advPic" items="${ advPicList }">
-  				<li><img src="${imgUrl}advertisement/${advPic}" /></li>
-  			</c:forEach>
-  		</ul>
-   </div>
-   
-   <div class="main-category">
-   		<a id="milkpowder"><img src="${ctx}/images/powderSysIcon.jpeg" /></a>
-  		<a onclick="toGroupArea('1')"><img src="${ctx}/images/main-c1.png" /></a>
-  		<a onclick="toGroupArea('2')"><img src="${ctx}/images/main-c2.png" /></a>
-  		<a onclick="toGroupArea('3')"><img src="${ctx}/images/main-c3.png" /></a>
-   </div>
-   
-   <div class="newgoods-parent-div">
-	   <div class="main-rushpur-area">
-			<div class="rushtext">
-				<img alt="" src="${ctx}/images/main_icon_ms.png" class="mian_icon_class">
-				<span><fmt:message key="MAIN_RUSHTEXT" /></span>
-			</div>
-			<div class="rushmore" onclick="toGroupArea('1')"><span><fmt:message key="MAIN_RUSHMORE" /></span><i class="fa fa-angle-right"></i></div>
-	   </div>
-	   <c:forEach var="newGoodsList" items="${ topPageSellList }" varStatus="step">
-	   <c:if test="${step.count%2 == 1 }">
-		<div class="newGoods-div" onclick="toItem('${newGoodsList.groupno }')">
-			<div class="newGoods-info">
-				<span class="newGoods-info-span font-xl clearMargin">${newGoodsList.goodsname }</span>
-				<c:if test="${newGoodsList.isOverGroup != '1' }">
-					<span class="main_rush_end" style="display:none"><fmt:message key="MAIN_RUSHOVER" /></span>
-					<span class="newGoods-info-span time">
-					<div style="float:left;padding-right: 0.5rem;height: 1.7rem"><fmt:message key="MAIN_TIME" /></div>
-					<div class="countdownDay">${newGoodsList.countdownDay }<fmt:message key="COMMON_DAY" /></div>
-					<div id="cuntdown" class="cuntdown" data-seconds-left="${newGoodsList.countdownTime}" data-isrush="1" style="float:left;width: 100%;">
-					
-					</div>
-				</span>
-				</c:if>
-				
-				<span class="newGoods-info-span">
-					<div class="group-price-div">
-						<span class="group-price">
-							<span class="dollar-symbol"><fmt:message key="COMMON_DOLLAR" /></span>${newGoodsList.disprice }
-						</span>
-						<span class="text-through"><fmt:message key="COMMON_DOLLAR" />${newGoodsList.costprice }</span>
-					</div>
-				</span>
-				<div class="main-ms-hasBuy">
-                	<i class="main-hasBuy" style="float: left"></i>
-		   			<span class="item-timeword"><fmt:message key="COMMON_HAS_RUSH_PURCHASE" /></span>&nbsp;
-		   			<span class="">${newGoodsList.groupCurrent}&nbsp;/&nbsp;${newGoodsList.groupMax}</span>
-                </div>
-                <c:if test="${newGoodsList.isOverGroup == '1' }">
-					<span class="main_rush_end"><fmt:message key="MAIN_RUSHOVER" /></span>
-				</c:if>
-			</div>
-			<div class="newGoods-img">
-				<img src="${newGoodsList.goodsthumbnail }" class="padding-1rem">
-			</div>
-		</div>
-	   </c:if>
-	   <c:if test="${step.count%2 == 0 }">
-	   	<div class="newGoods-div" onclick="toItem('${newGoodsList.groupno }')">
-	   		<div class="newGoods-img">
-				<img src="${newGoodsList.goodsthumbnail }" class="padding-1rem">
-			</div>
-			<div class="newGoods-info">
-				<span class="newGoods-info-span font-xl clearMargin">${newGoodsList.goodsname }</span>
-				
-				<c:if test="${newGoodsList.isOverGroup != '1' }">
-					<span class="main_rush_end" style="display:none"><fmt:message key="MAIN_RUSHOVER" /></span>
-					<span class="newGoods-info-span time">
-					<div style="float:left;padding-right: 0.5rem;height: 1.7rem"><fmt:message key="MAIN_TIME" /></div>
-					<div class="countdownDay">${newGoodsList.countdownDay }<fmt:message key="COMMON_DAY" /></div>
-					<div id="cuntdown" class="cuntdown" data-seconds-left="${newGoodsList.countdownTime}" data-isrush="1" style="float:left;width: 100%;">
-					
-					</div>
-				</span>
-				</c:if>
-				
-				<span class="newGoods-info-span">
-					<div class="group-price-div">
-						<span class="group-price">
-							<span class="dollar-symbol"><fmt:message key="COMMON_DOLLAR" /></span>${newGoodsList.disprice }
-						</span>
-						<span class="text-through"><fmt:message key="COMMON_DOLLAR" />${newGoodsList.costprice }</span>
-					</div>
-				</span>
-				<div class="main-ms-hasBuy">
-                	<i class="main-hasBuy" style="float: left"></i>
-		   			<span class="item-timeword"><fmt:message key="COMMON_HAS_RUSH_PURCHASE" /></span>&nbsp;
-		   			<span class="">${newGoodsList.groupCurrent}&nbsp;/&nbsp;${newGoodsList.groupMax}</span>
-                </div>
-                <c:if test="${newGoodsList.isOverGroup == '1' }">
-					<span class="main_rush_end"><fmt:message key="MAIN_RUSHOVER" /></span>
-				</c:if>
-			</div>
-		</div>
-	   </c:if>		
-		</c:forEach>
+
+	    <!--菜单开始-->
+	    <ul class="clearfix index_menu">
+	        <li>
+	            <a href="${ctx}/main/init">推荐 </a>
+	        </li>
+	        <li>
+	            <a href="${ctx}/search/init?classId=1C0001">保健</a>
+	        </li>
+	        <li>
+	            <a href="${ctx}/search/init?classId=1C0002">母婴</a>
+	        </li>
+	        <li>
+	            <a href="${ctx}/search/init?classId=1C0003">美妆</a>
+	        </li>
+	        <li>
+	            <a href="${ctx}/search/init?classId=1C0004">美食</a>
+	        </li>
+	        <li>
+	            <a href="${ctx}/search/init?classId=1C0005">时尚</a>
+	        </li>
+	        <li>
+	            <a href="${ctx}/search/init?classId=1C0006">家居</a>
+	        </li>
+	        
+	    </ul>
 	</div>
 	
-	<c:if test="${currentUserId != null && currentUserId != '' && sessionDiamondCustomer == '4' }">
-	<div class="main_goods">
-   	  <div class="main-presell-area">
-		<div class="preselltext">
-			<img alt="" src="${ctx}/images/Level_4.png" class="mian_icon_class">
-			<span><fmt:message key="MAIN_DIAMONDTEXT" /></span>
-		</div>
-		<div class="presellmore" onclick="toGroupArea('4')"><span><fmt:message key="MAIN_PRESELLMORE" /></span><i class="fa fa-angle-right"></i></div>
-   	  </div>
-      <div class="">
-   		<div class="jshop-product-two-column">
-   			<ul id="goodItemList">
-   				<c:forEach var="goodslist" items="${ diamondSellList }">
-   				<li class="main-goods-li">
-					<div class="jshop-item" onclick="toItem('${goodslist.groupno }')">
-						<img src="${goodslist.goodsthumbnail }" class="img-responsive padding-1rem">
-						<span class="main-goodsname">${goodslist.goodsname }</span>
-		                <div class="main-group-price">
-		                	<span class="group-price">
-		                		<span class="dollar-symbol2 font-xxl"><fmt:message key="COMMON_DOLLAR" /></span>${goodslist.disprice }</span>
-							<span class="text-through font-l"><fmt:message key="COMMON_DOLLAR" />${goodslist.costprice }</span>
-		                </div>
-		                <div class="main-hasbuy">
-<!-- 		                	<i class="main-hasBuy" style="float: left"></i> -->
-<%-- 				   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp; --%>
-<%-- 				   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span> --%>
-							<c:if test="${goodslist.stockStatus == '1' }">
-				   				<span class="stock_1"><fmt:message key="COMMON_STOCK_1" /></span>
-				   			</c:if>
-				   			<c:if test="${goodslist.stockStatus == '2' }">
-				   				<span class="stock_2"><fmt:message key="COMMON_STOCK_2" /></span>
-				   			</c:if>
-				   			<c:if test="${goodslist.stockStatus == '3' }">
-				   				<span class="stock_3"><fmt:message key="COMMON_STOCK_3" /></span>
-				   			</c:if>
-				   			<c:if test="${goodslist.stockStatus == '4' }">
-				   				<span class="stock_4"><fmt:message key="COMMON_STOCK_4" /></span>
-				   			</c:if>
-		                </div>
-		                <%-- <c:if test="${goodslist.isOverGroup == '1' }">
-		                	<div class="main-overtime-div" style="display: inline-block;"><fmt:message key="COMMON_OVER_GROUP" /></div>
-		                </c:if>
-		                <c:if test="${goodslist.isOverGroup != '1' }">
-		                	<c:if test="${goodslist.isOnWay == '1' }">
-		                		<div class="main-onway-div" style="display: inline-block;"><fmt:message key="COMMON_GROUP_ONWAY" /></div>
-		                	</c:if>
-		                	<c:if test="${goodslist.isOnWay != '1' }">
-		                		<div class="displaynone-time"></div>
-		                	</c:if>
-		                </c:if> --%>
-		                <div class="displaynone-time"></div>
-		                
-		                
-		                <c:if test="${goodslist.inStockLabel == '1' }">
-		                	<c:if test="${languageSelf == 'zh_CN' }">
-		                		<div class="goods-sticker goods-sticker-inStockLabel"></div>
-		                	</c:if>
-		                	<c:if test="${languageSelf == 'en_US' }">
-		                		<div class="goods-sticker goods-sticker-inStockLabel-en"></div>
-		                	</c:if>
-		                </c:if>
-		                
-		                <c:if test="${goodslist.sellOutFlg == '1' }">
-		                	<c:if test="${languageSelf == 'zh_CN' }">
-		                		<div class="goods-sticker-right goods-sticker-selloutLabel"></div>
-		                	</c:if>
-		                	<c:if test="${languageSelf == 'en_US' }">
-		                		<div class="goods-sticker-right goods-sticker-selloutLabel-en"></div>
-		                	</c:if>
-		                </c:if>
-		                
-		                <c:if test="${goodslist.diamondLabel == '1' }">
-		                	<c:if test="${languageSelf == 'zh_CN' }">
-		                		<div class="goods-sticker goods-sticker-diaLabel"></div>
-		                	</c:if>
-		                	<c:if test="${languageSelf == 'en_US' }">
-		                		<div class="goods-sticker goods-sticker-diaLabel-en"></div>
-		                	</c:if>
-		                </c:if>
-		                
-		                
-		                
-					</div>
-   				</li>
-   				</c:forEach>
-   			</ul>
-   		</div>   
-      </div>
-    </div>
-	</c:if>
-	
-   
-   <div class="main_goods">
-   	  <div class="main-presell-area">
-		<div class="preselltext">
-			<img alt="" src="${ctx}/images/main_icon_ys.png" class="mian_icon_class">
-			<span><fmt:message key="MAIN_PRESELLTEXT" /></span>
-		</div>
-		<div class="presellmore" onclick="toGroupArea('2')"><span><fmt:message key="MAIN_PRESELLMORE" /></span><i class="fa fa-angle-right"></i></div>
-   	  </div>
-      <div class="">
-   		<div class="jshop-product-two-column">
-   			<ul id="goodItemList">
-   				<c:forEach var="goodslist" items="${ preSellList }">
-   				<li class="main-goods-li">
-					<div class="jshop-item" onclick="toItem('${goodslist.groupno }')">
-						<img src="${goodslist.goodsthumbnail }" class="img-responsive padding-1rem">
-						<span class="main-goodsname">${goodslist.goodsname }</span>
-		                <div class="main-group-price">
-		                	<span class="group-price">
-		                		<span class="dollar-symbol2 font-xxl"><fmt:message key="COMMON_DOLLAR" /></span>${goodslist.disprice }</span>
-							<span class="text-through font-l"><fmt:message key="COMMON_DOLLAR" />${goodslist.costprice }</span>
-		                </div>
-		                <div class="main-hasbuy">
-		                	<i class="main-hasBuy" style="float: left"></i>
-				   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp;
-				   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span>
-		                </div>
- 		                <c:if test="${goodslist.isOverGroup == '1' }">
-		                	<div class="main-overtime-div" style="display: inline-block;"><fmt:message key="COMMON_OVER_GROUP" /></div>
-		                </c:if>
-		                <c:if test="${goodslist.isOverGroup != '1' }">
-		                	<c:if test="${goodslist.isOnWay == '1' }">
-		                		<div class="main-onway-div" style="display: inline-block;"><fmt:message key="COMMON_GROUP_ONWAY" /></div>
-		                	</c:if>
-		                	<c:if test="${goodslist.isOnWay != '1' }">
-		                		<div class="countdown-time" data-seconds-left="${goodslist.countdownTime}">
-		                		</div>
-		                	</c:if>
-		                </c:if>
-		                <c:if test="${goodslist.preLabel == '1' }">
-		                	<c:if test="${languageSelf == 'zh_CN' }">
-		                		<div class="goods-sticker goods-sticker-preLabel"></div>
-		                	</c:if>
-		                	<c:if test="${languageSelf == 'en_US' }">
-		                		<div class="goods-sticker goods-sticker-preLabel-en"></div>
-		                	</c:if>
-		                </c:if>
-		                
-		                <c:if test="${goodslist.sellOutFlg == '1' }">
-		                	<c:if test="${languageSelf == 'zh_CN' }">
-		                		<div class="goods-sticker-right goods-sticker-selloutLabel"></div>
-		                	</c:if>
-		                	<c:if test="${languageSelf == 'en_US' }">
-		                		<div class="goods-sticker-right goods-sticker-selloutLabel-en"></div>
-		                	</c:if>
-		                </c:if>
-		               	
-					</div>
-   				</li>
-   				</c:forEach>
-   			</ul>
-   		</div>   
-      </div>
-    </div>
-   
-   
-   
-   <div class="main_goods">
-   	  <div class="main-nowsell-area">
-			<div class="nowselltext">
-				<img alt="" src="${ctx}/images/main_icon_xh.png" class="mian_icon_class">
-				<span><fmt:message key="MAIN_NOWSELLTEXT" /></span>
-			</div>
-			<div class="nowsellmore" onclick="toGroupArea('3')"><span><fmt:message key="MAIN_NOWSELLMORE" /></span><i class="fa fa-angle-right"></i></div>
-	   </div>
-      <div class="">
-   		<div class="jshop-product-two-column">
-   			<ul id="goodItemList">
-   				<c:forEach var="goodslist" items="${ nowSellList }">
-   				<li class="main-goods-li">
-					<div class="jshop-item" onclick="toItem('${goodslist.groupno }')">
-						<img src="${goodslist.goodsthumbnail }" class="img-responsive padding-1rem">
-						<span class="main-goodsname">${goodslist.goodsname }</span>
-		                <div class="main-group-price">
-		                	<span class="group-price">
-		                		<span class="dollar-symbol2 font-xxl"><fmt:message key="COMMON_DOLLAR" /></span>${goodslist.disprice }</span>
-							<span class="text-through font-l"><fmt:message key="COMMON_DOLLAR" />${goodslist.costprice }</span>
-		                </div>
-		                <div class="main-hasbuy">
-<!-- 		                	<i class="main-hasBuy" style="float: left"></i> -->
-<%-- 				   			<span class="item-timeword"><fmt:message key="ITEM_HASBUY" /></span>&nbsp; --%>
-<%-- 				   			<span class="">${goodslist.groupCurrent}&nbsp;/&nbsp;${goodslist.groupMax}</span> --%>
-				   			<c:if test="${goodslist.stockStatus == '1' }">
-				   				<span class="stock_1"><fmt:message key="COMMON_STOCK_1" /></span>
-				   			</c:if>
-				   			<c:if test="${goodslist.stockStatus == '2' }">
-				   				<span class="stock_2"><fmt:message key="COMMON_STOCK_2" /></span>
-				   			</c:if>
-				   			<c:if test="${goodslist.stockStatus == '3' }">
-				   				<span class="stock_3"><fmt:message key="COMMON_STOCK_3" /></span>
-				   			</c:if>
-				   			<c:if test="${goodslist.stockStatus == '4' }">
-				   				<span class="stock_4"><fmt:message key="COMMON_STOCK_4" /></span>
-				   			</c:if>
-		                </div>
-		                <%-- <c:if test="${goodslist.isOverGroup == '1' }">
-		                	<div class="main-overtime-div" style="display: inline-block;"><fmt:message key="COMMON_OVER_GROUP" /></div>
-		                </c:if>
-		                <c:if test="${goodslist.isOverGroup != '1' }">
-		                	<c:if test="${goodslist.isOnWay == '1' }">
-		                		<div class="main-onway-div" style="display: inline-block;"><fmt:message key="COMMON_GROUP_ONWAY" /></div>
-		                	</c:if>
-		                	<c:if test="${goodslist.isOnWay != '1' }">
-		                		<div class="displaynone-time"></div>
-		                	</c:if>
-		                </c:if> --%>
-		                <div class="displaynone-time"></div>
-		                
-		                
-		                <c:if test="${goodslist.inStockLabel == '1' }">
-		                	<c:if test="${languageSelf == 'zh_CN' }">
-		                		<div class="goods-sticker goods-sticker-inStockLabel"></div>
-		                	</c:if>
-		                	<c:if test="${languageSelf == 'en_US' }">
-		                		<div class="goods-sticker goods-sticker-inStockLabel-en"></div>
-		                	</c:if>
-		                </c:if>
-		                
-		                <c:if test="${goodslist.sellOutFlg == '1' }">
-		                	<c:if test="${languageSelf == 'zh_CN' }">
-		                		<div class="goods-sticker-right goods-sticker-selloutLabel"></div>
-		                	</c:if>
-		                	<c:if test="${languageSelf == 'en_US' }">
-		                		<div class="goods-sticker-right goods-sticker-selloutLabel-en"></div>
-		                	</c:if>
-		                </c:if>
-		                
-					</div>
-   				</li>
-   				</c:forEach>
-   			</ul>
-   		</div>   
-      </div>
+	<div class="main" style="padding-top: 80px; padding-bottom:0px;">
+		<!--首页轮播图-->
+	    <div class="index_ban">
+	        <div class="block_home_slider">
+	            <div id="home_slider" class="flexslider">
+	                <ul class="slides">
+	                		<c:forEach var="advPic" items="${ advPicList }">
+	                        <li>
+	                            <div class="slide">
+	                                <a href="#">
+	                                    <img src="${imgUrl}advertisement/${advPic}" />
+	                                </a>
+	                            </div>
+	                        </li>
+	                        </c:forEach>
+	                </ul>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<!--大分类-->
+    <div class="clearfix big_fenlei_main">
+        <div class="big_fenlei left big_fenlei_lf">
+            <a href="#" onclick="toMilkPowder()">
+                <span class="big_fenlei_con">
+                    <div class="big_fenlei_dingwei">
+                        <div class="big_fenlei_tl clearfix">
+                            <span class="right">
+                                <p class="big">
+                                    奶粉特快
+                                </p>
+                                EXPRESS MILK POWDER
+                            </span>
+                        </div>
+                        <img src="${ctx}/picture/cate_1.jpg" />
+                    </div>
+                </span>
+            </a>
+        </div>
+        <div class="big_fenlei left big_fenlei_rt">
+            <div class="clearfix">
+                <div class="big_fenlei left small_fenlei">
+                    <a href="${ctx}/search/init?topPageUp=1">
+                        <span class="big_fenlei_con">
+                            <div class="big_fenlei_tl clearfix">
+                                <span class="right">
+                                    <p class="big">
+                                        限时团购
+                                    </p>
+                                    GROUP
+                                </span>
+                            </div>
+                            <img src="${ctx}/picture/cate_2.jpg" />
+                        </span>
+                    </a>
+                </div>
+                <div class="big_fenlei left small_fenlei">
+                    <a href="${ctx}/search/init?inStockFlg=1">
+                        <span class="big_fenlei_con">
+                            <div class="big_fenlei_tl clearfix">
+                                <span class="right">
+                                    <p class="big">
+                                        特价产品
+                                    </p>
+                                    SPECIAL PRODUCTS
+                                </span>
+                            </div>
+                            <img src="${ctx}/picture/cate_3.jpg" />
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div class="clearfix">
+                <div class="d4 left small_fenlei">
+                    <a href="${ctx}/search/init?hotFlg=1">
+                        <span class="big_fenlei_con">
+                            <div class="big_fenlei_tl clearfix">
+                                <span class="right">
+                                    <p class="big">
+                                        新品推荐
+                                    </p>
+                                    NEW PRODUCTS
+                                </span>
+                            </div>
+                            <img src="${ctx}/picture/cate_4.jpg" />
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
     
-    <div class="main_qrcode_wechat" id="main_wechat">
-    	<img alt="weixin" src="${ctx}/images/main_wt.png">
-    </div>
-    <div id="main_qrcode" class="modal fade" role="dialog" aria-hidden="true" >
-    	<div class="modal-dialog qrcodemsg-dialog">
-	      <div class="modal-content">
-	         <div class="main_qrcode_info">
-	         	<fmt:message key="COMMON_GRCODE_INFO" />
-	         	<br>oztt-online
-	         </div>
-	         <div class="main_qrcode_div">
-	         	<img alt="qrcode" src="${ctx}/images/oztt_qrcode.png">
-	         </div>
-	      </div>
-    	</div>
-    </div>
    
-    <script type="text/javascript">
-		$(function() {
-		    $(".flexslider").flexslider({
-				slideshowSpeed: 4000, //展示时间间隔ms
-				animationSpeed: 400, //滚动时间ms
-				directionNav:false,
-				touch: true //是否支持触屏滑动
-			});
-		    
-		        
-	    	$('.cuntdown').startOtherTimer({
-	    		
-	    	});
-	    	
-	    	$('.countdown-time').startTimer({
-	    		
-	    	});
-	    	
-	    	
-		});	
+    <div class="jingxuan">
+         <div class="jingxuan_tl index_pro_tl main_index_pro_tl">
+             <span>
+                 本期团购
+             </span>
+             <a class="right" href="${ctx}/search/init?topPageUp=1">更多</a>
+         </div>
+          <c:forEach var="goodItem" items="${ topPageSellList }">
+          <div id="jingxuanlist" class="clearfix">
+                 <a href="#" onclick="toItem('${goodItem.groupno }')" class="clearfix">
+                     <div class="jingxuan_item_left">
+                         <img src="${goodItem.goodsthumbnail }">
+                     </div>
+                     <div class="jingxuan_item_right">
+                         <p class="jingxuan_item_name">
+                             ${goodItem.goodsname }
+                         </p>
+                         <p class="jingxuan_item_origprice">原价：$${goodItem.costprice }</p>
+                         <p class="jingxuan_item_curtprice">$${goodItem.disprice }<span> AUD</span></p>
+                         <p class="jingxuan_item_rmb"><span class="jingxuan_item_tag">直降</span></p>
+                         <span style="color:red;" class="settime" endTime="2017-07-9 16:16:00"></span>
+                         <img src="${ctx}/images/buy.png" alt="" class="d5"/>
+                     </div>
+                 </a>
+         </div>
+         </c:forEach>
+     </div>
+     
+        <div class="jingxuan">
+            <div class="jingxuan_tl index_pro_tl main_index_pro_tl">
+                <span>
+                    新品推荐
+                </span>
+                <a class="right" href="${ctx}/search/init?hotFlg=1">更多</a>
+            </div>
+			<c:forEach var="goodItem" items="${ hotFlgSellList }">
+            <div id="jingxuanlist" class="clearfix">
+                    <a href="#" onclick="toItem('${goodItem.groupno }')" class="clearfix">
+                        <div class="jingxuan_item_left">
+                            <img src="${goodItem.goodsthumbnail }">
+                        </div>
+                        <div class="jingxuan_item_right">
+                            <p class="jingxuan_item_name">
+                                ${goodItem.goodsname }
+                            </p>
+                            
+                            <p class="jingxuan_item_curtprice">$${goodItem.disprice }<span> AUD</span></p>
+                            <p class="jingxuan_item_rmb"><span class="jingxuan_item_tag">新品</span></p>
+                            <img src="${ctx}/images/buy.png" alt="" class="d6"/>
+                        </div>
+                    </a>
+            </div>
+            </c:forEach>
+        </div>
+
+		<script>
+	        $(function () {
+	            var jxlistH = $(window).width() * 0.5;
+	            $("#jingxuanlist a").prop("height", jxlistH);
+	        })
+	    </script>
+	    
+	    <!--分类展示区-->
+	    <c:forEach var="categoryItem" items="${ mainCategoryList }">
+	    <div class="fenlei_neirong">
+            <div class="index_pro_tl clearfix three_tl">
+                <span class="left">${categoryItem.myCategroy.fatherClass.classname}</span>
+                <a class="right" href="${ctx}/search/init?classId=${categoryItem.myCategroy.fatherClass.classid}">更多</a>
+            </div>
+            <ul class="fenlei_neirong_ul clearfix">
+            		<c:forEach var="goodslist" items="${ categoryItem.groupItemDtoList }">
+                    <li>
+                        <div class="fenlei_neirong_ul_main">
+                            <a class="fenlei_neirong_ul_main_a" href="#" onclick="toItem('${goodslist.groupno }')">
+                                <div class="products_kuang main_img">
+                                    <img src="${goodslist.goodsthumbnail }">
+                                </div>
+                            </a>
+                            <p class="fenlei_neirong_ul_main_tl">
+                                <a href="#" onclick="toItem('${goodslist.groupno }')">${goodslist.goodsname }</a>
+                            </p>
+                            <div class="fenlei_neirong_b">
+								<span class="color_red">${goodslist.disprice }</span>
+									
+                                <div class="clearfix sum">
+                                    <a href="javascript:void(0);" class="min left" data-id="${goodslist.groupno}"></a>
+                                    <input class="text_box left" name="" type="text" value="1" data-id="${goodslist.groupno}" pattern="[0-9]*" maxlength="2" size="4">
+                                    <a href="javascript:void(0);" class="add left" data-id="${goodslist.groupno}"></a>
+                                </div>
+                                <a href="javascript:void(0);" onclick="checktoCart('${goodslist.groupno}',this)" class="buy_tuan" data-id="${goodslist.groupno}"></a>
+                            </div>
+                        </div>
+                    </li>
+					</c:forEach>
+	                <li>
+	                    <div class="fenlei_neirong_ul_main" style="border: none;">
+	                        <a href="${ctx}/search/init?classId=${categoryItem.myCategroy.fatherClass.classid}" class="fenlei_neirong_ul_main_a">
+	                            <div class="products_kuang">
+	                                <img src="${ctx}/picture/more.jpg" style="width:100%;" />
+	                            </div>
+	                        </a>
+	                    </div>
+	                </li>
+            </ul>
+        </div>
+	    </c:forEach>
+        
+        <!--弹窗开始-->
+		<div class="clearfix" style="margin-bottom: 100px;" id="outsideAlertView">
+		    <div class="verify out_alert alert">
+		        <div class="alert_btn">
+		            <b><a href="javascript:void(0)" id="alertConfirm" class="verify_btn color_red"></a></b>
+		        </div>
+		    </div>
+		    <!--加载中-->
+		    <div class="alert_bg"></div>
+		    <div class="loading">
+		        <div class="loading_con">
+		            <img src="picture/loading.png" />
+		            <p>
+		                玩命加载中……
+		            </p>
+		        </div>
+		    </div>
+		</div>
+
+	<script type="text/javascript">
+	    $(document).ready(function () {
+	        
+	        $(".add").click(function () {
+	            productId = $(this).attr("data-id");
+	            textInput = $("input[data-id=" + productId + "]");
+	
+	            quantity = isNaN(textInput.val()) ? 1 : parseInt(textInput.val());
+	            textInput.val(quantity + 1);
+	        })
+	        $(".min").click(function () {
+	            productId = $(this).attr("data-id");
+	            textInput = $("input[data-id=" + productId + "]");
+	
+	            quantity = isNaN(textInput.val()) ? 1 : parseInt(textInput.val());
+	            textInput.val(quantity - 1);
+	            if (parseInt(textInput.val()) < 0) {
+	                textInput.val(0);
+	            }
+	        })
+	    })
 	</script>
-</div>    
+	<script type="text/javascript">
+		$('#home_slider').flexslider({
+	        animation: 'slide',
+	        controlNav: true,
+	        directionNav: false,
+	        animationLoop: true,
+	        slideshow: true,
+	        useCSS: false
+	    });
+	</script>
+	
+	<script type="text/javascript">
+    $(function () {
+    	$("#main_search_icon").click(function(){
+    		location.href = "${ctx}/search/init?searchcontent="+$("#searchbox").val();
+    	})
+    	
+        function searchProduct(request, response) {
+            $.ajax({
+                type: "GET",
+                url: "${ctx}/main/searchJson?searchcontent=" + request.term,
+                success: function (data) { 
+                	response(data.itemInfo); 
+                },
+            });
+        }
+
+        $("#searchbox").autocomplete({
+            delay: 500,
+            minLength: 2,
+            source: searchProduct,
+            appendTo: '#searchcontainer',
+            position: { my: "left-90 top" },
+            select: function (event, ui) {
+                $("#small-searchterms").val(ui.item.label);
+                window.location = "${ctx}/item/getGoodsItem?groupId=" + ui.item.groupno;
+                return false;
+            },
+            open: function() {
+                $("ul.ui-menu").width($(window).width() - 2);
+                //$("ul.ui-menu").height();
+                var height = $(window).height() - 90;
+                $("ul.ui-menu").css('max-height', height+'px');
+            }
+        })
+        .data("ui-autocomplete")._renderItem = function (ul, item) {
+            return $("<li></li>")
+                .data("item.autocomplete", item)
+                .append("<a><div class=\"search-item\"><div class=\"search-item-img-box\" ><img src='" + item.goodsthumbnail + "' class=\"search-item-img\"/></div><div class=\"search-item-info\"><div class=\"search-item-name\">" + item.goodsname + "</div><div class=\"search-item-price\">$" + item.disprice + "</div></div></div>")
+                .appendTo(ul);
+        };
+
+	});
+</script>
 </body>
 <!-- END BODY -->
 </html>

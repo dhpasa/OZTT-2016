@@ -1143,5 +1143,12 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
             return 0;
         }
     }
+    
+    public PagingResult<GroupItemDto> getGoodsByParamForPageFor3(Pagination pagination)
+            throws Exception {
+
+        PagingResult<GroupItemDto> itemList = tGoodsDao.getGoodsByParamForPageFor3(pagination);
+        return itemList;
+    }
 
 }
