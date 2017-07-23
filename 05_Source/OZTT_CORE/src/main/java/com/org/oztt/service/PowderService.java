@@ -199,12 +199,28 @@ public interface PowderService {
     public PagingResult<PowderOrderInfo> getPowderOrderPageInfo(Pagination pagination) throws Exception;
     
     /**
+     * 得到奶粉和产品的订单列表
+     * @param tPowderOrder
+     * @return
+     * @throws Exception
+     */
+    public PagingResult<PowderOrderInfo> getPowderAndProductOrderPageInfo(Pagination pagination) throws Exception;
+    
+    /**
      * 通过ID获取装箱信息
      * @param id
      * @return
      * @throws Exception
      */
     public PowderBoxInfo getPowderInfoById(long id) throws Exception;
+    
+    /**
+     * 通过订单号ID获取所有装箱信息
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    public List<PowderBoxInfo> getPowderBoxListByOrderNo(String orderNo) throws Exception;
     
     /**
      * 删除三十分钟之内没有付款的订单

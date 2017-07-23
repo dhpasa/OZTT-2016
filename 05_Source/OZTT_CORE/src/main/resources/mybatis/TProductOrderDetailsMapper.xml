@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.org.oztt.dao.TPowderOrderDetailsMapper" >
-  <resultMap id="BaseResultMap" type="com.org.oztt.entity.TPowderOrderDetails" >
+<mapper namespace="com.org.techcoffee.dao.TProductOrderDetailsMapper" >
+  <resultMap id="BaseResultMap" type="com.org.oztt.entity.TProductOrderDetails" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="powderId" property="powderId" jdbcType="VARCHAR" />
+    <result column="productId" property="productId" jdbcType="VARCHAR" />
     <result column="quantity" property="quantity" jdbcType="DECIMAL" />
     <result column="unitPrice" property="unitPrice" jdbcType="DECIMAL" />
-    <result column="powderBoxId" property="powderBoxId" jdbcType="VARCHAR" />
+    <result column="productBoxId" property="productBoxId" jdbcType="VARCHAR" />
     <result column="addTimestamp" property="addTimestamp" jdbcType="TIMESTAMP" />
     <result column="addUserKey" property="addUserKey" jdbcType="VARCHAR" />
     <result column="updTimestamp" property="updTimestamp" jdbcType="TIMESTAMP" />
@@ -14,37 +14,37 @@
     <result column="updPgmId" property="updPgmId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, powderId, quantity, unitPrice, powderBoxId, addTimestamp, addUserKey, updTimestamp, 
+    id, productId, quantity, unitPrice, productBoxId, addTimestamp, addUserKey, updTimestamp, 
     updUserKey, updPgmId
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from t_powder_order_details
+    from t_product_order_details
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from t_powder_order_details
+    delete from t_product_order_details
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.org.oztt.entity.TPowderOrderDetails" >
-    insert into t_powder_order_details (id, powderId, quantity, 
-      unitPrice, powderBoxId, addTimestamp, 
+  <insert id="insert" parameterType="com.org.oztt.entity.TProductOrderDetails" >
+    insert into t_product_order_details (id, productId, quantity, 
+      unitPrice, productBoxId, addTimestamp, 
       addUserKey, updTimestamp, updUserKey, 
       updPgmId)
-    values (#{id,jdbcType=BIGINT}, #{powderId,jdbcType=VARCHAR}, #{quantity,jdbcType=DECIMAL}, 
-      #{unitPrice,jdbcType=DECIMAL}, #{powderBoxId,jdbcType=VARCHAR}, #{addTimestamp,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=BIGINT}, #{productId,jdbcType=VARCHAR}, #{quantity,jdbcType=DECIMAL}, 
+      #{unitPrice,jdbcType=DECIMAL}, #{productBoxId,jdbcType=VARCHAR}, #{addTimestamp,jdbcType=TIMESTAMP}, 
       #{addUserKey,jdbcType=VARCHAR}, #{updTimestamp,jdbcType=TIMESTAMP}, #{updUserKey,jdbcType=VARCHAR}, 
       #{updPgmId,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.org.oztt.entity.TPowderOrderDetails" >
-    insert into t_powder_order_details
+  <insert id="insertSelective" parameterType="com.org.oztt.entity.TProductOrderDetails" >
+    insert into t_product_order_details
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="powderId != null" >
-        powderId,
+      <if test="productId != null" >
+        productId,
       </if>
       <if test="quantity != null" >
         quantity,
@@ -52,8 +52,8 @@
       <if test="unitPrice != null" >
         unitPrice,
       </if>
-      <if test="powderBoxId != null" >
-        powderBoxId,
+      <if test="productBoxId != null" >
+        productBoxId,
       </if>
       <if test="addTimestamp != null" >
         addTimestamp,
@@ -75,8 +75,8 @@
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="powderId != null" >
-        #{powderId,jdbcType=VARCHAR},
+      <if test="productId != null" >
+        #{productId,jdbcType=VARCHAR},
       </if>
       <if test="quantity != null" >
         #{quantity,jdbcType=DECIMAL},
@@ -84,8 +84,8 @@
       <if test="unitPrice != null" >
         #{unitPrice,jdbcType=DECIMAL},
       </if>
-      <if test="powderBoxId != null" >
-        #{powderBoxId,jdbcType=VARCHAR},
+      <if test="productBoxId != null" >
+        #{productBoxId,jdbcType=VARCHAR},
       </if>
       <if test="addTimestamp != null" >
         #{addTimestamp,jdbcType=TIMESTAMP},
@@ -104,11 +104,11 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.org.oztt.entity.TPowderOrderDetails" >
-    update t_powder_order_details
+  <update id="updateByPrimaryKeySelective" parameterType="com.org.oztt.entity.TProductOrderDetails" >
+    update t_product_order_details
     <set >
-      <if test="powderId != null" >
-        powderId = #{powderId,jdbcType=VARCHAR},
+      <if test="productId != null" >
+        productId = #{productId,jdbcType=VARCHAR},
       </if>
       <if test="quantity != null" >
         quantity = #{quantity,jdbcType=DECIMAL},
@@ -116,8 +116,8 @@
       <if test="unitPrice != null" >
         unitPrice = #{unitPrice,jdbcType=DECIMAL},
       </if>
-      <if test="powderBoxId != null" >
-        powderBoxId = #{powderBoxId,jdbcType=VARCHAR},
+      <if test="productBoxId != null" >
+        productBoxId = #{productBoxId,jdbcType=VARCHAR},
       </if>
       <if test="addTimestamp != null" >
         addTimestamp = #{addTimestamp,jdbcType=TIMESTAMP},
@@ -137,12 +137,12 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.org.oztt.entity.TPowderOrderDetails" >
-    update t_powder_order_details
-    set powderId = #{powderId,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.org.oztt.entity.TProductOrderDetails" >
+    update t_product_order_details
+    set productId = #{productId,jdbcType=VARCHAR},
       quantity = #{quantity,jdbcType=DECIMAL},
       unitPrice = #{unitPrice,jdbcType=DECIMAL},
-      powderBoxId = #{powderBoxId,jdbcType=VARCHAR},
+      productBoxId = #{productBoxId,jdbcType=VARCHAR},
       addTimestamp = #{addTimestamp,jdbcType=TIMESTAMP},
       addUserKey = #{addUserKey,jdbcType=VARCHAR},
       updTimestamp = #{updTimestamp,jdbcType=TIMESTAMP},
@@ -151,7 +151,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   
-  <select id="selectPowderDetailList" resultType="com.org.oztt.formDto.PowderMilkInfo" parameterType="com.org.oztt.entity.TPowderOrderDetails" >
+  <select id="selectProductDetailsListByOrderNo" resultType="com.org.oztt.formDto.OrderDetailViewProductDto" parameterType="java.lang.String" >
     select 
     b.brandName as powderBrand,
     d.codeDetailName as powderSpec,
@@ -159,26 +159,9 @@
     c.weight,
     c.freeDeliveryParameter,
     c.powderPrice as powderPrice
-    from t_powder_order_details a
-    inner join t_powder_info c on a.powderId = c.id
-    inner join t_brand_info b on c.powderBrand = b.id
-    inner join t_sys_code d on d.codeDetailId = c.powderSpec and d.codeId = 'COM021'
-    where a.powderBoxId = #{powderBoxId,jdbcType=VARCHAR}
-  </select>
-  
-  <select id="selectPowderDetailsListByOrderNo" resultType="com.org.oztt.formDto.PowderMilkInfo" parameterType="java.lang.String" >
-    select 
-    b.brandName as powderBrand,
-    d.codeDetailName as powderSpec,
-    a.quantity as number,
-    c.weight,
-    c.freeDeliveryParameter,
-    c.powderPrice as powderPrice
-    from t_powder_order_details a
-    inner join t_powder_box e on a.powderBoxId = e.id
-    inner join t_powder_info c on a.powderId = c.id
-    inner join t_brand_info b on c.powderBrand = b.id
-    inner join t_sys_code d on d.codeDetailId = c.powderSpec and d.codeId = 'COM021'
+    from t_product_order_details a
+    inner join t_product_box e on a.powderBoxId = e.id
+
     where e.orderId = #{orderId,jdbcType=VARCHAR}
   </select>
 </mapper>

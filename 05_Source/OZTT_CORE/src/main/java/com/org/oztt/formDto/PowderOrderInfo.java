@@ -18,6 +18,8 @@ public class PowderOrderInfo {
     private String totalAmount;
     
     private String paymentMethod;
+    
+    private String powderOrProductFlg; // 1 是奶粉 2 是产品
 
     public String getStatus() {
         return status;
@@ -73,5 +75,13 @@ public class PowderOrderInfo {
 
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+
+    public String getPowderOrProductFlg() {
+        return powderOrProductFlg;
+    }
+
+    public void setPowderOrProductFlg(String powderOrProductFlg) {
+        this.powderOrProductFlg = powderOrProductFlg;
     }
 }

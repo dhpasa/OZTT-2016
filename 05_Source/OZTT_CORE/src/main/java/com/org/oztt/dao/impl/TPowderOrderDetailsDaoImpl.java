@@ -52,4 +52,9 @@ public class TPowderOrderDetailsDaoImpl extends BaseDao implements TPowderOrderD
         return select("com.org.oztt.dao.TPowderOrderDetailsMapper.selectPowderDetailList", record);
     }
 
+    @Override
+    public List<PowderMilkInfo> selectPowderDetailsListByOrderNo(String orderId) {
+        return select("com.org.oztt.dao.TPowderOrderDetailsMapper.selectPowderDetailsListByOrderNo", orderId);
+    }
+
 }

@@ -11,17 +11,11 @@
 <title><fmt:message key="ORDERLIST_TITLE" /></title>
 <script type="text/javascript">
 	var goodsall = '<fmt:message key="ORDERLIST_GOODSALL" />';
-	$(function(){
-		$(".ico-back").click(function(){
-			location.href="${ctx}/user/init"
-		});
-		initList('${tab}');
-		
-		kTouch('ordersList', 'y');
-		
-	});
-	function detail(id){
-		location.href="${ctx}/order/"+id+"?tab="+selectTab;
+
+	
+	function detail(id,flg){
+		var selectTab = $("#hiddenorderStatus").val();
+		location.href="${ctx}/order/"+id+"?tab="+selectTab+"&orderFlg="+flg;
 	}
 	
 	function toPay(orderId, paymentMethod) {
@@ -60,185 +54,6 @@
 		}
 		
 	}
-	var pageNo = 1;
-	function initList(idd) {
-		var sessionUserId = '${currentUserId}';
-		if (sessionUserId == null || sessionUserId == "") {
-			return;
-		}
-		$("#hiddenStatus").val(idd);
-		$.ajax({
-			type : "GET",
-			contentType:'application/json',
-			url : '${pageContext.request.contextPath}/order/initList?orderStatus='+idd+'&pageNo='+pageNo,
-			dataType : "json",
-			data : "", 
-			success : function(data) {
-				if(!data.isException) {
-					if (!data.isException) {
-						// 组装页面
-						var dataHtml = "";
-						var temp1 = '<div class="order-goods-div margin-1rem-top">';
-						var temp2 = '	<div class="order-head" onclick="detail(\'{0}\')">';
-						var temp3 = '		<div class="order-time">{0}</div>';
-						var temp4 = '		<div class="order-status"><a class="orderListToDetail"><fmt:message key="COMMON_ORDER_D" /></a></div>';
-						var temp5 = '	</div>';
-							
-						var temp10 = '	<div class="order-checkBlockBody">';
-						var temp11 = '		<div class="order-groupinfo">';
-						var temp12 = '			<input type="hidden" value="{0}">';
-						var temp13 = '			<div class="order-group-img">';
-						var temp14 = '				<img src="{0}" class="img-responsive">';
-						var temp15 = '			</div>';
-						var temp16 = '			<div class="order-group-pro">';
-						var temp17 = '				<span class="order-goodname">{0}</span>';		
-						var temp18 = '				<div class="order-good－picktime" style="display: none">{0}</div>';
-						var temp19 = '			</div>';
-						var temp20 = '			<div class="order-group-price">';
-						var temp21 = '				<span>\${0}</span>	';
-						var temp22 = '				<div class="order-item-group">X{0}</div>';	
-						var temp23 = '			</div>';
-						var temp51 = '			<div class="order-groupinfo-status"><a>{0}</a></div>';	
-						var temp24 = '		</div>';
-						var temp25 = '	</div>';
-							
-						var temp30 = '	<div class="order-bottom">';
-						var temp31 = '		<div class="order-bottom-freight">';
-						var temp32 = '			<div class="order-bottom-freight-info">';
-						var temp33 = '				<span><fmt:message key="ORDERLIST_FREIGHT" /></span>';
-						var temp34 = '			</div>';
-						var temp35 = '			<div class="order-bottom-freight-content">';
-						var temp36 = '				<span>\${0}</span>';
-						var temp37 = '			</div>';
-						var temp38 = '		</div>';
-						var temp39 = '		<div class="order-bottom-content">';
-						var temp40 = '			<div class="order-bottom-content-info">';
-						
-						var temp41 = '				<span>{0}</span>';
-						var temp42 = '				<span><fmt:message key="ORDERLIST_COUNT" /></span>';
-						var temp43 = '			</div>';
-						var temp44 = '			<div class="order-bottom-content-content">';
-						var temp45 = '				<span>\${0}</span>';
-						var temp46 = '			</div>';
-						var temp47 = '		</div>';
-						var temp47_1 = '	<div class="order-canpay"><a onclick="toPay(\'{0}\',\'{1}\')"><fmt:message key="ORDERLIST_TOPAY" /></a></div>';
-						var temp48 = '	</div>';
-						var temp49 = '</div>';
-						if (data.orderList.length>0){
-							
-							for(var i=0;i<data.orderList.length;i++){
-								var order = data.orderList[i];
-								dataHtml += temp1;
-								dataHtml += temp2.replace("{0}",order.orderId);
-								dataHtml += temp3.replace("{0}",order.orderDate);
-								dataHtml += temp4.replace("{0}",order.orderStatus);
-								dataHtml += temp5;
-								
-								var details = order.itemList;
-								for (var j=0;j<details.length;j++){
-									var orderdetail = details[j];
-									dataHtml += temp10;
-									dataHtml += temp11;
-									dataHtml += temp12.replace("{0}",orderdetail.groupId);
-									dataHtml += temp13;
-									dataHtml += temp14.replace("{0}",orderdetail.goodsImage);
-									dataHtml += temp15;
-									dataHtml += temp16;
-									dataHtml += temp17.replace("{0}",orderdetail.goodsName);
-									dataHtml += temp18;
-									dataHtml += temp19;
-									dataHtml += temp20;
-									dataHtml += temp21.replace("{0}",orderdetail.goodsPrice);
-									dataHtml += temp22.replace("{0}",orderdetail.goodsQuantity);
-									dataHtml += temp23;
-									if (orderdetail.detailStatus == '0') {
-										dataHtml += temp51.replace("{0}",'<fmt:message key="COMMON_ORDER_DETAIL_HANDLE_0" />');
-									} else if (orderdetail.detailStatus == '1') {
-										dataHtml += temp51.replace("{0}",'<fmt:message key="COMMON_ORDER_DETAIL_HANDLE_1" />');
-									} else if (orderdetail.detailStatus == '2') {
-										dataHtml += temp51.replace("{0}",'<fmt:message key="COMMON_ORDER_DETAIL_HANDLE_2" />');
-									} else if (orderdetail.detailStatus == '3'){
-										dataHtml += temp51.replace("{0}",'<fmt:message key="COMMON_ORDER_DETAIL_HANDLE_3" />');
-									}
-									
-									dataHtml += temp24;
-									dataHtml += temp25;
-								}
-								
-								dataHtml += temp30;
-								dataHtml += temp31;
-								dataHtml += temp32;
-								dataHtml += temp33;
-								dataHtml += temp34;
-								dataHtml += temp35;
-								dataHtml += temp36.replace("{0}",order.deliveryCost);
-								dataHtml += temp37;
-								dataHtml += temp38;
-								dataHtml += temp39;
-								dataHtml += temp40;
-								dataHtml += temp41.replace("{0}", goodsall.replace("{0}", order.detailCount));
-								dataHtml += temp42;
-								dataHtml += temp43;
-								dataHtml += temp44;
-								dataHtml += temp45.replace("{0}",order.orderAmount);
-								dataHtml += temp46;
-								dataHtml += temp47;
-								if (order.orderStatusFlag == '0') {
-									dataHtml += temp47_1.replace("{0}",order.orderId).replace("{1}",order.paymentMethod);
-								}
-								dataHtml += temp48;
-								dataHtml += temp49;
-								
-							}
-							$("#ordersList").append(dataHtml);
-						} else {
-							if (pageNo > 1) {
-								$("#noMoreRecordDiv").css("display","");
-							}
-							closeLoadingDiv();
-						}
-
-					} else {
-						
-					}
-				}
-			},
-			error : function(data) {
-				
-			}
-		});
-	}
-	
-	function kTouch(contentId,way){
-	    var _start = 0,
-	        _end = 0,
-	        _content = document.getElementById(contentId);
-	    function touchStart(event){
-	        var touch = event.targetTouches[0];
-	        _start = touch.pageY;
-	    }
-	    function touchMove(event){
-	        var touch = event.targetTouches[0];
-	        _end = _start - touch.pageY;
-	    }
-	    function touchEnd(event){
-	    	if (($("#main_goods").height() - 200) <= $(window).scrollTop() + $(window).height() && _end > 0) {
-	    		$("#loadingDiv").css("display","");
-	    		setTimeout(function(){
-	    			pageNo += 1;
-	    			initList($("#hiddenStatus").val());
-	    			closeLoadingDiv();
-	    			setTimeout(function(){
-	    				closeNoMoreDiv();
-	    			},1000);
-	            },1000);
-	    	}
-	    	
-	    }
-	    _content.addEventListener('touchend',touchEnd,false);
-	    _content.addEventListener('touchstart',touchStart,false);
-	    _content.addEventListener('touchmove',touchMove,false);
-	}
 	
 	function closeLoadingDiv(){
 		$("#loadingDiv").css("display","none");
@@ -247,14 +62,6 @@
   		$("#noMoreRecordDiv").css("display","none");
   	}
 	
-	var selectTab = '${tab}';
-	function reloadtab(tab){
-		$("#ordersList").text('');
-		pageNo = 0;
-		selectTab = tab;
-		initList(tab);
-	}
-	
   	function isWeiXin(){
 	    var ua = window.navigator.userAgent.toLowerCase();
 	    if(ua.match(/MicroMessenger/i) == 'micromessenger'){
@@ -262,6 +69,41 @@
 	    }else{
 	        return false;
 	    }
+	}
+  	
+  	function beforepage(){
+		var hiddencurpage = $("#hiddencurpage").val();
+		var hiddentotalPage = $("#hiddentotalPage").val();
+		var hiddensearchcontent = $("#hiddensearchcontent").val();
+		var hiddenorderStatus = $("#hiddenorderStatus").val();
+		if (hiddencurpage > 1) {
+			var page = hiddencurpage -1;
+			location.href = "${ctx}/order/init?orderStatus="+hiddenorderStatus+"&searchcontent="+hiddensearchcontent+"&pageNo="+page;
+		}
+		
+  	}
+	function nextpage(){
+		var hiddencurpage = $("#hiddencurpage").val();
+		var hiddentotalPage = $("#hiddentotalPage").val();
+		var hiddensearchcontent = $("#hiddensearchcontent").val();
+		var hiddenorderStatus = $("#hiddenorderStatus").val();
+		if (hiddencurpage < hiddentotalPage) {
+			var page = parseInt(hiddencurpage) + 1;
+			location.href = "${ctx}/order/init?orderStatus="+hiddenorderStatus+"&searchcontent="+hiddensearchcontent+"&pageNo="+page;
+		}	
+	}
+	function changepage(str){
+		var selectPage = $(str).val();
+		var hiddencurpage = $("#hiddencurpage").val();
+		var hiddentotalPage = $("#hiddentotalPage").val();
+		var hiddensearchcontent = $("#hiddensearchcontent").val();
+		var hiddenorderStatus = $("#hiddenorderStatus").val();
+		location.href = "${ctx}/order/init?orderStatus="+hiddenorderStatus+"&searchcontent="+hiddensearchcontent+"&pageNo="+selectPage;
+	}
+	
+	function selectOrderStatus(status) {
+		var hiddensearchcontent = $("#hiddensearchcontent").val();
+		location.href = "${ctx}/order/init?orderStatus="+status
 	}
 </script>
 <style>
@@ -283,8 +125,155 @@
 <!-- Head END -->
 
 <!-- Body BEGIN -->
-<body>
-	<div class="x-header x-header-gray border-1px-bottom">
+<body data-pinterest-extension-installed="ff1.37.9">
+<div class="head_fix">
+    <div class="head user_head clearfix">
+        <a href="javascript:history.back(-1)" class="head_back"></a>
+        订单列表
+        <div class="daohang">
+	    <em></em>
+	    <ul class="daohang_yin">
+	        <span class="sj"></span>
+	        <li>
+	            <a href="/Mobile" class="clearfix">
+	                <img src="${ctx}/images/head_menu_shouye.png" /> 首页
+	            </a>
+	        </li>
+	        <li>
+	            <a href="/Mobile/Category" class="clearfix">
+	                <img src="${ctx}/images/head_menu_fenlei.png" /> 分类
+	            </a>
+	        </li>
+	        <li>
+	            <a href="/Mobile/User" class="clearfix">
+	                <img src="${ctx}/images/head_menu_zhanghu.png" /> 我的账户
+	            </a>
+	        </li>
+	        <li>
+	            <a href="/Mobile/Order?orderStatus=0" class="clearfix">
+	                <img src="${ctx}/images/head_menu_dingdan.png" /> 我的订单
+	            </a>
+	        </li>
+	    </ul>
+	</div>
+    </div>
+    
+    <!--搜索框-->
+    <div class="search_top">
+		<form action="${ctx}/order/init" method="post">            
+		<div class="search_top_main clearfix">
+            <input type="text" id="keyword" name="keyword" class="search_top_main_lf" placeholder="订单号/收货人电话/收货人姓名" value="${keyword}"/>
+            <input type="submit" class="right search_top_main_btn" value="" />
+        </div>
+		</form>    
+	</div>
+    <!--订单状态-->
+    <div class="zhuangtai_tl clearfix">
+        <a href="#" class="<c:if test="${orderStatus == null || orderStatus=='' }">ahover</c:if>" onclick="selectOrderStatus('')">全部</span></a>
+        <a href="#" class="<c:if test="${orderStatus=='0'}">ahover</c:if>" onclick="selectOrderStatus('0')"><span>待付款</span></a>
+        <a href="#" class="<c:if test="${orderStatus=='1'}">ahover</c:if>" onclick="selectOrderStatus('1')"><span>处理中</span></a>
+        <a href="#" class="<c:if test="${orderStatus=='3'}">ahover</c:if>" onclick="selectOrderStatus('3')"><span>已发货</span></a>
+        
+    </div>
+    
+</div>
+
+<div class="main_order">
+    <!--内容开始-->
+
+    <!--订单列表-->
+    <div class="dingdan_main">
+        <div class="dingdan_con active">
+            <ul class="dingdan_ul">
+            <c:forEach var="order" items="${orderList.resultList}">
+                    <li>
+                        <div class="user_order_tl clearfix">
+                            <span class="left">订单号：${order.orderNo}</span>
+                            <div class="right clearfix dingdan_ul_tl_rt">
+                                <p class="color_blue">
+                                	<c:if test="${order.status == '0' }">
+                                		等待处理
+                                	</c:if>
+                                	
+                                </p>
+                                <p class="color_red">
+                                	<c:if test="${order.status == '0' }">
+                                		未付款
+                                	</c:if>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="dingdan_ul_main">
+                        	
+                            <div class="dingdan_li_mess">
+                                <c:forEach var="powderBoxInfo" items="${ order.boxList }" varStatus="status">
+                                	<c:if test="${order.powderOrProductFlg == '1' }">
+                                		<div class="dingdan_li_mess_gp clearfix">
+		                                    <span class="dingdan_li_mess_name dizhi left"><b>${powderBoxInfo.receiveName }</b></span>
+		                                    <span> &nbsp;${powderBoxInfo.receivePhone } &nbsp; ${powderBoxInfo.receiveAddress }</span>
+		                                </div>
+                                	</c:if>
+	                                <c:if test="${order.powderOrProductFlg == '2' && status.count == '1'}">
+	                                	<div class="dingdan_li_mess_gp clearfix">
+		                                    <span class="dingdan_li_mess_name dizhi left"><b>${powderBoxInfo.receiveName }</b></span>
+		                                    <span> &nbsp;${powderBoxInfo.receivePhone } &nbsp; ${powderBoxInfo.receiveAddress }</span>
+		                                </div>
+	                                </c:if>
+                                </c:forEach>
+                                
+                                <div class="dingdan_li_mess_gp clearfix">
+                                    <span class="dingdan_li_mess_name left">${order.orderDate}</span>
+                                        <span class="dingdan_li_mess_name right color_red">$ ${order.totalAmount}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="dingdan_ul_main_bt">
+                                <div class="dingdan_btn">
+                                    <a href="/Mobile/Purchase/OrderPayment?orderId=101291" style="color:#fa4e83">立即付款</a>
+                                    <a href="#" onclick="detail('${order.orderId}','${order.powderOrProductFlg}')">订单详情</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    </c:forEach>
+               </ul>
+        </div>
+    </div>
+    <input type="hidden" value="${orderStatus}" id="hiddenorderStatus" />
+    <input type="hidden" value="${keywords}" id="hiddensearchcontent"/>
+	    <c:if test="${orderList.totalPage > 1 }">
+	    	<div style="" class="pagenav-wrapper" id="J_PageNavWrap">
+	            <div class="pagenav-content">
+	                <div class="pagenav" id="J_PageNav">
+	                    <div class="p-prev p-gray">
+	                            <a href="#" onclick="beforepage()">上一页</a>
+	                    </div>
+	                    <div class="pagenav-cur" style="vertical-align:bottom">
+	                        <div class="pagenav-text"> 
+	                        	<span> ${orderList.currentPage } / ${orderList.totalPage } </span><i></i> 
+	                        </div>
+	                        <select class="pagenav-select" onchange="changepage(this)">
+                            	<c:forEach begin="1" end="${orderList.totalPage }" step="1" varStatus="status">
+                            		<c:if test="${status.count == orderList.currentPage }">
+                            			<option selected="selected" value="${status.count }">第 ${status.count } 页</option>
+                            		</c:if>
+                            		<c:if test="${status.count != orderList.currentPage }">
+                            			<option value="${status.count }">第 ${status.count } 页</option>
+                            		</c:if>
+                            	</c:forEach>
+                            </select>
+	                    </div>
+	                    <div class="p-next">
+	                            <a href="#" title="下一页" onclick="nextpage()">下一页</a>
+	                    </div>
+	                    <input type="hidden" value="${orderList.currentPage}" id="hiddencurpage"/>
+	                    <input type="hidden" value="${orderList.totalPage}" id="hiddentotalPage"/>
+	                </div>
+	            </div>
+		    </div>
+		 </c:if>
+</div>
+	<%-- <div class="x-header x-header-gray border-1px-bottom">
 		<div class="x-header-btn ico-back"></div>
 		<div class="x-header-title">
 			<span><fmt:message key="ORDERLIST_TITLE" /></span>
@@ -309,7 +298,7 @@
 	</div>
 	<div style="display: none" id="noMoreRecordDiv" class="no_more_record_bg">
 		<fmt:message key="COMMON_NOMORE_RECORD" />
-	</div>
+	</div> --%>
 </body>
 <!-- END BODY -->
 </html>
