@@ -20,5 +20,7 @@ public interface TPowderOrderDetailsDao {
     
     List<PowderMilkInfo> selectPowderDetailList(TPowderOrderDetails record);
     
+    List<PowderMilkInfo> selectPowderDetailsListByOrderNo(String orderId);
+    
     
 }

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.org.techcoffee.dao.TProductOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.org.oztt.entity.TProductOrder" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="orderNo" property="orderNo" jdbcType="VARCHAR" />
+    <result column="orderDate" property="orderDate" jdbcType="VARCHAR" />
+    <result column="customerId" property="customerId" jdbcType="VARCHAR" />
+    <result column="sumAmount" property="sumAmount" jdbcType="DECIMAL" />
+    <result column="paymentMethod" property="paymentMethod" jdbcType="CHAR" />
+    <result column="paymentStatus" property="paymentStatus" jdbcType="CHAR" />
+    <result column="paymentDate" property="paymentDate" jdbcType="VARCHAR" />
+    <result column="deliveryMethod" property="deliveryMethod" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="ifInvoice" property="ifInvoice" jdbcType="CHAR" />
+    <result column="customerRemarks" property="customerRemarks" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="addTimestamp" property="addTimestamp" jdbcType="TIMESTAMP" />
+    <result column="addUserKey" property="addUserKey" jdbcType="VARCHAR" />
+    <result column="updTimestamp" property="updTimestamp" jdbcType="TIMESTAMP" />
+    <result column="updUserKey" property="updUserKey" jdbcType="VARCHAR" />
+    <result column="updPgmId" property="updPgmId" jdbcType="VARCHAR" />
+    <result column="gisOrderNo" property="gisOrderNo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, orderNo, orderDate, customerId, sumAmount, paymentMethod, paymentStatus, paymentDate, 
+    deliveryMethod, status, ifInvoice, customerRemarks, remarks, addTimestamp, addUserKey, 
+    updTimestamp, updUserKey, updPgmId, gisOrderNo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_product_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_product_order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.org.oztt.entity.TProductOrder" >
+    insert into t_product_order (id, orderNo, orderDate, 
+      customerId, sumAmount, paymentMethod, 
+      paymentStatus, paymentDate, deliveryMethod, 
+      status, ifInvoice, customerRemarks, 
+      remarks, addTimestamp, addUserKey, 
+      updTimestamp, updUserKey, updPgmId, 
+      gisOrderNo)
+    values (#{id,jdbcType=BIGINT}, #{orderNo,jdbcType=VARCHAR}, #{orderDate,jdbcType=VARCHAR}, 
+      #{customerId,jdbcType=VARCHAR}, #{sumAmount,jdbcType=DECIMAL}, #{paymentMethod,jdbcType=CHAR}, 
+      #{paymentStatus,jdbcType=CHAR}, #{paymentDate,jdbcType=VARCHAR}, #{deliveryMethod,jdbcType=VARCHAR}, 
+      #{status,jdbcType=CHAR}, #{ifInvoice,jdbcType=CHAR}, #{customerRemarks,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{addTimestamp,jdbcType=TIMESTAMP}, #{addUserKey,jdbcType=VARCHAR}, 
+      #{updTimestamp,jdbcType=TIMESTAMP}, #{updUserKey,jdbcType=VARCHAR}, #{updPgmId,jdbcType=VARCHAR}, 
+      #{gisOrderNo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.org.oztt.entity.TProductOrder" >
+    insert into t_product_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderNo != null" >
+        orderNo,
+      </if>
+      <if test="orderDate != null" >
+        orderDate,
+      </if>
+      <if test="customerId != null" >
+        customerId,
+      </if>
+      <if test="sumAmount != null" >
+        sumAmount,
+      </if>
+      <if test="paymentMethod != null" >
+        paymentMethod,
+      </if>
+      <if test="paymentStatus != null" >
+        paymentStatus,
+      </if>
+      <if test="paymentDate != null" >
+        paymentDate,
+      </if>
+      <if test="deliveryMethod != null" >
+        deliveryMethod,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="ifInvoice != null" >
+        ifInvoice,
+      </if>
+      <if test="customerRemarks != null" >
+        customerRemarks,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="addTimestamp != null" >
+        addTimestamp,
+      </if>
+      <if test="addUserKey != null" >
+        addUserKey,
+      </if>
+      <if test="updTimestamp != null" >
+        updTimestamp,
+      </if>
+      <if test="updUserKey != null" >
+        updUserKey,
+      </if>
+      <if test="updPgmId != null" >
+        updPgmId,
+      </if>
+      <if test="gisOrderNo != null" >
+        gisOrderNo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null" >
+        #{orderDate,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="sumAmount != null" >
+        #{sumAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentMethod != null" >
+        #{paymentMethod,jdbcType=CHAR},
+      </if>
+      <if test="paymentStatus != null" >
+        #{paymentStatus,jdbcType=CHAR},
+      </if>
+      <if test="paymentDate != null" >
+        #{paymentDate,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryMethod != null" >
+        #{deliveryMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="ifInvoice != null" >
+        #{ifInvoice,jdbcType=CHAR},
+      </if>
+      <if test="customerRemarks != null" >
+        #{customerRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="addTimestamp != null" >
+        #{addTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addUserKey != null" >
+        #{addUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updTimestamp != null" >
+        #{updTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updUserKey != null" >
+        #{updUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updPgmId != null" >
+        #{updPgmId,jdbcType=VARCHAR},
+      </if>
+      <if test="gisOrderNo != null" >
+        #{gisOrderNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.org.oztt.entity.TProductOrder" >
+    update t_product_order
+    <set >
+      <if test="orderNo != null" >
+        orderNo = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null" >
+        orderDate = #{orderDate,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        customerId = #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="sumAmount != null" >
+        sumAmount = #{sumAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentMethod != null" >
+        paymentMethod = #{paymentMethod,jdbcType=CHAR},
+      </if>
+      <if test="paymentStatus != null" >
+        paymentStatus = #{paymentStatus,jdbcType=CHAR},
+      </if>
+      <if test="paymentDate != null" >
+        paymentDate = #{paymentDate,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryMethod != null" >
+        deliveryMethod = #{deliveryMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="ifInvoice != null" >
+        ifInvoice = #{ifInvoice,jdbcType=CHAR},
+      </if>
+      <if test="customerRemarks != null" >
+        customerRemarks = #{customerRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="addTimestamp != null" >
+        addTimestamp = #{addTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addUserKey != null" >
+        addUserKey = #{addUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updTimestamp != null" >
+        updTimestamp = #{updTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updUserKey != null" >
+        updUserKey = #{updUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updPgmId != null" >
+        updPgmId = #{updPgmId,jdbcType=VARCHAR},
+      </if>
+      <if test="gisOrderNo != null" >
+        gisOrderNo = #{gisOrderNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.org.oztt.entity.TProductOrder" >
+    update t_product_order
+    set orderNo = #{orderNo,jdbcType=VARCHAR},
+      orderDate = #{orderDate,jdbcType=VARCHAR},
+      customerId = #{customerId,jdbcType=VARCHAR},
+      sumAmount = #{sumAmount,jdbcType=DECIMAL},
+      paymentMethod = #{paymentMethod,jdbcType=CHAR},
+      paymentStatus = #{paymentStatus,jdbcType=CHAR},
+      paymentDate = #{paymentDate,jdbcType=VARCHAR},
+      deliveryMethod = #{deliveryMethod,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      ifInvoice = #{ifInvoice,jdbcType=CHAR},
+      customerRemarks = #{customerRemarks,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      addTimestamp = #{addTimestamp,jdbcType=TIMESTAMP},
+      addUserKey = #{addUserKey,jdbcType=VARCHAR},
+      updTimestamp = #{updTimestamp,jdbcType=TIMESTAMP},
+      updUserKey = #{updUserKey,jdbcType=VARCHAR},
+      updPgmId = #{updPgmId,jdbcType=VARCHAR},
+      gisOrderNo = #{gisOrderNo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

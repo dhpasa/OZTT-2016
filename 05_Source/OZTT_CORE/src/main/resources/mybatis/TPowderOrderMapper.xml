@@ -310,5 +310,127 @@
     set status = '9' 
     where TIMESTAMPDIFF(MINUTE, updTimestamp, now()) > 480 and status = '0'
   </update>
+  
+  
+  <select id="getPowderAndProductOrderPage" resultType="com.org.oztt.formDto.PowderOrderInfo" parameterType="map">
+  	select
+  	A.id as orderId,
+    A.ordreNo as orderNo,
+	A.status,
+	A.orderDate,
+	A.sumAmount as totalAmount,
+	A.paymentMethod as paymentMethod,'1' as powderOrProductFlg
+    from t_powder_order A
+    left join t_powder_box B on A.id = B.orderId
+    left join t_receiver_info C on C.id = B.receiverId
+    where 1=1
+    <if test="customerId != null" >
+        and A.customerId = #{customerId,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null and status == 1 " >
+        and (A.status = '1' or A.status = '2' or A.status = '4' or A.status = '5')
+    </if>
+    <if test="status != null and status != 1 " >
+        and A.status = #{status,jdbcType=CHAR}
+    </if>
+    <if test="keyword != null and keyword != ''" >
+    	and (
+    	(A.ordreNo like concat(#{keyword,jdbcType=VARCHAR},'%'))
+    	or 
+    	(C.receiverName like concat('%',#{keyword,jdbcType=VARCHAR},'%'))
+    	or
+    	(C.receiverTel like concat(#{keyword,jdbcType=VARCHAR},'%'))
+    	)
+    </if>
+    
+union all
+    select
+  	A.id as orderId,
+    A.orderNo as orderNo,
+	A.status,
+	A.orderDate,
+	A.sumAmount as totalAmount,
+	A.paymentMethod as paymentMethod, '2' as powderOrProductFlg
+    from t_product_order A
+    left join t_product_box B on A.id = B.orderId
+    left join t_receiver_info C on C.id = B.receiverId
+    where 1=1
+    <if test="customerId != null" >
+        and A.customerId = #{customerId,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null and status == 1 " >
+        and (A.status = '1' or A.status = '2' or A.status = '4' or A.status = '5')
+    </if>
+    <if test="status != null and status != '' and status != 1 " >
+        and A.status = #{status,jdbcType=CHAR}
+    </if>
+    <if test="keyword != null and keyword != ''" >
+    	and (
+    	(A.orderNo like concat(#{keyword,jdbcType=VARCHAR},'%'))
+    	or 
+    	(C.receiverName like concat('%',#{keyword,jdbcType=VARCHAR},'%'))
+    	or
+    	(C.receiverTel like concat(#{keyword,jdbcType=VARCHAR},'%'))
+    	)
+    </if>
+    
+    order by orderDate desc
+  </select>
+  
+  <select id="getPowderAndProductOrderPageCount" resultType="int" parameterType="map">
+  	select 
+  	count(1) 
+  	from
+  	(select
+  	A.id as orderId
+    from t_powder_order A
+    left join t_powder_box B on A.id = B.orderId
+    left join t_receiver_info C on C.id = B.receiverId
+    where 1=1
+    <if test="customerId != null" >
+        and A.customerId = #{customerId,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null and status == 1 " >
+        and (A.status = '1' or A.status = '2' or A.status = '4' or A.status = '5')
+    </if>
+    <if test="status != null and status != '' and status != 1 " >
+        and A.status = #{status,jdbcType=CHAR}
+    </if>
+    <if test="keyword != null and keyword != ''" >
+    	and (
+    	(A.ordreNo like concat(#{keyword,jdbcType=VARCHAR},'%'))
+    	or 
+    	(C.receiverName like concat('%',#{keyword,jdbcType=VARCHAR},'%'))
+    	or
+    	(C.receiverTel like concat(#{keyword,jdbcType=VARCHAR},'%'))
+    	)
+    </if>
+union all
+    select
+  	A.id as orderId
+    from t_product_order A
+    left join t_product_box B on A.id = B.orderId
+    left join t_receiver_info C on C.id = B.receiverId
+    where 1=1
+    <if test="customerId != null" >
+        and A.customerId = #{customerId,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null and status == 1 " >
+        and (A.status = '1' or A.status = '2' or A.status = '4' or A.status = '5')
+    </if>
+    <if test="status != null and status != '' and status != 1 " >
+        and A.status = #{status,jdbcType=CHAR}
+    </if>
+    <if test="keyword != null and keyword != ''" >
+    	and (
+    	(A.orderNo like concat(#{keyword,jdbcType=VARCHAR},'%'))
+    	or 
+    	(C.receiverName like concat('%',#{keyword,jdbcType=VARCHAR},'%'))
+    	or
+    	(C.receiverTel like concat(#{keyword,jdbcType=VARCHAR},'%'))
+    	)
+    </if>
+    ) as T
+  </select>
 
 </mapper>

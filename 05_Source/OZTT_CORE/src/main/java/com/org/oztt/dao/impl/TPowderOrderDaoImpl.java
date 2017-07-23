@@ -1,6 +1,7 @@
 package com.org.oztt.dao.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -33,8 +34,7 @@ public class TPowderOrderDaoImpl extends BaseDao implements TPowderOrderDao {
 
     @Override
     public TPowderOrder selectByPrimaryKey(Long id) {
-        // TODO Auto-generated method stub
-        return null;
+        return selectOne("com.org.oztt.dao.TPowderOrderMapper.selectByPrimaryKey", id);
     }
 
     @Override
@@ -75,6 +75,17 @@ public class TPowderOrderDaoImpl extends BaseDao implements TPowderOrderDao {
         //delete("com.org.oztt.dao.TPowderOrderMapper.deleteNoPayOrderDetail", null);
         //delete("com.org.oztt.dao.TPowderOrderMapper.deleteNoPayOrderBox", null);
         //delete("com.org.oztt.dao.TPowderOrderMapper.deleteNoPayOrder", null);
+    }
+
+    @Override
+    public PagingResult<PowderOrderInfo> getPowderAndProductOrderPageInfo(Pagination pagination) {
+        return selectPagination("com.org.oztt.dao.TPowderOrderMapper.getPowderAndProductOrderPage",
+                "com.org.oztt.dao.TPowderOrderMapper.getPowderAndProductOrderPageCount", pagination);
+    }
+
+    @Override
+    public int getPowderAndProductOrder(Map<Object, Object> map) {
+        return selectOne("com.org.oztt.dao.TPowderOrderMapper.getPowderAndProductOrderPageCount", map);
     }
 
 }

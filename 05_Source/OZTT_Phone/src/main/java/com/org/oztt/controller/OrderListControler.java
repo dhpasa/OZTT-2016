@@ -16,14 +16,17 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.org.oztt.base.page.Pagination;
 import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.contants.CommonConstants;
-import com.org.oztt.formDto.OrderInfoDto;
-import com.org.oztt.formDto.OzTtGbOdDto;
+import com.org.oztt.entity.TCustomerBasicInfo;
+import com.org.oztt.formDto.OrderDetailViewDto;
+import com.org.oztt.formDto.PowderOrderInfo;
+import com.org.oztt.service.CustomerService;
 import com.org.oztt.service.OrderService;
+import com.org.oztt.service.PowderService;
+import com.org.oztt.service.ProductService;
 
 /**
  * @author x-wang
@@ -35,65 +38,75 @@ public class OrderListControler extends BaseController {
 
     @Resource
     OrderService orderService;
+    
+    @Resource
+    CustomerService customerService;
+    
+    @Resource
+    PowderService powderService;
+    
+    @Resource
+    ProductService productService;
 
-    @RequestMapping(value = "/init", method = RequestMethod.GET)
-    public String orders(Model model, HttpServletRequest request) {
-        String tab = request.getParameter("tab");
-        if (!StringUtils.isEmpty(tab)) {
-            model.addAttribute("tab", tab);
-        }
-        return "/ordersList";
-    }
-
-    @RequestMapping(value = "/initList", method = RequestMethod.GET)
-    @ResponseBody
-    public Map<String, Object> orders(HttpServletRequest request, HttpSession session, String pageNo) {
-        Map<String, Object> resp = new HashMap<String, Object>();
+    @RequestMapping(value = "/init")
+    public String orders(HttpSession session, Model model, HttpServletRequest request, 
+            String keyword, String pageNo, String orderStatus) {
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
             if (StringUtils.isEmpty(customerNo)) {
-                resp.put("isException", true);
-                return resp;
+                return "redirect:/login/init";
             }
-            String handleFlg = request.getParameter("orderStatus");
+            TCustomerBasicInfo customerBaseInfo = customerService.selectBaseInfoByCustomerNo(customerNo);
             if (StringUtils.isEmpty(pageNo)) {
                 pageNo = "1";
             }
+            
             Pagination pagination = new Pagination(Integer.parseInt(pageNo));
-            pagination.setSize(10);
+            pagination.setSize(CommonConstants.COMMON_LIST_COUNT);
             Map<Object, Object> paramMap = new HashMap<Object, Object>();
-            paramMap.put("customerNo", customerNo);
-            paramMap.put("handleFlg", handleFlg);
+            paramMap.put("customerId", customerBaseInfo.getNo().toString());
+            paramMap.put("status", orderStatus);
+            paramMap.put("keyword", keyword);
             pagination.setParams(paramMap);
-            PagingResult<OrderInfoDto> orderListPage = orderService.getAllOrderInfoForPage(pagination);
-            resp.put("isException", false);
-
-            resp.put("orderList", orderListPage.getResultList());
-            return resp;
-        }
-        catch (Exception e) {
+            PagingResult<PowderOrderInfo> orderListPage = powderService.getPowderAndProductOrderPageInfo(pagination);
+            
+            
+            model.addAttribute("orderStatus", orderStatus);
+            model.addAttribute("keyword", keyword);
+            model.addAttribute("orderList", orderListPage);
+            return "/ordersList";
+            
+            
+        } catch (Exception e) {
             e.printStackTrace();
             logger.error("message", e);
-            resp.put("isException", true);
-            return resp;
+            return CommonConstants.ERROR_PAGE;
         }
+        
     }
-
+    
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String order(@PathVariable String id, Model model, HttpServletRequest request) {
+    public String order(HttpSession session, @PathVariable String id, Model model, HttpServletRequest request, String orderFlg) {
         try {
-            OzTtGbOdDto detail = orderService.getOrderDetailInfo(id);
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            if (StringUtils.isEmpty(customerNo)) {
+                return "redirect:/login/init";
+            }
+            OrderDetailViewDto viewDto = productService.getOrderDetail(id, orderFlg);
+            
             String tab = request.getParameter("tab");
             if (!StringUtils.isEmpty(tab)) {
                 model.addAttribute("tab", tab);
             }
-            model.addAttribute("detailInfo", detail);
+            model.addAttribute("detailInfo", viewDto);
+            return "/orderItem";
         }
         catch (Exception e) {
             e.printStackTrace();
             logger.error("message", e);
+            return CommonConstants.ERROR_PAGE;
         }
-        return "/orderItem";
+        
     }
 
 }

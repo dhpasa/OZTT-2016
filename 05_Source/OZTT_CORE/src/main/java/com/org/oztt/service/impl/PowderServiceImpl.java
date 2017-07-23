@@ -38,6 +38,7 @@ import com.org.oztt.dao.TPowderBoxDao;
 import com.org.oztt.dao.TPowderInfoDao;
 import com.org.oztt.dao.TPowderOrderDao;
 import com.org.oztt.dao.TPowderOrderDetailsDao;
+import com.org.oztt.dao.TProductBoxDao;
 import com.org.oztt.dao.TReceiverInfoDao;
 import com.org.oztt.dao.TSenderInfoDao;
 import com.org.oztt.entity.TCustomerBasicInfo;
@@ -47,6 +48,7 @@ import com.org.oztt.entity.TPowderBox;
 import com.org.oztt.entity.TPowderInfo;
 import com.org.oztt.entity.TPowderOrder;
 import com.org.oztt.entity.TPowderOrderDetails;
+import com.org.oztt.entity.TProductBox;
 import com.org.oztt.entity.TReceiverInfo;
 import com.org.oztt.entity.TSenderInfo;
 import com.org.oztt.entity.TSysCode;
@@ -71,6 +73,9 @@ public class PowderServiceImpl extends BaseService implements PowderService {
 
     @Resource
     private TPowderBoxDao          tPowderBoxDao;
+    
+    @Resource
+    private TProductBoxDao         tProductBoxDao;
 
     @Resource
     private TReceiverInfoDao       tReceiverInfoDao;
@@ -583,6 +588,28 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         }
         return orderList;
     }
+    
+    @Override
+    public PagingResult<PowderOrderInfo> getPowderAndProductOrderPageInfo(Pagination pagination) throws Exception {
+        PagingResult<PowderOrderInfo> orderList = tPowderOrderDao.getPowderAndProductOrderPageInfo(pagination);
+        if (orderList != null && orderList.getResultList() != null && orderList.getResultList().size() > 0) {
+            for (PowderOrderInfo orderInfo : orderList.getResultList()) {
+                // 添加装箱信息
+                List<PowderBoxInfo> powderBoxList = null;
+                if ("1".equals(orderInfo.getPowderOrProductFlg())) {
+                    TPowderBox param = new TPowderBox();
+                    param.setOrderId(orderInfo.getOrderId());
+                    powderBoxList = tPowderBoxDao.selectTPowderList(param);
+                } else {
+                    TProductBox param = new TProductBox();
+                    param.setOrderId(orderInfo.getOrderId());
+                    powderBoxList = tProductBoxDao.selectTProductList(param);
+                }
+                orderInfo.setBoxList(powderBoxList);
+            }
+        }
+        return orderList;
+    }
 
     @Override
     public PowderBoxInfo getPowderInfoById(long id) throws Exception {
@@ -663,6 +690,99 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         powderBoxInfo.setElecExpressNo(tPowderBox.getElecExpressNo());
         powderBoxInfo.setDeliverId(tPowderBox.getDeliverId());
         return powderBoxInfo;
+    }
+    
+
+    @Override
+    public List<PowderBoxInfo> getPowderBoxListByOrderNo(String orderNo) throws Exception {
+        
+        TPowderBox record = new TPowderBox();
+        record.setOrderId(orderNo);
+        List<TPowderBox> powderList = tPowderBoxDao.selectTPowderBoxList(record);
+        List<PowderBoxInfo> powderInfoList = new ArrayList<PowderBoxInfo>();
+        
+        for (TPowderBox powder : powderList) {
+            TPowderBox tPowderBox = tPowderBoxDao.selectByPrimaryKey(powder.getId());
+            PowderBoxInfo powderBoxInfo = new PowderBoxInfo();
+            powderBoxInfo.setBoxId(String.valueOf(powder.getId()));
+            List<String> urlList = new ArrayList<String>();
+            if (StringUtils.isNotEmpty(tPowderBox.getBoxPhotoUrls())) {
+                // 装箱照片
+                String[] str = tPowderBox.getBoxPhotoUrls().split("\\|");
+                for (int i = 0; i < str.length; i++) {
+                    urlList.add(super.getApplicationMessage("saveImgUrl", null) + "EXPRESS" + CommonConstants.PATH_SPLIT
+                            + str[i]);
+                }
+            }
+            powderBoxInfo.setBoxPhotoUrls(urlList);
+
+            TExpressInfo tExpressInfo = tExpressInfoDao.selectByPrimaryKey(Long.valueOf(tPowderBox.getDeliverId()));
+            powderBoxInfo.setExpressAmount(tExpressInfo.getPriceCoefficient().toString());
+            powderBoxInfo.setExpressName(tExpressInfo.getExpressName());
+            powderBoxInfo.setExpressPhotoUrl(super.getApplicationMessage("saveImgUrl", null) + "EXPRESS"
+                    + CommonConstants.PATH_SPLIT + tPowderBox.getExpressPhotoUrl());
+            powderBoxInfo.setIfMsg(tPowderBox.getIfMsg());
+            powderBoxInfo.setIfRemarks(tPowderBox.getIfRemarks());
+
+            TReceiverInfo tReceiverInfo = tReceiverInfoDao.selectByPrimaryKey(Long.valueOf(tPowderBox.getReceiverId()));
+            powderBoxInfo.setReceiveId(tReceiverInfo.getId().toString());
+            powderBoxInfo.setReceiveAddress(tReceiverInfo.getReceiverAddr());
+            powderBoxInfo.setReceiveName(tReceiverInfo.getReceiverName());
+            powderBoxInfo.setReceivePhone(tReceiverInfo.getReceiverTel());
+            powderBoxInfo.setReceiveIdCard(tReceiverInfo.getReceiverIdCardNo());
+            if (!StringUtils.isEmpty(tReceiverInfo.getReceiverIdCardPhotoUrls())) {
+                String[] idCardPhotoArr = tReceiverInfo.getReceiverIdCardPhotoUrls().split("\\|");
+                powderBoxInfo.setReceiveCardPhoneBe((idCardPhotoArr[0] == null || StringUtils.isEmpty(idCardPhotoArr[0]
+                        .trim())) ? "" : (super.getApplicationMessage("saveImgUrl", null) + CommonConstants.ID_CARD
+                        + CommonConstants.PATH_SPLIT + idCardPhotoArr[0]));
+                powderBoxInfo.setReceiveCardPhoneAf((idCardPhotoArr[1] == null || StringUtils.isEmpty(idCardPhotoArr[1]
+                        .trim())) ? "" : (super.getApplicationMessage("saveImgUrl", null) + CommonConstants.ID_CARD
+                        + CommonConstants.PATH_SPLIT + idCardPhotoArr[1]));
+            }
+            else {
+                powderBoxInfo.setReceiveCardPhoneAf("");
+                powderBoxInfo.setReceiveCardPhoneBe("");
+            }
+
+            powderBoxInfo.setRemarks(tPowderBox.getRemarks());
+
+            TSenderInfo tSenderInfo = tSenderInfoDao.selectByPrimaryKey(Long.valueOf(tPowderBox.getSenderId()));
+            powderBoxInfo.setSenderId(tSenderInfo.getId().toString());
+            powderBoxInfo.setSenderName(tSenderInfo.getSenderName());
+            powderBoxInfo.setSenderPhone(tSenderInfo.getSenderTel());
+            powderBoxInfo.setStatus(tPowderBox.getHandleStatus());
+            powderBoxInfo.setTotalAmount(tPowderBox.getSumAmount().add(tPowderBox.getAdditionalCost()).toString());
+
+            TPowderOrderDetails detailParam = new TPowderOrderDetails();
+            detailParam.setPowderBoxId(powderBoxInfo.getBoxId());
+
+            List<PowderMilkInfo> detailList = tPowderOrderDetailsDao.selectPowderDetailList(detailParam);
+            powderBoxInfo.setPowderMikeList(detailList);
+            BigDecimal priceCount = BigDecimal.ZERO;
+            if (detailList != null && detailList.size() > 0) {
+                for (PowderMilkInfo detail : detailList) {
+                    priceCount = priceCount.add(new BigDecimal(detail.getNumber()).multiply(new BigDecimal(detail
+                            .getPowderPrice())));
+                }
+
+            }
+            powderBoxInfo.setPricecount(priceCount.toString());
+            // 状态
+            powderBoxInfo.setOrderStatusView(CommonEnum.PowderBoxFlag.getEnumLabel(powderBoxInfo.getStatus()));
+
+            if (StringUtils.isNotEmpty(tPowderBox.getExpressPhotoUrl())) {
+                powderBoxInfo.setExpressPhotoUrlExitFlg("1");
+            }
+            if (StringUtils.isNotEmpty(tPowderBox.getBoxPhotoUrls())) {
+                powderBoxInfo.setBoxPhotoUrlsExitFlg("1");
+            }
+            powderBoxInfo.setElecExpressNo(tPowderBox.getElecExpressNo());
+            powderBoxInfo.setDeliverId(tPowderBox.getDeliverId());
+            
+            powderInfoList.add(powderBoxInfo);
+        }
+        
+        return powderInfoList;
     }
 
     @Override
@@ -799,4 +919,5 @@ public class PowderServiceImpl extends BaseService implements PowderService {
 
         
     }
+
 }

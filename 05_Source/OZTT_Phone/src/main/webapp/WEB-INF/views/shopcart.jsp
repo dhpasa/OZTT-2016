@@ -15,147 +15,53 @@
 		location.href = "${pageContext.request.contextPath}/main/init";
 	}
 	
-	function checkChildIsAllChecked(str){
-		var isnot = true;
-		var allBodyBlockCheck = $(str).find('.body-blockcheck');
-		for (var i = 0; i < allBodyBlockCheck.length; i++) {
-			if(!$(allBodyBlockCheck[i]).find('.check-icon').hasClass('checked')){
-				isnot = false;
-				break;
-			}
-		}
-		return isnot;
-	}
+	// 判断是否已经全部选中
+    function IsAllChecked() {
+    	var isAllcheckedFlg = true;
+    	$("label[for=labelCheck]").each(function(){
+    		var productId = $(this).attr("ProductId");
+            var checked = $("input[productid=" + productId + "]").prop("checked");
+        	if (!checked) {
+        		isAllcheckedFlg = false;
+        	}
+        })
+        return isAllcheckedFlg;
+    }
 	
-	function checkChildIsNotChecked(str){
-		var isnot = true;
-		var allBodyBlockCheck = $(str).find('.body-blockcheck');
-		for (var i = 0; i < allBodyBlockCheck.length; i++) {
-			if($(allBodyBlockCheck[i]).find('.check-icon').hasClass('checked')){
-				isnot = false;
-				break;
-			}
-		}
-		return isnot;
-	}
-	
-	function checkedAllChild(str){
-		var allBodyBlockCheck = $(str).find('.body-blockcheck');
-		for (var i = 0; i < allBodyBlockCheck.length; i++) {
-			$(allBodyBlockCheck[i]).find('.check-icon').addClass('checked');
-			$(allBodyBlockCheck[i]).find('input')[0].checked = true;
-		}
-	}
-	
-	function notCheckedAllChild(str){
-		var allBodyBlockCheck = $(str).find('.body-blockcheck');
-		for (var i = 0; i < allBodyBlockCheck.length; i++) {
-			$(allBodyBlockCheck[i]).find('.check-icon').removeClass('checked');
-			$(allBodyBlockCheck[i]).find('input')[0].checked = false;
-		}
-	}
-	
-	$(function(){
-		$('.check-icon').click(function(){
-			var beforeIsChecked = ($(this).parent().find('input')[0].checked == true);
-			if (beforeIsChecked) {
-				$(this).parent().find('input')[0].checked = false;
-				$(this).removeClass('checked');
-			} else {
-				$(this).parent().find('input')[0].checked = true;
-				$(this).addClass('checked');
-			}
-			
-			if ($(this).parent().hasClass('head-blockcheck')) {
-				// 单个区域块
-				if (beforeIsChecked) {
-					// 全不选
-					notCheckedAllChild($(this).parent().parent().parent());
-				} else {
-					// 全部选中
-					checkedAllChild($(this).parent().parent().parent());
-				}
-			} else {
-				// 子区域块
-				if (beforeIsChecked) {
-					// 不选
-					var headCheck = $(this).parent().parent().parent().find('.head-blockcheck')
-					$(headCheck).find('input')[0].checked = false;
-					$(headCheck).find('.check-icon').removeClass('checked');
-				} else {
-					// 全部选中
-					if (checkChildIsAllChecked($(this).parent().parent().parent())) {
-						var headCheck = $(this).parent().parent().parent().find('.head-blockcheck')
-						$(headCheck).find('input')[0].checked = true;
-						$(headCheck).find('.check-icon').addClass('checked');
-					}
-				}
-			}
-			canBuyAndShowAllMoney();
 
-			
-		});
-		
-		
-		
-		$('.buy-check-icon').click(function(){
-			if ($(".buy-check-icon").hasClass('checked')) {
-				$(".check-icon").parent().find('input')[0].checked = false;
-				$(".check-icon").removeClass('checked');
-				$(".buy-check-icon").removeClass('checked');
-			} else {
-				$(".check-icon").parent().find('input')[0].checked = true;
-				$(".check-icon").addClass('checked');
-				$(".buy-check-icon").addClass('checked');
-			}
-			canBuyAndShowAllMoney();
-		});
-		
-		$("#candelete").click(function(){
-			if ($(this).hasClass("shopcart-modify")) {
-				$("#candelete").text('<fmt:message key="COMMON_COMPLETE"/>');
-				$(this).removeClass("shopcart-modify");
-				$(".shopcart-goods-delete").find("i").css("display","");
-			} else {
-				$("#candelete").text('<fmt:message key="COMMON_MODIFY"/>');
-				$(this).addClass("shopcart-modify");
-				$(".shopcart-goods-delete").find("i").css("display","none");
-			}
-		});
-		
-		$(".fa-trash-o").click(function(){
-			// 首先删除数据购物车数据
-			var groupId = $(this).parent().find("input")[0].value;
-			var oneGoodPropertiesList = [];
-			var deleteData = {
-					"groupId":groupId,
-					"goodsProperties":JSON.stringify(oneGoodPropertiesList)
-			}
-			var inputList = [];
-			inputList.push(deleteData);
-			$.ajax({
-				type : 'POST',
-				contentType : 'application/json',
-				url : '${pageContext.request.contextPath}/COMMON/deleteConsCart',
-				dataType : 'json',
-				data : JSON.stringify(inputList),
-				success : function(data) {
-					if(!data.isException){
-						// 同步购物车成功
-						location.href = "${ctx}/shopcart/init"
-					} else {
-						// 同步购物车失败
-					}
-				},
-				error : function(data) {
-					
+
+	function deleteCurrent(groupId){
+		// 首先删除数据购物车数据
+		var oneGoodPropertiesList = [];
+		var deleteData = {
+				"groupId":groupId,
+				"goodsProperties":JSON.stringify(oneGoodPropertiesList)
+		}
+		var inputList = [];
+		inputList.push(deleteData);
+		$.ajax({
+			type : 'POST',
+			contentType : 'application/json',
+			url : '${pageContext.request.contextPath}/COMMON/deleteConsCart',
+			dataType : 'json',
+			data : JSON.stringify(inputList),
+			success : function(data) {
+				if(!data.isException){
+					// 同步购物车成功
+					location.href = "${ctx}/shopcart/init"
+				} else {
+					// 同步购物车失败
 				}
-			});
-			// 再将画面上的数据删除
+			},
+			error : function(data) {
+				
+			}
 		});
+		// 再将画面上的数据删除
+	};
 		
 		
-	});
+
 	
 	var E0006 = '<fmt:message key="E0006" />';
 	function addShopCart(groupId, checkquantity, isAdd, curObj, changeQuantity) {
@@ -244,44 +150,40 @@
 
 	}
 	
+	function updateAllPrice(){
+		var allAmount = 0;
+		$('.text_box.left').each(function(){
+			var number = $(this).val();
+			var unitprice = $(this).parent().find(".goodsUnitPrice").val();
+			var countAmount = number * parseFloat(unitprice);
+			$(this).parent().parent().parent().find(".goodsPriceClass").text("$" + toDecimal2(countAmount));
+			// 如果是被选中的则加入金额
+			var productId = $(this).parent().find(".groupId").val();
+			var checked = $("input[productid=" + productId + "]").prop("checked");
+			if (checked) {
+				allAmount = toDecimal2(parseFloat(allAmount) + countAmount)
+			}
+			
+		})
+		
+		$("#totalPrice").text(allAmount);
+	}
+	
+	
 	//判断是否可以购买，并且显示总金额
 	function canBuyAndShowAllMoney(){
-		var allChecked = $(".body-blockcheck").find(".check-icon.checked");
-		var allItem = $(".body-blockcheck").find(".check-icon");
-		
-		if (allChecked.length == allItem.length) {
-			// 全部选中
-			$(".buy-check-icon").addClass('checked');
-		} else {
-			$(".buy-check-icon").removeClass('checked');
-		}
-		
-		
-		if (allChecked.length == 0) {
-			// 没有选中
-			$("#surebuy").css({
-				"background" : "#D4D4D4",
-			});
-			$("#surebuy").attr("onclick", "");
-		} else {
-			// 有选中
-			$("#surebuy").css({
-				"background" : "#FF9298",
-			});
-			$("#surebuy").attr("onclick", "surebuy()");
-		}
-		var totalAmount = 0;
-		for (var i = 0; i < allChecked.length; i++) {
-			var price = $(allChecked[i]).parent().parent().find('.shopcart-group-price').find('span').text().substring(1);
-			var quantity = $(allChecked[i]).parent().parent().find('.shopcart-goods-quantity').find('.txt').find("input[type='text']").val();
-			totalAmount += price * quantity;
-		}
-		if (totalAmount == 0) {
-			$("#countmoney").text("0.00");
-		} else {
-			$("#countmoney").text('<fmt:message key="COMMON_DOLLAR" />'+fmoney(totalAmount,2));
-		}
-		
+		updateAllPrice();
+		// 得到选中的商品件数
+		var checkedAmount = 0;
+    	$("label[for=labelCheck]").each(function(){
+    		var productId = $(this).attr("ProductId");
+            var checked = $("input[productid=" + productId + "]").prop("checked");
+        	if (checked) {
+        		checkedAmount = parseInt(checkedAmount) + 1;
+        	}
+        })
+        
+       $("#item_count").text(checkedAmount);
 	}
 	
 	var E0010 = '<fmt:message key="E0010" />';
@@ -290,7 +192,9 @@
 		var oneGoodPropertiesList = [];
 		var checkGroup = [];
 		var canBuy = true;
-		$(".shopcart-goods-quantity").each(function(){
+		
+		
+		/* $(".shopcart-goods-quantity").each(function(){
 			var quantity = $(this).find('.txt').find("input[type='text']").val();
 			var groupId = $(this).find("input[type='hidden']").val();
 			if (isNaN(quantity) || parseFloat(quantity) <= 0) {
@@ -305,7 +209,32 @@
 				"goodsProperties":JSON.stringify(oneGoodPropertiesList)
 			}
 			checkGroup.push(propertiesChange);
-		});
+		}); */
+		
+		$('.text_box.left').each(function(){
+			var number = $(this).val();
+			if (isNaN(number) || parseFloat(number) <= 0) {
+				$('#errormsg_content').text(E0010);
+  				$('#errormsg-pop-up').modal('show');
+  				canBuy = false;
+				return;
+			}
+			var unitprice = $(this).parent().find(".goodsUnitPrice").val();
+			var countAmount = number * parseFloat(unitprice);
+			$(this).parent().parent().parent().find(".goodsPriceClass").text("$" + toDecimal2(countAmount));
+			// 如果是被选中的则加入金额
+			var productId = $(this).parent().find(".groupId").val();
+			var checked = $("input[productid=" + productId + "]").prop("checked");
+			if (checked) {
+				var propertiesChange = {
+						"groupId":productId,
+						"goodsQuantity":number,
+						"goodsProperties":JSON.stringify(oneGoodPropertiesList)
+				}
+				checkGroup.push(propertiesChange);
+			}
+		})
+		
 		if (!canBuy) return;
 		var isOver = true;
 		$.ajax({
@@ -354,11 +283,14 @@
 		
 		
 		// 确定购买
-		var allChecked = $(".body-blockcheck").find(".check-icon.checked");
 		var data = [];
-		for (var i = 0; i < allChecked.length; i++) {
-			data.push($(allChecked[i]).parent().find('input')[0].value);
-		}
+		$('.text_box.left').each(function(){
+			var productId = $(this).parent().find(".groupId").val();
+			var checked = $("input[productid=" + productId + "]").prop("checked");
+			if (checked) {
+				data.push(productId);
+			}
+		})
 		
 		$.ajax({
 			type : "POST",
@@ -387,7 +319,8 @@
 		} else {
 			var diff = parseFloat($(str).val()) - parseFloat(str.defaultValue);
 			if (diff != 0) {
-				addShopCart($(str).parent().parent().find("input[type='hidden']")[0].value, $(str).val(), true, str, diff);
+				str.defaultValue = $(str).val();
+				addShopCart($(str).parent().parent().find("input[class='groupId']")[0].value, $(str).val(), true, str, diff);
 				canBuyAndShowAllMoney();
 			}
 			
@@ -450,10 +383,10 @@
 					<c:forEach var="cart" items="${ cartsList }" varStatus="status">
                     <li data-id="${cart.groupId }">
                         <div class="car_li">
-                            <input data-val="true" id="Items_0__ProductId" name="Items[0].ProductId" type="hidden" value="${cart.groupId }" />
+                            
                             <div class="car_li_checkbox">
                                 <div class="checkboxFive car_check">
-                                    <input productid="${cart.groupId }" data-val="true" id="checkbox191" type="checkbox" value="value="${cart.groupId }"">
+                                    <input productid="${cart.groupId }" id="checkbox191" type="checkbox" value="value="${cart.groupId }"">
                                     <label productid="${cart.groupId }" for="labelCheck"> </label> 
                                 </div>
                             </div>
@@ -465,30 +398,32 @@
                                 </div>
                                 <div class="right car_li_con_rt">
                                     <p class="car_li_tl">
-                                        <a href="/Mobile/Product/a2-step-3-900g" data-outstock="False" class="stockstatus">
+                                        <a href="${ctx}/item/getGoodsItem?groupId=${goods.groupId}" data-outstock="False" class="stockstatus">
                                             ${cart.goodsName }
                                         </a>
                                     </p>
                                     <div class="clearfix car_li_do">
-                                        <span class="left color_red">$${cart.goodsPrice }</span>
+                                        <span class="left color_red goodsPriceClass">$${cart.goodsPrice }</span>
                                         <div class="right clearfix">
                                             <div class="clearfix sum left">
                                                 <a data-id="${cart.groupId }" class="min left"></a>
-                                                <input class="text_box left text-box single-line" pattern="[0-9]*" id="itemNumber" maxlength="2" size="4" type="text" value="${cart.goodsQuantity }" />
+                                                <input class="text_box left text-box single-line" pattern="[0-9]*" maxlength="2" size="4" type="text" value="${cart.goodsQuantity }" />
                                                 <a data-id="${cart.groupId }" class="add left"></a>
-                                                <input type="hidden" value="${cart.groupId }" />
+                                                <input type="hidden" value="${cart.groupId }" class="groupId"/>
+                                                <input type="hidden" value="${cart.goodsUnitPrice }" class="goodsUnitPrice"/>
                                             </div>
                                             <em class="left dele" data-id="${cart.groupId }"></em>
                                         </div>
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
                     </li>
                     </c:forEach>
             </ul>
 		<div class="clearfix car_result">
-            <p>选中商品：<span id="item_count"></span> 件</p>
+            <p>选中商品：<span id="item_count">0</span> 件</p>
             <!-- <p>邮寄总重：<span id="item_weight"></span> kg</p> -->
         </div>
         <!--结算-->
@@ -502,11 +437,11 @@
                     <span class="left">全选</span>
                 </div>
                 <div class="jiesuan_mess">
-                    总计：AU$ <span id="totalPrice" class="color_red">155.80</span><br />
+                    总计：AU$ <span id="totalPrice" class="color_red">0</span><br />
                     不含运费
                 </div>
             </div>
-            <input form="cart_form" id="cart_input" type="submit" value="去结算" class="right btn_blue jiesuanbtn">
+            <input id="cart_input" type="submit" onclick="surebuy()" value="去结算" class="right btn_blue jiesuanbtn">
         </div>
 
 </div>
@@ -541,9 +476,10 @@
     </div>
 </div>
 
+<input type="hidden" id="hiddenDeleteGroupId" />
+
 <script type="text/javascript">
 
-var delProductId;
 
 $(document).ready(function () {
     
@@ -555,10 +491,9 @@ $(document).ready(function () {
 			return;
 		} else {
 			$(this).parent().find("input[type='text']").val(currentqty - 1);
-			addShopCart($(this).parent().find("input[type='hidden']")[0].value, currentqty, false, curObj, -1);
+			addShopCart($(this).parent().find(".groupId").val(), currentqty, false, curObj, -1);
 			$(this).parent().find("input[type='text']").defaultValue = currentqty - 1;
-			
-			//canBuyAndShowAllMoney();
+			canBuyAndShowAllMoney();
 		}
     });
 
@@ -569,9 +504,9 @@ $(document).ready(function () {
 			return;
 		} else {
 			$(this).parent().find("input[type='text']").val(parseFloat(currentqty) + 1);
-			addShopCart($(this).parent().find("input[type='hidden']")[0].value, parseFloat(currentqty) + 1, true, curObj, 1);
+			addShopCart($(this).parent().find(".groupId").val(), parseFloat(currentqty) + 1, true, curObj, 1);
 			$(this).parent().find("input[type='text']").defaultValue = parseFloat(currentqty) + 1;
-			//canBuyAndShowAllMoney();
+			canBuyAndShowAllMoney();
 		}
     });
    
@@ -582,7 +517,7 @@ $(document).ready(function () {
     
 
     $(".dele").click(function () {
-        delProductId = $(this).attr("data-id");
+        $("#hiddenDeleteGroupId").val($(this).attr("data-id"));
         $(".alert").show();
         $(".alert_bg").show();
     });
@@ -593,138 +528,48 @@ $(document).ready(function () {
     });
 
     $("#delConfirm").click(function () {
-        $.ajax({
-            url: "/Mobile/Purchase/DeleteCartItem",
-            type: "POST",
-        	data: { itemId: delProductId },
-            success: function (data) {
-                location.reload();
-                /*$("div[data-id=" + delProductId + "]").hide();
-                $("#del").toggle();
-                $(".heibg").toggle();*/
-            }
-        });
+    	deleteCurrent($("#hiddenDeleteGroupId").val());
     });
     
     // 两个全选
     $("label[for=checkboxInputTop]").click(function () {
         var checked = $("input[id=checkboxInputTop]").prop("checked");
-        updateCheckedProducts(checked);
+        updateAllCheckedProducts(checked);
         $("input[id=checkboxInputTop]").prop("checked", checked);
+        canBuyAndShowAllMoney()
     });
 
     $("label[for=checkboxInputBottom]").click(function () {
         var checked = $("input[id=checkboxInputBottom]").prop("checked");
-        updateCheckedProducts(checked);
+        updateAllCheckedProducts(checked);
         $("input[id=checkboxInputBottom]").prop("checked", checked);
+        canBuyAndShowAllMoney()
     });
     
-    function updateCheckedProducts(checked)
+    function updateAllCheckedProducts(checked)
     {
         $(':checkbox').each(function () {
-        	$(this).prop("checked");
-        });
+        	this.checked = !checked;
+        })
     }
-
     
+    $("label[for=labelCheck]").click(function () {
+        var productId = $(this).attr("ProductId");
+        var checked = !$("input[productid=" + productId + "]").prop("checked");
+
+        
+        $("input[productid=" + productId + "]").prop("checked", checked);
+       	if (IsAllChecked())
+        {
+            $("input[id=checkboxInputBottom]").prop("checked", checked);
+            $("input[id=checkboxInputTop]").prop("checked", checked);
+        }
+       	canBuyAndShowAllMoney();
+    });
+
 });
 
 </script>
-
-	<%-- <div class="x-header x-header-gray border-1px-bottom">
-		<div class="x-header-btn"></div>
-		<div class="x-header-title">
-			<span>
-				<fmt:message key="CARTLIST_TITLE"/>
-			</span>
-			<span style="color:red" class="shopcart-count">
-				<c:if test="${count != null && count > 0 }">(${count})</c:if>
-			</span>
-		</div>
-		<div class="x-header-btn">
-			<span id="candelete" class="shopcart-modify">
-				<fmt:message key="COMMON_MODIFY"/>
-			</span>
-		</div>
-	</div>
-	
-	<c:forEach var="cartsList" items="${ cartsList }" varStatus="status">
-	<div class="shopcart-checkBlockDiv">
-		<div class="shopcart-checkBlockHead">
-			<div class="head-blockcheck">
-				<input type="checkbox" value="1"/>
-				<div class="check-icon"></div>
-			</div>
-			<div class="shopcart-overtime">
-				<fmt:message key="COMMON_ALLCHECK"/>
-			</div>
-		</div>
-		<c:forEach var="cartsBody" items="${ cartsList.itemList }" varStatus="status">
-		<div class="shopcart-checkBlockBody">
-			<div class="body-blockcheck">
-				<input type="checkbox" value="${cartsBody.groupId }"/>
-				<div class="check-icon"></div>
-			</div>
-			<div class="shopcart-groupinfo">
-				<div class="shopcart-group-img">
-					<img src="${cartsBody.goodsImage }" class="img-responsive">
-				</div>
-				<div class="shopcart-group-pro">
-					<span class="shopcart-goodname">${cartsBody.goodsName }</span>
-					
-					<div class="shopcart-goods-quantity">
-						<span class="minus"><i class="fa fa-minus valuemius"></i></span>	
-						<span class="txt">
-							<input type="text" value="${cartsBody.goodsQuantity }" maxlength="4" pattern="[0-9]*" class="item-num-input" id="itemNumber" onblur="checkGoodsNum(this)"/>
-						</span>
-						
-						<span class="add"><i class="fa fa-plus valueplus"></i></span>
-						<input type="hidden" value="${cartsBody.groupId }" />
-					</div>
-				</div>
-				<div class="shopcart-group-price">
-					
-					<span><fmt:message key="COMMON_DOLLAR" />${cartsBody.goodsUnitPrice }</span>
-					
-					<div class="shopcart-goods-delete">
-						<i class="fa fa-trash-o redcolor" style="display: none"></i>
-						<input type="hidden" value="${cartsBody.groupId }" />
-					</div>
-				</div>
-			</div>
-		</div>
-		</c:forEach>
-	</div>
-
-	</c:forEach>
-	
-	<div class="shopcart-buy-fix">
-    	<div class="buy-blockcheck">
-			<div class="buy-check-icon"></div>
-			<span><fmt:message key="COMMON_ALLCHECK"/></span>
-		</div>
-		<div class="buy-blockprice">
-			<span><fmt:message key="COMMON_COUNT"/></span>
-			<span id="countmoney">0.00</span>
-		</div>
-		<div class="buy-block-sure">
-			<a id="surebuy"><fmt:message key="CARTLIST_BUY_BTN"/></a>
-		</div>
-    </div>
-    
-    <script type="text/javascript">
-	    if ($(".buy-check-icon").hasClass('checked')) {
-			$(".check-icon").parent().find('input')[0].checked = false;
-			$(".check-icon").removeClass('checked');
-			$(".buy-check-icon").removeClass('checked');
-		} else {
-			$(".check-icon").parent().find('input')[0].checked = true;
-			$(".check-icon").addClass('checked');
-			$(".buy-check-icon").addClass('checked');
-		}
-		canBuyAndShowAllMoney();
-    
-    </script> --%>
     
 </body>
 </html>

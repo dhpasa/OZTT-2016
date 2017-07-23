@@ -1,6 +1,7 @@
 package com.org.oztt.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.org.oztt.base.page.Pagination;
 import com.org.oztt.base.page.PagingResult;
@@ -27,6 +28,10 @@ public interface TPowderOrderDao {
     List<TPowderOrder> getTPowderOrderInfoList(TPowderOrder tPowderOrder);
 
     PagingResult<PowderOrderInfo> getPowderOrderPageInfo(Pagination pagination);
+    
+    PagingResult<PowderOrderInfo> getPowderAndProductOrderPageInfo(Pagination pagination);
+    
+    int getPowderAndProductOrder(Map<Object, Object> map);
     
     void deleteNoPayOrder();
 }

@@ -23,4 +23,6 @@ public interface TPowderBoxDao {
     List<PowderBoxInfo> selectTPowderList(TPowderBox record);
     
     List<TPowderBox> selectTPowderBoxList(TPowderBox record);
+    
+    
 }
