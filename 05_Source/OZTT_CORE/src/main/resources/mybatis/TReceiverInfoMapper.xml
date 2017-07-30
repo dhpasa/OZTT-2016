@@ -202,6 +202,7 @@
 			and (receiverName like concat('%',#{keywords},'%') or receiverTel like concat(#{keywords},'%'))
 	</if>
     and deleteFlg = '0'
+    order by updTimestamp desc
   </select>
   
   <select id="selectReceiveNewListCount" resultType="int" parameterType="map" >

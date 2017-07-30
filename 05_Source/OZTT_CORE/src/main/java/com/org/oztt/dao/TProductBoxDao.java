@@ -19,4 +19,8 @@ public interface TProductBoxDao {
     int updateByPrimaryKey(TProductBox record);
     
     List<PowderBoxInfo> selectTProductList(TProductBox record);
+    
+    List<TProductBox> selectTProductBoxList(TProductBox record);
+    
+    int selectAutoIncrement();
 }

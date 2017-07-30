@@ -10,77 +10,97 @@ public class TProductOrder implements Serializable {
     /**
      *  
      */
-    private Long              id;
+    private Long id;
 
     /**
      *  
      */
-    private String            ordreNo;
+    private String orderNo;
 
     /**
      *  
      */
-    private String            orderDate;
+    private String orderDate;
 
     /**
      *  
      */
-    private String            customerId;
+    private String customerId;
 
     /**
      *  
      */
-    private BigDecimal        sumAmount;
+    private BigDecimal sumAmount;
 
     /**
      *  
      */
-    private String            paymentMethod;
+    private String paymentMethod;
 
     /**
      *  
      */
-    private String            paymentStatus;
+    private String paymentStatus;
 
     /**
      *  
      */
-    private String            paymentDate;
+    private String paymentDate;
 
     /**
      *  
      */
-    private String            status;
+    private String deliveryMethod;
 
     /**
      *  
      */
-    private String            remarks;
+    private String status;
 
     /**
      *  
      */
-    private Date              addTimestamp;
+    private String ifInvoice;
 
     /**
      *  
      */
-    private String            addUserKey;
+    private String customerRemarks;
 
     /**
      *  
      */
-    private Date              updTimestamp;
+    private String remarks;
 
     /**
      *  
      */
-    private String            updUserKey;
+    private Date addTimestamp;
 
     /**
      *  
      */
-    private String            updPgmId;
+    private String addUserKey;
+
+    /**
+     *  
+     */
+    private Date updTimestamp;
+
+    /**
+     *  
+     */
+    private String updUserKey;
+
+    /**
+     *  
+     */
+    private String updPgmId;
+
+    /**
+     *  
+     */
+    private String gisOrderNo;
 
     public Long getId() {
         return id;
@@ -90,12 +110,12 @@ public class TProductOrder implements Serializable {
         this.id = id;
     }
 
-    public String getOrdreNo() {
-        return ordreNo;
+    public String getOrderNo() {
+        return orderNo;
     }
 
-    public void setOrdreNo(String ordreNo) {
-        this.ordreNo = ordreNo;
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
     }
 
     public String getOrderDate() {
@@ -146,12 +166,36 @@ public class TProductOrder implements Serializable {
         this.paymentDate = paymentDate;
     }
 
+    public String getDeliveryMethod() {
+        return deliveryMethod;
+    }
+
+    public void setDeliveryMethod(String deliveryMethod) {
+        this.deliveryMethod = deliveryMethod;
+    }
+
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getIfInvoice() {
+        return ifInvoice;
+    }
+
+    public void setIfInvoice(String ifInvoice) {
+        this.ifInvoice = ifInvoice;
+    }
+
+    public String getCustomerRemarks() {
+        return customerRemarks;
+    }
+
+    public void setCustomerRemarks(String customerRemarks) {
+        this.customerRemarks = customerRemarks;
     }
 
     public String getRemarks() {
@@ -200,5 +244,13 @@ public class TProductOrder implements Serializable {
 
     public void setUpdPgmId(String updPgmId) {
         this.updPgmId = updPgmId;
+    }
+
+    public String getGisOrderNo() {
+        return gisOrderNo;
+    }
+
+    public void setGisOrderNo(String gisOrderNo) {
+        this.gisOrderNo = gisOrderNo;
     }
 }

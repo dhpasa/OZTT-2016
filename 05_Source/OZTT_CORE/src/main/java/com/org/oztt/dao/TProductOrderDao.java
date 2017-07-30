@@ -14,4 +14,6 @@ public interface TProductOrderDao {
     int updateByPrimaryKeySelective(TProductOrder record);
 
     int updateByPrimaryKey(TProductOrder record);
+    
+    int selectAutoIncrement();
 }

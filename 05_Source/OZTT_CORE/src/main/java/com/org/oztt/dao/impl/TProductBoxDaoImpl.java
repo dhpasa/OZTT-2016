@@ -26,14 +26,12 @@ public class TProductBoxDaoImpl extends BaseDao implements TProductBoxDao {
 
     @Override
     public int insertSelective(TProductBox record) {
-        // TODO Auto-generated method stub
-        return 0;
+        return insert("com.org.oztt.dao.TProductBoxMapper.insertSelective", record);
     }
 
     @Override
     public TProductBox selectByPrimaryKey(Long id) {
-        // TODO Auto-generated method stub
-        return null;
+        return selectOne("com.org.oztt.dao.TProductBoxMapper.selectByPrimaryKey", id);
     }
 
     @Override
@@ -50,7 +48,17 @@ public class TProductBoxDaoImpl extends BaseDao implements TProductBoxDao {
 
     @Override
     public List<PowderBoxInfo> selectTProductList(TProductBox record) {
-        return select("com.org.techcoffee.dao.TProductBoxMapper.selectTProductList", record);
+        return select("com.org.oztt.dao.TProductBoxMapper.selectTProductList", record);
+    }
+
+    @Override
+    public List<TProductBox> selectTProductBoxList(TProductBox record) {
+        return select("com.org.oztt.dao.TProductBoxMapper.selectTProductBoxList", record);
+    }
+
+    @Override
+    public int selectAutoIncrement() {
+        return selectOne("com.org.oztt.dao.TProductBoxMapper.selectAutoIncrement", null);
     }
 
 }

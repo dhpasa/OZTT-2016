@@ -51,18 +51,18 @@ public class PayController extends BaseController {
     @RequestMapping(value = "init")
     public String init(Model model, HttpServletResponse response, HttpSession session, String orderNo, String email) {
         try {
-            model.addAttribute("orderNo", orderNo);
-            // 取得订单的金额
-            OzTtGbOdDto detail = orderService.getOrderDetailInfo(orderNo);
-            String amount = new BigDecimal(detail.getXiaoji()).add(new BigDecimal(detail.getYunfei())).toString();
-            // 这里需要加上额外费率
-            TSysConfig sysconfig = sysConfigService.getTSysConfigInRealTime();
-            if (sysconfig != null && sysconfig.getMasterCardFee() != null) {
-                amount = new BigDecimal(amount).add(new BigDecimal(amount).multiply(sysconfig.getMasterCardFee()).setScale(2, BigDecimal.ROUND_HALF_UP)).toString();
-            }
-            model.addAttribute("amount", amount);
-            model.addAttribute("email", email);
-            model.addAttribute("leftTime", detail.getLeftTime());
+//            model.addAttribute("orderNo", orderNo);
+//            // 取得订单的金额
+//            OzTtGbOdDto detail = orderService.getOrderDetailInfo(orderNo);
+//            String amount = new BigDecimal(detail.getXiaoji()).add(new BigDecimal(detail.getYunfei())).toString();
+//            // 这里需要加上额外费率
+//            TSysConfig sysconfig = sysConfigService.getTSysConfigInRealTime();
+//            if (sysconfig != null && sysconfig.getMasterCardFee() != null) {
+//                amount = new BigDecimal(amount).add(new BigDecimal(amount).multiply(sysconfig.getMasterCardFee()).setScale(2, BigDecimal.ROUND_HALF_UP)).toString();
+//            }
+//            model.addAttribute("amount", amount);
+//            model.addAttribute("email", email);
+//            model.addAttribute("leftTime", detail.getLeftTime());
             return "payment";
         }
         catch (Exception e) {

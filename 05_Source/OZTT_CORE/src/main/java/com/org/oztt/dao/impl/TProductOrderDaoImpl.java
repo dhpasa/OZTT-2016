@@ -23,25 +23,28 @@ public class TProductOrderDaoImpl extends BaseDao implements TProductOrderDao {
 
     @Override
     public int insertSelective(TProductOrder record) {
-        // TODO Auto-generated method stub
-        return 0;
+        return insert("com.org.oztt.dao.TProductOrderMapper.insertSelective", record);
     }
 
     @Override
     public TProductOrder selectByPrimaryKey(Long id) {
-        return selectOne("com.org.oztt.dao.TPowderOrderMapper.selectByPrimaryKey", id);
+        return selectOne("com.org.oztt.dao.TProductOrderMapper.selectByPrimaryKey", id);
     }
 
     @Override
     public int updateByPrimaryKeySelective(TProductOrder record) {
-        // TODO Auto-generated method stub
-        return 0;
+        return update("com.org.oztt.dao.TProductOrderMapper.updateByPrimaryKeySelective", record);
     }
 
     @Override
     public int updateByPrimaryKey(TProductOrder record) {
         // TODO Auto-generated method stub
         return 0;
+    }
+
+    @Override
+    public int selectAutoIncrement() {
+        return selectOne("com.org.oztt.dao.TProductOrderMapper.selectAutoIncrement", null);
     }
 
 }

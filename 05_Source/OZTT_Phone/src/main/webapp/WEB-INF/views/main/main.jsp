@@ -111,7 +111,7 @@
 <!--头部开始-->
 <div class="head_fix">
     <div id="searchcontainer" class="head index_head">          
-		<div class="head_logo"><img src="${ctx}/picture/logo.png" width="75" /></div>
+		<div class="head_logo"><img src="${ctx}/images/logo_tuantuan.png" width="75" /></div>
         <div class="head_search">
              <div class="head_search_main clearfix">
                  <input id="searchbox" type="text" name="keyword" class="left head_search_main_lf" placeholder="搜索商品品牌 名称 功效" />

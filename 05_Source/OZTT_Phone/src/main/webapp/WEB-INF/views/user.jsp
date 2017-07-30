@@ -132,7 +132,7 @@
 	<div class="main">
     <!--用户中心banner开始-->
     <div class="user_ban">
-        <img src="${ctx}/images/user/userban.jpg" />
+        <img src="${ctx}/images/user/userban.jpeg" />
         <a href="#" class="user_name">
             <span>Hi, ${currentUserName}</span>
             <em></em>

@@ -11,7 +11,12 @@
   <title><fmt:message key="ADDRESSEDIT_TITLE"/></title>
   <script type="text/javascript">
   function toAddressList(){
-	  location.href = "${ctx}/address/receiveList"
+	  if ('${fromPurchase}' == '1') {
+		  location.href = "${ctx}/purchase/init"
+	  } else {
+		  location.href = "${ctx}/address/receiveList"
+	  }
+	  
   }
 		
   function addOrUpdateAddress(){
@@ -101,10 +106,10 @@
     	<div class="head user_head clearfix">
 	        <a href="javascript:history.back(-1)" class="head_back"></a>
 	        <c:if test="${receiverInfo.id == null ||  receiverInfo.id == ''}">
-	        	创建新寄件人地址
+	        	创建新收件人地址
 	        </c:if>
 	        <c:if test="${receiverInfo.id != null &&  receiverInfo.id != ''}">
-	        	更新寄件人地址
+	        	更新收件人地址
 	        </c:if>
 	        <div class="daohang">
 	    	<em></em>

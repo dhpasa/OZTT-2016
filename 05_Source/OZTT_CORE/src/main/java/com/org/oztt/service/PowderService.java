@@ -242,4 +242,5 @@ public interface PowderService {
      * @throws Exception
      */
     public void sendMsgOnNewOrder(String phone, List<TPowderBox> boxList) throws Exception;
+    
 }

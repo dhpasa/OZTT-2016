@@ -40,7 +40,7 @@ public class AddressIDUSController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/sendList")
-    public String sendList(Model model, HttpServletResponse response, HttpSession session, String pageNo, String keywords) {
+    public String sendList(Model model, HttpServletResponse response, HttpSession session, String pageNo, String keywords, String fromPurchase) {
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
             // 获取所有的地址
@@ -61,6 +61,7 @@ public class AddressIDUSController extends BaseController {
             PagingResult<TSenderInfo> sendList = powderService.selectSenderInfoPageList(pagination);
             model.addAttribute("sendListPage", sendList);
             model.addAttribute("keywords", keywords);
+            model.addAttribute("fromPurchase", fromPurchase);
             return "addressSendList";
         }
         catch (Exception e) {
@@ -77,7 +78,7 @@ public class AddressIDUSController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/receiveList")
-    public String receiveList(Model model, HttpServletResponse response, HttpSession session, String pageNo, String keywords) {
+    public String receiveList(Model model, HttpServletResponse response, HttpSession session, String pageNo, String keywords, String fromPurchase) {
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
             // 获取所有的地址
@@ -97,6 +98,7 @@ public class AddressIDUSController extends BaseController {
             PagingResult<TReceiverInfo> receiveList = powderService.selectReceiverInfoPageList(pagination);
             model.addAttribute("receiveListPage", receiveList);
             model.addAttribute("keywords", keywords);
+            model.addAttribute("fromPurchase", fromPurchase);
             // 后台维护的时候提示让以逗号隔开
             return "addressReceiveList";
         }
@@ -195,7 +197,7 @@ public class AddressIDUSController extends BaseController {
      */
     @RequestMapping(value = "/getAddress")
     public String getAddress(Model model, HttpServletRequest request, HttpSession session, String updateType,
-            String addressId) {
+            String addressId, String fromPurchase) {
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
             // 获取所有的地址
@@ -218,6 +220,7 @@ public class AddressIDUSController extends BaseController {
             }
             model.addAttribute("senderInfo", tSenderInfo);
             model.addAttribute("receiverInfo", tReceiverInfo);
+            model.addAttribute("fromPurchase", fromPurchase);
             if ("0".equals(updateType)) {
                 return "addressSendEdit";
             } else {

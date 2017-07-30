@@ -13,7 +13,13 @@
   
   
   function toAddressList(){
-	  location.href = "${ctx}/address/sendList"
+	  if ('${fromPurchase}' == '1') {
+		  location.href = "${ctx}/purchase/init"
+	  } else {
+		  location.href = "${ctx}/address/sendList"
+	  }
+		
+	 
   }
 		
   function addOrUpdateAddress(){

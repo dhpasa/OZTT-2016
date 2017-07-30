@@ -75,6 +75,9 @@
                 <div class="shoujian_main">
                     
                     <div class="shoujian_main_text">
+                    	<c:if test="${fromPurchase == '1'}">
+                    		<a href="${ctx}/purchase/init?receiveId=${receiveInfo.id}">
+                    	</c:if>
                         <div class="shoujian_main_con">
                             <div class="dingdan_li_mess_gp clearfix">
 
@@ -86,6 +89,9 @@
                                 <span class="dizhi">${receiveInfo.receiverAddr}</span>
                             </div>
                         </div>
+                        <c:if test="${fromPurchase == '1'}">
+                    		</a>
+                    	</c:if>
                     </div>
                 </div>
             </li>

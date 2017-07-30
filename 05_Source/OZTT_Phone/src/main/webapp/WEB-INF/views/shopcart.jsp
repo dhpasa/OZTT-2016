@@ -11,9 +11,6 @@
 <%@ include file="./commoncssHead.jsp"%>
 <!-- Head END -->
 <script>
-	function goOnToBuy(){
-		location.href = "${pageContext.request.contextPath}/main/init";
-	}
 	
 	// 判断是否已经全部选中
     function IsAllChecked() {
@@ -27,6 +24,19 @@
         })
         return isAllcheckedFlg;
     }
+	
+	// 判断是否有选中
+	function judgeHasChecked(){
+		var ischeckedFlg = false;
+    	$("label[for=labelCheck]").each(function(){
+    		var productId = $(this).attr("ProductId");
+            var checked = $("input[productid=" + productId + "]").prop("checked");
+        	if (checked) {
+        		ischeckedFlg = true;
+        	}
+        })
+        return ischeckedFlg;
+	}
 	
 
 
@@ -192,6 +202,12 @@
 		var oneGoodPropertiesList = [];
 		var checkGroup = [];
 		var canBuy = true;
+		
+		if (!judgeHasChecked()) {
+			$('#errormsg_content').text("请选择商品进行结算");
+			$('#errormsg-pop-up').modal('show');
+			return;
+		}
 		
 		
 		/* $(".shopcart-goods-quantity").each(function(){

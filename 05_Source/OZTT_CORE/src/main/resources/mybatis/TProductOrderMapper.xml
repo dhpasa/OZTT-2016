@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.org.techcoffee.dao.TProductOrderMapper" >
+<mapper namespace="com.org.oztt.dao.TProductOrderMapper" >
   <resultMap id="BaseResultMap" type="com.org.oztt.entity.TProductOrder" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="orderNo" property="orderNo" jdbcType="VARCHAR" />
@@ -256,4 +256,11 @@
       gisOrderNo = #{gisOrderNo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  <select id="selectAutoIncrement" resultType="int">
+  	SELECT Auto_increment
+	FROM information_schema.`TABLES`
+	WHERE Table_Schema='oztt'
+	AND table_name = 't_product_order'
+  </select>
 </mapper>

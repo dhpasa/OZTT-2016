@@ -168,4 +168,8 @@ public final class CommonConstants {
 
     public static final String     VIEW_INSTOCKFLG            = "特价产品";                                 // 
 
+    public static final Double     MESSAGE_FEE                = 0D;
+
+    public static final Double     IFMARK_FEE                 = 0D;
+
 }
