@@ -13,12 +13,18 @@
   	
 
   	
-  	function showExpressInfo(elecExpressNo,boxId){
+  	function showExpressInfo(elecExpressNo,boxId, powderOrProductFlg){
   		
+  		var url = "";
+  		if (powderOrProductFlg == '1') {
+  			url = '${pageContext.request.contextPath}/powderOrder/getExpressInfo?expressEleNo='+elecExpressNo+'&boxId='+boxId;
+  		} else if (powderOrProductFlg == '2') {
+  			url = '${pageContext.request.contextPath}/order/getExpressInfo?expressEleNo='+elecExpressNo+'&boxId='+boxId;
+  		}
 		$.ajax({
 			type : "GET",
 			contentType:'application/json',
-			url : '${pageContext.request.contextPath}/powderOrder/getExpressInfo?expressEleNo='+elecExpressNo+'&boxId='+boxId,
+			url : url,
 			dataType : "json",
 			async : false,
 			data : "", 
@@ -301,22 +307,24 @@
 	                    </c:forEach>
             		</c:if>
             		<c:if test="${detailInfo.powderOrProductFlg == '2' }">
-                    <li class="clearfix">
-                        <a href="${ctx}/item/getGoodsItem?groupId=${product.productId}" class="pro_list_lf left">
-                            <img src="${sproduct.productPath}" />
-                        </a>
-                        <div class="right pro_list_rt clearfix">
-                            <div class="left pro_list_rt_tl">
-                                <a href="${ctx}/item/getGoodsItem?groupId=${product.productId}">
-                                    ${product.productName }
-                                </a>
-                            </div>
-                            <div class="right pro_list_rt_price">
-                                <p>$${product.productPrice }</p>
-                                <p>X ${product.productNumber }</p>
-                            </div>
-                        </div>
-                    </li>
+            		<c:forEach var="product" items="${ detailInfo.productList }" varStatus="status">
+	                    <li class="clearfix">
+	                        <a href="${ctx}/item/getGoodsItem?groupId=${product.productId}" class="pro_list_lf left">
+	                            <img src="${product.productPath}" />
+	                        </a>
+	                        <div class="right pro_list_rt clearfix">
+	                            <div class="left pro_list_rt_tl">
+	                                <a href="${ctx}/item/getGoodsItem?groupId=${product.productId}">
+	                                    ${product.productName }
+	                                </a>
+	                            </div>
+	                            <div class="right pro_list_rt_price">
+	                                <p>$${product.productPrice }</p>
+	                                <p>X ${product.productNumber }</p>
+	                            </div>
+	                        </div>
+	                    </li>
+                    </c:forEach>
                     </c:if>
             </ul>
         </div>
@@ -446,7 +454,7 @@
 							</td>	
 							<td style="text-align: center">
 								<div class="container">
-										<a href="#my-modal-express-${box.elecExpressNo}" data-toggle="modal" onclick="showExpressInfo('${box.elecExpressNo}','${box.boxId}')">物流消息</a>
+										<a href="#my-modal-express-${box.elecExpressNo}" data-toggle="modal" onclick="showExpressInfo('${box.elecExpressNo}','${box.boxId}', '${detailInfo.powderOrProductFlg }')">物流消息</a>
 								</div>
 								<!--固定定位的模态框-->
 								<div id="my-modal-express-${box.elecExpressNo}" class="modal fade"> <!--半透明的遮罩层-->

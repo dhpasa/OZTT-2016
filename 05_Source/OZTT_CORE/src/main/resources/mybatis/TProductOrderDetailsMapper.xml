@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.org.techcoffee.dao.TProductOrderDetailsMapper" >
+<mapper namespace="com.org.oztt.dao.TProductOrderDetailsMapper" >
   <resultMap id="BaseResultMap" type="com.org.oztt.entity.TProductOrderDetails" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="productId" property="productId" jdbcType="VARCHAR" />
@@ -153,15 +153,26 @@
   
   <select id="selectProductDetailsListByOrderNo" resultType="com.org.oztt.formDto.OrderDetailViewProductDto" parameterType="java.lang.String" >
     select 
-    b.brandName as powderBrand,
-    d.codeDetailName as powderSpec,
-    a.quantity as number,
-    c.weight,
-    c.freeDeliveryParameter,
-    c.powderPrice as powderPrice
+	c.picUrl as productPath,
+	c.name as productName,
+	a.unitPrice as productPrice,
+	a.quantity as productNumber,
+	a.productId
     from t_product_order_details a
-    inner join t_product_box e on a.powderBoxId = e.id
-
-    where e.orderId = #{orderId,jdbcType=VARCHAR}
+    inner join t_product_box b on a.productBoxId = b.id
+    inner join t_product c on c.id = a.productId
+    where b.orderId = #{orderId,jdbcType=VARCHAR}
   </select>
+  
+  <select id="selectByParam" resultMap="BaseResultMap" parameterType="com.org.oztt.entity.TProductOrderDetails" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_product_order_details
+    where 1 =1
+    <if test="productBoxId != null" >
+        and productBoxId = #{productBoxId,jdbcType=VARCHAR}
+      </if>
+  </select>
+  
+  
 </mapper>

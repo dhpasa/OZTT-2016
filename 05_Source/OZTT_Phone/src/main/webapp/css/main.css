@@ -9,7 +9,7 @@
 .main_order{padding-bottom: 52px; padding-top: 113px;font-size:14px;}
 .index_head .index_kefu{left: 10px;}
 .head_search_main{background: #fff;height: 28px;margin: 0px 35px 0px 90px;margin-top: 6px;border-radius: 5px;overflow: hidden;}
-.head_logo{position:absolute;top:0;left:0;margin:10px;}
+.head_logo{position:absolute;top:0;left:0;margin:5px;}
 .head_search_btn{-webkit-tap-highlight-color: rgba(0,0,0,0); -webkit-appearance: none;background: url(../images/head_search.jpg) no-repeat;width: 15px;height: 15px;background-size: 15px 15px;display: block;margin-top: 6.5px;margin-right: 5px;border: none;}
 .head_search_main_lf{-webkit-tap-highlight-color: rgba(0,0,0,0); -webkit-appearance: none;width: 84%;padding: 5px 2%;line-height: 18px;height: 18px;border: none; box-sizing:initial;}
 input:focus{outline: none;}
@@ -136,7 +136,7 @@ input:focus{outline: none;}
 .orange_line{display: block;width: 15px;height: 2px;background: #e56a27;margin: 4px auto 2px auto;}
 .user_ban_text_rt{right: 10px;}
 .user_name span{line-height: 20px;width: 80px;color: #fff;display: inline-block;overflow: hidden;height: 20px;white-space: nowrap;text-overflow: ellipsis;}
-.user_name{background: #e56a27;padding: 0px 9px;position: absolute;top: 10px;left: 50%;margin-left: -39px;border-radius: 10px;}
+.user_name{background: #e56a27;padding: 0px 9px;position: absolute;top: 10px;left: 50%;margin-left: -50px;border-radius: 10px;}
 .user_name em{background: url(../images/sanjiao.png) no-repeat;width: 7px;height: 4px;background-size: 7px 4px;position: absolute;left: 50%;margin-left: -3.5px;bottom: -4px;}
 .user_order_tl{padding: 10px;border-bottom: 1px solid #dddddd;background: #fff;}
 .user_order_tl span{font-size: 14px;color: #333333;background: url(../images/red_line.png) no-repeat left center;background-size: 3px 16px;padding-left: 10px;}

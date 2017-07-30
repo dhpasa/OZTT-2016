@@ -73,7 +73,7 @@
         用户登录
     </div>
     <div class="login_logo">
-        <img src="${ctx}/picture/login_logo.png" />
+        <img src="${ctx}/images/login_logo.png" />
     </div>
 
     <!--登录内容-->

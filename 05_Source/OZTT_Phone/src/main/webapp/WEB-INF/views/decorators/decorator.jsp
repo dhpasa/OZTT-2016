@@ -396,6 +396,7 @@
     	&nbsp;
     </div>
     
+    <script type="text/javascript" src="${ctx}/js/qin.js"></script>
     <script type="text/javascript">
     var currentPath = window.location.pathname;
 	if (currentPath.indexOf("login/init") > 0 ||

@@ -2,7 +2,6 @@ package com.org.oztt.controller;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -23,17 +22,33 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.org.oztt.base.page.Pagination;
+import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.base.util.CommonUtils;
-import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.base.util.HttpRequest;
 import com.org.oztt.contants.CommonConstants;
-import com.org.oztt.entity.TAddressInfo;
 import com.org.oztt.entity.TConsOrder;
+import com.org.oztt.entity.TCustomerBasicInfo;
+import com.org.oztt.entity.TExpressInfo;
+import com.org.oztt.entity.TProduct;
+import com.org.oztt.entity.TProductOrder;
+import com.org.oztt.entity.TReceiverInfo;
+import com.org.oztt.entity.TSenderInfo;
+import com.org.oztt.entity.TSysConfig;
 import com.org.oztt.formDto.ContCartItemDto;
-import com.org.oztt.formDto.ContCartProItemDto;
+import com.org.oztt.formDto.ExpressBoxInfo;
+import com.org.oztt.formDto.ProductBoxDto;
+import com.org.oztt.formDto.ProductOrderDetails;
+import com.org.oztt.formDto.PurchaseViewDto;
+import com.org.oztt.packing.util.PackingUtil;
+import com.org.oztt.packing.util.ProductBox;
 import com.org.oztt.service.AddressService;
+import com.org.oztt.service.CustomerService;
 import com.org.oztt.service.GoodsService;
 import com.org.oztt.service.OrderService;
+import com.org.oztt.service.PowderService;
+import com.org.oztt.service.ProductService;
+import com.org.oztt.service.SysConfigService;
 
 @Controller
 @RequestMapping("/purchase")
@@ -47,6 +62,18 @@ public class PurchaseController extends BaseController {
 
     @Resource
     private OrderService   orderService;
+    
+    @Resource
+    private CustomerService customerService;
+    
+    @Resource
+    private PowderService powderService;
+    
+    @Resource
+    private ProductService productService;
+    
+    @Resource
+    private SysConfigService sysConfigService;
 
     /**
      * 购买确认画面
@@ -56,60 +83,111 @@ public class PurchaseController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/init")
-    public String init(Model model, HttpServletRequest request, HttpSession session, String fromMode, String isUnify,
-            String deliveryTime, String deliverySelect, String payMethod) {
+    public String init(Model model, HttpServletRequest request, HttpSession session, String senderId, String receiveId) {
         try {
             // 加入购物车操作，判断所有的属性是不是相同，相同在添加
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
-            String imgUrl = super.getApplicationMessage("saveImgUrl", session);
+            if (StringUtils.isEmpty(customerNo)) {
+                return "redirect:/login/init";
+            }
             // 取得购物车里面选购的内容
             List<ContCartItemDto> consCarts = goodsService.getAllContCartForBuy(customerNo);
-            Date maxdate = null;
+            
+            PurchaseViewDto viewDto = new PurchaseViewDto();
+            BigDecimal productAmount = BigDecimal.ZERO;
             for (ContCartItemDto dto : consCarts) {
-                if (StringUtils.isEmpty(dto.getGoodsPropertiesDB())) {
-                    dto.setGoodsProperties(new ArrayList<ContCartProItemDto>());
-                }
-                else {
-                    dto.setGoodsProperties(JSONObject.parseArray(dto.getGoodsPropertiesDB(), ContCartProItemDto.class));
-                }
-                dto.setGoodsPropertiesDB(StringUtils.EMPTY);
-                dto.setGoodsImage(imgUrl + dto.getGoodsId() + CommonConstants.PATH_SPLIT + dto.getGoodsImage());
-                dto.setDeliveryDate(DateFormatUtils.date2StringWithFormat(
-                        DateFormatUtils.addDate(dto.getValidPeriodEnd(), Calendar.DATE, 1), DateFormatUtils.PATTEN_YMD2));
-                dto.setGoodsUnitPrice(String.valueOf(new BigDecimal(dto.getGoodsPrice()).divide(
-                        new BigDecimal(dto.getGoodsQuantity()), 2, BigDecimal.ROUND_DOWN)));
-                if (maxdate == null) {
-                    maxdate = dto.getValidPeriodEnd();
-                }
-                else {
-                    if (maxdate.compareTo(dto.getValidPeriodEnd()) < 0) {
-                        maxdate = dto.getValidPeriodEnd();
-                    }
-                }
-
+                productAmount = productAmount.add(new BigDecimal(dto.getGoodsPrice()));
             }
-            // 默认所有送货的最后一天的后一天
-
-            model.addAttribute("deliveryDate", DateFormatUtils.date2StringWithFormat(
-                    DateFormatUtils.addDate(maxdate == null ? new Date() : maxdate, Calendar.DATE, 1),
-                    DateFormatUtils.PATTEN_YMD2));
-            model.addAttribute("deliverySelect", commonService.getDeliveryTime());
-            model.addAttribute("cartsList", consCarts);
-
-            TAddressInfo tAddressInfo = addressService.getDefaultAddress(customerNo);
-            model.addAttribute("adsItem", tAddressInfo);
-
-            if (tAddressInfo != null) {
-                String freight = addressService.getFreightByNo(Long.valueOf(tAddressInfo.getSuburb()));
-                model.addAttribute("freight", freight);
-                tAddressInfo.setSuburb(addressService.getTSuburbDeliverFeeById(Long.valueOf(tAddressInfo.getSuburb()))
-                        .getSuburb());
+            
+            viewDto.setProductSumAmount(productAmount.toString());
+            
+            
+            // 获取收件人和寄件人信息，取第一个现在在画面上
+            TCustomerBasicInfo customerBaseInfo = customerService.selectBaseInfoByCustomerNo(customerNo);
+            Pagination pagination = new Pagination(1);
+            pagination.setSize(CommonConstants.COMMON_LIST_COUNT);
+            Map<Object, Object> paramMap = new HashMap<Object, Object>();
+            paramMap.put("customerId", customerBaseInfo.getNo());
+            pagination.setParams(paramMap);
+            
+            if (StringUtils.isEmpty(receiveId)){
+                PagingResult<TReceiverInfo> receiveList = powderService.selectReceiverInfoPageList(pagination);
+                
+                if (receiveList != null && receiveList.getResultList() != null && receiveList.getResultList().size() > 0) {
+                    viewDto.setReceiveName(receiveList.getResultList().get(0).getReceiverName());
+                    viewDto.setReceivePhone(receiveList.getResultList().get(0).getReceiverTel());
+                    viewDto.setReceiveAddress(receiveList.getResultList().get(0).getReceiverAddr());
+                    viewDto.setReceiveId(receiveList.getResultList().get(0).getId().toString());
+                   
+                }
+            } else {
+                TReceiverInfo tReceiverInfo = powderService.getReveiverInfo(Long.valueOf(receiveId));
+                viewDto.setReceiveName(tReceiverInfo.getReceiverName());
+                viewDto.setReceivePhone(tReceiverInfo.getReceiverTel());
+                viewDto.setReceiveAddress(tReceiverInfo.getReceiverAddr());
+                viewDto.setReceiveId(receiveId);
             }
-            model.addAttribute("fromMode", fromMode);
-            model.addAttribute("isUnify", isUnify);
-            model.addAttribute("deliveryTime", deliveryTime);
-            model.addAttribute("deliverySelectParam", deliverySelect);
-            model.addAttribute("payMethod", payMethod);
+            
+            
+            if (StringUtils.isEmpty(senderId)){
+                PagingResult<TSenderInfo> sendList = powderService.selectSenderInfoPageList(pagination);
+                if (sendList != null && sendList.getResultList() != null && sendList.getResultList().size() > 0) {
+                    viewDto.setSenderName(sendList.getResultList().get(0).getSenderName());
+                    viewDto.setSenderPhone(sendList.getResultList().get(0).getSenderTel());
+                    viewDto.setSenderId(sendList.getResultList().get(0).getId().toString());
+                }
+            } else {
+                TSenderInfo tSenderInfo = powderService.getSendInfo(Long.valueOf(senderId));
+                viewDto.setSenderName(tSenderInfo.getSenderName());
+                viewDto.setSenderPhone(tSenderInfo.getSenderTel());
+                viewDto.setSenderId(senderId);
+            }
+            
+            // 购买的数据
+            List<ProductOrderDetails> orderDetailsList = new ArrayList<ProductOrderDetails>();
+            
+            for (ContCartItemDto dto : consCarts) {
+                TProduct p1 = new TProduct();
+                p1.setCode(dto.getCode());
+                p1 = productService.getProductByParam(p1);
+                BigDecimal goodsUnit = new BigDecimal(dto.getGoodsPrice()).divide(new BigDecimal(dto.getGoodsQuantity()));
+                ProductOrderDetails detail = new ProductOrderDetails(p1, Long.valueOf(dto.getGoodsQuantity()), goodsUnit);
+                orderDetailsList.add(detail);
+            }
+            
+            
+            // 获取快递信息
+            List<TExpressInfo> expressInfoList = powderService.selectAllExpressInfo();
+            
+            List<ExpressBoxInfo> expressBoxList = new ArrayList<ExpressBoxInfo>();
+            // 装箱结果
+            List<ProductBox>  addedProductBoxes = new ArrayList<ProductBox>();
+            for (TExpressInfo exInf : expressInfoList) {
+                ExpressBoxInfo boxInfo = new ExpressBoxInfo();
+                boxInfo.settExpressInfo(exInf);
+                
+                PackingUtil pu=new PackingUtil(exInf.getExpressName(), orderDetailsList, new ArrayList<ProductBox>());
+                addedProductBoxes=pu.getAssignedProductBoxes();
+                
+                Double a = 0D;
+                
+                List<ProductBoxDto> productBoxList = new ArrayList<ProductBoxDto>();
+                for (ProductBox box : addedProductBoxes) {
+                    a += box.getWeight();
+                    ProductBoxDto dto = new ProductBoxDto(box);
+                    productBoxList.add(dto);
+                }
+                
+                boxInfo.setWeight(a);
+                // TODO 需要设置总价是多少
+                boxInfo.setTotalPrice(new BigDecimal(2.5D).multiply(BigDecimal.valueOf(boxInfo.getWeight())));
+                boxInfo.setAddedProductBoxes(productBoxList);
+                
+                expressBoxList.add(boxInfo);
+            }
+            model.addAttribute("ExpressList", expressBoxList);
+            
+            model.addAttribute("PurchaseViewDto", viewDto);
             return "/purchase";
         }
         catch (Exception e) {
@@ -160,6 +238,55 @@ public class PurchaseController extends BaseController {
         }
     }
     
+    
+    /**
+     * 提交信息保存数据
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/payment4Product")
+    public Map<String, Object> payment4Product(HttpServletRequest request, HttpSession session,
+            @RequestBody Map<String, Object> requestMap) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            if (StringUtils.isEmpty(customerNo)) {
+                mapReturn.put("isException", true);
+                return mapReturn;
+            }
+            TCustomerBasicInfo customerBaseInfo = customerService.selectBaseInfoByCustomerNo(customerNo);
+            
+            
+            String senderId = requestMap.get("senderId").toString();
+            String receiveId = requestMap.get("receiveId").toString();
+            String ShippingMethodId = requestMap.get("ShippingMethodId").toString();
+            String CustomerNote = requestMap.get("CustomerNote").toString();
+            String PaymentMethodId = requestMap.get("PaymentMethodId").toString();
+            // 保存订单信息
+            Map<String, String> resMap = productService.insertProductInfo(customerBaseInfo.getNo()
+                    .toString(), customerBaseInfo.getCustomerno(), senderId, receiveId, ShippingMethodId, CustomerNote, PaymentMethodId);
+            mapReturn.put("orderNo", resMap.get("orderNo"));
+            mapReturn.put("subAmount", resMap.get("subAmount"));
+            TSysConfig sysconfig = sysConfigService.getTSysConfigInRealTime();
+            
+            if (sysconfig != null && sysconfig.getMasterCardFee() != null) {
+                String amountStr = resMap.get("subAmount");
+                amountStr = new BigDecimal(amountStr).add(new BigDecimal(amountStr).multiply(sysconfig.getMasterCardFee()).setScale(2, BigDecimal.ROUND_HALF_UP)).toString();
+                mapReturn.put("subAmount", amountStr);
+            }
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            logger.error("message", e);
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+    
     /**
      * 获取微信支付URL
      * 
@@ -189,9 +316,10 @@ public class PurchaseController extends BaseController {
 
             String redirect_url = super.getApplicationMessage("wechat_redirect_url_fortt", session) + orderId;
 
-            TConsOrder tConsOrder = orderService.selectByOrderId(orderId);
+            TProductOrder productOrder = productService.selectProductOrderById(orderId);
+            //TConsOrder tConsOrder = orderService.selectByOrderId(orderId);
             JSONObject paramJson = (JSONObject) JSONObject.parse(paraMap);
-            paramJson.put("price", tConsOrder.getOrderamount().multiply(new BigDecimal(100)).intValue());
+            paramJson.put("price", productOrder.getSumAmount().multiply(new BigDecimal(100)).intValue());
             //paramJson.put("price", 1);
             paramJson.put("notify_url", notify_url);
 
@@ -294,7 +422,7 @@ public class PurchaseController extends BaseController {
     public String redirect(Model model, HttpServletRequest request, HttpSession session, String orderId) {
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
-            orderService.updateRecordAfterPay(orderId, customerNo, session, "000010000");
+            productService.updateRecordAfterPay(orderId, customerNo, session, "000010000");
             return "redirect:/user/init";
         }
         catch (Exception e) {

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.org.oztt.base.dao.BaseDao;
 import com.org.oztt.dao.TProductOrderDetailsDao;
 import com.org.oztt.entity.TProductOrderDetails;
-import com.org.oztt.formDto.PowderMilkInfo;
+import com.org.oztt.formDto.OrderDetailViewProductDto;
 
 @Repository
 public class TProductOrderDetailsDaoImpl extends BaseDao implements TProductOrderDetailsDao {
@@ -26,8 +26,7 @@ public class TProductOrderDetailsDaoImpl extends BaseDao implements TProductOrde
 
     @Override
     public int insertSelective(TProductOrderDetails record) {
-        // TODO Auto-generated method stub
-        return 0;
+        return insert("com.org.oztt.dao.TProductOrderDetailsMapper.insertSelective", record);
     }
 
     @Override
@@ -49,9 +48,14 @@ public class TProductOrderDetailsDaoImpl extends BaseDao implements TProductOrde
     }
 
     @Override
-    public List<PowderMilkInfo> selectProductDetailsListByOrderNo(String orderId) {
-        return select("com.org.oztt.dao.TPowderOrderDetailsMapper.selectProductDetailsListByOrderNo", orderId);
+    public List<OrderDetailViewProductDto> selectProductDetailsListByOrderNo(String orderId) {
+        return select("com.org.oztt.dao.TProductOrderDetailsMapper.selectProductDetailsListByOrderNo", orderId);
     }
-    
+
+    @Override
+    public List<TProductOrderDetails> selectByParam(TProductOrderDetails record) {
+        return select("com.org.oztt.dao.TProductOrderDetailsMapper.selectByParam", record);
+    }
+ 
 
 }

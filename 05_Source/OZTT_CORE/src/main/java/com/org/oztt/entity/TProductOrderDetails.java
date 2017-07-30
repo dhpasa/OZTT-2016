@@ -15,12 +15,12 @@ public class TProductOrderDetails implements Serializable {
     /**
      *  
      */
-    private String powderId;
+    private String productId;
 
     /**
      *  
      */
-    private Long quantity;
+    private BigDecimal quantity;
 
     /**
      *  
@@ -30,7 +30,7 @@ public class TProductOrderDetails implements Serializable {
     /**
      *  
      */
-    private String powderBoxId;
+    private String productBoxId;
 
     /**
      *  
@@ -65,19 +65,19 @@ public class TProductOrderDetails implements Serializable {
         this.id = id;
     }
 
-    public String getPowderId() {
-        return powderId;
+    public String getProductId() {
+        return productId;
     }
 
-    public void setPowderId(String powderId) {
-        this.powderId = powderId;
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
-    public Long getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Long quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 
@@ -89,12 +89,12 @@ public class TProductOrderDetails implements Serializable {
         this.unitPrice = unitPrice;
     }
 
-    public String getPowderBoxId() {
-        return powderBoxId;
+    public String getProductBoxId() {
+        return productBoxId;
     }
 
-    public void setPowderBoxId(String powderBoxId) {
-        this.powderBoxId = powderBoxId;
+    public void setProductBoxId(String productBoxId) {
+        this.productBoxId = productBoxId;
     }
 
     public Date getAddTimestamp() {

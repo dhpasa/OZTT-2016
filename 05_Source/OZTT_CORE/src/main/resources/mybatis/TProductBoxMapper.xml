@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.org.techcoffee.dao.TProductBoxMapper" >
+<mapper namespace="com.org.oztt.dao.TProductBoxMapper" >
   <resultMap id="BaseResultMap" type="com.org.oztt.entity.TProductBox" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="elecExpressNo" property="elecExpressNo" jdbcType="VARCHAR" />
@@ -296,4 +296,23 @@
       	</if>
   
   </select>
+  
+  <select id="selectTProductBoxList" resultMap="BaseResultMap" parameterType="com.org.oztt.entity.TProductBox">
+  	select 
+    <include refid="Base_Column_List" />
+    from t_product_box
+   	where 1=1
+    <if test="orderId != null" >
+       and orderId = #{orderId,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <select id="selectAutoIncrement" resultType="int">
+  	SELECT Auto_increment
+	FROM information_schema.`TABLES`
+	WHERE Table_Schema='oztt'
+	AND table_name = 't_product_box'
+  </select>
+  
+  
 </mapper>

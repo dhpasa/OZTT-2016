@@ -3,8 +3,12 @@
  */
 package com.org.oztt.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -19,8 +23,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.org.oztt.base.page.Pagination;
 import com.org.oztt.base.page.PagingResult;
+import com.org.oztt.base.util.DeliveryInfoCrawler;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.entity.TCustomerBasicInfo;
+import com.org.oztt.entity.TProductBox;
 import com.org.oztt.formDto.OrderDetailViewDto;
 import com.org.oztt.formDto.PowderOrderInfo;
 import com.org.oztt.service.CustomerService;
@@ -107,6 +113,52 @@ public class OrderListControler extends BaseController {
             return CommonConstants.ERROR_PAGE;
         }
         
+    }
+    
+    /**
+     * 获取物流信息
+     * @param request
+     * @param session
+     * @param type
+     * @param receiveId
+     * @param dataMap
+     * @return
+     */
+    @RequestMapping(value = "/getExpressInfo")
+    public Map<String, Object> getExpressInfo(HttpServletRequest request, HttpSession session, String expressEleNo, String boxId) {
+        Map<String, Object> resp = new HashMap<String, Object>();
+        try {
+            List<String> strList = new ArrayList<String>();
+            String s = PowderOrderListControler.class.getResource("/").getPath().toString();
+            s = java.net.URLDecoder.decode(s, "UTF-8");
+            TProductBox tProductBox = productService.selectProductBoxById(boxId);
+            DeliveryInfoCrawler diCrawler = null;
+            if (CommonConstants.EXPRESS_BLUE_SKY.equals(tProductBox.getDeliverId())) {
+                diCrawler = new DeliveryInfoCrawler(s + "bluesky.properties");
+            } else if (CommonConstants.EXPRESS_FREAK_QUICK.equals(tProductBox.getDeliverId())){
+                diCrawler = new DeliveryInfoCrawler(s + "freakyquick.properties");
+            } else if (CommonConstants.EXPRESS_LONGMEN.equals(tProductBox.getDeliverId())){
+                diCrawler = new DeliveryInfoCrawler(s + "longmen.properties");
+            } else if (CommonConstants.EXPRESS_SUPIN.equals(tProductBox.getDeliverId())){
+                diCrawler = new DeliveryInfoCrawler(s + "supin.properties");
+            } else if (CommonConstants.EXPRESS_XINGSUDI.equals(tProductBox.getDeliverId())) {
+                diCrawler = new DeliveryInfoCrawler(s + "xingsudi.properties");
+            }
+            LinkedHashMap<String, String> infos = diCrawler.getDeliveryInfo(expressEleNo);
+            for (Entry<String, String> info : infos.entrySet()) {
+                strList.add(info.getKey() + "   " + info.getValue());
+            }
+            // 将物流信息返回画面
+            resp.put("expressInfo", strList);
+            resp.put("isException", false);
+            return resp;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            logger.error("message", e);
+            resp.put("isException", true);
+            return resp;
+        }
     }
 
 }

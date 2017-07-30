@@ -37,6 +37,8 @@ public class ContCartItemDto {
     private String                   detailStatus;
 
     private String                   isStock; // 现货
+    
+    private String                   code;
 
     public String getGoodsId() {
         return goodsId;
@@ -148,6 +150,14 @@ public class ContCartItemDto {
 
     public void setIsStock(String isStock) {
         this.isStock = isStock;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
 }

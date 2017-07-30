@@ -273,6 +273,7 @@
 		select
 		a.groupNo as groupId,
 		a.goodsId,
+		b.code,
 		b.goodsName,
 		b.goodsThumbnail as goodsImage,
 		a.quantity as goodsQuantity,

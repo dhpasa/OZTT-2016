@@ -77,13 +77,20 @@
                 <div class="shoujian_main">
                     
                     <div class="shoujian_main_text">
-                        <div class="shoujian_main_con">
-                            <div class="dingdan_li_mess_gp clearfix">
-
-                                <span class="shouhuoren_name">${sendInfo.senderName}</span>
-                                <span class="shouhuoren_phone">${sendInfo.senderTel}</span>
-                            </div>
-                        </div>
+                    	<c:if test="${fromPurchase == '1'}">
+                    		<a href="${ctx}/purchase/init?senderId=${sendInfo.id}">
+                    	</c:if>
+                    	
+	                       <div class="shoujian_main_con">
+	                           <div class="dingdan_li_mess_gp clearfix">
+	
+	                               <span class="shouhuoren_name">${sendInfo.senderName}</span>
+	                               <span class="shouhuoren_phone">${sendInfo.senderTel}</span>
+	                           </div>
+	                       </div>
+	                    <c:if test="${fromPurchase == '1'}">	
+                        </a>
+                        </c:if>
                     </div>
                 </div>
             </li>

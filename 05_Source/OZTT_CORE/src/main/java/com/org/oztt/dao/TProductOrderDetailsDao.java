@@ -3,7 +3,7 @@ package com.org.oztt.dao;
 import java.util.List;
 
 import com.org.oztt.entity.TProductOrderDetails;
-import com.org.oztt.formDto.PowderMilkInfo;
+import com.org.oztt.formDto.OrderDetailViewProductDto;
 
 public interface TProductOrderDetailsDao {
     int deleteByPrimaryKey(Long id);
@@ -18,5 +18,7 @@ public interface TProductOrderDetailsDao {
 
     int updateByPrimaryKey(TProductOrderDetails record);
     
-    List<PowderMilkInfo> selectProductDetailsListByOrderNo(String orderId);
+    List<OrderDetailViewProductDto> selectProductDetailsListByOrderNo(String orderId);
+    
+    List<TProductOrderDetails> selectByParam(TProductOrderDetails record);
 }
