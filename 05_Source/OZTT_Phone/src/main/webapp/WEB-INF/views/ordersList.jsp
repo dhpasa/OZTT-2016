@@ -18,17 +18,18 @@
 		location.href="${ctx}/order/"+id+"?tab="+selectTab+"&orderFlg="+flg;
 	}
 	
+	
 	function toPay(orderId, paymentMethod) {
 		if (paymentMethod == "1") {
-			location.href = "${ctx}/Pay/init?orderNo="+orderId;
+			location.href = "${ctx}/Pay/init?orderNo="+orderId+"&paymentMethod="+paymentMethod;
 		} else if (paymentMethod == "4") {
+			location.href = "${ctx}/Pay/init?orderNo="+orderId+"&paymentMethod="+paymentMethod;
 			// 新增的微信支付
-			if (!isWeiXin()){
+			/* if (!isWeiXin()){
 				// 不是微信，则跳出提示
 				createInfoDialog('<fmt:message key="I0009" />', '3');
 				return;
 			}
-			createLoading(0);
 			$.ajax({
 				type : "GET",
 				timeout : 60000, //超时时间设置，单位毫秒
@@ -50,7 +51,7 @@
 					removeLoading();
 					createErrorInfoDialog('<fmt:message key="E0023" />');
 				}
-			});
+			}); */
 		}
 		
 	}
@@ -135,22 +136,22 @@
 	    <ul class="daohang_yin">
 	        <span class="sj"></span>
 	        <li>
-	            <a href="/Mobile" class="clearfix">
+	            <a href="${ctx}/main/init" class="clearfix">
 	                <img src="${ctx}/images/head_menu_shouye.png" /> 首页
 	            </a>
 	        </li>
 	        <li>
-	            <a href="/Mobile/Category" class="clearfix">
+	            <a href="${ctx}/category/init" class="clearfix">
 	                <img src="${ctx}/images/head_menu_fenlei.png" /> 分类
 	            </a>
 	        </li>
 	        <li>
-	            <a href="/Mobile/User" class="clearfix">
+	            <a href="${ctx}/user/init" class="clearfix">
 	                <img src="${ctx}/images/head_menu_zhanghu.png" /> 我的账户
 	            </a>
 	        </li>
 	        <li>
-	            <a href="/Mobile/Order?orderStatus=0" class="clearfix">
+	            <a href="${ctx}/order/init" class="clearfix">
 	                <img src="${ctx}/images/head_menu_dingdan.png" /> 我的订单
 	            </a>
 	        </li>
@@ -190,15 +191,24 @@
                         <div class="user_order_tl clearfix">
                             <span class="left">订单号：${order.orderNo}</span>
                             <div class="right clearfix dingdan_ul_tl_rt">
-                                <p class="color_blue">
-                                	<c:if test="${order.status == '0' }">
+                                <%-- <p class="color_blue">
+                                	<c:if test="${order.status == '1' || order.status == '2' }">
                                 		等待处理
                                 	</c:if>
                                 	
-                                </p>
+                                </p> --%>
                                 <p class="color_red">
                                 	<c:if test="${order.status == '0' }">
                                 		未付款
+                                	</c:if>
+                                	<c:if test="${order.status == '1' }">
+                                		下单成功
+                                	</c:if>
+                                	<c:if test="${order.status == '2' }">
+                                		商品派送中
+                                	</c:if>
+                                	<c:if test="${order.status == '3' }">
+                                		订单已完成
                                 	</c:if>
                                 </p>
                             </div>
@@ -229,8 +239,11 @@
                             
                             <div class="dingdan_ul_main_bt">
                                 <div class="dingdan_btn">
-                                    <a href="/Mobile/Purchase/OrderPayment?orderId=101291" style="color:#fa4e83">立即付款</a>
-                                    <a href="#" onclick="detail('${order.orderId}','${order.powderOrProductFlg}')">订单详情</a>
+                                	<c:if test="${order.status == '0' }">
+                                		<a onclick="toPay('${order.orderNo}','${order.paymentMethod}')" style="color:#fa4e83">立即付款</a>
+                                	</c:if>
+                                    
+                                    <a onclick="detail('${order.orderId}','${order.powderOrProductFlg}')">订单详情</a>
                                 </div>
                             </div>
                         </div>

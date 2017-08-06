@@ -10,6 +10,8 @@
   <title><fmt:message key="PURCHASE_TITLE"/></title>
   <!-- Head END -->
   <script>	  	
+	  	var wechatAddition = 0.015;
+	  	var masterCardAddition = 0;
 	  	
 		
 	  	
@@ -47,6 +49,7 @@
 						location.href = "${ctx}/Pay/init?orderNo="+data.orderNo+"&paymentMethod="+PaymentMethodId;
 					} else if (PaymentMethodId == "4") {
 						// 微信支付
+						weixinPurchase(data.orderNo);
 					}
 					
 				},
@@ -90,7 +93,6 @@
 		
 		function weixinPurchase(orderId){
 			
-			createLoading(0);
 			var paramData = {
 					description : '<fmt:message key="TUANTUAN_DINGDAN" />',
 					device_id:getDevice(),
@@ -116,9 +118,9 @@
 					} else {
 						removeLoading();
 						createErrorInfoDialog('<fmt:message key="E0022" />');
-						setTimeout(function() {
+						/* setTimeout(function() {
 							location.href = "${ctx}/user/init"
-						}, 1000);
+						}, 1000); */
 					}					
 				},
 				error : function(data) {
@@ -146,22 +148,22 @@
 	    <ul class="daohang_yin">
 	        <span class="sj"></span>
 	        <li>
-	            <a href="/Mobile" class="clearfix">
+	            <a href="${ctx}/main/init" class="clearfix">
 	                <img src="${ctx}/images/head_menu_shouye.png" /> 首页
 	            </a>
 	        </li>
 	        <li>
-	            <a href="/Mobile/Category" class="clearfix">
+	            <a href="${ctx}/category/init" class="clearfix">
 	                <img src="${ctx}/images/head_menu_fenlei.png" /> 分类
 	            </a>
 	        </li>
 	        <li>
-	            <a href="/Mobile/User" class="clearfix">
+	            <a href="${ctx}/user/init" class="clearfix">
 	                <img src="${ctx}/images/head_menu_zhanghu.png" /> 我的账户
 	            </a>
 	        </li>
 	        <li>
-	            <a href="/Mobile/Order?orderStatus=0" class="clearfix">
+	            <a href="${ctx}/order/init" class="clearfix">
 	                <img src="${ctx}/images/head_menu_dingdan.png" /> 我的订单
 	            </a>
 	        </li>
@@ -209,7 +211,8 @@
         </div>
     </div>
 
-<form action="/Mobile/Purchase/ConfirmOrder" method="post">        <div class="jiesuan_main">
+       
+<div class="jiesuan_main">
             <div class="user_order_tl clearfix">
                 <span class="left">快递选择</span>
             </div>
@@ -233,7 +236,7 @@
 		                                	<c:forEach var="box" items="${ express.addedProductBoxes }" varStatus="status">
 		                                    <p>${box.productContent }</p>
 		                                    </c:forEach>
-		                                    <p>${express.tExpressInfo.expressName }($4.50/kg) - 约${express.weight }kg</p>
+		                                    <p>${express.tExpressInfo.expressName }($${express.tExpressInfo.kiloCost}/kg) - 约${express.weight }kg</p>
 		                                </div>
 		                                <span class="right zeng_ul_li_main zeng_ul_li_main_rt"><span>$${express.totalPrice }</span></span>
 		                            </li>
@@ -273,7 +276,7 @@
                                     <img src="${ctx}/images/zhifu/qianh.jpg" class="img_h" />
                                 </a>
                             </li>
-                            <li data-id="4" class="wechat_pay" style="display: none;">
+                            <li data-id="4" class="payment" style="display:none">
                                 <a href="javascript:void(0);" class="payment" data-id="4">
                                     <img src="${ctx}/images/zhifu/weixin.jpg" class="img_q" />
                                     <img src="${ctx}/images/zhifu/weixinh.jpg" class="img_h" />
@@ -293,10 +296,10 @@
                                     银行转账支付需要上传转账凭证,需要后台审核并确认订单为已支付状态(这里的文字待定)
                                 </div>
                             </div>
-                            <div data-id="4" class="zhifu_qiehuan_con wechat_pay" style="display: none;">
+                            <div data-id="4" class="zhifu_qiehuan_con wechat_pay">
                                 <div class="zhifubao_cankao"><b>微信（+1.5%手续费）</b></div>
                                 <div class="zhifubao_cankao">
-                                    微信 实际汇率 即时到账。今日参考汇率 <strong><span>5.1964</span></strong><br />
+                                    微信 实际汇率 即时到账。今日参考汇率 <strong><span>5.1964(这里应该怎么显示)</span></strong><br />
                                 </div>
                             </div>
                             
@@ -306,13 +309,7 @@
         </div>
         <script type="text/javascript">
         $(document).ready(function () {
-            $('.payment').click(function () {
-                $("#PaymentMethodId").val($(this).attr("data-id"));
-            });
-
-            //if (!isWeChatBrowser()) {
-                //$('.wechat_pay').show();
-            //}
+            
         })
         </script>
         <div class="dingdancon_main zhangdan border-top">
@@ -354,7 +351,7 @@
             </div>
             <input type="button" class="right btn_red jiesuanbtn" value="去支付" onclick="toPay(this)"/>
         </div>
-</form></div>
+</div>
 
 <!--弹窗开始-->
 
@@ -369,7 +366,7 @@
     <div class="alert_bg"></div>
     <div class="loading">
         <div class="loading_con">
-            <img src="${ctx}/images/loading.png" />
+            <img src="${ctx}/picture/loading.png" />
             <p>
                 玩命加载中……
             </p>
@@ -423,6 +420,15 @@
 }
 
 $(document).ready(function () {
+	
+	$('.payment').click(function () {
+        $("#PaymentMethodId").val($(this).attr("data-id"));
+        refreshDateDisplay();
+    });
+
+    if (isWeChatBrowser()) {
+        $('.payment[data-id="4"]').show();
+    }
 
     var orderSubtotal = parseFloat($("#orderSubtotal").text().replace("$", ""));
 
@@ -466,8 +472,20 @@ $(document).ready(function () {
     function refreshDateDisplay()
     {
         var dueTotal = parseFloat(orderSubtotal) + parseFloat(orderShipping);
+        orderTotal = parseFloat(orderSubtotal) + parseFloat(orderShipping);
         
         $("#orderShipping").text("$" + (parseFloat(orderShipping).toFixed(2)));
+        
+        var PaymentMethodId = $("#PaymentMethodId").val();
+        if (PaymentMethodId == '1') {
+        	// MasterCard支付
+        	orderTotal = orderTotal*(1+masterCardAddition);
+        	dueTotal = dueTotal*(1+masterCardAddition);
+        } else if (PaymentMethodId == '4') {
+        	// 微信支付
+        	orderTotal = orderTotal*(1+wechatAddition);
+        	dueTotal = dueTotal*(1+wechatAddition);
+        }
         $("#orderTotal").text("$" + (parseFloat(orderTotal).toFixed(2)));
         $("#dueTotal").text("$" + (parseFloat(dueTotal).toFixed(2)));
     }

@@ -103,4 +103,18 @@ public interface ProductService {
      * @throws Exception
      */
     public TProductBox selectProductBoxById(String boxId) throws Exception;
+    
+    /**
+     * 通过参数获取订单
+     * @param orderId
+     * @return
+     * @throws Exception
+     */
+    public TProductOrder selectProductByParam(TProductOrder tProductOrder)  throws Exception;
+    
+    /**
+     * 
+     * @throws Exception
+     */
+    public void deleteNoPayOrder() throws Exception;
 }

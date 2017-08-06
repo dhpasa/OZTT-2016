@@ -332,7 +332,7 @@ input:focus{outline: none;}
 .dele{display: block;background: url(../images/delete.png) no-repeat;width: 16px;height: 20px;background-size: 16px 20px;margin-left: 10px;}
 .car_li_do .sum{margin-top: 0px;}
 .jiesuan{position: fixed;width: 100%;left: 0;bottom: 52px;background: #fff;border-top: 1px solid #ccc;}
-.jiesuan_lf{width: 75%;padding: 10px 0px;position: relative;}
+.jiesuan_lf{width: 75%;padding: 15px 0px;position: relative;}
 .jiesuanbtn{display: block;width: 25%;text-align: center;font-size: 16px;line-height: 58px;-webkit-tap-highlight-color: rgba(0,0,0,0); -webkit-appearance: none;border: none;font-family: "微软雅黑";}
 .jiesuan_xuan{position: absolute;left: 10px;top: 50%;margin-top: -8px;}
 .jiesuan_xuan span{display: block;line-height: 20px;margin-left: 5px;color: #999999;font-size: 14px;}

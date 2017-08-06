@@ -177,6 +177,43 @@
 		$('#my-modal-card-'+elecExpressNo).modal('hide');
   	}
   	
+  	
+  	function toPay(orderId, paymentMethod) {
+		if (paymentMethod == "1") {
+			location.href = "${ctx}/Pay/init?orderNo="+orderId+"&paymentMethod="+paymentMethod;
+		} else if (paymentMethod == "4") {
+			// 新增的微信支付
+			if (!isWeiXin()){
+				// 不是微信，则跳出提示
+				createInfoDialog('<fmt:message key="I0009" />', '3');
+				return;
+			}
+			$.ajax({
+				type : "GET",
+				timeout : 60000, //超时时间设置，单位毫秒
+				contentType:'application/json',
+				url : '${ctx}/purchase/getWeChatPayUrlHasCreate?orderId='+orderId,
+				dataType : "json",
+				async : false,
+				data : "", 
+				success : function(data) {
+					if (data.payUrl != null && data.payUrl != "") {
+						// 重新加载画面
+						location.href = data.payUrl;
+					} else {
+						removeLoading();
+						createErrorInfoDialog('<fmt:message key="E0023" />');
+					}					
+				},
+				error : function(data) {
+					removeLoading();
+					createErrorInfoDialog('<fmt:message key="E0023" />');
+				}
+			});
+		}
+		
+	}
+  	
 
   </script>
   <style type="text/css">
@@ -231,22 +268,22 @@
 	    <ul class="daohang_yin">
 	        <span class="sj"></span>
 	        <li>
-	            <a href="/Mobile" class="clearfix">
+	            <a href="${ctx}/main/init" class="clearfix">
 	                <img src="${ctx}/images/head_menu_shouye.png" /> 首页
 	            </a>
 	        </li>
 	        <li>
-	            <a href="/Mobile/Category" class="clearfix">
+	            <a href="${ctx}/category/init" class="clearfix">
 	                <img src="${ctx}/images/head_menu_fenlei.png" /> 分类
 	            </a>
 	        </li>
 	        <li>
-	            <a href="/Mobile/User" class="clearfix">
+	            <a href="${ctx}/user/init" class="clearfix">
 	                <img src="${ctx}/images/head_menu_zhanghu.png" /> 我的账户
 	            </a>
 	        </li>
 	        <li>
-	            <a href="/Mobile/Order?orderStatus=0" class="clearfix">
+	            <a href="${ctx}/order/init" class="clearfix">
 	                <img src="${ctx}/images/head_menu_dingdan.png" /> 我的订单
 	            </a>
 	        </li>
@@ -269,15 +306,24 @@
                         订单号：${detailInfo.orderNo}
                     </div>
                     <div class="right xiangqing_text_main_rt">
-                        <span class="color_blue">
-                        	<c:if test="${order.status == '0' }">
-                        		等待处理
-                        	</c:if>
-                        </span>
+                        <%-- <span class="color_blue">
+                        	<c:if test="${order.status == '1' || order.status == '2' }">
+                            	等待处理
+                            </c:if>
+                        </span> --%>
                         <span class="color_red">
                         	<c:if test="${order.status == '0' }">
-                        		未付款
-                        	</c:if>
+                            	未付款
+                            </c:if>
+                            <c:if test="${order.status == '1' }">
+                           		下单成功
+                           	</c:if>
+                           	<c:if test="${order.status == '2' }">
+                           		商品派送中
+                           	</c:if>
+                           	<c:if test="${order.status == '3' }">
+                           		订单已完成
+                           	</c:if>
                         </span>
                     </div>
                 </div>
@@ -328,15 +374,15 @@
                     </c:if>
             </ul>
         </div>
-    <div class="dingdancon_main zhangdan border-top">
+    <%-- <div class="dingdancon_main zhangdan border-top">
         <ul>
-            <!--<li class="clearfix">-->
-                <!--<div class="left zhangdan_li">-->
-                    <!--<img src="images/dingdancon/jifen.png" />-->
-                    <!--本单积分-->
-                <!--</div>-->
-                <!--<div class="right zhangdan_price">61分</div>-->
-            <!--</li>-->
+            <li class="clearfix">
+                <div class="left zhangdan_li">
+                    <img src="images/dingdancon/jifen.png" />
+                    本单积分
+                </div>
+                <div class="right zhangdan_price">61分</div>
+            </li>
             <li class="clearfix">
                 <div class="left zhangdan_li">
                     <img src="${ctx}/images/dingdancon/yunfeibucha.png" />
@@ -345,7 +391,7 @@
                 <div class="right zhangdan_price">$${detailInfo.yunfeicha }</div>
             </li>
         </ul>
-    </div>
+    </div> --%>
 
 <div class="dingdancon_main zhangdan border-top">
     <ul>
@@ -377,7 +423,9 @@
     </ul>
     
         <div class="shifu">
-                <a href="/Mobile/Purchase/OrderPayment?orderId=101291" style="color:#fa4e83">立即付款</a>
+        		<c:if test="${order.status == '0' }">
+                <a href="#" onclick="toPay('${detailInfo.orderNo}','${detailInfo.paymentMethod}')" style="color:#fa4e83">立即付款</a>
+                </c:if>
             	实付款<span class="color_red">$${detailInfo.orderAmountSum }     </span>
         </div>
 	</div>    
@@ -400,8 +448,19 @@
 						<tr>
 							<td style="text-align: center">
 								<div class="container">
-									${box.elecExpressNo}
+									<a href="#my-express-img-${box.elecExpressNo}" data-toggle="modal"> ${box.elecExpressNo}</a>
 								</div>
+								
+								
+								<div id="my-express-img-${box.elecExpressNo }" class="modal fade"> <!--半透明的遮罩层-->
+	                            <div class="modal-dialog"> <!--定位和尺寸-->
+	                                <div class="modal-content">  <!--背景边框阴影-->
+	                                    <div class="modal-body">
+	                                        <img src="${box.expressPhotoUrl }" alt=""  height="180">
+	                                    </div>
+	                                </div>
+	                            </div>
+	                        </div>
 							</td>
 							<td style="text-align: center">
 									${box.receiveName}
@@ -484,27 +543,29 @@
             <span class="left">发货图片</span>
         </div>
         <ul id="parcelimages" class="fahuo clearfix  photoswipe-gallery">
-        		<c:forEach var="box" items="${ detailInfo.boxList }" varStatus="status">
+        		<c:forEach var="box" items="${ detailInfo.boxList }" varStatus="status1">
         		<c:if test="${box.status == '1' || box.status == '2'}">
+        			<c:forEach var="photoUrl" items="${ box.boxPhotoUrl }" varStatus="status2">
 	                <li>
 	                    <div class="baoguo_main">
 	                        <div class="container">
-	                            <a href="#my-modal-photo-${box.elecExpressNo }" data-toggle="modal">
-	                                <img src="${box.expressPhotoUrl }" alt="" width="100" height="100">
+	                            <a href="#my-modal-photo-${status1.count }-${status2.count }" data-toggle="modal">
+	                                <img src="${photoUrl}" alt="" width="100" height="100">
 	                            </a>
 	                        </div>
 	                        <!--固定定位的模态框-->
-	                        <div id="my-modal-photo-${box.elecExpressNo }" class="modal fade"> <!--半透明的遮罩层-->
+	                        <div id="my-modal-photo-${status1.count }-${status2.count }" class="modal fade"> <!--半透明的遮罩层-->
 	                            <div class="modal-dialog"> <!--定位和尺寸-->
 	                                <div class="modal-content">  <!--背景边框阴影-->
 	                                    <div class="modal-body">
-	                                        <img src="${box.expressPhotoUrl }" alt="" width="400" height="400">
+	                                        <img src="${photoUrl }" alt="" width="400" height="400">
 	                                    </div>
 	                                </div>
 	                            </div>
 	                        </div>
 	                    </div>
 	                </li>
+	                </c:forEach>
 	            </c:if>
 	            <c:if test="${box.status == '0' }">
 	            	<li>

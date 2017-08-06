@@ -27,7 +27,6 @@ import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.base.util.CommonUtils;
 import com.org.oztt.base.util.HttpRequest;
 import com.org.oztt.contants.CommonConstants;
-import com.org.oztt.entity.TConsOrder;
 import com.org.oztt.entity.TCustomerBasicInfo;
 import com.org.oztt.entity.TExpressInfo;
 import com.org.oztt.entity.TProduct;
@@ -146,6 +145,8 @@ public class PurchaseController extends BaseController {
             // 购买的数据
             List<ProductOrderDetails> orderDetailsList = new ArrayList<ProductOrderDetails>();
             
+            int detailsNumber = 0;
+            
             for (ContCartItemDto dto : consCarts) {
                 TProduct p1 = new TProduct();
                 p1.setCode(dto.getCode());
@@ -153,6 +154,7 @@ public class PurchaseController extends BaseController {
                 BigDecimal goodsUnit = new BigDecimal(dto.getGoodsPrice()).divide(new BigDecimal(dto.getGoodsQuantity()));
                 ProductOrderDetails detail = new ProductOrderDetails(p1, Long.valueOf(dto.getGoodsQuantity()), goodsUnit);
                 orderDetailsList.add(detail);
+                detailsNumber++;
             }
             
             
@@ -177,10 +179,14 @@ public class PurchaseController extends BaseController {
                     ProductBoxDto dto = new ProductBoxDto(box);
                     productBoxList.add(dto);
                 }
-                
+                // 总重量
                 boxInfo.setWeight(a);
-                // TODO 需要设置总价是多少
-                boxInfo.setTotalPrice(new BigDecimal(2.5D).multiply(BigDecimal.valueOf(boxInfo.getWeight())));
+                
+                // 快递价格系数 * 数量 
+                BigDecimal sum = exInf.getPriceCoefficient().multiply(
+                        new BigDecimal(detailsNumber));    
+                
+                boxInfo.setTotalPrice(exInf.getKiloCost().multiply(BigDecimal.valueOf(boxInfo.getWeight())).add(sum).setScale(2, BigDecimal.ROUND_UP));
                 boxInfo.setAddedProductBoxes(productBoxList);
                 
                 expressBoxList.add(boxInfo);
@@ -316,10 +322,12 @@ public class PurchaseController extends BaseController {
 
             String redirect_url = super.getApplicationMessage("wechat_redirect_url_fortt", session) + orderId;
 
-            TProductOrder productOrder = productService.selectProductOrderById(orderId);
-            //TConsOrder tConsOrder = orderService.selectByOrderId(orderId);
+            TProductOrder productOrder = new TProductOrder();
+            productOrder.setOrderNo(orderId);
+            productOrder = productService.selectProductByParam(productOrder);
+
             JSONObject paramJson = (JSONObject) JSONObject.parse(paraMap);
-            paramJson.put("price", productOrder.getSumAmount().multiply(new BigDecimal(100)).intValue());
+            paramJson.put("price", productOrder.getSumAmount().multiply(CommonConstants.ADDITION_WECHAT).multiply(new BigDecimal(100)).intValue());
             //paramJson.put("price", 1);
             paramJson.put("notify_url", notify_url);
 

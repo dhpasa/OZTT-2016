@@ -16,4 +16,8 @@ public interface TProductOrderDao {
     int updateByPrimaryKey(TProductOrder record);
     
     int selectAutoIncrement();
+    
+    TProductOrder selectByParam(TProductOrder record);
+    
+    void deleteNoPayOrder();
 }

@@ -131,8 +131,10 @@ public class ProductServiceImpl extends BaseService implements ProductService {
             viewDto.setOrderDate(order.getOrderDate());
             viewDto.setOrderDesc(order.getRemarks());
             viewDto.setOrderStatus(order.getStatus());
+            // 支付方式
+            viewDto.setPaymentMethod(order.getPaymentMethod());
             // 运费补差
-            viewDto.setYunfeicha("8.88");
+            //viewDto.setYunfeicha("8.88");//TODO
             
             // 当前订单下的所有商品
             List<PowderMilkInfo> milkList = tPowderOrderDetailsDao.selectPowderDetailsListByOrderNo(orderNo);
@@ -153,9 +155,9 @@ public class ProductServiceImpl extends BaseService implements ProductService {
             viewDto.setProductList(productList);
             
             // 商品总价
-            viewDto.setProductAmountSum(productSum.toString());
+            viewDto.setProductAmountSum(productSum.setScale(2, BigDecimal.ROUND_UP).toString());
             // 运费（国际快递）
-            viewDto.setYunfei(order.getSumAmount().subtract(productSum).toString());
+            viewDto.setYunfei(order.getSumAmount().subtract(productSum).setScale(2, BigDecimal.ROUND_UP).toString());
             // 订单总价
             viewDto.setOrderAmountSum(order.getSumAmount().toString());
             
@@ -176,6 +178,8 @@ public class ProductServiceImpl extends BaseService implements ProductService {
                 boxDto.setReceiveId(box.getReceiveId());
                 boxDto.setStatus(box.getStatus());
                 boxDto.setBoxId(box.getBoxId());
+                boxDto.setBoxPhotoUrlExitFlg(box.getBoxPhotoUrlsExitFlg());
+                boxDto.setBoxPhotoUrl(box.getBoxPhotoUrls());
                 boxList.add(boxDto);
             }
             viewDto.setBoxList(boxList);
@@ -187,10 +191,10 @@ public class ProductServiceImpl extends BaseService implements ProductService {
             
             viewDto.setOrderNo(tProductOrder.getOrderNo());
             viewDto.setOrderDate(tProductOrder.getOrderDate());
-            viewDto.setOrderDesc(tProductOrder.getRemarks());
+            viewDto.setOrderDesc(tProductOrder.getCustomerRemarks());
             viewDto.setOrderStatus(tProductOrder.getStatus());
             // 运费补差
-            viewDto.setYunfeicha("8.88");
+            //viewDto.setYunfeicha("8.88");//TODO
             
             // 当前订单下的所有商品
             BigDecimal productSum = BigDecimal.ZERO;
@@ -206,9 +210,9 @@ public class ProductServiceImpl extends BaseService implements ProductService {
             viewDto.setProductList(productList);
             
             // 商品总价
-            viewDto.setProductAmountSum(productSum.toString());
+            viewDto.setProductAmountSum(productSum.setScale(2, BigDecimal.ROUND_UP).toString());
             // 运费（国际快递）
-            viewDto.setYunfei(tProductOrder.getSumAmount().subtract(productSum).toString());
+            viewDto.setYunfei(tProductOrder.getSumAmount().subtract(productSum).setScale(2, BigDecimal.ROUND_UP).toString());
             // 订单总价
             viewDto.setOrderAmountSum(tProductOrder.getSumAmount().toString());
             
@@ -431,6 +435,8 @@ public class ProductServiceImpl extends BaseService implements ProductService {
             
             BigDecimal productAmount = BigDecimal.ZERO;
             
+            int detailsCount = 0;
+            
             for (ProductOrderDetails detail : box.getProductOrderDetailsList()) {
                 // 明细项目的添加
                 TProductOrderDetails tProductOrderDetails = new TProductOrderDetails();
@@ -444,6 +450,7 @@ public class ProductServiceImpl extends BaseService implements ProductService {
                 
                 productAmount = productAmount.add(tProductOrderDetails.getQuantity().multiply(tProductOrderDetails.getUnitPrice()).setScale(2, BigDecimal.ROUND_DOWN));
                 
+                detailsCount++;
             }
             
         
@@ -455,7 +462,7 @@ public class ProductServiceImpl extends BaseService implements ProductService {
             tProductBox.setDeliverId(shippingMethodId);
             tProductBox.setSenderId(senderId);
             tProductBox.setReceiverId(receiveId);
-            if (StringUtils.isEmpty(customerNote)){
+            if (StringUtils.isNotEmpty(customerNote)){
                 tProductBox.setIfRemarks("1");
                 tProductBox.setRemarks(customerNote);
             }
@@ -473,8 +480,11 @@ public class ProductServiceImpl extends BaseService implements ProductService {
             }
             
             tProductBox.setAdditionalCost(additional);
-            // 每个商品的总价+运费总额+额外费用
-            tProductBox.setSumAmount(productAmount.add(additional).add(new BigDecimal(box.getWeight() * 2.5)));
+            // 每个商品的总价+运费总额+额外费用+快递额外费用
+            tProductBox.setSumAmount(productAmount.add(additional).
+                    add(new BigDecimal(box.getWeight() * tExpressInfo.getKiloCost().doubleValue()))
+                    .add(new BigDecimal(detailsCount).multiply(tExpressInfo.getPriceCoefficient()))
+                    .setScale(2, BigDecimal.ROUND_UP));
             tProductBox.setOrderId(String.valueOf(orderIncrement));
             tProductBox.setHandleStatus(CommonEnum.PowderBoxFlag.NOT_PACKED.getCode());
             tProductBoxDao.insertSelective(tProductBox);
@@ -488,6 +498,7 @@ public class ProductServiceImpl extends BaseService implements ProductService {
         tProductOrder.setOrderNo(maxOrderNo);
         tProductOrder.setOrderDate(nowDateStringFull);
         tProductOrder.setCustomerId(customerId);
+        tProductOrder.setCustomerRemarks(customerNote);
         tProductOrder.setSumAmount(sumTotal);
         // 保存奶粉订单的时候一定是没有付款的
         tProductOrder.setPaymentStatus(CommonEnum.HandleFlag.NOT_PAY.getCode());
@@ -515,8 +526,9 @@ public class ProductServiceImpl extends BaseService implements ProductService {
     @Override
     public void updateRecordAfterPay(String orderId, String customerNo, HttpSession session, String serialNo)
             throws Exception {
-
-        TProductOrder tProductOrder = this.selectProductOrderById(orderId);
+        TProductOrder tProductOrder = new TProductOrder();
+        tProductOrder.setOrderNo(orderId);
+        tProductOrder = this.selectProductByParam(tProductOrder);
         
         // 订单状态
         String statusPre = tProductOrder.getStatus();
@@ -781,6 +793,18 @@ public class ProductServiceImpl extends BaseService implements ProductService {
     @Override
     public TProductBox selectProductBoxById(String boxId) throws Exception {
         return tProductBoxDao.selectByPrimaryKey(Long.valueOf(boxId));
+    }
+
+
+    @Override
+    public TProductOrder selectProductByParam(TProductOrder tProductOrder) throws Exception {
+        return tProductOrderDao.selectByParam(tProductOrder);
+    }
+
+
+    @Override
+    public void deleteNoPayOrder() throws Exception {
+        tProductOrderDao.deleteNoPayOrder();
     }
 
 }

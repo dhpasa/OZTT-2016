@@ -31,6 +31,8 @@ public class TExpressInfo implements Serializable {
 
     private BigDecimal        instantKiloCost;      // 成人奶粉每公斤运费
 
+    private BigDecimal        kiloCost;             //保健品的每公斤运费
+
     private String            babyOriginalBoxFlg;   // 婴儿奶粉6罐原装许可
 
     private String            instantOriginalBoxFlg; // 成人奶粉8罐原装许可
@@ -160,5 +162,13 @@ public class TExpressInfo implements Serializable {
 
     public void setInstantOriginalBoxFlg(String instantOriginalBoxFlg) {
         this.instantOriginalBoxFlg = instantOriginalBoxFlg;
+    }
+
+    public BigDecimal getKiloCost() {
+        return kiloCost;
+    }
+
+    public void setKiloCost(BigDecimal kiloCost) {
+        this.kiloCost = kiloCost;
     }
 }
