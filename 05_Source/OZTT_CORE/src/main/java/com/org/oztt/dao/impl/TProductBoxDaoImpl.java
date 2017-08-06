@@ -36,8 +36,7 @@ public class TProductBoxDaoImpl extends BaseDao implements TProductBoxDao {
 
     @Override
     public int updateByPrimaryKeySelective(TProductBox record) {
-        // TODO Auto-generated method stub
-        return 0;
+        return update("com.org.oztt.dao.TProductBoxMapper.updateByPrimaryKeySelective", record);
     }
 
     @Override

@@ -263,4 +263,22 @@
 	WHERE Table_Schema='oztt'
 	AND table_name = 't_product_order'
   </select>
+  
+  <select id="selectByParam" resultMap="BaseResultMap" parameterType="com.org.oztt.entity.TProductOrder" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_product_order
+    where 1=1
+    <if test="orderNo != null" >
+       and orderNo = #{orderNo,jdbcType=VARCHAR}
+     </if>
+  </select>
+  
+  <update id="updateNoPayOrder"  >
+  	update t_product_order
+    set status = '9' 
+    where TIMESTAMPDIFF(MINUTE, updTimestamp, now()) > 480 and status = '0'
+  </update>
+  
+  
 </mapper>

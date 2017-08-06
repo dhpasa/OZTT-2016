@@ -47,4 +47,14 @@ public class TProductOrderDaoImpl extends BaseDao implements TProductOrderDao {
         return selectOne("com.org.oztt.dao.TProductOrderMapper.selectAutoIncrement", null);
     }
 
+    @Override
+    public TProductOrder selectByParam(TProductOrder record) {
+        return selectOne("com.org.oztt.dao.TProductOrderMapper.selectByParam", record);
+    }
+
+    @Override
+    public void deleteNoPayOrder() {
+        update("com.org.oztt.dao.TProductOrderMapper.deleteNoPayOrder", null);
+    }
+
 }

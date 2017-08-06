@@ -359,7 +359,7 @@
 		    <div class="alert_bg"></div>
 		    <div class="loading">
 		        <div class="loading_con">
-		            <img src="picture/loading.png" />
+		            <img src="${ctx}/picture/loading.png" />
 		            <p>
 		                玩命加载中……
 		            </p>

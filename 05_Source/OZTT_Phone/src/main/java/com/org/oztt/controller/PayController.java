@@ -21,12 +21,12 @@ import com.org.oztt.base.util.MessageUtils;
 import com.org.oztt.base.util.VpcHttpPayUtils;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.contants.CommonEnum;
-import com.org.oztt.entity.TConsOrder;
+import com.org.oztt.entity.TProductOrder;
 import com.org.oztt.entity.TSysConfig;
-import com.org.oztt.formDto.OzTtGbOdDto;
 import com.org.oztt.formDto.PaypalParam;
 import com.org.oztt.service.OrderService;
 import com.org.oztt.service.PaypalService;
+import com.org.oztt.service.ProductService;
 import com.org.oztt.service.SysConfigService;
 
 @Controller
@@ -41,6 +41,9 @@ public class PayController extends BaseController {
     
     @Resource
     private SysConfigService sysConfigService;
+    
+    @Resource
+    private ProductService productService;
 
     /**
      * 跳转到支付画面
@@ -49,20 +52,16 @@ public class PayController extends BaseController {
      * @return
      */
     @RequestMapping(value = "init")
-    public String init(Model model, HttpServletResponse response, HttpSession session, String orderNo, String email) {
+    public String init(Model model, HttpServletResponse response, HttpSession session, String orderNo, String email, String paymentMethod) {
         try {
-//            model.addAttribute("orderNo", orderNo);
-//            // 取得订单的金额
-//            OzTtGbOdDto detail = orderService.getOrderDetailInfo(orderNo);
-//            String amount = new BigDecimal(detail.getXiaoji()).add(new BigDecimal(detail.getYunfei())).toString();
-//            // 这里需要加上额外费率
-//            TSysConfig sysconfig = sysConfigService.getTSysConfigInRealTime();
-//            if (sysconfig != null && sysconfig.getMasterCardFee() != null) {
-//                amount = new BigDecimal(amount).add(new BigDecimal(amount).multiply(sysconfig.getMasterCardFee()).setScale(2, BigDecimal.ROUND_HALF_UP)).toString();
-//            }
-//            model.addAttribute("amount", amount);
-//            model.addAttribute("email", email);
-//            model.addAttribute("leftTime", detail.getLeftTime());
+            
+            TProductOrder productOrder = new TProductOrder();
+            productOrder.setOrderNo(orderNo);
+            productOrder = productService.selectProductByParam(productOrder);
+            model.addAttribute("orderNo", orderNo);
+            model.addAttribute("productorder", productOrder);
+            model.addAttribute("amount", productOrder.getSumAmount());
+
             return "payment";
         }
         catch (Exception e) {
@@ -82,21 +81,26 @@ public class PayController extends BaseController {
     public String paymentHasOrder(Model model, HttpServletResponse response, HttpSession session, String hidDeliMethod,
             String hidAddressId, String hidPayMethod, String orderId) {
         try {
-            TConsOrder tConsOrder = orderService.selectByOrderId(orderId);
+            
+            TProductOrder productOrder = new TProductOrder();
+            productOrder.setOrderNo(orderId);
+            productOrder = productService.selectProductByParam(productOrder);
+
             // 先判断付款方式
             String rb = "";
             if (CommonEnum.PaymentMethod.ONLINE_PAY_CWB.getCode().equals(hidPayMethod)) {
                 // 货到付款
                 PaypalParam paypalParam = new PaypalParam();
                 paypalParam.setOrderId(orderId);
-                if (CommonEnum.DeliveryMethod.HOME_DELIVERY.getCode().equals(hidDeliMethod)) {
-                    // 普通快递
-                    paypalParam.setPrice(tConsOrder.getOrderamount().add(tConsOrder.getDeliverycost()).toString());
-                }
-                else if (CommonEnum.DeliveryMethod.PICK_INSTORE.getCode().equals(hidDeliMethod)) {
-                    // 来店自提
-                    paypalParam.setPrice(tConsOrder.getOrderamount().toString());
-                }
+//                if (CommonEnum.DeliveryMethod.HOME_DELIVERY.getCode().equals(hidDeliMethod)) {
+//                    // 普通快递
+//                    paypalParam.setPrice(productOrder.getSumAmount());
+//                }
+//                else if (CommonEnum.DeliveryMethod.PICK_INSTORE.getCode().equals(hidDeliMethod)) {
+//                    // 来店自提
+//                    paypalParam.setPrice(tConsOrder.getOrderamount().toString());
+//                }
+                paypalParam.setPrice(productOrder.getSumAmount().toString());
                 paypalParam.setNotifyUrl(getApplicationMessage("notifyUrl", session) + orderId); //这里是不是通知画面，做一些对数据库的更新操作等
                 paypalParam.setCancelReturn(getApplicationMessage("cancelReturn", session) + orderId);//应该返回未完成订单画面订单画面
                 paypalParam.setOrderInfo(getApplicationMessage("orderInfo", session));
@@ -144,8 +148,11 @@ public class PayController extends BaseController {
                 return mapReturn;
             }
 
-            TConsOrder tConsOrder = orderService.selectByOrderId(orderNo);
-            BigDecimal amount = tConsOrder.getOrderamount().add(tConsOrder.getDeliverycost());
+            TProductOrder productOrder = new TProductOrder();
+            productOrder.setOrderNo(orderNo);
+            productOrder = productService.selectProductByParam(productOrder);
+            
+            BigDecimal amount = productOrder.getSumAmount();
             TSysConfig sysconfig = sysConfigService.getTSysConfigInRealTime();
             if (sysconfig != null && sysconfig.getMasterCardFee() != null) {
                 amount = amount.add(amount.multiply(sysconfig.getMasterCardFee()).setScale(2, BigDecimal.ROUND_HALF_UP));
@@ -172,11 +179,7 @@ public class PayController extends BaseController {
             Map<String, String> resMap = VpcHttpPayUtils.http("https://migs.mastercard.com.au/vpcdps", payMap);
             if (resMap != null && "0".equals(resMap.get(VpcHttpPayUtils.VPC_TXNRESPONSECODE))) {
                 String serialNo = resMap.get(CommonConstants.TRANSACTION_SERIAL_NO);
-                orderService.updateRecordAfterPay(orderNo, customerNo, session, serialNo);
-                //                if (!StringUtils.isEmpty(email)) {
-                //                    // 开启线程进行发信
-                //                    orderService.createTaxAndSendMailForPhone(orderNo, customerNo, session, email);
-                //                }
+                productService.updateRecordAfterPay(orderNo, customerNo, session, serialNo);
                 mapReturn.put("isException", false);
             }
             else {

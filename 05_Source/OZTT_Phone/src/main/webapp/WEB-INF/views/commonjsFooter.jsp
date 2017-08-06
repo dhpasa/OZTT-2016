@@ -6,6 +6,8 @@
     <script type="text/javascript" src="${ctx}/js/bootstrap.js"></script>
     <script type="text/javascript" src="${ctx}/js/jquery.fly.min.js"></script>
     <script type="text/javascript" src="${ctx}/js/functions.js"></script>
+    
+    <script type="text/javascript" src="${ctx}/js/commonFunction.js"></script>
     <script type="text/javascript" src="${ctx}/js/self.js"></script>
     
     

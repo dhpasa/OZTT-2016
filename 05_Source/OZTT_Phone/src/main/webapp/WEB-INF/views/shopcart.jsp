@@ -361,22 +361,22 @@
     <ul class="daohang_yin">
         <span class="sj"></span>
         <li>
-            <a href="/Mobile" class="clearfix">
+            <a href="${ctx}/main/init" class="clearfix">
                 <img src="${ctx}/images/head_menu_shouye.png" /> 首页
             </a>
         </li>
         <li>
-            <a href="/Mobile/Category" class="clearfix">
+            <a href="${ctx}/category/init" class="clearfix">
                 <img src="${ctx}/images/head_menu_fenlei.png" /> 分类
             </a>
         </li>
         <li>
-            <a href="/Mobile/User" class="clearfix">
+            <a href="${ctx}/user/init" class="clearfix">
                 <img src="${ctx}/images/head_menu_zhanghu.png" /> 我的账户
             </a>
         </li>
         <li>
-            <a href="/Mobile/Order?orderStatus=0" class="clearfix">
+            <a href="${ctx}/order/init" class="clearfix">
                 <img src="${ctx}/images/head_menu_dingdan.png" /> 我的订单
             </a>
         </li>
@@ -408,7 +408,7 @@
                             </div>
                             <div class="car_li_con clearfix">
                                 <div class="car_li_img left">
-                                    <a href="/Mobile/Product/a2-step-3-900g" class="left car_pro">
+                                    <a href="${ctx}/item/getGoodsItem?groupId=${goods.groupId}" class="left car_pro">
                                         <img src="${cart.goodsImage }" />
                                     </a>
                                 </div>
@@ -473,7 +473,7 @@
     <div class="alert_bg"></div>
     <div class="loading">
         <div class="loading_con">
-            <img src="/Areas/Mobile/images/loading.png" />
+            <img src="${ctx}/picture/loading.png" />
             <p>
                 玩命加载中……
             </p>

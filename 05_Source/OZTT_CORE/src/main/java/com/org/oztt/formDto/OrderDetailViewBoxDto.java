@@ -1,5 +1,8 @@
 package com.org.oztt.formDto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OrderDetailViewBoxDto {
 
     private String elecExpressNo;
@@ -17,6 +20,10 @@ public class OrderDetailViewBoxDto {
     private String expressPhotoUrlExitFlg;
 
     private String expressPhotoUrl;
+    
+    private List<String> boxPhotoUrl = new ArrayList<String>();
+    
+    private String boxPhotoUrlExitFlg;
 
     private String canShow;
 
@@ -120,5 +127,21 @@ public class OrderDetailViewBoxDto {
 
     public void setBoxId(String boxId) {
         this.boxId = boxId;
+    }
+
+    public List<String> getBoxPhotoUrl() {
+        return boxPhotoUrl;
+    }
+
+    public void setBoxPhotoUrl(List<String> boxPhotoUrl) {
+        this.boxPhotoUrl = boxPhotoUrl;
+    }
+
+    public String getBoxPhotoUrlExitFlg() {
+        return boxPhotoUrlExitFlg;
+    }
+
+    public void setBoxPhotoUrlExitFlg(String boxPhotoUrlExitFlg) {
+        this.boxPhotoUrlExitFlg = boxPhotoUrlExitFlg;
     }
 }

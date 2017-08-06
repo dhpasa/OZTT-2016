@@ -9,6 +9,7 @@
 <head>
 <meta charset="utf-8">
 <title><fmt:message key="PAYMENT_TITLE" /></title>
+<%@ include file="./commoncssHead.jsp"%>
 <script type="text/javascript">
 	var E0007 = '<fmt:message key="E0007" />';
 	var E0028 = '<fmt:message key="E0028" />';
@@ -38,9 +39,11 @@
 							+ $("#orderNo").val() + "&is_success=1"
 				} else {
 					if (data.flgMsg == "1") {
-						$("#errormsg").text(E0028);
+						$('#errormsg_content').text(E0028);
+			  			$('#errormsg-pop-up').modal('show');
 					} else {
-						$("#errormsg").text(E0007);
+						$('#errormsg_content').text(E0007);
+			  			$('#errormsg-pop-up').modal('show');
 					}
 					$(".jcaptcha-img").attr(
 							"src",
@@ -53,6 +56,8 @@
 
 			}
 		});
+		
+		$("#payBtn").attr("onclick", "masterCardPay()");
 	}
 
 	function blurCardExp() {
@@ -93,12 +98,81 @@
 
 	function masterCardPay() {
 		if (!checkCardExp()) return;
+		toPay();
+	}
+	
+	function webChatPay(){
+		var orderId = $("#orderNo").val();
+		var paymentMethodId = $("#paymentMethodId").val();
+		var paramData = {
+				description : '<fmt:message key="TUANTUAN_DINGDAN" />',
+				device_id:getDevice(),
+				operator: 'oztt_phone'
+		};
+		if (paymentMethodId == "1") {
+			// MasterCard
+			$.ajax({
+				type : "PUT",
+				timeout : 60000, //超时时间设置，单位毫秒
+				contentType:'application/json',
+				url : '${ctx}/purchase/getWeChatPayUrl?orderId='+orderId,
+				dataType : "json",
+				async : false,
+				data : JSON.stringify(paramData), 
+				success : function(data) {
+					if (data.payUrl != null && data.payUrl != "") {
+						// 重新签名
+						createInfoDialog('<fmt:message key="I0010"/>','3');
+						setTimeout(function() {
+							location.href = data.payUrl;
+						}, 1000);
+						
+					} else {
+						createErrorInfoDialog('<fmt:message key="E0022" />');
+						setTimeout(function() {
+							location.href = "${ctx}/user/init"
+						}, 1000);
+					}					
+				},
+				error : function(data) {
+					createErrorInfoDialog('<fmt:message key="E0022" />');
+					setTimeout(function() {
+						location.href = "${ctx}/user/init"
+					}, 1000);
+				}
+			});
+		} else {
+			// 微信付款
+			$.ajax({
+				type : "GET",
+				timeout : 60000, //超时时间设置，单位毫秒
+				contentType:'application/json',
+				url : '${ctx}/purchase/getWeChatPayUrlHasCreate?orderId='+orderId,
+				dataType : "json",
+				async : false,
+				data : "", 
+				success : function(data) {
+					if (data.payUrl != null && data.payUrl != "") {
+						// 重新加载画面
+						createInfoDialog('<fmt:message key="I0010"/>','3');
+						setTimeout(function() {
+							location.href = data.payUrl;
+						}, 1000);
+					} else {
+						createErrorInfoDialog('<fmt:message key="E0023" />');
+					}					
+				},
+				error : function(data) {
+					createErrorInfoDialog('<fmt:message key="E0023" />');
+				}
+			});
+		}
 	}
 
 	function payBack() {
-		if (confirm("未支付确定离开")) {
-			location.href = history.back(-1);
-		}
+		
+		$(".alert").show();
+        $(".alert_bg").show();
 	}
 </script>
 <style type="text/css">
@@ -133,24 +207,10 @@
 	<!--头部开始-->
 	<div class="head_fix">
 		<div class="head user_head clearfix">
-			<a href="#" class="head_back" onclick="payBack()"></a> 支付
+			<a class="head_back" onclick="payBack()"></a> 支付
 			<div class="daohang">
-				<em></em>
-				<ul class="daohang_yin">
-					<span class="sj"></span>
-					<li><a href="/Mobile" class="clearfix"> <img
-							src="${ctx}/images/head_menu_shouye.png" /> 首页
-					</a></li>
-					<li><a href="/Mobile/Category" class="clearfix"> <img
-							src="${ctx}/images/head_menu_fenlei.png" /> 分类
-					</a></li>
-					<li><a href="/Mobile/User" class="clearfix"> <img
-							src="${ctx}/images/head_menu_zhanghu.png" /> 我的账户
-					</a></li>
-					<li><a href="/Mobile/Order?orderStatus=0" class="clearfix">
-							<img src="${ctx}/images/head_menu_dingdan.png" /> 我的订单
-					</a></li>
-				</ul>
+				
+				
 			</div>
 		</div>
 	</div>
@@ -164,27 +224,28 @@
 			</div>
 			<div class="zhifu_qiehuan">
 				<ul class="zhifu_qiehuan_tl clearfix">
-
-					<li class="payment wechat_pay" data-id="10" style="display:none">
-						<a href="javascript:void(0);" class="payment" data-id="10"> 
+					<li data-id="1">
+						<a href="javascript:void(0);"
+						class="payment active" data-id="1"> <img
+							src="${ctx}/images/zhifu/qian.jpg" class="img_q" /> <img
+							src="${ctx}/images/zhifu/qianh.jpg" class="img_h" />
+						</a>
+					</li>
+					
+					<li class="payment wechat_pay" data-id="4" style="display:none">
+						<a href="javascript:void(0);" class="payment" data-id="4"> 
 							<img src="${ctx}/images/zhifu/weixin.jpg" class="img_q" /> 
 							<img src="${ctx}/images/zhifu/weixinh.jpg" class="img_h" />
 						</a>
 					</li>
 
-					<li data-id="4"><a href="javascript:void(0);"
-						class="payment active" data-id="4"> <img
-							src="${ctx}/images/zhifu/qian.jpg" class="img_q" /> <img
-							src="${ctx}/images/zhifu/qianh.jpg" class="img_h" />
-					</a></li>
+					
 
 				</ul>
 				<div class="zhifu_qiehuan_main">
 
-					<div class="zhifu_qiehuan_con wechat_pay" data-id="10">
+					<div class="zhifu_qiehuan_con wechat_pay" data-id="4">
 
-
-						<form action="/Mobile/RoyalPay/MakePayment" method="post">
 							<input data-val="true"
 								data-val-number="The field OrderId must be a number."
 								data-val-required="The OrderId field is required." id="OrderId"
@@ -199,22 +260,18 @@
 								</tr>
 								<tr>
 									<td class="td_lf">实付金额</td>
-									<td class="td_rt">$73.78</td>
+									<td class="td_rt">$${amount}</td>
 								</tr>
 							</table>
 							<div class="zhifubao_cankao">
 								实际汇率 即时到账 今日参考汇率 - <span><strong>5.1964</strong></span>
 							</div>
-							<input type="submit" class="btn btn_blue zhifubtn" value="微信支付" />
-						</form>
+							<input type="button" class="btn btn_blue zhifubtn" value="微信支付" onclick="webChatPay()"/>
 
 					</div>
 
-					<div class="zhifu_qiehuan_con active" data-id="4">
+					<div class="zhifu_qiehuan_con mastercard_pay active" data-id="1">
 
-
-						<form action="/Mobile/Purchase/BankTransfer"
-							enctype="multipart/form-data" method="post">
 							<input data-val="true"
 								data-val-number="The field OrderId must be a number."
 								data-val-required="The OrderId field is required." id="OrderId"
@@ -225,7 +282,7 @@
 							<table cellpadding="0" cellspacing="0" class="zhifu_table">
 								<tr>
 									<td class="td_lf">实付金额</td>
-									<td class="td_rt">$72.69</td>
+									<td class="td_rt">$${amount}</td>
 								</tr>
 							</table>
 							<div class="qian_mess">
@@ -258,9 +315,8 @@
 								</div>
 							</div>
 							<input type="button" class="btn btn_blue zhifubtn qianbtn"
-								value="MasterCard支付" onclick="masterCardPay()" />
+								value="MasterCard支付" onclick="masterCardPay()" id="payBtn"/>
 
-						</form>
 
 
 					</div>
@@ -271,10 +327,60 @@
 
 	</div>
 
-	<input type="hidden" id="paymentMethodId" value="7" />
+	<input type="hidden" id="paymentMethodId" value="${productorder.paymentMethod }" />
 	<input type="hidden" value="${orderNo }" id="orderNo"/>
-	<script>
 	
+	<div class="out_alert alert" id="deleteAlert">
+	    <p class="alert_tl">确认返回</p>
+	    <div class="alert_text">
+	        未支付确定离开？
+	    </div>
+	    <div class="alert_btn">
+	        <a class="quxiao btn_red" id="alertConfirm" >确认</a>
+	        <a id="alertCancel">返回</a>
+	    </div>
+	</div>
+	<script>
+
+	$(document).ready(function () {
+		
+
+	    $("#alertCancel").click(function () {
+	        $(".alert").hide();
+	        $(".alert_bg").hide();
+	    });
+
+	    $("#alertConfirm").click(function () {
+	    	history.back(-1);
+	    });
+	    
+	    if (isWeChatBrowser()) {
+	        $('.payment[data-id="4"]').show();
+	    }
+	    
+	    var paymentMethodId = $("#paymentMethodId").val();
+	    
+	    var data_id = 1;
+	    if (paymentMethodId == '1') {
+	    	// 刚开始是masterCard 付款
+	    	data_id = 1;
+	    } else {
+	    	// 上一次选择的微信时，微信时默认显示的
+	    	data_id = 4;
+	    }
+	    
+	    $("a").each(function () {
+            $(this).removeClass("active");
+        });
+        $(".zhifu_qiehuan_con").each(function () {
+            $(this).removeClass("active");
+        });
+
+        $("a[data-id=" + data_id + "]").addClass('active');
+        $(".zhifu_qiehuan_con[data-id=" + data_id + "]").addClass('active');
+	    
+		
+	});
 	</script>
 
 </body>

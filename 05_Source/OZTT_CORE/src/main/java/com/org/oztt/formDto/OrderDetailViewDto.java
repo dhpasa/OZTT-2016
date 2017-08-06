@@ -25,6 +25,8 @@ public class OrderDetailViewDto {
     
     private String powderOrProductFlg; // 1 是奶粉 2 是产品
     
+    private String paymentMethod; // 支付方式
+    
     private List<OrderDetailViewBoxDto> boxList = new ArrayList<OrderDetailViewBoxDto>();
     
 
@@ -114,6 +116,14 @@ public class OrderDetailViewDto {
 
     public void setPowderOrProductFlg(String powderOrProductFlg) {
         this.powderOrProductFlg = powderOrProductFlg;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
     
 }

@@ -158,4 +158,37 @@ function removeLoading(){
 	//$('#main_loading').remove();
 }
 
+function createInfoDialog(msg, type, time) {
+	var strHtml = '<div class="dialog-container">';
+	strHtml += '<div class="dialog-window">';
+	strHtml += '<div class="dialog-content">'+msg+'</div>';
+	strHtml += '<div class="dialog-footer">';
+	strHtml += '</div>';
+	strHtml += '</div>';
+	strHtml += '</div>';
+	$('body').append(strHtml);
+	if (type == '1') {
+		// 并在3秒后消失
+		setTimeout(function() {
+			$('.dialog-container').remove();
+		}, time);
+	}
+}
+
+// 创建信息提示框
+function createErrorInfoDialog(msg) {
+	var strHtml = '<div class="dialog-container">';
+	strHtml += '<div class="dialog-window">';
+	strHtml += '<div class="dialog-content" style="color:red">'+msg+'</div>';
+	strHtml += '<div class="dialog-footer">';
+	strHtml += '</div>';
+	strHtml += '</div>';
+	strHtml += '</div>';
+	$('body').append(strHtml);
+	// 并在5秒后消失
+	setTimeout(function() {
+		$('.dialog-container').remove();
+	}, 1000);
+}
+
 

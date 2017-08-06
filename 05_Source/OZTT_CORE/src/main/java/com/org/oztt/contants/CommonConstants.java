@@ -172,4 +172,8 @@ public final class CommonConstants {
 
     public static final Double     IFMARK_FEE                 = 0D;
 
+    public static final BigDecimal ADDITION_WECHAT            = new BigDecimal(0.015D);
+
+    public static final BigDecimal WECHAT_MASTERCARD          = BigDecimal.ZERO;
+
 }
