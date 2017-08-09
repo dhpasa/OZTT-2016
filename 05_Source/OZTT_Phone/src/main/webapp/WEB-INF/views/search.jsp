@@ -95,7 +95,7 @@
 	<div class="head_fix">
 	    <div class="head user_head clearfix">
 	        <a href="javascript:history.back(-1)" class="head_back"></a>
-	        ${viewcontent}
+	        搜索结果
 	        <div class="daohang">
 	    <em></em>
 	    <ul class="daohang_yin">

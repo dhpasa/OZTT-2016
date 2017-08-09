@@ -212,11 +212,20 @@
 <!--产品详情底部-->
 <div class="pro_footer clearfix">
     <div class="left pro_footer_lf">
-        <!-- <span class="pro_footer_lf_main clearfix">
-            <a href="javascript:void(Tawk_API.toggle());" class="pro_kefu left"></a>
+       	<span class="pro_footer_lf_main clearfix">
+            <a href="#chatQRcode" data-toggle="modal"" class="pro_kefu left"></a>
             <span class="pro_footer_line left"></span>
             <a href="javascript:void(0);" class="pro_weibu left"></a>
-        </span> -->
+            <div id="chatQRcode" class="modal fade"> <!--半透明的遮罩层-->
+                  <div class="modal-dialog"> <!--定位和尺寸-->
+                      <div class="modal-content">  <!--背景边框阴影-->
+                          <div class="modal-body">
+                              <img src="${ctx}/images/oztt_qrcode.png" alt="" height="250">
+                          </div>
+                      </div>
+                  </div>
+              </div>
+        </span>
         <a href="${ctx}/shopcart/init" class="pro_footer_car">
             <div class="pro_footer_car_main">
                 <img src="${ctx}/picture/gouwudai.png" />
@@ -227,7 +236,6 @@
     <a href="javascript:void(0);" style="width:50%;" class="left btn_red pro_footer_a" id="addtocart" onclick="checktoCart('${goodItemDto.groupId}',this)" >加入购物袋</a>
     
 </div>
-<script type="text/javascript" src="${ctx}/js/qin.js"></script>
     <!--弹窗开始-->
 <div class="clearfix" style="margin-bottom: 100px;" id="outsideAlertView">
     <div class="verify out_alert alert">

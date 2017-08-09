@@ -447,7 +447,8 @@
                         <c:forEach var="box" items="${ detailInfo.boxList }" varStatus="status">
 						<tr>
 							<td style="text-align: center">
-								<div class="container">
+								<div class="container <c:if test="${box.elecExpressNo != null && box.elecExpressNo != ''}">add-border</c:if>">
+								
 									<a href="#my-express-img-${box.elecExpressNo}" data-toggle="modal"> ${box.elecExpressNo}</a>
 								</div>
 								
@@ -466,7 +467,7 @@
 									${box.receiveName}
 							</td>
 							<td style="text-align: center">
-								<div class="container">
+								<div class="container add-border">
 										<a href="#my-modal-card-${box.elecExpressNo}" data-toggle="modal">身份证</a>
 								</div>
 								<!--固定定位的模态框-->
@@ -512,7 +513,7 @@
 								</div>
 							</td>	
 							<td style="text-align: center">
-								<div class="container">
+								<div class="container add-border">
 										<a href="#my-modal-express-${box.elecExpressNo}" data-toggle="modal" onclick="showExpressInfo('${box.elecExpressNo}','${box.boxId}', '${detailInfo.powderOrProductFlg }')">物流消息</a>
 								</div>
 								<!--固定定位的模态框-->

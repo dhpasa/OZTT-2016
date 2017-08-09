@@ -176,4 +176,6 @@ public final class CommonConstants {
 
     public static final BigDecimal WECHAT_MASTERCARD          = BigDecimal.ZERO;
 
+    public static final String[]   BRAND_INFO                 = { "A2", "爱他美", "Bellamy", "Blackmores", "Healthy Care", "Swisse" };
+
 }
