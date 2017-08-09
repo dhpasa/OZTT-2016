@@ -125,6 +125,9 @@ public class MainController extends BaseController {
                     "hotFlgSellList",
                     (hotFlgGoodsList == null || hotFlgGoodsList.getResultList() == null) ? null : hotFlgGoodsList
                             .getResultList());
+            
+            // 品牌专区
+            model.addAttribute("brandList", CommonConstants.BRAND_INFO);
 
             // 获取session中的值
             model.addAttribute(CommonConstants.SESSION_CUSTOMERNO,

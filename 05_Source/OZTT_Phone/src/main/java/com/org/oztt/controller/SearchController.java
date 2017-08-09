@@ -40,7 +40,7 @@ public class SearchController extends BaseController {
      */
     @RequestMapping(value = "/init")
     public String init(Model model, HttpServletRequest request, HttpSession session, String mode, String searchcontent, String classId, String page, 
-            String topPageUp, String hotFlg, String inStockFlg) {
+            String topPageUp, String hotFlg, String inStockFlg, String brand) {
         try {
             String imgUrl = super.getApplicationMessage("saveImgUrl", session);
             model.addAttribute("imgUrl", imgUrl);
@@ -61,6 +61,7 @@ public class SearchController extends BaseController {
             params.put("topPageUp", topPageUp);
             params.put("hotFlg", hotFlg);
             params.put("inStockFlg", inStockFlg);
+            params.put("brand", brand);
             
             pagination.setParams(params);
             PagingResult<GroupItemDto> pageInfo = goodsService.getGoodsByParamForPage(pagination, session);
@@ -88,6 +89,10 @@ public class SearchController extends BaseController {
             if ("1".equals(inStockFlg)){
                 // 特价产品
                 searchcontent = CommonConstants.VIEW_INSTOCKFLG;
+            }
+            if (StringUtils.isNotEmpty(brand)) {
+                // 品牌
+                searchcontent = brand;
             }
             
             model.addAttribute("viewcontent", searchcontent);

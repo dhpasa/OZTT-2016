@@ -1,3 +1,12 @@
+/**===common==**/
+p {
+    margin: 0px;
+}
+
+.text_center {
+	text-align:center;
+}
+
 /**==================================通知画面============================================**/
 .notice-div{
 	display: block;
@@ -189,3 +198,9 @@ ul, ol {
 	position: fixed;
 	z-index: 9999;
 }
+
+.add-border{
+	border: 1px solid rgba(158, 158, 158, 0.51);
+    border-radius: 5px;
+}
+    

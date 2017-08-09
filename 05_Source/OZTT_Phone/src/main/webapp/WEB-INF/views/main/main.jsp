@@ -192,8 +192,8 @@
                 <div class="big_fenlei left small_fenlei">
                     <a href="${ctx}/search/init?topPageUp=1">
                         <span class="big_fenlei_con">
-                            <div class="big_fenlei_tl clearfix">
-                                <span class="right">
+                            <div class="big_fenlei_tl text_center clearfix">
+                                <span class="">
                                     <p class="big">
                                         限时团购
                                     </p>
@@ -224,8 +224,8 @@
                 <div class="d4 left small_fenlei">
                     <a href="${ctx}/search/init?hotFlg=1">
                         <span class="big_fenlei_con">
-                            <div class="big_fenlei_tl clearfix">
-                                <span class="right">
+                            <div class="big_fenlei_tl text_center clearfix">
+                                <span class="">
                                     <p class="big">
                                         新品推荐
                                     </p>
@@ -302,6 +302,22 @@
 	            $("#jingxuanlist a").prop("height", jxlistH);
 	        })
 	    </script>
+	    
+	    <!--品牌特惠 -->
+	    <div class="pinpai">
+	        <div class="index_pro_tl clearfix two_tl">
+	            <span class="left">品牌特惠</span>
+	        </div>
+	        <ul class="clearfix pinpai_ul">
+	        	<c:forEach var="brand" items="${ brandList }">
+		            <li>
+		                <a href="${ctx}/search/init?brand=${brand}">
+		                    <img src="${imgUrl}/brandImg/${brand}.jpg" />
+		                </a>
+		            </li>
+	            </c:forEach>
+	        </ul>
+	    </div>
 	    
 	    <!--分类展示区-->
 	    <c:forEach var="categoryItem" items="${ mainCategoryList }">
