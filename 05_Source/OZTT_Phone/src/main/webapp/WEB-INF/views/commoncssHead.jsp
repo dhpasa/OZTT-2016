@@ -9,6 +9,7 @@
   <meta name="format-detection" content="telephone=no, address=no">
 
   <link rel="shortcut icon" href="${ctx}/favicon.ico"  type="image/x-icon" />
+  <link rel="apple-touch-icon" sizes="64x64" href="${ctx}/images/touch.png">
 
   <!-- Global styles START -->          
   <link href="<c:url value='/assets/plugins/font-awesome/css/font-awesome.min.css' />" rel="stylesheet" type="text/css">

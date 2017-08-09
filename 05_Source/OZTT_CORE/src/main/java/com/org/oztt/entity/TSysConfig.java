@@ -32,7 +32,13 @@ public class TSysConfig implements Serializable {
     
     private BigDecimal pointcalcamount;
     
+    private BigDecimal messageFee;
+    
+    private BigDecimal remarkFee;
+    
     private BigDecimal discountrate;
+    
+    private BigDecimal masterCardFee;
 
 	public Long getNo() {
 		return no;
@@ -145,5 +151,29 @@ public class TSysConfig implements Serializable {
 	public void setDiscountrate(BigDecimal discountrate) {
 		this.discountrate = discountrate;
 	}
+
+    public BigDecimal getMessageFee() {
+        return messageFee;
+    }
+
+    public void setMessageFee(BigDecimal messageFee) {
+        this.messageFee = messageFee;
+    }
+
+    public BigDecimal getRemarkFee() {
+        return remarkFee;
+    }
+
+    public void setRemarkFee(BigDecimal remarkFee) {
+        this.remarkFee = remarkFee;
+    }
+
+    public BigDecimal getMasterCardFee() {
+        return masterCardFee;
+    }
+
+    public void setMasterCardFee(BigDecimal masterCardFee) {
+        this.masterCardFee = masterCardFee;
+    }
 
 }

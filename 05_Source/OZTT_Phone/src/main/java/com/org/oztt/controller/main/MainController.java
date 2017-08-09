@@ -181,7 +181,7 @@ public class MainController extends BaseController {
         }
         catch (Exception e) {
             e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.error("message", e);
             return CommonConstants.ERROR_PAGE;
         }
 
@@ -296,9 +296,21 @@ public class MainController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
+    }
+    
+    /**
+     * 检索商品的所有信息
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "toPcInfoJsp", method = RequestMethod.GET)
+    public String toPcInfoJsp(Model model, HttpServletRequest request, HttpSession session) {
+        return "pc_info";
     }
 }

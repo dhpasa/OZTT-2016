@@ -34,6 +34,8 @@ public class OrderInfoDto {
     private String consignee; //收货人
     
     private List<ContCartItemDto> itemList;
+    
+    private String paymentMethod;
 
     public String getOrderId() {
         return orderId;
@@ -129,5 +131,13 @@ public class OrderInfoDto {
 
     public void setDeliveryCost(String deliveryCost) {
         this.deliveryCost = deliveryCost;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 }

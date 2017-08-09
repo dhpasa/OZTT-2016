@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.org.oztt.dao.TPowderOrderDetailsMapper" >
+  <resultMap id="BaseResultMap" type="com.org.oztt.entity.TPowderOrderDetails" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="powderId" property="powderId" jdbcType="VARCHAR" />
+    <result column="quantity" property="quantity" jdbcType="DECIMAL" />
+    <result column="unitPrice" property="unitPrice" jdbcType="DECIMAL" />
+    <result column="powderBoxId" property="powderBoxId" jdbcType="VARCHAR" />
+    <result column="addTimestamp" property="addTimestamp" jdbcType="TIMESTAMP" />
+    <result column="addUserKey" property="addUserKey" jdbcType="VARCHAR" />
+    <result column="updTimestamp" property="updTimestamp" jdbcType="TIMESTAMP" />
+    <result column="updUserKey" property="updUserKey" jdbcType="VARCHAR" />
+    <result column="updPgmId" property="updPgmId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, powderId, quantity, unitPrice, powderBoxId, addTimestamp, addUserKey, updTimestamp, 
+    updUserKey, updPgmId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_powder_order_details
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_powder_order_details
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.org.oztt.entity.TPowderOrderDetails" >
+    insert into t_powder_order_details (id, powderId, quantity, 
+      unitPrice, powderBoxId, addTimestamp, 
+      addUserKey, updTimestamp, updUserKey, 
+      updPgmId)
+    values (#{id,jdbcType=BIGINT}, #{powderId,jdbcType=VARCHAR}, #{quantity,jdbcType=DECIMAL}, 
+      #{unitPrice,jdbcType=DECIMAL}, #{powderBoxId,jdbcType=VARCHAR}, #{addTimestamp,jdbcType=TIMESTAMP}, 
+      #{addUserKey,jdbcType=VARCHAR}, #{updTimestamp,jdbcType=TIMESTAMP}, #{updUserKey,jdbcType=VARCHAR}, 
+      #{updPgmId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.org.oztt.entity.TPowderOrderDetails" >
+    insert into t_powder_order_details
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="powderId != null" >
+        powderId,
+      </if>
+      <if test="quantity != null" >
+        quantity,
+      </if>
+      <if test="unitPrice != null" >
+        unitPrice,
+      </if>
+      <if test="powderBoxId != null" >
+        powderBoxId,
+      </if>
+      <if test="addTimestamp != null" >
+        addTimestamp,
+      </if>
+      <if test="addUserKey != null" >
+        addUserKey,
+      </if>
+      <if test="updTimestamp != null" >
+        updTimestamp,
+      </if>
+      <if test="updUserKey != null" >
+        updUserKey,
+      </if>
+      <if test="updPgmId != null" >
+        updPgmId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="powderId != null" >
+        #{powderId,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="powderBoxId != null" >
+        #{powderBoxId,jdbcType=VARCHAR},
+      </if>
+      <if test="addTimestamp != null" >
+        #{addTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addUserKey != null" >
+        #{addUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updTimestamp != null" >
+        #{updTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updUserKey != null" >
+        #{updUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updPgmId != null" >
+        #{updPgmId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.org.oztt.entity.TPowderOrderDetails" >
+    update t_powder_order_details
+    <set >
+      <if test="powderId != null" >
+        powderId = #{powderId,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null" >
+        quantity = #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="unitPrice != null" >
+        unitPrice = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="powderBoxId != null" >
+        powderBoxId = #{powderBoxId,jdbcType=VARCHAR},
+      </if>
+      <if test="addTimestamp != null" >
+        addTimestamp = #{addTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addUserKey != null" >
+        addUserKey = #{addUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updTimestamp != null" >
+        updTimestamp = #{updTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updUserKey != null" >
+        updUserKey = #{updUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updPgmId != null" >
+        updPgmId = #{updPgmId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.org.oztt.entity.TPowderOrderDetails" >
+    update t_powder_order_details
+    set powderId = #{powderId,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=DECIMAL},
+      unitPrice = #{unitPrice,jdbcType=DECIMAL},
+      powderBoxId = #{powderBoxId,jdbcType=VARCHAR},
+      addTimestamp = #{addTimestamp,jdbcType=TIMESTAMP},
+      addUserKey = #{addUserKey,jdbcType=VARCHAR},
+      updTimestamp = #{updTimestamp,jdbcType=TIMESTAMP},
+      updUserKey = #{updUserKey,jdbcType=VARCHAR},
+      updPgmId = #{updPgmId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectPowderDetailList" resultType="com.org.oztt.formDto.PowderMilkInfo" parameterType="com.org.oztt.entity.TPowderOrderDetails" >
+    select 
+    b.brandName as powderBrand,
+    d.codeDetailName as powderSpec,
+    a.quantity as number,
+    c.weight,
+    c.freeDeliveryParameter,
+    c.powderPrice as powderPrice
+    from t_powder_order_details a
+    inner join t_powder_info c on a.powderId = c.id
+    inner join t_brand_info b on c.powderBrand = b.id
+    inner join t_sys_code d on d.codeDetailId = c.powderSpec and d.codeId = 'COM021'
+    where a.powderBoxId = #{powderBoxId,jdbcType=VARCHAR}
+  </select>
+</mapper>

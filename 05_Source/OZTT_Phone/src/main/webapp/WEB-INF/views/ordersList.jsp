@@ -24,11 +24,49 @@
 		location.href="${ctx}/order/"+id+"?tab="+selectTab;
 	}
 	
-	function toPay(orderId) {
-		location.href = "${ctx}/Pay/init?orderNo="+orderId;
+	function toPay(orderId, paymentMethod) {
+		if (paymentMethod == "1") {
+			location.href = "${ctx}/Pay/init?orderNo="+orderId;
+		} else if (paymentMethod == "4") {
+			// 新增的微信支付
+			if (!isWeiXin()){
+				// 不是微信，则跳出提示
+				createInfoDialog('<fmt:message key="I0009" />', '3');
+				return;
+			}
+			createLoading(0);
+			$.ajax({
+				type : "GET",
+				timeout : 60000, //超时时间设置，单位毫秒
+				contentType:'application/json',
+				url : '${ctx}/purchase/getWeChatPayUrlHasCreate?orderId='+orderId,
+				dataType : "json",
+				async : false,
+				data : "", 
+				success : function(data) {
+					if (data.payUrl != null && data.payUrl != "") {
+						// 重新加载画面
+						location.href = data.payUrl;
+					} else {
+						removeLoading();
+						createErrorInfoDialog('<fmt:message key="E0023" />');
+					}					
+				},
+				error : function(data) {
+					removeLoading();
+					createErrorInfoDialog('<fmt:message key="E0023" />');
+				}
+			});
+		}
+		
 	}
 	var pageNo = 1;
 	function initList(idd) {
+		var sessionUserId = '${currentUserId}';
+		if (sessionUserId == null || sessionUserId == "") {
+			return;
+		}
+		$("#hiddenStatus").val(idd);
 		$.ajax({
 			type : "GET",
 			contentType:'application/json',
@@ -83,7 +121,7 @@
 						var temp45 = '				<span>\${0}</span>';
 						var temp46 = '			</div>';
 						var temp47 = '		</div>';
-						var temp47_1 = '	<div class="order-canpay"><a onclick="toPay(\'{0}\')"><fmt:message key="ORDERLIST_TOPAY" /></a></div>';
+						var temp47_1 = '	<div class="order-canpay"><a onclick="toPay(\'{0}\',\'{1}\')"><fmt:message key="ORDERLIST_TOPAY" /></a></div>';
 						var temp48 = '	</div>';
 						var temp49 = '</div>';
 						if (data.orderList.length>0){
@@ -146,7 +184,7 @@
 								dataHtml += temp46;
 								dataHtml += temp47;
 								if (order.orderStatusFlag == '0') {
-									dataHtml += temp47_1.replace("{0}",order.orderId);
+									dataHtml += temp47_1.replace("{0}",order.orderId).replace("{1}",order.paymentMethod);
 								}
 								dataHtml += temp48;
 								dataHtml += temp49;
@@ -188,7 +226,7 @@
 	    		$("#loadingDiv").css("display","");
 	    		setTimeout(function(){
 	    			pageNo += 1;
-	    			initList();
+	    			initList($("#hiddenStatus").val());
 	    			closeLoadingDiv();
 	    			setTimeout(function(){
 	    				closeNoMoreDiv();
@@ -215,6 +253,15 @@
 		pageNo = 0;
 		selectTab = tab;
 		initList(tab);
+	}
+	
+  	function isWeiXin(){
+	    var ua = window.navigator.userAgent.toLowerCase();
+	    if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+	        return true;
+	    }else{
+	        return false;
+	    }
 	}
 </script>
 <style>
@@ -254,6 +301,8 @@
 	<div id="ordersList">
 		
 	</div>
+	
+	<input type="hidden" value="" id="hiddenStatus"/>
 	<div style="text-align: center;height:4rem;display:none" id="loadingDiv">
     	<span style="display:inline-block;width: 100%;" id="hasMore"><fmt:message key="COMMON_PUSH" /></br><fmt:message key="COMMON_HASMORE" /></span>
 		<img src="${ctx}/images/loading.gif">

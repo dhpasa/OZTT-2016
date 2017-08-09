@@ -194,7 +194,8 @@ public class OrderServiceImpl extends BaseService implements OrderService {
                         + "00");
             }
             tConsOrderDetails.setAdduserkey(customerNo);
-            if (CommonEnum.PaymentMethod.ONLINE_PAY_CWB.getCode().equals(payMethod)) {
+            if (CommonEnum.PaymentMethod.ONLINE_PAY_CWB.getCode().equals(payMethod) || 
+                    CommonEnum.PaymentMethod.WE_CHAT.getCode().equals(payMethod)) {
                 tConsOrderDetails.setHandleflg(CommonEnum.HandleFlag.NOT_PAY.getCode());
             }
             else {
@@ -263,7 +264,8 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         tConsOrder.setPaymentmethod(payMethod);
         tConsOrder.setOrdertimestamp(new Date());
         tConsOrder.setPaymenttimestamp(null);//付款时间
-        if (CommonEnum.PaymentMethod.ONLINE_PAY_CWB.getCode().equals(payMethod)) {
+        if (CommonEnum.PaymentMethod.ONLINE_PAY_CWB.getCode().equals(payMethod) || 
+                CommonEnum.PaymentMethod.WE_CHAT.getCode().equals(payMethod)) {
             tConsOrder.setHandleflg(CommonEnum.HandleFlag.NOT_PAY.getCode());
         }
         else {

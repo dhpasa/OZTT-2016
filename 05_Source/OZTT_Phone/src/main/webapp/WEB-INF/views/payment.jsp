@@ -11,6 +11,7 @@
   <title><fmt:message key="PAYMENT_TITLE" /></title>
   <script type="text/javascript">
   		var E0007 = '<fmt:message key="E0007" />';
+  		var E0028 = '<fmt:message key="E0028" />';
   		$(function(){
   			checkShowBtn();
   		});
@@ -41,7 +42,8 @@
 					"vpc_CardExp":$("#vpc_CardExp").val(),
 					"vpc_CardSecurityCode":$("#vpc_CardSecurityCode").val(),
 					"orderNo":$("#orderNo").val(),
-					"email":$("#email").val()
+					"email":$("#email").val(),
+					"jcaptchaCode":$("#jcaptchaCodeInput").val()
 			}
 	  		$.ajax({
 				type : "POST",
@@ -55,7 +57,12 @@
 						// 货到付款
 						location.href = "${ctx}/Notice/paysuccess?orderNo="+$("#orderNo").val()+"&is_success=1"
 					} else {
-						$("#errormsg").text(E0007);
+						if (data.flgMsg == "1") {
+							$("#errormsg").text(E0028);
+						} else {
+							$("#errormsg").text(E0007);
+						}
+						$(".jcaptcha-img").attr("src", '${pageContext.request.contextPath}/jcaptcha.jpg?'+new Date().getTime());
 					}
 					
 				},
@@ -142,6 +149,11 @@
         <div class="input-password">
             <input class="txt-input" type="text" autocomplete="off" placeholder="Card Security Code (CSC)" id="vpc_CardSecurityCode" onchange="checkShowBtn()">
         </div>
+        <div class="input-password">
+        	<input type="text" name="jcaptchaCode" id="jcaptchaCodeInput" class="txt-input" style="width:200px;height:3rem;" placeholder="Verify Code" > 
+			<img class="jcaptcha-btn jcaptcha-img" style="height:3rem;margin-top:-5px"
+				src="${pageContext.request.contextPath}/jcaptcha.jpg" >
+		</div>
         
         <div class="errormsg">
 			<span id="errormsg"></span>
@@ -158,6 +170,10 @@
         
         <input type="hidden" value="${orderNo }" id="orderNo"/>
         <input type="hidden" value="${email }" id="email"/>
+        
+        <div style="height:6rem;">
+	    	&nbsp;
+	    </div>
 	</div>
 	
 	<script type="text/javascript">
@@ -167,6 +183,10 @@
 		$('.payment_cuntdown').startOtherTimer({
     		
     	});
+		
+		$(".jcaptcha-btn").click(function() {
+	        $(".jcaptcha-img").attr("src", '${pageContext.request.contextPath}/jcaptcha.jpg?'+new Date().getTime());
+	    });
 	</script>
 </body>
 <!-- END BODY -->

@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -18,11 +19,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.org.oztt.base.util.CommonUtils;
 import com.org.oztt.base.util.DateFormatUtils;
+import com.org.oztt.base.util.HttpRequest;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.entity.TAddressInfo;
+import com.org.oztt.entity.TConsOrder;
 import com.org.oztt.formDto.ContCartItemDto;
 import com.org.oztt.formDto.ContCartProItemDto;
 import com.org.oztt.service.AddressService;
@@ -108,7 +114,7 @@ public class PurchaseController extends BaseController {
         }
         catch (Exception e) {
             e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.error("message", e);
             return CommonConstants.ERROR_PAGE;
         }
     }
@@ -148,9 +154,152 @@ public class PurchaseController extends BaseController {
         }
         catch (Exception e) {
             e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
+        }
+    }
+    
+    /**
+     * 获取微信支付URL
+     * 
+     * @param model
+     * @param request
+     * @param orderId
+     * @return
+     */
+    @RequestMapping(value = "/getWeChatPayUrl")
+    @ResponseBody
+    public Map<String, Object> getWeChatPayUrl(Model model, HttpServletRequest request, HttpSession session,
+            String orderId, @RequestBody String paraMap) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            String dTime = String.valueOf(new Date().getTime());
+            String uu = UUID.randomUUID().toString().replace("-", "");
+            String parterCode = super.getApplicationMessage("partner_code", session);
+            String credentialCode = super.getApplicationMessage("credential_code", session);
+
+            String signOrigin = parterCode + "&" + dTime + "&" + uu + "&" + credentialCode;
+            String signDes = CommonUtils.sign(signOrigin, "SHA-256");
+
+            String url = "https://mpay.royalpay.com.au/api/v1.0/wechat_jsapi_gateway/partners/OZTT/orders/" + orderId;
+            url = url + "?time=" + dTime + "&nonce_str=" + uu + "&sign=" + signDes;
+
+            String notify_url = super.getApplicationMessage("wechat_notify_url_fortt", session) + orderId;
+
+            String redirect_url = super.getApplicationMessage("wechat_redirect_url_fortt", session) + orderId;
+
+            TConsOrder tConsOrder = orderService.selectByOrderId(orderId);
+            JSONObject paramJson = (JSONObject) JSONObject.parse(paraMap);
+            paramJson.put("price", tConsOrder.getOrderamount().multiply(new BigDecimal(100)).intValue());
+            //paramJson.put("price", 1);
+            paramJson.put("notify_url", notify_url);
+
+            String doputInfo = HttpRequest.doPut(url, paramJson.toJSONString());
+
+            String returnUrl = "";
+            if (!StringUtils.isEmpty(doputInfo)) {
+                dTime = String.valueOf(new Date().getTime());
+                uu = UUID.randomUUID().toString().replace("-", "");
+                signOrigin = parterCode + "&" + dTime + "&" + uu + "&" + credentialCode;
+
+                String signAgain = CommonUtils.sign(signOrigin, "SHA-256");
+                JSONObject putResJson = (JSONObject) JSONObject.parse(doputInfo);
+                returnUrl = putResJson.getString("pay_url") + "?redirect=" + redirect_url + "&directpay=false";
+                returnUrl += "&time=" + dTime + "&nonce_str=" + uu + "&sign=" + signAgain;
+            }
+
+            mapReturn.put("payUrl", returnUrl);
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error("message", e);
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+
+    /**
+     * 获取微信支付已经URL
+     * 
+     * @param model
+     * @param request
+     * @param orderId
+     * @return
+     */
+    @RequestMapping(value = "/getWeChatPayUrlHasCreate")
+    @ResponseBody
+    public Map<String, Object> getWeChatPayUrlHasCreate(Model model, HttpServletRequest request, HttpSession session,
+            String orderId) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            String dTime = String.valueOf(new Date().getTime());
+            String uu = UUID.randomUUID().toString().replace("-", "");
+            String parterCode = super.getApplicationMessage("partner_code", session);
+            String credentialCode = super.getApplicationMessage("credential_code", session);
+            
+            String redirect_url = super.getApplicationMessage("wechat_redirect_url_fortt", session) + orderId;
+
+            String signOrigin = parterCode + "&" + dTime + "&" + uu + "&" + credentialCode;
+            String signDes = CommonUtils.sign(signOrigin, "SHA-256");
+            
+            String url = "https://mpay.royalpay.com.au/api/v1.0/wechat_jsapi_gateway/partners/OZTT_order_"+orderId;
+            url += "?redirect=" + redirect_url + "&directpay=false";
+            url += "&time=" + dTime + "&nonce_str=" + uu + "&sign=" + signDes;
+
+            mapReturn.put("payUrl", url);
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error("message", e);
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+    
+    /**
+     * 微信支付通知画面
+     * 
+     * @param model
+     * @param request
+     * @param orderId
+     * @return
+     */
+    @RequestMapping(value = "/notify", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> notify(Model model, HttpServletRequest request, String orderId) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error("message", e);
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+
+    /**
+     * 微信支付成功画面
+     * 
+     * @param model
+     * @param request
+     * @param orderId
+     * @return
+     */
+    @RequestMapping(value = "/redirect", method = RequestMethod.GET)
+    public String redirect(Model model, HttpServletRequest request, HttpSession session, String orderId) {
+        try {
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            orderService.updateRecordAfterPay(orderId, customerNo, session, "000010000");
+            return "redirect:/user/init";
+        }
+        catch (Exception e) {
+            logger.error("message", e);
+            return CommonConstants.ERROR_PAGE;
         }
     }
 }

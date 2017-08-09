@@ -18,6 +18,16 @@
   			$("#main_wechat").click(function(){
   				$('#main_qrcode').modal('show');
   			});
+  			
+  			$("#milkpowder").click(function(){
+  				var currentUserId = $("#currentUserId").val();
+  				if (currentUserId == null || currentUserId.length == 0) {
+  					location.href = "${ctx}/login/init";
+  				} else {
+  					location.href="${ctx}/milkPowderAutoPurchase/init";
+  				}
+  				
+  			});
   		})
 		function toItem(groupNo){
 			location.href="${ctx}/item/getGoodsItem?groupId="+groupNo;
@@ -157,6 +167,7 @@
    </div>
    
    <div class="main-category">
+   		<a id="milkpowder"><img src="${ctx}/images/powderSysIcon.jpeg" /></a>
   		<a onclick="toGroupArea('1')"><img src="${ctx}/images/main-c1.png" /></a>
   		<a onclick="toGroupArea('2')"><img src="${ctx}/images/main-c2.png" /></a>
   		<a onclick="toGroupArea('3')"><img src="${ctx}/images/main-c3.png" /></a>

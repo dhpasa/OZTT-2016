@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
-<html>
+<html style="height:100%;width:100%;-webkit-overflow-scrolling:touch;">
 <head>
   <meta charset="utf-8">
   <title><sitemesh:write property='title' /></title>
@@ -21,6 +21,25 @@
 
 	  ga('create', 'UA-80000609-1', 'auto');
 	  ga('send', 'pageview');
+	  
+  jQuery.fn.slideLeftHide = function( speed, callback ) {  
+        this.animate({  
+            width : "hide",  
+            paddingLeft : "hide",  
+            paddingRight : "hide",  
+            marginLeft : "hide",  
+            marginRight : "hide"  
+        }, speed, callback );  
+    };  
+    jQuery.fn.slideLeftShow = function( speed, callback ) {  
+        this.animate({  
+            width : "show",  
+            paddingLeft : "show",  
+            paddingRight : "show",  
+            marginLeft : "show",  
+            marginRight : "show"  
+        }, speed, callback );  
+    };  
 	//添加COOKIE	
 	function addCookie(objName,objValue){
 	    var infostr = objName + '=' + escape(objValue);
@@ -136,6 +155,42 @@
   			
   		}
   	}
+  	
+  	function toMilkPowderAutoPurchaseSecond(){
+  		// 进入奶粉代发系统第二个画面
+  		location.href = "${ctx}/milkPowderAutoPurchase/init?mode=1";
+  	}
+  	
+  	var browser={
+  			versions:function(){
+  				var u = navigator.userAgent, app = navigator.appVersion;
+  				return {
+  					trident: u.indexOf('Trident') > -1, //IE内核
+  					presto: u.indexOf('Presto') > -1, //opera内核
+  					webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+  					gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1,//火狐内核
+  					mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+  					ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+  					android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+  					iPhone: u.indexOf('iPhone') > -1 , //是否为iPhone或者QQHD浏览器
+  					iPad: u.indexOf('iPad') > -1, //是否iPad
+  					webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+  				};
+  			}(),
+  			language:(navigator.browserLanguage || navigator.language).toLowerCase()//检测浏览器语言
+  		}
+  		
+  		if(browser.versions.mobile||browser.versions.android||browser.versions.ios){
+  			// 移动端
+  		} else {
+  			// PC端
+  			var currentLocalPath = window.location.pathname;
+  			if (currentLocalPath.indexOf("toPcInfoJsp") < 0) {
+  				window.location.href = "${ctx}/main/toPcInfoJsp";
+  			}
+  		}
+  	
+	
 </script>
 
 <!-- Body BEGIN -->
@@ -143,7 +198,7 @@
 	<sitemesh:write property='body' />
 
     <!-- BEGIN FOOTER -->
-    <div class="main-nav" id="main-nav-id">
+    <div class="main-nav" id="main-nav-id" style="display:none">
 		<a href="${ctx}/main/init" class="main-nav-item main-nav-home main-nav-active">
 			<img alt="home" src="${ctx}/images/main.png">
 			<span><fmt:message key="DECORATOR_MAIN"/></span>
@@ -164,7 +219,26 @@
 		</a>
 	</div>
 	
-	<div id="errormsg-pop-up" class="modal fade" role="dialog" aria-hidden="true" >
+	<div class="main-nav" id="powder-send-nav-id" style="display:none">
+		<a href="${ctx}/main/init" class="main-nav-item main-nav-home main-nav-active">
+			<img alt="powderHome" src="${ctx}/images/powderHome.jpg">
+			<span><fmt:message key="POWDER_BAR_MAIN"/></span>
+		</a>
+		<a href="${ctx}/milkPowderAutoPurchase/init" class="main-nav-item main-nav-cat ">
+			<img alt="powderList" src="${ctx}/images/powderList.jpg">
+			<span><fmt:message key="POWDER_BAR_PRICELIST"/></span>
+		</a>
+		<a href="#" onclick="toMilkPowderAutoPurchaseSecond()" class="main-nav-item main-nav-cart " id="navCart">
+			<img alt="powderSend" src="${ctx}/images/powderSend.jpg">
+			<span><fmt:message key="POWDER_BAR_SEND"/></span>
+		</a>
+		<a href="${ctx}/user/init" class="main-nav-item main-nav-profile ">
+			<img alt="powderMain" src="${ctx}/images/powderMain.jpg">
+			<span><fmt:message key="POWDER_BAR_ME"/></span>
+		</a>
+	</div>
+    
+    <div id="errormsg-pop-up" class="modal fade" role="dialog" aria-hidden="true" >
     	<div class="modal-dialog errormsg-dialog">
 	      <div class="modal-content">
 	         <div class="errormsg-modal-body clearborder" id="errormsg_content">
@@ -172,6 +246,11 @@
 	      </div>
     	</div>
     </div>
+    
+    <div id="main_loading" class="main_loading" style="display:none">
+		<img src="../images/loading.gif">
+	</div>
+    
     <!-- END FOOTER -->
     <input type="hidden" value="${currentUserId}" id="currentUserId">
     
@@ -185,6 +264,20 @@
 		$("#main-nav-id").remove();
 	}
 	
+	if (currentPath.indexOf("milkPowderAutoPurchase") > 0) {
+		$("#main-nav-id").remove();
+		$("#powder-send-nav-id").css("display","");
+	}
+	
+	if (currentPath.indexOf("powderOrder") > 0) {
+		$("#main-nav-id").remove();
+		$("#powder-send-nav-id").css("display","");
+	}
+	
+	if ($("#main-nav-id")) {
+		$("#main-nav-id").css("display","");
+	}
+	
 	var sessionUserId = '${currentUserId}';
 	if (sessionUserId == null || sessionUserId == "") {
 		// 没有登录
@@ -196,6 +289,14 @@
 	}
     
 	judgeIsOverTime();
+	
+	if(browser.versions.mobile||browser.versions.android||browser.versions.ios){
+			// 移动端
+		} else {
+			// PC端
+			$("#main-nav-id").remove();
+		}
+	
     </script>
 </body>
 <!-- END BODY -->

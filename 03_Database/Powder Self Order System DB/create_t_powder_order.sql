@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS `t_powder_order`;
 CREATE TABLE `t_powder_order` (
-  `Id` bigint(12) NOT NULL AUTO_INCREMENT,
+  `id` bigint(12) NOT NULL AUTO_INCREMENT,
   `ordreNo` varchar(16) NOT NULL,
   `orderDate` varchar(8) NOT NULL,
   `customerId` varchar(12) DEFAULT NULL,
@@ -15,4 +15,5 @@ CREATE TABLE `t_powder_order` (
   `updTimestamp` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updUserKey` varchar(40) DEFAULT NULL,
   `updPgmId` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

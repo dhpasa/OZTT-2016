@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS `t_powder_box`;
 CREATE TABLE `t_powder_box` (
-  `Id` bigint(12) NOT NULL AUTO_INCREMENT,
+  `id` bigint(12) NOT NULL AUTO_INCREMENT,
   `elecExpressNo` varchar(20) NOT NULL,
   `expressDate` varchar(8) NOT NULL,
   `deliverId` varchar(12) DEFAULT NULL,
@@ -20,4 +20,5 @@ CREATE TABLE `t_powder_box` (
   `updTimestamp` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updUserKey` varchar(40) DEFAULT NULL,
   `updPgmId` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

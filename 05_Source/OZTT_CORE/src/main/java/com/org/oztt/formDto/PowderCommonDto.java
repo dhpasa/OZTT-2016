@@ -1,0 +1,56 @@
+package com.org.oztt.formDto;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class PowderCommonDto {
+
+    private String                id;
+
+    private String                name;
+
+    private List<PowderCommonDto> child = new ArrayList<PowderCommonDto>();
+
+    public PowderCommonDto()
+    {
+
+    }
+
+    public PowderCommonDto(int number)
+    {
+        List<PowderCommonDto> re = new ArrayList<PowderCommonDto>();
+        while (number > 0) {
+            PowderCommonDto d = new PowderCommonDto();
+            d.setId(String.valueOf(number));
+            d.setName(d.getId() + "罐");
+            re.add(d);
+            number--;
+        }
+        
+        child = re;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<PowderCommonDto> getChild() {
+        return child;
+    }
+
+    public void setChild(List<PowderCommonDto> child) {
+        this.child = child;
+    }
+}

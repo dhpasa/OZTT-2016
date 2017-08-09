@@ -83,4 +83,9 @@ public class SysConfigServiceImpl extends BaseService implements SysConfigServic
         }
     }
 
+    @Override
+    public TSysConfig getTSysConfigInRealTime() {
+        return tSysConfigDao.selectOne();
+    }
+
 }

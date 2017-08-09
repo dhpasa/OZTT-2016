@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.org.oztt.dao.TPowderOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.org.oztt.entity.TPowderOrder" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="ordreNo" property="ordreNo" jdbcType="VARCHAR" />
+    <result column="orderDate" property="orderDate" jdbcType="VARCHAR" />
+    <result column="customerId" property="customerId" jdbcType="VARCHAR" />
+    <result column="sumAmount" property="sumAmount" jdbcType="DECIMAL" />
+    <result column="paymentMethod" property="paymentMethod" jdbcType="CHAR" />
+    <result column="paymentStatus" property="paymentStatus" jdbcType="CHAR" />
+    <result column="paymentDate" property="paymentDate" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="addTimestamp" property="addTimestamp" jdbcType="TIMESTAMP" />
+    <result column="addUserKey" property="addUserKey" jdbcType="VARCHAR" />
+    <result column="updTimestamp" property="updTimestamp" jdbcType="TIMESTAMP" />
+    <result column="updUserKey" property="updUserKey" jdbcType="VARCHAR" />
+    <result column="updPgmId" property="updPgmId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, ordreNo, orderDate, customerId, sumAmount, paymentMethod, paymentStatus, paymentDate, 
+    status, remarks, addTimestamp, addUserKey, updTimestamp, updUserKey, updPgmId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_powder_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_powder_order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.org.oztt.entity.TPowderOrder" >
+    insert into t_powder_order (id, ordreNo, orderDate, 
+      customerId, sumAmount, paymentMethod, 
+      paymentStatus, paymentDate, status, 
+      remarks, addTimestamp, addUserKey, 
+      updTimestamp, updUserKey, updPgmId
+      )
+    values (#{id,jdbcType=BIGINT}, #{ordreNo,jdbcType=VARCHAR}, #{orderDate,jdbcType=VARCHAR}, 
+      #{customerId,jdbcType=VARCHAR}, #{sumAmount,jdbcType=DECIMAL}, #{paymentMethod,jdbcType=CHAR}, 
+      #{paymentStatus,jdbcType=CHAR}, #{paymentDate,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{addTimestamp,jdbcType=TIMESTAMP}, #{addUserKey,jdbcType=VARCHAR}, 
+      #{updTimestamp,jdbcType=TIMESTAMP}, #{updUserKey,jdbcType=VARCHAR}, #{updPgmId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.org.oztt.entity.TPowderOrder" >
+    insert into t_powder_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ordreNo != null" >
+        ordreNo,
+      </if>
+      <if test="orderDate != null" >
+        orderDate,
+      </if>
+      <if test="customerId != null" >
+        customerId,
+      </if>
+      <if test="sumAmount != null" >
+        sumAmount,
+      </if>
+      <if test="paymentMethod != null" >
+        paymentMethod,
+      </if>
+      <if test="paymentStatus != null" >
+        paymentStatus,
+      </if>
+      <if test="paymentDate != null" >
+        paymentDate,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="addTimestamp != null" >
+        addTimestamp,
+      </if>
+      <if test="addUserKey != null" >
+        addUserKey,
+      </if>
+      <if test="updTimestamp != null" >
+        updTimestamp,
+      </if>
+      <if test="updUserKey != null" >
+        updUserKey,
+      </if>
+      <if test="updPgmId != null" >
+        updPgmId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="ordreNo != null" >
+        #{ordreNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null" >
+        #{orderDate,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="sumAmount != null" >
+        #{sumAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentMethod != null" >
+        #{paymentMethod,jdbcType=CHAR},
+      </if>
+      <if test="paymentStatus != null" >
+        #{paymentStatus,jdbcType=CHAR},
+      </if>
+      <if test="paymentDate != null" >
+        #{paymentDate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="addTimestamp != null" >
+        #{addTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addUserKey != null" >
+        #{addUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updTimestamp != null" >
+        #{updTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updUserKey != null" >
+        #{updUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updPgmId != null" >
+        #{updPgmId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.org.oztt.entity.TPowderOrder" >
+    update t_powder_order
+    <set >
+      <if test="ordreNo != null" >
+        ordreNo = #{ordreNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null" >
+        orderDate = #{orderDate,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        customerId = #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="sumAmount != null" >
+        sumAmount = #{sumAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentMethod != null" >
+        paymentMethod = #{paymentMethod,jdbcType=CHAR},
+      </if>
+      <if test="paymentStatus != null" >
+        paymentStatus = #{paymentStatus,jdbcType=CHAR},
+      </if>
+      <if test="paymentDate != null" >
+        paymentDate = #{paymentDate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="addTimestamp != null" >
+        addTimestamp = #{addTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addUserKey != null" >
+        addUserKey = #{addUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updTimestamp != null" >
+        updTimestamp = #{updTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updUserKey != null" >
+        updUserKey = #{updUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="updPgmId != null" >
+        updPgmId = #{updPgmId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.org.oztt.entity.TPowderOrder" >
+    update t_powder_order
+    set ordreNo = #{ordreNo,jdbcType=VARCHAR},
+      orderDate = #{orderDate,jdbcType=VARCHAR},
+      customerId = #{customerId,jdbcType=VARCHAR},
+      sumAmount = #{sumAmount,jdbcType=DECIMAL},
+      paymentMethod = #{paymentMethod,jdbcType=CHAR},
+      paymentStatus = #{paymentStatus,jdbcType=CHAR},
+      paymentDate = #{paymentDate,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      addTimestamp = #{addTimestamp,jdbcType=TIMESTAMP},
+      addUserKey = #{addUserKey,jdbcType=VARCHAR},
+      updTimestamp = #{updTimestamp,jdbcType=TIMESTAMP},
+      updUserKey = #{updUserKey,jdbcType=VARCHAR},
+      updPgmId = #{updPgmId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectAutoIncrement" resultType="int">
+  	SELECT Auto_increment
+	FROM information_schema.`TABLES`
+	WHERE Table_Schema='oztt'
+	AND table_name = 't_powder_order'
+  </select>
+  
+  <select id="selectByParam" resultMap="BaseResultMap" parameterType="com.org.oztt.entity.TPowderOrder">
+  	select 
+    <include refid="Base_Column_List" />
+    from t_powder_order
+    where 1=1
+    <if test="ordreNo != null" >
+        and ordreNo = #{ordreNo,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <select id="selectListByParam" resultMap="BaseResultMap" parameterType="com.org.oztt.entity.TPowderOrder">
+  	select 
+    <include refid="Base_Column_List" />
+    from t_powder_order
+    where 1=1
+    <if test="customerId != null" >
+        and customerId = #{customerId,jdbcType=VARCHAR}
+    </if>
+    <if test="paymentStatus != null" >
+        and paymentStatus = #{paymentStatus,jdbcType=CHAR}
+    </if>
+    <if test="status != null and status == 1 " >
+        and (status = '1' or status = '2' or status = '4' or status = '5')
+    </if>
+    <if test="status != null and status != 1 " >
+        and status = #{status,jdbcType=CHAR}
+    </if>
+  </select>
+  
+  <select id="getOrderByParamForPage" resultType="com.org.oztt.formDto.PowderOrderInfo" parameterType="map">
+  	select
+  	id as orderId,
+    ordreNo as orderNo,
+	status,
+	orderDate,
+	sumAmount as totalAmount,
+	paymentMethod as paymentMethod
+    from t_powder_order
+    where 1=1
+    <if test="customerId != null" >
+        and customerId = #{customerId,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null and status == 1 " >
+        and (status = '1' or status = '2' or status = '4' or status = '5')
+    </if>
+    <if test="status != null and status != 1 " >
+        and status = #{status,jdbcType=CHAR}
+    </if>
+    order by orderDate desc
+  </select>
+  
+  <select id="getOrderByParamForPageCount" resultType="int" parameterType="map">
+  	select 
+    count(1)
+    from t_powder_order
+    where 1=1
+    <if test="customerId != null" >
+        and customerId = #{customerId,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null and status == 1 " >
+        and (status = '1' or status = '2' or status = '4' or status = '5')
+    </if>
+    <if test="status != null and status != 1 " >
+        and status = #{status,jdbcType=CHAR}
+    </if>
+  </select>
+  
+  <delete id="deleteNoPayOrderDetail">
+  	delete from t_powder_order_details 
+	where powderBoxId in 
+	(select id from t_powder_box
+	where orderId in
+	(select id from t_powder_order where TIMESTAMPDIFF(MINUTE, updTimestamp, now()) > 480
+	and status = '0'));
+  </delete>
+  
+  <delete id="deleteNoPayOrderBox">
+  	delete from t_powder_box
+	where orderId in
+	(select id from t_powder_order where TIMESTAMPDIFF(MINUTE, updTimestamp, now()) > 480
+	and status = '0');
+  </delete>
+  
+  <delete id="deleteNoPayOrder">
+  	delete from t_powder_order where TIMESTAMPDIFF(MINUTE, updTimestamp, now()) > 480
+	and status = '0'
+  </delete>
+  
+  <update id="updateNoPayOrder"  >
+  	update t_powder_order
+    set status = '9' 
+    where TIMESTAMPDIFF(MINUTE, updTimestamp, now()) > 480 and status = '0'
+  </update>
+
+</mapper>

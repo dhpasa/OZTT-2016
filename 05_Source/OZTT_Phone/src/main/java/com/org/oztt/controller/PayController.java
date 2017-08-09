@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -15,15 +16,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.org.oztt.base.shiro.JCaptcha.JCaptcha;
 import com.org.oztt.base.util.MessageUtils;
 import com.org.oztt.base.util.VpcHttpPayUtils;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.contants.CommonEnum;
 import com.org.oztt.entity.TConsOrder;
+import com.org.oztt.entity.TSysConfig;
 import com.org.oztt.formDto.OzTtGbOdDto;
 import com.org.oztt.formDto.PaypalParam;
 import com.org.oztt.service.OrderService;
 import com.org.oztt.service.PaypalService;
+import com.org.oztt.service.SysConfigService;
 
 @Controller
 @RequestMapping("/Pay")
@@ -34,6 +38,9 @@ public class PayController extends BaseController {
 
     @Resource
     private OrderService  orderService;
+    
+    @Resource
+    private SysConfigService sysConfigService;
 
     /**
      * 跳转到支付画面
@@ -48,6 +55,11 @@ public class PayController extends BaseController {
             // 取得订单的金额
             OzTtGbOdDto detail = orderService.getOrderDetailInfo(orderNo);
             String amount = new BigDecimal(detail.getXiaoji()).add(new BigDecimal(detail.getYunfei())).toString();
+            // 这里需要加上额外费率
+            TSysConfig sysconfig = sysConfigService.getTSysConfigInRealTime();
+            if (sysconfig != null && sysconfig.getMasterCardFee() != null) {
+                amount = new BigDecimal(amount).add(new BigDecimal(amount).multiply(sysconfig.getMasterCardFee()).setScale(2, BigDecimal.ROUND_HALF_UP)).toString();
+            }
             model.addAttribute("amount", amount);
             model.addAttribute("email", email);
             model.addAttribute("leftTime", detail.getLeftTime());
@@ -55,7 +67,7 @@ public class PayController extends BaseController {
         }
         catch (Exception e) {
             e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.error("message", e);
             return CommonConstants.ERROR_PAGE;
         }
     }
@@ -102,7 +114,7 @@ public class PayController extends BaseController {
         }
         catch (Exception e) {
             e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.error("message", e);
             return CommonConstants.ERROR_PAGE;
         }
     }
@@ -114,16 +126,31 @@ public class PayController extends BaseController {
      * @return
      */
     @RequestMapping(value = "toPay")
-    public Map<String, Object> toPay(Model model, HttpServletResponse response, HttpSession session,
+    public Map<String, Object> toPay(Model model, HttpServletRequest request, 
+            HttpServletResponse response, HttpSession session,
             @RequestBody Map<String, String> map) {
         Map<String, Object> mapReturn = new HashMap<String, Object>();
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
             String orderNo = map.get("orderNo");
             //String email = map.get("email");
+            // 验证是不是输入了正确的验证码
+            String responseas = map.get("jcaptchaCode");
+            boolean isResponseCorrect = JCaptcha.validateResponse(request, responseas);
+            if (!isResponseCorrect) {
+                // 如果验证不正确则返回消息
+                mapReturn.put("flgMsg", "1");
+                mapReturn.put("isException", true);
+                return mapReturn;
+            }
 
             TConsOrder tConsOrder = orderService.selectByOrderId(orderNo);
             BigDecimal amount = tConsOrder.getOrderamount().add(tConsOrder.getDeliverycost());
+            TSysConfig sysconfig = sysConfigService.getTSysConfigInRealTime();
+            if (sysconfig != null && sysconfig.getMasterCardFee() != null) {
+                amount = amount.add(amount.multiply(sysconfig.getMasterCardFee()).setScale(2, BigDecimal.ROUND_HALF_UP));
+            }
+            
             Map<String, String> payMap = new HashMap<String, String>();
             payMap.put("vpc_Version", MessageUtils.getApplicationMessage("vpc_Version", session));
             payMap.put("vpc_Command", MessageUtils.getApplicationMessage("vpc_Command", session));
@@ -159,7 +186,7 @@ public class PayController extends BaseController {
         }
         catch (Exception e) {
             e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -181,7 +208,7 @@ public class PayController extends BaseController {
         }
         catch (Exception e) {
             e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.error("message", e);
             return CommonConstants.ERROR_PAGE;
         }
     }
