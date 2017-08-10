@@ -194,15 +194,15 @@
                     </div>
                 </a>
             </li>
-            <%-- <li>
-                <a href="/Mobile/User/UserProfile?orderStatus=1" class="clearfix">
+            <li>
+                <a href="${ctx}/member/init" class="clearfix">
                     <img src="${ctx}/images/user/user_huiyuan.png" class="left" />
                     <div class="user_choice_rt clearfix">
                         <span class="left">会员信息</span>
                         <em class="right"></em>
                     </div>
                 </a>
-            </li> --%>
+            </li>
             <li>
                 <a href="${ctx}/address/receiveList" class="clearfix">
                     <img src="${ctx}/images/user/user_shoujianren.png" class="left" />
