@@ -40,7 +40,8 @@ public class TPowderInfo implements Serializable {
     private BigDecimal        weight;
     
     private BigDecimal        freeDeliveryParameter;
-
+    
+    private BigDecimal        freeDeliveryParameter2;
     /**
      *  
      */
@@ -179,6 +180,14 @@ public class TPowderInfo implements Serializable {
 
     public void setFreeDeliveryParameter(BigDecimal freeDeliveryParameter) {
         this.freeDeliveryParameter = freeDeliveryParameter;
+    }
+
+    public BigDecimal getFreeDeliveryParameter2() {
+        return freeDeliveryParameter2;
+    }
+
+    public void setFreeDeliveryParameter2(BigDecimal freeDeliveryParameter2) {
+        this.freeDeliveryParameter2 = freeDeliveryParameter2;
     }
 
     

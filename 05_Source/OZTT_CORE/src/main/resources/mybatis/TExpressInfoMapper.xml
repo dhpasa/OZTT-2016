@@ -14,10 +14,12 @@
     <result column="updPgmId" property="updPgmId" jdbcType="VARCHAR" />
     <result column="babyKiloCost" property="babyKiloCost" jdbcType="DECIMAL" />
     <result column="instantKiloCost" property="instantKiloCost" jdbcType="DECIMAL" />
+    <result column="babyOriginalBoxFlg" property="babyOriginalBoxFlg" jdbcType="CHAR" />
+    <result column="instantOriginalBoxFlg" property="instantOriginalBoxFlg" jdbcType="CHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, expressName, remarks, priceCoefficient, deleteFlg, addTimestamp, addUserKey, 
-    updTimestamp, updUserKey, updPgmId, babyKiloCost, instantKiloCost
+    updTimestamp, updUserKey, updPgmId, babyKiloCost, instantKiloCost, babyOriginalBoxFlg, instantOriginalBoxFlg
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 

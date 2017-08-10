@@ -135,10 +135,10 @@ public class MilkPowderAutoPurchaseController extends BaseController {
                     specDto.setId(detail.getPowderSpec());
                     specDto.setName(powderService.getBrandNameByCode(detail.getPowderSpec()));
                     if (CommonConstants.POWDER_TYPE_BABY.equals(detail.getPowderType())) {
-                        specDto.setChild(new PowderCommonDto(3).getChild());
+                        specDto.setChild(new PowderCommonDto("1").getChild());
                     }
                     else {
-                        specDto.setChild(new PowderCommonDto(6).getChild());
+                        specDto.setChild(new PowderCommonDto("2").getChild());
                     }
                     specDtoList.add(specDto);
 
