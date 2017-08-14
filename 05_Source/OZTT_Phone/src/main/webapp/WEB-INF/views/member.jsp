@@ -10,7 +10,34 @@
   <meta charset="utf-8">
   <title><fmt:message key="USER_TITLE"/></title>
   <script type="text/javascript">
-  	
+	function submitMemberInfo(){
+		var username = $("#username").val();
+		var phone = $("#phone").val();
+		var wechatNo = $("#wechatNo").val();
+		var paramData = {
+				username:username,
+				phone:phone,
+				wechatNo:wechatNo
+		}
+		$.ajax({
+			type : "POST",
+			contentType:'application/json',
+			url : '${pageContext.request.contextPath}/member/modifyMember',
+			dataType : "json",
+			data : JSON.stringify(paramData), 
+			success : function(data) {
+				$(".out_alert").show();
+		        $(".alert_bg").show();
+		        setTimeout(function(){
+		        	$(".out_alert").hide();
+			        $(".alert_bg").hide();
+		        },2000);
+			},
+			error : function(data) {
+				
+			}
+		});
+	}
   	
   </script>
   <style type="text/css">
@@ -61,24 +88,30 @@
     </div>
 </div>
 <div class="reg_main">
-<form action="/Mobile/User/UserProfile" method="post"><input name="__RequestVerificationToken" type="hidden" value="UmliXiWK31iLPaUXKBBEV5tO7jNCk0SnYclCURDBIz4_b78XfrAuwrb3XutVUvIOW1EDIUaqHkH8su8EG9JsRjG9BC_tvdMGwxubItk8p3npHqhIUdEI7I-DlV_2s--DDXl1MRZhizlexMLdoa7UDg2" />        <div class="reg_gp">
-            <input type="text" id="WeChatId" name="WeChatId" placeholder="微信号（必填）" />
-            <div class="erro"><span class="field-validation-valid" data-valmsg-for="WeChatId" data-valmsg-replace="true"></span></div>
+        
+		<div class="reg_gp">
+            <input type="text" id="username" name="username" placeholder="昵称" value="${userName}"/>
         </div>
+        <%-- <div class="reg_gp">
+            <input type="text" id="phone" name="phone" placeholder="姓名（必填）" value="${phone}" />
+        </div> --%>
         <div class="reg_gp">
-            <input type="text" id="Name" name="Name" placeholder="姓名（必填）" value="陆城城" />
-            <div class="erro"><span class="field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span></div>
+            <input type="text" id="wechatNo" name="wechatNo" placeholder="微信号" value="${wechatNo}" />
         </div>
-        <div class="reg_gp">
-            <input type="text" id="PhoneNumber" name="PhoneNumber" placeholder="手机号（必填）" value="15295105536" />
-            <div class="erro"><span class="field-validation-valid" data-valmsg-for="PhoneNumber" data-valmsg-replace="true"></span></div>
-        </div>
-        <input type="submit" class="btn btn_blue loginbtn mt10" value="确认修改" />
-</form></div>
-<div class="reg_main">
-    <a href="/Mobile/Login/ChangePassword" class="btn btn_blue loginbtn mt10">点击修改密码</a>
-</div>
-
+        <input type="button" onclick="submitMemberInfo()" class="btn btn_blue loginbtn mt10" value="确认修改" />
+		</div>
+		<div class="reg_main">
+		    <a href="${ctx}/forgetPassword/init"  class="btn btn_blue loginbtn mt10">点击修改密码</a>
+		</div>
+		
+		<!--弹窗开始-->
+		<div class="out_alert alert">
+		    <p class="alert_tl"></p>
+		    <div class="alert_text">
+		        信息已保存
+		    </div>
+		</div>
+		<div class="alert_bg"></div>
 </body>
 <!-- END BODY -->
 </html>

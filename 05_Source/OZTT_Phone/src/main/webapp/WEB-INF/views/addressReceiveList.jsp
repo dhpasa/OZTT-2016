@@ -69,7 +69,7 @@
     		<c:forEach var="receiveInfo" items="${ receiveListPage.resultList }">
             <li>
                 <div class="shouhuo_do clearfix">
-                    <a href="javascript:void(0);" class="shouhuo_shan right" id="dele" data-id="${receiveInfo.id}"> 删除</a>
+                    <a href="javascript:void(0);" class="shouhuo_shan right deleteClass" data-id="${receiveInfo.id}"> 删除</a>
                     <a href="${ctx}/address/getAddress?updateType=1&addressId=${receiveInfo.id}" class="shouhuo_bianji right"> 编辑</a>
                 </div>
                 <div class="shoujian_main">
@@ -149,21 +149,8 @@
 		<script type="text/javascript">
 		
 		$(document).ready(function () {
-		    $('.danxuan').click(function(){
-		        $(".danxuan").removeAttr("checked");
-		        $(this).attr("checked", 'true');
-		        var id = $(this).attr("data-id");
-		        $.ajax({
-		            type: "POST",
-		            url: "/Mobile/User/SetDefaultAddress",
-		            data: { addressId: id },
-		            success: function (msg) {
-		                window.location.href = "/Mobile/Purchase/Checkout";
-		            }
-		        });
-		    })
-		
-		    $("#dele").click(function () {
+		    
+		    $(".deleteClass").click(function () {
 		        $("#hiddenAddressId").val($(this).attr("data-id"));
 		        $(".out_alert").show();
 		        $(".alert_bg").show();

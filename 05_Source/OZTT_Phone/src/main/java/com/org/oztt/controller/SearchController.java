@@ -78,6 +78,10 @@ public class SearchController extends BaseController {
             model.addAttribute("hotFlg", hotFlg);
             model.addAttribute("inStockFlg", inStockFlg);
             
+            if (brand != null || searchcontent != null) {
+                model.addAttribute("showFlg", 1);
+            }
+            
             if ("1".equals(topPageUp)){
                 // 本期团购
                 searchcontent = CommonConstants.VIEW_TOPPAGEUP;

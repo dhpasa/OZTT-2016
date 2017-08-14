@@ -79,6 +79,11 @@
 				addToCart(groupId, $(currentObj).parent().find("input[type='text']"));
 			}
 		}
+	  	
+	  	function searchGoods(){
+	  		var searchKeyWords = $("#keyword").val();
+	  		location.href = "${ctx}/search/init?searchcontent="+searchKeyWords;
+	  	}
 		
 		
   </script>
@@ -95,7 +100,12 @@
 	<div class="head_fix">
 	    <div class="head user_head clearfix">
 	        <a href="javascript:history.back(-1)" class="head_back"></a>
-	        搜索结果
+	        <c:if test="${'1' == showFlg}">
+	        	搜索结果
+	        </c:if>
+	        <c:if test="${'1' != showFlg}">
+	        	${viewcontent}
+	        </c:if>
 	        <div class="daohang">
 	    <em></em>
 	    <ul class="daohang_yin">
@@ -126,10 +136,20 @@
 	</div>
 	<div class="main">
 	    <div style="margin-bottom:10px;">
+	    	<c:if test="${'1' == showFlg}">
+	    		<div class="search_top">
+		            <div class="search_top_main clearfix">
+		                <input type="text" id="keyword" class="search_top_main_lf" value="${viewcontent}" placeholder="请输入搜索的相关产品名">
+		                <input type="button" onclick="searchGoods()" class="right search_top_main_btn" value="">
+		            </div>
+	        	</div>
+	    	</c:if>
 	        <!--内容开始-->
+	        <c:if test="${'1' != showFlg}">
 	        <div class="index_pro_tl clearfix big_fenlei_tl one_tl">
 	            <span class="left">${viewcontent}</span>
 	        </div>
+	        </c:if>
 	        <ul class="big_fenlei_ul clearfix">
 	        		<c:forEach var="subClassfication" items="${ SubClassficationList }">
 	                <li>

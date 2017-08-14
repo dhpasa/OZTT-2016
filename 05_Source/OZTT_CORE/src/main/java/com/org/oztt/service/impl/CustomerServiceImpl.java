@@ -485,4 +485,9 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
         }
     }
 
+    @Override
+    public void updateTCustomerSecurityInfo(TCustomerSecurityInfo info) throws Exception {
+        tCustomerSecurityInfoDao.updateByPrimaryKeySelective(info);
+    }
+
 }
