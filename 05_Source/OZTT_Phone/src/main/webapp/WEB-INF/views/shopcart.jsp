@@ -408,17 +408,17 @@
                             </div>
                             <div class="car_li_con clearfix">
                                 <div class="car_li_img left">
-                                    <a href="${ctx}/item/getGoodsItem?groupId=${goods.groupId}" class="left car_pro">
+                                    <a href="${ctx}/item/getGoodsItem?groupId=${cart.groupId}" class="left car_pro">
                                         <img src="${cart.goodsImage }" />
                                     </a>
                                 </div>
                                 <div class="right car_li_con_rt">
                                     <p class="car_li_tl">
-                                        <a href="${ctx}/item/getGoodsItem?groupId=${goods.groupId}" data-outstock="False" class="stockstatus">
+                                        <a href="${ctx}/item/getGoodsItem?groupId=${cart.groupId}" data-outstock="False" class="stockstatus">
                                             ${cart.goodsName }
                                         </a>
                                     </p>
-                                    <div class="clearfix car_li_do">
+                                    <div class="clearfix car_li_do" style="padding-top:10px">
                                         <span class="left color_red goodsPriceClass">$${cart.goodsPrice }</span>
                                         <div class="right clearfix">
                                             <div class="clearfix sum left">

@@ -8,7 +8,8 @@
 <head>
   <meta charset="utf-8">
   <title><fmt:message key="MAIN_TITLE"/></title>
-  
+  <link href="<c:url value='/css/flexslider.css' />" rel="stylesheet" type="text/css">
+  <script src="${ctx}/js/jquery.flexslider-min.js" type="text/javascript"></script>
   <!-- Head END -->
   <script>	
   		$(function(){
@@ -151,7 +152,7 @@
 	<div class="main" style="padding-top: 80px; padding-bottom:0px;">
 		<!--首页轮播图-->
 	    <div class="index_ban">
-	        <div class="block_home_slider">
+	        <div class="block_home_slider" id="main_home_slide">
 	            <div id="home_slider" class="flexslider">
 	                <ul class="slides">
 	                		<c:forEach var="advPic" items="${ advPicList }">
@@ -407,13 +408,19 @@
 	</script>
 	<script type="text/javascript">
 		$('#home_slider').flexslider({
-	        animation: 'slide',
+	        /* animation: 'slide',
 	        controlNav: true,
 	        directionNav: false,
 	        animationLoop: true,
 	        slideshow: true,
-	        useCSS: false
+	        useCSS: false */
+	        
+	        slideshowSpeed: 4000, //展示时间间隔ms
+			animationSpeed: 400, //滚动时间ms
+			directionNav:false,
+			touch: true //是否支持触屏滑动
 	    });
+		
 	</script>
 	
 	<script type="text/javascript">

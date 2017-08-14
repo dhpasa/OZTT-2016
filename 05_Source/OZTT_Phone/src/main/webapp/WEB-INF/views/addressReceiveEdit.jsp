@@ -195,25 +195,25 @@
 		        selects: ['province', 'city']
 		    });
 		
-		    $('.yckTrigger').click(function () {
+		    /* $('.yckTrigger').click(function () {
 		        $('.quickAddress').toggleClass('showIt').promise().done(function () {
 		            $('.quickAddressInput textarea').focus();
 		        });
-		    })
+		    }) */
 		
-		    $('.enterAddress').click(function () {
+		    /* $('.enterAddress').click(function () {
 		        var address = $('.quickAddressInput textarea').val();
 		        extractAddress(address);
-		    });
+		    }); */
 		
-		    $('.clearAddress').click(function () {
+		    /* $('.clearAddress').click(function () {
 		        $('.quickAddressInput textarea').val('');
-		    })
+		    }) */
 		
-		    $('.closeAddress').click(function () {
+		    /* $('.closeAddress').click(function () {
 		        $('.quickAddress').toggleClass('showIt');
-		    })
-		    function extractAddress(dz) {
+		    }) */
+		    /* function extractAddress(dz) {
 		        $.ajax({
 		            url: "js/GetExtractAddress",
 		            type: "POST",
@@ -236,7 +236,7 @@
 		                $('.quickAddress').toggleClass('showIt');
 		            }
 		        })
-		    }
+		    } */
   			
 		    initFun();
   
@@ -249,7 +249,7 @@
   	  				$("#City").val(addArr[1]);
   	  				$("#AddressLine").val(addressInfo.replace(addArr[0],"").replace(addArr[1],"").trim())
   	  				
-  				},20);
+  				},200);
   			}
   			
 		</script>

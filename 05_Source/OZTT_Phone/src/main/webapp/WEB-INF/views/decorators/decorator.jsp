@@ -321,7 +321,7 @@
 	            </a>
 	        </li>
 	        <li>
-	            <a href="javascript:void(Tawk_API.toggle())">
+	            <a href="#chatQRcodeForMain" data-toggle="modal">
 	                <div class="footer_img">
 	                    <img src="${ctx}/picture/footer_kefu.png" class="img_q" />
 	                    <img src="${ctx}/picture/footer_kefuh.png" class="img_h" />
@@ -388,6 +388,16 @@
     <div id="main_loading" class="main_loading" style="display:none">
 		<img src="../images/loading.gif">
 	</div>
+	
+	<div id="chatQRcodeForMain" class="modal fade"> <!--半透明的遮罩层-->
+        <div class="modal-dialog"> <!--定位和尺寸-->
+            <div class="modal-content">  <!--背景边框阴影-->
+                <div class="modal-body" style="text-align: center">
+                    <img src="${ctx}/images/oztt_qrcode.png" alt="" height="250">
+                </div>
+            </div>
+        </div>
+    </div>
     
     <!-- END FOOTER -->
     <input type="hidden" value="${currentUserId}" id="currentUserId">

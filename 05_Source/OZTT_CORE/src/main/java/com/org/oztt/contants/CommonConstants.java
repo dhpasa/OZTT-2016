@@ -151,6 +151,8 @@ public final class CommonConstants {
     public static final String     EXPRESS_SUPIN              = "4";                                    // 速品物流的ID
 
     public static final String     EXPRESS_XINGSUDI           = "5";                                    // 星速递物流的ID
+    
+    public static final String     EXPRESS_TIANYUE            = "6";                                    // 星速递物流的ID
 
     public static final String     EXPRESS_ELE_NO             = "TT120101";                             // 物流的电子快递单号
 

@@ -213,7 +213,7 @@
 <div class="pro_footer clearfix">
     <div class="left pro_footer_lf">
        	<span class="pro_footer_lf_main clearfix">
-            <a href="#chatQRcode" data-toggle="modal"" class="pro_kefu left"></a>
+            <a href="#chatQRcode" data-toggle="modal" class="pro_kefu left"></a>
             <span class="pro_footer_line left"></span>
             <a href="javascript:void(0);" class="pro_weibu left"></a>
             <div id="chatQRcode" class="modal fade"> <!--半透明的遮罩层-->

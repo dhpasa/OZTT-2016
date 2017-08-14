@@ -98,4 +98,6 @@ public interface CustomerService {
     public void saveTCustomerMemberInfo(TCustomerMemberInfo info) throws Exception;
 
     public void updateTCustomerMemberInfo(TCustomerMemberInfo info) throws Exception;
+    
+    public void updateTCustomerSecurityInfo(TCustomerSecurityInfo info) throws Exception;
 }

@@ -247,6 +247,8 @@
     border-right-width: 0px;
     border-bottom-width: 1px;
     border-left-width: 0px;
+    border-radius: 0px;
+    padding-left:8px;
     width: 150px;
 }
 

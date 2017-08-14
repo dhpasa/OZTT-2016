@@ -10,7 +10,34 @@
   <meta charset="utf-8">
   <title><fmt:message key="USER_TITLE"/></title>
   <script type="text/javascript">
-  	
+	function submitMemberInfo(){
+		var username = $("#username").val();
+		var phone = $("#phone").val();
+		var wechatNo = $("#wechatNo").val();
+		var paramData = {
+				username:username,
+				phone:phone,
+				wechatNo:wechatNo
+		}
+		$.ajax({
+			type : "POST",
+			contentType:'application/json',
+			url : '${pageContext.request.contextPath}/member/modifyMember',
+			dataType : "json",
+			data : JSON.stringify(paramData), 
+			success : function(data) {
+				$(".out_alert").show();
+		        $(".alert_bg").show();
+		        setTimeout(function(){
+		        	$(".out_alert").hide();
+			        $(".alert_bg").hide();
+		        },2000);
+			},
+			error : function(data) {
+				
+			}
+		});
+	}
   	
   </script>
   <style type="text/css">
@@ -63,20 +90,28 @@
 <div class="reg_main">
         
 		<div class="reg_gp">
-            <input type="text" id="WeChatId" name="WeChatId" placeholder="微信号（必填）" value="${userName}"/>
+            <input type="text" id="username" name="username" placeholder="昵称" value="${userName}"/>
         </div>
+        <%-- <div class="reg_gp">
+            <input type="text" id="phone" name="phone" placeholder="姓名（必填）" value="${phone}" />
+        </div> --%>
         <div class="reg_gp">
-            <input type="text" id="Name" name="Name" placeholder="姓名（必填）" value="${phone}" />
+            <input type="text" id="wechatNo" name="wechatNo" placeholder="微信号" value="${wechatNo}" />
         </div>
-        <div class="reg_gp">
-            <input type="text" id="PhoneNumber" name="PhoneNumber" placeholder="手机号（必填）" value="${wechatNo}" />
-        </div>
-        <input type="submit" class="btn btn_blue loginbtn mt10" value="确认修改" />
+        <input type="button" onclick="submitMemberInfo()" class="btn btn_blue loginbtn mt10" value="确认修改" />
 		</div>
 		<div class="reg_main">
-		    <a href="/Mobile/Login/ChangePassword" class="btn btn_blue loginbtn mt10">点击修改密码</a>
+		    <a href="${ctx}/forgetPassword/init"  class="btn btn_blue loginbtn mt10">点击修改密码</a>
 		</div>
-
+		
+		<!--弹窗开始-->
+		<div class="out_alert alert">
+		    <p class="alert_tl"></p>
+		    <div class="alert_text">
+		        信息已保存
+		    </div>
+		</div>
+		<div class="alert_bg"></div>
 </body>
 <!-- END BODY -->
 </html>

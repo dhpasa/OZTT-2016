@@ -102,6 +102,12 @@
 		location.href = "${ctx}/order/init?orderStatus="+hiddenorderStatus+"&searchcontent="+hiddensearchcontent+"&pageNo="+selectPage;
 	}
 	
+	function seachOrderList(){
+		var searchcontent = $("#keyword").val();
+		var hiddenorderStatus = $("#hiddenorderStatus").val();
+		location.href = "${ctx}/order/init?orderStatus="+hiddenorderStatus+"&searchcontent="+searchcontent;
+	}
+	
 	function selectOrderStatus(status) {
 		var hiddensearchcontent = $("#hiddensearchcontent").val();
 		location.href = "${ctx}/order/init?orderStatus="+status
@@ -164,7 +170,7 @@
 		<form action="${ctx}/order/init" method="post">            
 		<div class="search_top_main clearfix">
             <input type="text" id="keyword" name="keyword" class="search_top_main_lf" placeholder="订单号/收货人电话/收货人姓名" value="${keyword}"/>
-            <input type="submit" class="right search_top_main_btn" value="" />
+            <input type="button" class="right search_top_main_btn" value="" onclick="seachOrderList()"/>
         </div>
 		</form>    
 	</div>

@@ -35,10 +35,11 @@ input:focus{outline: none;}
 .index_menu{background: url(../images/caitiao.jpg) no-repeat center bottom;padding-bottom: 3px;background-size: 100% 3px;background-color: #fff;}
 .index_ban{position: relative;}
 .slide img{width: 100%;vertical-align: middle;}
-.flex-control-nav li{margin: 0px 3px;height: 5px;float: left;}
+/* .flex-control-nav li{margin: 0px 3px;height: 5px;float: left;} */
 .flex-control-nav li a{background: #d3d5d5;border-radius: 50%;width: 5px;height: 5px;display: inline-block;text-indent: -9999px;}
 .flex-control-nav .flex-active{background: #3bcbd4;}
-.flex-control-paging{padding: 0;margin: 0;position: absolute;bottom: 10px;background: #ffffff;padding:2px;border-radius: 10px;left: 50%;margin-left: -24px;}
+/* .flex-control-paging{padding: 0;margin: 0;position: absolute;bottom: 10px !important;padding:2px;border-radius: 10px;left: 50%;margin-left: -24px !important;} */
+.flex-control-paging{bottom: 10px !important;}
 .fenlei_caidan li{width: 25%;float: left;padding: 10px 0px;}
 .fenlei_caidan img{width: 21px;height: 21px;margin: 0px auto;display: block;margin-bottom: 5px;}
 .fenlei_caidan p{color: #666;text-align: center;}
@@ -135,8 +136,8 @@ input:focus{outline: none;}
 .user_ban_text_lf{left: 10px;}
 .orange_line{display: block;width: 15px;height: 2px;background: #e56a27;margin: 4px auto 2px auto;}
 .user_ban_text_rt{right: 10px;}
-.user_name span{line-height: 20px;width: 80px;color: #fff;display: inline-block;overflow: hidden;height: 20px;white-space: nowrap;text-overflow: ellipsis;}
-.user_name{background: #e56a27;padding: 0px 9px;position: absolute;top: 10px;left: 50%;margin-left: -50px;border-radius: 10px;}
+.user_name span{line-height: 20px;width: 100px;color: #fff;display: inline-block;overflow: hidden;height: 20px;white-space: nowrap;text-overflow: ellipsis;}
+.user_name{background: #e56a27;padding: 0px 9px;position: absolute;top: 10px;left: 50%;margin-left: -60px;border-radius: 10px;}
 .user_name em{background: url(../images/sanjiao.png) no-repeat;width: 7px;height: 4px;background-size: 7px 4px;position: absolute;left: 50%;margin-left: -3.5px;bottom: -4px;}
 .user_order_tl{padding: 10px;border-bottom: 1px solid #dddddd;background: #fff;}
 .user_order_tl span{font-size: 14px;color: #333333;background: url(../images/red_line.png) no-repeat left center;background-size: 3px 16px;padding-left: 10px;}
@@ -415,7 +416,7 @@ input:focus{outline: none;}
 .search_main_img img{vertical-align: middle;right: 0; bottom: 0; margin: auto; display: block; top: 0; position: absolute; left: 0; width:70%;}
 .search_main_tl a{color: #333333;display: block;text-align: center;line-height: 18px;height: 36px;overflow: hidden;}
 .search_main_tl a:hover{color: #F74B4B;}
-.search_bt .text_box{width: 20px;}
+.search_bt .text_box{width: 30px; border-radius: 3px}
 .search_bt .sum{margin-top: 0;width: auto;}
 .buy_ico{display: block;background: url(../images/gouwuche.jpg) no-repeat;width: 20px;height: 20px;background-size: 20px 20px;}
 .search_bt{margin-top: 5px;}

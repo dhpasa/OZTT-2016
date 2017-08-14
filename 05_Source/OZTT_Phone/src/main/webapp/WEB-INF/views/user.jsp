@@ -141,7 +141,7 @@
     <!--我的订单开始-->
     <div class="user_order_tl clearfix">
         <span class="left">我的订单</span>
-        <a href="/Mobile/Order?orderStatus=0" class="right">查看全部交易订单></a>
+        <a href="${ctx}/order/init" class="right">查看全部交易订单></a>
     </div>
     <!-- 用户菜单-->
     <ul class="user_menu clearfix">
@@ -163,15 +163,6 @@
                 <p>处理中</p>
             </a>
         </li>
-        <!--<li>
-            <a href="/Mobile/Order?orderStatus=3">
-                <div class="user_menu_img">
-                    <span class="num">1</span>
-                    <img src="images/user/user_daijiekuan.png" />
-                </div>
-                <p>待结款 </p>
-            </a>
-        </li>-->
         <li>
             <a href="${ctx}/order/init?orderStatus=3">
                 <div class="user_menu_img">

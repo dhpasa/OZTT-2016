@@ -54,7 +54,7 @@ public class TProductOrderDaoImpl extends BaseDao implements TProductOrderDao {
 
     @Override
     public void deleteNoPayOrder() {
-        update("com.org.oztt.dao.TProductOrderMapper.deleteNoPayOrder", null);
+        update("com.org.oztt.dao.TProductOrderMapper.updateNoPayOrder", null);
     }
 
 }

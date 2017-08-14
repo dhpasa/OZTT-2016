@@ -306,7 +306,9 @@ public class PowderOrderListControler extends BaseController {
                 diCrawler = new DeliveryInfoCrawler(s + "supin.properties");
             } else if (CommonConstants.EXPRESS_XINGSUDI.equals(boxInfo.getDeliverId())) {
                 diCrawler = new DeliveryInfoCrawler(s + "xingsudi.properties");
-            }
+            } else if (CommonConstants.EXPRESS_TIANYUE.equals(boxInfo.getDeliverId())){
+                diCrawler = new DeliveryInfoCrawler(s + "tianyue.properties");
+            }                    
             LinkedHashMap<String, String> infos = diCrawler.getDeliveryInfo(expressEleNo);
             for (Entry<String, String> info : infos.entrySet()) {
                 strList.add(info.getKey() + "   " + info.getValue());

@@ -103,8 +103,8 @@
 				<input checked="checked" class="check-box" data-val="true" data-val-required="The 记住密码 field is required." id="RememberMe" name="RememberMe" type="checkbox" value="true" /><input name="RememberMe" type="hidden" value="false" /> &nbsp;自动登录
 			</div>
 			<div class="right">
-				<a href="../register/init"><fmt:message key="LOGIN_TOREGISTER" /></a>
-				<a href="../forgetPassword/init"><fmt:message key="LOGIN_FORGETPWD" /></a>
+				<a href="${ctx}/register/init"><fmt:message key="LOGIN_TOREGISTER" /></a>
+				<a href="${ctx}/forgetPassword/init"><fmt:message key="LOGIN_FORGETPWD" /></a>
 			</div>
 		</div> 
 		</div>

@@ -73,7 +73,7 @@ public class PowderServiceImpl extends BaseService implements PowderService {
 
     @Resource
     private TPowderBoxDao          tPowderBoxDao;
-    
+
     @Resource
     private TProductBoxDao         tProductBoxDao;
 
@@ -106,9 +106,9 @@ public class PowderServiceImpl extends BaseService implements PowderService {
 
     @Resource
     private CustomerService        customerService;
-    
+
     @Resource
-    private TCustomerBasicInfoDao    tCustomerBasicInfoDao;
+    private TCustomerBasicInfoDao  tCustomerBasicInfoDao;
 
     @Override
     public List<TExpressInfo> selectAllExpressInfo() throws Exception {
@@ -129,7 +129,7 @@ public class PowderServiceImpl extends BaseService implements PowderService {
     public List<TSenderInfo> selectSenderInfoList(String customerNo) throws Exception {
         return tSenderInfoDao.selectSendInfoList(customerNo);
     }
-    
+
     @Override
     public PagingResult<TReceiverInfo> selectReceiverInfoPageList(Pagination pagination) throws Exception {
         return tReceiverInfoDao.selectReceivePageList(pagination);
@@ -292,7 +292,7 @@ public class PowderServiceImpl extends BaseService implements PowderService {
                 // 快递价格系数 * 数量 
                 sum = sum.add(expressInfo.getPriceCoefficient().multiply(
                         new BigDecimal(tPowderOrderDetails.getQuantity())));
-                
+
                 if (CommonConstants.POWDER_TYPE_BABY.equals(tPowderInfo.getPowderType())) {
                     if (tPowderOrderDetails.getQuantity() == 3) {
                         // 数量为3的时候 包邮调整系数 ,婴儿奶粉
@@ -302,7 +302,8 @@ public class PowderServiceImpl extends BaseService implements PowderService {
                         // 数量为6的时候 包邮调整系数 ,婴儿奶粉
                         sum = sum.add(tPowderInfo.getFreeDeliveryParameter2());
                     }
-                } else {
+                }
+                else {
                     if (tPowderOrderDetails.getQuantity() == 6) {
                         // 数量为3的时候 包邮调整系数，成人奶粉
                         sum = sum.add(tPowderInfo.getFreeDeliveryParameter());
@@ -312,7 +313,7 @@ public class PowderServiceImpl extends BaseService implements PowderService {
                         sum = sum.add(tPowderInfo.getFreeDeliveryParameter2());
                     }
                 }
-                
+
             }
 
             TPowderBox tPowderBox = new TPowderBox();
@@ -377,7 +378,7 @@ public class PowderServiceImpl extends BaseService implements PowderService {
             String transactionType) throws Exception {
 
         TPowderOrder tPowderOrder = this.getTPowderOrderByOrderNo(orderId);
-        
+
         // 订单状态
         String statusPre = tPowderOrder.getStatus();
         // 生成入出账记录
@@ -483,14 +484,14 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         s = java.net.URLDecoder.decode(s, "UTF-8");
         if (powderBoxList != null) {
             for (TPowderBox boxInfo : powderBoxList) {
-                
+
                 PowderBoxInfo powderInfo = this.getPowderInfoById(boxInfo.getId());
-                
+
                 // 如果已经分配了快递单号就不再更新快递单号
                 if (StringUtils.isNotEmpty(powderInfo.getElecExpressNo())) {
                     continue;
                 }
-                
+
                 // 获取电子订单号
                 String eleExpressNo = getExpressEleNo();
 
@@ -515,6 +516,10 @@ public class PowderServiceImpl extends BaseService implements PowderService {
                 else if (CommonConstants.EXPRESS_XINGSUDI.equals(boxInfo.getDeliverId())) {
                     // 速品物流
                     dpOperation = new DeliveryPicOperation(s + "/xingsudi.properties");
+                }
+                else if (CommonConstants.EXPRESS_TIANYUE.equals(boxInfo.getDeliverId())) {
+                    // 天越物流
+                    dpOperation = new DeliveryPicOperation(s + "/tianyue.properties");
                 }
                 String eleExpressUrl = "";
                 if (dpOperation != null) {
@@ -550,9 +555,9 @@ public class PowderServiceImpl extends BaseService implements PowderService {
             sendMsg.orderId = orderId;
             sendMsg.customerId = tPowderOrder.getCustomerId();
             sendMsg.powderBoxList = powderBoxList;
-            sendMsg.start(); 
+            sendMsg.start();
         }
-        
+
     }
 
     @Override
@@ -588,7 +593,7 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         }
         return orderList;
     }
-    
+
     @Override
     public PagingResult<PowderOrderInfo> getPowderAndProductOrderPageInfo(Pagination pagination) throws Exception {
         PagingResult<PowderOrderInfo> orderList = tPowderOrderDao.getPowderAndProductOrderPageInfo(pagination);
@@ -600,7 +605,8 @@ public class PowderServiceImpl extends BaseService implements PowderService {
                     TPowderBox param = new TPowderBox();
                     param.setOrderId(orderInfo.getOrderId());
                     powderBoxList = tPowderBoxDao.selectTPowderList(param);
-                } else {
+                }
+                else {
                     TProductBox param = new TProductBox();
                     param.setOrderId(orderInfo.getOrderId());
                     powderBoxList = tProductBoxDao.selectTProductList(param);
@@ -691,16 +697,15 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         powderBoxInfo.setDeliverId(tPowderBox.getDeliverId());
         return powderBoxInfo;
     }
-    
 
     @Override
     public List<PowderBoxInfo> getPowderBoxListByOrderNo(String orderNo) throws Exception {
-        
+
         TPowderBox record = new TPowderBox();
         record.setOrderId(orderNo);
         List<TPowderBox> powderList = tPowderBoxDao.selectTPowderBoxList(record);
         List<PowderBoxInfo> powderInfoList = new ArrayList<PowderBoxInfo>();
-        
+
         for (TPowderBox powder : powderList) {
             TPowderBox tPowderBox = tPowderBoxDao.selectByPrimaryKey(powder.getId());
             PowderBoxInfo powderBoxInfo = new PowderBoxInfo();
@@ -710,8 +715,8 @@ public class PowderServiceImpl extends BaseService implements PowderService {
                 // 装箱照片
                 String[] str = tPowderBox.getBoxPhotoUrls().split("\\|");
                 for (int i = 0; i < str.length; i++) {
-                    urlList.add(super.getApplicationMessage("saveImgUrl", null) + "EXPRESS" + CommonConstants.PATH_SPLIT
-                            + str[i]);
+                    urlList.add(super.getApplicationMessage("saveImgUrl", null) + "EXPRESS"
+                            + CommonConstants.PATH_SPLIT + str[i]);
                 }
             }
             powderBoxInfo.setBoxPhotoUrls(urlList);
@@ -778,10 +783,10 @@ public class PowderServiceImpl extends BaseService implements PowderService {
             }
             powderBoxInfo.setElecExpressNo(tPowderBox.getElecExpressNo());
             powderBoxInfo.setDeliverId(tPowderBox.getDeliverId());
-            
+
             powderInfoList.add(powderBoxInfo);
         }
-        
+
         return powderInfoList;
     }
 
@@ -859,7 +864,8 @@ public class PowderServiceImpl extends BaseService implements PowderService {
     @Override
     public void sendMsgOnNewOrder(String phone, List<TPowderBox> boxList) throws Exception {
         try {
-            String outputPathImg = super.getApplicationMessage("saveImgUrl", null) + "EXPRESS" + CommonConstants.PATH_SPLIT;
+            String outputPathImg = super.getApplicationMessage("saveImgUrl", null) + "EXPRESS"
+                    + CommonConstants.PATH_SPLIT;
             int count = 0;
             String msg = super.getMessage("I0011", null);
 
@@ -885,31 +891,33 @@ public class PowderServiceImpl extends BaseService implements PowderService {
         catch (Exception e) {
             logger.error("message", e);
         }
-        
+
     }
 
     @Override
     public TExpressInfo selectExpressInfo(long expressId) throws Exception {
         return tExpressInfoDao.selectByPrimaryKey(expressId);
     }
-    
+
     /**
      * 发送短信的线程
+     * 
      * @author linliuan
-     *
      */
     class SendMsgThread extends Thread {
 
-        public String      customerId;
+        public String           customerId;
 
-        public List<TPowderBox>      powderBoxList;
-        
-        public String orderId;
+        public List<TPowderBox> powderBoxList;
+
+        public String           orderId;
 
         public void run() {
             try {
-                TCustomerBasicInfo cusomterBasicInfo = tCustomerBasicInfoDao.selectByPrimaryKey(Long.valueOf(customerId));
-                sendMsgOnNewOrder(customerService.getCustomerSecurityByCustomerNo(cusomterBasicInfo.getCustomerno()).getTelno(), powderBoxList);  
+                TCustomerBasicInfo cusomterBasicInfo = tCustomerBasicInfoDao.selectByPrimaryKey(Long
+                        .valueOf(customerId));
+                sendMsgOnNewOrder(customerService.getCustomerSecurityByCustomerNo(cusomterBasicInfo.getCustomerno())
+                        .getTelno(), powderBoxList);
                 logger.error("付款成功后，如果有需要发短信的则发送短信成功。订单号为：" + orderId);
             }
             catch (Exception e) {
@@ -917,7 +925,6 @@ public class PowderServiceImpl extends BaseService implements PowderService {
             }
         }
 
-        
     }
 
 }
