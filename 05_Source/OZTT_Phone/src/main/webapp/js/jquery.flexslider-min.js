@@ -499,29 +499,29 @@
 		}
 	}
 })(jQuery);
-//¼ÆÊ±Æ÷
+//ï¿½ï¿½Ê±ï¿½ï¿½
 
-function updateEndTime(){
-	var date = new Date();
-	var time = date.getTime();  //µ±Ç°Ê±¼ä¾à1970Äê1ÔÂ1ÈÕÖ®¼äµÄºÁ
-	$(".settime").each(function(i){
-		var endDate =this.getAttribute("endTime"); //½áÊøÊ±¼ä×Ö·û´®
-		//×ª»»ÎªÊ±¼äÈÕÆÚÀàÐÍ
-		var endDate1 = eval('new Date(' + endDate.replace(/\d+(?=-[^-]+$)/, function (a){return parseInt(a, 10) - 1; }).match(/\d+/g) + ')');
-		//½áÊøÊ±¼äºÁÃëÊý
-		var endTime = endDate1.getTime();
-		//µ±Ç°Ê±¼äºÍ½áÊøÊ±¼äÖ®¼äµÄÃëÊý
-		var lag = (endTime - time) / 1000;
-		if(lag > 0)
-		{
-			var second = Math.floor(lag % 60);
-			var minite = Math.floor((lag / 60) % 60);
-			var hour = Math.floor((lag / 3600) % 24);
-			var day = Math.floor((lag / 3600) / 24);
-			$(this).html(day+"Ìì"+hour+"Ð¡Ê±"+minite+"·Ö"+second+"Ãë");
-		}
-		else
-			$(this).html("ºÜ±§Ç¸£¡ÍÅ¹º»î¶¯ÒÑ¾­½áÊøÀ²£¡");
-	});
-	setTimeout("updateEndTime()",1000);
-}
+//function updateEndTime(){
+//	var date = new Date();
+//	var time = date.getTime();  //ï¿½ï¿½Ç°Ê±ï¿½ï¿½ï¿½1970ï¿½ï¿½1ï¿½ï¿½1ï¿½ï¿½Ö®ï¿½ï¿½Äºï¿½
+//	$(".settime").each(function(i){
+//		var endDate =this.getAttribute("endTime"); //ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
+//		//×ªï¿½ï¿½ÎªÊ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//		var endDate1 = eval('new Date(' + endDate.replace(/\d+(?=-[^-]+$)/, function (a){return parseInt(a, 10) - 1; }).match(/\d+/g) + ')');
+//		//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//		var endTime = endDate1.getTime();
+//		//ï¿½ï¿½Ç°Ê±ï¿½ï¿½Í½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ö®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//		var lag = (endTime - time) / 1000;
+//		if(lag > 0)
+//		{
+//			var second = Math.floor(lag % 60);
+//			var minite = Math.floor((lag / 60) % 60);
+//			var hour = Math.floor((lag / 3600) % 24);
+//			var day = Math.floor((lag / 3600) / 24);
+//			$(this).html(day+"ï¿½ï¿½"+hour+"Ð¡Ê±"+minite+"ï¿½ï¿½"+second+"ï¿½ï¿½");
+//		}
+//		else
+//			$(this).html("ï¿½Ü±ï¿½Ç¸ï¿½ï¿½ï¿½Å¹ï¿½ï¿½î¶¯ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+//	});
+//	setTimeout("updateEndTime()",1000);
+//}
