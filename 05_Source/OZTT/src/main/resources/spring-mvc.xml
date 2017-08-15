@@ -20,6 +20,7 @@
 				<value>text/html;charset=UTF-8</value>
 				<value>text/json;charset=UTF-8</value>
 				<value>application/json</value>
+				<value>application/text</value>
 			</list>
 		</property>
 	</bean>
@@ -87,6 +88,6 @@
 	
 	</mvc:interceptors>
 	
-	<import resource="spring-mvc-shiro.xml"/>
+<!-- 	<import resource="spring-mvc-shiro.xml"/> -->
 
 </beans>

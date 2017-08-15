@@ -4,136 +4,90 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
-<html>
+<html style="height:100%;width:100%;-webkit-overflow-scrolling:touch;">
 <head>
   <meta charset="utf-8">
   <title><sitemesh:write property='title' /></title>
+  <%@ include file="../commoncssHead.jsp"%>
+  <%@ include file="../commonjsFooter.jsp"%>
   <sitemesh:write property='head' />
 </head>
 <!-- Head END -->
 <script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-	var errorHtml = "<span id=\"spanError\" class=\"error\" onmouseover=\"makeMesDiv(this)\" onmouseout=\"removeMesDiv()\"><img src=\"${ctx}/images/error.png\"/></span>";
+	  ga('create', 'UA-80000609-1', 'auto');
+	  ga('send', 'pageview');
+	  
+  jQuery.fn.slideLeftHide = function( speed, callback ) {  
+        this.animate({  
+            width : "hide",  
+            paddingLeft : "hide",  
+            paddingRight : "hide",  
+            marginLeft : "hide",  
+            marginRight : "hide"  
+        }, speed, callback );  
+    };  
+    jQuery.fn.slideLeftShow = function( speed, callback ) {  
+        this.animate({  
+            width : "show",  
+            paddingLeft : "show",  
+            paddingRight : "show",  
+            marginLeft : "show",  
+            marginRight : "show"  
+        }, speed, callback );  
+    };  
+	//添加COOKIE	
+	function addCookie(objName,objValue){
+	    var infostr = objName + '=' + escape(objValue);
+	    var date = new Date();
+	    date.setTime(date.getTime()+365*24*3600*1000);
+	    infostr += ';expires =' + date.toGMTString() + ";path=/";
+	    document.cookie = infostr; //添加
+	}
+	function getCookie(name){ 
+		var strCookie=document.cookie;
+		var arrCookie=strCookie.split(";"); 
+		for(var i=0;i<arrCookie.length;i++){ 
+			var arr=arrCookie[i].split("="); 
+			if(arr[0].trim()==name){
+				return unescape(arr[1]); 
+			}
+		} 
+		return ""; 
+	} 
 	
-	function cleanFormError(){
-		$("#spanError").remove();
+	// 删除COOKIE
+	function delCookie(objName){
+		addCookie(objName,'');
 	}
 	
-	function showErrorSpan(obj, msg){
-		$(obj).after(errorHtml);
-		$(obj).next().append(msg);
-	}
-	
-	function tologin(){
-		location.href = "${pageContext.request.contextPath}/OZ_TT_TP_LG/init";
-	}
-	
-	function tologinOut(){
-		delCookie("contcart");
-		location.href = "${pageContext.request.contextPath}/OZ_TT_TP_LG/logout";
-	}
-	
-	var E0002 = "<fmt:message key='E0002' />";
-	var E0007 = "<fmt:message key='E0007' />";
-	var E0008 = "<fmt:message key='E0008' />";
-	var E0001 = "<fmt:message key='E0001' />";
-	var E0009 = "<fmt:message key='E0009' />";
-	var E0010 = "<fmt:message key='E0010' />";
-	var E0011 = "<fmt:message key='E0011' />";
-	
-	function validateCheckLogin(){
-		cleanFormError();
-		var username = $("#username").val();
-		var password = $("#password").val();
-		if (username == "") {
-			var message = E0002.replace("{0}", '<fmt:message key="OZ_TT_TP_LG_email" />')
-			showErrorSpan($("#username"), message);
-			return false;
+	function toShopCart(){
+		var currentUserId = $("#currentUserId").val();
+		if (currentUserId == null || currentUserId.length == 0) {
+			location.href = "${ctx}/login/init"
+		} else {
+			location.href = "${ctx}/shopcart/init"
 		}
-		if (password == "") {
-			var message = E0002.replace("{0}", '<fmt:message key="OZ_TT_TP_LG_password" />')
-			showErrorSpan($("#password"), message);
-			return false;
-		}
-		return true;
 	}
 	
-	// 确认画面登录
-	function checkLogin(){
-		if (!validateCheckLogin()) return;
-		var username = $("#username").val();
-		var password = $("#password").val();
-		var dataJSON = {
-				"loginname":username,
-				"password":password
-		}
+	function updateShopCart(){
 		$.ajax({
-			type : "POST",
+			type : "GET",
 			contentType:'application/json',
-			url : '${pageContext.request.contextPath}/COMMON/ajaxLogin',
+			url : '${pageContext.request.contextPath}/COMMON/getShopCartCount',
 			dataType : "json",
-			data : JSON.stringify(dataJSON), 
+			async : false,
+			data : '', 
 			success : function(data) {
 				if(!data.isException){
-
-					if (!data.canLogin) {
-						// 登录错误
-						showErrorSpan($("#username"), E0001);
-					} else {
-						// 登录成功
-						// 同步购物车的内容
-						var needSyncData = getCookie("contcart");
-						var contCartFromDB;
-						if (getJsonSize(needSyncData) > 0) {
-							$.ajax({
-								type : "POST",
-								contentType:'application/json',
-								url : '${pageContext.request.contextPath}/COMMON/purchaseAsyncContCart',
-								dataType : "json",
-								async:false,
-								data : needSyncData, 
-								success : function(data) {
-									if(!data.isException){
-										// 同步购物车成功
-										contCartFromDB = data.conscars;
-									} else {
-										// 同步购物车失败
-									}
-								},
-								error : function(data) {
-									
-								}
-							});
-						}
-						
-						// 用户登录同步购物车里面的内容
-						if (getJsonSize(contCartFromDB) > 0) {
-							var contcartJSONFromDB = JSON.parse(contCartFromDB);
-							var contcartArrayFromDB = eval(contCartFromDB);
-
-							// 如果Cookie购物车里面没有数据，更新购物车
-							var tempCookie = [];
-							for(var i=0; i<contcartArrayFromDB.length; i++){
-								var properties = {
-										"groupId":contcartArrayFromDB[i].groupId,
-										"goodsName":contcartArrayFromDB[i].goodsName,
-										"goodsImage":contcartArrayFromDB[i].goodsImage,
-										"goodsQuantity":contcartArrayFromDB[i].goodsQuantity,
-										"goodsPrice":contcartArrayFromDB[i].goodsPrice,
-										"goodsProperties":JSON.stringify(contcartArrayFromDB[i].goodsProperties)
-
-								}
-								tempCookie.push(properties);
-							}
-							delCookie("contcart");
-							addCookie("contcart",JSON.stringify(tempCookie))
-						}
-						
-						location.href = "${pageContext.request.contextPath}/OZ_TT_GB_SH/init";
-					}
-					
+					$("#ecsCartInfo").text(data.sccount)
 				} else {
-					// 系统异常
+					// 同步购物车失败
+					return;
 				}
 			},
 			error : function(data) {
@@ -142,141 +96,124 @@
 		});
 	}
 	
-	function viewProductPopUp(groupId){
-		jQuery.ajax({
-			type : 'GET',
-			contentType : 'application/json',
-			url : '${pageContext.request.contextPath}/COMMON/getGoodsItem?groupId='+groupId,
-			cache : false,
+  	function updateNotOrder(){
+		$.ajax({
+			type : "GET",
+			contentType:'application/json',
+			url : '${pageContext.request.contextPath}/COMMON/getNotSuOrder',
+			dataType : "json",
 			async : false,
-			dataType : 'json',
+			data : '', 
 			success : function(data) {
 				if(!data.isException){
-					var goodItemDto = data.goodItemDto;
-					$("#activeImage").attr("src", goodItemDto.firstImg);
-					$("#activeImage").attr("alt", goodItemDto.goods.goodsname);
-					$("#hiddenImage").val(goodItemDto.goods.goodsthumbnail);
-					$("#productImage").empty();
-					
-					var imghtml = "";
-					var imgList = goodItemDto.imgList;
-					for(var j = 0; j < imgList.length; j++) {
-						var imageUrl = imgList[j];
-						if (j == 0) {
-							imghtml +=  '<a onclick="showImgMain(this,\''+imageUrl+'\',\''+goodItemDto.goods.goodsname+'\')" class="active"><img alt="'+goodItemDto.goods.goodsname+'" src="'+imageUrl+'"></a>';
-						} else {
-							imghtml +=  '<a onclick="showImgMain(this,\''+imageUrl+'\',\''+goodItemDto.goods.goodsname+'\')"><img alt="'+goodItemDto.goods.goodsname+'" src="'+imageUrl+'"></a>';
-						}
-					}
-					$("#productImage").append(imghtml);
-					
-					
-					$("#goodsNameh1").html(goodItemDto.goods.goodsname)
-					$("#disPrice").html(goodItemDto.disPrice + '<fmt:message key="common_yuan"/>');
-					$("#nowPrice").html(goodItemDto.nowPrice + '<fmt:message key="common_yuan"/>');
-					
-					$("#prodectTime").html(goodItemDto.validPeriodStart + "~" +goodItemDto.validPeriodEnd)
-					var isOver = goodItemDto.isOver;
-					var isOverTime = goodItemDto.isOverTime;
-					if (isOver == "1" || isOverTime == "1") {
-						$("#groupPercent").html('<fmt:message key="common_tuangouover"/>');
-						$("#addCart").css("display","none");
-						$("#productQuantityDiv").css("display","none");
+					if (parseFloat(data.sccount) > 0) {
+						$("#notSuccessedOrder").text(data.sccount);
 					} else {
-						$("#groupPercent").html('<fmt:message key="common_hasTuanQan"/>' + goodItemDto.groupCurrent + "/" + goodItemDto.groupMax);
-						$("#addCart").css("display","");
-						$("#productQuantityDiv").css("display","");
+						$("#notSuccessedOrder").remove();
 					}
 					
-					$("#prodectDesc").html(goodItemDto.goods.goodsdesc)
-					$("#productOptions").empty();
-
-					$("#detail").attr("onclick", "toItem('"+goodItemDto.groupId+"')");
-					$("#addCart").attr("onclick", "addToCart('"+goodItemDto.groupId+"')");
-					
-					var properties = JSON.parse(goodItemDto.properties);
-					
-			    	var properJson = eval(properties);
-			    	var temp1 = '<div class="pull-left" style="padding-top:5px">';
-			    	var temp2 = '<label class="control-label" id={1}>{0}</label>';
-			    	var temp3 = '<select class="form-control input-sm" id="{0}">';
-			   		var temp4 = '<option value="{0}">{1}</option>';
-					var temp5 = '</select>';
-					var temp6 = '</div>';
-			    	for(var i=0; i<properJson.length; i++){
-			    		if (properJson[i].goodsPropertiesType == "3") {
-			    			var inHtml = temp1;
-			    			inHtml += temp2.replace("{0}",properJson[i].goodsPropertiesName).replace("{1}",properJson[i].goodsPropertiesType);
-			    			inHtml += temp3.replace("{0}",properJson[i].goodsPropertiesId);
-			    			var classValue = properJson[i].goodsPropertiesJson.split(",");
-			    			for (var j = 0; j < classValue.length; j++) {
-			    				inHtml += temp4.replace("{0}",classValue[j]).replace("{1}", classValue[j]);
-			    			}
-			    			inHtml += temp5;
-			    			inHtml += temp6;
-			    			$("#productOptions").append(inHtml);
-			    		}
-			    	}
+				} else {
+					// 同步购物车失败
+					return;
 				}
 			},
 			error : function(data) {
 				
 			}
-		});	
+		});
 	}
-	
-	function toItem(groupId) {
-		location.href = "${pageContext.request.contextPath}/OZ_TT_TP_PD/init?groupId="+groupId;
+  	
+  	function judgeIsOverTime(){
+  		var currentUserId = $("#currentUserId").val();
+  		if (currentUserId == null || currentUserId.length == 0) {
+  			var cookieUserPw = getCookie("cookieUserPw");
+  			if (cookieUserPw != null && cookieUserPw.length > 0){
+  				var cookieNameJson = JSON.parse(cookieUserPw);
+  	  			if (cookieNameJson.cookiePhone != null && cookieNameJson.cookiePhone.length > 0 && cookieNameJson.cookiePw != null && cookieNameJson.cookiePw.length > 0 ) {
+	  				// 登录操作
+	  				$.ajax({
+	  					type : "GET",
+	  					contentType:'application/json',
+	  					url : '${pageContext.request.contextPath}/login/login?phone='+cookieNameJson.cookiePhone+"&password="+cookieNameJson.cookiePw,
+	  					dataType : "json",
+	  					data : "", 
+	  					success : function(data) {
+	  						if(!data.isException) {
+	  							if (data.isWrong) {
+	  							} else {
+	  								// 正确登录
+	  								window.location.reload(); 
+	  							}
+	  						}
+	  					},
+	  					error : function(data) {
+	  					}
+	  				}); 
+  				}
+  			}
+  			
+  			
+  		}
+  	}
+  	
+  	function toMilkPowderAutoPurchaseSecond(){
+  		// 进入奶粉代发系统第二个画面
+  		location.href = "${ctx}/milkPowderAutoPurchase/init?mode=1";
+  	}
+  	
+  	var browser={
+  			versions:function(){
+  				var u = navigator.userAgent, app = navigator.appVersion;
+  				return {
+  					trident: u.indexOf('Trident') > -1, //IE内核
+  					presto: u.indexOf('Presto') > -1, //opera内核
+  					webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+  					gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1,//火狐内核
+  					mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+  					ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+  					android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+  					iPhone: u.indexOf('iPhone') > -1 , //是否为iPhone或者QQHD浏览器
+  					iPad: u.indexOf('iPad') > -1, //是否iPad
+  					webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+  				};
+  			}(),
+  			language:(navigator.browserLanguage || navigator.language).toLowerCase()//检测浏览器语言
+  		}
+  		
+  		if(browser.versions.mobile||browser.versions.android||browser.versions.ios){
+  			// 移动端
+  		} else {
+  			// PC端
+  			/* var currentLocalPath = window.location.pathname;
+  			if (currentLocalPath.indexOf("toPcInfoJsp") < 0) {
+  				window.location.href = "${ctx}/main/toPcInfoJsp";
+  			} */
+  		}
+  	
+  	function addToCart(groupId, itemNumberObj){
+		if (addItemToCart(groupId, itemNumberObj)) {
+			itemFlyToCart(itemNumberObj);
+		}
 	}
-	
-	function toMainIndex(){
-		location.href = "${pageContext.request.contextPath}/main/init";
-	}
-	
-	
-	function showImgMain(str, image, goodsName) {
-		$(str).parent().find("a").removeClass("active");
-		$(str).addClass("active");
-		
-		$("#activeImage").attr("src", image);
-		$("#activeImage").attr("alt", goodsName);
-		$("#activeImage").attr("data-BigImgSrc", image);
-		
-		App.initImageZoom();
-	}
-	
-	function addToCart(groupId) {
+  	
+  	
+  	var E0006 = '<fmt:message key="E0006" />';
+	var E0010 = '<fmt:message key="E0010" />';
+	function addItemToCart(groupId, itemNumberObj) {
 		// 取得商品的属性
-		var allDiv = $("#productOptions").find("div");
-		var goodsName = $("#goodsNameh1").html();
-		var goodsImage = $("#hiddenImage").val();
-		var goodsQuantity = $("#product-quantity").val();
-		var goodsPrice = parseFloat($("#disPrice").html().replace('<fmt:message key="common_yuan"/>', ''))*parseFloat(goodsQuantity);
+		//var goodsName = $("#item-goodsname-id").text();
+		//var goodsPrice = $("#item-disprice-id").text();
 		var oneGoodPropertiesList = [];
-		for(var i = 0; i < allDiv.length; i++) {
-			var teLabel = $(allDiv[i]).find("label")[0];
-			if($(teLabel).attr("id") == '3') {
-				// 下拉框
-				var teSelect = $(allDiv[i]).find("select")[0];
-				var properId = $(teSelect).attr("id");
-				var properName = $(teLabel).html();
-				var properValue = $(teSelect).val();
-				var propertyOne = {
-						"properId":properId,
-						"properName":properName,
-						"properValue":properValue
-				};
-				oneGoodPropertiesList.push(propertyOne);
-			}
+		var quantityInput = $(itemNumberObj).val();
+		if (isNaN(quantityInput) || parseFloat(quantityInput) <= 0) {
+			$('#errormsg_content').text(E0010);
+			$('#errormsg-pop-up').modal('show');
+			return;
 		}
 		var properties = {
 				"groupId":groupId,
-				"goodsName":goodsName,
-				"goodsImage":goodsImage,
-				"goodsQuantity":goodsQuantity,
-				"goodsPrice":goodsPrice,
+				"goodsQuantity":$(itemNumberObj).val(),
 				"goodsProperties":JSON.stringify(oneGoodPropertiesList)
-
 		}
 		
 		var checkGroup = [];
@@ -293,15 +230,17 @@
 				if(!data.isException){
 					// 同步购物车成功
 					if (data.isOver) {
-						alert(E0011);
+						$('#errormsg_content').text(E0006.replace("{0}", data.maxBuy));
+		  				$('#errormsg-pop-up').modal('show');
 						checkOver = true;
-						return;
+						$($(itemNumberObj)).val(data.maxBuy);
+						return false;
 					} else {
 						checkOver = false;
 					}
 				} else {
 					// 同步购物车失败
-					return;
+					return false;
 				}
 			},
 			error : function(data) {
@@ -309,628 +248,338 @@
 			}
 		});
 		
-		if (checkOver) return;
+		if (checkOver) return false;
 		
-		// 首先得到购物车里面的所有的东西
-		var contcart = getCookie("contcart");
-		if(contcart != null && contcart.length > 0) {
-			var contcartJSON = JSON.parse(contcart);
-			var contcartArray = eval(contcartJSON);
-			var hasGoods = false;
-			for(var i=0; i<contcartArray.length; i++){
-				if (contcartArray[i].groupId == properties.groupId && JSON.stringify(contcartArray[i].goodsProperties) == properties.goodsProperties ) {
-					contcartArray[i].goodsQuantity = parseFloat(contcartArray[i].goodsQuantity) + parseFloat(properties.goodsQuantity);
-					contcartArray[i].goodsPrice = parseFloat(contcartArray[i].goodsPrice) + parseFloat(properties.goodsPrice);
-					hasGoods = true;
-					break;
-				}
-			}
-			
-			if (!hasGoods) {
-				// 如果购物车中没有数据的画面，则加入Cookie中
-				contcartJSON.push(properties);
-				delCookie("contcart");
-				addCookie("contcart",JSON.stringify(contcartJSON))
-			} else {
-				delCookie("contcart");
-				addCookie("contcart",JSON.stringify(contcartJSON))
-			}
-		} else {
-			var contcartJSON = [];
-			contcartJSON.push(properties);
-			addCookie("contcart",JSON.stringify(contcartJSON))
-		}
-		
-		// 刷新页面的购物列表
-		reflashCart();
-		
-		// 需要公用设成List
-		var sessionUserId = '${sessionUserId}';
-		
-		if (sessionUserId != null && sessionUserId != "") {
-			var inputList = [];
-			inputList.push(properties);
-			$.ajax({
-				type : "POST",
-				contentType:'application/json',
-				url : '${pageContext.request.contextPath}/COMMON/addConsCart',
-				dataType : "json",
-				async : false,
-				data : JSON.stringify(inputList), 
-				success : function(data) {
-					if(!data.isException){
-						// 同步购物车成功
-						
-					} else {
-						// 同步购物车失败
-					}
-				},
-				error : function(data) {
-					
-				}
-			});
-		}
-		
-		// 关闭弹出框
-		$(".fancybox-close").click();
-		// 回到页面最上
-		$("#topcontrol").click();
-	}
-	
-	function reflashCart(){
-		$("#contcartScroller").empty();
-		
-		$("#sumCount").html();
-		$("#sumMoney").html();
-		var contcart = getCookie("contcart");
-		if (contcart != null && contcart.length > 0) {
-			var contcartJSON = JSON.parse(contcart);
-			var contcartArray = eval(contcartJSON);
-			var temp1 = '<li>';
-			var temp2 = '<a onclick="toItem(\'{0}\')"><img src="{1}" alt="{2}" width="37" height="34"></a>';
-			var temp3 = '<span class="cart-content-count" id="spancount">x {0}</span>';
-			var temp4 = '<strong><a onclick="toItem(\'{0}\')">{1}</a></br>{2}</strong>';
-			var temp5 = '<em>{0}<fmt:message key="common_yuan"/></em>';
-			var temp6 = '<a onclick="deleteContCart(this,\'{0}\',\'{1}\')" class="del-goods"><i class="fa fa-times"></i></a>';
-			var temp7 = '</li>';
-			var inHtml = "";
-			var money = 0;
-			if (contcartArray != null && contcartArray.length > 0) {
-				for(var i=0; i<contcartArray.length; i++){
-					var groupId = contcartArray[i].groupId;
-					var goodsName = contcartArray[i].goodsName;
-					var goodsImage = contcartArray[i].goodsImage;
-					var goodsQuantity = contcartArray[i].goodsQuantity;
-					var goodsPrice = contcartArray[i].goodsPrice;
-					var goodsProperties = contcartArray[i].goodsProperties;
-					var goodsPropertiesEval = eval(goodsProperties);
-					var goodsPropertiesStr = "";
-					for(var j=0; j<goodsPropertiesEval.length; j++){
-						goodsPropertiesStr += goodsPropertiesEval[j].properName + ":" + goodsPropertiesEval[j].properValue + " ";
-					}
-					inHtml += temp1;
-					inHtml += temp2.replace("{0}",groupId).replace("{1}", goodsImage).replace("{2}", goodsName);
-					inHtml += temp3.replace("{0}",goodsQuantity);
-					inHtml += temp4.replace("{0}",groupId).replace("{1}", goodsName).replace("{2}",goodsPropertiesStr);
-					inHtml += temp5.replace("{0}",goodsPrice);
-					inHtml += temp6.replace("{0}",groupId).replace("{1}","ITEM" + i);
-					inHtml += temp7;
-					
-					money = money + parseFloat(goodsPrice);
-				}
-				$("#contcartScroller").append(inHtml);
-				$("#sumCount").html(contcartArray.length + '<fmt:message key="common_item"/>');
-				$("#sumMoney").html(money + '<fmt:message key="common_yuan"/>');
-			} else {
-				$("#contcartScroller").append("");
-				$("#sumCount").html("");
-				$("#sumMoney").html("");
-			}
-		}
-	}
-	
-	// 添加COOKIE
-	function addCookie(objName,objValue){
-	    var infostr = objName + '=' + escape(objValue);
-	    var date = new Date();
-	    date.setTime(date.getTime()+8*3600*1000);
-	    infostr += ';expires =' + date.toGMTString() + ";path=/";
-	    document.cookie = infostr; //添加
-	}
-
-	// 删除COOKIE
-	function delCookie(objName){
-		var newContCart = [];
-		addCookie(objName,JSON.stringify(newContCart));
-	}
-
-	function getCookie(name){ 
-		var strCookie=document.cookie;
-		var arrCookie=strCookie.split(";"); 
-		for(var i=0;i<arrCookie.length;i++){ 
-			var arr=arrCookie[i].split("="); 
-			if(arr[0]==name){
-				return unescape(arr[1]); 
-			}
-		} 
-		return ""; 
-	} 
-	
-	// 删除购物车
-	function deleteContCart(str, goodsId, itemIndex) {
-		
-		$(str).parent().remove();
-		// 这里删除Cookie里面的值
-		var contcart = getCookie("contcart");
-		if (contcart != null && contcart.length > 0) {
-			var contcartJSON = JSON.parse(contcart);
-			var contcartArray = eval(contcartJSON);
-			var cookieIndex = parseFloat(itemIndex.replace("ITEM",""));
-			var newContCart = [];
-			var deleteItem;
-			for(var i=0; i<contcartArray.length; i++){
-				if (i != cookieIndex) {
-					newContCart.push(contcartArray[i]);
-				} else {
-					deleteItem = contcartArray[i];
-				}
-			}
-			delCookie("contcart");
-			addCookie("contcart",JSON.stringify(newContCart));
-			//刷新购物车
-			reflashCart();
-			//同步后台购物车的表
-			// 需要公用设成List
-			var sessionUserId = '${sessionUserId}';
-			if (sessionUserId != null && sessionUserId != "") {
-				var deleteData = {
-						"groupId":deleteItem.groupId,
-						"goodsName":deleteItem.goodsName,
-						"goodsImage":deleteItem.goodsImage,
-						"goodsQuantity":deleteItem.goodsQuantity,
-						"goodsPrice":deleteItem.goodsPrice,
-						"goodsProperties":deleteItem.goodsProperties
-
-				}
-				var inputList = [];
-				inputList.push(deleteData);
-				$.ajax({
-					type : 'POST',
-					contentType : 'application/json',
-					url : '${pageContext.request.contextPath}/COMMON/deleteConsCart',
-					dataType : 'json',
-					data : JSON.stringify(inputList),
-					success : function(data) {
-						if(!data.isException){
-							// 同步购物车成功
-							
-						} else {
-							// 同步购物车失败
-						}
-					},
-					error : function(data) {
-						
-					}
-				});
-			}
-		}
-	}
-	
-	function emptyContCart(){
-		$("#contcartScroller").empty();
-		// 删除Cookie里面的购物车
-		delCookie("contcart");
-		// 删除后台数据库中购物车
-		var sessionUserId = '${sessionUserId}';
-		if (sessionUserId != null && sessionUserId != "") {
-			jQuery.ajax({
-				type : 'GET',
-				contentType : 'application/json',
-				url : '${pageContext.request.contextPath}/COMMON/emptyConsCard',
-				cache : false,
-				async : false,
-				dataType : 'json',
-				success : function(data) {
-					if(!data.isException){
-						// 同步购物车成功
-						
-					} else {
-						// 同步购物车失败
-					}
-				},
-				error : function(data) {
-					
-				}
-			});
-		}
-	}
-	
-	// 购物车一览
-	function viewcart(){
-		var licount = $("#contcartScroller").find("li")
-		if (licount == null || licount.length == 0) return;
-		location.href = "${pageContext.request.contextPath}/OZ_TT_GB_CA/init";
-	}
-	
-	// 结算画面
-	function toCheckout(){
-		var licount = $("#contcartScroller").find("li");
-		if (licount == null || licount.length == 0) return;
-		var sessionUserId = '${sessionUserId}';
-		if (sessionUserId != null && sessionUserId != "") {
-
-			// 同步购物车的内容
-			var needSyncData = getCookie("contcart");
-			var contCartFromDB;
-			if (getJsonSize(needSyncData) > 0) {
-				$.ajax({
-					type : "POST",
-					contentType:'application/json',
-					url : '${pageContext.request.contextPath}/COMMON/purchaseAsyncContCart',
-					dataType : "json",
-					async:false,
-					data : needSyncData, 
-					success : function(data) {
-						if(!data.isException){
-							// 同步购物车成功
-							contCartFromDB = data.conscars;
-							// 用户登录同步购物车里面的内容
-							if (getJsonSize(contCartFromDB) > 0) {
-								var contcartJSONFromDB = JSON.parse(contCartFromDB);
-								var contcartArrayFromDB = eval(contCartFromDB);
-
-								// 如果Cookie购物车里面没有数据，更新购物车
-								var tempCookie = [];
-								for(var i=0; i<contcartArrayFromDB.length; i++){
-									var properties = {
-											"groupId":contcartArrayFromDB[i].groupId,
-											"goodsName":contcartArrayFromDB[i].goodsName,
-											"goodsImage":contcartArrayFromDB[i].goodsImage,
-											"goodsQuantity":contcartArrayFromDB[i].goodsQuantity,
-											"goodsPrice":contcartArrayFromDB[i].goodsPrice,
-											"goodsProperties":JSON.stringify(contcartArrayFromDB[i].goodsProperties)
-
-									}
-									tempCookie.push(properties);
-								}
-								delCookie("contcart");
-								addCookie("contcart",JSON.stringify(tempCookie))
-							}
-							
-							location.href = "${pageContext.request.contextPath}/OZ_TT_GB_SH/init";
-						} else {
-							// 同步购物车失败
-						}
-					},
-					error : function(data) {
-						
-					}
-				});
-			}
-			
-			
-		} else {
-			location.href = "${pageContext.request.contextPath}/OZ_TT_TP_LG/init";
-		}
-	}
-	
-	// 画面初期化时加载
-	function initLoad(){
-		if ('${needSync}' == '1') {
-			var sessionUserId = '${sessionUserId}';
-			if (sessionUserId != null && sessionUserId != "") {
-				var needSyncData = getCookie("contcart");
-				var contCartFromDB;
-				$.ajax({
-					type : "POST",
-					contentType:'application/json',
-					url : '${pageContext.request.contextPath}/COMMON/addConsCart',
-					dataType : "json",
-					async: false,
-					data : needSyncData, 
-					success : function(data) {
-						if(!data.isException){
-							// 同步购物车成功
-							contCartFromDB = data.conscars;
-						} else {
-							// 同步购物车失败
-						}
-					},
-					error : function(data) {
-						
-					}
-				});
-
-				// 用户登录同步购物车里面的内容
-				if (getJsonSize(contCartFromDB) > 0) {
-					var contcartJSONFromDB = JSON.parse(contCartFromDB);
-					var contcartArrayFromDB = eval(contCartFromDB);
-
-					// 如果Cookie购物车里面没有数据，更新购物车
-					var tempCookie = [];
-					for(var i=0; i<contcartArrayFromDB.length; i++){
-						var properties = {
-								"groupId":contcartArrayFromDB[i].groupId,
-								"goodsName":contcartArrayFromDB[i].goodsName,
-								"goodsImage":contcartArrayFromDB[i].goodsImage,
-								"goodsQuantity":contcartArrayFromDB[i].goodsQuantity,
-								"goodsPrice":contcartArrayFromDB[i].goodsPrice,
-								"goodsProperties":JSON.stringify(contcartArrayFromDB[i].goodsProperties)
-
-						}
-						tempCookie.push(properties);
-					}
-					delCookie("contcart");
-					addCookie("contcart",JSON.stringify(tempCookie))
-				}
-			}
-		}
-		
-		reflashCart();
-	}
-	
-	function searchGoods(){
-		var goodsText = $("#goodsText").val();
-		location.href = "${pageContext.request.contextPath}/main/searchGoods?goodsNameParam="+encodeURI(encodeURI(goodsText));
-	}
-	
-	// 进入我的信息画面
-	function toMyTuantuan(){
-		location.href = "${pageContext.request.contextPath}/OZ_TT_CS_PE/init";
-	}
-	
-	// 进入我的订单画面
-	function toMyOrder(){
-		location.href = "${pageContext.request.contextPath}/OZ_TT_GB_OL/itemList";
-	}
-	
-	// 注册画面
-	function toRegister(){
-		location.href = "${pageContext.request.contextPath}/OZ_TT_TP_RE/init";
-	}
-	
-	// 获取JSONlist的数量
-	function getJsonSize(str) {
-		if (str == null || str.length == 0){
-			return 0;
-		} else {
-			var strJSON = JSON.parse(str);
-			var strArray = eval(strJSON);
-			return strArray.length;
-		}
-	}
-	
-	// 将DB购物车的值放入到Cookie中
-	
-	
-	function changeLocale(local) {
+		var inputList = [];
+		inputList.push(properties);
 		$.ajax({
-			type : "GET",
+			type : "POST",
 			contentType:'application/json',
-			url : '${pageContext.request.contextPath}/COMMON/changeLocale?local='+local,
+			url : '${pageContext.request.contextPath}/COMMON/addConsCart',
 			dataType : "json",
-			async:false,
-			data : '', 
+			async : false,
+			data : JSON.stringify(inputList), 
 			success : function(data) {
+				if(!data.isException){
+					// 同步购物车成功
+					
+				} else {
+					// 同步购物车失败
+				}
 			},
 			error : function(data) {
 				
 			}
 		});
-		window.location.reload();
+		
+		updateShopCart();
+		return true;
+
 	}
+  	
 	
 </script>
 
 <!-- Body BEGIN -->
-<body onload="initLoad()">
-    <!-- BEGIN TOP BAR -->
-    <div class="pre-header">
-        <div class="container">
-            <div class="row">
-                <!-- BEGIN TOP BAR LEFT PART -->
-                <div class="col-md-6 col-sm-6 additional-shop-info">
-                    <ul class="list-unstyled list-inline">
-                        <li><i class="fa fa-phone"></i><span>+1 456 6717</span></li>
-                        <li class="langs-block">
-                        	<c:if test="${languageSelf == 'zh_CN' }">
-                        		<a href="javascript:void(0);" class="current">中文 <i class="fa fa-angle-down"></i></a>
-	                            <div class="langs-block-others-wrapper">
-		                            <div class="langs-block-others">
-		                              <a href="" onclick="changeLocale('en')">English</a>
-		                            </div>
-	                            </div>
-                        	</c:if>
-                        	<c:if test="${languageSelf == 'en_US' }">
-                        		<a href="javascript:void(0);" class="current">English <i class="fa fa-angle-down"></i></a>
-	                            <div class="langs-block-others-wrapper">
-		                            <div class="langs-block-others">
-		                              <a href="" onclick="changeLocale('zh')">中文</a>
-		                            </div>
-	                            </div>
-                        	</c:if>
-                            
-                        </li>
-                    </ul>
-                </div>
-                <!-- END TOP BAR LEFT PART -->
-                <!-- BEGIN TOP BAR MENU -->
-                <div class="col-md-6 col-sm-6 additional-nav">
-                    <ul class="list-unstyled list-inline pull-right">
-                    	<c:if test="${ sessionUserId != null && sessionUserId != ''}">
-                    		<li><fmt:message key="header_welcome"/>${sessionUserName}</li>
-                    		<li><a onclick="toMyOrder()"><fmt:message key="header_myOrder"/></a></li>
-                    		<li class="mytuantuan-block">
-	                    		<a href="javascript:void(0);"><fmt:message key="header_myOztuantuan"/><i class="fa fa-angle-down"></i></a>
-	                    		<div class="mytuantuan-block-others-wrapper">
-		                            <div class="mytuantuan-block-others">
-		                            	<div>
-		                            		<a onclick="toMyTuantuan()">我的个人信息</a>
-		                            	</div>
-		                            	
-		                            </div>
-	                            </div>
-                    		</li>
-                    		
-                    	</c:if>
-                        <li><a onclick="toCheckout()"><fmt:message key="header_checkout"/></a></li>
-                        <c:if test="${ sessionUserId == null || sessionUserId == '' }">
-                        	<li><a onclick="tologin();return false;"><fmt:message key="header_welcomeLogin"/></a></li>
-                        </c:if>
-                        <c:if test="${ sessionUserId != null && sessionUserId != '' }">
-                        	<li><a onclick="tologinOut();return false;"><fmt:message key="header_logout"/></a></li>
-                        </c:if>
-                        <li><a onclick="toRegister()"><fmt:message key="header_register"/></a></li>
-                    </ul>
-                </div>
-                <!-- END TOP BAR MENU -->
-            </div>
-        </div>        
-    </div>
-    <!-- END TOP BAR -->
-
-    <!-- BEGIN HEADER -->
-    <div role="navigation" class="navbar header no-margin">
-        <div class="container">
-            <div class="navbar-header">
-                <!-- BEGIN RESPONSIVE MENU TOGGLER -->
-                <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <!-- END RESPONSIVE MENU TOGGLER -->
-                <a href="${ctx}/main/init" class="navbar-brand"><img src="${ctx}/images/logo.png" width="129px" height="32px" alt="OZTUANTUAN.COM.AU"></a><!-- LOGO -->
-            </div>
-            <!-- BEGIN CART -->
-             <div class="cart-block">
-                <div class="cart-info">
-                    <a href="javascript:void(0);" class="cart-info-count" id="sumCount"></a>
-                    <a href="javascript:void(0);" class="cart-info-value" id="sumMoney"></a>
-                </div>
-                <i class="fa fa-shopping-cart"></i>
-                <!-- BEGIN CART CONTENT -->
-                <div class="cart-content-wrapper">
-                  <div class="cart-content">
-                    <ul class="scroller" style="height: 250px;" id="contcartScroller">
-                      <li>
-                        
-                      </li>
-                    </ul>
-                    <div class="text-right">
-                      <a onclick="viewcart()" class="btn btn-primary"><fmt:message key="common_viewcart"/></a>
-                      <a onclick="toCheckout()" class="btn btn-primary"><fmt:message key="common_checkout"/></a>
-                    </div>
-                  </div>
-                </div>
-                <!-- END CART CONTENT -->
-            </div>
-            <!-- END CART -->
-            <!-- BEGIN NAVIGATION -->
-            <div class="collapse navbar-collapse mega-menu">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown" onclick="toMainIndex()">
-                      <a class="dropdown-toggle" data-toggle="dropdown" data-delay="0" data-close-others="false" data-target="" href="#">
-                         <fmt:message key="common_group"/>
-                        <i class="fa fa-angle-down"></i>
-                      </a>
-                    </li>
-                    <li class="dropdown">
-                      <a class="dropdown-toggle" data-toggle="dropdown" data-delay="0" data-close-others="false" data-target="" href="#">
-                         <fmt:message key="common_pleshop"/>
-                        <i class="fa fa-angle-down"></i>
-                      </a>
-                    </li>
-                    <li class="dropdown">
-                      <a class="dropdown-toggle" data-toggle="dropdown" data-delay="0" data-close-others="false" data-target="" href="#">
-                         <fmt:message key="common_hotsell"/>
-                        <i class="fa fa-angle-down"></i>
-                      </a>
-                    </li>
-                    <li class="dropdown">
-                      <a class="dropdown-toggle" data-toggle="dropdown" data-delay="0" data-close-others="false" data-target="" href="#">
-                         <fmt:message key="common_retail"/>
-                        <i class="fa fa-angle-down"></i>
-                      </a>
-                    </li>
-                    
-                    <!-- BEGIN TOP SEARCH -->
-                    <li class="menu-search">
-                        <span class="sep"></span>
-                        <i class="fa fa-search search-btn"></i>
-                        <div class="search-box">
-                               <div class="input-group">
-                                   <input type="text" placeholder="Search" class="form-control" id="goodsText" 
-                                   	onkeydown="javascript:if(event.keyCode==13) searchGoods();">
-                                   <span class="input-group-btn">
-                                       <button class="btn btn-primary" type="submit" onclick="searchGoods()">
-                                       	<fmt:message key="indexSearch"/>
-                                       </button>
-                                   </span>
-                               </div>
-                        </div> 
-                    </li>
-                    <!-- END TOP SEARCH -->
-                </ul>
-            </div>
-            <!-- END NAVIGATION -->
+<body id="container">
+	<!--头部-->
+<div class="head">
+    <div class="jz clearfix">
+        <div class="left">
+            <span class="ml25">欢迎来到51GO！ </span>     
+                <a href="/Login/Login" class="ml25">登录</a>
+                <a href="/Login/Register" class="ml25">免费注册</a>
+            
+            
         </div>
-    </div>
-    <!-- END HEADER -->
-
-    
-	<sitemesh:write property='body' />
-    
-
         
-
-    <!-- BEGIN FOOTER -->
-    <footer>
-    <div class="footer padding-top-15">
-      <div class="container">
-        <div class="row">
-          <!-- BEGIN COPYRIGHT -->
-          <div class="col-md-9 col-sm-9 padding-top-10">
-            <fmt:message key="mainFooter"/>
-            <ul class="list-unstyled list-inline pull-right">
-               	<li>
-               		<a href="${ctx}/main/init"><fmt:message key="FOOTER_Home"/></a>
-               	</li>
-               	<li>
-               		<a href="${ctx}/AboutUs/AU"><fmt:message key="FOOTER_aboutUs"/></a>
-               	</li>
-               	<li>
-               		<a href="${ctx}/AboutUs/AU"><fmt:message key="FOOTER_contactUs"/></a>
-               	</li>
-               	<li>
-               		<a href="${ctx}/AboutUs/RS#1f"><fmt:message key="FOOTER_termsCondtions"/></a>
-               	</li>
-               	<li>
-               		<a href="${ctx}/AboutUs/RS#2f"><fmt:message key="FOOTER_refundPolicy"/></a>
-               	</li>
-               	<li>
-               		<a href="${ctx}/AboutUs/RS#3f"><fmt:message key="FOOTER_deliveryDetails"/></a>
-               	</li>
-               	<li>
-               		<a href="${ctx}/AboutUs/RS#4f"><fmt:message key="FOOTER_privacypolicy"/></a>
-               	</li>
-            </ul>
-          </div>
-          <!-- END COPYRIGHT -->
-          <!-- BEGIN PAYMENTS -->
-          <div class="col-md-3 col-sm-3">
-            <ul class="list-unstyled list-inline pull-right margin-bottom-15">
-              <li><img src="<c:url value='/assets/img/payments/PayPal.jpg' />" alt="We accept PayPal" title="We accept PayPal"></li>
-            </ul>
-          </div>
-          <!-- END PAYMENTS -->
-        </div>
-      </div>
     </div>
-    </footer>
-    <!-- END FOOTER -->
+</div>
+<div class="nav">
+    <div class="jz clearfix">
+        <a href="/" class="logo left">
+            <img src="${ctx}/picture/logo.png" />
+        </a>
+        <div class="left nav_ss">
+            <div class="guanjianci">
+                <span class="hot">HOT!</span>
+                <a href="/Category/Search?keyword=Aptamil">爱他美 </a>
+                <span>|</span>
+                <a href="/Category/Search?keyword=Bellamy">贝拉米</a>
+                <span>|</span>
+                <a href="/Category/Search?keyword=Swisse">Swisse</a>
+                <span>|</span>
+                <a href="/Category/Search?keyword=%E9%B1%BC%E6%B2%B9">鱼油</a>
+                <span>|</span>
+                <a href="/Category/Search?keyword=%E7%BB%B4%E9%AA%A8%E5%8A%9B">维骨力 </a>
+                <span>|</span>
+                <a href="/Category/Search?keyword=%E6%9C%88%E8%A7%81%E8%8D%89">月见草</a>
+            </div>
+			<form action="/Category/Search" method="post">                
+			<div id="searchcontainer" class="head_ss clearfix">
+                    <input type="text" id="searchbox" class="left head_ss_shuru" name="keyword" placeholder="搜索商品品牌 名称 功效" />
+                    <input type="submit" value="" class="left head_ss_btn cursor" />
+             </div>
+			</form>       
+		</div>
+        <b><a href="/Purchase/ShoppingCart" id="ecsCartInfo" class="right head_car cursor"></a></b>
+    </div>
+</div>
+
+<!--菜单-->
+<ul class="menu jz clearfix" id="headermenu">
+    <li class="menuhead">
+        <a href="/" class="ahover">首页</a>
+    </li>
+    <li class="popup_parent">
+        <a href="/Category/Index/1">母婴专区</a>
+        <div class="masklayer"></div>
+    </li>
+    <li class="popup_parent">
+        <a href="/Category/Index/2">营养保健</a>
+        <div class="masklayer"></div>
+    </li>
+    <li class="popup_parent">
+        <a href="/Category/Index/3">美容护肤</a>
+        <div class="masklayer"></div>
+    </li>
+    <li class="popup_parent">
+        <a href="/Category/Index/84">家居生活</a>
+        <div class="masklayer"></div>
+    </li>
+    <li class="popup_parent">
+        <a href="/Category/Index/88">健康美食</a>
+        <div class="masklayer"></div>
+    </li>
+    <li class="popup_parent">
+        <a href="#">时尚</a>
+    </li>
+</ul>
+
+<div class="alert out_alert">
+    <p class="alert_tl">确认退出</p>
+    <div class="alert_text">
+        您确定要退出当前用户？
+    </div>
+    <div class="alert_btn">
+        <a href="javascript:void(0);" class="quxiao" id="delCancel-header">取消</a>
+        <a href="javascript:document.getElementById('logoutformheader').submit()" id="delConfirm-header" class="btn_red">退出</a>
+    </div>
+</div>
+
+<!--弹窗开始-->
+<div class="alert_bg"></div>
+
+<form action="/Login/LogOut" id="logoutformheader" method="post"><input name="__RequestVerificationToken" type="hidden" value="weLQRqMsTrK6NwmnTQTcccancqwcL9lnoQHvp2cWtbxXaoyKbRd1TBa3vqXZuSz_umBdyZ1pY2wt5JtgIHDgrJISvaauM4-RGdUSYN_8ytU1" /></form>
+<div id="masklayergrey"></div>
+
+
+<script type="text/javascript">
+    $(function () {
+
+        $("#outBtn-header").click(function () {
+            $(".alert_bg").show();
+            $(".alert").show();
+            $("body").css("overflow", "hidden");
+        })
+        $("#delCancel-header").click(function () {
+            $(".alert_bg").hide();
+            $(".alert").hide();
+            $("body").css("overflow", "auto");
+        })
+
+        ////首页弹窗层 等待子类目全部设定好之后再开启
+        //$(".popup_parent").hover(function () {
+        //    var currentOffset = $(this).offset();
+        //    var offsetWidth = currentOffset.left - $("#headermenu").offset().left;
+        //    $(this).css("background-color", "rgb(228, 228, 228)");
+        //    $(this).children(".popup_menu").css({ "display": "block", "width": $("#headermenu").width(), "left": -offsetWidth });
+        //    $(this).children(".masklayer").css({ "display": "block", "bottom": "-400px", "width": $(window).width(), "left": -currentOffset.left, "max-height":"325px"});
+        //    $("#masklayergrey").css({ "display": "block", "top": $("#headermenu").offset().top + $("#headermenu").height() + 3});
+        //}, function () {
+        //    $(this).css("background-color", "white");
+        //    $(this).children(".popup_menu").css({ "display": "none" });
+        //    $(this).children(".masklayer").css({ "display": "none" });
+        //    $("#masklayergrey").css({ "display": "none"});
+        //});
+
+
+        function searchProduct(request, response) {
+            $.ajax({
+                type: "POST",
+                url: "/Category/SearchJson?keyword=" + request.term,
+                success: function (data) { response(data.Data); },
+            });
+        }
+
+        $("#searchbox").autocomplete({
+            delay: 500,
+            minLength: 2,
+            source: searchProduct,
+            appendTo: '#searchcontainer',
+            select: function (event, ui) {
+                $("#small-searchterms").val(ui.item.label);
+                window.location = "/Product/" + ui.item.Slug;
+                return false;
+            }
+        })
+        .data("ui-autocomplete")._renderItem = function (ul, item) {
+            return $("<li></li>")
+                .data("item.autocomplete", item)
+                //.append("<a><table border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tr><td width=\"65\"><img src='" + item.ThumbnailUrl + "' width=\"65\"></td><td>" + item.Name + "</td></tr></table></a>")
+                .append("<a><div class=\"search-item\"><div class=\"search-item-img-box\" ><img src='" + item.ThumbnailUrl + "' class=\"search-item-img\"/></div><div class=\"search-item-info\"><div class=\"search-item-name\">" + item.Name + "</div><div class=\"search-item-price\">$" + item.Price + "</div></div></div>")
+                .appendTo(ul);
+        };
+
+    });
+</script>
+	<sitemesh:write property='body' />
+
+
+	
+	<!--尾部-->
+	<!--  底部的保证-->
+<div class="baozhang">
+    <ul class="clearfix jz">
+        <li>
+            <img src="${ctx}/picture/huizhang.png" />
+            <span class="baozhang_text">
+                <b>100%正品保证</b><br />
+                正品承诺，安全保障
+            </span>
+        </li>
+        <li>
+            <img src="${ctx}/picture/diqiu.png" />
+            <span class="baozhang_text">
+                <b>100%海外直采</b><br />
+                海外直采，急速直达
+            </span>
+        </li>
+        <li>
+            <img src="${ctx}/picture/shangou.png" />
+            <span class="baozhang_text">
+                <b>免税闪购</b><br />
+                免税无忧，闪购快送
+            </span>
+        </li>
+        <li>
+            
+            <img src="${ctx}/picture/huizhang.png" />
+            <span class="baozhang_text">
+                <b>售后无忧</b><br />
+                优质客服，为您服务
+            </span>
+        </li>
+    </ul>
+</div>
+
+	<!-- 版本-->
+	<div class="banben jz">
+	    <p>
+	        <a href="/Help/AboutUs">关于51GO </a>
+	        <span>|</span>
+	        <a href="/Help/CustomerNotice">消费者告知书</a>
+	        <span>|</span>
+	        <a href="/Help/ContactUs">联系我们</a>
+	        <span>|</span>
+	        <a href="/Help/ProductsPromise">100%正品保障</a>
+	    </p>
+	    <p class="banben_text">© 2014-2017 51GO Hurstville</p>
+	    
+	</div>
+	<!--  右侧条-->
+
+	<div class="youce">
+	    <div class="youce_main">
+	        <a href="/Purchase/ShoppingCart" id="youceCartInfo">
+	            <div class="youce_car_num">0</div>
+	            <div class="youce_car"></div>
+	        </a>
+	        
+	        <!-- <a href="javascript:void(Tawk_API.toggle())" class="center"> -->
+	            <!-- <p>在线 </p> -->
+	            <!-- <p>客服</p> -->
+	        <!-- </a> -->
+	        <a href="javascript:void(0)" class="erw_img">
+	            <img src="${ctx}/picture/menu_wx.png" class="erw_wx" />
+	            <div class="erw_img_yin">
+	                <img src="${ctx}/picture/sydney51go1.jpg" />
+	            </div>
+	        </a>
+	        
+	        <a href="javascript:;" class="center topbtn">
+	            <img src="${ctx}/picture/menu_top.png" />
+	            TOP
+	        </a>
+	    </div>
+	</div>
+	
+	<div id="chatQRcodeForMain" class="modal fade"> <!--半透明的遮罩层-->
+         <div class="modal-dialog"> <!--定位和尺寸-->
+             <div class="modal-content">  <!--背景边框阴影-->
+                 <div class="modal-body">
+                     <img src="${ctx}/images/oztt_qrcode.png" alt="" height="250">
+                 </div>
+             </div>
+         </div>
+     </div>
     
+    
+    
+    <!-- END FOOTER -->
+    <input type="hidden" value="${currentUserId}" id="currentUserId">
+    
+    <div>
+    	&nbsp;
+    </div>
+    
+    <script type="text/javascript" src="${ctx}/js/qin.js"></script>
+    <script type="text/javascript">
+    var currentPath = window.location.pathname;
+	if (currentPath.indexOf("login/init") > 0 ||
+		currentPath.indexOf("register/init") > 0 ||
+		currentPath.indexOf("forgetPassword/init") > 0) {
+		$("#main-nav-id").remove();
+	}
+	
+	if (currentPath.indexOf("item/getGoodsItem") > 0) {
+		$("#main-nav-id").remove();
+	}
+	
+	if (currentPath.indexOf("milkPowderAutoPurchase") > 0) {
+		$("#main-nav-id").remove();
+		$("#powder-send-nav-id").css("display","");
+	}
+	
+	if (currentPath.indexOf("powderOrder") > 0) {
+		$("#main-nav-id").remove();
+		$("#powder-send-nav-id").css("display","");
+	}
+	
+	if ($("#main-nav-id")) {
+		$("#main-nav-id").css("display","");
+	}
+	
+	var sessionUserId = '${currentUserId}';
+	if (sessionUserId == null || sessionUserId == "") {
+		// 没有登录
+		$("#decoratorShopCart").remove();
+		$("#notSuccessedOrder").remove();
+	} else {
+		updateShopCart();
+		updateNotOrder();
+	}
+    
+	judgeIsOverTime();
+	
+	if(browser.versions.mobile||browser.versions.android||browser.versions.ios){
+			// 移动端
+		} else {
+			// PC端
+			$("#main-nav-id").remove();
+		}
+	
+    </script>
 </body>
 <!-- END BODY -->
 </html>
