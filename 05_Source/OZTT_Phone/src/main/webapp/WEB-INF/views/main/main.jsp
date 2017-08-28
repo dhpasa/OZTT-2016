@@ -50,6 +50,14 @@
   				addToCart(groupId, $(currentObj).parent().find("input[type='text']"));
   			}
   		}
+  	  	
+  	  	function checktoCartForNewProduct(groupId,str) {
+  	  	if ('${currentUserId}' == '') {
+				location.href = "${ctx}/login/init";
+			} else {
+				addToCartForProduct(groupId, 1, $(str).parent().parent().find("img"));
+			}
+  	  	}
   		
   		function itemFlyToCart(itemNumberObj) {
   			var offset = $("#bottomCart").offset();
@@ -57,6 +65,35 @@
   			var img = $(itemNumberObj).parent().parent().parent().parent().find("img").attr('src');
   			
   			var imgOffset = $(itemNumberObj).parent().parent().parent().parent().find("img").offset();
+  			var startLeft = imgOffset.left;
+  			var locationTop = imgOffset.top;
+  			var bodyScrollTop = $("body").scrollTop();
+  			var flyer = $('<img class="u-flyer" src="'+img+'">');
+  			flyer.fly({
+  				start: {
+  					left: startLeft,
+  					top: (locationTop-bodyScrollTop)
+  				},
+  				end: {
+  					left: offset.left+offsetAdd/2+(offset.left-startLeft),
+  					//left: offset.left+offsetAdd/2,
+  					top: offset.top+offsetAdd/2,
+  					width: 0,
+  					height: 0
+  				},
+  				onEnd: function(){
+  					this.destory();
+  				}
+  			});
+  		}
+  		
+
+  		function itemFlyToCartForProduct(img) {
+  			var offset = $("#bottomCart").offset();
+  			var offsetAdd = $("#bottomCart").width();
+  			var img = $(img).attr('src');
+  			
+  			var imgOffset = $(img).offset();
   			var startLeft = imgOffset.left;
   			var locationTop = imgOffset.top;
   			var bodyScrollTop = $("body").scrollTop();
@@ -262,7 +299,7 @@
                          <p class="jingxuan_item_origprice">原价：$${goodItem.costprice }</p>
                          <p class="jingxuan_item_curtprice">$${goodItem.disprice }<span> AUD</span></p>
                          <p class="jingxuan_item_rmb"><span class="jingxuan_item_tag">直降</span></p>
-                         <span style="color:red;" class="settime" endTime="2017-07-9 16:16:00"></span>
+                         <span style="color:red;" class="settime" endTime="${goodItem.endTime }"></span>
                          <img src="${ctx}/images/buy.png" alt="" class="d5"/>
                      </div>
                  </a>
@@ -279,7 +316,7 @@
             </div>
 			<c:forEach var="goodItem" items="${ hotFlgSellList }">
             <div id="jingxuanlist" class="clearfix">
-                    <a href="#" onclick="toItem('${goodItem.groupno }')" class="clearfix">
+                    	<a class="clearfix">
                         <div class="jingxuan_item_left">
                             <img src="${goodItem.goodsthumbnail }">
                         </div>
@@ -290,7 +327,7 @@
                             
                             <p class="jingxuan_item_curtprice">$${goodItem.disprice }<span> AUD</span></p>
                             <p class="jingxuan_item_rmb"><span class="jingxuan_item_tag">新品</span></p>
-                            <img src="${ctx}/images/buy.png" alt="" class="d6"/>
+                            <img src="${ctx}/images/buy.png" alt="" class="d6" onclick="checktoCartForNewProduct('${goodItem.groupno}', this)" />
                         </div>
                     </a>
             </div>

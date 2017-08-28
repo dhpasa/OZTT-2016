@@ -196,6 +196,12 @@
 		}
 	}
   	
+  	function addToCartForProduct(groupId, itemNumber, img){
+		if (addItemToCartForNewProduct(groupId, itemNumber)) {
+			itemFlyToCartForProduct(img);
+		}
+	}
+  	
   	
   	var E0006 = '<fmt:message key="E0006" />';
 	var E0010 = '<fmt:message key="E0010" />';
@@ -213,6 +219,83 @@
 		var properties = {
 				"groupId":groupId,
 				"goodsQuantity":$(itemNumberObj).val(),
+				"goodsProperties":JSON.stringify(oneGoodPropertiesList)
+		}
+		
+		var checkGroup = [];
+		checkGroup.push(properties);
+		var checkOver = true;
+		$.ajax({
+			type : "POST",
+			contentType:'application/json',
+			url : '${pageContext.request.contextPath}/COMMON/checkIsOverGroup',
+			dataType : "json",
+			async : false,
+			data : JSON.stringify(checkGroup), 
+			success : function(data) {
+				if(!data.isException){
+					// 同步购物车成功
+					if (data.isOver) {
+						$('#errormsg_content').text(E0006.replace("{0}", data.maxBuy));
+		  				$('#errormsg-pop-up').modal('show');
+						checkOver = true;
+						$($(itemNumberObj)).val(data.maxBuy);
+						return false;
+					} else {
+						checkOver = false;
+					}
+				} else {
+					// 同步购物车失败
+					return false;
+				}
+			},
+			error : function(data) {
+				
+			}
+		});
+		
+		if (checkOver) return false;
+		
+		var inputList = [];
+		inputList.push(properties);
+		$.ajax({
+			type : "POST",
+			contentType:'application/json',
+			url : '${pageContext.request.contextPath}/COMMON/addConsCart',
+			dataType : "json",
+			async : false,
+			data : JSON.stringify(inputList), 
+			success : function(data) {
+				if(!data.isException){
+					// 同步购物车成功
+					
+				} else {
+					// 同步购物车失败
+				}
+			},
+			error : function(data) {
+				
+			}
+		});
+		
+		updateShopCart();
+		return true;
+
+	}
+	
+	function addItemToCartForNewProduct(groupId, number) {
+		// 取得商品的属性
+
+		var oneGoodPropertiesList = [];
+		var quantityInput = number;
+		if (isNaN(quantityInput) || parseFloat(quantityInput) <= 0) {
+			$('#errormsg_content').text(E0010);
+			$('#errormsg-pop-up').modal('show');
+			return;
+		}
+		var properties = {
+				"groupId":groupId,
+				"goodsQuantity":number,
 				"goodsProperties":JSON.stringify(oneGoodPropertiesList)
 		}
 		

@@ -10,11 +10,9 @@
   <title><fmt:message key="PURCHASE_TITLE"/></title>
   <!-- Head END -->
   <script>	  	
-	  	var wechatAddition = 0.015;
-	  	var masterCardAddition = 0;
-	  	
-		
-	  	
+	  	var wechatAddition = 0;
+	  	var masterCardAddition = 0.03;
+
 	  	function gotobuy(){
 	  		// 支付
 	  		gotoPurchase();
@@ -276,10 +274,10 @@
                                     <img src="${ctx}/images/zhifu/qianh.jpg" class="img_h" />
                                 </a>
                             </li>
-                            <li data-id="4" class="payment" style="display:none">
+                            <li data-id="4" class="payment">
                                 <a href="javascript:void(0);" class="payment" data-id="4">
-                                    <img src="${ctx}/images/zhifu/weixin.jpg" class="img_q" />
-                                    <img src="${ctx}/images/zhifu/weixinh.jpg" class="img_h" />
+                                    <img src="${ctx}/images/zhifu/weixin.jpg" class="img_q wechat_icon_not_selected" />
+                                    <img src="${ctx}/images/zhifu/weixinh.jpg" class="img_h wechat_icon_selected" />
                                 </a>
                             </li>
                 </ul>
@@ -291,15 +289,18 @@
                                 </div>
                             </div> -->
                             <div data-id="1" class="zhifu_qiehuan_con active">
-                                <div class="zhifubao_cankao"><b>MasterCard</b></div>
+                                <div class="zhifubao_cankao"><b>银行转账(3%手续费)</b></div>
                                 <div class="zhifubao_cankao">
-                                    银行转账支付需要上传转账凭证,需要后台审核并确认订单为已支付状态(这里的文字待定)
+                                    银行转账支付需要上传转账凭证,需要后台审核并确认订单为已支付状态
                                 </div>
                             </div>
                             <div data-id="4" class="zhifu_qiehuan_con wechat_pay">
-                                <div class="zhifubao_cankao"><b>微信（+1.5%手续费）</b></div>
-                                <div class="zhifubao_cankao">
-                                    微信 实际汇率 即时到账。今日参考汇率 <strong><span>5.1964(这里应该怎么显示)</span></strong><br />
+                                <div class="zhifubao_cankao"><b>微信（免手续费）</b></div>
+                                <div class="zhifubao_cankao wechat_canbuy" style="display:none">
+                                    微信 实际汇率 即时到账。今日参考汇率<br />
+                                </div>
+                                <div class="zhifubao_cankao wechat_cannotbuy" style="display:none">
+                                    对不起，<strong><span>请在微信中打开本页</span></strong>，给您带来的不便，请谅解
                                 </div>
                             </div>
                             
@@ -308,9 +309,9 @@
             </div>
         </div>
         <script type="text/javascript">
-        $(document).ready(function () {
-            
-        })
+	        $(document).ready(function () {
+	            
+	        })
         </script>
         <div class="dingdancon_main zhangdan border-top">
             <ul>
@@ -337,7 +338,7 @@
                 </li>
                 <li class="clearfix">
                     <div class="left zhangdan_li" style="width: 98%;">
-                        <span style="color:red;">*&nbsp;</span>打包费用，拍照，打包材料，英文报纸，罐底签名全部免费
+                        <span style="color:red;">*&nbsp;</span>打包费用，拍照，打包材料，英文报纸全部免费
                     </div>
                 </li>
             </ul>
@@ -410,6 +411,12 @@
 			$('#errormsg-pop-up').modal('show');
             return false;
         }
+        else if ($("#PaymentMethodId").val() == 4 && !isWeChatBrowser())
+       	{
+        	$('#errormsg_content').text("只有在微信下才可以进行微信支付");
+			$('#errormsg-pop-up').modal('show');
+            return false;
+       	}
         else if($("#ShippingMethodId").val() > 0 && $("#PaymentMethodId").val() > 0){
             return true;
         }
@@ -427,7 +434,15 @@ $(document).ready(function () {
     });
 
     if (isWeChatBrowser()) {
-        $('.payment[data-id="4"]').show();
+        $('.wechat_canbuy').show();
+        // 更换按钮
+        $('.wechat_icon_not_selected').attr('src','${ctx}/images/zhifu/weixin.jpg');
+        $('.wechat_icon_selected').attr('src','${ctx}/images/zhifu/weixinh.jpg');
+    } else {
+    	$('.wechat_cannotbuy').show();
+    	// 更换按钮
+    	$('.wechat_icon_not_selected').attr('src','${ctx}/images/zhifu/weixin_non.jpg');
+        $('.wechat_icon_selected').attr('src','${ctx}/images/zhifu/weixin_nons.jpg');
     }
 
     var orderSubtotal = parseFloat($("#orderSubtotal").text().replace("$", ""));

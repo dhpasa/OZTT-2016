@@ -55,7 +55,8 @@
   	}
   	
   	function hrefLoginSuccess(){
-  		location.href = "${ctx}/main/init";
+  		history.back(-1);
+  		//location.href = "${ctx}/main/init";
   	}
   
   </script>
@@ -105,6 +106,11 @@
 			<div class="right">
 				<a href="${ctx}/register/init"><fmt:message key="LOGIN_TOREGISTER" /></a>
 				<a href="${ctx}/forgetPassword/init"><fmt:message key="LOGIN_FORGETPWD" /></a>
+			</div>
+		</div>
+		<div class="clearfix loginb" style="padding-top:10px">
+			<div class="right">
+				<a href="${ctx}/main/init">回到首页></a>
 			</div>
 		</div> 
 		</div>

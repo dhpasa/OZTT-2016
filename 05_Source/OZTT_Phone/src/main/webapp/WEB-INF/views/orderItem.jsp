@@ -561,7 +561,7 @@
 	                            <div class="modal-dialog"> <!--定位和尺寸-->
 	                                <div class="modal-content">  <!--背景边框阴影-->
 	                                    <div class="modal-body">
-	                                        <img src="${photoUrl }" alt="" width="400" height="400">
+	                                        <img src="${photoUrl }" alt=""  height="180">
 	                                    </div>
 	                                </div>
 	                            </div>
