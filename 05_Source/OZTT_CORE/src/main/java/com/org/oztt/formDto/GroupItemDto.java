@@ -1,6 +1,7 @@
 package com.org.oztt.formDto;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -79,6 +80,8 @@ public class GroupItemDto {
     private String     groupQuantityLimit; //个人最大限购数
 
     private String     stockStatus;        //库存状态
+    
+    private String     endTime;
 
     public String getGoodsid() {
         return goodsid;
@@ -358,6 +361,19 @@ public class GroupItemDto {
 
     public void setDiamondLabel(String diamondLabel) {
         this.diamondLabel = diamondLabel;
+    }
+
+    public String getEndTime() {
+        if (validEndTime != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            return sdf.format(validEndTime);
+        } else {
+            return "";
+        }
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
 }

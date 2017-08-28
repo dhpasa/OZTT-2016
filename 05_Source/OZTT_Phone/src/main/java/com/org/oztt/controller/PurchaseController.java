@@ -180,7 +180,7 @@ public class PurchaseController extends BaseController {
                     productBoxList.add(dto);
                 }
                 // 总重量
-                boxInfo.setWeight(a);
+                boxInfo.setWeight(new BigDecimal(a).setScale(2, BigDecimal.ROUND_UP).doubleValue());
                 
                 // 快递价格系数 * 数量 
                 BigDecimal sum = exInf.getPriceCoefficient().multiply(
@@ -327,7 +327,7 @@ public class PurchaseController extends BaseController {
             productOrder = productService.selectProductByParam(productOrder);
 
             JSONObject paramJson = (JSONObject) JSONObject.parse(paraMap);
-            paramJson.put("price", productOrder.getSumAmount().multiply(CommonConstants.ADDITION_WECHAT).multiply(new BigDecimal(100)).intValue());
+            paramJson.put("price", productOrder.getSumAmount().multiply(new BigDecimal(100)).intValue());
             //paramJson.put("price", 1);
             paramJson.put("notify_url", notify_url);
 

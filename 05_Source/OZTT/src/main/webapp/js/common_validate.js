@@ -566,11 +566,10 @@ function checkURL(str_url){
  * @returns true 或 false; true表示格式正确
  */
 function checkMobilePhoneForOztt(str) {
-//	if(str.search(/^(04\d{8})$/)!=-1){	//限澳洲号码
-//	//if(str.search(/^(86\d{11})$/)!=-1){	//限中国号码
-//		return true;																 
-//	}else{
-//		return false;
-//	}
-	return true;
+	//if(str.search(/^(04\d{8})$/)!=-1 || str.search(/^(86\d{11})$/)!=-1){	//限澳洲号码
+	if(str.search(/^(04\d{8})$/)!=-1){	//限澳洲号码
+		return true;																 
+	}else{
+		return false;
+	}
 }

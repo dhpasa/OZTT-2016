@@ -4,13 +4,30 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	metadata-complete="true">
 
-	<display-name>OZTT</display-name>
+	<display-name>OZTT_Phone</display-name>
+	
+    <!-- 配置Log4j -->
+	<context-param>  
+		  <param-name>webAppRootKey</param-name>  
+		  <param-value>diasorin.root</param-value>  
+	</context-param>  
+	<context-param>  
+		  <param-name>log4jConfigLocation</param-name>  
+		  <param-value>/WEB-INF/classes/log4j.properties</param-value>  
+	</context-param>  
+	<listener>  
+		  <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>  
+	</listener>
+	
 	<!-- Spring和mybatis的配置文件 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:spring-config.xml,classpath:applicationContext-quartz.xml</param-value>
 	</context-param>
 	<!-- 编码过滤器 -->
+	<session-config>
+        <session-timeout>120</session-timeout>
+    </session-config>
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -58,6 +75,17 @@
 		<servlet-name>Upload</servlet-name>
 		<url-pattern>/servlet/Upload</url-pattern>
 	</servlet-mapping>
+	
+	<filter>
+		<filter-name>JCaptchaFilter</filter-name>
+		<filter-class>
+			com.org.oztt.base.shiro.JCaptcha.JCaptchaFilter
+		</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>JCaptchaFilter</filter-name>
+		<url-pattern>/jcaptcha.jpg</url-pattern>
+	</filter-mapping>
 	
 	<!--start 静态资源不进行过滤 -->
 	<servlet-mapping>

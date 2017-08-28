@@ -22,19 +22,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import com.alibaba.fastjson.JSONObject;
+import com.org.oztt.base.page.Pagination;
+import com.org.oztt.base.page.PagingResult;
 import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.contants.CommonConstants;
+import com.org.oztt.contants.CommonEnum;
 import com.org.oztt.entity.TAddressInfo;
+import com.org.oztt.entity.TConsCart;
 import com.org.oztt.entity.TCustomerLoginHis;
 import com.org.oztt.entity.TCustomerLoginInfo;
+import com.org.oztt.entity.TCustomerMemberInfo;
 import com.org.oztt.entity.TGoodsGroup;
 import com.org.oztt.formDto.ContCartItemDto;
 import com.org.oztt.formDto.ContCartProItemDto;
 import com.org.oztt.formDto.GoodItemDto;
+import com.org.oztt.formDto.GroupItemDto;
+import com.org.oztt.formDto.OrderInfoDto;
 import com.org.oztt.service.AddressService;
 import com.org.oztt.service.CommonService;
 import com.org.oztt.service.CustomerService;
 import com.org.oztt.service.GoodsService;
+import com.org.oztt.service.OrderService;
 
 /**
  * 定义一些共同的控制器，实现共同的操作
@@ -56,6 +64,9 @@ public class CommonController extends BaseController {
 
     @Resource
     private AddressService  addressService;
+    
+    @Resource
+    private OrderService orderService;
 
     /**
      * 得到团购产品信息
@@ -78,7 +89,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -105,32 +116,12 @@ public class CommonController extends BaseController {
             }
             goodsService.addContCart(customerNo, list);
 
-            String imgUrl = super.getApplicationMessage("saveImgUrl");
-
-            // 登陆成功以后取得购物车中的数据然后更新Cookie
-            List<ContCartItemDto> consCarts = goodsService.getAllContCartForCookie(customerNo);
-            if (!CollectionUtils.isEmpty(consCarts)) {
-                for (ContCartItemDto dto : consCarts) {
-                    if (StringUtils.isEmpty(dto.getGoodsPropertiesDB())) {
-                        dto.setGoodsProperties(new ArrayList<ContCartProItemDto>());
-                    }
-                    else {
-                        dto.setGoodsProperties(JSONObject.parseArray(dto.getGoodsPropertiesDB(),
-                                ContCartProItemDto.class));
-                    }
-                    dto.setGoodsPropertiesDB(StringUtils.EMPTY);
-                    dto.setGoodsImage(imgUrl + dto.getGoodsId() + CommonConstants.PATH_SPLIT + dto.getGoodsImage());
-                }
-            }
-
-            mapReturn.put("conscars", JSONObject.toJSONString(consCarts));
-
             // 后台维护的时候提示让以逗号隔开
             mapReturn.put("isException", false);
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -162,7 +153,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -193,7 +184,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -218,7 +209,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -248,7 +239,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -301,7 +292,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -327,7 +318,7 @@ public class CommonController extends BaseController {
             }
             goodsService.purchaseAsyncContCart(customerNo, list);
 
-            String imgUrl = super.getApplicationMessage("saveImgUrl");
+            String imgUrl = super.getApplicationMessage("saveImgUrl", session);
 
             // 当前用户已经登录, 直接跳转到主菜单画面。
             // 这里当用户已经登录的时候，就不需要再插入历史记录了。
@@ -354,7 +345,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -411,7 +402,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -438,7 +429,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -475,7 +466,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -513,7 +504,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -543,7 +534,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -571,7 +562,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -590,7 +581,9 @@ public class CommonController extends BaseController {
             HttpSession session, @RequestBody List<Map<String, String>> list) {
         Map<String, Object> mapReturn = new HashMap<String, Object>();
         try {
-            boolean isOver = true;
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            boolean isOver = false;
+            long maxBuy = 0;
             Map<String, String> mapParam = new HashMap<String, String>();
             if (list != null && list.size() > 0) {
                 mapParam = list.get(0);
@@ -598,17 +591,211 @@ public class CommonController extends BaseController {
                 tGoodsGroup.setGroupno(mapParam.get("groupId"));
                 tGoodsGroup = goodsService.getGoodPrice(tGoodsGroup);
                 Long checkQuantity = Long.valueOf(mapParam.get("goodsQuantity"));
+                //单个团购，单个客户已经购买的数量取得
+                Map<Object, Object> paramMap = new HashMap<Object, Object>();
+                paramMap.put("customerNo", customerNo);
+                paramMap.put("groupNo", tGoodsGroup.getGroupno());
+                int alreadyPurchaseSum = orderService.getAleadyPurchaseCount(paramMap);
+                
                 if (checkQuantity + tGoodsGroup.getGroupcurrentquantity() <= tGoodsGroup.getGroupmaxquantity()) {
                     isOver = false;
+                } else {
+                    isOver = true;
+                    maxBuy = tGoodsGroup.getGroupmaxquantity() - tGoodsGroup.getGroupcurrentquantity();
                 }
+                
+                if (checkQuantity > tGoodsGroup.getGroupquantitylimit()) {
+                    isOver = true;
+                    maxBuy = (maxBuy > tGoodsGroup.getGroupquantitylimit() || maxBuy == 0L) ? tGoodsGroup.getGroupquantitylimit() : maxBuy;
+                }
+                
+                if(checkQuantity + alreadyPurchaseSum > tGoodsGroup.getGroupquantitylimit()) {
+                	isOver = true;
+                	maxBuy = ((maxBuy + alreadyPurchaseSum) > tGoodsGroup.getGroupquantitylimit() || maxBuy == 0L) ? (tGoodsGroup.getGroupquantitylimit() - alreadyPurchaseSum) : maxBuy;
+                }
+                
+            	if(maxBuy < 0) {
+            		maxBuy = 0;
+            	}
             }
-
+            mapReturn.put("maxBuy", maxBuy);
             mapReturn.put("isOver", isOver);
             mapReturn.put("isException", false);
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+    
+    /**
+     * 购物车内容的商品数量是否超过了购买上线
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/checkAllIsOverGroup")
+    @ResponseBody
+    public Map<String, Object> checkAllIsOverGroup(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session, @RequestBody List<Map<String, String>> list) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            boolean isOver = false;
+            long maxBuy = 0;
+            String msg = "";
+            if (list != null && list.size() > 0) {
+                for (Map<String, String> mapParam : list) {
+                    TGoodsGroup tGoodsGroup = new TGoodsGroup();
+                    tGoodsGroup.setGroupno(mapParam.get("groupId"));
+                    tGoodsGroup = goodsService.getGoodPrice(tGoodsGroup);
+                    Long checkQuantity = Long.valueOf(mapParam.get("goodsQuantity"));
+                    //单个团购，单个客户已经购买的数量取得
+                    Map<Object, Object> paramMap = new HashMap<Object, Object>();
+                    paramMap.put("customerNo", customerNo);
+                    paramMap.put("groupNo", tGoodsGroup.getGroupno());
+                    int alreadyPurchaseSum = orderService.getAleadyPurchaseCount(paramMap);
+
+                    if (checkQuantity + tGoodsGroup.getGroupcurrentquantity() <= tGoodsGroup.getGroupmaxquantity()) {
+                        isOver = false;
+                    } else {
+                        isOver = true;
+                        maxBuy = tGoodsGroup.getGroupmaxquantity() - tGoodsGroup.getGroupcurrentquantity();
+                    }
+                    
+                    if (checkQuantity > tGoodsGroup.getGroupquantitylimit()) {
+                        isOver = true;
+                        maxBuy = (maxBuy > tGoodsGroup.getGroupquantitylimit() || maxBuy == 0L) ? tGoodsGroup.getGroupquantitylimit() : maxBuy;
+                    }
+                    
+                    if(checkQuantity + alreadyPurchaseSum > tGoodsGroup.getGroupquantitylimit()) {
+                    	isOver = true;
+                    	maxBuy = ((maxBuy + alreadyPurchaseSum) > tGoodsGroup.getGroupquantitylimit() || maxBuy == 0L) ? (tGoodsGroup.getGroupquantitylimit() - alreadyPurchaseSum) : maxBuy;
+                    }
+                    
+                	if(maxBuy < 0) {
+                		maxBuy = 0;
+                	}
+                	
+                    if (isOver) {
+                        GoodItemDto itemDto = goodsService.getGoodAllItemDto(mapParam.get("groupId"));
+                        msg = super.getMessage("E0009", session).replace("{0}", itemDto.getGoods().getGoodsname()).replace("{1}", String.valueOf(maxBuy));
+                    }
+                    
+                    
+                }
+                
+            }
+            mapReturn.put("checkAllMsg", msg);
+            mapReturn.put("isOver", isOver);
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error("message", e);
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+    
+    /**
+     * 购物车内容的商品的各种check
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/checkAllIsOverGroupAndCanBuy")
+    @ResponseBody
+    public Map<String, Object> checkAllIsOverGroupAndCanBuy(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session, @RequestBody List<Map<String, String>> list) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            boolean isOver = false;
+            boolean isGroupEnd = false;
+            boolean isGroupNotStart = false;
+            long maxBuy = 0;
+            String msg = "";
+            if (list != null && list.size() > 0) {
+                for (Map<String, String> mapParam : list) {
+                    TGoodsGroup tGoodsGroup = new TGoodsGroup();
+                    tGoodsGroup.setGroupno(mapParam.get("groupId"));
+                    tGoodsGroup = goodsService.getGoodPrice(tGoodsGroup);
+                    Long checkQuantity = Long.valueOf(mapParam.get("goodsQuantity"));
+                    //单个团购，单个客户已经购买的数量取得
+                    Map<Object, Object> paramMap = new HashMap<Object, Object>();
+                    paramMap.put("customerNo", customerNo);
+                    paramMap.put("groupNo", tGoodsGroup.getGroupno());
+                    int alreadyPurchaseSum = orderService.getAleadyPurchaseCount(paramMap);
+
+                    if (checkQuantity + tGoodsGroup.getGroupcurrentquantity() <= tGoodsGroup.getGroupmaxquantity()) {
+                        isOver = false;
+                    } else {
+                        isOver = true;
+                        maxBuy = tGoodsGroup.getGroupmaxquantity() - tGoodsGroup.getGroupcurrentquantity();
+                    }
+                    
+                    if (checkQuantity > tGoodsGroup.getGroupquantitylimit()) {
+                        isOver = true;
+                        maxBuy = (maxBuy > tGoodsGroup.getGroupquantitylimit() || maxBuy == 0L) ? tGoodsGroup.getGroupquantitylimit() : maxBuy;
+                    }
+                    
+                    if(checkQuantity + alreadyPurchaseSum > tGoodsGroup.getGroupquantitylimit()) {
+                        isOver = true;
+                        maxBuy = ((maxBuy + alreadyPurchaseSum) > tGoodsGroup.getGroupquantitylimit() || maxBuy == 0L) ? (tGoodsGroup.getGroupquantitylimit() - alreadyPurchaseSum) : maxBuy;
+                    }
+                    
+                        if(maxBuy < 0) {
+                                maxBuy = 0;
+                        }
+                        
+                    if (isOver) {
+                        GoodItemDto itemDto = goodsService.getGoodAllItemDto(mapParam.get("groupId"));
+                        msg = super.getMessage("E0009", session).replace("{0}", itemDto.getGoods().getGoodsname()).replace("{1}", String.valueOf(maxBuy));
+                    }
+                    
+                    // 判断商品是否已经结束
+                    if(DateFormatUtils.getBetweenSecondTime(tGoodsGroup.getValidperiodend()).contains("-")) {
+                        isGroupEnd = true;
+                    }
+                    GoodItemDto itemDto = goodsService.getGoodAllItemDto(mapParam.get("groupId"));
+                    if (isGroupEnd) { 
+                        msg = super.getMessage("E0011", session).replace("{0}", itemDto.getGoods().getGoodsname());
+                    }
+                    
+                    // 判断商品是否开始团购
+                    if (tGoodsGroup.getValidperiodstart().compareTo(DateFormatUtils.getCurrentDate()) > 0) {
+                        isGroupNotStart = true;
+                    }
+                    if (isGroupNotStart) { 
+                        msg = super.getMessage("E0013", session).replace("{0}", itemDto.getGoods().getGoodsname());
+                    }
+                    
+                    if (isOver || isGroupEnd || isGroupNotStart) {
+                        break;
+                    }
+                }
+                
+            }
+            mapReturn.put("checkAllMsg", msg);
+            // 判断是不是黑名单用户，如果是黑名单的用户则不可以购买
+            TCustomerMemberInfo tCustomerMemberInfo = customerService.getCustomerMemberInfo(customerNo);
+            if (tCustomerMemberInfo != null && CommonEnum.CustomerLevel.BLACK.getCode().equals(tCustomerMemberInfo.getLevel())) {
+                mapReturn.put("checkAllMsg", super.getMessage("E0014", session));
+                mapReturn.put("isBlackLevel", true);
+            }
+            mapReturn.put("isOver", isOver);
+            mapReturn.put("isGroupEnd", isGroupEnd);
+            mapReturn.put("isGroupNotStart", isGroupNotStart);
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -643,7 +830,7 @@ public class CommonController extends BaseController {
                     if (Long.valueOf(itemDto.getGoodsQuantity()) + tGoodsGroup.getGroupcurrentquantity() > tGoodsGroup
                             .getGroupmaxquantity()) {
                         isOver = true;
-                        mapReturn.put("isOverMsg", itemDto.getGoodsName() + super.getMessage("E0012"));
+                        mapReturn.put("isOverMsg", itemDto.getGoodsName() + super.getMessage("E0012", session));
                         break;
                     }
                     if (DateFormatUtils.getCurrentDate().before(tGoodsGroup.getValidperiodstart())
@@ -652,7 +839,7 @@ public class CommonController extends BaseController {
                         isOverTime = true;
                         mapReturn.put(
                                 "isOverTimeMsg",
-                                super.getMessage("E0013").replace(CommonConstants.MESSAGE_PARAM_ONE,
+                                super.getMessage("E0013", session).replace(CommonConstants.MESSAGE_PARAM_ONE,
                                         itemDto.getGoodsName()));
                         break;
                     }
@@ -665,7 +852,7 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }
@@ -698,7 +885,290 @@ public class CommonController extends BaseController {
             return mapReturn;
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("message", e);
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+
+    /**
+     * 首页获取所有的商品
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/getAllGoods")
+    public Map<String, Object> getAllGoods(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session, String pageNo, String daySearch) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            String imgUrl = super.getApplicationMessage("saveImgUrl", session);
+            Pagination pagination = new Pagination(Integer.parseInt(pageNo),
+                    Integer.parseInt(CommonConstants.MAIN_LIST_COUNT));
+            Map<Object, Object> params = new HashMap<Object, Object>();
+            params.put("daySearch", daySearch);
+            pagination.setParams(params);
+            PagingResult<GroupItemDto> pageInfo = goodsService.getGoodsByParamForPage(pagination, session);
+            
+            if (!CollectionUtils.isEmpty(pageInfo.getResultList())) {
+                for (GroupItemDto goods : pageInfo.getResultList()) {
+                    goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT + goods.getGoodsthumbnail());
+                    goods.setCountdownTime(DateFormatUtils.getBetweenSecondTime(goods.getValidEndTime()));
+                }
+            }
+            mapReturn.put("isException", false);
+            mapReturn.put("mainGoods", (pageInfo == null || pageInfo.getResultList() == null) ? null : pageInfo.getResultList());
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error("message", e);
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+    
+    /**
+     * 更新这次要买的货物的信息
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/updateCartCanBuy")
+    @ResponseBody
+    public Map<String, Object> updateCartCanBuy(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session, @RequestBody List<String> list) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            if (list != null && list.size() > 0) {
+                String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+                goodsService.updateCartCanBuy(customerNo, list);
+            }
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error("message", e);
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+    
+    /**
+     * 获取指定客户下所有的地址
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/getShopCartCount")
+    @ResponseBody
+    public Map<String, Object> getShopCartCount(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            //
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            if (customerNo == null) {
+                return mapReturn;
+            }
+            // 获取购物地址
+            List<TConsCart> cartList = goodsService.getAllContCart(customerNo);
+            
+            mapReturn.put("sccount", cartList == null ? 0 : cartList.size());
+            // 后台维护的时候提示让以逗号隔开
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error("message", e);
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+    
+    
+    /**
+     * 获取未付款的订单
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/getNotPayCount")
+    @ResponseBody
+    public Map<String, Object> getNotPayCount(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            //
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            if (customerNo == null) {
+                return mapReturn;
+            }
+            // 获取未付款的订单
+            Map<Object, Object> paramMap = new HashMap<Object, Object>();
+            paramMap.put("customerNo", customerNo);
+            paramMap.put("handleFlg", CommonEnum.HandleFlag.NOT_PAY.getCode());
+            List<OrderInfoDto> orderList = orderService.getAllOrderInfoNoPage(paramMap);
+            
+            mapReturn.put("sccount", orderList == null ? 0 : orderList.size());
+            // 后台维护的时候提示让以逗号隔开
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error("message", e);
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+    
+    /**
+     * 获取待发货的订单
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/getNotDeliverCount")
+    @ResponseBody
+    public Map<String, Object> getNotDeliverCount(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            //
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            if (customerNo == null) {
+                return mapReturn;
+            }
+            // 获取待发货的订单
+            Map<Object, Object> paramMap = new HashMap<Object, Object>();
+            paramMap.put("customerNo", customerNo);
+            paramMap.put("handleFlg", CommonEnum.HandleFlag.PLACE_ORDER_SU.getCode());
+            List<OrderInfoDto> orderList = orderService.getAllOrderInfoNoPage(paramMap);
+            
+            mapReturn.put("sccount", orderList == null ? 0 : orderList.size());
+            // 后台维护的时候提示让以逗号隔开
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error("message", e);
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+    
+    /**
+     * 获取派送中的订单
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/getDeliveringCount")
+    @ResponseBody
+    public Map<String, Object> getDeliveringCount(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            //
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            if (customerNo == null) {
+                return mapReturn;
+            }
+            // 获取派送中的订单
+            Map<Object, Object> paramMap = new HashMap<Object, Object>();
+            paramMap.put("customerNo", customerNo);
+            paramMap.put("handleFlg", CommonEnum.HandleFlag.SENDING.getCode());
+            List<OrderInfoDto> orderList = orderService.getAllOrderInfoNoPage(paramMap);
+            
+            mapReturn.put("sccount", orderList == null ? 0 : orderList.size());
+            // 后台维护的时候提示让以逗号隔开
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error("message", e);
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+    
+    /**
+     * 获取未完成的订单
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/getNotSuOrder")
+    @ResponseBody
+    public Map<String, Object> getNotSuOrder(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            //
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            if (customerNo == null) {
+                return mapReturn;
+            }
+            // 获取未付款的订单
+            Map<Object, Object> paramMap = new HashMap<Object, Object>();
+            paramMap.put("customerNo", customerNo);
+            List<OrderInfoDto> orderList = orderService.getNotSuccessedOrder(paramMap);
+            
+            mapReturn.put("sccount", orderList == null ? 0 : orderList.size());
+            // 后台维护的时候提示让以逗号隔开
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error("message", e);
+            mapReturn.put("isException", true);
+            return mapReturn;
+        }
+    }
+    
+    
+    /**
+     * 向用户发送发票
+     * 
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/sendInvoice")
+    @ResponseBody
+    public Map<String, Object> sendInvoice(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session, @RequestBody Map<String, String> requestMap) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            //
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            if (customerNo == null) {
+                mapReturn.put("isException", true);
+                return mapReturn;
+            }
+            String orderNo = requestMap.get("orderNo");
+            String invoicemail = requestMap.get("invoicemail");
+            String invoicename = requestMap.get("invoicename");
+            String invoiceabn = requestMap.get("invoiceabn");
+            String invoiceads = requestMap.get("invoiceads");
+            if (StringUtils.isEmpty(invoicemail) || StringUtils.isEmpty(orderNo)) {
+                mapReturn.put("isException", true);
+                return mapReturn;
+            }
+                
+            orderService.createTaxAndSendMailForPhone(orderNo, customerNo, session, invoicemail, invoicename, invoiceabn, invoiceads);
+            // 后台维护的时候提示让以逗号隔开
+            mapReturn.put("isException", false);
+            return mapReturn;
+        }
+        catch (Exception e) {
+            logger.error("message", e);
             mapReturn.put("isException", true);
             return mapReturn;
         }

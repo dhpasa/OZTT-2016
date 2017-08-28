@@ -102,6 +102,13 @@
 	}
 	
 	function webChatPay(){
+		
+		if (!isWeChatBrowser()) {
+			$('#errormsg_content').text("只有在微信下才可以进行微信支付");
+			$('#errormsg-pop-up').modal('show');
+            return;
+		}
+		
 		var orderId = $("#orderNo").val();
 		var paymentMethodId = $("#paymentMethodId").val();
 		var paramData = {
@@ -232,10 +239,10 @@
 						</a>
 					</li>
 					
-					<li class="payment wechat_pay" data-id="4" style="display:none">
+					<li class="payment wechat_pay" data-id="4">
 						<a href="javascript:void(0);" class="payment" data-id="4"> 
-							<img src="${ctx}/images/zhifu/weixin.jpg" class="img_q" /> 
-							<img src="${ctx}/images/zhifu/weixinh.jpg" class="img_h" />
+							<img src="${ctx}/images/zhifu/weixin.jpg" class="img_q wechat_icon_not_selected" />
+                            <img src="${ctx}/images/zhifu/weixinh.jpg" class="img_h wechat_icon_selected" />
 						</a>
 					</li>
 
@@ -255,7 +262,7 @@
 							</div>
 							<table cellpadding="0" cellspacing="0" class="zhifu_table">
 								<tr>
-									<td class="td_lf">支付手续费(+1.5%)</td>
+									<td class="td_lf">支付手续费(免手续费)</td>
 									<td class="td_rt">$1.09</td>
 								</tr>
 								<tr>
@@ -263,9 +270,12 @@
 									<td class="td_rt">$${amount}</td>
 								</tr>
 							</table>
-							<div class="zhifubao_cankao">
-								实际汇率 即时到账 今日参考汇率 - <span><strong>5.1964</strong></span>
+							<div class="zhifubao_cankao wechat_canbuy" style="display:none">
+								实际汇率 即时到账 </span>
 							</div>
+							<div class="zhifubao_cankao wechat_cannotbuy" style="display:none">
+                                    对不起，<strong><span>请在微信中打开本页</span></strong>，给您带来的不便，请谅解
+                            </div>
 							<input type="button" class="btn btn_blue zhifubtn" value="微信支付" onclick="webChatPay()"/>
 
 					</div>
@@ -277,7 +287,7 @@
 								data-val-required="The OrderId field is required." id="OrderId"
 								name="OrderId" type="hidden" value="101291" />
 							<div class="zhifubao_cankao">
-								<b>MasterCard支付</b>
+								<b>银行转账</b>
 							</div>
 							<table cellpadding="0" cellspacing="0" class="zhifu_table">
 								<tr>
@@ -315,7 +325,7 @@
 								</div>
 							</div>
 							<input type="button" class="btn btn_blue zhifubtn qianbtn"
-								value="MasterCard支付" onclick="masterCardPay()" id="payBtn"/>
+								value="确认转账" onclick="masterCardPay()" id="payBtn"/>
 
 
 
@@ -355,7 +365,15 @@
 	    });
 	    
 	    if (isWeChatBrowser()) {
-	        $('.payment[data-id="4"]').show();
+	        $('.wechat_canbuy').show();
+	        // 更换按钮
+	        $('.wechat_icon_not_selected').attr('src','${ctx}/images/zhifu/weixin.jpg');
+	        $('.wechat_icon_selected').attr('src','${ctx}/images/zhifu/weixinh.jpg');
+	    } else {
+	    	$('.wechat_cannotbuy').show();
+	    	// 更换按钮
+	    	$('.wechat_icon_not_selected').attr('src','${ctx}/images/zhifu/weixin_non.jpg');
+	        $('.wechat_icon_selected').attr('src','${ctx}/images/zhifu/weixin_nons.jpg');
 	    }
 	    
 	    var paymentMethodId = $("#paymentMethodId").val();

@@ -104,6 +104,15 @@ public class PackingUtil {
             this.totalScore = Long.valueOf(prop.getProperty("totalWeight", "30"));
             this.totalWeight = Long.valueOf(prop.getProperty("totalScore", "5500"));
         }
+        
+        else if(expressName.equals("天越")){
+            String configurationPath = s + "/tianyue.properties";
+            Properties prop = new Properties();
+            InputStream inputStream = new FileInputStream(configurationPath);
+            prop.load(inputStream);
+            this.totalScore = Long.valueOf(prop.getProperty("totalWeight", "30"));
+            this.totalWeight = Long.valueOf(prop.getProperty("totalScore", "5500"));
+        }
           
         else {
       
