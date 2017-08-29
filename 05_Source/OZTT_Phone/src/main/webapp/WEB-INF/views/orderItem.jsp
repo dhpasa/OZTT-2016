@@ -214,7 +214,6 @@
 		
 	}
   	
-
   </script>
   <style type="text/css">
 .wrapper
@@ -461,6 +460,9 @@
 	                                    <div class="modal-body">
 	                                        <img src="${box.expressPhotoUrl }" alt=""  height="180">
 	                                    </div>
+	                                    <div class="modal-footer">
+							               <span>提示：长按图片可以将图片保存到本地</span>
+							           </div>
 	                                </div>
 	                            </div>
 	                        </div>
@@ -563,6 +565,9 @@
 	                                    <div class="modal-body">
 	                                        <img src="${photoUrl }" alt=""  height="180">
 	                                    </div>
+	                                    <div class="modal-footer">
+							               <span>提示：长按图片可以将图片保存到本地</span>
+							           </div>
 	                                </div>
 	                            </div>
 	                        </div>
@@ -588,110 +593,6 @@
 </div>
 
 
-
-
-	<%-- <div class="x-header x-header-gray border-1px-bottom">
-		<div class="x-header-btn ico-back"></div>
-		<div class="x-header-title">
-			<span><fmt:message key="ORDERLIST_TITLE" /></span>
-		</div>
-		<div class="x-header-btn"></div>
-	</div>
-	<div class="order-item-status border-top-show">
-		${detailInfo.orderStatusView}!
-	</div>
-	
-	<div class="order-item-head">
-		<div class="order-item-time"><fmt:message key="ORDER_ITEM_ORDERNO" />${detailInfo.orderNo}</div>
-		<div class="order-item-headStatus">${detailInfo.orderStatusView}</div>
-		<div class="order-select-address border-top-show">
-			<c:if test="${detailInfo.addressId != '0' }">
-				<div class="nameandphone">
-					<div class="name">${detailInfo.receiver }&nbsp;&nbsp;&nbsp;${detailInfo.receiverPhone }</div>
-					<div class="phone"></div>
-				</div>
-				<div class="detailaddress">
-					<i class="position"></i>
-					<div>
-						${detailInfo.receiverAddress}
-					</div>
-				</div>
-			</c:if>
-			<c:if test="${detailInfo.addressId == '0' }">
-				<div class="detailaddress_store">
-					<i class="position"></i>
-					<div>
-						${detailInfo.receiverAddress}
-					</div>
-				</div>
-			</c:if>
-			
-		</div>
-	</div>
-	<div class="order-goods-div margin-1rem-top">
-		<c:forEach var="goodslist" items="${ detailInfo.goodList }">
-		<div class="order-checkBlockBody">
-			<div class="order-groupinfo">
-				<div class="order-group-img">
-					<img src="${goodslist.goodsImage }" class="img-responsive">
-				</div>
-				<div class="order-group-pro">
-					<span class="order-goodname">${goodslist.goodsName }</span>
-					
-					<div class="order-good－picktime" style="display: none">
-						<fmt:message key="ORDER_ITEM_DELIVERYTIME" /> ${goodslist.canbuyDay }
-					</div>
-				</div>
-				<div class="order-group-price">
-					<span>$${goodslist.goodsPrice }</span>	
-					<div class="order-item-group">X${goodslist.goodsQuantity }</div>		
-				</div>
-				<c:if test="${goodslist.detailStatus == '0' }">
-					<div class="order-groupinfo-status"><a><fmt:message key="COMMON_ORDER_DETAIL_HANDLE_0" /></a></div>
-				</c:if>
-				<c:if test="${goodslist.detailStatus == '1' }">
-					<div class="order-groupinfo-status"><a><fmt:message key="COMMON_ORDER_DETAIL_HANDLE_1" /></a></div>
-				</c:if>
-				<c:if test="${goodslist.detailStatus == '2' }">
-					<div class="order-groupinfo-status"><a><fmt:message key="COMMON_ORDER_DETAIL_HANDLE_2" /></a></div>
-				</c:if>
-				<c:if test="${goodslist.detailStatus == '3' }">
-					<div class="order-groupinfo-status"><a><fmt:message key="COMMON_ORDER_DETAIL_HANDLE_3" /></a></div>
-				</c:if>
-				
-			</div>
-		</div>
-		</c:forEach>
-	</div>
-			
-
-	<div class="order-item-allinfo margin-1rem-top">
-		<div class="order-item-payinfo top-padding">
-			<div class="paytitle"><fmt:message key="ORDER_ITEM_PAYMETHOD" /></div>
-			<div class="paycontent">${ detailInfo.paymethod}</div>
-		</div>
-		<div class="order-item-payinfo top-padding">
-			<div class="paytitle"><fmt:message key="ORDER_ITEM_DELIVERYMETHOD" /></div>
-			<div class="paycontent">${ detailInfo.deliveryMethodView}</div>
-		</div>
-<!-- 		<div class="order-item-payinfo top-padding"> -->
-			<div class="paytitle"><fmt:message key="ORDER_ITEM_UNIFY" /></div>
-			<div class="paycontent">${ detailInfo.deliveryDate} ${ detailInfo.deleveryTime}</div>
-<!-- 		</div> -->
-		<div class="order-item-payinfo top-padding">
-			<div class="paytitle"><fmt:message key="ORDER_ITEM_FEIGHT" /></div>
-			<div class="paycontent">${ detailInfo.yunfei}</div>
-		</div>
-		<div class="order-item-payinfo bottom-padding">
-			<div class="paytitle"><fmt:message key="ORDER_ITEM_COMMENT" /></div>
-			<div class="paycontent">${ detailInfo.customerComment}</div>
-		</div>
-		
-	</div>
-	<div class="order-item-money margin-1rem-top">
-		<div><fmt:message key="ORDRE_ITEM_COUNT" />${ detailInfo.heji}</div>
-		<p><fmt:message key="ORDRE_ITEM_ALL" />${ detailInfo.goodList.size()}<fmt:message key="ORDRE_ITEM_COUNT_GOODS" /></p>
-	</div> --%>
 </body>
 <!-- END BODY -->
 </html>
