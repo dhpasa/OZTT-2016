@@ -313,7 +313,7 @@
   
   
   <select id="getPowderAndProductOrderPage" resultType="com.org.oztt.formDto.PowderOrderInfo" parameterType="map">
-  	select
+  	select DISTINCT
   	A.id as orderId,
     A.ordreNo as orderNo,
 	A.status,
@@ -344,7 +344,7 @@
     </if>
     
 union all
-    select
+    select DISTINCT
   	A.id as orderId,
     A.orderNo as orderNo,
 	A.status,
@@ -381,7 +381,7 @@ union all
   	select 
   	count(1) 
   	from
-  	(select
+  	(select DISTINCT
   	A.id as orderId
     from t_powder_order A
     left join t_powder_box B on A.id = B.orderId
@@ -406,7 +406,7 @@ union all
     	)
     </if>
 union all
-    select
+    select DISTINCT
   	A.id as orderId
     from t_product_order A
     left join t_product_box B on A.id = B.orderId
