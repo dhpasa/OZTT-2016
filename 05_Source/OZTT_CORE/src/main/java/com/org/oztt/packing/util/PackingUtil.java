@@ -342,8 +342,10 @@ public class PackingUtil {
             return;
         Collections.sort(items, new Comparator<Item>() {
             public int compare(Item arg0, Item arg1) {
-                if (arg0.getWeight() >= arg1.getWeight())
+                if (arg0.getWeight() > arg1.getWeight())
                     return -1;
+                else if (arg0.getWeight() == arg1.getWeight())
+                    return 0;
                 else
                     return 1;
             }
