@@ -25,10 +25,18 @@
 			"orderNo" : $("#orderNo").val(),
 			"jcaptchaCode" : $("#jcaptchaCodeInput").val()
 		}
+		var url = "";
+		if ("1".equals($("#isMilk").val())) {
+			// 奶粉
+			url = '${ctx}/milkPowderAutoPurchase/toPay';
+		} else {
+			// 非奶粉
+			url = '${ctx}/Pay/toPay';
+		}
 		$.ajax({
 			type : "POST",
 			contentType : 'application/json',
-			url : '${ctx}/Pay/toPay',
+			url : url,
 			dataType : "json",
 			async : false,
 			data : JSON.stringify(paramData),
@@ -116,13 +124,21 @@
 				device_id:getDevice(),
 				operator: 'oztt_phone'
 		};
-		if (paymentMethodId == "1") {
+		var url = "";
+		if (paymentMethodId == "1" || paymentMethodId == "") {
 			// MasterCard
+			if ("1" == $("#isMilk").val()) {
+				// 奶粉
+				url = '${ctx}/milkPowderAutoPurchase/getWeChatPayUrl?orderId='+orderId;
+			} else {
+				// 非奶粉
+				url = '${ctx}/purchase/getWeChatPayUrl?orderId='+orderId;
+			}
 			$.ajax({
 				type : "PUT",
 				timeout : 60000, //超时时间设置，单位毫秒
 				contentType:'application/json',
-				url : '${ctx}/purchase/getWeChatPayUrl?orderId='+orderId,
+				url : url,
 				dataType : "json",
 				async : false,
 				data : JSON.stringify(paramData), 
@@ -150,11 +166,18 @@
 			});
 		} else {
 			// 微信付款
+			if ("1" == $("#isMilk").val()) {
+				// 奶粉
+				url = '${ctx}/milkPowderAutoPurchase/getWeChatPayUrlHasCreate?orderId='+orderId;
+			} else {
+				// 非奶粉
+				url = '${ctx}/purchase/getWeChatPayUrlHasCreate?orderId='+orderId;
+			}
 			$.ajax({
 				type : "GET",
 				timeout : 60000, //超时时间设置，单位毫秒
 				contentType:'application/json',
-				url : '${ctx}/purchase/getWeChatPayUrlHasCreate?orderId='+orderId,
+				url : url,
 				dataType : "json",
 				async : false,
 				data : "", 
@@ -262,10 +285,6 @@
 							</div>
 							<table cellpadding="0" cellspacing="0" class="zhifu_table">
 								<tr>
-									<td class="td_lf">支付手续费(免手续费)</td>
-									<td class="td_rt">$1.09</td>
-								</tr>
-								<tr>
 									<td class="td_lf">实付金额</td>
 									<td class="td_rt">$${amount}</td>
 								</tr>
@@ -292,7 +311,7 @@
 							<table cellpadding="0" cellspacing="0" class="zhifu_table">
 								<tr>
 									<td class="td_lf">实付金额</td>
-									<td class="td_rt">$${amount}</td>
+									<td class="td_rt">$${bankAmount}</td>
 								</tr>
 							</table>
 							<div class="qian_mess">
@@ -339,6 +358,7 @@
 
 	<input type="hidden" id="paymentMethodId" value="${productorder.paymentMethod }" />
 	<input type="hidden" value="${orderNo }" id="orderNo"/>
+	<input type="hidden" value="${isMilk }" id="isMilk"/>
 	
 	<div class="out_alert alert" id="deleteAlert">
 	    <p class="alert_tl">确认返回</p>

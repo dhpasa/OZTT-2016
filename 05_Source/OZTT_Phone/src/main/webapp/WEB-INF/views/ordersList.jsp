@@ -19,11 +19,11 @@
 	}
 	
 	
-	function toPay(orderId, paymentMethod) {
-		if (paymentMethod == "1") {
-			location.href = "${ctx}/Pay/init?orderNo="+orderId+"&paymentMethod="+paymentMethod;
+	function toPay(orderId, paymentMethod, powderOrProductFlg) {
+		if (paymentMethod == "1" || paymentMethod == "") {
+			location.href = "${ctx}/Pay/init?orderNo="+orderId+"&paymentMethod="+1+"&isMilk="+powderOrProductFlg;
 		} else if (paymentMethod == "4") {
-			location.href = "${ctx}/Pay/init?orderNo="+orderId+"&paymentMethod="+paymentMethod;
+			location.href = "${ctx}/Pay/init?orderNo="+orderId+"&paymentMethod="+paymentMethod+"&isMilk="+powderOrProductFlg;
 			// 新增的微信支付
 			/* if (!isWeiXin()){
 				// 不是微信，则跳出提示
@@ -246,7 +246,7 @@
                             <div class="dingdan_ul_main_bt">
                                 <div class="dingdan_btn">
                                 	<c:if test="${order.status == '0' }">
-                                		<a onclick="toPay('${order.orderNo}','${order.paymentMethod}')" style="color:#fa4e83">立即付款</a>
+                                		<a onclick="toPay('${order.orderNo}','${order.paymentMethod}','${order.powderOrProductFlg}')" style="color:#fa4e83">立即付款</a>
                                 	</c:if>
                                     
                                     <a onclick="detail('${order.orderId}','${order.powderOrProductFlg}')">订单详情</a>

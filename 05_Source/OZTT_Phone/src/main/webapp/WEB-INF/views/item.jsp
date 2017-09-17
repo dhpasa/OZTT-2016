@@ -140,7 +140,7 @@
                 <div class="shangpin_mess_price">
                         <p>
                             <span class="shangpin_mess_price_name">售价：</span>
-                            <span class="color_red price">$ ${goodItemDto.nowPrice }</span>
+                            <span class="color_red price">$ ${goodItemDto.disPrice }</span>
                         </p>
                 </div>
             </div>
