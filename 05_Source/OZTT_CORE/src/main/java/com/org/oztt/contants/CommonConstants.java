@@ -151,7 +151,7 @@ public final class CommonConstants {
     public static final String     EXPRESS_SUPIN              = "4";                                    // 速品物流的ID
 
     public static final String     EXPRESS_XINGSUDI           = "5";                                    // 星速递物流的ID
-    
+
     public static final String     EXPRESS_TIANYUE            = "6";                                    // 星速递物流的ID
 
     public static final String     EXPRESS_ELE_NO             = "TT120101";                             // 物流的电子快递单号
@@ -174,6 +174,9 @@ public final class CommonConstants {
 
     public static final Double     IFMARK_FEE                 = 0D;
 
-    public static final String[]   BRAND_INFO                 = { "A2", "爱他美", "Bellamy", "Blackmores", "Healthy Care", "Swisse" };
+    public static final BigDecimal BANK_ADDITION              = new BigDecimal(1.03);
+
+    public static final String[]   BRAND_INFO                 = { "A2", "爱他美", "Bellamy", "Blackmores", "Healthy Care",
+            "Swisse"                                         };
 
 }
