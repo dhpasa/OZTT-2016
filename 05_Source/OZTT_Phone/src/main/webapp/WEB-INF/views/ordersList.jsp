@@ -259,7 +259,7 @@
         </div>
     </div>
     <input type="hidden" value="${orderStatus}" id="hiddenorderStatus" />
-    <input type="hidden" value="${keywords}" id="hiddensearchcontent"/>
+    <input type="hidden" value="${keyword}" id="hiddensearchcontent"/>
 	    <c:if test="${orderList.totalPage > 1 }">
 	    	<div style="" class="pagenav-wrapper" id="J_PageNavWrap">
 	            <div class="pagenav-content">

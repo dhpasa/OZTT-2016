@@ -316,7 +316,7 @@
             </div>
 			<c:forEach var="goodItem" items="${ hotFlgSellList }">
             <div id="jingxuanlist" class="clearfix">
-                    	<a class="clearfix">
+                    <a href="#" onclick="toItem('${goodItem.groupno }')" class="clearfix">
                         <div class="jingxuan_item_left">
                             <img src="${goodItem.goodsthumbnail }">
                         </div>

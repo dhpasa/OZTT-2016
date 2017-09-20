@@ -395,7 +395,7 @@
 	        <li>
 	            <a href="${ctx}/main/init">
 	                <div class="footer_img">
-	                    <img src="${ctx}/picture/shouye_ico.png" class="img_q" />
+	                   <%--  <img src="${ctx}/picture/shouye_ico.png" class="img_q" /> --%>
 	                    <img src="${ctx}/picture/shouye_icoh.png" class="img_h" />
 	                </div>
 	                <p>
@@ -406,7 +406,7 @@
 	        <li>
 	            <a href="#chatQRcodeForMain" data-toggle="modal">
 	                <div class="footer_img">
-	                    <img src="${ctx}/picture/footer_kefu.png" class="img_q" />
+	                   <%--  <img src="${ctx}/picture/footer_kefu.png" class="img_q" /> --%>
 	                    <img src="${ctx}/picture/footer_kefuh.png" class="img_h" />
 	                </div>
 	                <p>
@@ -417,7 +417,7 @@
 	        <li>
 	            <a href="${ctx}/shopcart/init" class="gouwuche" id="bottomCart">
 	                <div class="footer_img" >
-	                    <img src="${ctx}/picture/gouwudai.png" class="img_q" />
+	                    <%-- <img src="${ctx}/picture/gouwudai.png" class="img_q" /> --%>
 	                    <img src="${ctx}/picture/gouwudaih.png" class="img_h" />
 	                    <span class="num" id="ecsCartInfo"></span>
 	                </div>
@@ -429,7 +429,7 @@
 	        <li>
 	            <a href="${ctx}/user/init">
 	                <div class="footer_img">
-	                    <img src="${ctx}/picture/mine.png" class="img_q" />
+	                    <%-- <img src="${ctx}/picture/mine.png" class="img_q" /> --%>
 	                    <img src="${ctx}/picture/mineh.png" class="img_h" />
 	                </div>
 	                <p>
