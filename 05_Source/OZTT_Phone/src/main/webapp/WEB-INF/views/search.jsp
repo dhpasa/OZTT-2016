@@ -187,9 +187,9 @@
 	                                        ${goods.disprice }
 	                                    </span>
 	                                    <div class="clearfix sum left">
-	                                        <button class="min left" data-id="${goods.groupno}"></button>
+	                                        <a class="min left" data-id="${goods.groupno}"></a>
 	                                        <input class="text_box left" id="number_798" data-id="${goods.groupno}" name="" type="text" value="1" pattern="[0-9]*" maxlength="2" size="4"/>
-	                                        <button class="add left" data-id="${goods.groupno}"></button>
+	                                        <a class="add left" data-id="${goods.groupno}"></a>
 	                                    </div>
 	                                        <a href="javascript:void(0);" onclick="checktoCart('${goods.groupno}',this)" class="buy_ico right gouwuico" data-id="${goods.groupno}"></a>
 	                                </div>

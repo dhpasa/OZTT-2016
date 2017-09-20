@@ -118,7 +118,7 @@ $('.payment').click(function () {
 
 //滚动到最低端
 $(".pro_weibu").click(function () {
-    $('body,html').animate({ scrollTop: 40000 }, 1000);
+    $('body').animate({ scrollTop: $("body")[0].scrollHeight }, 1000);
 })
 //全选
 /*$('.all_check').toggle(function () {
@@ -153,9 +153,9 @@ $('.zhuangtai_tl a').click(function () {
     $(".dingdan_con").eq(index).addClass('active').siblings().removeClass('active');
 });
 //滚动到最低端
-$(".pro_weibu").click(function () {
-    $('body,html').animate({ scrollTop: 40000 }, 1000);
-})
+//$(".pro_weibu").click(function () {
+//    $('body,html').animate({ scrollTop: 40000 }, 1000);
+//})
 //全选
 $('.all_check').toggle(function () {
     $(this).parents().find("input[name='checkname']").attr("checked", 'true');

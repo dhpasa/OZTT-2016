@@ -310,6 +310,11 @@
 							</div>
 							<table cellpadding="0" cellspacing="0" class="zhifu_table">
 								<tr>
+									<td class="td_lf">支付手续费(3%)</td>
+									<td class="td_rt">$${produreAmount}</td>
+								</tr>
+								
+								<tr>
 									<td class="td_lf">实付金额</td>
 									<td class="td_rt">$${bankAmount}</td>
 								</tr>
