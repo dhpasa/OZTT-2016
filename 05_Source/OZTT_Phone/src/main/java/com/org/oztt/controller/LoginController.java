@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -34,6 +35,10 @@ public class LoginController extends BaseController {
     @RequestMapping(value = "/init")
     public String init(Model model, HttpServletResponse response, HttpSession session) {
         try {
+            Object customerNo = session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            if (!StringUtils.isEmpty(customerNo)) {
+                return "redirect:/user/init";
+            }
             return "login";
         }
         catch (Exception e) {
