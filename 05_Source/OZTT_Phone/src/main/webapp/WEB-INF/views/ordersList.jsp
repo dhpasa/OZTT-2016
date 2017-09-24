@@ -169,7 +169,7 @@
     <div class="search_top">
 		<form action="${ctx}/order/init" method="post">            
 		<div class="search_top_main clearfix">
-            <input type="text" id="keyword" name="keyword" class="search_top_main_lf" placeholder="订单号/收货人电话/收货人姓名" value="${keyword}"/>
+            <input type="text" id="keyword" name="searchcontent" class="search_top_main_lf" placeholder="订单号/收货人电话/收货人姓名" value="${keyword}"/>
             <input type="button" class="right search_top_main_btn" value="" onclick="seachOrderList()"/>
         </div>
 		</form>    

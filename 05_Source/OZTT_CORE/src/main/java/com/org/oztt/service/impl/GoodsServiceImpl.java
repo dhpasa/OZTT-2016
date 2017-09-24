@@ -1078,10 +1078,10 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
                 TGoodsGroup tGoodsGroup = new TGoodsGroup();
                 tGoodsGroup.setGroupno(dto.getGroupno());
                 tGoodsGroup = getGoodPrice(tGoodsGroup);
-//                if (new Date().compareTo(tGoodsGroup.getValidperiodend()) > 0) {
-//                    tConsCartDao.deleteByPrimaryKey(dto.getNo());
-//                    continue;
-//                }
+                if (new Date().compareTo(tGoodsGroup.getValidperiodend()) > 0) {
+                    tConsCartDao.deleteByPrimaryKey(dto.getNo());
+                    continue;
+                }
 
                 // 判断是否已经满团，满团则删除
                 if (tGoodsGroup.getGroupcurrentquantity() >= tGoodsGroup.getGroupmaxquantity()) {

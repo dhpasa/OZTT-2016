@@ -113,6 +113,7 @@ input:focus{outline: none;}
 .fenlei_neirong_b{position: relative;text-align: center;}
 .buy{display: block;background: url(../images/gouwuche.jpg) no-repeat;width: 23px;height: 23px;background-size: 23px 23px;position: absolute;right: 0px;bottom: 0;}
 .buy_tuan{display: block;background: url(../images/buy.png) no-repeat;width: 30px;height: 27px;background-size: 30px 30px;position: absolute;right: 0px;bottom: 0;}
+.buy_cart{display: block;background: url(../images/gouwuche.jpg) no-repeat;width: 23px;height: 23px;background-size: 23px 23px;position: absolute;right: 0px;bottom: 0;}
 .fenlei_neirong_b .color_red{font-size: 14px;}
 .add{background: url(../images/jiahao.jpg) no-repeat;}
 .min{background: url(../images/jianhao.jpg) no-repeat;}
