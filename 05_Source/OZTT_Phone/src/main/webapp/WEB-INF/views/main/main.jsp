@@ -149,7 +149,11 @@
 <!--头部开始-->
 <div class="head_fix">
     <div id="searchcontainer" class="head index_head">          
-		<div class="head_logo"><img src="${ctx}/images/logo_tuantuan.png" width="75" /></div>
+		<div class="head_logo">
+			<div style="width: 100%;height: 100%;padding: 3.5px 0px 0px 3.5px;">
+				<img src="${ctx}/images/logo_tuantuan.png" width="75" />
+			</div>
+		</div>
         <div class="head_search">
              <div class="head_search_main clearfix">
                  <input id="searchbox" type="text" name="keyword" class="left head_search_main_lf" placeholder="搜索商品品牌 名称 功效" />
@@ -250,7 +254,7 @@
                                     <p class="big">
                                         特价产品
                                     </p>
-                                    SPECIAL PRODUCTS
+                                    SPECIAL 
                                 </span>
                             </div>
                             <img src="${ctx}/picture/cate_3.jpg" />
@@ -327,7 +331,6 @@
                             
                             <p class="jingxuan_item_curtprice">$${goodItem.disprice }<span> AUD</span></p>
                             <p class="jingxuan_item_rmb"><span class="jingxuan_item_tag">新品</span></p>
-                            <img src="${ctx}/images/buy.png" alt="" class="d6" onclick="checktoCartForNewProduct('${goodItem.groupno}', this)" />
                         </div>
                     </a>
             </div>
@@ -376,7 +379,7 @@
                             <p class="fenlei_neirong_ul_main_tl">
                                 <a href="#" onclick="toItem('${goodslist.groupno }')">${goodslist.goodsname }</a>
                             </p>
-                            <div class="fenlei_neirong_b">
+                            <div class="clearfix fenlei_neirong_b">
 								<span class="color_red">${goodslist.disprice }</span>
 									
                                 <div class="clearfix sum">
@@ -384,7 +387,7 @@
                                     <input class="text_box left" name="" type="text" value="1" data-id="${goodslist.groupno}" pattern="[0-9]*" maxlength="2" size="4">
                                     <a href="javascript:void(0);" class="add left" data-id="${goodslist.groupno}"></a>
                                 </div>
-                                <a href="javascript:void(0);" onclick="checktoCart('${goodslist.groupno}',this)" class="buy_tuan" data-id="${goodslist.groupno}"></a>
+                                <a href="javascript:void(0);" onclick="checktoCart('${goodslist.groupno}',this)" class="buy_cart" data-id="${goodslist.groupno}"></a>
                             </div>
                         </div>
                     </li>
