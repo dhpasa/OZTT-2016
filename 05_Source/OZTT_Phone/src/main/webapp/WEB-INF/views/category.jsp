@@ -32,7 +32,11 @@
 	<!--头部开始-->
 <div class="head_fix">
     <div id="searchcontainer" class="head index_head">          
-		<div class="head_logo"><img src="${ctx}/images/logo_tuantuan.png" width="75" /></div>
+		<div class="head_logo">
+			<div style="width: 100%;height: 100%;">
+				<img src="${ctx}/images/logo_tuantuan.png" height="40px" />
+			</div>
+		</div>
         <div class="head_search">
              <div class="head_search_main clearfix">
                  <input id="searchbox" type="text" name="keyword" class="left head_search_main_lf" placeholder="搜索商品品牌 名称 功效" />
@@ -92,8 +96,8 @@
 	</div>
 	
 	<!--   回到顶部-->
-	<em class="topbtn"></em>
-	<script type="text/javascript" src="${ctx}/js/qin.js"></script>
+	<!-- <em class="topbtn"></em> -->
+	<%-- <script type="text/javascript" src="${ctx}/js/qin.js"></script> --%>
 </body>
 <!-- END BODY -->
 </html>
