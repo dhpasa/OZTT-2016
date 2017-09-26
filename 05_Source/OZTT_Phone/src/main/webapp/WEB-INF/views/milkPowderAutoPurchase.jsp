@@ -32,6 +32,7 @@
   <script type="text/javascript" src="${ctx}/js/dialog.js"></script>
   <script type="text/javascript" src="${ctx}/js/mobile-select-area.js"></script>
   <script type="text/javascript" src="${ctx}/js/icheck.js"></script>
+  <script type="text/javascript" src="${ctx}/js/jquery.timer.js"></script>
   <!-- Head END -->
   <script>	
 		$(function(){
@@ -143,7 +144,7 @@
 			});
 			
 			$("#see_no_pay").click(function(){
-				location.href = "${ctx}/powderOrder/init?tab=0";
+				location.href = "${ctx}/order/init?orderStatus=0";
 			});
 			
 			$(".mpas_icon-shopcart").click(function(){
@@ -159,7 +160,7 @@
 		function gotoPurchase() {
 			// 首先保存信息。
 			var payType = '';
-			if ($("#radio-bank").attr("checked") == "checked") {
+			if ($("#radio-bank").prop("checked")) {
 				payType = '1';
 			} else {
 				payType = '4';
@@ -182,7 +183,7 @@
 			}
 			
 			// 点击确认支付后，看选择内容，分别进行支付操作
-			if ($("#radio-bank").attr("checked") == "checked") {
+			if ($("#radio-bank").prop("checked")) {
 				// 删除等待的画面
 				removeLoading();
 				// 银行卡付款		
@@ -590,12 +591,12 @@
 			
 			// 判断是否有奶粉附加费产生
 			var isReceivePicMoney = 0;
-			if ($("#isReceivePic").attr("checked") == "checked") {
+			if ($("#isReceivePic").prop("checked")) {
 				isReceivePicMoney = '${sysconfig.messageFee}' == '' ? 0 : fmoney('${sysconfig.messageFee}',2);
 			}
 			
 			var isRemarkMoney = 0;
-			if ($("#isRemark").attr("checked") == "checked") {
+			if ($("#isRemark").prop("checked")) {
 				isRemarkMoney = '${sysconfig.remarkFee}' == '' ? 0 : fmoney('${sysconfig.remarkFee}',2);
 			}
 			
@@ -788,8 +789,8 @@
 				}
 			});
 			
-			var isReceivePicData = $("#isReceivePic").attr("checked") == "checked" ? "1" : "0";
-			var isRemarkData = $("#isRemark").attr("checked") == "checked" ? "1" : "0";
+			var isReceivePicData = $("#isReceivePic").prop("checked") ? "1" : "0";
+			var isRemarkData = $("#isRemark").prop("checked") ? "1" : "0";
 			
 			var powderDetailInfo = {
 					expressId:expressId,/** 快递ID */
