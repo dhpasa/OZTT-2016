@@ -150,8 +150,8 @@
 <div class="head_fix">
     <div id="searchcontainer" class="head index_head">          
 		<div class="head_logo">
-			<div style="width: 100%;height: 100%;padding: 3.5px 0px 0px 3.5px;">
-				<img src="${ctx}/images/logo_tuantuan.png" width="75" />
+			<div style="width: 100%;height: 100%;">
+				<img src="${ctx}/images/logo_tuantuan.png" height="40px" />
 			</div>
 		</div>
         <div class="head_search">
