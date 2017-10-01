@@ -104,7 +104,7 @@ input:focus{outline: none;}
 .pinpai_ul li img{width: 100%;vertical-align: middle;}
 .fenlei_neirong{background: #fff;margin-bottom: 5px;}
 .fenlei_neirong_ul li{float: left;width: 50%;}
-.fenlei_neirong_ul_main{display: block;border-bottom: 1px solid #eee;padding: 10px;}
+.fenlei_neirong_ul_main{display: block;border-bottom: 1px solid #eee;padding: 10px;position: relative;}
 .fenlei_neirong_ul_main .products_kuang{width: 100%;margin: auto;overflow: hidden;position: relative;padding-bottom: 100%;}
 .fenlei_neirong_ul_main img{width: 100%;vertical-align: middle; right: 0; bottom: 0; margin: auto; display: block; top: 0; position: absolute; left: 0; width:70%;}
 .fenlei_neirong_ul_main_tl{padding: 6px 0px;text-align: center;height: 48px;overflow: hidden;}
@@ -584,8 +584,8 @@ input:focus{outline: none;}
 /*首页特价*/
 #jingxuanlist {width:100%;}
 #jingxuanlist a{width:100%;margin-top:10px;margin-bottom:10px;}
-.jingxuan_item_left{width:40%;float:left;}
-.jingxuan_item_left img{width:80%;}
+.jingxuan_item_left{width:40%;float:left;position: relative;}
+.jingxuan_item_left img{width:100%;}
 .jingxuan_item_right {color:black;width:60%;float:right;position: relative;}
 .jingxuan_item_name {font-size:14px;margin-top:5px;min-height:44px;max-height:60px;margin-bottom:5px;overflow:hidden;}
 .jingxuan_item_origprice {text-decoration:line-through;color:#b4b4b4;font-size:14px;}
