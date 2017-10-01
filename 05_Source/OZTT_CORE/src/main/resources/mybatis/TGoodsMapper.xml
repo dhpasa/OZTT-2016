@@ -497,7 +497,7 @@
 		inner join t_goods a on c.goodsId = a.goodsId
 		where a.onSaleFlg= '1'
 		and (c.openFlg = '1')
-		and c.groupCurrentQuantity <![CDATA[ < ]]> c.groupMaxQuantity
+		<!-- and c.groupCurrentQuantity <![CDATA[ < ]]> c.groupMaxQuantity -->
 		and c.validPeriodEnd <![CDATA[ > ]]>  NOW()
 		<if test="classId != null and classId != '' ">
 			and a.classId = #{classId,jdbcType=VARCHAR}
@@ -560,7 +560,7 @@
 		inner join t_goods a on c.goodsId = a.goodsId
 		where a.onSaleFlg= '1'
 		and (c.openFlg = '1')
-		and c.groupCurrentQuantity <![CDATA[ < ]]> c.groupMaxQuantity
+		<!-- and c.groupCurrentQuantity <![CDATA[ < ]]> c.groupMaxQuantity -->
 		and c.validPeriodEnd <![CDATA[ > ]]>  NOW()
 		<if test="classId != null and classId != '' ">
 			and a.classId = #{classId,jdbcType=VARCHAR}

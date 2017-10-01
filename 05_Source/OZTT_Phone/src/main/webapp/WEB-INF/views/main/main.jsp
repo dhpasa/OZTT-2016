@@ -216,14 +216,7 @@
             <a href="#" onclick="toMilkPowder()">
                 <span class="big_fenlei_con">
                     <div class="big_fenlei_dingwei">
-                        <div class="big_fenlei_tl clearfix">
-                            <span class="right">
-                                <p class="big">
-                                    奶粉特快
-                                </p>
-                                EXPRESS MILK POWDER
-                            </span>
-                        </div>
+                        
                         <img src="${ctx}/picture/cate_1.jpg" />
                     </div>
                 </span>
@@ -234,14 +227,7 @@
                 <div class="big_fenlei left small_fenlei">
                     <a href="${ctx}/search/init?topPageUp=1">
                         <span class="big_fenlei_con">
-                            <div class="big_fenlei_tl text_center clearfix">
-                                <span class="">
-                                    <p class="big">
-                                        限时团购
-                                    </p>
-                                    GROUP
-                                </span>
-                            </div>
+                            
                             <img src="${ctx}/picture/cate_2.jpg" />
                         </span>
                     </a>
@@ -249,14 +235,7 @@
                 <div class="big_fenlei left small_fenlei">
                     <a href="${ctx}/search/init?inStockFlg=1">
                         <span class="big_fenlei_con">
-                            <div class="big_fenlei_tl clearfix">
-                                <span class="right">
-                                    <p class="big">
-                                        特价产品
-                                    </p>
-                                    SPECIAL 
-                                </span>
-                            </div>
+                            
                             <img src="${ctx}/picture/cate_3.jpg" />
                         </span>
                     </a>
@@ -266,14 +245,7 @@
                 <div class="d4 left small_fenlei">
                     <a href="${ctx}/search/init?hotFlg=1">
                         <span class="big_fenlei_con">
-                            <div class="big_fenlei_tl text_center clearfix">
-                                <span class="">
-                                    <p class="big">
-                                        新品推荐
-                                    </p>
-                                    NEW PRODUCTS
-                                </span>
-                            </div>
+                            
                             <img src="${ctx}/picture/cate_4.jpg" />
                         </span>
                     </a>
@@ -295,6 +267,11 @@
                  <a href="#" onclick="toItem('${goodItem.groupno }')" class="clearfix">
                      <div class="jingxuan_item_left">
                          <img src="${goodItem.goodsthumbnail }">
+                         <c:if test="${goodItem.hasSellOutFlag == '1' }">
+                        	<div class="qiangugang_tp">
+                              已抢光
+                          	</div>
+                       	</c:if>
                      </div>
                      <div class="jingxuan_item_right">
                          <p class="jingxuan_item_name">
@@ -374,6 +351,11 @@
                             <a class="fenlei_neirong_ul_main_a" href="#" onclick="toItem('${goodslist.groupno }')">
                                 <div class="products_kuang main_img">
                                     <img src="${goodslist.goodsthumbnail }">
+                                    <c:if test="${goodslist.hasSellOutFlag == '1' }">
+	                                	<div class="qiangugang_tp">
+	                                      已抢光
+	                                  	</div>
+                                	</c:if>
                                 </div>
                             </a>
                             <p class="fenlei_neirong_ul_main_tl">

@@ -164,6 +164,8 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
                     // 暂时缺货
                     goods.setStockStatus("4");
                 }
+                
+                goods.setHasSellOutFlag(Integer.valueOf(goods.getGroupMax()) <= Integer.valueOf(goods.getGroupCurrent()) ? "1" : "0");
 
             }
         }
@@ -1148,6 +1150,11 @@ public class GoodsServiceImpl extends BaseService implements GoodsService {
             throws Exception {
 
         PagingResult<GroupItemDto> itemList = tGoodsDao.getGoodsByParamForPageFor3(pagination);
+        if (itemList != null && itemList.getResultList() != null && itemList.getResultList().size() > 0) {
+            for (GroupItemDto dto : itemList.getResultList()) {
+                dto.setHasSellOutFlag(Integer.valueOf(dto.getGroupMax()) <= Integer.valueOf(dto.getGroupCurrent()) ? "1" : "0");
+            }
+        }
         return itemList;
     }
 

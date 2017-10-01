@@ -82,6 +82,8 @@ public class GroupItemDto {
     private String     stockStatus;        //库存状态
     
     private String     endTime;
+    
+    private String     hasSellOutFlag;     // 已经售罄
 
     public String getGoodsid() {
         return goodsid;
@@ -374,6 +376,14 @@ public class GroupItemDto {
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;
+    }
+
+    public String getHasSellOutFlag() {
+        return hasSellOutFlag;
+    }
+
+    public void setHasSellOutFlag(String hasSellOutFlag) {
+        this.hasSellOutFlag = hasSellOutFlag;
     }
 
 }
