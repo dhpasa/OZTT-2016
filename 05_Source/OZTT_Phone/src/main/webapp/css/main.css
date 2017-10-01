@@ -47,6 +47,7 @@ input:focus{outline: none;}
 .fenlei_caidan{background: #fff;}
 .big_fenlei{width: 50%;}
 .big_fenlei_con{display:block;border-right: 1px solid #eeeeee;border-bottom: 1px solid #eee;position: relative;}
+.big_fenlei_con_no_bottom_order{display:block;border-right: 1px solid #eeeeee;border-bottom: 1px solid #fff;position: relative;}
 .big_fenlei_main{border-top: 1px solid #eeeeee;background: #fff;margin-bottom: 5px;}
 .big_fenlei_tl .big{font-size: 18px;color: #000000;}
 .big_fenlei_tl{padding: 19px 16px;color: #b6b6b6;}

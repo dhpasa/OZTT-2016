@@ -244,7 +244,7 @@
             <div class="clearfix">
                 <div class="d4 left small_fenlei">
                     <a href="${ctx}/search/init?hotFlg=1">
-                        <span class="big_fenlei_con">
+                        <span class="big_fenlei_con big_fenlei_con_no_bottom_order">
                             
                             <img src="${ctx}/picture/cate_4.jpg" />
                         </span>
