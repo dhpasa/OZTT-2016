@@ -47,7 +47,7 @@ input:focus{outline: none;}
 .fenlei_caidan{background: #fff;}
 .big_fenlei{width: 50%;}
 .big_fenlei_con{display:block;border-right: 1px solid #eeeeee;border-bottom: 1px solid #eee;position: relative;}
-.big_fenlei_con_no_bottom_order{display:block;border-right: 1px solid #eeeeee;border-bottom: 1px solid #fff;position: relative;}
+/*.big_fenlei_con_no_bottom_order{display:block;border-right: 1px solid #eeeeee;border-bottom: 1px solid #fff;position: relative;} */
 .big_fenlei_main{border-top: 1px solid #eeeeee;background: #fff;margin-bottom: 5px;}
 .big_fenlei_tl .big{font-size: 18px;color: #000000;}
 .big_fenlei_tl{padding: 19px 16px;color: #b6b6b6;}
@@ -57,7 +57,9 @@ input:focus{outline: none;}
 .big_fenlei_lf{width: 40%;}
 .big_fenlei_rt{width: 60%;}
 .small_fenlei .big_fenlei_tl{padding-top: 8px;}
-.small_fenlei .big_fenlei_con{padding-bottom: 8px;}
+.small_fenlei .big_fenlei_con{
+	/* padding-bottom: 8px; */
+	}
 .big_fenlei_dingwei{position: absolute;width: 100%;left: 0;top: 50%;}
 .jingxuan{background: #fff;margin-bottom: 5px;}
 .jingxuan_tl{background: url(../images/dian.jpg) repeat-x;height: 34px;background-size: auto 34px;border-bottom: 1px solid #eee;position: relative;margin-top:5px;margin-bottom:5px;}

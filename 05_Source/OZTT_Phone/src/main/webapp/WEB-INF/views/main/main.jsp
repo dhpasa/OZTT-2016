@@ -213,14 +213,15 @@
 	<!--大分类-->
     <div class="clearfix big_fenlei_main">
         <div class="big_fenlei left big_fenlei_lf">
-            <a href="#" onclick="toMilkPowder()">
-                <span class="big_fenlei_con">
-                    <div class="big_fenlei_dingwei">
-                        
-                        <img src="${ctx}/picture/cate_1.jpg" />
-                    </div>
-                </span>
-            </a>
+        	<div class="clearfix">
+        		<div class="left small_fenlei">
+		            <a href="#" onclick="toMilkPowder()">
+		                <span class="big_fenlei_con">
+	                        <img src="${ctx}/picture/cate_1.jpg" />
+		                </span>
+		            </a>
+	            </div>
+            </div>
         </div>
         <div class="big_fenlei left big_fenlei_rt">
             <div class="clearfix">
@@ -244,7 +245,7 @@
             <div class="clearfix">
                 <div class="d4 left small_fenlei">
                     <a href="${ctx}/search/init?hotFlg=1">
-                        <span class="big_fenlei_con big_fenlei_con_no_bottom_order">
+                        <span class="big_fenlei_con">
                             
                             <img src="${ctx}/picture/cate_4.jpg" />
                         </span>
