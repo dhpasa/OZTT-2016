@@ -227,11 +227,11 @@
 	    </div>
 	    <div class="alert_btn">
 	        <a href="javascript:void(0);" class="quxiao">取消</a>
-	        <a href="javascript:document.getElementById('logoutform').submit()" class="btn_red">退出</a>
+	        <a href="#" class="btn_red" onclick="loginOut()">退出</a>
 	    </div>
 	</div>
-	<form action="${ctx}/login/logout" id="logoutform" method="post">
-	</form>
+	<%-- <form action="${ctx}/login/logout" id="logoutform" method="post">
+	</form> --%>
 	<script type="text/javascript" src="${ctx}/js/qin.js"></script>
         
     <script type="text/javascript">

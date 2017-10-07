@@ -1,25 +1,25 @@
 //首页分类左右高度相同样式
 window.onload = function () {
-    var a = $(".big_fenlei_rt").height();
-    var b = $(".big_fenlei_dingwei").height();
-    var c = $(".big_fenlei_lf").height();
-    if (c < a) {
-        $(".big_fenlei_lf .big_fenlei_con").height(a);
-    }
-    else {
-        $(".big_fenlei_rt .big_fenlei_con").height(c / 2);
-    }
-    $(".big_fenlei_dingwei").css("margin-top", -b / 2);
-    var d = $(".tejia_rt").height();
-    var e = $(".tejia_lf").height();
-    var f = $(".tejia_dingwei").height();
-    if (e < d) {
-        $(".tejia_lf .tejia_main").height(d);
-    }
-    else {
-        $(".tejia_rt .tejia_main").height(e / 2 - 47);
-    }
-    $(".tejia_dingwei").css("margin-top", -f / 2);
+//    var a = $(".big_fenlei_rt").height();
+//    var b = $(".big_fenlei_dingwei").height();
+//    var c = $(".big_fenlei_lf").height();
+//    if (c < a) {
+//        $(".big_fenlei_lf .big_fenlei_con").height(a);
+//    }
+//    else {
+//        $(".big_fenlei_rt .big_fenlei_con").height(c / 2);
+//    }
+//    $(".big_fenlei_dingwei").css("margin-top", -b / 2);
+//    var d = $(".tejia_rt").height();
+//    var e = $(".tejia_lf").height();
+//    var f = $(".tejia_dingwei").height();
+//    if (e < d) {
+//        $(".tejia_lf .tejia_main").height(d);
+//    }
+//    else {
+//        $(".tejia_rt .tejia_main").height(e / 2 - 47);
+//    }
+//    $(".tejia_dingwei").css("margin-top", -f / 2);
 }
 //加减
 var productId = 0;
