@@ -217,6 +217,14 @@
         		<div class="left small_fenlei">
 		            <a href="#" onclick="toMilkPowder()">
 		                <span class="big_fenlei_con">
+        	                <div class="big_fenlei_tl clearfix" style="position: absolute;top:30px">
+	                            <span class="right">
+	                                <p class="big" style="padding-bottom: 10px">
+	                                    奶粉特快
+	                                </p>
+	                                EXPRESS MILK POWDER
+	                            </span>
+	                        </div>
 	                        <img src="${ctx}/picture/cate_1.jpg" />
 		                </span>
 		            </a>
@@ -228,7 +236,14 @@
                 <div class="big_fenlei left small_fenlei">
                     <a href="${ctx}/search/init?topPageUp=1">
                         <span class="big_fenlei_con">
-                            
+                            <div class="big_fenlei_tl text_center clearfix xianshi_tuangou">
+                                <span class="">
+                                    <p class="big">
+                                        限时团购
+                                    </p>
+                                    GROUP
+                                </span>
+                            </div>
                             <img src="${ctx}/picture/cate_2.jpg" />
                         </span>
                     </a>
@@ -236,7 +251,14 @@
                 <div class="big_fenlei left small_fenlei">
                     <a href="${ctx}/search/init?inStockFlg=1">
                         <span class="big_fenlei_con">
-                            
+                            <div class="big_fenlei_tl text_center clearfix xianshi_tuangou">
+                                <span class="">
+                                    <p class="big">
+                                        特价商品
+                                    </p>
+                                    SPECIAL
+                                </span>
+                            </div>
                             <img src="${ctx}/picture/cate_3.jpg" />
                         </span>
                     </a>
@@ -246,6 +268,16 @@
                 <div class="d4 left small_fenlei">
                     <a href="${ctx}/search/init?hotFlg=1">
                         <span class="big_fenlei_con">
+                            <div class="big_fenlei_tl text_center clearfix daigou_zuosha">
+                                <span class="">
+                                    <p>
+                                        做代购不知道卖啥？
+                                    </p>
+                                    <p class="big">
+                                    戳这里!
+                                    </p>
+                                </span>
+                            </div>
                             
                             <img src="${ctx}/picture/cate_4.jpg" />
                         </span>

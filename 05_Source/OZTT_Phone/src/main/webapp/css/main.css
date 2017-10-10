@@ -625,3 +625,23 @@ input:focus{outline: none;}
     right: 10px;
     top: 45px;
 }
+
+/* 首页样式从新修改  */
+.xianshi_tuangou{
+	position: absolute;
+	top:6px;
+	padding-top: 3px !important;
+	text-align: center;
+	padding:0px;
+	width: 100%;
+}
+.daigou_zuosha{
+	position: absolute;
+	top:6px;
+	font-size: 21px;
+	padding: 0px 16px;
+}
+
+.daigou_zuosha p{
+	font-size: 21px !important;
+}
