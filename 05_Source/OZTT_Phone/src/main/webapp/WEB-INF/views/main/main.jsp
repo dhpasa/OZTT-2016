@@ -217,9 +217,9 @@
         		<div class="left small_fenlei">
 		            <a href="#" onclick="toMilkPowder()">
 		                <span class="big_fenlei_con">
-        	                <div class="big_fenlei_tl clearfix" style="position: absolute;top:30px">
+        	                <div class="big_fenlei_tl clearfix" style="position: absolute;top:30px;">
 	                            <span class="right">
-	                                <p class="big" style="padding-bottom: 10px">
+	                                <p class="big" style="padding-bottom: 10px;font-size: 21px">
 	                                    奶粉特快
 	                                </p>
 	                                EXPRESS MILK POWDER
