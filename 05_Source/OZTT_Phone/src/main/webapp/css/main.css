@@ -639,7 +639,8 @@ input:focus{outline: none;}
 	position: absolute;
 	top:6px;
 	font-size: 21px;
-	padding: 0px 16px;
+	padding: 0px 0px;
+	width: 100%;
 }
 
 .daigou_zuosha p{
