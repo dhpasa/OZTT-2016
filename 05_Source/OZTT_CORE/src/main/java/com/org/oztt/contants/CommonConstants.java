@@ -176,7 +176,7 @@ public final class CommonConstants {
 
     public static final BigDecimal BANK_ADDITION              = new BigDecimal(1.03);
 
-    public static final String[]   BRAND_INFO                 = { "爱他美", "Bio Island", "Blackmores", "Comvita",
-            "contigo", "Maxigenes", "Moogoo", "Swisse", "Unichi" };
+    public static final String[]   BRAND_INFO                 = { "Swisse", "Blackmores", "Aptamil", "Bio Island", "Comvita", "contigo", 
+            "Maxigenes", "Moogoo", "Unichi" };
 
 }
