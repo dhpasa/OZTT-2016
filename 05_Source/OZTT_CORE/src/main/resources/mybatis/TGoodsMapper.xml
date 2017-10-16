@@ -515,7 +515,7 @@
 			and a.goodsName like concat('%',#{goodsName},'%')
 		</if>
 		<if test="brand != null and brand != '' ">
-			and a.goodsBrand = #{brand,jdbcType=VARCHAR}
+			and a.goodsBrand like concat('%',#{brand,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="daySearch != null and daySearch != '' ">
 			and DATEDIFF(c.validPeriodEnd,NOW()) <![CDATA[ <= ]]> #{daySearch}
@@ -578,7 +578,7 @@
 			and a.goodsName like concat('%',#{goodsName},'%')
 		</if>
 		<if test="brand != null and brand != '' ">
-			and a.goodsBrand = #{brand,jdbcType=VARCHAR}
+			and a.goodsBrand like concat('%',#{brand,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="daySearch != null and daySearch != '' ">
 			and DATEDIFF(c.validPeriodEnd,NOW()) <![CDATA[ <= ]]> #{daySearch}
