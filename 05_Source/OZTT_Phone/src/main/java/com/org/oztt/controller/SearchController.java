@@ -51,6 +51,10 @@ public class SearchController extends BaseController {
             }
             model.addAttribute("SubClassficationList", classficationList);
             
+            if (StringUtils.isNotEmpty(searchcontent)) {
+                model.addAttribute("searchcontent", searchcontent);
+            }
+            
             if (StringUtils.isEmpty(page)) {
                 page = "1";
             }
@@ -97,6 +101,7 @@ public class SearchController extends BaseController {
             if (StringUtils.isNotEmpty(brand)) {
                 // 品牌
                 searchcontent = brand;
+                model.addAttribute("searchcontent", searchcontent);
             }
             
             model.addAttribute("viewcontent", searchcontent);
