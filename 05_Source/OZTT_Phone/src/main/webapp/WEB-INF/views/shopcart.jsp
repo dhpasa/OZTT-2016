@@ -198,12 +198,12 @@
 	
 	var E0010 = '<fmt:message key="E0010" />';
 	function surebuy() {
-		var canTestCustomer = "CS20160605000001";
+		//var canTestCustomer = "CS20160623000001,CS20170205000002,CS20160605000002,CS20160605000001";
 		var sessionUserId = '${currentUserId}';
-		if (canTestCustomer.indexOf(sessionUserId) < 0) {
-			alert("团团网处于测试阶段，造成影响尽请谅解");
-			return;
-		}
+		//if (canTestCustomer.indexOf(sessionUserId) < 0) {
+		//	alert("团团网处于测试阶段，造成影响尽请谅解");
+		//	return;
+		//}
 		
 		// 做对商品购买数量的check
 		var oneGoodPropertiesList = [];

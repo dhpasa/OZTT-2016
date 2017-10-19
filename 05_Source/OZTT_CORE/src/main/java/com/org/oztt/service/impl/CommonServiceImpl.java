@@ -15,6 +15,8 @@ import com.org.oztt.base.common.MyMap;
 import com.org.oztt.base.util.CommonUtils;
 import com.org.oztt.base.util.DateFormatUtils;
 import com.org.oztt.base.util.MessageUtils;
+import com.org.oztt.base.util.SendSMS;
+import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.contants.SysCodeConstants;
 import com.org.oztt.dao.TGoodsClassficationDao;
 import com.org.oztt.dao.TSuburbDeliverFeeDao;
@@ -201,9 +203,9 @@ public class CommonServiceImpl extends BaseService implements CommonService {
         logger.info(random);
         phone = phone.replaceAll(" ", "");
         String sendPhone = phone.startsWith("0") ? "61" + phone.substring(1) : phone;
-        //boolean sendStatus = SendSMS.SendMessages(CommonConstants.PHONEUNMER_FIRST + sendPhone,
-        //        msg.replace(CommonConstants.MESSAGE_PARAM_ONE, random));
-        boolean sendStatus = true;
+        boolean sendStatus = SendSMS.SendMessages(CommonConstants.PHONEUNMER_FIRST + sendPhone,
+                msg.replace(CommonConstants.MESSAGE_PARAM_ONE, random));
+//        boolean sendStatus = true;
         if (sendStatus) {
             // 发送正确则插入数据
             TSysValidateMessage tSysValidateMessage = tSysValidateMessageDao.getInfoByPhone(phone);

@@ -7,9 +7,9 @@ import au.com.m4u.smsapi.ValidityPeriod;
 
 public class SMSUtil {
 
-    private static String       sms_username = "Vm2LDnIck1Y5TBapDqAhC425LK2SFKIWHb95TUmccrYWCWVsO6vv3MRCMIFtI3rbf6G1d3JzIhGI0O0LmU9v0mX7O";
+    private static String       sms_username = "Vm2LDnIck1Y5TBapDqAhC425LK2SFKIWHb95TUmccrYWCWVsO6vv3MRCMIFtI3rbf6G1d3JzIhGI0O0LmU9v0mX7Od3";
 
-    private static String       sms_passWord = "LA7Ir3iguoErrryU6CIduWkaj8aJQ36cnn8Tdx1wPikG9HES9F8l8MJJ3p9P5A07otUo8OIPwS0bvSmM8";
+    private static String       sms_passWord = "LWnnEQij5EKNuyfgXeylPY0Yuc6C9FaqYXLcnXRH0s1VH0qT9aQGlm8dYpbC3HTnKS0qRSBD8iGAnD016F5f8";
 
     private final static String m4uUser      = StringDecode.paramDecode(sms_username);
 
@@ -64,6 +64,7 @@ public class SMSUtil {
     }
     
     public static void main(String[] args) {
-        sendMessage("8615298870452","fuck this is test");
+        sendMessage("8618036825586","测试短信111");
+//        sendMessage("0452176840","Test Message");
     }
 }

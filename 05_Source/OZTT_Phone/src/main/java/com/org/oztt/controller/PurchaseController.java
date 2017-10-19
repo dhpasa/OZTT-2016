@@ -86,14 +86,14 @@ public class PurchaseController extends BaseController {
         try {
             // 加入购物车操作，判断所有的属性是不是相同，相同在添加
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
-            String canTestCustomer = "CS20160605000001";
+            //String canTestCustomer = "CS20160623000001,CS20170205000002,CS20160605000002,CS20160605000001";
             if (StringUtils.isEmpty(customerNo)) {
                 return "redirect:/login/init";
             }
             
-            if (canTestCustomer.indexOf(customerNo) < 0){
-                return "redirect:/main/init"; 
-            }
+            //if (canTestCustomer.indexOf(customerNo) < 0){
+            //    return "redirect:/main/init"; 
+            //}
             // 取得购物车里面选购的内容
             List<ContCartItemDto> consCarts = goodsService.getAllContCartForBuy(customerNo);
             
