@@ -7,10 +7,18 @@ import au.com.m4u.smsapi.ValidityPeriod;
 
 public class SendSMS extends BaseUtils {
 
-    private final static String m4uUser = StringDecode.paramDecode(MessageUtils.getApplicationMessage("sms_username", null));
+//    private final static String m4uUser = StringDecode.paramDecode(MessageUtils.getApplicationMessage("sms_username", null));
 
-    private final static String m4uPass = StringDecode.paramDecode(MessageUtils.getApplicationMessage("sms_passWord", null));
+//    private final static String m4uPass = StringDecode.paramDecode(MessageUtils.getApplicationMessage("sms_passWord", null));
 
+    private static String       sms_username = "Vm2LDnIck1Y5TBapDqAhC425LK2SFKIWHb95TUmccrYWCWVsO6vv3MRCMIFtI3rbf6G1d3JzIhGI0O0LmU9v0mX7Od3";
+
+    private static String       sms_passWord = "LWnnEQij5EKNuyfgXeylPY0Yuc6C9FaqYXLcnXRH0s1VH0qT9aQGlm8dYpbC3HTnKS0qRSBD8iGAnD016F5f8";
+    
+    private final static String m4uUser      = StringDecode.paramDecode(sms_username);
+
+    private final static String m4uPass      = StringDecode.paramDecode(sms_passWord);
+    
     // 打开SMS连接
     private static SmsInterface openConnection(boolean secureMode, boolean debug, String debugFile) {
         SmsInterface si = new SmsInterface(1);
@@ -37,7 +45,10 @@ public class SendSMS extends BaseUtils {
 
     //sending of messages.
     public static boolean SendMessages(String phone, String message) {
-
+        if (phone.substring(0, 1).equals("0"))
+            phone = "+61" + phone.substring(1);
+        if (phone.substring(0, 2).equals("86"))
+            phone = "+" + phone;
         boolean secureMode = false;
         boolean debug = false;
         String debugFile = "";
@@ -54,5 +65,9 @@ public class SendSMS extends BaseUtils {
             logger.error("Response code = " + si.getResponseCode());
             return false;
         }
+    }
+    
+    public static void main(String[] args) {
+    	SendMessages("8618036825586","测试短信222");
     }
 }
