@@ -14,7 +14,7 @@
 		var hiddencurpage = $("#hiddencurpage").val();
 		var hiddentotalPage = $("#hiddentotalPage").val();
 		var hiddenKeywords = $("#hiddenKeywords").val();
-		if (hiddencurpage > 1) {
+		if (parseInt(hiddencurpage) > 1) {
 			var page = hiddencurpage -1;
 			location.href = "${ctx}/address/sendList?keywords="+hiddenKeywords+"&pageNo="+page;
 		}
@@ -24,7 +24,7 @@
 		var hiddencurpage = $("#hiddencurpage").val();
 		var hiddentotalPage = $("#hiddentotalPage").val();
 		var hiddenKeywords = $("#hiddenKeywords").val();
-		if (hiddencurpage < hiddentotalPage) {
+		if (parseInt(hiddencurpage) < parseInt(hiddentotalPage)) {
 			var page = parseInt(hiddencurpage) + 1;
 			location.href = "${ctx}/address/sendList?keywords="+hiddenKeywords+"&pageNo="+page;
 		}	
@@ -98,7 +98,7 @@
             </c:forEach>
 	    </ul>
 	    <input type="hidden" value="${keywords}" id="hiddenKeywords"/>
-	    <c:if test="${sendListPage.totalPage > 1 }">
+	    <c:if test="${receiveListPage.totalPage > 1 }">
 	    	<div style="" class="pagenav-wrapper" id="J_PageNavWrap">
 	            <div class="pagenav-content">
 	                <div class="pagenav" id="J_PageNav">
@@ -107,14 +107,14 @@
 	                    </div>
 	                    <div class="pagenav-cur" style="vertical-align:bottom">
 	                        <div class="pagenav-text"> 
-	                        	<span> ${sendListPage.currentPage } / ${sendListPage.totalPage } </span><i></i> 
+	                        	<span> ${receiveListPage.currentPage } / ${receiveListPage.totalPage } </span><i></i> 
 	                        </div>
 	                        <select class="pagenav-select" onchange="changepage(this)">
-                            	<c:forEach begin="1" end="${sendListPage.totalPage }" step="1" varStatus="status">
-                            		<c:if test="${status.count == sendListPage.currentPage }">
+                            	<c:forEach begin="1" end="${receiveListPage.totalPage }" step="1" varStatus="status">
+                            		<c:if test="${status.count == receiveListPage.currentPage }">
                             			<option selected="selected" value="${status.count }">第 ${status.count } 页</option>
                             		</c:if>
-                            		<c:if test="${status.count != sendListPage.currentPage }">
+                            		<c:if test="${status.count != receiveListPage.currentPage }">
                             			<option value="${status.count }">第 ${status.count } 页</option>
                             		</c:if>
                             	</c:forEach>
@@ -123,8 +123,8 @@
 	                    <div class="p-next">
 	                            <a href="#" title="下一页" onclick="nextpage()">下一页</a>
 	                    </div>
-	                    <input type="hidden" value="${sendListPage.currentPage}" id="hiddencurpage"/>
-	                    <input type="hidden" value="${sendListPage.totalPage}" id="hiddentotalPage"/>
+	                    <input type="hidden" value="${receiveListPage.currentPage}" id="hiddencurpage"/>
+	                    <input type="hidden" value="${receiveListPage.totalPage}" id="hiddentotalPage"/>
 	                </div>
 	            </div>
 		    </div>

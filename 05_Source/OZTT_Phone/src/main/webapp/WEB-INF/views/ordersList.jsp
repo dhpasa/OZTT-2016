@@ -77,7 +77,7 @@
 		var hiddentotalPage = $("#hiddentotalPage").val();
 		var hiddensearchcontent = $("#hiddensearchcontent").val();
 		var hiddenorderStatus = $("#hiddenorderStatus").val();
-		if (hiddencurpage > 1) {
+		if (parseInt(hiddencurpage) > 1) {
 			var page = hiddencurpage -1;
 			location.href = "${ctx}/order/init?orderStatus="+hiddenorderStatus+"&searchcontent="+hiddensearchcontent+"&pageNo="+page;
 		}
@@ -88,7 +88,7 @@
 		var hiddentotalPage = $("#hiddentotalPage").val();
 		var hiddensearchcontent = $("#hiddensearchcontent").val();
 		var hiddenorderStatus = $("#hiddenorderStatus").val();
-		if (hiddencurpage < hiddentotalPage) {
+		if (parseInt(hiddencurpage) < parseInt(hiddentotalPage)) {
 			var page = parseInt(hiddencurpage) + 1;
 			location.href = "${ctx}/order/init?orderStatus="+hiddenorderStatus+"&searchcontent="+hiddensearchcontent+"&pageNo="+page;
 		}	

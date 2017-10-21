@@ -14,7 +14,7 @@
 		var hiddencurpage = $("#hiddencurpage").val();
 		var hiddentotalPage = $("#hiddentotalPage").val();
 		var hiddenKeywords = $("#hiddenKeywords").val();
-		if (hiddencurpage > 1) {
+		if (parseInt(hiddencurpage) > 1) {
 			var page = hiddencurpage -1;
 			location.href = "${ctx}/address/sendList?keywords="+hiddenKeywords+"&pageNo="+page;
 		}
@@ -24,7 +24,7 @@
 		var hiddencurpage = $("#hiddencurpage").val();
 		var hiddentotalPage = $("#hiddentotalPage").val();
 		var hiddenKeywords = $("#hiddenKeywords").val();
-		if (hiddencurpage < hiddentotalPage) {
+		if (parseInt(hiddencurpage) < parseInt(hiddentotalPage)) {
 			var page = parseInt(hiddencurpage) + 1;
 			location.href = "${ctx}/address/sendList?keywords="+hiddenKeywords+"&pageNo="+page;
 		}	

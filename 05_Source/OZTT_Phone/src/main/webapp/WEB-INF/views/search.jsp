@@ -15,7 +15,7 @@
 			var hiddentotalPage = $("#hiddentotalPage").val();
 			var hiddensearchcontent = $("#hiddensearchcontent").val();
 			var hiddenclassId = $("#hiddenclassId").val();
-			if (hiddencurpage > 1) {
+			if (parseInt(hiddencurpage) > 1) {
 				var page = hiddencurpage -1;
 				var addParam = "&topPageUp="+$("#hiddentopPageUp").val() + "&hotFlg="+$("#hiddenhotFlg").val() + "&inStockFlg="+$("#hiddeninStockFlg").val();
 				location.href = "${ctx}/search/init?classId="+hiddenclassId+"&searchcontent="+hiddensearchcontent+"&page="+page+addParam;
@@ -27,7 +27,7 @@
 			var hiddentotalPage = $("#hiddentotalPage").val();
 			var hiddensearchcontent = $("#hiddensearchcontent").val();
 			var hiddenclassId = $("#hiddenclassId").val();
-			if (hiddencurpage < hiddentotalPage) {
+			if (parseInt(hiddencurpage) < parseInt(hiddentotalPage)) {
 				var page = parseInt(hiddencurpage) + 1;
 				var addParam = "&topPageUp="+$("#hiddentopPageUp").val() + "&hotFlg="+$("#hiddenhotFlg").val() + "&inStockFlg="+$("#hiddeninStockFlg").val();
 				location.href = "${ctx}/search/init?classId="+hiddenclassId+"&searchcontent="+hiddensearchcontent+"&page="+page+addParam;
