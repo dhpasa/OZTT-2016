@@ -151,7 +151,10 @@
     <div id="searchcontainer" class="head index_head">          
 		<div class="head_logo">
 			<div style="width: 100%;height: 100%;">
-				<img src="${ctx}/images/logo_tuantuan.png" height="40px" />
+				<a href="${ctx}/main/init" >
+					<img src="${ctx}/images/logo_tuantuan.png" height="40px" />
+				</a>
+				
 			</div>
 		</div>
         <div class="head_search">

@@ -34,13 +34,15 @@
     <div id="searchcontainer" class="head index_head">          
 		<div class="head_logo">
 			<div style="width: 100%;height: 100%;">
-				<img src="${ctx}/images/logo_tuantuan.png" height="40px" />
+				<a href="${ctx}/main/init" >
+					<img src="${ctx}/images/logo_tuantuan.png" height="40px" />
+				</a>
 			</div>
 		</div>
         <div class="head_search">
              <div class="head_search_main clearfix">
                  <input id="searchbox" type="text" name="keyword" class="left head_search_main_lf" placeholder="搜索商品品牌 名称 功效" />
-                 <input value="" class="head_search_btn right" type="submit">
+                 <input value="" class="head_search_btn right" type="submit" id="main_search_icon">
              </div>
         </div>
        	<a href="${ctx}/category/init" class="index_head_fenlei"></a>
@@ -98,6 +100,50 @@
 	<!--   回到顶部-->
 	<!-- <em class="topbtn"></em> -->
 	<%-- <script type="text/javascript" src="${ctx}/js/qin.js"></script> --%>
+	
+	<script type="text/javascript">
+	$(function () {
+    	$("#main_search_icon").click(function(){
+    		location.href = "${ctx}/search/init?searchcontent="+$("#searchbox").val();
+    	})
+    	
+        function searchProduct(request, response) {
+            $.ajax({
+                type: "GET",
+                url: "${ctx}/main/searchJson?searchcontent=" + request.term,
+                success: function (data) { 
+                	response(data.itemInfo); 
+                },
+            });
+        }
+
+        $("#searchbox").autocomplete({
+            delay: 500,
+            minLength: 2,
+            source: searchProduct,
+            appendTo: '#searchcontainer',
+            position: { my: "left-90 top" },
+            select: function (event, ui) {
+                $("#small-searchterms").val(ui.item.label);
+                window.location = "${ctx}/item/getGoodsItem?groupId=" + ui.item.groupno;
+                return false;
+            },
+            open: function() {
+                $("ul.ui-menu").width($(window).width() - 2);
+                //$("ul.ui-menu").height();
+                var height = $(window).height() - 90;
+                $("ul.ui-menu").css('max-height', height+'px');
+            }
+        })
+        .data("ui-autocomplete")._renderItem = function (ul, item) {
+            return $("<li></li>")
+                .data("item.autocomplete", item)
+                .append("<a><div class=\"search-item\"><div class=\"search-item-img-box\" ><img src='" + item.goodsthumbnail + "' class=\"search-item-img\"/></div><div class=\"search-item-info\"><div class=\"search-item-name\">" + item.goodsname + "</div><div class=\"search-item-price\">$" + item.disprice + "</div></div></div>")
+                .appendTo(ul);
+        };
+
+	});
+	</script>
 </body>
 <!-- END BODY -->
 </html>
