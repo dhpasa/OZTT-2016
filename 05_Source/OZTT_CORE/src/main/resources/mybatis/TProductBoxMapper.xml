@@ -23,11 +23,13 @@
     <result column="updUserKey" property="updUserKey" jdbcType="VARCHAR" />
     <result column="updPgmId" property="updPgmId" jdbcType="VARCHAR" />
     <result column="operatorName" property="operatorName" jdbcType="VARCHAR" />
+    <result column="tag" property="tag" jdbcType="VARCHAR" />
+    <result column="packingTimestamp" property="packingTimestamp" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, elecExpressNo, expressDate, deliverId, senderId, receiverId, ifRemarks, remarks, 
     ifMsg, additionalCost, sumAmount, expressPhotoUrl, boxPhotoUrls, orderId, handleStatus, 
-    addTimestamp, addUserKey, updTimestamp, updUserKey, updPgmId, operatorName
+    addTimestamp, addUserKey, updTimestamp, updUserKey, updPgmId, operatorName, tag, packingTimestamp
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -46,7 +48,7 @@
       additionalCost, sumAmount, expressPhotoUrl, 
       boxPhotoUrls, orderId, handleStatus, 
       addTimestamp, addUserKey, updTimestamp, 
-      updUserKey, updPgmId, operatorName
+      updUserKey, updPgmId, operatorName, tag, packingTimestamp
       )
     values (#{id,jdbcType=BIGINT}, #{elecExpressNo,jdbcType=VARCHAR}, #{expressDate,jdbcType=VARCHAR}, 
       #{deliverId,jdbcType=VARCHAR}, #{senderId,jdbcType=VARCHAR}, #{receiverId,jdbcType=VARCHAR}, 
@@ -54,7 +56,7 @@
       #{additionalCost,jdbcType=DECIMAL}, #{sumAmount,jdbcType=DECIMAL}, #{expressPhotoUrl,jdbcType=VARCHAR}, 
       #{boxPhotoUrls,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{handleStatus,jdbcType=CHAR}, 
       #{addTimestamp,jdbcType=TIMESTAMP}, #{addUserKey,jdbcType=VARCHAR}, #{updTimestamp,jdbcType=TIMESTAMP}, 
-      #{updUserKey,jdbcType=VARCHAR}, #{updPgmId,jdbcType=VARCHAR}, #{operatorName,jdbcType=VARCHAR}
+      #{updUserKey,jdbcType=VARCHAR}, #{updPgmId,jdbcType=VARCHAR}, #{operatorName,jdbcType=VARCHAR}, #{tag,jdbcType=VARCHAR}, #{packingTimestamp,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.org.oztt.entity.TProductBox" >
@@ -123,6 +125,12 @@
       <if test="operatorName != null" >
         operatorName,
       </if>
+      <if test="tag != null" >
+        tag,
+      </if>
+      <if test="packingTimestamp != null" >
+        packingTimestamp,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -187,6 +195,12 @@
       </if>
       <if test="operatorName != null" >
         #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="tag != null" >
+        #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="packingTimestamp != null" >
+        #{operatpackingTimestamporName,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -253,6 +267,12 @@
       <if test="operatorName != null" >
         operatorName = #{operatorName,jdbcType=VARCHAR},
       </if>
+      <if test="tag != null" >
+        tag = #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="packingTimestamp != null" >
+        packingTimestamp = #{packingTimestamp,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -277,7 +297,9 @@
       updTimestamp = #{updTimestamp,jdbcType=TIMESTAMP},
       updUserKey = #{updUserKey,jdbcType=VARCHAR},
       updPgmId = #{updPgmId,jdbcType=VARCHAR},
-      operatorName = #{operatorName,jdbcType=VARCHAR}
+      operatorName = #{operatorName,jdbcType=VARCHAR},
+      tag = #{tag,jdbcType=VARCHAR},
+      packingTimestamp = #{packingTimestamp,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
   

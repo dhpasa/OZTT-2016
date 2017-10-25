@@ -111,6 +111,10 @@ public class TProductBox implements Serializable {
      *  
      */
     private String            operatorName;
+    
+    private String            tag;
+    
+    private Date              packingTimestamp;
 
     public Long getId() {
         return id;
@@ -278,5 +282,21 @@ public class TProductBox implements Serializable {
 
     public void setOperatorName(String operatorName) {
         this.operatorName = operatorName;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public Date getPackingTimestamp() {
+        return packingTimestamp;
+    }
+
+    public void setPackingTimestamp(Date packingTimestamp) {
+        this.packingTimestamp = packingTimestamp;
     }
 }

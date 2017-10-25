@@ -487,6 +487,7 @@ public class ProductServiceImpl extends BaseService implements ProductService {
                     .setScale(2, BigDecimal.ROUND_UP));
             tProductBox.setOrderId(String.valueOf(orderIncrement));
             tProductBox.setHandleStatus(CommonEnum.PowderBoxFlag.NOT_PACKED.getCode());
+            tProductBox.setTag(box.tagProperty());
             tProductBoxDao.insertSelective(tProductBox);
 
             sumTotal = sumTotal.add(tProductBox.getSumAmount());
@@ -614,6 +615,7 @@ public class ProductServiceImpl extends BaseService implements ProductService {
 
                 boxInfo.setExpressPhotoUrl(eleExpressUrl);
                 boxInfo.setElecExpressNo(eleExpressNo);
+                boxInfo.setPackingTimestamp(new Date());
                 tProductBoxDao.updateByPrimaryKeySelective(boxInfo);
             }
         }
