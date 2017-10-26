@@ -465,6 +465,9 @@ public class ProductServiceImpl extends BaseService implements ProductService {
             if (StringUtils.isNotEmpty(customerNote)){
                 tProductBox.setIfRemarks("1");
                 tProductBox.setRemarks(customerNote);
+            } else {
+                tProductBox.setIfRemarks("0");
+                tProductBox.setRemarks("");
             }
             
             //tProductBox.setIfMsg(powderBoxRes.get("isReceivePicFlg").toString());
@@ -487,8 +490,20 @@ public class ProductServiceImpl extends BaseService implements ProductService {
                     .setScale(2, BigDecimal.ROUND_UP));
             tProductBox.setOrderId(String.valueOf(orderIncrement));
             tProductBox.setHandleStatus(CommonEnum.PowderBoxFlag.NOT_PACKED.getCode());
+            
             tProductBox.setTag(box.tagProperty());
+            // 一下试验数据是否可以进入打包台
+            tProductBox.setAddTimestamp(new Date());
+            tProductBox.setAddUserKey(customerNo);
+            tProductBox.setUpdTimestamp(new Date());
+            tProductBox.setUpdUserKey(customerNo);
+            tProductBox.setUpdPgmId(customerNo);
+            tProductBox.setOperatorName(customerNo);
+            // MSG 这里默认为空
+            tProductBox.setIfMsg("0");
+
             tProductBoxDao.insertSelective(tProductBox);
+            
 
             sumTotal = sumTotal.add(tProductBox.getSumAmount());
 
@@ -507,6 +522,10 @@ public class ProductServiceImpl extends BaseService implements ProductService {
         if (StringUtils.isNotEmpty(paymentMethodId)) {
             tProductOrder.setPaymentMethod(paymentMethodId);
         }
+        // 下面是默认值，用于验证数据完整性
+        tProductOrder.setDeliveryMethod("3");
+        tProductOrder.setRemarks("");
+        tProductOrder.setIfInvoice("0");
         tProductOrderDao.insertSelective(tProductOrder);
         
         // 将购物车中的数据删除
@@ -615,7 +634,6 @@ public class ProductServiceImpl extends BaseService implements ProductService {
 
                 boxInfo.setExpressPhotoUrl(eleExpressUrl);
                 boxInfo.setElecExpressNo(eleExpressNo);
-                boxInfo.setPackingTimestamp(new Date());
                 tProductBoxDao.updateByPrimaryKeySelective(boxInfo);
             }
         }
