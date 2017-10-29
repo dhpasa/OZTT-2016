@@ -77,7 +77,7 @@
 		var hiddentotalPage = $("#hiddentotalPage").val();
 		var hiddensearchcontent = $("#hiddensearchcontent").val();
 		var hiddenorderStatus = $("#hiddenorderStatus").val();
-		if (hiddencurpage > 1) {
+		if (parseInt(hiddencurpage) > 1) {
 			var page = hiddencurpage -1;
 			location.href = "${ctx}/order/init?orderStatus="+hiddenorderStatus+"&searchcontent="+hiddensearchcontent+"&pageNo="+page;
 		}
@@ -88,7 +88,7 @@
 		var hiddentotalPage = $("#hiddentotalPage").val();
 		var hiddensearchcontent = $("#hiddensearchcontent").val();
 		var hiddenorderStatus = $("#hiddenorderStatus").val();
-		if (hiddencurpage < hiddentotalPage) {
+		if (parseInt(hiddencurpage) < parseInt(hiddentotalPage)) {
 			var page = parseInt(hiddencurpage) + 1;
 			location.href = "${ctx}/order/init?orderStatus="+hiddenorderStatus+"&searchcontent="+hiddensearchcontent+"&pageNo="+page;
 		}	
@@ -100,6 +100,12 @@
 		var hiddensearchcontent = $("#hiddensearchcontent").val();
 		var hiddenorderStatus = $("#hiddenorderStatus").val();
 		location.href = "${ctx}/order/init?orderStatus="+hiddenorderStatus+"&searchcontent="+hiddensearchcontent+"&pageNo="+selectPage;
+	}
+	
+	function seachOrderList(){
+		var searchcontent = $("#keyword").val();
+		var hiddenorderStatus = $("#hiddenorderStatus").val();
+		location.href = "${ctx}/order/init?orderStatus="+hiddenorderStatus+"&searchcontent="+searchcontent;
 	}
 	
 	function selectOrderStatus(status) {
@@ -138,35 +144,35 @@
         <div class="left help_lf user_center">
     <ul>
         <li>
-            <a href="/Order?orderStatus=0" class="ahover">
+            <a href="${ctx}/order/init" class="">
                 <img src="${ctx}/images/yonghuzhongxin/dingdan.png" class="img_q" />
                 <img src="${ctx}/images/yonghuzhongxin/dingdanh.png" class="img_h" />
                 <span class="user_center_link">我的订单</span>
             </a>
         </li>
         <li>
-            <a href="/User/UserProfile?orderStatus=1" class="">
+            <a href="${ctx}/member/init" class="ahover">
                 <img src="${ctx}/images/yonghuzhongxin/xinxi.png" class="img_q" />
                 <img src="${ctx}/images/yonghuzhongxin/xinxih.png" class="img_h" />
                 <span class="user_center_link">会员信息</span>
             </a>
         </li>
         <li>
-            <a href="/User/ConsigneeList" class="">
+            <a href="${ctx}/address/receiveList" class="">
                 <img src="${ctx}/images/yonghuzhongxin/shoujianren.png" class="img_q" />
                 <img src="${ctx}/images/yonghuzhongxin/shoujianrenh.png" class="img_h" />
                 <span class="user_center_link">收件人管理</span>
             </a>
         </li>
         <li>
-            <a href="/User/SenderList" class="">
+            <a href="${ctx}/address/sendList" class="">
                 <img src="${ctx}/images/yonghuzhongxin/fajianren.png" class="img_q" />
                 <img src="${ctx}/images/yonghuzhongxin/fajianrenh.png" class="img_h" />
                 <span class="user_center_link">寄件人管理</span>
             </a>
         </li>
         <li>
-            <a href="javascript:void(0)" id="outBtn">
+            <a href="${ctx}/login/logout" id="outBtn">
                 <img src="${ctx}/images/yonghuzhongxin/out.png" class="img_q" />
                 <img src="${ctx}/images/yonghuzhongxin/outh.png" class="img_h" />
                 <span class="user_center_link">退出</span>
@@ -190,104 +196,133 @@
 <!--弹窗开始-->
 <div class="alert_bg"></div>
 
-<form action="/Login/LogOut" id="logoutform" method="post"><input name="__RequestVerificationToken" type="hidden" value="SKctytYPHq_oXuw19__xu2eaW51KvtCHKWZD0PWh3pndFbwvlqaOGyCnikYZOsHuVdRMbZheR2ld1tUd3hsPcAYZW_9q9fb3YhY-NiJTaQPON3-xwN3A8bSShIp44gJGuiNUmmOYps38T0usTboeIA2" /></form>
-
-<script>
-    $(document).ready(function () {
-        $.ajax({
-            url: "/User/GetBalanceInfoJson",
-            type: "POST",
-            dataType: "JSON",
-            success: function (result) {
-                $("#points").text(result.RewardsPoints + "积分");
-                $("#balance").text("$" + Number(result.AccountBalance.toFixed(2)));
-            }
-        });
-    });
-</script>
-
-<script type="text/javascript" src="/Js/otherfuncs.js"></script>
 
         <div class="right help_rt">
             <div class="dingdan_tl clearfix">
                 <div class="dingdan_qh clearfix left">
-                    <a href="/Order?pageIndex=1&amp;pageSize=30&amp;orderStatus=0" class="ahover">全部<span class="color_red" id="order_count_all"></span></a>
-                    <a href="/Order?pageIndex=1&amp;pageSize=30&amp;orderStatus=1" class="">待付款 <span class="color_red" id="order_count_unconfirmed"></span></a>
-                    <a href="/Order?pageIndex=1&amp;pageSize=30&amp;orderStatus=2" class="">处理中 <span class="color_red" id="order_count_packing"></span></a>
-                    <a href="/Order?pageIndex=1&amp;pageSize=30&amp;orderStatus=3" class="">已发货 <span class="color_red" id="order_count_not_paid"></span> </a>
+                    <a href="#" class="<c:if test="${orderStatus == null || orderStatus=='' }">ahover</c:if>" onclick="selectOrderStatus('')">全部<span class="color_red" id="order_count_all"></span></a>
+                    <a href="#" class="<c:if test="${orderStatus=='0'}">ahover</c:if>" onclick="selectOrderStatus('0')">待付款 <span class="color_red" id="order_count_unconfirmed"></span></a>
+                    <a href="#" class="<c:if test="${orderStatus=='1'}">ahover</c:if>" onclick="selectOrderStatus('1')">处理中 <span class="color_red" id="order_count_packing"></span></a>
+                    <a href="#" class="<c:if test="${orderStatus=='3'}">ahover</c:if>" onclick="selectOrderStatus('3')">已发货 <span class="color_red" id="order_count_not_paid"></span> </a>
                 </div>
-                <div class="right clearfix dingdan_search">                      
-					<input type="text" id="keyword" name="keyword" class="dingdan_search_lf left" placeholder="订单号/收货人电话/收货人姓名" />
-                    <input type="submit" class="right dingdan_search_rt" value="" />
-				</div>
+                <form action="${ctx}/order/init" method="post">    
+	                <div class="right clearfix dingdan_search">                      
+						<input type="text" id="keyword" name="searchcontent" class="dingdan_search_lf left" placeholder="订单号/收货人电话/收货人姓名" value="${keyword}"/>
+	                    <input type="button" class="right dingdan_search_rt" value="" onclick="seachOrderList()"/>
+	                   
+					</div>
+				</form>
             </div>
             <div class="dingdan_qh_main">
+            	<c:forEach var="order" items="${orderList.resultList}">
                 <div class="dingdan_qh_con active">
                         <div class="dingdan_qh_con_tl clearfix">
                             <span class="left dingdan_qh_con_tl_lf">
-                                订单号：101291
+                                订单号：${order.orderNo}
                             </span>
                             <div class="right dingdan_qh_con_tl_rt">
-                                <a href="javascript:void(0);" class="color_blue">等待处理 </a>
-                                    <a href="javascript:void(0);" class="color_red">未付款</a>
-                                
+                                    <a href="javascript:void(0);" class="color_red">
+                                    	<c:if test="${order.status == '0' }">
+	                                		未付款
+	                                	</c:if>
+	                                	<c:if test="${order.status == '1' }">
+	                                		下单成功
+	                                	</c:if>
+	                                	<c:if test="${order.status == '2' }">
+	                                		商品派送中
+	                                	</c:if>
+	                                	<c:if test="${order.status == '3' }">
+	                                		订单已完成
+	                                	</c:if>
+                                    
+                                    </a>
+                                	
                             </div>
                         </div>
                         <div class="dingdan_text">
+                        	<c:forEach var="powderBoxInfo" items="${ order.boxList }" varStatus="status">
+                        		<c:if test="${order.powderOrProductFlg == '1' }">
+		                            <div class="clearfix dingdan_text_gp">
+		                                <div class="left dingdan_text_gp_main mr50">
+		                                    
+		                                    <img src="${ctx}/images/yonghuzhongxin/xingming.png" />
+		                                    <span>${powderBoxInfo.receiveName }</span>
+		                                </div>
+		                                    
+		                            </div>
+		                            <div class="clearfix dingdan_text_gp">
+		                                <div class="left dingdan_text_gp_main">
+		                                    
+		                                    <img src="${ctx}/images/yonghuzhongxin/dizhi.png" />
+		                                    <span>&nbsp;${powderBoxInfo.receivePhone } &nbsp; ${powderBoxInfo.receiveAddress }</span>
+		                                </div>
+		                            </div>
+	                            </c:if>
+	                            <c:if test="${order.powderOrProductFlg == '2' && status.count == '1'}">
+	                            	<div class="clearfix dingdan_text_gp">
+		                                <div class="left dingdan_text_gp_main mr50">
+		                                    
+		                                    <img src="${ctx}/images/yonghuzhongxin/xingming.png" />
+		                                    <span>${powderBoxInfo.receiveName }</span>
+		                                </div>
+		                                    
+		                            </div>
+		                            <div class="clearfix dingdan_text_gp">
+		                                <div class="left dingdan_text_gp_main">
+		                                    
+		                                    <img src="${ctx}/images/yonghuzhongxin/dizhi.png" />
+		                                    <span>&nbsp;${powderBoxInfo.receivePhone } &nbsp; ${powderBoxInfo.receiveAddress }</span>
+		                                </div>
+		                            </div>
+	                            </c:if>
+                            </c:forEach>
+                            <div class="right">合计：<span class="color_red">AU ${order.totalAmount}</span></div>
+                            </br>
                             <div class="clearfix dingdan_text_gp">
-                                <div class="left dingdan_text_gp_main mr50">
-                                    
-                                    <img src="${ctx}/images/yonghuzhongxin/xingming.png" />
-                                    <span>测试</span>
-                                </div>
-                                <div class="left dingdan_text_gp_main">
-                                    
-                                    <img src="${ctx}/images/yonghuzhongxin/shouji.png" />
-                                    <span>15295105536  </span>
-                                </div>
-                                    <div class="right">合计：<span class="color_red">AU 72.69</span></div>
-                            </div>
-                            <div class="clearfix dingdan_text_gp">
-                                <div class="left dingdan_text_gp_main">
-                                    
-                                    <img src="${ctx}/images/yonghuzhongxin/dizhi.png" />
-                                    <span>&nbsp;15295105536 &nbsp; 江苏省 泰州市 泰兴人才科技广场</span>
-                                </div>
-                            </div>
-                            <div class="clearfix dingdan_text_gp">
-                                <div class="left dingdan_text_gp_main">
-                                    
-                                    <img src="${ctx}/images/yonghuzhongxin/riqi.png" />
-                                    <span>12/06/2017 13:54</span>
-                                </div>
+
                                 <div class="right dingdan_do">
-                                        <a href="/Purchase/OrderPayment?orderId=101291" class="ahover">立即付款</a>
-                                    <a href="/Order/Detail?orderId=101291">订单详情</a>
+                                	<c:if test="${order.status == '0' }">
+                                		<a onclick="toPay('${order.orderNo}','${order.paymentMethod}','${order.powderOrProductFlg}')" style="color:#fa4e83">立即付款</a>
+                                	</c:if>
+                                    <a onclick="detail('${order.orderId}','${order.powderOrProductFlg}')">订单详情</a>
                                 </div>
                             </div>
                         </div>
                                         
                 </div>
+                </c:forEach>
+                
             </div>
+            
+            <input type="hidden" value="${orderStatus}" id="hiddenorderStatus" />
+    	<input type="hidden" value="${keyword}" id="hiddensearchcontent"/>
+	    
+		 
+		 <c:if test="${orderList.totalPage > 1 }">
+			        <div class="page">
+		                    <a href="#" onclick="beforepage()">上一页</a>
+		             		<span> ${orderList.currentPage } / ${orderList.totalPage } </span>
+		             		<select class="pagenav-select" onchange="changepage(this)">
+		                     	<c:forEach begin="1" end="${orderList.totalPage }" step="1" varStatus="status">
+		                     		<c:if test="${status.count == orderList.currentPage }">
+		                     			<option selected="selected" value="${status.count }">第 ${status.count } 页</option>
+		                     		</c:if>
+		                     		<c:if test="${status.count != orderList.currentPage }">
+		                     			<option value="${status.count }">第 ${status.count } 页</option>
+		                     		</c:if>
+		                     	</c:forEach>
+		                     </select>
+		                     <a href="#" title="下一页" onclick="nextpage()">下一页</a>
+		                     <input type="hidden" value="${orderList.currentPage}" id="hiddencurpage"/>
+			                 <input type="hidden" value="${orderList.totalPage}" id="hiddentotalPage"/>
+		        	</div>
+	        	</c:if>
         </div>
     </div>
 </div>
 
 <script>
-    $(document).ready(function () {
-        $.ajax({
-            url: "/User/GetOrderStatisticsJson",
-            type: "POST",
-            dataType: "JSON",
-            success: function (result) {
-                $("#order_count_all").text("(" + result.OrderCount + ")");
-                $("#order_count_unconfirmed").text("(" + result.UnconfirmedOrderCount + ")");
-                $("#order_count_packing").text("(" + result.PackingOrderCount + ")");
-                $("#order_count_not_paid").text("(" + result.UnpaidOrderCount + ")");
-                $("#order_count_dispatched").text("(" + result.DispatchedOrderCount + ")");
-            }
-        });
-    });
+    
 </script>
 </body>
 <!-- END BODY -->

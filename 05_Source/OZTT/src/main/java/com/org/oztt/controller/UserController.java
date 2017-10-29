@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.entity.TCustomerBasicInfo;
 import com.org.oztt.entity.TCustomerMemberInfo;
+import com.org.oztt.entity.TCustomerSecurityInfo;
 import com.org.oztt.entity.TSysConfig;
 import com.org.oztt.service.CustomerService;
 import com.org.oztt.service.ProductService;
@@ -43,21 +44,17 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/init")
     public String init(Model model, HttpServletResponse response, HttpServletRequest request, HttpSession session) {
         try {
-            TSysConfig tSysConfig = sysConfigService.getTSysConfig();
-            Object customerNo = request.getSession().getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
             if (StringUtils.isEmpty(customerNo)) {
                 return "redirect:/login/init";
             }
-            if (!StringUtils.isEmpty(customerNo)) {
-                //已经登录的场合取得，当前用户的积分和级别
-                TCustomerMemberInfo memberInfo = customerService.getCustomerMemberInfo(customerNo.toString());
-                if (memberInfo != null) {
-                    model.addAttribute("Points", memberInfo.getPoints());
-                    model.addAttribute("Level", memberInfo.getLevel());
-                }
-            }
-            model.addAttribute("tSysConfig", tSysConfig);
-            return "user";
+            TCustomerBasicInfo baseInfo = customerService.selectBaseInfoByCustomerNo(customerNo);
+            
+            TCustomerSecurityInfo seInfo = customerService.getCustomerSecurityByCustomerNo(customerNo);
+            model.addAttribute("userName", baseInfo.getNickname());
+            model.addAttribute("phone", seInfo.getTelno());
+            model.addAttribute("wechatNo", seInfo.getWechatno());
+            return "member";
         }
         catch (Exception e) {
             e.printStackTrace();

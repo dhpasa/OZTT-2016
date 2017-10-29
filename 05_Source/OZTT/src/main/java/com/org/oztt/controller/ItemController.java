@@ -53,6 +53,23 @@ public class ItemController extends BaseController {
             if ("0".equals(goodItemDto.getCountdownTime()) || goodItemDto.getCountdownTime().contains("-")) {
                 model.addAttribute("IS_END", "1");
             }
+            // 热卖推荐商品
+            Pagination pagination = new Pagination(1, Integer.parseInt(CommonConstants.MAIN_GOODS_LIST));
+            Map<Object, Object> params = new HashMap<Object, Object>();
+            params.put("hotSaleFlg", "1");
+            pagination.setParams(params);
+            PagingResult<GroupItemDto> hotSaleGoodsList = goodsService.getGoodsByParamForPage(pagination, session);
+
+            if (!CollectionUtils.isEmpty(hotSaleGoodsList.getResultList())) {
+                for (GroupItemDto goods : hotSaleGoodsList.getResultList()) {
+                    goods.setGoodsthumbnail(imgUrl + goods.getGoodsid() + CommonConstants.PATH_SPLIT
+                            + goods.getGoodsthumbnail());
+                }
+            }
+            model.addAttribute(
+                    "hotSaleList",
+                    (hotSaleGoodsList == null || hotSaleGoodsList.getResultList() == null) ? null : hotSaleGoodsList
+                            .getResultList());
             return "item";
         }
         catch (Exception e) {

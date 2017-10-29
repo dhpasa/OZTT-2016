@@ -85,10 +85,15 @@ public class PurchaseController extends BaseController {
     public String init(Model model, HttpServletRequest request, HttpSession session, String senderId, String receiveId) {
         try {
             // 加入购物车操作，判断所有的属性是不是相同，相同在添加
-            String customerNo = "CS20160815000005"; //TODO(String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
+            //String canTestCustomer = "CS20160605000001";
             if (StringUtils.isEmpty(customerNo)) {
                 return "redirect:/login/init";
             }
+            
+//            if (canTestCustomer.indexOf(customerNo) < 0){
+//                return "redirect:/main/init"; 
+//            }
             // 取得购物车里面选购的内容
             List<ContCartItemDto> consCarts = goodsService.getAllContCartForBuy(customerNo);
             
@@ -180,7 +185,7 @@ public class PurchaseController extends BaseController {
                     productBoxList.add(dto);
                 }
                 // 总重量
-                boxInfo.setWeight(a);
+                boxInfo.setWeight(new BigDecimal(a).setScale(2, BigDecimal.ROUND_UP).doubleValue());
                 
                 // 快递价格系数 * 数量 
                 BigDecimal sum = exInf.getPriceCoefficient().multiply(

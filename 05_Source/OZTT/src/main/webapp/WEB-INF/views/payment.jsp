@@ -25,10 +25,18 @@
 			"orderNo" : $("#orderNo").val(),
 			"jcaptchaCode" : $("#jcaptchaCodeInput").val()
 		}
+		var url = "";
+		if ("1".equals($("#isMilk").val())) {
+			// 奶粉
+			url = '${ctx}/milkPowderAutoPurchase/toPay';
+		} else {
+			// 非奶粉
+			url = '${ctx}/Pay/toPay';
+		}
 		$.ajax({
 			type : "POST",
 			contentType : 'application/json',
-			url : '${ctx}/Pay/toPay',
+			url : url,
 			dataType : "json",
 			async : false,
 			data : JSON.stringify(paramData),
@@ -102,6 +110,13 @@
 	}
 	
 	function webChatPay(){
+		
+		if (!isWeChatBrowser()) {
+			$('#errormsg_content').text("只有在微信下才可以进行微信支付");
+			$('#errormsg-pop-up').modal('show');
+            return;
+		}
+		
 		var orderId = $("#orderNo").val();
 		var paymentMethodId = $("#paymentMethodId").val();
 		var paramData = {
@@ -109,13 +124,21 @@
 				device_id:getDevice(),
 				operator: 'oztt_phone'
 		};
-		if (paymentMethodId == "1") {
+		var url = "";
+		if (paymentMethodId == "1" || paymentMethodId == "") {
 			// MasterCard
+			if ("1" == $("#isMilk").val()) {
+				// 奶粉
+				url = '${ctx}/milkPowderAutoPurchase/getWeChatPayUrl?orderId='+orderId;
+			} else {
+				// 非奶粉
+				url = '${ctx}/purchase/getWeChatPayUrl?orderId='+orderId;
+			}
 			$.ajax({
 				type : "PUT",
 				timeout : 60000, //超时时间设置，单位毫秒
 				contentType:'application/json',
-				url : '${ctx}/purchase/getWeChatPayUrl?orderId='+orderId,
+				url : url,
 				dataType : "json",
 				async : false,
 				data : JSON.stringify(paramData), 
@@ -143,11 +166,18 @@
 			});
 		} else {
 			// 微信付款
+			if ("1" == $("#isMilk").val()) {
+				// 奶粉
+				url = '${ctx}/milkPowderAutoPurchase/getWeChatPayUrlHasCreate?orderId='+orderId;
+			} else {
+				// 非奶粉
+				url = '${ctx}/purchase/getWeChatPayUrlHasCreate?orderId='+orderId;
+			}
 			$.ajax({
 				type : "GET",
 				timeout : 60000, //超时时间设置，单位毫秒
 				contentType:'application/json',
-				url : '${ctx}/purchase/getWeChatPayUrlHasCreate?orderId='+orderId,
+				url : url,
 				dataType : "json",
 				async : false,
 				data : "", 
@@ -170,7 +200,6 @@
 	}
 
 	function payBack() {
-		
 		$(".alert").show();
         $(".alert_bg").show();
 	}
@@ -186,14 +215,14 @@
 }
 
 .input_username {
-	width: 90%;
+	/* width: 90%; */
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 1rem;
 }
 
 .input-password {
-	width: 90%;
+	/* width: 90%; */
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -210,252 +239,149 @@
         选择支付方式
     </div>
     <div class="zhifu_qh_tl clearfix">
-        <div class="zhifu_qh_tl_main payment ahover" data-id="7">
-            <a href="javascript:;">
-                支付宝
-                <em></em>
-            </a>
-        </div>
+
         
-        <div class="zhifu_qh_tl_main payment" data-id="10">
+        <div class="zhifu_qh_tl_main payment" data-id="4">
             <a href="javascript:;">
                 微信支付
                 <em></em>
             </a>
         </div>
         
-        <div class="zhifu_qh_tl_main payment" data-id="4">
+        <div class="zhifu_qh_tl_main payment" data-id="1">
             <a href="javascript:;">
                 银行转账
                 <em></em>
             </a>
         </div>
-        <div class="zhifu_qh_tl_main payment" data-id="5">
-            <a href="javascript:;">
-                预付款
-                <em></em>
-            </a>
-        </div>
     </div>
     <div class="zhifu_qh_main">
-        <div class="zhifu_qh_con active" data-id="7">
-            
 
-<form action="/Alipay/MakePayment" method="post"><input data-val="true" data-val-number="The field OrderId must be a number." data-val-required="The OrderId field is required." id="OrderId" name="OrderId" type="hidden" value="102861" />    <div class="clearfix zhifujin">
-        <div class="left zhifujin_lf">
-            支付手续费(+2%)<br />
-            $0.87
-        </div>
-        <div class="left zhifujin_lf" style="border: none;">
-            实付金额
-            <br />
-            $44.32
-        </div>
-    </div>
-    <p class="huilv">实际汇率 即时到账 今日参考汇率 - <span><strong>5.2153</strong></span></p>
-    <input type="submit" class="btn_blue fangshibtn cursor" value="支付宝支付" />
-</form>
-
-        </div>
-        <div class="zhifu_qh_con" data-id="10">
-            
-
-<form action="/RoyalPay/MakePayment" method="post"><input data-val="true" data-val-number="The field OrderId must be a number." data-val-required="The OrderId field is required." id="OrderId" name="OrderId" type="hidden" value="102861" />    <div class="clearfix zhifujin">
-        <div class="left zhifujin_lf">
-            支付手续费(+1.5%)<br />
-            $0.65
-        </div>
-        <div class="left zhifujin_lf" style="border: none;">
-            实付金额
-            <br />
-            $44.10
-        </div>
-    </div>
-    <p class="huilv">实际汇率 即时到账 今日参考汇率 - <span><strong>5.2123</strong></span></p>
-    <p class="huilv"><div class="huilv" id="qrcode_wechat_div">请使用微信扫描以下二维码：</div></p>
-    <p class="huilv"><img id="qrcode_wechat" data-id="102861" /></p>
-    <p class="huilv"><span id="warning_dul_pay" class="hide">请勿重复付款！</span></p>
-</form>
-<script>
-
-    var interval_checkpayment;
-
-    jQuery(document).ready(function ($) {
-
-        $("#qrcode_wechat_div").hide();
-        $("#warning_dul_pay").hide();
-
-        interval_checkpayment = setInterval(checkPayment, 10000);
-        setTimeout(function () { clearInterval(interval_checkpayment); }, 300000);
-
-        $.ajax({
-            url: "/RoyalPay/QRCodeJson",
-            type: 'POST',
-            data: { "id": parseInt($("#qrcode_wechat").attr("data-id")) },
-            dataType: "json",
-            success: function (data) {
-                $("#qrcode_wechat").attr("src", data.QRCode);
-                $("#qrcode_wechat_div").show();
-            },
-            error: function () {
-                $("#warning_dul_pay").show();
-            }
-        });
-
-    });
-
-    function checkPayment() {
-        $.ajax({
-            url: "/RoyalPay/CheckPayment",
-            type: 'POST',
-            data: { "id": parseInt($("#qrcode_wechat").attr("data-id")) },
-            dataType: "json",
-            success: function (data) {
-                if (data.Paid)
-                    location.reload();
-            },
-            error: function (returndata) {
-                //alert("错误");
-            }
-        });
-    }
-
-</script>
-
-
-        </div>
         <div class="zhifu_qh_con" data-id="4">
             
 
-<form action="/Purchase/BankTransfer" enctype="multipart/form-data" method="post"><input data-val="true" data-val-number="The field OrderId must be a number." data-val-required="The OrderId field is required." id="OrderId" name="OrderId" type="hidden" value="102861" />    <div class="yinhang_main">
-        <p class="shifu color_red">实付金额 &nbsp;&nbsp;|&nbsp;&nbsp; $43.45</p>
-        <div class="zhanghu">
-            <p>ACCOUNT NAME：<span class="color_black">GP Health</span></p>
-            <p>BSB：<span class="color_black">062184</span></p>
-            <p>ACCOUNT NO：<span class="color_black">11424395</span></p>
+ 
+	<div class="clearfix zhifujin">
+        <div class="left zhifujin_lf">
+            免支付手续费<br />
         </div>
-        <p class="big_tishi">重要提示：</p>
-        <div class="up_shuoming">
-            1、汇款时请务必注明 <span>102861</span>  ，并上传转账截图，否则会延误订单的处理。<br />
-            2、我们会尽快查收账款，并为您安排发货。
-
+        <div class="left zhifujin_lf" style="border: none;">
+            实付金额
+            <br />
+            $${amount}
         </div>
     </div>
-    <div class="yinhang_main" style="border: none;">
-        <p class="big_tishi">请选择一个或多个转账截图文件：</p>
-        <div class="clearfix up_img">
-                <div id="up_img_wrap0" style="display:none;" onclick="$('#up_img_input0').click();">
-                    <img id="up_img0" src="images/zhifu/zhifuimg.jpg" />
-                </div>
-                <div id="up_img_wrap1" style="display:none;" onclick="$('#up_img_input1').click();">
-                    <img id="up_img1" src="images/zhifu/zhifuimg.jpg" />
-                </div>
-                <div id="up_img_wrap2" style="display:none;" onclick="$('#up_img_input2').click();">
-                    <img id="up_img2" src="images/zhifu/zhifuimg.jpg" />
-                </div>
-                <div id="up_img_wrap3" style="display:none;" onclick="$('#up_img_input3').click();">
-                    <img id="up_img3" src="images/zhifu/zhifuimg.jpg" />
-                </div>
-
-<input accept="image/*" id="up_img_input0" name="File[0]" onchange="loadImg(this, 0)" style="display:none;" type="file" value="" /><input accept="image/*" id="up_img_input1" name="File[1]" onchange="loadImg(this, 1)" style="display:none;" type="file" value="" /><input accept="image/*" id="up_img_input2" name="File[2]" onchange="loadImg(this, 2)" style="display:none;" type="file" value="" /><input accept="image/*" id="up_img_input3" name="File[3]" onchange="loadImg(this, 3)" style="display:none;" type="file" value="" />            <div  id="up_img_add" class="left up_btn">
-                <div class="upbtn_main">
-                    <em></em>
-                </div>
-            </div>
-        </div>
-    </div>
-    <input type="submit" class="btn_blue fangshibtn cursor" value="提交" />
-</form>
-<script>
-    var count = 0;
-
-    function loadImg(input, index) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                var node = document.getElementById("up_img" + index);
-                node.setAttribute('src', e.target.result);
-                document.getElementById("up_img_wrap" + index).style.display = "block";
-                count = count + 1;
-                if (index == 3) {
-                    document.getElementById("up_img_add").style.display = "none";
-                }
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    $("#up_img_add").click(function () {
-        if (count < 4) {
-            $('#up_img_input' + count).click();
-        }
-    });
-</script>
+    <p class="huilv wechat_canbuy" style="display:none">实际汇率 即时到账 </p>
+    
+    <p class="huilv wechat_cannotbuy" style="display:none">
+		对不起，<strong><span>请在微信中打开本页</span></strong>，给您带来的不便，请谅解
+	</p>
+    
+	<input type="button" class="btn_blue fangshibtn cursor" value="微信支付" onclick="webChatPay()"/>
 
         </div>
-        <div class="zhifu_qh_con" data-id="5">
+        <div class="zhifu_qh_con" data-id="1">
             
 
-<form action="/Deposit/MakeOrderPayment" method="post"><input data-val="true" data-val-number="The field OrderId must be a number." data-val-required="The OrderId field is required." id="OrderId" name="OrderId" type="hidden" value="102861" />    <div class="yufukuan">
-        <p class="shifu color_red">实付金额 &nbsp;&nbsp;|&nbsp;&nbsp; $43.45</p>
-        <p class="yue_now">
-            当前余额：<span class="color_red">$0.00</span>
-            <a href="/User/AccountDetail" class="look_xq">查看详细</a>
-        </p>
-        <br />
+  
+	<div class="yinhang_main">
+        <p class="shifu color_red">实付金额 &nbsp;&nbsp;|&nbsp;&nbsp; $${bankAmount}</p>
+        <div class="qian_mess">
+			<div class="input_username">
+				<input class="txt-input" type="text" autocomplete="off"
+					placeholder="Card Holder">
+			</div>
+			<div class="input-password">
+				<input class="txt-input" type="text" autocomplete="off"
+					placeholder="Card Number" id="vpc_CardNum">
+			</div>
+			<div class="input-password">
+				<input class="txt-input" type="text" autocomplete="off"
+					maxlength="5" placeholder="Card Expiry Date (MM/YY)"
+					id="vpc_CardExp"
+					onblur="blurCardExp()">
+			</div>
+			<div class="input-password">
+				<input class="txt-input" type="text" autocomplete="off"
+					placeholder="Card Security Code (CSC)"
+					id="vpc_CardSecurityCode">
+			</div>
+			<div class="input-password">
+				<input type="text" name="jcaptchaCode" id="jcaptchaCodeInput"
+					class="txt-input" style="width: 200px; height: 3rem;"
+					placeholder="Verify Code"> <img
+					class="jcaptcha-btn jcaptcha-img"
+					style="height: 3rem; margin-top: -5px"
+					src="${pageContext.request.contextPath}/jcaptcha.jpg">
+			</div>
+		</div>
+        <input type="button" class="btn_blue fangshibtn cursor"
+								value="确认转账" onclick="masterCardPay()" id="payBtn"/>
     </div>
-    <input type="submit" class="btn_blue fangshibtn cursor" value="使用预付款支付">
-</form>
+
         </div>
+        
     </div>
 </div>
 
-<input type="hidden" id="paymentMethodId" value="7" />
+
+	<input type="hidden" id="paymentMethodId" value="${productorder.paymentMethod }" />
+	<input type="hidden" value="${orderNo }" id="orderNo"/>
+	<input type="hidden" value="${isMilk }" id="isMilk"/>
 <script>
 
-    $(document).ready(function () {
-        var paymentMethodId = $("#paymentMethodId").val();
-        reInit(paymentMethodId);
+$(document).ready(function () {
+	
 
-
-        $(".payment").click(function () {
-            paymentMethodId = $(this).attr("data-id");
-            //reInit(paymentMethodId);
-        });
-
-        function reInit(paymentMethodId) {
-            $.each($(".payment"), function () {
-
-                if ($(this).attr("data-id") == paymentMethodId) {
-                    $(".zhifu_qh_con").each(function () {
-                        $(this).removeClass("active");
-                    });
-                    $("div[data-id=" + paymentMethodId + "]").addClass("active");
-
-                    /*$(".payment").each(function () {
-                        $(this).removeClass("active");
-                    });*/
-                    $(this).addClass("ahover")
-                }
-                else {
-                    $(this).removeClass("ahover");
-                }
-            });
-            /*alert($("input[data-id=" + paymentMethodId + "]").prop("checked"));
-            $("input[data-id=7]").prop("checked", false);
-            $("input[data-id=4]").prop("checked", false);
-            $("input[data-id=5]").prop("checked", false);
-            $("input[data-id=" + paymentMethodId + "]").prop("checked", true);*/
-        }
+    $("#alertCancel").click(function () {
+        $(".alert").hide();
+        $(".alert_bg").hide();
     });
 
-    //充值切换
+    $("#alertConfirm").click(function () {
+    	history.back(-1);
+    });
+    
+    if (isWeChatBrowser()) {
+        $('.wechat_canbuy').show();
+        // 更换按钮
+        $('.wechat_icon_not_selected').attr('src','${ctx}/images/zhifu/weixin.jpg');
+        $('.wechat_icon_selected').attr('src','${ctx}/images/zhifu/weixinh.jpg');
+    } else {
+    	$('.wechat_cannotbuy').show();
+    	// 更换按钮
+    	$('.wechat_icon_not_selected').attr('src','${ctx}/images/zhifu/weixin_non.jpg');
+        $('.wechat_icon_selected').attr('src','${ctx}/images/zhifu/weixin_nons.jpg');
+    }
+    
+    var paymentMethodId = $("#paymentMethodId").val();
+    
+    var data_id = 1;
+    if (paymentMethodId == '1') {
+    	// 刚开始是masterCard 付款
+    	data_id = 1;
+    } else {
+    	// 上一次选择的微信时，微信时默认显示的
+    	data_id = 4;
+    }
+    
+    $("a").each(function () {
+        $(this).removeClass("active");
+    });
+    $(".zhifu_qiehuan_con").each(function () {
+        $(this).removeClass("active");
+    });
+
+    $("a[data-id=" + data_id + "]").addClass('active');
+    $(".zhifu_qiehuan_con[data-id=" + data_id + "]").addClass('active');
+    
     $('.zhifu_qh_tl_main').click(function () {
         var index = $(this).index();
         $(this).addClass('ahover').siblings().removeClass('ahover');
         $(".zhifu_qh_con").siblings().removeClass('active');
         $(".zhifu_qh_con").eq(index).addClass('active');
     });
+});
 </script>
 </body>
 <!-- END BODY -->

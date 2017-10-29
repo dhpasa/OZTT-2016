@@ -356,13 +356,12 @@
     <div class="zhifu_tl">
         我的购物车
     </div>
-
-<form action="/Purchase/Checkout" id="cart_form" method="post">            
+           
 <table cellpadding="0" cellspacing="0" width="100%" class="car_table">
                 <tr>
                     <th>
                         <div class="clearfix car_top">
-                            <div class="checkboxFive left all_check">
+                            <div class="checkboxFive left">
                                 <input type="checkbox" id="checkboxInputTop" name="checkname">
                                 <label for="checkboxInputTop"></label>
                             </div>
@@ -385,66 +384,68 @@
                         删除
                     </th>
                 </tr>
-                    <tr data-id="947">
+                <c:forEach var="cart" items="${ cartsList }" varStatus="status">
+                    <tr data-id="${cart.groupId }">
                         <td>
                             <div class="clearfix">
-                                <input data-val="true" data-val-number="The field ProductId must be a number." data-val-required="The ProductId field is required." id="Items_0__ProductId" name="Items[0].ProductId" type="hidden" value="947" />
+                                
                                 <div class="checkboxFive left car_check">
-                                    <input productid="947" data-val="true" data-val-required="The   field is required." id="checkbox191" name="Items[0].Selected" type="checkbox" value="true">
-                                    <label productid="947" for="labelCheck"> </label>
-                                    <input name="Items[0].Selected" type="hidden" value="false">
+                                    <input productid="${cart.groupId }" id="checkbox191" type="checkbox" value="${cart.groupId }">
+                                    <label productid="${cart.groupId }" for="labelCheck"> </label>
                                 </div>
-                                <a href="/Product/eaoron-hair-mask-200ml" class="left car_pro">
-                                    <img src="img/1.jpeg" />
+                                <a href="${ctx}/item/getGoodsItem?groupId=${cart.groupId}" class="left car_pro">
+                                    <img src="${cart.goodsImage }" />
                                 </a>
                             </div>
                         </td>
                         <td>
                             <p class="car_tl">
-                                <a href="/Product/eaoron-hair-mask-200ml" data-outstock="False" class="stockstatus">
-                                    Eaoron 超级补水修复发膜 200ml
+                                <a href="${ctx}/item/getGoodsItem?groupId=${cart.groupId}" data-outstock="False" class="stockstatus">
+                                    ${cart.goodsName }
                                 </a>
                             </p>
                         </td>
                         <td>
-                            AU $9.95
+                            AU $${cart.goodsUnitPrice }
                         </td>
                         <td>
                             <div class="clearfix sum" style="margin: 0px;">
-                                <a data-id="947" class="min left cursor"></a>
-                                <input class="text_box left" data-id="947" name="" value="1" type="text">
-                                <a data-id="947" class="add left cursor"></a>
+                                <a data-id="${cart.groupId }" class="min left cursor"></a>
+                                <input class="text_box left"  pattern="[0-9]*" maxlength="2" size="4" value="${cart.goodsQuantity }" type="text">
+                                <a data-id="${cart.groupId }" class="add left cursor"></a>
+                                <input type="hidden" value="${cart.groupId }" class="groupId"/>
+                                <input type="hidden" value="${cart.goodsUnitPrice }" class="goodsUnitPrice"/>
                             </div>
                         </td>
-                        <td>
-                            $9.95
+                        <td class="goodsPriceClass">
+                            $${cart.goodsPrice }
                         </td>
                         <td>
-                            <a href="javascript:void(0);" class="dele" data-id="947">×</a>
+                            <a href="javascript:void(0);" class="dele" data-id="${cart.groupId }">×</a>
                         </td>
                     </tr>
-                
+                </c:forEach>
             </table>
             <div class="xuanzhong clearfix">
                 <div class="clearfix car_top left">
-                    <div class="checkboxFive left all_check">
+                    <div class="checkboxFive left">
                         <input type="checkbox" id="checkboxInputBottom" name="checkname">
                         <label for="checkboxInputBottom"></label>
                     </div>
                     <span class="left">全选</span>
                 </div>
                 <div class="right">
-                    选中商品：<span id="item_count"></span> 件 &nbsp;&nbsp;邮寄总重：<span id="item_weight"></span> kg
+                    选中商品：<span id="item_count">0</span> 件
                 </div>
             </div>
             <div class=" clearfix jiesuan_tl suan">
                 <div class="right clearfix">
-                    <div class="left">  总计：<span class="color_red price">AU$<span id="totalPrice" class="color_red price"></span>&nbsp;&nbsp;</span>不含运费</div>
-                    <input type="submit" class="btn_red suanbtn cursor" value="去结算" />
+                    <div class="left">  
+                    	总计：<span class="color_red price">AU$<span id="totalPrice" class="color_red price">0</span>&nbsp;&nbsp;</span>不含运费</div>
+                    <input type="button" class="btn_red suanbtn cursor" value="去结算" id="cart_input" onclick="surebuy()"/>
                 </div>
             </div>
-</form></div>
-<input id="modelJson" type="hidden" value='{"Items":[{"ProductId":947,"ProductName":"Eaoron 超级补水修复发膜 200ml","Slug":"eaoron-hair-mask-200ml","Quantity":1,"UnitPrice":9.9500,"Subtotal":9.9500,"UnitWeight":0.3500,"Weight":0.3500,"TotalRewardPoints":9.9500,"ThumbnailUrl":"//img.51go.com.au/img/200/0000755_eaoron-super-repairing-hair-mask-200ml.jpeg","Selected":true,"OutOfStock":false}],"ItemCount":1,"ProductCount":1}' />
+		</div>
 
 <!--弹窗开始-->
 <!--弹窗开始-->
@@ -476,322 +477,94 @@
         <a href="javascript:void(0);" id="delConfirm" class="btn_red">删除</a>
     </div>
 </div>
-
+<input type="hidden" id="hiddenDeleteGroupId" />
 
 <script type="text/javascript">
-var modelJson = jQuery.parseJSON($("#modelJson").val());
-var delProductId;
-
 $(document).ready(function () {
-    $(window).keydown(function (event) {
-        if (event.keyCode == 13) {
-            event.preventDefault();
-            return false;
-        }
-    });
+    
 
     $("a.min").click(function () {
-        changeProductQuantity(this, -1);
+    	var curObj = $(this).parent().find("input[type='text']")[0];
+		var currentqty = $(this).parent().find("input[type='text']").val();
+		if (currentqty == 1) {
+			return;
+		} else {
+			$(this).parent().find("input[type='text']").val(currentqty - 1);
+			addShopCart($(this).parent().find(".groupId").val(), currentqty, false, curObj, -1);
+			$(this).parent().find("input[type='text']").defaultValue = currentqty - 1;
+			canBuyAndShowAllMoney();
+		}
     });
 
     $("a.add").click(function () {
-        changeProductQuantity(this, 1);
+    	var curObj = $(this).parent().find("input[type='text']")[0];
+		var currentqty = $(this).parent().find("input[type='text']").val();
+		if (currentqty == 9999) {
+			return;
+		} else {
+			$(this).parent().find("input[type='text']").val(parseFloat(currentqty) + 1);
+			addShopCart($(this).parent().find(".groupId").val(), parseFloat(currentqty) + 1, true, curObj, 1);
+			$(this).parent().find("input[type='text']").defaultValue = parseFloat(currentqty) + 1;
+			canBuyAndShowAllMoney();
+		}
     });
+   
 
     $('.text_box.left').change(function () {
-        changeProductQuantity(this, 0);
+    	checkGoodsNum(this);
     });
-
-    $('.text_box.left').keyup(function(e){
-        if (e.which === 13) {
-            changeProductQuantity(this, 0);
-            $(this).blur();
-        }
-    });
-
-
-    function changeProductQuantity(object, diff) {
-        var productId = $(object).attr("data-id");
-        var quantity;
-
-        if (diff == 0) {
-            quantity = parseInt($("input[data-id=" + productId + "]").val());
-            quantity = isNaN(quantity) ? 1 : quantity;
-        }
-        else {
-            quantity = parseInt($("input[data-id=" + productId + "]").val()) + diff;
-        }
-        quantity = Math.round(quantity);
-
-        if (quantity < 1) {
-            quantity = 1;
-        }
-        else {
-            $.each(modelJson.Items, function () {
-                if (this.ProductId == productId) {
-                    $(".loading").show();
-                    $(".alert_bg").show();
-                    this.Quantity = quantity;
-
-                    $.ajax({
-                        url: "/Purchase/UpdateCartItem",
-                        type: "POST",
-                        data: { cartItemId: productId, quantity: quantity },
-                        success: function (data) {
-                            $("#ecsCartInfo").text(data.cart_total);
-                            $(".youce_car_num").text(data.cart_total);
-                            $("input[data-id=" + productId + "]").val(quantity);
-                            
-                            $(".loading").hide();
-                            $(".alert_bg").hide();
-                        }
-                    });
-                }
-            });
-        }
-
-        refeshDisplays();
-    }
-
-    init();
+    
 
     $(".dele").click(function () {
-        delProductId = $(this).attr("data-id");
-        var msg = "是否从购物车删除该产品?";
-        $(".alert_text").text(msg);
-        $(".alert").css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + $(window).scrollTop()) + "px");
-        $(".alert").css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + $(window).scrollLeft()) + "px");
-        $(".alert_bg").show();
+        $("#hiddenDeleteGroupId").val($(this).attr("data-id"));
         $(".alert").show();
-        $("body").css("overflow", "hidden");
+        $(".alert_bg").show();
     });
 
     $("#delCancel").click(function () {
         $(".alert").hide();
         $(".alert_bg").hide();
-        $("body").css("overflow", "auto");
     });
 
     $("#delConfirm").click(function () {
-        $.ajax({
-            url: "/Purchase/DeleteCartItem",
-            type: "POST",
-            data: { itemId: delProductId },
-            success: function (data) {
-                location.reload();
-                /*$("div[data-id=" + delProductId + "]").hide();
-                $("#del").toggle();
-                $(".heibg").toggle();*/
-            }
-        });
+    	deleteCurrent($("#hiddenDeleteGroupId").val());
     });
-
+    
+    // 两个全选
     $("label[for=checkboxInputTop]").click(function () {
         var checked = $("input[id=checkboxInputTop]").prop("checked");
-        updateCheckedProducts(checked);
+        updateAllCheckedProducts(checked);
         $("input[id=checkboxInputTop]").prop("checked", checked);
+        canBuyAndShowAllMoney()
     });
 
     $("label[for=checkboxInputBottom]").click(function () {
         var checked = $("input[id=checkboxInputBottom]").prop("checked");
-        updateCheckedProducts(checked);
+        updateAllCheckedProducts(checked);
         $("input[id=checkboxInputBottom]").prop("checked", checked);
+        canBuyAndShowAllMoney()
     });
-
+    
+    function updateAllCheckedProducts(checked)
+    {
+        $(':checkbox').each(function () {
+        	this.checked = !checked;
+        })
+    }
+    
     $("label[for=labelCheck]").click(function () {
         var productId = $(this).attr("ProductId");
         var checked = !$("input[productid=" + productId + "]").prop("checked");
 
-        $.each(modelJson.Items, function () {
-            if (this.ProductId == productId) {
-                this.Selected = checked;
-            }
-        });
+        
         $("input[productid=" + productId + "]").prop("checked", checked);
-
-        if (checked == false)
+       	if (IsAllChecked())
         {
             $("input[id=checkboxInputBottom]").prop("checked", checked);
             $("input[id=checkboxInputTop]").prop("checked", checked);
         }
-
-        refeshDisplays();
+       	canBuyAndShowAllMoney();
     });
-
-    function updateCheckedProducts(checked)
-    {
-        $(':checkbox').each(function () {
-            this.checked = !checked;
-            var productId = $(this).attr("ProductId");
-
-            $.each(modelJson.Items, function () {
-                if (this.ProductId == productId) {
-                    this.Selected = !checked;
-                }
-            });
-        });
-
-        refeshDisplays()
-    }
-
-    function init()
-    {
-        $(':checkbox').each(function () {
-            this.checked = true;
-        $.each(modelJson.Items, function () {
-                this.Selected = true;
-            });
-        });
-        refeshDisplays();
-    }
-
-    function refeshDisplays()
-    {
-        var totalQuatity = 0;
-        var totalWeight = 0;
-        var totalPrice = 0;
-
-        $.each(modelJson.Items, function () {
-            if (this.Selected)
-            {
-                totalQuatity += this.Quantity;
-                totalWeight += this.UnitWeight * this.Quantity;
-                totalPrice += this.UnitPrice * this.Quantity;
-            }
-        });
-
-        $("#item_count").text(totalQuatity);
-        $("#item_weight").text(totalWeight.toFixed(2));
-        $("#totalPrice").text(totalPrice.toFixed(2));
-
-        $("#cart_input").val("去结算(" + totalQuatity + ")");
-    }
-
-    $("input[num=num").change(function () {
-        changeProductQuantity(this, 0)
-    });
-
-    $("input[num=num").keydown(function () {
-        if (event.keyCode == 13) {
-            event.preventDefault();
-            changeProductQuantity(this, 0);
-            return false;
-        }
-        else
-            return true;
-    });
-
-    $("form").submit(function () {
-        var selectedNum = 0;
-        $(':checkbox').each(function () {
-            if (this.checked) {
-                selectedNum++;
-            }
-        });
-
-        //判断是否有缺货产品
-        if (CheckOutOfStock()) {
-            AlertMsg("亲，缺货产品不能进行结算哟~");
-            return false;
-        }
-
-        if (selectedNum == 0) {
-            AlertMsg("选择至少一个产品");
-            return false;
-        }
-        
-        if (CheckSingleItemLessThan18()) {
-            AlertMsg('单件商品不能超过18个');
-            return false;
-        }
-
-        if (CheckItemNumberLessThan30()) {
-            AlertMsg("每单最多含有30件商品");
-            return false;
-        } else {
-            return true;
-        }
-    });
-
-    function CheckSingleItemLessThan18() {
-        var itemNumList = $('.text_box.left');
-        var checkedlist = $('.car_check input[type="checkbox"]');
-        var result = false;
-        if (itemNumList.length > 0) {
-            for (var i = 0 ; i < itemNumList.length; i++) {
-                var check = checkedlist[i].checked;
-                var num = parseInt($(itemNumList[i]).val());
-                if (check && num > 18) {
-                    result = true;
-                    break;
-                }
-            };
-            return result;
-        } else {
-            return result;
-        }
-    }
-
-    function CheckItemNumberLessThan30() {
-        var itemNumList = $('.text_box.left');
-        var checkedlist = $('.car_check input[type="checkbox"]');
-        if (itemNumList.length > 0) {
-            var totalItems = 0;
-            for (var i = 0 ; i < itemNumList.length; i++) {
-                if (checkedlist[i].checked) {
-                    totalItems += parseInt($(itemNumList[i]).val());
-                }
-            };
-            if (totalItems > 30) {
-                return true
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
-    function CheckOutOfStock() {
-        var stockstatus = $('.stockstatus');
-        var checkedlist = $('.car_check input[type="checkbox"]');
-        var result = false;
-        if (stockstatus.length > 0) {
-            for (var i = 0 ; i < stockstatus.length; i++) {
-                var status = $(stockstatus[i]).attr('data-outstock');
-                var checked = checkedlist[i].checked;
-
-                if(status == 'True' && checked){
-                    result = true;
-                    break;
-                }
-            };
-            return result;
-        } else {
-            return result;
-        }
-    }
-
-    $("#alertConfirm").click(function () {
-        $(".verify").hide();
-        $(".alert_bg").hide();
-    });
-
-    $('#outsideAlertView').click(function () {
-        var alertDisplay = $('#deleteAlert').css('display');
-        if(alertDisplay == 'none'){
-            $(".verify").hide();
-            $(".alert_bg").hide();
-        }
-    });
-
-    function AlertMsg(msg) {
-        $("#alertConfirm").text(msg);
-        $("#alertConfirm").css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + $(window).scrollTop()) + "px");
-        $("#alertConfirm").css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + $(window).scrollLeft()) + "px");
-        $(".verify").show();
-        $(".alert_bg").show();
-    }
 
 });
 

@@ -186,41 +186,40 @@
     <div class="user_choice">
         <ul>
             <li>
-                <a href="${ctx}/order/init" class="clearfix">
-                    <img src="${ctx}/images/user/user_quanbudingdan.png" class="left" />
-                    <div class="user_choice_rt clearfix">
-                        <span class="left">全部订单</span>
-                        <em class="right"></em>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a href="${ctx}/member/init" class="clearfix">
-                    <img src="${ctx}/images/user/user_huiyuan.png" class="left" />
-                    <div class="user_choice_rt clearfix">
-                        <span class="left">会员信息</span>
-                        <em class="right"></em>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a href="${ctx}/address/receiveList" class="clearfix">
-                    <img src="${ctx}/images/user/user_shoujianren.png" class="left" />
-                    <div class="user_choice_rt clearfix">
-                        <span class="left">收件人管理</span>
-                        <em class="right"></em>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a href="${ctx}/address/sendList" class="clearfix">
-                    <img src="${ctx}/images/user/user_fajianren.png" class="left" />
-                    <div class="user_choice_rt clearfix">
-                        <span class="left">寄件人管理</span>
-                        <em class="right"></em>
-                    </div>
-                </a>
-            </li>
+            <a href="${ctx}/order/init" class="">
+                <img src="${ctx}/images/yonghuzhongxin/dingdan.png" class="img_q" />
+                <img src="${ctx}/images/yonghuzhongxin/dingdanh.png" class="img_h" />
+                <span class="user_center_link">我的订单</span>
+            </a>
+        </li>
+        <li>
+            <a href="${ctx}/member/init" class="ahover">
+                <img src="${ctx}/images/yonghuzhongxin/xinxi.png" class="img_q" />
+                <img src="${ctx}/images/yonghuzhongxin/xinxih.png" class="img_h" />
+                <span class="user_center_link">会员信息</span>
+            </a>
+        </li>
+        <li>
+            <a href="${ctx}/address/receiveList" class="">
+                <img src="${ctx}/images/yonghuzhongxin/shoujianren.png" class="img_q" />
+                <img src="${ctx}/images/yonghuzhongxin/shoujianrenh.png" class="img_h" />
+                <span class="user_center_link">收件人管理</span>
+            </a>
+        </li>
+        <li>
+            <a href="${ctx}/address/sendList" class="">
+                <img src="${ctx}/images/yonghuzhongxin/fajianren.png" class="img_q" />
+                <img src="${ctx}/images/yonghuzhongxin/fajianrenh.png" class="img_h" />
+                <span class="user_center_link">寄件人管理</span>
+            </a>
+        </li>
+        <li>
+            <a href="${ctx}/login/logout" id="outBtn">
+                <img src="${ctx}/images/yonghuzhongxin/out.png" class="img_q" />
+                <img src="${ctx}/images/yonghuzhongxin/outh.png" class="img_h" />
+                <span class="user_center_link">退出</span>
+            </a>
+        </li>
         </ul>
     </div>
 	    <!--退出-->

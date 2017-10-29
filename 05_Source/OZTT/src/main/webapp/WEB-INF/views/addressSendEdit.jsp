@@ -58,7 +58,7 @@
 				
 				$(".out_alert").show();
 		        $(".alert_bg").show();
-		        setTimeout(toAddressList(),3000);
+		        setTimeout("toAddressList()",3000);
 		      
 			},
 			error : function(data) {
@@ -83,36 +83,35 @@
         <div class="left help_lf user_center">
     <ul>
         <li>
-            <a href="/Order?orderStatus=0" class="">
+            <a href="${ctx}/order/init" class="">
                 <img src="${ctx}/images/yonghuzhongxin/dingdan.png" class="img_q" />
                 <img src="${ctx}/images/yonghuzhongxin/dingdanh.png" class="img_h" />
                 <span class="user_center_link">我的订单</span>
             </a>
         </li>
-        
         <li>
-            <a href="/User/UserProfile?orderStatus=1" class="">
+            <a href="${ctx}/member/init" class="">
                 <img src="${ctx}/images/yonghuzhongxin/xinxi.png" class="img_q" />
                 <img src="${ctx}/images/yonghuzhongxin/xinxih.png" class="img_h" />
                 <span class="user_center_link">会员信息</span>
             </a>
         </li>
         <li>
-            <a href="/User/ConsigneeList" class="">
+            <a href="${ctx}/address/receiveList" class="">
                 <img src="${ctx}/images/yonghuzhongxin/shoujianren.png" class="img_q" />
                 <img src="${ctx}/images/yonghuzhongxin/shoujianrenh.png" class="img_h" />
                 <span class="user_center_link">收件人管理</span>
             </a>
         </li>
         <li>
-            <a href="/User/SenderList" class="ahover">
+            <a href="${ctx}/address/sendList" class="ahover">
                 <img src="${ctx}/images/yonghuzhongxin/fajianren.png" class="img_q" />
                 <img src="${ctx}/images/yonghuzhongxin/fajianrenh.png" class="img_h" />
                 <span class="user_center_link">寄件人管理</span>
             </a>
         </li>
         <li>
-            <a href="javascript:void(0)" id="outBtn">
+            <a href="${ctx}/login/logout" id="outBtn">
                 <img src="${ctx}/images/yonghuzhongxin/out.png" class="img_q" />
                 <img src="${ctx}/images/yonghuzhongxin/outh.png" class="img_h" />
                 <span class="user_center_link">退出</span>
@@ -122,55 +121,47 @@
 </div>
 
 
-<div class="alert out_alert">
-    <p class="alert_tl">确认退出</p>
-    <div class="alert_text">
-        您确定要退出当前用户？
-    </div>
-    <div class="alert_btn">
-        <a href="javascript:void(0);" class="quxiao" id="delCancel">取消</a>
-        <a href="javascript:document.getElementById('logoutform').submit()" id="delConfirm" class="btn_red">退出</a>
-    </div>
-</div>
-
 <!--弹窗开始-->
-<div class="alert_bg"></div>
+		<div class="out_alert alert">
+		    <p class="alert_tl"></p>
+		    <div class="alert_text">
+		        地址已保存
+		    </div>
+		</div>
+		<div class="alert_bg"></div>
 
-<form action="/Login/LogOut" id="logoutform" method="post"><input name="__RequestVerificationToken" type="hidden" value="r8c5YmAS3PpNiaZKVxkGEjd6D6JvCJrblNj8z8Ow0iQiOo4cQe2jVp0AbtNiVGRysG0etA-Zca8rC-xVbCYCvOoaEk6RX6Ydu-hRTS8OOzkRNYjAUFS3QzPpJfm60vNRglktIjoT9QX-h-mv_pNCHQ2" /></form>
-
-<script>
-    $(document).ready(function () {
-        $.ajax({
-            url: "/User/GetBalanceInfoJson",
-            type: "POST",
-            dataType: "JSON",
-            success: function (result) {
-                $("#points").text(result.RewardsPoints + "积分");
-                $("#balance").text("$" + Number(result.AccountBalance.toFixed(2)));
-            }
-        });
-    });
-</script>
-
-<script type="text/javascript" src="/Js/otherfuncs.js"></script>
 
         <div class="right help_rt">
             <div class="yucunkuan_tl">
-                编辑寄件人地址
+                <c:if test="${senderInfo.id == null ||  senderInfo.id == ''}">
+		        	创建新寄件人地址
+		        </c:if>
+		        <c:if test="${senderInfo.id != null &&  senderInfo.id != ''}">
+		        	更新寄件人地址
+		        </c:if>
             </div>
-<form action="/User/SenderEdit?senderId=1328" method="post"><input name="__RequestVerificationToken" type="hidden" value="NaCPvgmo93vGxtYSIXMValvTgUZx-f4_PsL8e9lnKYpr8F0d6JRXEnEUkTfGYqCzoO1l2b4srhXX6ZNzzBWBQ0YeoSQQNHrAr7M2_bn8tLaSsX-RLjM6rDNgZWVm3yl2F6S5UQ-nvpGq8pWv1NTTcA2" /><input data-val="true" data-val-number="The field Id must be a number." data-val-required="The Id field is required." id="Id" name="Id" type="hidden" value="1328" />                <input type="hidden" name="returnUrl" value="" />
+
+
+                
                 <div class="clearfix renguanli_gp ren_form">
                     <span class="left renguanli_gp_name">名字</span>
-                    <input class="left text-box single-line" data-val="true" data-val-required="请填写姓名" id="Name" name="Name" placeholder="收货人姓名（必填）" type="text" value="陆城城" />
-                    <div class="ren_form_erro"><span class="field-validation-valid has-error" data-valmsg-for="Name" data-valmsg-replace="true"></span></div>
+                    <input class="left text-box single-line" data-val="true" data-val-required="请填写姓名" id="Name" name="Name" placeholder="寄件人姓名（必填）" type="text" value="${senderInfo.senderName }" />
+                    
                 </div>
                 <div class="clearfix renguanli_gp">
                     <span class="left renguanli_gp_name">电话</span>
-                    <input class="left text-box single-line" data-val="true" data-val-required="请填写联系电话" id="PhoneNumber" name="PhoneNumber" placeholder="电话号码（必填）" type="text" value="15295105536" />
-                    <div class="ren_form_erro"><span class="field-validation-valid has-error" data-valmsg-for="PhoneNumber" data-valmsg-replace="true"></span></div>
+                    <input class="left text-box single-line" data-val="true" data-val-required="请填写联系电话" id="PhoneNumber" name="PhoneNumber" placeholder="电话号码（必填）" type="text" value="${senderInfo.senderTel }" />
+                    
                 </div>
-                <input type="submit" class="btn_blue fangshibtn cursor" value="确认修改寄件人地址" />
-</form>        </div>
+                <c:if test="${senderInfo.id == null ||  senderInfo.id == ''}">
+		        	 <input type="button" class="btn_blue fangshibtn cursor" value="确认新增寄件人地址" onclick="addOrUpdateAddress()"/>
+		        </c:if>
+		        <c:if test="${senderInfo.id != null && senderInfo.id != ''}">
+		        	 <input type="button" class="btn_blue fangshibtn cursor" value="确认更新寄件人地址" onclick="addOrUpdateAddress()"/>
+		        </c:if>
+		        <input type="hidden" value="${senderInfo.id}" id="hiddenAddressId"/>
+                
+       </div>
     </div>
 </div>
 </body>

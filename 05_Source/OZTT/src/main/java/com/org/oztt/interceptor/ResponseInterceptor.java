@@ -45,7 +45,9 @@ public class ResponseInterceptor implements HandlerInterceptor {
             modelAndView.addObject("currentUserName",
                     request.getSession().getAttribute(CommonConstants.SESSION_CUSTOMERNAME));
             modelAndView.addObject("languageSelf", language);
+            modelAndView.addObject("brandList", CommonConstants.BRAND_INFO);
         }
+        
 
     }
 

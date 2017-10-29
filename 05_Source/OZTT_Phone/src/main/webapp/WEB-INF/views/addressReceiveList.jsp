@@ -34,7 +34,7 @@
 		var hiddencurpage = $("#hiddencurpage").val();
 		var hiddentotalPage = $("#hiddentotalPage").val();
 		var hiddenKeywords = $("#hiddenKeywords").val();
-		location.href = "${ctx}/address/sendList?keywords="+hiddenKeywords+"&pageNo="+page;
+		location.href = "${ctx}/address/sendList?keywords="+hiddenKeywords+"&pageNo="+selectPage;
 	}	
   
   </script>

@@ -104,6 +104,7 @@ public class SearchController extends BaseController {
                 model.addAttribute("viewcontent", goodsService.getGoodsClassficationByClassId(classId).getClassname()); 
             }
             model.addAttribute("goodsList", pageInfo);
+            
             return "search";
         }
         catch (Exception e) {

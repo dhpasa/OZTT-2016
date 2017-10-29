@@ -64,35 +64,35 @@
         <div class="left help_lf user_center">
     <ul>
         <li>
-            <a href="/Order?orderStatus=0" class="">
+            <a href="${ctx}/order/init" class="">
                 <img src="${ctx}/images/yonghuzhongxin/dingdan.png" class="img_q" />
                 <img src="${ctx}/images/yonghuzhongxin/dingdanh.png" class="img_h" />
                 <span class="user_center_link">我的订单</span>
             </a>
         </li>
         <li>
-            <a href="/User/UserProfile?orderStatus=1" class="ahover">
+            <a href="${ctx}/member/init" class="ahover">
                 <img src="${ctx}/images/yonghuzhongxin/xinxi.png" class="img_q" />
                 <img src="${ctx}/images/yonghuzhongxin/xinxih.png" class="img_h" />
                 <span class="user_center_link">会员信息</span>
             </a>
         </li>
         <li>
-            <a href="/User/ConsigneeList" class="">
+            <a href="${ctx}/address/receiveList" class="">
                 <img src="${ctx}/images/yonghuzhongxin/shoujianren.png" class="img_q" />
                 <img src="${ctx}/images/yonghuzhongxin/shoujianrenh.png" class="img_h" />
                 <span class="user_center_link">收件人管理</span>
             </a>
         </li>
         <li>
-            <a href="/User/SenderList" class="">
+            <a href="${ctx}/address/sendList" class="">
                 <img src="${ctx}/images/yonghuzhongxin/fajianren.png" class="img_q" />
                 <img src="${ctx}/images/yonghuzhongxin/fajianrenh.png" class="img_h" />
                 <span class="user_center_link">寄件人管理</span>
             </a>
         </li>
         <li>
-            <a href="javascript:void(0)" id="outBtn">
+            <a href="${ctx}/login/logout" id="outBtn">
                 <img src="${ctx}/images/yonghuzhongxin/out.png" class="img_q" />
                 <img src="${ctx}/images/yonghuzhongxin/outh.png" class="img_h" />
                 <span class="user_center_link">退出</span>
@@ -102,37 +102,15 @@
 </div>
 
 
-<div class="alert out_alert">
-    <p class="alert_tl">确认退出</p>
+<div class="out_alert alert">
+    <p class="alert_tl"></p>
     <div class="alert_text">
-        您确定要退出当前用户？
-    </div>
-    <div class="alert_btn">
-        <a href="javascript:void(0);" class="quxiao" id="delCancel">取消</a>
-        <a href="javascript:document.getElementById('logoutform').submit()" id="delConfirm" class="btn_red">退出</a>
+        信息已保存
     </div>
 </div>
 
 <!--弹窗开始-->
 <div class="alert_bg"></div>
-
-<form action="/Login/LogOut" id="logoutform" method="post"><input name="__RequestVerificationToken" type="hidden" value="I7laQlR98BUZjXJuoLmtD-koJ2v1EBenS5ECJt6CFyDPnC_qVHt34fciXzNySJUkE-IXgKCqx1QJOchigzcOtgylsElYYFCbc40JxMRNmqvX8Ay_zSnemNFDG67r2a59eVUa5ONvgyddA4afBYbdkQ2" /></form>
-
-<script>
-    $(document).ready(function () {
-        $.ajax({
-            url: "/User/GetBalanceInfoJson",
-            type: "POST",
-            dataType: "JSON",
-            success: function (result) {
-                $("#points").text(result.RewardsPoints + "积分");
-                $("#balance").text("$" + Number(result.AccountBalance.toFixed(2)));
-            }
-        });
-    });
-</script>
-
-<script type="text/javascript" src="/Js/otherfuncs.js"></script>
 
         <div class="right help_rt">
             <div class="yucunkuan_tl">
@@ -140,37 +118,27 @@
             </div>
    
 			<div class="xinxi_form">
+				<div class="clearfix xinx_gp">
+                     <span class="left xinx_gp_name">姓名</span>
+                     <div class="xinx_gp_input">
+                         <input type="text" id="username" name="username" placeholder="昵称" value="${userName}" />
+                     </div>
+                 </div>
+                 
                  <div class="clearfix xinx_gp">
                      <span class="left xinx_gp_name">微信号</span>
                      <div class="xinx_gp_input">
-                         <input type="text" id="WeChatId" name="WeChatId" placeholder="微信号（必填）" />
+                         <input type="text" id="wechatNo" name="wechatNo" placeholder="微信号" value="${wechatNo}"/>
                      </div>
                  </div>
-                 <div class="erro"><span class="field-validation-valid" data-valmsg-for="WeChatId" data-valmsg-replace="true"></span></div>
-
-                 <div class="clearfix xinx_gp">
-                     <span class="left xinx_gp_name">姓名</span>
-                     <div class="xinx_gp_input">
-                         <input type="text" id="Name" name="Name" placeholder="姓名（必填）" value="陆城城" />
-                     </div>
-                 </div>
-                 <div class="erro"><span class="field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span></div>
-
-                 <div class="clearfix xinx_gp">
-                     <span class="left xinx_gp_name">手机号</span>
-                     <div class="xinx_gp_input">
-                         <input type="text" id="PhoneNumber" name="PhoneNumber" placeholder="手机号（必填）" value="15295105536" />
-                     </div>
-                 </div>
-                 <div class="erro"><span class="field-validation-valid" data-valmsg-for="PhoneNumber" data-valmsg-replace="true"></span></div>
-
+                 
                  <div class="clearfix save">
-                     <input type="submit" value="确认修改" class="right cursor" />
+                     <input type="button" onclick="submitMemberInfo()" class="btn btn_blue loginbtn mt10" value="确认修改" />
                  </div>
                </div>       
 				<div class="xinxi_form">
                <div class="clearfix save">
-                   <a href="/Login/ChangePassword" >点击修改密码</a>
+                   <a href="${ctx}/forgetPassword/init"" >点击修改密码</a>
                </div>
             </div>
         </div>

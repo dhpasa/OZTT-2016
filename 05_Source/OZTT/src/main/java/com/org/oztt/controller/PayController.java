@@ -21,11 +21,13 @@ import com.org.oztt.base.util.MessageUtils;
 import com.org.oztt.base.util.VpcHttpPayUtils;
 import com.org.oztt.contants.CommonConstants;
 import com.org.oztt.contants.CommonEnum;
+import com.org.oztt.entity.TPowderOrder;
 import com.org.oztt.entity.TProductOrder;
 import com.org.oztt.entity.TSysConfig;
 import com.org.oztt.formDto.PaypalParam;
 import com.org.oztt.service.OrderService;
 import com.org.oztt.service.PaypalService;
+import com.org.oztt.service.PowderService;
 import com.org.oztt.service.ProductService;
 import com.org.oztt.service.SysConfigService;
 
@@ -44,6 +46,9 @@ public class PayController extends BaseController {
     
     @Resource
     private ProductService productService;
+    
+    @Resource
+    private PowderService powderService;
 
     /**
      * 跳转到支付画面
@@ -52,15 +57,31 @@ public class PayController extends BaseController {
      * @return
      */
     @RequestMapping(value = "init")
-    public String init(Model model, HttpServletResponse response, HttpSession session, String orderNo, String email, String paymentMethod) {
+    public String init(Model model, HttpServletResponse response, HttpSession session, String orderNo, String email, String paymentMethod, String isMilk) {
         try {
+            if ("1".equals(isMilk)) {
+                // 奶粉一侧过来的
+                TPowderOrder powderOrder = powderService.getTPowderOrderByOrderNo(orderNo);
+                model.addAttribute("orderNo", orderNo);
+                model.addAttribute("productorder", powderOrder);
+                model.addAttribute("amount", powderOrder.getSumAmount());
+                TSysConfig sysconfig = sysConfigService.getTSysConfigInRealTime();
+                model.addAttribute("bankAmount", powderOrder.getSumAmount().multiply(sysconfig.getMasterCardFee().add(BigDecimal.ONE)).setScale(2, BigDecimal.ROUND_HALF_UP));
+                model.addAttribute("produreAmount", powderOrder.getSumAmount().multiply(sysconfig.getMasterCardFee()).setScale(2, BigDecimal.ROUND_HALF_UP));
+            } else {
+                // 保健品
+                TProductOrder productOrder = new TProductOrder();
+                productOrder.setOrderNo(orderNo);
+                productOrder = productService.selectProductByParam(productOrder);
+                model.addAttribute("orderNo", orderNo);
+                model.addAttribute("productorder", productOrder);
+                model.addAttribute("amount", productOrder.getSumAmount());
+                TSysConfig sysconfig = sysConfigService.getTSysConfigInRealTime();
+                model.addAttribute("bankAmount", productOrder.getSumAmount().multiply(sysconfig.getMasterCardFee().add(BigDecimal.ONE)).setScale(2, BigDecimal.ROUND_HALF_UP));
+                model.addAttribute("produreAmount", productOrder.getSumAmount().multiply(sysconfig.getMasterCardFee()).setScale(2, BigDecimal.ROUND_HALF_UP));
+            }
+            model.addAttribute("isMilk", isMilk);
             
-            TProductOrder productOrder = new TProductOrder();
-            productOrder.setOrderNo(orderNo);
-            //TODO productOrder = productService.selectProductByParam(productOrder);
-            model.addAttribute("orderNo", orderNo);
-            model.addAttribute("productorder", productOrder);
-            model.addAttribute("amount", productOrder.getSumAmount());
 
             return "payment";
         }

@@ -56,7 +56,7 @@ public class OrderListControler extends BaseController {
 
     @RequestMapping(value = "/init")
     public String orders(HttpSession session, Model model, HttpServletRequest request, 
-            String keyword, String pageNo, String orderStatus) {
+            String searchcontent, String pageNo, String orderStatus) {
         try {
             String customerNo = (String) session.getAttribute(CommonConstants.SESSION_CUSTOMERNO);
             if (StringUtils.isEmpty(customerNo)) {
@@ -72,13 +72,13 @@ public class OrderListControler extends BaseController {
             Map<Object, Object> paramMap = new HashMap<Object, Object>();
             paramMap.put("customerId", customerBaseInfo.getNo().toString());
             paramMap.put("status", orderStatus);
-            paramMap.put("keyword", keyword);
+            paramMap.put("keyword", searchcontent);
             pagination.setParams(paramMap);
             PagingResult<PowderOrderInfo> orderListPage = powderService.getPowderAndProductOrderPageInfo(pagination);
             
             
             model.addAttribute("orderStatus", orderStatus);
-            model.addAttribute("keyword", keyword);
+            model.addAttribute("keyword", searchcontent);
             model.addAttribute("orderList", orderListPage);
             return "/ordersList";
             

@@ -162,8 +162,8 @@
 	<!-- 主内容-->
     <div class="main lg_main jz">
         <div class="lg_tl">
-            <a href="/Login/Login">登录 </a>
-            <a href="/Login/Register" class="ahover">注册</a>
+            <a href="${ctx}/login/init">登录 </a>
+        	<a href="${ctx}/register/init" class="ahover">注册</a>
         </div>
         <div class="lg_main">
             <div class="lg_con active">
@@ -173,36 +173,36 @@
                             手机号码
                         </span>
                         <div class="left lg_inp reg_inp">
-                            <input class="c-form-txt-normal text-box single-line" data-val="true" data-val-regex="手机号格式错误。" data-val-regex-pattern="(^04\d{8}$)|(^1[3-8]\d{9}$)" data-val-required="请输入手机号" id="Mobile" name="Mobile" placeholder="xxxx xxxx xxx" type="text" value="" />
+                            <input class="c-form-txt-normal text-box single-line"  id="phone" name="phone" placeholder="042x xxx xxx" type="text" value="" />
                         </div>
-                        <div class="right lg_inp reg_inp erro"><span class="field-validation-valid has-error mobile" data-valmsg-for="Mobile" data-valmsg-replace="true"></span></div>
+                        
                     </div>
                     <div class="clearfix lggp">
                         <span class="left lggp_name">
                             姓名
                         </span>
                         <div class="left lg_inp reg_inp">
-                            <input class="c-form-txt-normal text-box single-line" data-val="true" data-val-required="请输入姓名" id="Name" name="Name" type="text" value="" />
+                             <input class="c-form-txt-normal text-box single-line"  id="nickname" name="nickname" placeholder="姓名" type="text" value="" />
                         </div>
-                        <div class="right lg_inp reg_inp erro"><span class="field-validation-valid has-error" data-valmsg-for="Name" data-valmsg-replace="true"></span></div>
+                        
                     </div>
                     <div class="clearfix lggp">
                         <span class="left lggp_name">
                             密码
                         </span>
                         <div class="left lg_inp reg_inp">
-                            <input class="c-form-txt-normal text-box single-line password" data-val="true" data-val-length="请输入至少100位密码" data-val-length-max="100" data-val-length-min="6" data-val-required="请输入密码" id="Password" name="Password" type="password" value="" />
+                            <input class="c-form-txt-normal text-box single-line password"  id="password" name="password" type="password" value="" placeholder="密码"/>
                         </div>
-                        <div class="right lg_inp reg_inp erro"><span class="field-validation-valid has-error" data-valmsg-for="Password" data-valmsg-replace="true"></span></div>
+                        
                     </div>
                     <div class="clearfix lggp">
                         <span class="left lggp_name">
                             确认密码
                         </span>
                         <div class="left lg_inp reg_inp">
-                            <input class="c-form-txt-normal text-box single-line password" data-val="true" data-val-equalto="密码不一致" data-val-equalto-other="*.Password" id="ConfirmPassword" name="ConfirmPassword" type="password" value="" />
+                            <input class="c-form-txt-normal text-box single-line password"  id="confirmpwd" name="confirmpwd" type="password" value="" placeholder="确认密码"/>
                         </div>
-                        <div class="right lg_inp reg_inp erro"><span class="field-validation-valid has-error" data-valmsg-for="ConfirmPassword" data-valmsg-replace="true"></span></div>
+                        
                     </div>
                     <div class="lggp">
                         <div class="clearfix">
@@ -212,22 +212,14 @@
                                         短信验证码
                                     </span>
                                     <div class="left lg_inp reg_inp clearfix phone">
-                                        <input class="left text-box single-line" data-val="true" data-val-number="The field 验证码 must be a number." data-val-required="请输入验证码" id="Code" name="Code" type="text" value="" />
-                                        <button class="left cursor" id="send_code">
+                                        <input class="left text-box single-line"  id="verifycode" name="verifycode" placeholder="手机验证码" type="number" value="" />
+                                        <button class="left cursor" id="buttonCode" onclick="getVerifyCode()">
                                             发送验证码
                                         </button>
                                     </div>
                                 </div>
                             </div>
-                            <input type="submit" class="right btn_red lgbtn" value="注册" />
-                        </div>
-
-                    </div>
-                    <div class="clearfix zidong agree">
-                        <div class="left clearfix">
-                            <input type="checkbox" class="left" />
-                            <span class="left">我同意</span>
-                            <a href="#" class="left">51GO用户购物协议</a>
+                            <input type="button" class="right btn_red lgbtn" value="注册" onclick="register()"/>
                         </div>
 
                     </div>

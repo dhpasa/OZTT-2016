@@ -22,11 +22,13 @@ function updateEndTime(){
    var day = Math.floor((lag / 3600) / 24);
    $(this).html(day+"天"+hour+"小时"+minite+"分"+second+"秒");
   }
-  else
-   $(this).html("很抱歉！团购活动已经结束啦！");
-   if ($(this).next()){
-	   $(this).next().remove();
-   }
+  else{
+	  $(this).html("很抱歉！团购活动已经结束啦！");
+	   if ($(this).next()){
+		   $(this).next().remove();
+	   }  
+  }
+   
  });
  setTimeout("updateEndTime()",1000);
 }

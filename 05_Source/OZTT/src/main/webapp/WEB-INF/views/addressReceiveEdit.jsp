@@ -85,7 +85,7 @@
 				
 				$(".out_alert").show();
 		        $(".alert_bg").show();
-		        setTimeout(toAddressList(),3000);
+		        setTimeout("toAddressList()",3000);
 		      
 			},
 			error : function(data) {
@@ -100,6 +100,7 @@
 
 
 <!-- Body BEGIN -->
+
 <body>
     <div class="main">
     <div class="help_tl">
@@ -111,36 +112,35 @@
         <div class="left help_lf user_center">
     <ul>
         <li>
-            <a href="/Order?orderStatus=0" class="ahover">
+            <a href="${ctx}/order/init" class="">
                 <img src="${ctx}/images/yonghuzhongxin/dingdan.png" class="img_q" />
                 <img src="${ctx}/images/yonghuzhongxin/dingdanh.png" class="img_h" />
                 <span class="user_center_link">我的订单</span>
             </a>
         </li>
-        
         <li>
-            <a href="/User/UserProfile?orderStatus=1" class="">
+            <a href="${ctx}/member/init" class="">
                 <img src="${ctx}/images/yonghuzhongxin/xinxi.png" class="img_q" />
                 <img src="${ctx}/images/yonghuzhongxin/xinxih.png" class="img_h" />
                 <span class="user_center_link">会员信息</span>
             </a>
         </li>
         <li>
-            <a href="/User/ConsigneeList" class="">
+            <a href="${ctx}/address/receiveList" class="ahover">
                 <img src="${ctx}/images/yonghuzhongxin/shoujianren.png" class="img_q" />
                 <img src="${ctx}/images/yonghuzhongxin/shoujianrenh.png" class="img_h" />
                 <span class="user_center_link">收件人管理</span>
             </a>
         </li>
         <li>
-            <a href="/User/SenderList" class="">
+            <a href="${ctx}/address/sendList" class="">
                 <img src="${ctx}/images/yonghuzhongxin/fajianren.png" class="img_q" />
                 <img src="${ctx}/images/yonghuzhongxin/fajianrenh.png" class="img_h" />
                 <span class="user_center_link">寄件人管理</span>
             </a>
         </li>
         <li>
-            <a href="javascript:void(0)" id="outBtn">
+            <a href="${ctx}/login/logout" id="outBtn">
                 <img src="${ctx}/images/yonghuzhongxin/out.png" class="img_q" />
                 <img src="${ctx}/images/yonghuzhongxin/outh.png" class="img_h" />
                 <span class="user_center_link">退出</span>
@@ -148,89 +148,71 @@
         </li>
     </ul>
 </div>
-
-
-<div class="alert out_alert">
-    <p class="alert_tl">确认退出</p>
-    <div class="alert_text">
-        您确定要退出当前用户？
-    </div>
-    <div class="alert_btn">
-        <a href="javascript:void(0);" class="quxiao" id="delCancel">取消</a>
-        <a href="javascript:document.getElementById('logoutform').submit()" id="delConfirm" class="btn_red">退出</a>
-    </div>
-</div>
+<script type="text/javascript" src="${ctx}/js/jquery.cxselect.min.js"></script>
 
 <!--弹窗开始-->
+<div class="out_alert alert">
+    <p class="alert_tl"></p>
+    <div class="alert_text">
+        地址已保存
+    </div>
+</div>
 <div class="alert_bg"></div>
-
-<form action="/Login/LogOut" id="logoutform" method="post"><input name="__RequestVerificationToken" type="hidden" value="-3wIMSDkDtAjLzm589nvTqZMOiGEIk6ijKNyTsXghbB-HfsIYExc6IORT_yXaw78UxcTl0dtxsIfzm6aQH3D5WHwSenU4pmkNwAN-AW1IBq5kKgxO8Y6HU2wT_KsrO2282P-qwn2F47zXXZulnep9A2" /></form>
-
-<script>
-    $(document).ready(function () {
-        $.ajax({
-            url: "/User/GetBalanceInfoJson",
-            type: "POST",
-            dataType: "JSON",
-            success: function (result) {
-                $("#points").text(result.RewardsPoints + "积分");
-                $("#balance").text("$" + Number(result.AccountBalance.toFixed(2)));
-            }
-        });
-    });
-</script>
-
-<script type="text/javascript" src="/Js/otherfuncs.js"></script>
 
         <div class="right help_rt">
             <div class="yucunkuan_tl">
-                新建收货地址
-                <input type="button" class="btn_blue cursor yckTrigger" value="一键提取">
-                <div class="quickAddress">
-                    <div class="quickAddressInput"><textarea placeholder="快速录入格式(例)：
-地址，收件人，电话 (逗号或者回车作为间隔符)"></textarea></div>
-                    <div class="quickAddressInputBtns">
-                        <button class="enterAddress">一键提取</button><button class="clearAddress">清空</button><button class="closeAddress">关闭</button>
-                    </div>
-                </div>
+                <c:if test="${receiverInfo.id == null ||  receiverInfo.id == ''}">
+		        	创建新收件人地址
+		        </c:if>
+		        <c:if test="${receiverInfo.id != null &&  receiverInfo.id != ''}">
+		        	更新收件人地址
+		        </c:if>
             </div>
 
-<form action="/User/ConsigneeCreate" method="post"><input name="__RequestVerificationToken" type="hidden" value="JOQ0u271_A1OxNnKVUJIhc4TS-4FOcUPIZVvg9cGPYC8S86WAK6r5DrewA1URR-gW5HsxCHvpKsjL6Qiqzddmu0D4AmmMe0kA4ib5j7POZdVZV-k0Dnyf0GBpXhQsRSeIrNF4CVNlIUhaYkJi9nXyA2" />                <input type="hidden" name="returnUrl" value="" />
+
                 <div class="clearfix renguanli_gp ren_form">
                     <span class="left renguanli_gp_name">名字</span>
-                    <input class="left recipientName text-box single-line" data-val="true" data-val-required="请填写姓名" id="Name" name="Name" placeholder="收货人姓名（必填）" type="text" value="" />
-                    <div class="ren_form_erro"><span class="field-validation-valid has-error" data-valmsg-for="Name" data-valmsg-replace="true"></span></div>
+                    <input class="left recipientName text-box single-line" data-val="true" data-val-required="请填写姓名" id="Name" name="Name" placeholder="收货人姓名（必填）" type="text" value="${receiverInfo.receiverName }" />
+                    
                 </div>
                 <div class="clearfix renguanli_gp">
                     <span class="left renguanli_gp_name">电话</span>
-                    <input class="left recipientPhone text-box single-line" data-val="true" data-val-required="请填写联系电话" id="PhoneNumber" name="PhoneNumber" placeholder="电话号码（必填）" type="text" value="" />
-                    <div class="ren_form_erro"><span class="field-validation-valid has-error" data-valmsg-for="PhoneNumber" data-valmsg-replace="true"></span></div>
+                    <input class="left recipientPhone text-box single-line" data-val="true" data-val-required="请填写联系电话" id="PhoneNumber" name="PhoneNumber" placeholder="电话号码（必填）" type="text" value="${receiverInfo.receiverTel }" />
+                    
                 </div>
                 <div class="clearfix renguanli_gp" id="city_china">
                     <span class="left renguanli_gp_name">
                         省/市
                     </span>
-                    <select class="province" name="Province"></select>
-                    <select class="city" name="City"></select>
-                    <div class="ren_form_erro"><span class="field-validation-valid has-error" data-valmsg-for="Province" data-valmsg-replace="true"></span></div>
-                    <div class="ren_form_erro"><span class="field-validation-valid has-error" data-valmsg-for="City" data-valmsg-replace="true"></span></div>
+                    <select class="province" name="Province" style="font-size:15px" id="Province"></select>
+                    <select class="city" name="City" style="font-size:15px" id="City"></select>
+                    
                 </div>
                 <div class="clearfix renguanli_gp">
                     <span class="left renguanli_gp_name">
                         详细地址
                     </span>
                     <input class="left detailAddress text-box single-line" data-val="true" data-val-required="请填写详细地址" id="AddressLine" name="AddressLine" placeholder="详细地址（必填）" type="text" value="" />
-                    <div class="ren_form_erro"><span class="field-validation-valid has-error" data-valmsg-for="AddressLine" data-valmsg-replace="true"></span></div>
+                    、
                 </div>
                 <div class="clearfix renguanli_gp">
                     <span class="left renguanli_gp_name">
                         身份证号码
                     </span>
-                    <input class="left citizenIdCard text-box single-line" data-val="true" data-val-regex="身份证号格式不正确！" data-val-regex-pattern="^\d{6}(18|19|20)\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|[xX])$" id="IdCard" name="IdCard" placeholder="身份证号码" type="text" value="" />
-                    <div class="ren_form_erro"><span class="field-validation-valid has-error" data-valmsg-for="IdCard" data-valmsg-replace="true"></span></div>
+                    <input class="left citizenIdCard text-box single-line" data-val="true" data-val-regex="身份证号格式不正确！" data-val-regex-pattern="^\d{6}(18|19|20)\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|[xX])$" id="IdCard" name="IdCard" placeholder="身份证号码" type="text" value="${receiverInfo.receiverIdCardNo }" />
+                    
                 </div>
-                <input type="submit" class="btn_blue fangshibtn cursor" value="确认新增收货地址" />
-</form>        </div>
+                <c:if test="${receiverInfo.id == null ||  receiverInfo.id == ''}">
+		        	 <input type="button" class="btn_blue fangshibtn cursor" value="确认新增收货地址" onclick="addOrUpdateAddress()"/>
+		        </c:if>
+		        <c:if test="${receiverInfo.id != null && receiverInfo.id != ''}">
+		        	 <input type="button" class="btn_blue fangshibtn cursor" value="确认更新收货地址" onclick="addOrUpdateAddress()"/>
+		        </c:if>
+		        
+		        <input type="hidden" value="${receiverInfo.id}" id="hiddenAddressId"/>
+		        <input type="hidden" value="${receiverInfo.receiverAddr}" id="hiddenAddressValue"/>
+                
+        </div>
     </div>
 </div>
     
@@ -239,54 +221,25 @@
 
 <script type="text/javascript">
 
-    $.cxSelect.defaults.url = "js/cityData.min.json";
+	$.cxSelect.defaults.url = "${ctx}/js/cityData.min.json";
+	
+	$('#city_china').cxSelect({
+	    selects: ['province', 'city']
+	});
+	
+	initFun();
 
-    $('#city_china').cxSelect({
-        selects: ['province', 'city']
-    });
-
-    $('.yckTrigger').click(function () {
-        $('.quickAddress').toggleClass('show').promise().done(function () {
-            $('.quickAddressInput textarea').focus();
-        });
-    })
-
-    $('.enterAddress').click(function () {
-        var address = $('.quickAddressInput textarea').val();
-        extractAddress(address);
-    });
-
-    $('.clearAddress').click(function () {
-        $('.quickAddressInput textarea').val('');
-    })
-
-    $('.closeAddress').click(function () {
-        $('.quickAddress').toggleClass('show');
-    })
-    function extractAddress(dz) {
-        $.ajax({
-            url: "js/GetExtractAddress",
-            type: "POST",
-            dataType:"json",
-            data: { address: dz },
-            success: function (data) {
-                $('.recipientName').val(data.Name);
-                $('.recipientPhone').val(data.PhoneNumber);
-                $('.citizenIdCard').val(data.IdCard);
-                $('#city_china .province').val(data.Province);
-                //当json中解析出省市数据时，不在city选择中进行添加
-                $('#city_china .city').empty();
-                if (data.City.length != 0) {
-                    $('#city_china .city').removeAttr('disabled').append('<option val="' + data.City + '" selected>' + data.City + '</option>');
-                }
-                $('.detailAddress').val(data.AddressLine)
-                $('.quickAddress').toggleClass('show');
-            },
-            error: function (data) {
-                $('.quickAddress').toggleClass('show');
-            }
-        })
-    }
+	function initFun(){
+		setTimeout(function(){
+			var addressInfo = $("#hiddenAddressValue").val();
+			var addArr = addressInfo.split(" ");
+			$("#Province").val(addArr[0]);
+			$("#Province").change();
+			$("#City").val(addArr[1]);
+			$("#AddressLine").val(addressInfo.replace(addArr[0],"").replace(addArr[1],"").trim())
+			
+		},200);
+	}
 </script>
 </body>
 <!-- END BODY -->

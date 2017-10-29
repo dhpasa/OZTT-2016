@@ -73,7 +73,7 @@ public class MainController extends BaseController {
             for (MyCategroy category : categoryList) {
                 Pagination pagination = new Pagination(1, Integer.parseInt(CommonConstants.MAIN_GOODS_LIST));
                 HashMap<Object, Object> params = new HashMap<Object, Object>();
-                params.put("categoryList", super.commonService.getSubCategory(category.getFatherClass().getClassid()));
+                params.put("classId", category.getFatherClass().getClassid());
                 pagination.setParams(params);
                 PagingResult<GroupItemDto> goodsCategoryList = goodsService.getGoodsByParamForPageFor3(pagination);
                 if (!CollectionUtils.isEmpty(goodsCategoryList.getResultList())) {

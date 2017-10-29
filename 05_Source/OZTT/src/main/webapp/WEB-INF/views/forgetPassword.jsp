@@ -158,35 +158,35 @@
         <div class="left help_lf user_center">
     <ul>
         <li>
-            <a href="/Order?orderStatus=0" class="">
+            <a href="${ctx}/order/init" class="">
                 <img src="${ctx}/images/yonghuzhongxin/dingdan.png" class="img_q" />
                 <img src="${ctx}/images/yonghuzhongxin/dingdanh.png" class="img_h" />
                 <span class="user_center_link">我的订单</span>
             </a>
         </li>
         <li>
-            <a href="/User/UserProfile?orderStatus=1" class="ahover">
+            <a href="${ctx}/member/init" class="ahover">
                 <img src="${ctx}/images/yonghuzhongxin/xinxi.png" class="img_q" />
                 <img src="${ctx}/images/yonghuzhongxin/xinxih.png" class="img_h" />
                 <span class="user_center_link">会员信息</span>
             </a>
         </li>
         <li>
-            <a href="/User/ConsigneeList" class="">
+            <a href="${ctx}/address/receiveList" class="">
                 <img src="${ctx}/images/yonghuzhongxin/shoujianren.png" class="img_q" />
                 <img src="${ctx}/images/yonghuzhongxin/shoujianrenh.png" class="img_h" />
                 <span class="user_center_link">收件人管理</span>
             </a>
         </li>
         <li>
-            <a href="/User/SenderList" class="">
+            <a href="${ctx}/address/sendList" class="">
                 <img src="${ctx}/images/yonghuzhongxin/fajianren.png" class="img_q" />
                 <img src="${ctx}/images/yonghuzhongxin/fajianrenh.png" class="img_h" />
                 <span class="user_center_link">寄件人管理</span>
             </a>
         </li>
         <li>
-            <a href="javascript:void(0)" id="outBtn">
+            <a href="${ctx}/login/logout" id="outBtn">
                 <img src="${ctx}/images/yonghuzhongxin/out.png" class="img_q" />
                 <img src="${ctx}/images/yonghuzhongxin/outh.png" class="img_h" />
                 <span class="user_center_link">退出</span>
@@ -233,38 +233,61 @@
                 修改密码
             </div>
 
-<form action="/Login/ChangePassword" method="post"><input name="__RequestVerificationToken" type="hidden" value="MxTiHBPU5CRQJ4x7Xj-cQtEWcPvEfYStxq_1hCYQpcJ9EZnVuU7TpvsyNPFyybRJU76h-FF9RFr4h3Lua6W2HCRApri_Dk6IFQUkYe0-_qZK6VMxVUW1jjbUav-dOgpkz35o4_OSTBLkTmaexql4bg2" />                <div class="xinxi_form">
-                    <div class="clearfix xinx_gp">
-                        <span class="left xinx_gp_name">当前密码</span>
-                        <div class="xinx_gp_input">
-                            <input class="" data-val="true" data-val-required="请输入当前密码" id="OldPassword" name="OldPassword" type="password" />
+               
+				<div style="padding-top:25px;">
+					<div class="clearfix lggp">
+                        <span class="left lggp_name">
+                            手机号码
+                        </span>
+                        <div class="left lg_inp reg_inp">
+                            <input class="c-form-txt-normal text-box single-line"  id="phone" name="phone" placeholder="042x xxx xxx" type="text" value="" />
                         </div>
-                        <div class="erro color_red"><span class="field-validation-valid" data-valmsg-for="OldPassword" data-valmsg-replace="true"></span></div>
+                        
+                    </div>
+                    
+                    <div class="clearfix lggp">
+                        <span class="left lggp_name">
+                            密码
+                        </span>
+                        <div class="left lg_inp reg_inp">
+                            <input class="c-form-txt-normal text-box single-line password"  id="password" name="password" type="password" value="" placeholder="密码"/>
+                        </div>
+                        
+                    </div>
+                    <div class="clearfix lggp">
+                        <span class="left lggp_name">
+                            确认密码
+                        </span>
+                        <div class="left lg_inp reg_inp">
+                            <input class="c-form-txt-normal text-box single-line password"  id="confirmpwd" name="confirmpwd" type="password" value="" placeholder="确认密码"/>
+                        </div>
+                        
+                    </div>
+                    <div class="lggp">
+                        <div class="clearfix">
+                            <div class="left lggp_lf">
+                                <div class="clearfix">
+                                    <span class="left lggp_name">
+                                        短信验证码
+                                    </span>
+                                    <div class="left lg_inp reg_inp clearfix phone">
+                                        <input class="left text-box single-line"  id="verifycode" name="verifycode" placeholder="手机验证码" type="number" value="" />
+                                        <button class="left cursor" id="buttonCode" onclick="getVerifyCode()">
+                                            发送验证码
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="button" class="right btn_red lgbtn" value="更新密码" onclick="updatePassword()"/>
+                        </div>
+
                     </div>
                     
 
-                    <div class="clearfix xinx_gp">
-                        <span class="left xinx_gp_name">新密码</span>
-                        <div class="xinx_gp_input">
-                            <input class="left" data-val="true" data-val-length="请输入至少100位新密码" data-val-length-max="100" data-val-length-min="6" data-val-required="请输入新密码" id="NewPassword" name="NewPassword" type="password" />
-                        </div>
-                        <div class="erro color_red"><span class="field-validation-valid" data-valmsg-for="NewPassword" data-valmsg-replace="true"></span></div>
-                    </div>
                     
 
-                    <div class="clearfix xinx_gp">
-                        <span class="left xinx_gp_name">确认新密码</span>
-                        <div class="xinx_gp_input">
-                            <input class="left" data-val="true" data-val-equalto="密码不一致" data-val-equalto-other="*.NewPassword" id="ConfirmPassword" name="ConfirmPassword" type="password" />
-                        </div>
-                        <div class="erro color_red"><span class="field-validation-valid" data-valmsg-for="ConfirmPassword" data-valmsg-replace="true"></span></div>
-                    </div>
-
-                    <div class="clearfix save">
-                        <input type="submit" value="确认修改" class="right cursor" />
-                    </div>
                 </div>
-</form>        </div>
+        </div>
 
 
     </div>

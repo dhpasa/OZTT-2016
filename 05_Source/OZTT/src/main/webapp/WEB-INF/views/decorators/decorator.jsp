@@ -84,7 +84,8 @@
 			data : '', 
 			success : function(data) {
 				if(!data.isException){
-					$("#ecsCartInfo").text(data.sccount)
+					$("#ecsCartInfo").text(data.sccount);
+					$("#right_gouwuche").text(data.sccount);
 				} else {
 					// 同步购物车失败
 					return;
@@ -196,6 +197,34 @@
 		}
 	}
   	
+  	function itemFlyToCart(itemNumberObj) {
+			var offset = $("#youceCartInfo").offset();
+			var offsetAdd = $("#youceCartInfo").width();
+			var img = $(itemNumberObj).parent().parent().parent().parent().find("img").attr('src');
+			
+			var imgOffset = $(itemNumberObj).parent().parent().parent().parent().find("img").offset();
+			var startLeft = imgOffset.left;
+			var locationTop = imgOffset.top;
+			var bodyScrollTop = $("body").scrollTop();
+			var flyer = $('<img class="u-flyer" src="'+img+'">');
+			flyer.fly({
+				start: {
+					left: startLeft,
+					top: (locationTop-bodyScrollTop)
+				},
+				end: {
+					left: offset.left+offsetAdd/2+(offset.left-startLeft),
+					//left: offset.left+offsetAdd/2,
+					top: offset.top+offsetAdd/2,
+					width: 0,
+					height: 0
+				},
+				onEnd: function(){
+					this.destory();
+				}
+			});
+		}
+  	
   	
   	var E0006 = '<fmt:message key="E0006" />';
 	var E0010 = '<fmt:message key="E0010" />';
@@ -286,9 +315,15 @@
 <div class="head">
     <div class="jz clearfix">
         <div class="left">
-            <span class="ml25">欢迎来到51GO！ </span>     
-                <a href="/Login/Login" class="ml25">登录</a>
-                <a href="/Login/Register" class="ml25">免费注册</a>
+            <span class="ml25">欢迎来到OZ团团！ </span>
+            	<c:if test="${currentUserId != null}">
+            		<a href="${ctx}/user/init" class="ml25">${currentUserName }</a>
+            	</c:if>  
+            	<c:if test="${currentUserId == null}">
+            		<a href="${ctx}/login/init" class="ml25">登录</a>
+            	</c:if>    
+                
+                <a href="${ctx}/register/init" class="ml25">免费注册</a>
             
             
         </div>
@@ -297,62 +332,61 @@
 </div>
 <div class="nav">
     <div class="jz clearfix">
-        <a href="/" class="logo left">
+        <a href="${ctx}/main/init" class="logo left">
             <img src="${ctx}/picture/logo.png" />
         </a>
         <div class="left nav_ss">
             <div class="guanjianci">
                 <span class="hot">HOT!</span>
-                <a href="/Category/Search?keyword=Aptamil">爱他美 </a>
-                <span>|</span>
-                <a href="/Category/Search?keyword=Bellamy">贝拉米</a>
-                <span>|</span>
-                <a href="/Category/Search?keyword=Swisse">Swisse</a>
-                <span>|</span>
-                <a href="/Category/Search?keyword=%E9%B1%BC%E6%B2%B9">鱼油</a>
-                <span>|</span>
-                <a href="/Category/Search?keyword=%E7%BB%B4%E9%AA%A8%E5%8A%9B">维骨力 </a>
-                <span>|</span>
-                <a href="/Category/Search?keyword=%E6%9C%88%E8%A7%81%E8%8D%89">月见草</a>
-            </div>
-			<form action="/Category/Search" method="post">                
+                <c:forEach var="brand" items="${ brandList }" varStatus="status">
+                	<c:if test="${status.count == 1 }">
+                		<a href="${ctx}/search/init?brand=${brand}">${brand} </a>
+                	</c:if>
+                	<c:if test="${status.count != 1 }">
+                		<span>|</span>
+                		<a href="${ctx}/search/init?brand=${brand}">${brand}</a>
+                	</c:if>
+                
+                </c:forEach>
+                
+                
+            </div>             
 			<div id="searchcontainer" class="head_ss clearfix">
                     <input type="text" id="searchbox" class="left head_ss_shuru" name="keyword" placeholder="搜索商品品牌 名称 功效" />
-                    <input type="submit" value="" class="left head_ss_btn cursor" />
-             </div>
-			</form>       
+                    <input type="submit" value="" class="left head_ss_btn cursor" id="main_search_icon"/>
+             </div>     
 		</div>
-        <b><a href="/Purchase/ShoppingCart" id="ecsCartInfo" class="right head_car cursor"></a></b>
+        <b><a href="${ctx}/shopcart/init" id="ecsCartInfo" class="right head_car cursor"></a></b>
     </div>
 </div>
 
 <!--菜单-->
 <ul class="menu jz clearfix" id="headermenu">
     <li class="menuhead">
-        <a href="/" class="ahover">首页</a>
+        <a href="${ctx}/main/init">首页</a>
     </li>
     <li class="popup_parent">
-        <a href="/Category/Index/1">母婴专区</a>
+        <a href="${ctx}/search/init?classId=1C0001">营养保健</a>
         <div class="masklayer"></div>
     </li>
     <li class="popup_parent">
-        <a href="/Category/Index/2">营养保健</a>
+        <a href="${ctx}/search/init?classId=1C0002">母婴专区</a>
         <div class="masklayer"></div>
     </li>
     <li class="popup_parent">
-        <a href="/Category/Index/3">美容护肤</a>
+        <a href="${ctx}/search/init?classId=1C0003">美容护肤</a>
         <div class="masklayer"></div>
     </li>
     <li class="popup_parent">
-        <a href="/Category/Index/84">家居生活</a>
+        <a href="${ctx}/search/init?classId=1C0006">家居生活</a>
         <div class="masklayer"></div>
     </li>
     <li class="popup_parent">
-        <a href="/Category/Index/88">健康美食</a>
+        <a href="${ctx}/search/init?classId=1C0004">健康美食</a>
         <div class="masklayer"></div>
     </li>
     <li class="popup_parent">
-        <a href="#">时尚</a>
+        <a href="${ctx}/search/init?classId=1C0005">时尚</a>
     </li>
 </ul>
 
@@ -367,15 +401,28 @@
     </div>
 </div>
 
+<div id="errormsg-pop-up" class="modal fade" role="dialog" aria-hidden="true" >
+    	<div class="modal-dialog errormsg-dialog">
+	      <div class="modal-content">
+	         <div class="errormsg-modal-body clearborder" id="errormsg_content">
+	         </div>
+	      </div>
+    	</div>
+    </div>
+
 <!--弹窗开始-->
 <div class="alert_bg"></div>
 
-<form action="/Login/LogOut" id="logoutformheader" method="post"><input name="__RequestVerificationToken" type="hidden" value="weLQRqMsTrK6NwmnTQTcccancqwcL9lnoQHvp2cWtbxXaoyKbRd1TBa3vqXZuSz_umBdyZ1pY2wt5JtgIHDgrJISvaauM4-RGdUSYN_8ytU1" /></form>
+
 <div id="masklayergrey"></div>
 
 
 <script type="text/javascript">
     $(function () {
+    	
+    	$("#main_search_icon").click(function(){
+    		location.href = "${ctx}/search/init?searchcontent="+$("#searchbox").val();
+    	})
 
         $("#outBtn-header").click(function () {
             $(".alert_bg").show();
@@ -388,27 +435,16 @@
             $("body").css("overflow", "auto");
         })
 
-        ////首页弹窗层 等待子类目全部设定好之后再开启
-        //$(".popup_parent").hover(function () {
-        //    var currentOffset = $(this).offset();
-        //    var offsetWidth = currentOffset.left - $("#headermenu").offset().left;
-        //    $(this).css("background-color", "rgb(228, 228, 228)");
-        //    $(this).children(".popup_menu").css({ "display": "block", "width": $("#headermenu").width(), "left": -offsetWidth });
-        //    $(this).children(".masklayer").css({ "display": "block", "bottom": "-400px", "width": $(window).width(), "left": -currentOffset.left, "max-height":"325px"});
-        //    $("#masklayergrey").css({ "display": "block", "top": $("#headermenu").offset().top + $("#headermenu").height() + 3});
-        //}, function () {
-        //    $(this).css("background-color", "white");
-        //    $(this).children(".popup_menu").css({ "display": "none" });
-        //    $(this).children(".masklayer").css({ "display": "none" });
-        //    $("#masklayergrey").css({ "display": "none"});
-        //});
+
 
 
         function searchProduct(request, response) {
-            $.ajax({
-                type: "POST",
-                url: "/Category/SearchJson?keyword=" + request.term,
-                success: function (data) { response(data.Data); },
+    		$.ajax({
+                type: "GET",
+                url: "${ctx}/main/searchJson?searchcontent=" + request.term,
+                success: function (data) { 
+                	response(data.itemInfo); 
+                },
             });
         }
 
@@ -419,7 +455,7 @@
             appendTo: '#searchcontainer',
             select: function (event, ui) {
                 $("#small-searchterms").val(ui.item.label);
-                window.location = "/Product/" + ui.item.Slug;
+                window.location = "${ctx}/item/getGoodsItem?groupId=" + ui.item.groupno;
                 return false;
             }
         })
@@ -427,10 +463,9 @@
             return $("<li></li>")
                 .data("item.autocomplete", item)
                 //.append("<a><table border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tr><td width=\"65\"><img src='" + item.ThumbnailUrl + "' width=\"65\"></td><td>" + item.Name + "</td></tr></table></a>")
-                .append("<a><div class=\"search-item\"><div class=\"search-item-img-box\" ><img src='" + item.ThumbnailUrl + "' class=\"search-item-img\"/></div><div class=\"search-item-info\"><div class=\"search-item-name\">" + item.Name + "</div><div class=\"search-item-price\">$" + item.Price + "</div></div></div>")
+                .append("<a><div class=\"search-item\"><div class=\"search-item-img-box\" ><img src='" + item.goodsthumbnail + "' class=\"search-item-img\"/></div><div class=\"search-item-info\"><div class=\"search-item-name\">" + item.goodsname + "</div><div class=\"search-item-price\">$" + item.disprice + "</div></div></div>")
                 .appendTo(ul);
         };
-
     });
 </script>
 	<sitemesh:write property='body' />
@@ -476,23 +511,23 @@
 	<!-- 版本-->
 	<div class="banben jz">
 	    <p>
-	        <a href="/Help/AboutUs">关于51GO </a>
+	        <a href="#">关于OZTUANTUAN </a>
 	        <span>|</span>
-	        <a href="/Help/CustomerNotice">消费者告知书</a>
+	        <a href="#">消费者告知书</a>
 	        <span>|</span>
-	        <a href="/Help/ContactUs">联系我们</a>
+	        <a href="#">联系我们</a>
 	        <span>|</span>
-	        <a href="/Help/ProductsPromise">100%正品保障</a>
+	        <a href="#">100%正品保障</a>
 	    </p>
-	    <p class="banben_text">© 2014-2017 51GO Hurstville</p>
+	    <p class="banben_text">© 2014-2017 </p>
 	    
 	</div>
 	<!--  右侧条-->
 
 	<div class="youce">
 	    <div class="youce_main">
-	        <a href="/Purchase/ShoppingCart" id="youceCartInfo">
-	            <div class="youce_car_num">0</div>
+	        <a href="${ctx}/shopcart/init" id="youceCartInfo">
+	            <div class="youce_car_num" id="right_gouwuche">0</div>
 	            <div class="youce_car"></div>
 	        </a>
 	        
@@ -572,12 +607,7 @@
     
 	judgeIsOverTime();
 	
-	if(browser.versions.mobile||browser.versions.android||browser.versions.ios){
-			// 移动端
-		} else {
-			// PC端
-			$("#main-nav-id").remove();
-		}
+	
 	
     </script>
 </body>

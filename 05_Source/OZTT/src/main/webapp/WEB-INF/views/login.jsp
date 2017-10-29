@@ -74,13 +74,12 @@
 	<div class="erro_mess"></div>
         <div class="lg_main">
             <div class="lg_con active">
-                <form>
                     <div class="clearfix">
                         <div class="left lg_inp lg_lf_inp">
                             <input class=" text-box single-line" data-val="true" data-val-regex="手机号格式错误。" data-val-regex-pattern="(^04\d{8}$)|(^1[3-8]\d{9}$)|(^[uU]?\d{2,5}$)" data-val-required="The 手机号 field is required." id="Username" name="Username" placeholder="请输入手机号" type="text" value="" />
                             <input class="f" data-val="true" data-val-required="The 密码 field is required." id="Password" name="Password" placeholder="请输入密码" type="password" />
                         </div>
-                        <input type="submit" class="right btn_red lgbtn" value="登录" />
+                        <input type="button" class="right btn_red lgbtn" value="登录" onclick="login()"/>
                     </div>
                     <div class="clearfix zidong">
                         <div class="left clearfix">
@@ -92,19 +91,7 @@
 							<a href="${ctx}/forgetPassword/init"><fmt:message key="LOGIN_FORGETPWD" /></a>
                         </div>
                     </div>
-                    <div>
-                        <ul>
-                            <li>注意</li>
-                            <li>
-                                <ul>
-                                    <li>在旧版网站有付款记录的用户，请联系客服微信 sydney51go1 索要新的用户名和密码；</li>
-                                    <li>没有在旧版网站付费的用户，请重新注册。</li>
-                                </ul>
-                            </li>
-                            <li>给您带来的不便，我们深表歉意。</li>
-                        </ul>
-                    </div>
-                </form>
+                    
             </div>
         </div>
 	</div>
